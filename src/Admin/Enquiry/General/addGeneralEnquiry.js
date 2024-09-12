@@ -8,6 +8,7 @@ import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import { getallCode } from "../../../api/settings/dailcode";
 import Flags from "react-world-flags";
+import { getAdminIdId } from "../../../Utils/storage";
 
 import Mastersidebar from '../../../compoents/AdminSidebar';
 
@@ -239,7 +240,7 @@ export const AddGeneralEnquiry = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      saveGeneralEnquiry(student)
+      saveGeneralEnquiry({...student,adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_general_enquiry");

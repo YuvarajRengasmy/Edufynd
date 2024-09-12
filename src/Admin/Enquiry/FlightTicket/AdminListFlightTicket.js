@@ -4,6 +4,7 @@ import {
   getallFlightEnquiry,
   getSingleFlightEnquiry,
   deleteFlightEnquiry,
+  getFilterFlightEnquiry
 } from "../../../api/Enquiry/flight";
 import { Link } from "react-router-dom";
 import {
@@ -71,10 +72,15 @@ export const AdminListFlightTicket = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId:getAdminIdId()
     };
-    getallFlightEnquiry(data)
+    getFilterFlightEnquiry(data)
       .then((res) => {
-        setFlight(res?.data?.result);
+        setFlight(res?.data?.result?.flightList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.flightCount,
+        });
       })
       .catch((err) => {
         console.log(err);

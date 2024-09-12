@@ -3,7 +3,7 @@ import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
-
+import { getAdminIdId } from "../../../Utils/storage";
 import Mastersidebar from "../../../compoents/AdminSidebar";
 
 export const AddBusiness = () => {
@@ -132,7 +132,7 @@ export const AddBusiness = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveBusinessEnquiry(student)
+      saveBusinessEnquiry({...student,adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_business_enquiry");

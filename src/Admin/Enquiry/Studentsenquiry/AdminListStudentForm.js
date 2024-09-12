@@ -3,6 +3,7 @@ import Sortable from "sortablejs";
 import {
   getallStudnetEnquiry,
   getSingleStudnetEnquiry,
+  getFilterStudnetEnquiry,
   deleteStudnetEnquiry,
 } from "../../../api/Enquiry/student";
 import { Link } from "react-router-dom";
@@ -88,10 +89,12 @@ export const AdminListStudentForm = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId: getAdminIdId(),
     };
-    getallStudnetEnquiry(data)
+    getFilterStudnetEnquiry(data)
       .then((res) => {
-        setStudent(res?.data?.result);
+        setStudent(res?.data?.result?.studentList);
+        setPagination({ ...pagination, count: res?.data?.result?.studentCount });
       })
       .catch((err) => {
         console.log(err);

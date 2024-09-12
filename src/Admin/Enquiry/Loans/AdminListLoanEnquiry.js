@@ -4,6 +4,7 @@ import {
   getallLoanEnquiry,
   getSingleLoanEnquiry,
   deleteLoanEnquiry,
+  getFilterLoanEnquiry
 } from "../../../api/Enquiry/Loan";
 import { Link } from "react-router-dom";
 import {
@@ -71,10 +72,15 @@ export const AdminListLoanEnquiry = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId:getAdminIdId()
     };
-    getallLoanEnquiry(data)
+    getFilterLoanEnquiry(data)
       .then((res) => {
-        setLoan(res?.data?.result);
+        setLoan(res?.data?.result?.loanList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.loanCount,
+        });
       })
       .catch((err) => {
         console.log(err);

@@ -20,7 +20,7 @@ export const deleteBusinessEnquiry= (data) => {
   };
 
   export const getFilterBusinessEnquiry= (data) => {
-    return API.put(`${BusinessEnquiry}/getFilterStudentEnquiry`, data);
+    return API.put(`${BusinessEnquiry}/getFilterBusinessEnquiry`, data);
   };
 
 

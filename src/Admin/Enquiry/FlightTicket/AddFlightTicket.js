@@ -9,6 +9,7 @@ import { getFilterSource } from "../../../api/settings/source";
 import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import Flags from "react-world-flags";
+import { getAdminIdId } from "../../../Utils/storage";
 
 export const Addflight = () => {
   const initialState = {
@@ -245,7 +246,7 @@ export const Addflight = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      saveFlightEnquiry(flight)
+      saveFlightEnquiry({...flight,adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_flight_ticket");

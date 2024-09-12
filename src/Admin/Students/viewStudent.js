@@ -12,7 +12,8 @@ import { getallUniversity } from "../../api/university";
 import { saveApplication } from "../../api/applicatin";
 import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
-
+import {getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin} from "../../api/admin";
 import { toast } from "react-toastify";
 import { getMonthYear } from "../../Utils/DateFormat";
 import {
@@ -76,7 +77,7 @@ function Profile() {
   const [inputs, setInputs] = useState(initialStateInputs);
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
-  const [staff,setStaff] = useState(null);
+  const [admin,setAdmin] = useState(null);
   const [programs, setPrograms] = useState([]);
   const [universities, setUniversities] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -96,12 +97,22 @@ function Profile() {
 
   useEffect(() => {
     getApplicationList();
- 
+    getStaffDetails();
   }, [pagination.from, pagination.to]);
 
 
 
-
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAdmin(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getApplicationList = () => {
     getStudentApplication(studentId)
       .then((res) => {
@@ -274,7 +285,8 @@ function Profile() {
     setSubmitted(true);
     if (handleErrors(errors)) {
       saveApplication({...inputs,
-        
+       
+       adminId:getAdminIdId(),
        name: student?.name,
           dob: student?.dob,
           passportNo: student?.passportNo,
@@ -285,7 +297,7 @@ function Profile() {
       })
         .then((res) => {
           toast.success(res?.data?.message);
-          getStudentDetails();
+          navigate("/admin_list_application");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -318,7 +330,36 @@ function Profile() {
         <div className="content-header ">
           <BackButton />
 
-      
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb float-end">
+              <li className="breadcrumb-item">
+                <Link
+                  to="/DashBoard"
+                  target="_self"
+                  className="text-decoration-none"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li className="breadcrumb-item">
+                <Link to="/list_student" className="text-decoration-none">
+                  ListSudent
+                </Link>
+              </li>
+              {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+              <li className="breadcrumb-item">
+                <Link
+                  to={{
+                    pathname: "/edit_student",
+                    search: `?studentId=${student?._id}`,
+                  }}
+                  className="text-decoration-none"
+                >
+                  EditStudent
+                </Link>
+              </li>
+            </ol>
+          </nav>
 
           <div className="container-fluid">
             <h2 className="mb-4 text-center">Student Details</h2>

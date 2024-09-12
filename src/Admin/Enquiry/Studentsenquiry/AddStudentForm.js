@@ -15,6 +15,7 @@ import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import Flags from "react-world-flags";
 import { getallCode } from "../../../api/settings/dailcode";
+import { getAdminIdId } from "../../../Utils/storage";
 
 import Mastersidebar from "../../../compoents/AdminSidebar";
 
@@ -359,7 +360,9 @@ export const AddStudentForm = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      saveStudnetEnquiry(student)
+      saveStudnetEnquiry({...student,
+         adminId:getAdminIdId(),
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_enquiry_student");
