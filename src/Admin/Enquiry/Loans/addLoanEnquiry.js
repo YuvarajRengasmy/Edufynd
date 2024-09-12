@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { saveLoanEnquiry } from "../../../api/Enquiry/Loan";
 import Mastersidebar from "../../../compoents/AdminSidebar";
 import Select from "react-select";
+import { getAdminIdId } from "../../../Utils/storage";
+
 export const AddLoanEnquiry = () => {
   const initialState = {
     studentName: "",
@@ -162,7 +164,8 @@ export const AddLoanEnquiry = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveLoanEnquiry(loan)
+      saveLoanEnquiry({
+        ...loan, adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_loan_enquiry");

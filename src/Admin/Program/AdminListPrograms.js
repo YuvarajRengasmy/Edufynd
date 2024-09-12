@@ -821,7 +821,7 @@ export const AdminListPrograms = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-3 py-1 text-white float-right bg"
                   style={{ backgroundColor: "#0f2239" }}
                 >

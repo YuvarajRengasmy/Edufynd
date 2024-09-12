@@ -4,8 +4,9 @@ import Sortable from "sortablejs";
 import {
   getallStudnetEnquiry,
   getSingleStudnetEnquiry,
-  deleteStudnetEnquiry,
-} from "../../../api/Enquiry/student";
+  deleteBusinessEnquiry,
+  getFilterBusinessEnquiry
+} from "../../../api/Enquiry/business";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -88,10 +89,15 @@ export const AdminListBusiness = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId:getAdminIdId()
     };
-    getallStudnetEnquiry(data)
+    getFilterBusinessEnquiry(data)
       .then((res) => {
-        setStudent(res?.data?.result);
+        setStudent(res?.data?.result?.businessEnquiryList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.businessEnquiryCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -112,7 +118,7 @@ export const AdminListBusiness = () => {
   };
 
   const deletStudentData = () => {
-    deleteStudnetEnquiry(deleteId)
+    deleteBusinessEnquiry(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();

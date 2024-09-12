@@ -689,7 +689,7 @@ export const AdminListAgent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/agent_view_agent",
+                                          pathname: "/admin_view_agent",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -700,7 +700,7 @@ export const AdminListAgent = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/agent_edit_agent",
+                                          pathname: "/admin_edit_agent",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -796,7 +796,7 @@ export const AdminListAgent = () => {
               </div>
               <div>
                 <Link
-                  to="agent_list_agent"
+                  to="admin_list_agent"
                   className="btn btn-cancel border-0 text-uppercase fw-semibold rounded-pill px-4 py-2 text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
                 >

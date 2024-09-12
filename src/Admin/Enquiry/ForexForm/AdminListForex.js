@@ -4,6 +4,7 @@ import {
   getallForexEnquiry,
   getSingleForexEnquiry,
   deleteForexEnquiry,
+  getFilterForexEnquiry
 } from "../../../api/Enquiry/Forex";
 import { Link } from "react-router-dom";
 import {
@@ -70,10 +71,15 @@ export const AdminListForex = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      adminId:getAdminIdId()
     };
-    getallForexEnquiry(data)
+    getFilterForexEnquiry(data)
       .then((res) => {
-        setForex(res?.data?.result);
+        setForex(res?.data?.result?.forexList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.forexCount,
+        });
       })
       .catch((err) => {
         console.log(err);

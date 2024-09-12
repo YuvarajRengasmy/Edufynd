@@ -263,7 +263,7 @@ const handleSubmit = (event) => {
                           <Link 
                           
                           to={{
-                            pathname: "/ViewUniversity",
+                            pathname: "/admin_view_university",
                             search: `?id=${program?.universityId}`,
                           }}
                           >

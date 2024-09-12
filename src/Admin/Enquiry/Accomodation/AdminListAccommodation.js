@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {
   getallAccommodationEnquiry,
+  getFilterAccommodationEnquiry,
   deleteAccommodationEnquiry,
 } from "../../../api/Enquiry/accommodation";
 import { Link } from "react-router-dom";
@@ -60,10 +61,15 @@ export const AdminListAccommodation = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      staffId: getAdminIdId(),
     };
-    getallAccommodationEnquiry(data)
+    getFilterAccommodationEnquiry (data)
       .then((res) => {
-        setAccommodation(res?.data?.result);
+        setAccommodation(res?.data?.result?.accommodationList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.accommodationCount,
+        });
       })
       .catch((err) => {
         console.log(err);

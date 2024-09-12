@@ -19,6 +19,7 @@ import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import Mastersidebar from "../../../compoents/AdminSidebar";
+import { getAdminIdId } from "../../../Utils/storage";
 
 export const AddForex = () => {
   const initialState = {
@@ -363,7 +364,7 @@ export const AddForex = () => {
     setSubmitted(true);
 
     if (handleErrors(newError)) {
-      saveForexEnquiry(forex)
+      saveForexEnquiry({...forex,adminId:getAdminIdId()})
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_forex_form");

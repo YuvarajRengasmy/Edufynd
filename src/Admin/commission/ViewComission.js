@@ -117,30 +117,7 @@ export const ViewComission = () => {
                 </div>
               ))}
 
-              <nav aria-label="breadcrumb">
-                <ol className="breadcrumb float-end">
-                  <li className="breadcrumb-item">
-                    <Link to="/dashboard" className="text-decoration-none" target="_self">
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <Link to="/list_commission" className="text-decoration-none">ListCommission</Link>
-                  </li>
-
-                  <li className="breadcrumb-item">
-                    <Link
-                      to={{
-                        pathname: "/edit_commission",
-                        search: `?id=${id}`,
-                      }}
-                      className="text-decoration-none"
-                    >
-                      EditCommission
-                    </Link>
-                  </li>
-                </ol>
-              </nav>
+           
             </div>
           </div>
         <div className="container-fluid my-2">

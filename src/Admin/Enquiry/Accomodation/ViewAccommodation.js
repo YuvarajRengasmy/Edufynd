@@ -30,11 +30,7 @@ export const ViewAccommodation = () => {
 
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
       
-        <div className="content-header">
-
        
-         
-        </div>
         <div className="container">
             <div className="row">
               <div className="col-xl-12">
