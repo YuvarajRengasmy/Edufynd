@@ -9,7 +9,7 @@ import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
-
+import { getAdminIdId } from "../../../Utils/storage";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
@@ -387,6 +387,7 @@ export const AddAccommodation = () => {
     setSubmitted(true);
     const data = {
       ...forex,
+      adminId: getAdminIdId(),
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
