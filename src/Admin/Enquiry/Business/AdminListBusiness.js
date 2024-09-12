@@ -3,7 +3,7 @@ import Sortable from "sortablejs";
 
 import {
   getallStudnetEnquiry,
-  getSingleStudnetEnquiry,
+  getSingleBusinessEnquiry,
   deleteBusinessEnquiry,
   getFilterBusinessEnquiry,
 } from "../../../api/Enquiry/business";

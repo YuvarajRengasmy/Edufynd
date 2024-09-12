@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getSingleStudnetEnquiry } from "../../../api/Enquiry/student";
+import { getSingleBusinessEnquiry } from "../../../api/Enquiry/business";
 import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/AdminSidebar";
@@ -16,8 +16,9 @@ export const ViewBusiness = () => {
   }, []);
 
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
+        console.log(res?.data?.result);
         setStudent(res?.data?.result);
       })
       .catch((err) => {
