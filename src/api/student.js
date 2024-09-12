@@ -30,7 +30,6 @@ export const deleteStudent = (data) => {
   };
 
 export const StudentSuperAdmin = (data) => {
-  console.log("balaaa", data)
     return API.put(`${Student}/createStudentBySuperAdmin`, data)
 }
 
