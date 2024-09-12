@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveLoanEnquiry } from "../../../api/Enquiry/Loan";
 import Mastersidebar from "../../../compoents/StaffSidebar";
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import Select from "react-select";
 export const AddLoanEnquiry = () => {
   const initialState = {
@@ -51,8 +53,24 @@ export const AddLoanEnquiry = () => {
   const [loan, setLoan] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+  const [staff, setStaff] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -162,7 +180,11 @@ export const AddLoanEnquiry = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveLoanEnquiry(loan)
+      saveLoanEnquiry({
+        ...loan,
+        staffId:staff._id,
+        adminId:staff.adminId,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/staff_list_loan_enquiry");

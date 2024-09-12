@@ -4,6 +4,7 @@ import Sortable from "sortablejs";
 import {
   getallAccommodationEnquiry,
   getSingleAccommodationEnquiry,
+  getFilterAccommodationEnquiry,
   deleteAccommodationEnquiry,
 } from "../../../api/Enquiry/accommodation";
 import { Link } from "react-router-dom";
@@ -33,7 +34,7 @@ export const ListAccommodation = () => {
     to: pageSize,
   });
 
-  const [accommodation, setAccommodation] = useState();
+  const [accommodation, setAccommodation] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [openFilter, setOpenFilter] = useState(false);
@@ -51,11 +52,16 @@ export const ListAccommodation = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      staffId: getStaffId(),
     };
-    getallAccommodationEnquiry(data)
+    getFilterAccommodationEnquiry (data)
       .then((res) => {
-        console.log("acc",res)
-        setAccommodation(res?.data?.result);
+        console.log("yuvi", res);
+        setAccommodation(res?.data?.result?.accommodationList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.accommodationCount,
+        });
       })
       .catch((err) => {
         console.log(err);

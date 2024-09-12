@@ -124,7 +124,6 @@ function AddAgent() {
 }, []);
 
 
-
 const getStudentDetail = () => {
 getallStudent()
       .then((res) => {

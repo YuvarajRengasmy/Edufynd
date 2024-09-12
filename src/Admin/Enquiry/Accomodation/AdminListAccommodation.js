@@ -61,7 +61,7 @@ export const AdminListAccommodation = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-      staffId: getAdminIdId(),
+      adminId: getAdminIdId(),
     };
     getFilterAccommodationEnquiry (data)
       .then((res) => {
