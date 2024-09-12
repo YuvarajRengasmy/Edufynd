@@ -17,10 +17,13 @@ import { MdCameraAlt } from "react-icons/md";
 import {getAdminIdId } from "../../Utils/storage";
 
 import BackButton from "../../compoents/backButton";
-function AddAgent() {
 
 
-    
+function AddStudentAdmin() {   
+  
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+
   const initialState = {
     source: "",
     name: "",
@@ -118,11 +121,21 @@ function AddAgent() {
 
 
 
-
   useEffect(() => {
-   
+    getStudentDetails();
     getallCodeList();
 }, []);
+
+const getStudentDetails = () => {
+  getallStudent(id)
+        .then((res) => {
+          console.log("balan", res)
+            setStudent(res?.data?.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
 
 
@@ -1419,4 +1432,4 @@ const handleValidation = (data) => {
     </>
   );
 }
-export default AddAgent;
+export default AddStudentAdmin;

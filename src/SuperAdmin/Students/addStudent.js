@@ -15,6 +15,8 @@ import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
+
+
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
