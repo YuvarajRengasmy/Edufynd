@@ -14,11 +14,8 @@ import { getallCode } from "../../../api/settings/dailcode";
 import { getallCurrency } from "../../../api/currency";
 import Select from "react-select";
 import Flags from "react-world-flags";
-import {
-  updateForexEnquiry,
-  getSingleForexEnquiry,
-} from "../../../api/Enquiry/Forex";
-
+import {updateForexEnquiry,getSingleForexEnquiry} from "../../../api/Enquiry/Forex";
+import { getallClient } from "../../../api/client";
 import { getFilterSource } from "../../../api/settings/source";
 import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
@@ -91,6 +88,7 @@ export const AddForex = () => {
   const [countries, setCountries] = useState([]);
   const [source, setSource] = useState([]);
   const [agent, setAgent] = useState([]);
+  const [client, setClient] = useState([]);
   const [students, setStudents] = useState([]);
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
@@ -146,8 +144,17 @@ export const AddForex = () => {
     getAllSourceDetails();
     getStudentList();
     getAgentList();
+    getClientList();
   }, []);
-
+  const getClientList = () => {
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAgentList = () => {
     getallAgent()
       .then((res) => {
@@ -178,42 +185,14 @@ export const AddForex = () => {
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
+    if (!data.typeOfClient) {
+      error.typeOfClient.required = true;
+    }
+
     if (!data.source) {
       error.source.required = true;
     }
-    // if (!data.agentName) {
-    //   error.agentName.required = true;
-    // }
-    // if (!isValidName(data.agentName)) {
-    //   error.agentName.valid = true;
-    // }
-    // if (!data.businessName) {
-    //   error.businessName.required = true;
-    // }
-
-    // if (!isValidName(data.businessName)) {
-    //   error.businessName.valid = true;
-    // }
-
-    // if (!data.agentEmail) {
-    //   error.agentEmail.required = true;
-    // }
-    // if (!isValidEmail(data.agentEmail)) {
-    //   error.agentEmail.valid = true;
-    // }
-    // if (!data.agentPrimaryNumber) {
-    //   error.agentPrimaryNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentPrimaryNumber)) {
-    //   error.agentPrimaryNumber.valid = true;
-    // }
-
-    // if (!data.agentWhatsAppNumber) {
-    //   error.agentWhatsAppNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentWhatsAppNumber)) {
-    //   error.agentWhatsAppNumber.valid = true;
-    // }
+    
     if (!data.name) {
       error.name.required = true;
     }
@@ -407,6 +386,39 @@ export const AddForex = () => {
                 </div>
                 <div className="card-body mt-5">
                   <div className="row g-3">
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            style={{
+                              backgroundColor: "#fff",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.typeOfClient.required ? "is-invalid" : ""
+                            }`}
+                            name="typeOfClient"
+                            placeholder="Select Client"
+                            value={forex?.typeOfClient}
+                          >
+                            <option value={""}>Select Client</option>
+                            {client.map((data, index) => (
+                              <option key={index} value={data?.businessName}>
+                                {" "}
+                                {data?.businessName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.typeOfClient.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">
                         Source

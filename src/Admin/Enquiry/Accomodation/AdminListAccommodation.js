@@ -472,7 +472,7 @@ export const AdminListAccommodation = () => {
                                       )}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {data?.studentName}
+                                      {data?.name}
                                     </td>
                                     <td className="text-capitalize text-start">
                                       {data?.passportNumber}
@@ -484,7 +484,7 @@ export const AdminListAccommodation = () => {
                                       {data?.assignedTo}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {data?.assignedPartner}
+                                      {data?.typeOfClient}
                                     </td>
                                     <td className="text-capitalize text-start">
                                       {data?.status}

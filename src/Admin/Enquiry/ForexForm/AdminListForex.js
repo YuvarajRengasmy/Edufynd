@@ -474,7 +474,7 @@ export const AdminListForex = () => {
                                       {data?.forexID}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {data?.studentName}
+                                      {data?.name}
                                     </td>
                                     <td className="text-capitalize text-start">
                                       {data?.passportNo}
