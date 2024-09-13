@@ -225,6 +225,7 @@ useEffect(() => {
       console.log("File uploaded successfully:", response.data);
     } catch (error) {
       console.error("Error uploading file:", error);
+       toast.error('Unsupported file format. Please upload CSV or XLSX.');
     }
   };
 
