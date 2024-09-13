@@ -1431,6 +1431,7 @@ export const Admin = () => {
         <Route path="/admin_edit_accommodation" element={<PrivateRoute><EditAccomodation /></PrivateRoute>} />
         <Route path="/admin_list_accommodation" element={<PrivateRoute><ListAccomodation /></PrivateRoute>} />
         <Route path="/admin_view_accommodation" element={<PrivateRoute><ViewAccomodation /></PrivateRoute>} />
+        
         <Route path="/admin_add_business_enquiry" element={<PrivateRoute><AddBusiness /></PrivateRoute>} />
         <Route path="/admin_edit_business_enquiry" element={<PrivateRoute><EditBusiness /></PrivateRoute>} />
         <Route path="/admin_list_business_enquiry" element={<PrivateRoute><ListBusiness /></PrivateRoute>} />
