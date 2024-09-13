@@ -452,10 +452,7 @@ export const AdminListGeneralEnquiry = () => {
                                   {" "}
                                   Date{" "}
                                 </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  {" "}
-                                  Student Code{" "}
-                                </th>
+                               
                                 <th className="text-capitalize text-start sortable-handle">
                                   {" "}
                                   Name{" "}
@@ -502,14 +499,12 @@ export const AdminListGeneralEnquiry = () => {
                                     <td className="text-capitalize text-start">
                                       {formatDate(data?.createdOn)}
                                     </td>
-                                    <td className="text-capitalize text-start">
-                                      {data?.studentCode}
-                                    </td>
+                                    
                                     <td className="text-capitalize text-start">
                                       {data?.name}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {data?.primaryNumber}
+                                      {data?.mobileNumber}
                                     </td>
                                     <td className=" text-start">
                                       {data?.email}
