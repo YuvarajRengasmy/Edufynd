@@ -676,22 +676,7 @@ export default function Masterproductlist() {
               </Link>
             </div>
 
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#C62828" }} // Crimson Red
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-times"></i> Inactive Clients</h6>
-                    <p className="card-text">Total: 45</p>
-                    <p className="card-text">
-                      <i className="fas fa-user-slash"></i> Currently Inactive
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </div>
+            
 
             <div className="col-md-3 col-sm-6 mb-3">
               <Link to="#" className="text-decoration-none">

@@ -1,78 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { gapi } from 'gapi-script';
+/*App.js*/
+import React, { useState, useEffect } from 'react';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
-const CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
-const API_KEY = 'YOUR_API_KEY';
-const SCOPES = 'https://www.googleapis.com/auth/gmail.send';
+function App() {
+    const [ user, setUser ] = useState([]);
+    const [ profile, setProfile ] = useState([]);
 
-const GmailAPI = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
 
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
-        scope: SCOPES,
-      }).then(() => {
-        const authInstance = gapi.auth2.getAuthInstance();
-        setIsSignedIn(authInstance.isSignedIn.get());
+    useEffect(
+        () => {
+            if (user) {
+                axios
+                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        setProfile(res.data);
+                    })
+                    .catch((err) => console.log(err));
+            }
+        },
+        [ user ]
+    );
 
-        // Listen for sign-in state changes
-        authInstance.isSignedIn.listen(setIsSignedIn);
-      });
+    // log out function to log the user out of google and set the profile array to null
+    const logOut = () => {
+        googleLogout();
+        setProfile(null);
     };
 
-    gapi.load('client:auth2', initClient);
-  }, []);
-
-  const handleSignIn = () => {
-    gapi.auth2.getAuthInstance().signIn();
-  };
-
-  const handleSignOut = () => {
-    gapi.auth2.getAuthInstance().signOut();
-  };
-
-  const sendEmail = () => {
-    const message = `
-      From: 'your_email@gmail.com'
-      To: 'recipient_email@gmail.com'
-      Subject: 'Test Email'
-      
-      This is a test email from Gmail API
-    `;
-
-    const base64EncodedEmail = btoa(unescape(encodeURIComponent(message)))
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_');
-
-    gapi.client.gmail.users.messages.send({
-      userId: 'me',
-      resource: {
-        raw: base64EncodedEmail,
-      },
-    }).then(response => {
-      console.log('Email sent', response);
-    }).catch(err => {
-      console.error('Error sending email', err);
-    });
-  };
-
-  return (
-    <div>
-      <h2>Gmail API with React</h2>
-      {isSignedIn ? (
-        <>
-          <button onClick={handleSignOut}>Sign Out</button>
-          <button onClick={sendEmail}>Send Email</button>
-        </>
-      ) : (
-        <button onClick={handleSignIn}>Sign In</button>
-      )}
-    </div>
-  );
-};
-
-export default GmailAPI;
+    return (
+        <div>
+            <h2>React Google Login</h2>
+            <br />
+            <br />
+            {profile ? (
+                <div>
+                    <img src={profile.picture} alt="user image" />
+                    <h3>User Logged in</h3>
+                    <p>Name: {profile.name}</p>
+                    <p>Email Address: {profile.email}</p>
+                    <br />
+                    <br />
+                    <button onClick={logOut}>Log out</button>
+                </div>
+            ) : (
+                <button onClick={() => login()}>Sign in with Google 🚀 </button>
+            )}
+        </div>
+    );
+}
+export default App;

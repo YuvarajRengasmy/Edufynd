@@ -607,8 +607,8 @@ function Profile() {
                             className={`form-select form-select-lg rounded-1 ${errors.businessName.required ? 'is-invalid':''}`}
                             name="businessName"
                           >
-                            <option value={""} disabled hidden>
-                              {university?.businessName}
+                            <option value={""}>
+                              {university?.businessName??"Select Client Name"}
                             </option>
                             {client.map((data, index) => (
                               <option key={index} value={data?.businessName}>
