@@ -588,7 +588,7 @@ export const ListLoanEnquiry = () => {
                                     {data?.email}
                                   </td> 
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.platform}
+                                    {data?.typeOfClient}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.source}

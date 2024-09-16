@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import { getallClient } from "../../../api/client";
 import {
-  updateStudnetEnquiry,
-  getSingleStudnetEnquiry,
-} from "../../../api/Enquiry/student";
+  updateBusinessEnquiry,
+  getSingleBusinessEnquiry,
+} from "../../../api/Enquiry/business";
 
 import Mastersidebar from "../../../compoents/StaffSidebar";
 import { Student } from "../../../api/endpoints";
@@ -16,13 +16,14 @@ export const EditBusiness = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
+    typeOfClient:"",
     source: "",
     name: "",
     dob: "",
     passportNo: "",
     qualification: "",
     whatsAppNumber: "",
-    primaryNumber: "",
+    mobileNumber: "",
     email: "",
     cgpa: "",
     yearPassed: "",
@@ -32,13 +33,14 @@ export const EditBusiness = () => {
     assignedTo: "",
   };
   const initialStateErrors = {
+    typeOfClient: { required: false },
     source: { required: false },
     name: { required: false },
     dob: { required: false },
     passportNo: { required: false },
     qualification: { required: false },
     whatsAppNumber: { required: false },
-    primaryNumber: { required: false },
+    mobileNumber: { required: false },
     email: { required: false },
     cgpa: { required: false },
     yearPassed: { required: false },
@@ -50,14 +52,25 @@ export const EditBusiness = () => {
   const [student, setStudent] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+  const [client, setClient] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getStudentDetails();
+    getClientList();
   }, []);
-
+  const getClientList = () => {
+    
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
         setStudent(res?.data?.result);
       })
@@ -67,7 +80,9 @@ export const EditBusiness = () => {
   };
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
+    if (data.typeOfClient === "") {
+      error.typeOfClient.required = true;
+    }
     if (data.source === "") {
       error.source.required = true;
     }
@@ -86,8 +101,8 @@ export const EditBusiness = () => {
     if (data.whatsAppNumber === "") {
       error.whatsAppNumber.required = true;
     }
-    if (data.primaryNumber === "") {
-      error.primaryNumber.required = true;
+    if (data.mobileNumber === "") {
+      error.mobileNumber.required = true;
     }
     if (data.email === "") {
       error.email.required = true;
@@ -113,8 +128,8 @@ export const EditBusiness = () => {
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
-    if (!isValidPhone(data.primaryNumber)) {
-      error.primaryNumber.valid = true;
+    if (!isValidPhone(data.mobileNumber)) {
+      error.mobileNumber.valid = true;
     }
     if (!isValidPhone(data.whatsAppNumber)) {
       error.whatsAppNumber.valid = true;
@@ -150,16 +165,18 @@ export const EditBusiness = () => {
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
-   
-   if (handleErrors(newError)) {
-      updateStudnetEnquiry(student)
+
+    if (handleErrors(newError)) {
+      updateBusinessEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/staff_list_business_enquiry");
+          navigate("/admin_list_business_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    }else {
+      toast.error("Please Fill  Mandatory Fields");
     }
   };
 
@@ -183,6 +200,39 @@ export const EditBusiness = () => {
               <div className="card-body mt-5">
                 <form className="p-1" onSubmit={handleSubmit}>
                   <div className="row g-3">
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            style={{
+                              backgroundColor: "#fff",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.typeOfClient.required ? "is-invalid" : ""
+                            }`}
+                            name="typeOfClient"
+                            placeholder="Select Client"
+                            value={student?.typeOfClient}
+                          >
+                            <option value={""}>Select Client</option>
+                            {client.map((data, index) => (
+                              <option key={index} value={data?.businessName}>
+                                {" "}
+                                {data?.businessName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.typeOfClient.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">
                         Source
@@ -194,7 +244,7 @@ export const EditBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        className="form-select rounded-2 p-2 "
+                        className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
                         name="source"
                       >
                         <option value="">Select Source</option>
@@ -213,7 +263,7 @@ export const EditBusiness = () => {
                         Student Name
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
                         value={student?.name}
                         type="text"
                         id="inputEmail4"
@@ -237,7 +287,7 @@ export const EditBusiness = () => {
                         DOB
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.dob.required ? 'is-invalid' : ''}`}
                         value={student?.dob}
                         onChange={handleInputs}
                         id="inputPassword4"
@@ -261,7 +311,7 @@ export const EditBusiness = () => {
                         Email ID
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
                         value={Student?.email}
                         onChange={handleInputs}
                         id="inputPassword4"
@@ -289,7 +339,7 @@ export const EditBusiness = () => {
                         Passport No
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
                         value={student?.passportNo}
                         onChange={handleInputs}
                         name="passportNo"
@@ -312,23 +362,23 @@ export const EditBusiness = () => {
                         Contact Number
                       </label>
                       <input
-                        className="form-control"
-                        value={student?.primaryNumber}
+                        className={`form-control rounded-1 ${errors.mobileNumber.required ? 'is-invalid' : ''}`}
+                        value={student?.mobileNumber}
                         onChange={handleInputs}
                         id="inputEmail4"
                         type="text"
-                        name="primaryNumber"
+                        name="mobileNumber"
                         placeholder="Contact Number"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
                       />
-                      {errors.primaryNumber.required ? (
+                      {errors.mobileNumber.required ? (
                         <span className="text-danger form-text profile_error">
                           This field is required.
                         </span>
-                      ) : errors.primaryNumber.valid ? (
+                      ) : errors.mobileNumber.valid ? (
                         <span className="text-danger form-text profile_error">
                           Enter valid mobile number.
                         </span>
@@ -340,7 +390,7 @@ export const EditBusiness = () => {
                         CGPA{" "}
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         value={student?.cgpa}
                         name="cgpa"
@@ -364,7 +414,7 @@ export const EditBusiness = () => {
                         Year passed
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`}
                         id="inputAddress"
                         value={student?.yearPassed}
                         onChange={handleInputs}
@@ -387,7 +437,7 @@ export const EditBusiness = () => {
                         Desired Country
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
                         value={student?.desiredCountry}
                         onChange={handleInputs}
@@ -411,7 +461,7 @@ export const EditBusiness = () => {
                         Desired Course
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         value={student?.desiredCourse}
                         onChange={handleInputs}
@@ -434,7 +484,7 @@ export const EditBusiness = () => {
                         Do you need support for loan?{" "}
                       </label>
                       <select
-                        className="form-control"
+                        className={`form-select form-select-lg rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
                         name="doYouNeedSupportForLoan"
                         value={student?.doYouNeedSupportForLoan}
                         style={{
@@ -458,7 +508,7 @@ export const EditBusiness = () => {
                         WhatsApp Number
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.whatsAppNumber.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
                         value={student?.whatsAppNumber}
                         onChange={handleInputs}
@@ -486,7 +536,7 @@ export const EditBusiness = () => {
                         Qualification
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`}
                         value={student?.qualification}
                         id="inputPassword4"
                         onChange={handleInputs}
@@ -511,7 +561,7 @@ export const EditBusiness = () => {
                         Assigned To
                       </label>
                       <input
-                        className="form-control"
+                        className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`}
                         value={student?.assignedTo}
                         id="inputEmail4"
                         onChange={handleInputs}
@@ -538,7 +588,7 @@ export const EditBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        to="/staff_list_business_enquiry"
+                        to="/admin_list_business_enquiry"
                         className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2  text-white m-2"
                       >
                         Cancel

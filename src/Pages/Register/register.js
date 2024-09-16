@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { saveToken } from '../../Utils/storage';
 import { isAuthenticated } from '../../Utils/Auth';
-import { saveStudent } from '../../api/student';
-import { saveAgent } from '../../api/agent';
+import { saveStudents } from '../../api/student';
+import { saveAgents } from '../../api/agent';
 import { saveSuperAdmin } from '../../api/superAdmin';
 import {saveAdmin} from '../../api/admin'
 import { Link } from 'react-router-dom';
@@ -96,7 +96,7 @@ const Register = () => {
     setSubmitted(true);
     if (handleErrors(newError)) {
       if (type === 'student') {
-        saveStudent(inputs).then(res => {
+        saveStudents(inputs).then(res => {
           let token = res?.data?.result?.token;
           let studentId = res?.data?.result?.studentDetails?._id;
           let loginType = res?.data?.result?.loginType;
@@ -105,7 +105,7 @@ const Register = () => {
           };
           saveToken(data);
           if (isAuthenticated()) {
-            navigate("/Student");
+            navigate("/student_dashboard");
           }
           toast.success(res?.data?.message);
         }).catch((err) => {
@@ -122,7 +122,7 @@ const Register = () => {
           };
           saveToken(data);
           if (isAuthenticated()) {
-            navigate("/Dashboard");
+            navigate("/dashboard");
           }
           toast.success(res?.data?.message);
         }).catch((err) => {
@@ -147,7 +147,7 @@ const Register = () => {
         });
       }
       if (type === 'agent') {
-        saveAgent(inputs).then(res => {
+        saveAgents(inputs).then(res => {
           let token = res?.data?.result?.token;
           let agentId = res?.data?.result?.agentDetails?._id;
           let loginType = res?.data?.result?.loginType;
@@ -156,7 +156,7 @@ const Register = () => {
           };
           saveToken(data);
           if (isAuthenticated()) {
-            navigate("/AgentHome");
+            navigate("/agent_dashboard");
           }
           toast.success(res?.data?.message);
         }).catch((err) => {

@@ -186,6 +186,7 @@ export const AddBusiness = () => {
               <div className="card-body mt-5">
                 <form className="p-1" onSubmit={handleSubmit}>
                   <div className="row g-3">
+                    
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}

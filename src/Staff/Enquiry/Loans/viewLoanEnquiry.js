@@ -53,6 +53,10 @@ export const ViewLoanEnquiry = () => {
                   style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
                 >
                   <tbody>
+                  <tr>
+                      <td className="fw-bold">Client Name</td>
+                      <td>{loan?.typeOfClient || "Not Available"}</td>
+                    </tr>
                     <tr>
                       <td className="fw-bold">Student Name</td>
                       <td>{loan?.studentName || "Not Available"}</td>

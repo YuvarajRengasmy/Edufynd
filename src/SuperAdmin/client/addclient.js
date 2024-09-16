@@ -111,7 +111,6 @@ const [dial, setDial] = useState([]);
     if (data.addressLine2 === "") error.addressLine2.required = true;
     if (data.addressLine3 === "") error.addressLine3.required = true;
     if (data.whatsAppNumber === "") error.whatsAppNumber.required = true;
-
     if (!isValidEmail(data.emailID)) error.emailID.valid = true;
     if (!isValidPhone(data.contactNo)) error.contactNo.valid = true;
     if (!isValidEmail(data.businessMailID)) error.businessMailID.valid = true;
@@ -762,13 +761,12 @@ const [dial, setDial] = useState([]);
                             value={countries.find(
                               (option) => option.value === country
                             )}
-                            className="submain-one-form-body-subsection-select "
+                            className=  {`submain-one-form-body-subsection-select ${
+                              errors.country.required ? 'is-invalid' : ''
+                            }`}
+                           
                           />
-                          {errors.country.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
+                         
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -784,14 +782,13 @@ const [dial, setDial] = useState([]);
                             value={states.find(
                               (option) => option.value === state
                             )}
-                            className="submain-one-form-body-subsection-select"
+                            className=  {`submain-one-form-body-subsection-select ${
+                              errors.state.required ? 'is-invalid' : ''
+                            }`}
                           />
+                         
 
-                          {errors.state.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
+                         
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -805,8 +802,12 @@ const [dial, setDial] = useState([]);
                             options={lgas}
                             name="lga"
                             styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
+                            className=  {`submain-one-form-body-subsection-select  ${
+                              errors.lga.required ? 'is-invalid' : ''
+                            }`}
                           />
+                         
+
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

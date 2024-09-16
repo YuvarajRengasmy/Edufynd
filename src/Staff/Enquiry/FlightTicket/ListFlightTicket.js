@@ -583,7 +583,7 @@ export const ListFlightTicket = () => {
                                     {data?.flightID || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentName || "Not Available"}
+                                    {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.passportNo || "Not Available"}

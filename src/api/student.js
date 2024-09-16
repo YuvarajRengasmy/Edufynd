@@ -4,7 +4,9 @@ import { Student } from "./endpoints"
 export const saveStudent = (data) => {
     return API.post(`${Student}`, data)
 }
-
+export const saveStudents = (data) => {
+  return API.post(`${Student}/register`, data)
+}
 export const updateStudent = (data) => {
     return API.put(`${Student}`, data)
 }

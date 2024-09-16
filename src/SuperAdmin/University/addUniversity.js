@@ -1039,19 +1039,48 @@ const App = () => {
                                 About{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="about"
-                                onChange={handleRichAboutChange}
-                                value={university.about}
-                               type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                  
-                                  zIndex:'0'
-                                }}
-                              />
+                             
+                               <CKEditor
+  editor={ClassicEditor}
+  data={university.about} 
+  name="about" // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
                             </div>
                           </div>
                          
@@ -1071,7 +1100,29 @@ const App = () => {
   data={university.admissionRequirement}  // Use 'data' instead of 'value'
   config={{
     placeholder: 'Start writing your content here...',
-    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]  // Adjust toolbar as needed
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
   }}
   onChange={(event, editor) => {
     const data = editor.getData();
@@ -1084,19 +1135,8 @@ const App = () => {
     zIndex: '0'
   }}
 />
-                              {/* <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="admissionRequirement"
-                                onChange={handleRichTextChange}
-                                value={university.admissionRequirement}
-                               type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                 
-                                  zIndex:'0'
-                                }}
-                              /> */}
+
+                             
                             </div>
                           </div>
                           
