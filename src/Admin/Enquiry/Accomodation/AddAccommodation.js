@@ -16,7 +16,6 @@ import { saveAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
 import Mastersidebar from "../../../compoents/AdminSidebar";
 import { getallClient } from "../../../api/client";
 
-
 export const AddAccommodation = () => {
   const initialState = {
     typeOfClient:"",
@@ -492,7 +491,7 @@ export const AddAccommodation = () => {
                               This field is required.
                             </div>
                           )}
-                        </div>
+                      </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputEmail4">

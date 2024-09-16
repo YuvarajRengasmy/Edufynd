@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getSingleStudnetEnquiry } from "../../../api/Enquiry/student";
+import { getSingleBusinessEnquiry } from "../../../api/Enquiry/business";
 import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/StaffSidebar";
@@ -16,8 +16,9 @@ export const ViewBusiness = () => {
   }, []);
 
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
+        console.log(res?.data?.result);
         setStudent(res?.data?.result);
       })
       .catch((err) => {
@@ -32,7 +33,7 @@ export const ViewBusiness = () => {
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
 
-       
+     
          
         </div>
         <div className="container-fluid">
@@ -52,6 +53,10 @@ export const ViewBusiness = () => {
                   style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
                 >
                   <tbody>
+                  <tr>
+                      <td className="fw-bold">ClientName </td>
+                      <td>{student?.typeOfClient || "Not Available"}</td>
+                    </tr>
                     <tr>
                       <td className="fw-bold">Student Name </td>
                       <td>{student?.name || "Not Available"}</td>
@@ -66,7 +71,7 @@ export const ViewBusiness = () => {
                     </tr>
                     <tr>
                       <td className="fw-bold">Contact Number </td>
-                      <td>{student?.primaryNumber || "Not Available"}</td>
+                      <td>{student?.mobileNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email ID </td>
@@ -104,7 +109,51 @@ export const ViewBusiness = () => {
                 </table>
               </div>
 
-           
+              {/* <div class="card mb-3">
+                  <div class="card-header bg-primary text-white">
+                   Agent Details
+                  </div>
+                  <div class="card-body ">
+                  <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Name:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Business Name:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Primary Number:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Email:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Student Name:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    
+                  </div>
+                </div> */}
             </div>
           </div>
 

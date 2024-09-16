@@ -15,7 +15,7 @@ import { getallCurrency } from "../../../api/currency";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { updateForexEnquiry, getSingleForexEnquiry, } from "../../../api/Enquiry/Forex";
-
+import { getallClient } from "../../../api/client";
 import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
@@ -26,6 +26,7 @@ export const AddForex = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
+    typeOfClient: "",
     source: "",
     name:"",
     studentName: "",
@@ -56,6 +57,7 @@ export const AddForex = () => {
 
   };
   const initialStateErrors = {
+    typeOfClient: { required: false },
     source: { required: false },
     name:{required: false},
     studentName: { required: false },
@@ -95,15 +97,29 @@ export const AddForex = () => {
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [client, setClient] = useState([]);
 
   useEffect(() => {
     getAllUniversityList();
     getAllCurrencyDetails();
     getallCodeList();
     getForexDetails();
+    getClientList();
+    getAllSourceDetails();
+    getStudentList();
+    getAgentList();
   }, []);
 
-
+  const getClientList = () => {
+    
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
        const getForexDetails = () => {
         getSingleForexEnquiry(id)
           .then((res) => {
@@ -142,14 +158,6 @@ export const AddForex = () => {
       });
   };
 
-
-  useEffect(() => {
-    getAllSourceDetails();
-    getStudentList();
-    getAgentList();
-  }, []);
-
-
   const getAgentList = () => {
     getallAgent()
       .then((res) => {
@@ -181,43 +189,13 @@ export const AddForex = () => {
   };
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
+    if (!data.typeOfClient) {
+      error.typeOfClient.required = true;
+    }
     if (!data.source) {
       error.source.required = true;
     }
-    // if (!data.agentName) {
-    //   error.agentName.required = true;
-    // }
-    // if (!isValidName(data.agentName)) {
-    //   error.agentName.valid = true;
-    // }
-    // if (!data.businessName) {
-    //   error.businessName.required = true;
-    // }
-
-    // if (!isValidName(data.businessName)) {
-    //   error.businessName.valid = true;
-    // }
-
-    // if (!data.agentEmail) {
-    //   error.agentEmail.required = true;
-    // }
-    // if (!isValidEmail(data.agentEmail)) {
-    //   error.agentEmail.valid = true;
-    // }
-    // if (!data.agentPrimaryNumber) {
-    //   error.agentPrimaryNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentPrimaryNumber)) {
-    //   error.agentPrimaryNumber.valid = true;
-    // }
-
-    // if (!data.agentWhatsAppNumber) {
-    //   error.agentWhatsAppNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentWhatsAppNumber)) {
-    //   error.agentWhatsAppNumber.valid = true;
-    // }
+   
     if (!data.name) {
       error.name.required = true;
     }
@@ -410,6 +388,40 @@ export const AddForex = () => {
                 </div>
                 <div className="card-body mt-5">
                   <div className="row g-3">
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            style={{
+                              backgroundColor: "#fff",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.typeOfClient.required ? "is-invalid" : ""
+                            }`}
+                            name="typeOfClient"
+                            placeholder="Select Client"
+                            value={forex?.typeOfClient}
+                          >
+                            <option value={""}>Select Client</option>
+                            {client.map((data, index) => (
+                              <option key={index} value={data?.businessName}>
+                                {" "}
+                                {data?.businessName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.typeOfClient.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                  </div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label className="form-label" for="inputEmail4">
                           Source
@@ -422,6 +434,7 @@ export const AddForex = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="source"
+                          value={forex?.source}
                         >
                           <option value="">Select Source</option>
                           {source.length > 0 ? (
@@ -457,6 +470,7 @@ export const AddForex = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="studentName"
+                          value={forex?.studentName}
                         >
                           <option value="">Select students</option>
                           {students.length > 0 ? (
@@ -492,6 +506,7 @@ export const AddForex = () => {
                           }}
                           className="form-select form-select-lg rounded-2 "
                           name="agentName"
+                          value={forex?.agentName}
                         >
                           <option value="">Select Agent</option>
                           {agent.length > 0 ? (
@@ -674,6 +689,7 @@ export const AddForex = () => {
                       <input
                         className="form-control rounded-2"
                         name="name"
+                        value={forex?.name}
                         onChange={handleInputs}
                         id="inputstudentname"
                         type="text"
@@ -702,6 +718,7 @@ export const AddForex = () => {
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
+                        value={forex?.passportNo}
                         type="text"
                         placeholder="Enter Passport No"
                         style={{
@@ -727,6 +744,7 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputpassportno"
                         name="expiryDate"
+                        value={forex?.expiryDate}
                         onChange={handleInputs}
                         type="date"
                         placeholder="Enter ExpiryDate"
@@ -748,6 +766,7 @@ export const AddForex = () => {
                       <input
                         className="form-control rounded-2"
                         name="email"
+                        value={forex?.email}
                         onChange={handleInputs}
                         id="inputEmail"
                         type="text"
@@ -892,6 +911,7 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputstudentid"
                         name="universityName"
+                        value={forex?.universityName}
                         onChange={handleInputs}
                         type="text"
                         placeholder="Enter Student ID"
@@ -919,6 +939,7 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputstudentid"
                         name="courseType"
+                        value={forex?.courseType}
                         onChange={handleInputs}
                         type="text"
                         placeholder="Enter Course"
@@ -941,6 +962,7 @@ export const AddForex = () => {
                       <select
                         className="form-select form-select-lg"
                         onChange={handleInputs}
+                        value={forex?.paymentType}
                         name="paymentType"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -973,6 +995,7 @@ export const AddForex = () => {
                       <select
                         className="form-select rounded-2 p-2"
                         name="country"
+                        value={forex?.country}
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
@@ -1035,6 +1058,7 @@ export const AddForex = () => {
                       <select
                         className="form-select form-select-lg"
                         onChange={handleInputs}
+                        value={forex?.assignedTo}
                         name="assignedTo"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -1061,6 +1085,7 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputamount"
                         name="value"
+                        value={forex?.value}
                         onChange={handleInputs}
                         type="number"
                         placeholder="Enter Mark up"
@@ -1084,6 +1109,7 @@ export const AddForex = () => {
                         className="form-control rounded-2"
                         id="inputamount"
                         name="markUp"
+                        value={forex?.markUp}
                         onChange={handleInputs}
                         type="text"
                         placeholder="Enter Mark up"
@@ -1107,6 +1133,7 @@ export const AddForex = () => {
                       <input
                         className="form-control rounded-2"
                         id="inputamount"
+                        value={forex?.profit}
                         onChange={handleInputs}
                         name="profit"
                         type="text"
