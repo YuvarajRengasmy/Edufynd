@@ -638,7 +638,7 @@ export const ViewApplication = () => {
 <div className="d-flex justify-content-between align-items-center">
   {status.map((item, index) => {
     // Assuming `currentUser` is a variable that indicates the logged-in user
-    const currentUser = "user1"; // Change this to dynamically get the user info
+    const currentUser = "user2"; // Change this to dynamically get the user info
 
     // Define the range of statuses for user1 (first 3) and user2 (last 3)
     const showForUser1 = currentUser === "user1" && index < 3;
