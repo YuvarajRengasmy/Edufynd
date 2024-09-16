@@ -27,6 +27,7 @@
     "aos": "^2.3.4",
     "axios": "^1.7.6",
     "bootstrap": "^5.3.3",
+    "bootstrap-switch-button": "^1.1.0",
     "chart.js": "^4.4.3",
     "country-region-selector": "^1.0.0",
     "countryregionjs": "^1.1.4",

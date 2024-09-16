@@ -86,6 +86,7 @@ export default function Masterproductlist() {
 
     getFilterUniversity(data)
       .then((res) => {
+        console.log(res?.data?.result?.universityCount);
         setUniversity(res?.data?.result?.universityList);
         setPagination({
           ...pagination,
@@ -665,7 +666,7 @@ const handleCheckboxChange = (index) => {
               <div className="row g-0">
                 <div className="col-7">
                 <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
-                <p className="card-text">Total: 50</p>
+                <p className="card-text">Total:{pagination?.count || 0}</p>
                 </div>
                 <div className="col-auto ">
                 <div className="chart-container " style={{ position: 'relative', width: '4rem', height: '4rem' }}>
