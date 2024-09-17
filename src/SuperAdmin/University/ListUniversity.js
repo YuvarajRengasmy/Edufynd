@@ -467,60 +467,60 @@ const chartRef = useRef(null);
 
 
 
-const [statuses, setStatuses] = useState({});  // Store toggle status
+// const [statuses, setStatuses] = useState({});  // Store toggle status
 
-useEffect(() => {
-  // Fetch all clients on component mount
-  const fetchUniverity = async () => {
-    try {
-      const response = await getallUniversity();
-      const universityData = Array.isArray(response.data) ? response.data : [];
+// useEffect(() => {
+//   // Fetch all clients on component mount
+//   const fetchUniverity = async () => {
+//     try {
+//       const response = await getallUniversity();
+//       const universityData = Array.isArray(response.data) ? response.data : [];
 
-      // Initialize statuses based on the fetched client data
-      const initialStatuses = universityData.reduce((acc, universityData) => {
-        return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
-      }, {});
+//       // Initialize statuses based on the fetched client data
+//       const initialStatuses = universityData.reduce((acc, universityData) => {
+//         return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
+//       }, {});
 
-      setUniversity(universityData);  // Set clients data
-      setStatuses(initialStatuses);  // Set initial statuses
-    } catch (error) {
-      console.error('Error fetching clients:', error);
-    }
-  };
+//       setUniversity(universityData);  // Set clients data
+//       setStatuses(initialStatuses);  // Set initial statuses
+//     } catch (error) {
+//       console.error('Error fetching clients:', error);
+//     }
+//   };
 
-  fetchUniverity();
-}, []);  // Empty dependency array to run once on mount
+//   fetchUniverity();
+// }, []);  // Empty dependency array to run once on mount
 
-// Toggle client status
-const handleCheckboxChange = async (universityId) => {
-  const currentStatus = statuses[universityId];
-  const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+// // Toggle client status
+// const handleCheckboxChange = async (universityId) => {
+//   const currentStatus = statuses[universityId];
+//   const updatedStatus = currentStatus ? 'Inactive' : 'Active';
 
-  // Update the local state immediately for a quick UI response
-  setStatuses((prevStatuses) => ({
-    ...prevStatuses,
-    [universityId]: !prevStatuses[universityId],
-  }));
+//   // Update the local state immediately for a quick UI response
+//   setStatuses((prevStatuses) => ({
+//     ...prevStatuses,
+//     [universityId]: !prevStatuses[universityId],
+//   }));
 
-  // Prepare the client data to send to the backend
-  const updatedUniversity = {
-    _id: universityId,
-    universityStatus: updatedStatus,  // Update the status based on toggle
-  };
+//   // Prepare the client data to send to the backend
+//   const updatedUniversit = {
+//     _id: universityId,
+//     universityStatus: updatedStatus,  // Update the status based on toggle
+//   };
 
-  try {
-    await updateUniversity(updatedUniversity);  // Send update to the backend
-    console.log(`University ${universityId} status updated to ${updatedStatus}`);
-  } catch (error) {
-    console.error('Error updating University status:', error);
+//   try {
+//     await updateUniversity(updatedUniversit);  // Send update to the backend
+//     console.log(`University ${universityId} status updated to ${updatedStatus}`);
+//   } catch (error) {
+//     console.error('Error updating University status:', error);
 
-    // Revert the status if there's an error during the update
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [universityId]: !prevStatuses[universityId],  // Revert the change
-    }));
-  }
-};
+//     // Revert the status if there's an error during the update
+//     setStatuses((prevStatuses) => ({
+//       ...prevStatuses,
+//       [universityId]: !prevStatuses[universityId],  // Revert the change
+//     }));
+//   }
+// };
 
 
 //table filter
@@ -907,7 +907,9 @@ const handleCheckboxChange = async (universityId) => {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.noofApplications||"Not Available"}
                       </td>
-                      <td className="text-capitalize text-start ">
+                      <td className="text-capitalize text-start text-truncate">
+                        </td>
+                      {/* <td className="text-capitalize text-start ">
     
     <span className="form-check form-switch d-inline ms-2" >
       {data?.universityStatus === "Active" ? (
@@ -936,7 +938,7 @@ const handleCheckboxChange = async (universityId) => {
       </label>
 
     </span>
-                    </td>
+                      </td> */}
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
                          
