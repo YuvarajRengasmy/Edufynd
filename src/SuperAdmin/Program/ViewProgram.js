@@ -213,15 +213,16 @@ const handleSubmit = (event) => {
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <Sidebar />
  <div className="content-wrapper">
- <div className="content-header text-end">
+ 
 
-<BackButton/>
 
-</div>
+
+
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
-                <div className="border-0 rounded-0 bg-transparent p-3">
+              <BackButton/>
+                <div className="border-0 rounded-0 bg-transparent ">
                   <div className="card border-0 rounded-0 mt-2">
                     <div
                       className="card rounded-0 border-0"
@@ -477,20 +478,7 @@ const handleSubmit = (event) => {
                                   ELT
                                 </a>
                               </li>
-                              <li className="nav-item" role="presentation">
-                                <a
-                                  className="nav-link text-Capitalize"
-                                  id="acadmic-tab"
-                                  data-bs-toggle="tab"
-                                  href="#acadmic"
-                                  role="tab"
-                                  aria-controls="acadmic"
-                                  aria-selected="false"
-                                  tabIndex="-1"
-                                >
-                                  Academic Requirements
-                                </a>
-                              </li>
+                          
                             </ul>
 
                             <div
@@ -587,24 +575,7 @@ const handleSubmit = (event) => {
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                className="tab-pane fade"
-                                id="acadmic"
-                                role="tabpanel"
-                                aria-labelledby="acadmic-tab"
-                              >
-                                <div className="form-floating">
-                                  <textarea
-                                    className="form-control"
-                                    id="floatingTextarea2"
-                                    placeholder="Leave a comment here"
-                                    style={{ height: "200px" }}
-                                  ></textarea>
-                                  <label htmlFor="floatingTextarea2">
-                                    Comments
-                                  </label>
-                                </div>
-                              </div>
+                             
                               <div
                                 className="tab-pane fade"
                                 id="tab-profile"
@@ -1084,7 +1055,7 @@ const handleSubmit = (event) => {
                             <nav aria-label="breadcrumb">
                               <ol className="breadcrumb float-end">
                                 <li className="breadcrumb-item">
-                                  <Link to="/DashBoard" target="_self" className="text-decoration-none text-capitalize">
+                                  <Link to="/dashBoard" target="_self" className="text-decoration-none text-capitalize">
                                     Dashboard
                                   </Link>
                                 </li>

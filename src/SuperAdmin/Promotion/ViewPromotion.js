@@ -8,6 +8,7 @@ export const ViewPromotion = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [notification, setnotification] = useState([]);
+  
   useEffect(() => {
     getPromotionList();
   }, []);

@@ -1,45 +1,40 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import { getallClient, deleteClient } from "../../api/client";
-import { Link, useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import { getSuperAdminForSearch } from '../../api/superAdmin';
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import { FaFilter } from "react-icons/fa";
 
 export default function Masterproductlist() {
-  const initialState = {
-    typeOfClient: "",
-    businessName: "",
-    businessMailID: "",
-    businessContactNo: "",
-    website: "",
-    addressLine1: "",
-    addressLine2: "",
-    addressLine3: "",
-    name: "",
-    contactNo: "",
-    emailID: "",
-    gstn: "",
-    status: "",
-  };
+  // const initialState = {
+  //   typeOfClient: "",
+  //   businessName: "",
+  //   businessMailID: "",
+  //   businessContactNo: "",
+  //   website: "",
+  //   addressLine1: "",
+  //   addressLine2: "",
+  //   addressLine3: "",
+  //   name: "",
+  //   contactNo: "",
+  //   emailID: "",
+  //   gstn: "",
+  //   status: "",
+  // };
 
   const [client, setClient] = useState([]);
   const location = useLocation();
   const searchValue = location.state || '';
   const [link ,setLink] = useState('');
   const [data, setData] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
-  const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
-  const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const pageSize = 10;
   const search = useRef(null);
@@ -110,14 +105,10 @@ export default function Masterproductlist() {
       .catch(err => console.log(err));
   };
 
-  const openFilterPopup = () => setOpenFilter(true);
-
+  
   const closeFilterPopup = () => setOpenFilter(false);
 
-  const handleInputs = (event) => {
-    setClient(prev => ({ ...prev, [event.target.name]: event.target.value }));
-  };
-
+ 
   const openImportPopup = () => setOpenImport(true);
 
   const closeImportPopup = () => setOpenImport(false);

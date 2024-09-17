@@ -5,7 +5,10 @@ import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
+  getAllUniversit,
   getFilterUniversity,
+  updateUniversity,
+  
 } from "../../api/university";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -53,6 +56,7 @@ export default function Masterproductlist() {
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
   const search = useRef(null);
+  const [details, setDetails] = useState();
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -60,10 +64,10 @@ export default function Masterproductlist() {
   });
 
   const [university, setUniversity] = useState();
-  const [details, setDetails] = useState();
 
   useEffect(() => {
     getAllUniversityDetails();
+    getallUniversityCount();
   }, [pagination.from, pagination.to]);
 
   useEffect(() => {
@@ -79,17 +83,6 @@ export default function Masterproductlist() {
     }
   }, [searchValue]);
 
-  useEffect(() => {
-    getallUniversityCount()
-   
-  }, []);
-
-
-  const getallUniversityCount = ()=>{
-    getallUniversity().then((res)=>setDetails(res?.data.result))
-  }
-
-
   const getAllUniversityDetails = () => {
     const data = {
       limit: 10,
@@ -98,7 +91,7 @@ export default function Masterproductlist() {
 
     getFilterUniversity(data)
       .then((res) => {
-       
+        console.log(res?.data?.result?.universityCount);
         setUniversity(res?.data?.result?.universityList);
         setPagination({
           ...pagination,
@@ -109,6 +102,18 @@ export default function Masterproductlist() {
         console.log(err);
       });
   };
+ 
+
+
+  const getallUniversityCount = ()=>{
+    getAllUniversit()
+    .then((res)=>{
+      setDetails(res?.data.result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  });
+}
 
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
@@ -189,6 +194,7 @@ export default function Masterproductlist() {
       });
   };
 
+  
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
@@ -218,8 +224,7 @@ export default function Masterproductlist() {
 
     try {
       const response = await axios.post(
-        // "https://api.edufynd.in/api/university/import",
-        "http://localhost:4409/api/university/import",
+        "https://api.edufynd.in/api/university/import",
         formData,
         {
           headers: {
@@ -461,17 +466,62 @@ const chartRef = useRef(null);
 
 //satuses
 
-const [statuses, setStatuses] = useState(
-  (university && Array.isArray(university)) ? university.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-);
 
-// Toggle checkbox status
-const handleCheckboxChange = (index) => {
-  setStatuses((prevStatuses) => ({
-    ...prevStatuses,
-    [index]: !prevStatuses[index],
-  }));
-};
+
+// const [statuses, setStatuses] = useState({});  // Store toggle status
+
+// useEffect(() => {
+//   // Fetch all clients on component mount
+//   const fetchUniverity = async () => {
+//     try {
+//       const response = await getallUniversity();
+//       const universityData = Array.isArray(response.data) ? response.data : [];
+
+//       // Initialize statuses based on the fetched client data
+//       const initialStatuses = universityData.reduce((acc, universityData) => {
+//         return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
+//       }, {});
+
+//       setUniversity(universityData);  // Set clients data
+//       setStatuses(initialStatuses);  // Set initial statuses
+//     } catch (error) {
+//       console.error('Error fetching clients:', error);
+//     }
+//   };
+
+//   fetchUniverity();
+// }, []);  // Empty dependency array to run once on mount
+
+// // Toggle client status
+// const handleCheckboxChange = async (universityId) => {
+//   const currentStatus = statuses[universityId];
+//   const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+
+//   // Update the local state immediately for a quick UI response
+//   setStatuses((prevStatuses) => ({
+//     ...prevStatuses,
+//     [universityId]: !prevStatuses[universityId],
+//   }));
+
+//   // Prepare the client data to send to the backend
+//   const updatedUniversit = {
+//     _id: universityId,
+//     universityStatus: updatedStatus,  // Update the status based on toggle
+//   };
+
+//   try {
+//     await updateUniversity(updatedUniversit);  // Send update to the backend
+//     console.log(`University ${universityId} status updated to ${updatedStatus}`);
+//   } catch (error) {
+//     console.error('Error updating University status:', error);
+
+//     // Revert the status if there's an error during the update
+//     setStatuses((prevStatuses) => ({
+//       ...prevStatuses,
+//       [universityId]: !prevStatuses[universityId],  // Revert the change
+//     }));
+//   }
+// };
 
 
 //table filter
@@ -623,7 +673,6 @@ const handleCheckboxChange = (index) => {
               <button
                 style={{ backgroundColor: "#E12929", fontSize: "12px" }}
                 className="btn text-white rounded-1 border-0"
-                   title= "Download PDF"
               >
                 <i className="fa fa-file-pdf" aria-hidden="true"></i>
               </button>
@@ -634,10 +683,8 @@ const handleCheckboxChange = (index) => {
               <button
                 style={{ backgroundColor: "#22A033", fontSize: "12px" }}
                 className="btn text-white rounded-1 border-0"
-                title= "Download CSV"
-                
               >
-                <i className="fa fa-file-excel" aria-hidden="true" ></i>
+                <i className="fa fa-file-excel" aria-hidden="true"></i>
               </button>
             </Link>
           </li>
@@ -646,7 +693,6 @@ const handleCheckboxChange = (index) => {
               <button
                 style={{ backgroundColor: "#7627ef", fontSize: "12px" }}
                 className="btn text-white rounded-1 border-0"
-                title= "Upload"
               >
                 <i className="fa fa-upload" aria-hidden="true"></i>
               </button>
@@ -677,7 +723,7 @@ const handleCheckboxChange = (index) => {
             <div className="card rounded-1 border-0 text-white shadow-sm p-3" style={{ backgroundColor: "#00796B" }}> {/* Tropical Teal */}
               <div className="row g-0">
                 <div className="col-7">
-                <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No of University</h6>
+                <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
                 <p className="card-text">Total:{details?.totalUniversities || 0}</p>
                 </div>
                 <div className="col-auto ">
@@ -695,9 +741,9 @@ const handleCheckboxChange = (index) => {
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Steel Blue */}
               <div className="card-body">
-                <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;No of Countries</h6>
+                <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Total: {details?.totalUniqueCountries|| 0}</p>
+                <p className="card-text mb-1">Total:{details?.totalUniqueCountries|| 0}</p>
                 <p className="card-text mb-1">Country List</p>
                 </div>
               </div>
@@ -712,7 +758,7 @@ const handleCheckboxChange = (index) => {
                 <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Status</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
                 <p className="card-text mb-1">Active: {details?.activeUniversities|| 0}</p>
-                <p className="card-text mb-1">Inactive: {details?.inactiveUniversities|| 0}</p>
+                <p className="card-text mb-1">Inactive:  {details?.inactiveUniversities|| 0}</p>
                 </div>
                
               </div>
@@ -862,25 +908,41 @@ const handleCheckboxChange = (index) => {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.noofApplications||"Not Available"}
                       </td>
-                      <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        </td>
+                      {/* <td className="text-capitalize text-start ">
+    
+    <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
+                      </td> */}
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>View</Tooltip>}
-                          >
+                         
                             <Link
                               className="dropdown-item"
                               to={{
@@ -890,13 +952,9 @@ const handleCheckboxChange = (index) => {
                             >
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
-                          </OverlayTrigger>
+                          
 
-                          <OverlayTrigger
-                            placement="bottom" 
-                            
-                            overlay={<Tooltip>Edit</Tooltip>}
-                          >
+                         
                             <Link
                               className="dropdown-item"
                               to={{
@@ -906,18 +964,15 @@ const handleCheckboxChange = (index) => {
                             >
                               <i className="far fa-edit text-warning me-1"></i>
                             </Link>
-                          </OverlayTrigger>
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>Delete</Tooltip>}
-                          >
+                          
+                          
                             <button
                               className="dropdown-item"
                               onClick={() => openPopup(data?._id)}
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
-                          </OverlayTrigger>
+                          
                         </div>
                       </td>
                     </tr>
