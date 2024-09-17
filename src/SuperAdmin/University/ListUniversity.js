@@ -60,6 +60,7 @@ export default function Masterproductlist() {
   });
 
   const [university, setUniversity] = useState();
+  const [details, setDetails] = useState();
 
   useEffect(() => {
     getAllUniversityDetails();
@@ -78,6 +79,17 @@ export default function Masterproductlist() {
     }
   }, [searchValue]);
 
+  useEffect(() => {
+    getallUniversityCount()
+   
+  }, []);
+
+
+  const getallUniversityCount = ()=>{
+    getallUniversity().then((res)=>setDetails(res?.data.result))
+  }
+
+
   const getAllUniversityDetails = () => {
     const data = {
       limit: 10,
@@ -86,7 +98,7 @@ export default function Masterproductlist() {
 
     getFilterUniversity(data)
       .then((res) => {
-        console.log(res?.data?.result?.universityCount);
+       
         setUniversity(res?.data?.result?.universityList);
         setPagination({
           ...pagination,
@@ -665,8 +677,8 @@ const handleCheckboxChange = (index) => {
             <div className="card rounded-1 border-0 text-white shadow-sm p-3" style={{ backgroundColor: "#00796B" }}> {/* Tropical Teal */}
               <div className="row g-0">
                 <div className="col-7">
-                <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
-                <p className="card-text">Total:{pagination?.count || 0}</p>
+                <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No of University</h6>
+                <p className="card-text">Total:{details?.totalUniversities || 0}</p>
                 </div>
                 <div className="col-auto ">
                 <div className="chart-container " style={{ position: 'relative', width: '4rem', height: '4rem' }}>
@@ -683,9 +695,9 @@ const handleCheckboxChange = (index) => {
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Steel Blue */}
               <div className="card-body">
-                <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
+                <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;No of Countries</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Total: 20</p>
+                <p className="card-text mb-1">Total: {details?.totalUniqueCountries|| 0}</p>
                 <p className="card-text mb-1">Country List</p>
                 </div>
               </div>
@@ -699,8 +711,8 @@ const handleCheckboxChange = (index) => {
               <div className="card-body">
                 <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Status</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Active: 30</p>
-                <p className="card-text mb-1">Inactive: 10</p>
+                <p className="card-text mb-1">Active: {details?.activeUniversities|| 0}</p>
+                <p className="card-text mb-1">Inactive: {details?.inactiveUniversities|| 0}</p>
                 </div>
                
               </div>
