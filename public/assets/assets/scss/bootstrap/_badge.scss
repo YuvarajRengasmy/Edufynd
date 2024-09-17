@@ -1,0 +1,206 @@
+.badge {
+  padding: 5px 10px;
+  font-weight: 600;
+  border-radius: 0.25rem;
+}
+.badge-sm {
+  font-weight: normal;
+  font-size: 0.625rem;
+}
+.btn {
+  &.btn-outline-primary {
+    .badge {
+      background-color: $primary;
+      color: $white;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      .badge {
+        background-color: $custom-white;
+        color: $default-text-color;
+      }
+    }
+  }
+  &.btn-outline-secondary {
+    .badge {
+      background-color: $secondary;
+      color: $white;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      .badge {
+        background-color: $custom-white;
+        color: $default-text-color;
+      }
+    }
+  }
+  &.btn-outline-warning {
+    .badge {
+      background-color: $warning;
+      color: $white;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      .badge {
+        background-color: $custom-white;
+        color: $default-text-color;
+      }
+    }
+  }
+  &.btn-outline-info {
+    .badge {
+      background-color: $info;
+      color: $white;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      .badge {
+        background-color: $custom-white;
+        color: $default-text-color;
+      }
+    }
+  }
+  &.btn-outline-success {
+    .badge {
+      background-color: $success;
+      color: $white;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      .badge {
+        background-color: $custom-white;
+        color: $default-text-color;
+      }
+    }
+  }
+  &.btn-outline-danger {
+    .badge {
+      background-color: $danger;
+      color: $white;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      .badge {
+        background-color: $custom-white;
+        color: $default-text-color;
+      }
+    }
+  }
+}
+.custom-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.icon-badge {
+  position: relative;
+  .icon {
+    width: 2rem;
+    height: 2rem;
+    fill: $text-muted;
+    font-size: 2rem;
+  }
+  .badge {
+    position: absolute;
+    inset-inline-end: -0.5rem;
+  }
+}
+.text-badge {
+  position: relative;
+  .badge {
+    position: absolute;
+    inset-inline-end: -1rem;
+    inset-block-start: -1rem;
+  }
+}
+.offer {
+  background: $custom-white;
+  border: 1px solid $default-border;
+  margin: 15px 0;
+  overflow: hidden;
+  border-radius: 4px;
+  .shape {
+    border-style: solid;
+    border-block-start: 0px;
+    border-inline-end-width: 45px;
+    border-block-end-width: 45px;
+    border-inline-start: 0px;
+    float: right;
+    height: 0px;
+    width: 0px;
+    transform: rotate(360deg);
+    border-block-start-color: transparent;
+    border-inline-end-color: $default-border;
+    border-block-end-color: transparent;
+    border-inline-start-color: transparent;
+    .shape-text {
+      color: $white;
+      font-size: 12px;
+      font-weight: bold;
+      position: relative;
+      inset-inline-end: -27px;
+      inset-block-start: 0px;
+      white-space: nowrap;
+      transform: rotate(45deg);
+    }
+  }
+  .offer-content {
+    padding: 20px;
+  }
+}
+.offer-default {
+  border-color: $dark !important;
+  .shape {
+    border-block-start-color: transparent;
+    border-inline-end-color: $dark !important;
+    border-block-end-color: transparent;
+    border-inline-start-color: transparent;
+  }
+  .shape-text {
+    color: $white !important;
+  }
+}
+
+@mixin offer-shape($btn-color) {
+  border-color: rgb(#{$btn-color}) !important;
+  .shape {
+    border-block-start-color: transparent;
+    border-inline-end-color: rgb(#{$btn-color}) !important;
+    border-block-end-color: transparent;
+    border-inline-start-color: transparent;
+  }
+}
+/* btn-primary starts */
+.offer-primary {
+  @include offer-shape(var(--primary-rgb));
+}
+.offer-secondary {
+  @include offer-shape(var(--secondary-rgb));
+}
+.offer-success {
+  @include offer-shape(var(--success-rgb));
+}
+.offer-danger {
+  @include offer-shape(var(--danger-rgb));
+}
+.offer-info {
+  @include offer-shape(var(--info-rgb));
+}
+.offer-warning {
+  @include offer-shape(var(--warning-rgb));
+}
+[dir="rtl"] {
+  .offer {
+    .shape {
+      float: left;
+      .shape-text {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}

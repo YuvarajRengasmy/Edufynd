@@ -1,0 +1,46 @@
+.sBar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 250px;
+   background-color:#2C3E50  ;
+    transition: width 0.3s ease;
+    font-size: 12px;
+    overflow-y: auto;
+    scrollbar-width:none;
+    z-index: 1000;
+   
+    
+    
+    
+    
+    
+
+   
+    
+}
+
+
+
+.sBar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sBar ul li {
+    padding: 6px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+.sBar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sBar ul li span {
+    display: inline-block;
+    padding: 0px 10px;
+}
