@@ -6,6 +6,8 @@ import {
   deleteUniversity,
   saveUniversity,
   getFilterUniversity,
+  updateUniversity,
+  
 } from "../../api/university";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -448,16 +450,61 @@ const chartRef = useRef(null);
 
 //satuses
 
-const [statuses, setStatuses] = useState(
-  (university && Array.isArray(university)) ? university.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-);
 
-// Toggle checkbox status
-const handleCheckboxChange = (index) => {
+
+const [statuses, setStatuses] = useState({});  // Store toggle status
+
+useEffect(() => {
+  // Fetch all clients on component mount
+  const fetchUniverity = async () => {
+    try {
+      const response = await getallUniversity();
+      const universityData = Array.isArray(response.data) ? response.data : [];
+
+      // Initialize statuses based on the fetched client data
+      const initialStatuses = universityData.reduce((acc, universityData) => {
+        return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
+      }, {});
+
+      setUniversity(universityData);  // Set clients data
+      setStatuses(initialStatuses);  // Set initial statuses
+    } catch (error) {
+      console.error('Error fetching clients:', error);
+    }
+  };
+
+  fetchUniverity();
+}, []);  // Empty dependency array to run once on mount
+
+// Toggle client status
+const handleCheckboxChange = async (universityId) => {
+  const currentStatus = statuses[universityId];
+  const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+
+  // Update the local state immediately for a quick UI response
   setStatuses((prevStatuses) => ({
     ...prevStatuses,
-    [index]: !prevStatuses[index],
+    [universityId]: !prevStatuses[universityId],
   }));
+
+  // Prepare the client data to send to the backend
+  const updatedUniversity = {
+    _id: universityId,
+    universityStatus: updatedStatus,  // Update the status based on toggle
+  };
+
+  try {
+    await updateUniversity(updatedUniversity);  // Send update to the backend
+    console.log(`University ${universityId} status updated to ${updatedStatus}`);
+  } catch (error) {
+    console.error('Error updating University status:', error);
+
+    // Revert the status if there's an error during the update
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [universityId]: !prevStatuses[universityId],  // Revert the change
+    }));
+  }
 };
 
 
@@ -846,24 +893,38 @@ const handleCheckboxChange = (index) => {
                         {data?.noofApplications||"Not Available"}
                       </td>
                       <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
+    
+    <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
+                    </td>
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>View</Tooltip>}
-                          >
+                         
                             <Link
                               className="dropdown-item"
                               to={{
@@ -873,13 +934,9 @@ const handleCheckboxChange = (index) => {
                             >
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
-                          </OverlayTrigger>
+                          
 
-                          <OverlayTrigger
-                            placement="bottom" 
-                            
-                            overlay={<Tooltip>Edit</Tooltip>}
-                          >
+                         
                             <Link
                               className="dropdown-item"
                               to={{
@@ -889,18 +946,15 @@ const handleCheckboxChange = (index) => {
                             >
                               <i className="far fa-edit text-warning me-1"></i>
                             </Link>
-                          </OverlayTrigger>
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>Delete</Tooltip>}
-                          >
+                          
+                          
                             <button
                               className="dropdown-item"
                               onClick={() => openPopup(data?._id)}
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
-                          </OverlayTrigger>
+                          
                         </div>
                       </td>
                     </tr>

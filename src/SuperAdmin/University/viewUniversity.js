@@ -209,7 +209,7 @@ const UserProfile = () => {
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
-          <div className="content-header text-end">
+          <div className=" text-end">
           <BackButton/>
           </div>
           <div className="container-fluid ">
@@ -273,7 +273,7 @@ const UserProfile = () => {
                                 {university?.universityName}
                               </h5>
                             </div>
-                            <div className="d-flex  flex-lg-row flex-xs-column  justify-content-between align-items-start">
+                            <div className="d-flex   flex-wrap   justify-content-between align-items-start">
                               <p
                                 className="text-white fw-semibold mb-1"
                                 style={{ fontSize: "14px" }}

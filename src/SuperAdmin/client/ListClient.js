@@ -735,6 +735,7 @@ export default function Masterproductlist() {
             <div className="col-xl-12">
               <div className="card border-0 rounded-1 shadow-sm">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex align-items-center justify-content-between">
                   <div className="d-flex  mb-0">
                     <p className="me-auto ">
                       Change
@@ -752,8 +753,30 @@ export default function Masterproductlist() {
 
 
                   </div>
+                 
+                 
+           <div>
+  <div className="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sort By
+    </button>
+    <ul class="dropdown-menu">
+  <li> <a className="nav-link active" id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">List View</a></li> 
+  <li><a className="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false">Grid View</a></li>   
+    </ul>
+  </div>
+  {/* Tab Content */}
+
+  
+ 
+</div>
+</div>
                 </div>
                 <div className="card-body">
+  <div className="tab-content mt-3">
+    {/* List View */}
+    <div className="tab-pane fade show active" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
+    
                   <div className="table-responsive">
                     <table
                       className="table table-hover text-center"
@@ -1167,8 +1190,8 @@ export default function Masterproductlist() {
                                 >
                                   <i className="far fa-edit text-warning "></i>
                                 </Link>
-                                <Link
-                                  className="text-decoration-none"
+                                <button
+                                  className="text-decoration-none border-0 btn btn-link"
                                   onClick={() => {
                                     openPopup(data?._id);
                                   }}
@@ -1176,7 +1199,7 @@ export default function Masterproductlist() {
                                   title="Delete"
                                 >
                                   <i className="far fa-trash-alt text-danger "></i>
-                                </Link>
+                                </button>
                               </div>
                             </td>
                           </tr>
@@ -1184,7 +1207,112 @@ export default function Masterproductlist() {
                       </tbody>
                     </table>
                   </div>
-                </div>
+                
+    </div>
+    {/* Grid View */}
+    <div className="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
+    {client?.map((data, index) => (
+      <div className="row" key={index}>
+        <div className="col-4">
+        <div className="card border-primary rounded-3 shadow-lg">
+      <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 className="card-title mb-0">{data?.businessName || "Not Available"}</h5>
+        <small className="text-light">User Information</small>
+      </div>
+      <div className="card-body">
+        <div className="row">
+          <div className="col-md-6">
+            <h6 className="text-muted">S.No:</h6>
+            <p className="card-text"> {pagination.from + index + 1}</p>
+            <h6 className="text-muted">Client ID:</h6>
+            <p className="card-text">{data?.clientID || "Not Available"}</p>
+            <h6 className="text-muted">Type of Client:</h6>
+            <p className="card-text">{data?.typeOfClient || "Not Available"}</p>
+            <h6 className="text-muted">Status:</h6>
+            <p className="card-text">
+              <span className="badge bg-success"> <span className="form-check form-switch d-inline ms-2" >
+              {data?.clientStatus === "Active" ? (
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  value={data?.clientStatus}
+                  id={`flexSwitchCheckDefault${index}`}
+                  checked={statuses[data._id] || false}
+                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+                />
+              ) : (
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  value={data?.clientStatus}
+                  id={`flexSwitchCheckDefault${index}`}
+                  checked={statuses[data._id] || false}
+                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+                />
+              )}
+             <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+                {data?.clientStatus || "Not Available"}
+              </label>
+
+            </span></span>
+            </p>
+          </div>
+          <div className="col-md-6">
+            <h6 className="text-muted">Name:</h6>
+            <p className="card-text">{data?.businessName || "Not Available"}</p>
+            <h6 className="text-muted">Primary Number:</h6>
+            <p className="card-text"> {data?.businessContactNo || "Not Available"}</p>
+            <h6 className="text-muted">Email ID:</h6>
+            <p className="card-text"> {data?.businessMailID || "Not Available"}</p>
+          </div>
+        </div>
+      </div>
+      <div className="card-footer bg-light d-flex justify-content-between">
+      <Link
+                                  className="btn btn-primary btn-sm"
+                                  to={{
+                                    pathname: "/view_client",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="View"
+                                >
+                                  <i className="far fa-eye text-primary "></i>View
+                                </Link>
+        
+       
+        <Link
+                                  className="btn btn-warning btn-sm"
+                                  to={{
+                                    pathname: "/edit_client",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="Edit"
+                                >
+                                  <i className="far fa-edit text-warning "></i>Edit
+                                </Link>
+        <button className="btn btn-danger btn-sm" onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="Delete">
+          <i className="bi bi-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+        </div>
+
+      </div>
+    ))}
+    
+   
+    </div>
+  </div>
+  </div>
+               
                 <div className="d-flex justify-content-between align-items-center p-3">
                   <p className="me-auto ">
                     Show
