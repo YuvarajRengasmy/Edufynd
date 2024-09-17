@@ -11,6 +11,10 @@ export const getallApplication = () => {
     return API.get(`${Application}/`)
 }
 
+export const getAllApplicantCard = () => {
+  return API.get(`${Application}/card`)
+}
+
 export const getSingleApplication = (data) => {
     return API.get(`${Application}/getSingleApplicant`, { params: { _id: data } });
   };
