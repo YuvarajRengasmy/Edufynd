@@ -184,15 +184,9 @@ export default function Masterproductlist() {
             margin: [5, 5],
             bold: true,
           },
+         
           {
-            text: "ClientId",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-            text: "BusinessName",
+            text: "UniversityName",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -206,14 +200,14 @@ export default function Masterproductlist() {
             bold: true,
           },
           {
-            text: "BusinessContactNo",
+            text: "Eligibility",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Status",
+            text: "Tax",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -229,40 +223,35 @@ export default function Masterproductlist() {
               margin: [5, 3],
               border: [true, false, true, true],
             },
+           
             {
-              text: element?.clientID ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
-            {
-              text: element?.businessName ?? "-",
+              text: element?.universityName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
 
             {
-              text: element?.businessMailID ?? "-",
+              text: element?.paymentMethod ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.businessContactNo ?? "-",
+              text: element?.eligibility ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.status ?? "-",
+              text: element?.tax ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
           ]);
         });
-        templatePdf("clientList", tablebody, "landscape");
+        templatePdf("commissionList", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -278,31 +267,31 @@ export default function Masterproductlist() {
         let list = [];
         result?.forEach((res) => {
           list.push({
-            clientID: res?.clientID ?? "-",
-            businessName: res?.businessName ?? "-",
-            businessMailID: res?.businessMailID ?? "-",
-            businessContactNo: res?.businessContactNo ?? "-",
-            status: res?.status ?? "-",
+           
+            universityName: res?.universityName ?? "-",
+            paymentMethod: res?.paymentMethod ?? "-",
+            eligibility: res?.eligibility ?? "-",
+            tax: res?.tax ?? "-",
           });
         });
         let header1 = [
-          "clientID",
-          "businessName",
-          "businessMailID",
-          "businessContactNo",
-          "status",
+         
+          "universityName",
+          "paymentMethod",
+          "eligibility",
+          "tax",
         ];
         let header2 = [
           "Client Id",
-          "Business Name",
-          "Business MailID",
-          "Business ContactNo",
-          "Status",
+          "University Name",
+          "Payment Method",
+          "eligibility",
+          "Tax",
         ];
         ExportCsvService.downloadCsv(
           list,
-          "clientList",
-          "Client List",
+          "commissionList",
+          "Commission List",
 
           header1,
           header2
@@ -478,7 +467,7 @@ export default function Masterproductlist() {
             </div>
           </div>
           <li className="m-1">
-            <Link>
+            <Link onClick={pdfDownload}>
               <button
                 className="btn text-white border-0 rounded-1"
                 style={{ backgroundColor: "#E12929", fontSize: "12px" }}
@@ -488,8 +477,9 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
-            <Link>
+            <Link onClick={exportCsv}>
               <button
+             
                 className="btn text-white border-0 rounded-1"
                 style={{ backgroundColor: "#22A033", fontSize: "12px" }}
               >
