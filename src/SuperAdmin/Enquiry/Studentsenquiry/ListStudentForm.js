@@ -522,8 +522,16 @@ export const ListStudentForm = () => {
                   </div>
                 </div>
                   <div className="card-body">
-                   
-                      <div className="table-responsive">
+                  <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable text-center"
                           style={{ color: "#9265cc", fontSize: "11px" }}
@@ -544,13 +552,14 @@ export const ListStudentForm = () => {
                                 {" "}
                                 S.No.
                               </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Date{" "}
-                              </th>
+                             
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 Student Code{" "}
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Date{" "}
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
@@ -613,11 +622,12 @@ export const ListStudentForm = () => {
                                         || "Not Available" )}
                                   </td>
 
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentCode || "Not Available"}
-                                  </td>
+                                 
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.name || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.studentCode || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.primaryNumber|| "Not Available"}
@@ -692,6 +702,177 @@ export const ListStudentForm = () => {
                           </tbody>
                         </table>
                       </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  { student?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0">{data?.name || "Not Available"}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Student ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.studentCode || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(
+                                      data?.createdOn
+                                        ? data?.createdOn
+                                        : data?.modifiedOn
+                                        ? data?.modifiedOn
+                                        : "-"
+                                        || "Not Available" )}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Primary No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.primaryNumber|| "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Email ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.email || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Desired Country</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.desiredCountry || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Source</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.source || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Assigned To</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.assignedTo || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                        className="btn btn-sm btn-outline-primary"
+                                        to={{
+                                          pathname: "/view_enquiry_student",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>View
+                                      </Link>
+                                      <Link
+                                        className="btn btn-sm btn-outline-warning"
+                                        to={{
+                                          pathname: "/edit_enquiry_student",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>Edit
+                                      </Link>
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                      </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+                    
                     </div>
                     <div className="d-flex justify-content-between m-2">
                     <p className="me-auto ">

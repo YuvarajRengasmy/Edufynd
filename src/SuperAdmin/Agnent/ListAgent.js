@@ -731,7 +731,17 @@ export default function Masterproductlist() {
                   </div>
                 </div>
                   <div className="card-body">
-                    <div className="card-table">
+                  <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+
+<div className="card-table">
                       <div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable table-responsive-sm text-center"
@@ -752,13 +762,14 @@ export default function Masterproductlist() {
                                 S No
                               </th>
 
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Name
-                              </th>
+                             
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 Code
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Name
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 Email
@@ -768,7 +779,7 @@ export default function Masterproductlist() {
                               </th>
                             
                               <th className="text-capitalize text-start sortable-handle">
-                                Created by
+                                Created At
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 Status
@@ -794,11 +805,12 @@ export default function Masterproductlist() {
                                   {pagination.from + index + 1}
                                 </td>
 
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.agentName || "Not Available"}
-                                </td>
+                                
                                 <td className="text-capitalize text-start text-truncate">
                                   {data?.agentCode || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start text-truncate">
+                                  {data?.agentName || "Not Available"}
                                 </td>
 
                                 <td className=" text-start text-truncate">{data?.email}</td>
@@ -832,7 +844,7 @@ export default function Masterproductlist() {
                                 <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
-                                      className="dropdown-item"
+                                      className="btn btn-sm btn-btn-outline-danger"
                                       to={{
                                         pathname: "/view_agent",
                                         search: `?id=${data?._id}`,
@@ -841,7 +853,7 @@ export default function Masterproductlist() {
                                       <i className="far fa-eye text-primary me-1"></i>
                                     </Link>
                                     <Link
-                                      className="dropdown-item"
+                                      className="btn btn-sm btn-btn-outline-danger"
                                       to={{
                                         pathname: "/edit_agent",
                                         search: `?id=${data?._id}`,
@@ -850,7 +862,7 @@ export default function Masterproductlist() {
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
                                     <Link
-                                      className="dropdown-item"
+                                      className="btn btn-sm btn-btn-outline-danger"
                                       onClick={() => {
                                         openPopup(data?._id);
                                       }}
@@ -865,6 +877,148 @@ export default function Masterproductlist() {
                         </table>
                       </div>
                     </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {agent?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"> {data?.agentName || "Not Available"}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Agent ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.agentCode || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Email ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.email}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Primary No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.mobileNumber || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Created At</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(
+                                    data?.modifiedOn
+                                      ? data?.modifiedOn
+                                      : data?.createdOn
+                                      ? data?.createdOn
+                                      : null
+                                      || "Not Available" )}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                  {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                      className="btn btn-sm btn-outline-primary"
+                                      to={{
+                                        pathname: "/view_agent",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye  me-1"></i>View
+                                    </Link>
+                                    <Link
+                                      className="btn btn-sm btn-outline-warning"
+                                      to={{
+                                        pathname: "/edit_agent",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit  me-1"></i>Edit
+                                    </Link>
+                                    <Link
+                                      className="btn btn-sm btn-outline-danger"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt  me-1"></i>Delete
+                                    </Link>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+                  
                     <div className="d-flex justify-content-between align-items-center p-3">
         <p className="me-auto ">
                           Show
