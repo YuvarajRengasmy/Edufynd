@@ -4,6 +4,7 @@ import {getSuperAdminForSearch} from '../../api/superAdmin';
 
 import {
   getallProgram,
+  getAllProgramCard,
   deleteProgram,
   getFilterProgram,
 } from "../../api/Program";
@@ -78,9 +79,8 @@ useEffect(() => {
  
 }, []);
 
-
 const getallProgramCount = ()=>{
-  getallProgram().then((res)=>setDetails(res?.data.result))
+  getAllProgramCard().then((res)=>setDetails(res?.data.result))
 }
 
   const getAllProgaramDetails = () => {

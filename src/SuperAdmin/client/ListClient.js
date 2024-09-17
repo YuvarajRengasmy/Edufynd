@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient,updateClient } from "../../api/client";
+import { getallClient, deleteClient,updateClient, getAllClientCard } from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -53,6 +53,8 @@ export default function Masterproductlist() {
   const pageSize = 10;
   const search = useRef(null);
 
+  const [details, setDetails] = useState();
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -75,6 +77,16 @@ export default function Masterproductlist() {
       handleSearch();
     }
   }, [searchValue]);
+
+  
+useEffect(() => {
+  getallClientCount()
+ 
+}, []);
+
+const getallClientCount = ()=>{
+  getAllClientCard().then((res)=>setDetails(res?.data.result))
+}
 
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
@@ -653,11 +665,11 @@ export default function Masterproductlist() {
                   style={{ backgroundColor: "#00796B" }} // Tropical Teal
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-check"></i> Active Clients</h6>
-                    <p className="card-text">Total Client: {pagination?.count}</p>
-                    <p className="card-text">
+                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients</h6>
+                    <p className="card-text">Total Client: {details?.totalClient || 0}</p>
+                    {/* <p className="card-text">
                       <i className="fas fa-users"></i> Actively Engaged
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </Link>
@@ -670,10 +682,13 @@ export default function Masterproductlist() {
                   style={{ backgroundColor: "#C62828" }} // Crimson Red
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-times"></i> Inactive Clients</h6>
-                    <p className="card-text">Total: 45</p>
+                    <h6 className=""><i className="fas fa-user-times"></i> Active Clients</h6>
+                    <p className="card-text">Total: {details?.activeClient || 0}</p>
                     <p className="card-text">
-                      <i className="fas fa-user-slash"></i> Currently Inactive
+                    <i className="fas fa-users"></i> Currently Active: {details?.activeClient || 0}    
+                    </p>
+                    <p className="card-text">
+                      <i className="fas fa-user-slash"></i> Currently Inactive: {details?.inactiveClient || 0}
                     </p>
                   </div>
                 </div>
