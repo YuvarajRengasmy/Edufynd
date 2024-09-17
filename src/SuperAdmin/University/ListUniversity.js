@@ -10,6 +10,8 @@ import {
   updateUniversity,
   
 } from "../../api/university";
+import { getAllApplicantCard } from "../../api/applicatin";
+
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -57,6 +59,8 @@ export default function Masterproductlist() {
   const pageSize = 10;
   const search = useRef(null);
   const [details, setDetails] = useState();
+  const [detail, setDetail] = useState();
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -68,6 +72,7 @@ export default function Masterproductlist() {
   useEffect(() => {
     getAllUniversityDetails();
     getallUniversityCount();
+    getallApplicantCount();
   }, [pagination.from, pagination.to]);
 
   useEffect(() => {
@@ -115,6 +120,9 @@ export default function Masterproductlist() {
   });
 }
 
+const getallApplicantCount = ()=>{
+  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+}
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
       search.current.blur();
@@ -745,7 +753,6 @@ const chartRef = useRef(null);
                 <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
                 <p className="card-text mb-1">Total:{details?.totalUniqueCountries|| 0}</p>
-                <p className="card-text mb-1">Country List</p>
                 </div>
               </div>
             </div>
@@ -772,7 +779,7 @@ const chartRef = useRef(null);
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
               <div className="card-body">
                 <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;No Of Applications</h6>
-                <p className="card-text">Total: 500</p>
+                <p className="card-text">Total: {detail?.totalApplication}</p>
               </div>
             </div>
           </Link>
@@ -1050,7 +1057,7 @@ const chartRef = useRef(null);
       <div className="col-md-4 mb-4" key={index}>
         <div className="card shadow-sm  rounded-1 text-bg-light h-100">
           <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0"></h6>
+            <h6 className="mb-0">{data?.universityName}</h6>
           </div>
           <div className="card-body">
             <div className="row">
@@ -1060,47 +1067,59 @@ const chartRef = useRef(null);
                     <strong>S.No</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {pagination.from + index + 1}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Client ID</strong>
+                    <strong>University ID</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {data?.universityCode}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Type of Client</strong>
+                    <strong>Country</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {data?.country}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Primary No</strong>
+                    <strong>Campus</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {data.campuses?.map((campus, yearIndex) => (
+                          <div key={yearIndex}>
+                            {campus?.state?.length > 0
+                              ? campus.state
+                              : "Not Available"}
+                            {"_"}
+                            {campus?.lga?.length > 0
+                              ? campus.lga
+                              : "Not Available"}{"_"}
+                             {campus?.primary === "true" ? campus.primary ? <i className="fas fa-check text-primary">Primary Campus</i> : "Secondary Campus": "Secondary Campus"}
+
+                          </div>
+                        ))}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Email ID</strong>
+                    <strong>Popular Categories</strong>
                   </div>
                   <div className="col-md-7">
-                    
+                  {data?.popularCategories}
                   </div>
                 </div>
               </div>
@@ -1110,14 +1129,68 @@ const chartRef = useRef(null);
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 d-flex align-items-center">
-                  
+                  <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-            
+          <Link
+                              className="btn btn-sm btn-outline-primary"
+                              to={{
+                                pathname: "/view_university",
+                                search: `?id=${data?._id}`,
+                              }}
+                            >
+                              <i className="far fa-eye text-primary me-1"></i>
+                            </Link>
+                          
+
+                         
+                            <Link
+                              className="btn btn-sm btn-outline-warning"
+                              to={{
+                                pathname: "/edit_university",
+                                search: `?id=${data?._id}`,
+                              }}
+                            >
+                              <i className="far fa-edit text-warning me-1"></i>
+                            </Link>
+                          
+                          
+                            <button
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => openPopup(data?._id)}
+                            >
+                              <i className="far fa-trash-alt text-danger me-1"></i>
+                            </button>
           </div>
         </div>
       </div>

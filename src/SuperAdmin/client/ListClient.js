@@ -683,7 +683,6 @@ const getallClientCount = ()=>{
                 >
                   <div className="card-body">
                     <h6 className=""><i className="fas fa-user-times"></i> Active Clients</h6>
-                    <p className="card-text">Total: {details?.activeClient || 0}</p>
                     <p className="card-text">
                     <i className="fas fa-users"></i> Currently Active: {details?.activeClient || 0}    
                     </p>
