@@ -8,6 +8,10 @@ export const saveUniversity = (data) => {
 export const getallUniversity = () => {
     return API.get(`${University}`)
 }
+
+export const getAllUniversit = () => {
+  return API.get(`${University}/getAllUniversit`)
+}
 export const getUniversitiesByClients = () => {
   return API.get(`${University}/universities/:clientName`)
 }

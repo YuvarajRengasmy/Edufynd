@@ -5,6 +5,7 @@ import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
+  getAllUniversit,
   getFilterUniversity,
   updateUniversity,
   
@@ -105,7 +106,7 @@ export default function Masterproductlist() {
 
 
   const getallUniversityCount = ()=>{
-    getallUniversity()
+    getAllUniversit()
     .then((res)=>{
       setDetails(res?.data.result)
   })
