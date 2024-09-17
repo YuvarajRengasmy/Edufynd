@@ -612,36 +612,41 @@ const UserProfile = () => {
                                               </div>
                                             
                                             </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Eligibility For Commission - <b>   {commission.eligibility}%</b>
                                               </div>
                                               
                                             </div>
+                                          </div>
+                                          <div className="row gy-3 py-2">
+                                          
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Payment TAT -<b> {commission.paymentType}</b>
                                               </div>
                                               
                                             </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Tax - <b> {commission.tax}</b>
                                               </div>
                                               
                                             </div>
+                                          </div>
+                                          <div className="row gy-3 py-2">
+                                            
+                                            {commission?.commissionPaidOn ? (
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Commission Paid On - <b>{commission.commissionPaidOn
                                                   ? commission.commissionPaidOn
                                                   : "null"}</b>
                                               </div>
+                                              
                                              
                                             </div>
+                                            ):null}
                                           </div>
                                         </div>
                                       </div>
@@ -882,16 +887,16 @@ const UserProfile = () => {
 
                                 <div className="col-md-3">
                                   <Link
-                                    to="/AddProgram"
+                                    to="/add_program"
                                     type="button"
                                     class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
                                     style={{
                                       backgroundColor: "#231f20",
-                                      color: "#fff",
+                                     
                                     }}
                                   >
-                                    <i class="fa fa-plus-circle nav-icon text-white"></i>
-                                    &nbsp;&nbsp;Add Program
+                                    <i class="fa fa-plus-circle nav-icon text-white">   &nbsp;&nbsp;Add Program</i>
+                                 
                                   </Link>
                                 </div>
                               </div>
