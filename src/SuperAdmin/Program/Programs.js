@@ -643,7 +643,6 @@ const getallProgramCount = ()=>{
           </div>
           </Link>
         </div>
-
         {/* Number of Applications Card */}
         <div className="col-md-3">
         <Link to='#' className="text-decoration-none">    <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
