@@ -247,7 +247,7 @@ export default function Masterproductlist() {
               margin: [5, 3],
             },
             {
-              text: element?.status ?? "-",
+              text: element?.clientStatus ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -274,7 +274,7 @@ export default function Masterproductlist() {
             businessName: res?.businessName ?? "-",
             businessMailID: res?.businessMailID ?? "-",
             businessContactNo: res?.businessContactNo ?? "-",
-            status: res?.status ?? "-",
+            status: res?.clientStatus ?? "-",
           });
         });
         let header1 = [
@@ -282,7 +282,7 @@ export default function Masterproductlist() {
           "businessName",
           "businessMailID",
           "businessContactNo",
-          "status",
+          "clientStatus",
         ];
         let header2 = [
           "Client Id",
@@ -676,7 +676,22 @@ export default function Masterproductlist() {
               </Link>
             </div>
 
-            
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#C62828" }} // Crimson Red
+                >
+                  <div className="card-body">
+                    <h6 className=""><i className="fas fa-user-times"></i> Inactive Clients</h6>
+                    <p className="card-text">Total: 45</p>
+                    <p className="card-text">
+                      <i className="fas fa-user-slash"></i> Currently Inactive
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
 
             <div className="col-md-3 col-sm-6 mb-3">
               <Link to="#" className="text-decoration-none">
@@ -1083,7 +1098,7 @@ export default function Masterproductlist() {
                             <td className="text-start">
                               {data?.businessMailID || "Not Available"}
                             </td>
-                            {/* <td className="text-capitalize text-start ">
+                            <td className="text-capitalize text-start ">
     
             <span className="form-check form-switch d-inline ms-2" >
               {data?.clientStatus === "Active" ? (
@@ -1112,8 +1127,8 @@ export default function Masterproductlist() {
               </label>
 
             </span>
-                            </td> */}
-                             <td className="text-capitalize text-start">
+                            </td>
+                             {/* <td className="text-capitalize text-start">
     <span className="form-check form-switch d-inline ms-2">
       <input
         className="form-check-input"
@@ -1127,7 +1142,7 @@ export default function Masterproductlist() {
         {statuses[data._id] ? "Active" : "Inactive"}
       </label>
     </span>
-  </td>
+  </td> */}
                             <td className="text-capitalize text-start">
                               <div className="d-flex justify-content-evenly align-items-center">
                                 <Link
