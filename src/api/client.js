@@ -9,6 +9,10 @@ export const getallClient = () => {
     return API.get(`${Client}/`)
 }
 
+export const getAllClientCard = () => {
+  return API.get(`${Client}/card`)
+}
+
 export const getSingleClient = (data) => {
     return API.get(`${Client}/getSingleClient`, { params: { _id: data } });
   };

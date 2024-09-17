@@ -256,9 +256,10 @@ function Profile() {
   };
 
   const handleInputs = (event) => {
+    console.log("balan", event)
     const { name, value } = event.target;
     setInputs((prevInputs) => ({ ...prevInputs, [name]: value }));
-
+    console.log("balangfd", setInputs)
     if (submitted) {
       const newError = handleValidation({ ...inputs, [name]: value });
       setErrors(newError);
@@ -771,7 +772,7 @@ function Profile() {
                                   <span className="text-danger">*</span>
                                 </label>
                                 <input
-                                  type="text"
+                                  // type="text"
                                   value={student?._id}
                                   className="form-control rounded-1 p-2"
                                   placeholder="Enter Student Id"

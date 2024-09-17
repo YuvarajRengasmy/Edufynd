@@ -5,10 +5,13 @@ import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
+  getAllUniversit,
   getFilterUniversity,
   updateUniversity,
   
 } from "../../api/university";
+import { getAllApplicantCard } from "../../api/applicatin";
+
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -55,6 +58,9 @@ export default function Masterproductlist() {
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
   const search = useRef(null);
+  const [details, setDetails] = useState();
+  const [detail, setDetail] = useState();
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -65,6 +71,8 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getAllUniversityDetails();
+    getallUniversityCount();
+    getallApplicantCount();
   }, [pagination.from, pagination.to]);
 
   useEffect(() => {
@@ -99,7 +107,22 @@ export default function Masterproductlist() {
         console.log(err);
       });
   };
+ 
 
+
+  const getallUniversityCount = ()=>{
+    getAllUniversit()
+    .then((res)=>{
+      setDetails(res?.data.result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  });
+}
+
+const getallApplicantCount = ()=>{
+  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+}
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
       search.current.blur();
@@ -179,6 +202,7 @@ export default function Masterproductlist() {
       });
   };
 
+  
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
@@ -452,60 +476,60 @@ const chartRef = useRef(null);
 
 
 
-const [statuses, setStatuses] = useState({});  // Store toggle status
+// const [statuses, setStatuses] = useState({});  // Store toggle status
 
-useEffect(() => {
-  // Fetch all clients on component mount
-  const fetchUniverity = async () => {
-    try {
-      const response = await getallUniversity();
-      const universityData = Array.isArray(response.data) ? response.data : [];
+// useEffect(() => {
+//   // Fetch all clients on component mount
+//   const fetchUniverity = async () => {
+//     try {
+//       const response = await getallUniversity();
+//       const universityData = Array.isArray(response.data) ? response.data : [];
 
-      // Initialize statuses based on the fetched client data
-      const initialStatuses = universityData.reduce((acc, universityData) => {
-        return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
-      }, {});
+//       // Initialize statuses based on the fetched client data
+//       const initialStatuses = universityData.reduce((acc, universityData) => {
+//         return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
+//       }, {});
 
-      setUniversity(universityData);  // Set clients data
-      setStatuses(initialStatuses);  // Set initial statuses
-    } catch (error) {
-      console.error('Error fetching clients:', error);
-    }
-  };
+//       setUniversity(universityData);  // Set clients data
+//       setStatuses(initialStatuses);  // Set initial statuses
+//     } catch (error) {
+//       console.error('Error fetching clients:', error);
+//     }
+//   };
 
-  fetchUniverity();
-}, []);  // Empty dependency array to run once on mount
+//   fetchUniverity();
+// }, []);  // Empty dependency array to run once on mount
 
-// Toggle client status
-const handleCheckboxChange = async (universityId) => {
-  const currentStatus = statuses[universityId];
-  const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+// // Toggle client status
+// const handleCheckboxChange = async (universityId) => {
+//   const currentStatus = statuses[universityId];
+//   const updatedStatus = currentStatus ? 'Inactive' : 'Active';
 
-  // Update the local state immediately for a quick UI response
-  setStatuses((prevStatuses) => ({
-    ...prevStatuses,
-    [universityId]: !prevStatuses[universityId],
-  }));
+//   // Update the local state immediately for a quick UI response
+//   setStatuses((prevStatuses) => ({
+//     ...prevStatuses,
+//     [universityId]: !prevStatuses[universityId],
+//   }));
 
-  // Prepare the client data to send to the backend
-  const updatedUniversity = {
-    _id: universityId,
-    universityStatus: updatedStatus,  // Update the status based on toggle
-  };
+//   // Prepare the client data to send to the backend
+//   const updatedUniversit = {
+//     _id: universityId,
+//     universityStatus: updatedStatus,  // Update the status based on toggle
+//   };
 
-  try {
-    await updateUniversity(updatedUniversity);  // Send update to the backend
-    console.log(`University ${universityId} status updated to ${updatedStatus}`);
-  } catch (error) {
-    console.error('Error updating University status:', error);
+//   try {
+//     await updateUniversity(updatedUniversit);  // Send update to the backend
+//     console.log(`University ${universityId} status updated to ${updatedStatus}`);
+//   } catch (error) {
+//     console.error('Error updating University status:', error);
 
-    // Revert the status if there's an error during the update
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [universityId]: !prevStatuses[universityId],  // Revert the change
-    }));
-  }
-};
+//     // Revert the status if there's an error during the update
+//     setStatuses((prevStatuses) => ({
+//       ...prevStatuses,
+//       [universityId]: !prevStatuses[universityId],  // Revert the change
+//     }));
+//   }
+// };
 
 
 //table filter
@@ -553,6 +577,7 @@ const handleCheckboxChange = async (universityId) => {
               </div>
             </form>
           </li>
+          
           <li className="m-1">
             <button
               className="btn btn-primary text-white border-0 rounded-1"
@@ -708,7 +733,7 @@ const handleCheckboxChange = async (universityId) => {
               <div className="row g-0">
                 <div className="col-7">
                 <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
-                <p className="card-text">Total:{pagination?.count || 0}</p>
+                <p className="card-text">Total:{details?.totalUniversities || 0}</p>
                 </div>
                 <div className="col-auto ">
                 <div className="chart-container " style={{ position: 'relative', width: '4rem', height: '4rem' }}>
@@ -727,8 +752,7 @@ const handleCheckboxChange = async (universityId) => {
               <div className="card-body">
                 <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Total: 20</p>
-                <p className="card-text mb-1">Country List</p>
+                <p className="card-text mb-1">Total:{details?.totalUniqueCountries|| 0}</p>
                 </div>
               </div>
             </div>
@@ -741,8 +765,8 @@ const handleCheckboxChange = async (universityId) => {
               <div className="card-body">
                 <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Status</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Active: 30</p>
-                <p className="card-text mb-1">Inactive: 10</p>
+                <p className="card-text mb-1">Active: {details?.activeUniversities|| 0}</p>
+                <p className="card-text mb-1">Inactive:  {details?.inactiveUniversities|| 0}</p>
                 </div>
                
               </div>
@@ -755,7 +779,7 @@ const handleCheckboxChange = async (universityId) => {
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
               <div className="card-body">
                 <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;No Of Applications</h6>
-                <p className="card-text">Total: 500</p>
+                <p className="card-text">Total: {detail?.totalApplication}</p>
               </div>
             </div>
           </Link>
@@ -946,7 +970,9 @@ const handleCheckboxChange = async (universityId) => {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.noofApplications||"Not Available"}
                       </td>
-                      <td className="text-capitalize text-start ">
+                      <td className="text-capitalize text-start text-truncate">
+                        </td>
+                      {/* <td className="text-capitalize text-start ">
     
     <span className="form-check form-switch d-inline ms-2" >
       {data?.universityStatus === "Active" ? (
@@ -975,7 +1001,7 @@ const handleCheckboxChange = async (universityId) => {
       </label>
 
     </span>
-                    </td>
+                      </td> */}
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
                          
@@ -1102,7 +1128,7 @@ const handleCheckboxChange = async (universityId) => {
                   <div className="col-md-5">
                     <strong>Status</strong>
                   </div>
-                  <div className="col-md-7 d-flex align-items-center">
+                  {/* <div className="col-md-7 d-flex align-items-center">
                   <span className="form-check form-switch d-inline ms-2" >
       {data?.universityStatus === "Active" ? (
         <input
@@ -1130,7 +1156,7 @@ const handleCheckboxChange = async (universityId) => {
       </label>
 
     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

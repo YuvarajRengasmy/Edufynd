@@ -1,24 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent } from "../../api/student";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
-
+import { getSuperAdminForSearch } from "../../api/superAdmin";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { formatDate } from "../../Utils/DateFormat";
-
 import { toast } from "react-toastify";
 import { getStudentId, } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
 
 
-
-
 export default function Masterproductlist() {
-
 
   const initialStateInputs = {
     name: "",
@@ -27,7 +23,12 @@ export default function Masterproductlist() {
     courseFee: "",
   
   };
+
   const [file, setFile] = useState(null);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
@@ -35,18 +36,31 @@ export default function Masterproductlist() {
   // const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
-
   const [student, setStudent] = useState();
 
   useEffect(() => {
     getAllStudentDetails();
   }, [pagination.from, pagination.to]);
 
+  
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,
@@ -147,6 +161,26 @@ export default function Masterproductlist() {
     setOpenImport(false);
   };
 
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.studentList;
+        setStudent(universityList);
+        const result = universityList.length ? "Student" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -375,29 +409,34 @@ export default function Masterproductlist() {
     <div className="row">
       <div className="col-xl-12">
         <ol className="d-flex justify-content-end align-items-center mb-0 list-unstyled">
-          <li className="flex-grow-1">
-            <div className="input-group" style={{ maxWidth: "600px" }}>
-              <input
-                type="search"
-                placeholder="Search"
-                aria-describedby="button-addon3"
-                className="form-control border-1 border-dark rounded-4"
-                style={{ fontSize: "12px" }} // Keep the font size if it's correct
-              />
-              <span
-                className="input-group-text bg-transparent border-0"
-                id="button-addon3"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer"
-                }}
-              >
-                <i className="fas fa-search" style={{ color: "black" }}></i>
-              </span>
-            </div>
+        <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
           </li>
           <li className="m-1">
             <button

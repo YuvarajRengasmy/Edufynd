@@ -8,6 +8,10 @@ export const saveProgram = (data) => {
 export const getallProgram = () => {
     return API.get(`${Program}`)
 }
+
+export const getAllProgramCard = () => {
+  return API.get(`${Program}/card`)
+}
 export const getFilterProgram = (data) => {
   return API.put(`${Program}/getUniversityFilterProgram`, data);
 };

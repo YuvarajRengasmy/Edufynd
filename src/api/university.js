@@ -8,11 +8,15 @@ export const saveUniversity = (data) => {
 export const getallUniversity = () => {
     return API.get(`${University}`)
 }
+
+export const getAllUniversit = () => {
+  return API.get(`${University}/getAllUniversit`)
+}
 export const getUniversitiesByClients = () => {
   return API.get(`${University}/universities/:clientName`)
 }
 export const getFilterUniversity = (data) => {
-  return API.put(`${University}/getFilterUniversity`, data);
+  return API.put(`${University}/getFilterUniversity`,{ params: { _id: data } });
 };
 export const getSingleUniversity = (data) => {
     return API.get(`${University}/getSingleUniversity`, { params: { _id: data } });
