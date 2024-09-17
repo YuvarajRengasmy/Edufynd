@@ -67,7 +67,7 @@ export default function Masterproductlist() {
     if (search.current) {
       search.current.focus();
     }
-  }, []);
+  }, [pagination.from, pagination.to]);
 
   useEffect(() => {
     if (searchValue) {
@@ -104,10 +104,14 @@ export default function Masterproductlist() {
   };
 
   const getClientList = () => {
-    getallClient()
+    getFilterClient()
       .then((res) => {
-        const value = res?.data?.result;
+        const value = res?.data?.result?.clientList;
         setClient(value);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.clientCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -136,10 +140,6 @@ export default function Masterproductlist() {
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  const openFilterPopup = () => {
-    setOpenFilter(true);
   };
 
   const closeFilterPopup = () => {
@@ -332,19 +332,6 @@ export default function Masterproductlist() {
     };
   }, []);
 
-
-
-  // const [showFilter, setShowFilter] = useState({});
-
-  // // Function to handle filter modal display
-  // const handleFilterClick = (column) => {
-  //   setShowFilter({ ...showFilter, [column]: true });
-  // };
-
-  // // Function to handle modal close
-  // const handleClose = (column) => {
-  //   setShowFilter({ ...showFilters, [column]: false });
-  // };
 
 
   // filter
@@ -667,7 +654,7 @@ export default function Masterproductlist() {
                 >
                   <div className="card-body">
                     <h6 className=""><i className="fas fa-user-check"></i> Active Clients</h6>
-                    <p className="card-text">Total: 120</p>
+                    <p className="card-text">Total Client: {pagination?.count}</p>
                     <p className="card-text">
                       <i className="fas fa-users"></i> Actively Engaged
                     </p>
