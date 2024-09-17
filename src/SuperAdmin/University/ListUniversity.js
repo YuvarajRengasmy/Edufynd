@@ -769,26 +769,80 @@ const handleCheckboxChange = async (universityId) => {
     <div className="col-xl-12">
       <div className="card rounded-1 shadow-sm border-0">
       <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                         Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                         
-                        </p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
+
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
+
+
+
         <div className="card-body">
-          <div className="table-responsive">
+
+        <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="table-responsive">
             <table
               className="table table-hover card-table dataTable text-center "
               style={{ color: "#9265cc" }}
@@ -963,6 +1017,104 @@ const handleCheckboxChange = async (universityId) => {
               </tbody>
             </table>
           </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {university?.map((data, index) => {
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"></h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Client ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Type of Client</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Primary No</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Email ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                    
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 d-flex align-items-center">
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+            
+          </div>
+        </div>
+      </div>
+  })}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+       
           <div className="d-flex justify-content-between align-items-center p-3">
         <p className="me-auto ">
                           Show
