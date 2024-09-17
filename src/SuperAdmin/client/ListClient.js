@@ -773,7 +773,7 @@ export default function Masterproductlist() {
 </div>
                 </div>
                 <div className="card-body">
-  <div className="tab-content mt-3">
+  <div className="tab-content m">
     {/* List View */}
     <div className="tab-pane fade show active" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
     
@@ -1167,9 +1167,9 @@ export default function Masterproductlist() {
     </span>
   </td> */}
                             <td className="text-capitalize text-start">
-                              <div className="d-flex justify-content-evenly align-items-center">
+                              <div className="d-flex justify-content-between align-items-start">
                                 <Link
-                                  className="text-decoration-none me-2"
+                                  className="text-decoration-none "
                                   to={{
                                     pathname: "/view_client",
                                     search: `?id=${data?._id}`,
@@ -1180,7 +1180,7 @@ export default function Masterproductlist() {
                                   <i className="far fa-eye text-primary "></i>
                                 </Link>
                                 <Link
-                                  className="text-decoration-none me-2"
+                                  className="text-decoration-none "
                                   to={{
                                     pathname: "/edit_client",
                                     search: `?id=${data?._id}`,
@@ -1191,7 +1191,7 @@ export default function Masterproductlist() {
                                   <i className="far fa-edit text-warning "></i>
                                 </Link>
                                 <button
-                                  className="text-decoration-none border-0 btn btn-link"
+                                  className="text-decoration-none border-0 btn p-0 m-0 bg-white "
                                   onClick={() => {
                                     openPopup(data?._id);
                                   }}
@@ -1312,8 +1312,8 @@ export default function Masterproductlist() {
     </div>
   </div>
   </div>
-               
-                <div className="d-flex justify-content-between align-items-center p-3">
+  <div className='card-footer bg-white'>
+  <div className="d-flex justify-content-between align-items-center p-3">
                   <p className="me-auto ">
                     Show
                     <select
@@ -1335,6 +1335,9 @@ export default function Masterproductlist() {
                     color="primary"
                   />
                 </div>
+  </div>
+               
+              
               </div>
             </div>
           </div>
