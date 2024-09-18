@@ -405,7 +405,15 @@ function ListStaff() {
                   </div>
                 </div>
               <div className="card-body">
-                <div className="card-table">
+              <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+                       <div className="card-table">
                   <div className="table-responsive">
                     <table className=" table table-hover card-table dataTable table-responsive-sm text-center"   style={{ color: '#9265cc', fontSize: '13px' }}
               ref={tableRef}>
@@ -415,7 +423,7 @@ function ListStaff() {
                             <input type="checkbox" />
                             </th>
                           <th className="text-capitalize text-start sortable-handle"> S.No.</th>
-                          <th className="text-capitalize text-start sortable-handle">Emp_ID </th>
+                          <th className="text-capitalize text-start sortable-handle">Staff ID </th>
                           <th className="text-capitalize text-start sortable-handle"> DOJ </th>
                           <th className="text-capitalize text-start sortable-handle"> Name </th>
                           <th className="text-capitalize text-start sortable-handle"> Designation</th>
@@ -451,7 +459,7 @@ function ListStaff() {
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
-                                  <i className="far fa-eye text-primary me-1"></i>
+                                  <i className="far fa-eye text-primary "></i>
 
                                 </Link>
                                 <Link
@@ -461,7 +469,7 @@ function ListStaff() {
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
-                                  <i className="far fa-edit text-warning me-1"></i>
+                                  <i className="far fa-edit text-warning "></i>
 
                                 </Link>
                                 <Link
@@ -470,7 +478,7 @@ function ListStaff() {
                                     openPopup(data?._id);
                                   }}
                                 >
-                                  <i className="far fa-trash-alt text-danger me-1"></i>
+                                  <i className="far fa-trash-alt text-danger "></i>
 
                                 </Link>
                               </div>
@@ -492,6 +500,142 @@ function ListStaff() {
                     </table>
                   </div>
                 </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {staff?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}> 
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0">{data?.empName  || "Not Available"}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Staff ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.employeeID  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>DOJ</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data?.doj)  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Primary No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.mobileNumber  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Designation</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.designation  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Reporting Manager</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.reportingManager  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                  {data?.active  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                  className="btn btn-sm btn-outline-primary"
+                                  to={{
+                                    pathname: "/view_staff",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-eye text-primary "></i> View
+
+                                </Link>
+                                <Link
+                                  className="btn btn-sm btn-outline-warning"
+                                  to={{
+                                    pathname: "/edit_staff",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                >
+                                  <i className="far fa-edit text-warning "></i> Edit
+
+                                </Link>
+                                <button
+                                  className="btn btn-sm btn-outline-danger"
+                                  onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                >
+                                  <i className="far fa-trash-alt text-danger "></i>Delete
+
+                                </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+               
                 <div className="d-flex justify-content-between align-items-center p-3">
         <p className="me-auto ">
                           Show

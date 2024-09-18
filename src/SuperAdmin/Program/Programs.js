@@ -723,6 +723,17 @@ const getallProgramCount = ()=>{
                   </div>
                 </div>
         <div className="card-body">
+
+        <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="table-responsive">
           <table
             className="table table-hover card-table dataTable text-center"
             style={{ color: "#9265cc", fontSize: "13px" }}
@@ -740,11 +751,12 @@ const getallProgramCount = ()=>{
                 <th className="text-capitalize text-start sortable-handle">
                   S No
                 </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  Title   <i className="fa fa-filter" aria-hidden="true"></i>
-                </th>
+                
                 <th className="text-capitalize text-start sortable-handle">
                   Code  <i className="fa fa-filter" aria-hidden="true"></i>
+                </th>
+                <th className="text-capitalize text-start sortable-handle">
+                  Title   <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
                   University Name   <i className="fa fa-filter" aria-hidden="true"></i>
@@ -790,6 +802,10 @@ const getallProgramCount = ()=>{
                     <td className="text-capitalize text-start text-truncate" >
                       {pagination.from + index + 1}
                     </td>
+                   
+                    <td className="text-capitalize text-start text-truncate">
+                      {data?.programCode  || "Not Available"}
+                    </td>
                     <td className="text-capitalize text-start text-truncate">
                       <Link
                         className="dropdown-item"
@@ -800,9 +816,6 @@ const getallProgramCount = ()=>{
                       >
                         {getDisplayText(data?.programTitle, isExpanded)  || "Not Available"}
                       </Link>
-                    </td>
-                    <td className="text-capitalize text-start text-truncate">
-                      {data?.programCode  || "Not Available"}
                     </td>
                     <td
                       className="text-capitalize text-start text-truncate"
@@ -866,6 +879,147 @@ const getallProgramCount = ()=>{
               })}
             </tbody>
           </table>
+          </div>
+        
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {program?.map((data, index) => {
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0">{data?.programTitle}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Program ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.programCode  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>University Name</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.universityName  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Application Fee</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.applicationFee  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Course Fee</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.campuses?.length > 0
+                        ? data?.campuses[0]?.courseFees
+                        : "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                  {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                          className="btn btn-sm btn-outline-primary"
+                          to={{
+                            pathname: "/view_program",
+                            search: `?id=${data?._id}`,
+                          }}
+                        >
+                          <i className="far fa-eye text-primary me-1"></i>
+                        </Link>
+                        <Link
+                          className="dropdown-item"
+                          to={{
+                            pathname: "/edit_program",
+                            search: `?id=${data?._id}`,
+                          }}
+                        >
+                          <i className="btn btn-sm btn-outline-warning"></i>
+                        </Link>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => {
+                            openPopup(data?._id);
+                          }}
+                        >
+                          <i className="btn btn-sm btn-outline-danger"></i>
+                        </button>
+          </div>
+        </div>
+      </div>
+})}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+         
         
         </div>
         <div className="d-flex justify-content-between align-items-center p-3">
