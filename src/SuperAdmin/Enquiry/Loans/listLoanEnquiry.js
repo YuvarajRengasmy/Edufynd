@@ -608,9 +608,9 @@ export const ListLoanEnquiry = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.platform}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
+                                  {/* <td className="text-capitalize text-start text-truncate">
                                     {data?.source}
-                                  </td>
+                                  </td> */}
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.assignedTo}
                                   </td>

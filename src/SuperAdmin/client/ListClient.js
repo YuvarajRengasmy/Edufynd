@@ -735,43 +735,65 @@ const getallClientCount = ()=>{
           <div className="row">
             <div className="col-xl-12">
               <div className="card border-0 rounded-1 shadow-sm">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
+              <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
-                  <div className="d-flex  mb-0">
-                    <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
 
-                    </p>
-
-
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
+                      
+                     
+                    </div>
                   </div>
-                 
-                 
-           <div>
-  <div className="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sort By
-    </button>
-    <ul class="dropdown-menu">
-  <li> <a className="nav-link active" id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">List View</a></li> 
-  <li><a className="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false">Grid View</a></li>   
-    </ul>
-  </div>
-  {/* Tab Content */}
-
-  
- 
-</div>
-</div>
                 </div>
                 <div className="card-body">
   <div className="tab-content m">
@@ -1215,21 +1237,21 @@ const getallClientCount = ()=>{
     {client?.map((data, index) => (
       <div className="row" key={index}>
         <div className="col-4">
-        <div className="card border-primary rounded-3 shadow-lg">
+        <div className="card shadow-sm" style={{fontSize:'10px'}}>
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <h5 className="card-title mb-0">{data?.businessName || "Not Available"}</h5>
-        <small className="text-light">User Information</small>
+       
       </div>
       <div className="card-body">
         <div className="row">
           <div className="col-md-6">
-            <h6 className="text-muted">S.No:</h6>
+            <p className="text-muted">S.No:</p>
             <p className="card-text"> {pagination.from + index + 1}</p>
-            <h6 className="text-muted">Client ID:</h6>
+            <p className="text-muted">Client ID:</p>
             <p className="card-text">{data?.clientID || "Not Available"}</p>
-            <h6 className="text-muted">Type of Client:</h6>
+            <p className="text-muted">Type of Client:</p>
             <p className="card-text">{data?.typeOfClient || "Not Available"}</p>
-            <h6 className="text-muted">Status:</h6>
+            <p className="text-muted">Status:</p>
             <p className="card-text">
               <span className="badge bg-success"> <span className="form-check form-switch d-inline ms-2" >
               {data?.clientStatus === "Active" ? (
@@ -1261,18 +1283,18 @@ const getallClientCount = ()=>{
             </p>
           </div>
           <div className="col-md-6">
-            <h6 className="text-muted">Name:</h6>
+            <p className="text-muted">Name:</p>
             <p className="card-text">{data?.businessName || "Not Available"}</p>
-            <h6 className="text-muted">Primary Number:</h6>
+            <p className="text-muted">Primary Number:</p>
             <p className="card-text"> {data?.businessContactNo || "Not Available"}</p>
-            <h6 className="text-muted">Email ID:</h6>
+            <p className="text-muted">Email ID:</p>
             <p className="card-text"> {data?.businessMailID || "Not Available"}</p>
           </div>
         </div>
       </div>
       <div className="card-footer bg-light d-flex justify-content-between">
       <Link
-                                  className="btn btn-primary btn-sm"
+                                  className="btn btn-outline-primary btn-sm"
                                   to={{
                                     pathname: "/view_client",
                                     search: `?id=${data?._id}`,
@@ -1285,7 +1307,7 @@ const getallClientCount = ()=>{
         
        
         <Link
-                                  className="btn btn-warning btn-sm"
+                                  className="btn btn-outline-warning btn-sm"
                                   to={{
                                     pathname: "/edit_client",
                                     search: `?id=${data?._id}`,
@@ -1295,7 +1317,7 @@ const getallClientCount = ()=>{
                                 >
                                   <i className="far fa-edit text-warning "></i>Edit
                                 </Link>
-        <button className="btn btn-danger btn-sm" onClick={() => {
+        <button className="btn btn-outline-danger btn-sm" onClick={() => {
                                     openPopup(data?._id);
                                   }}
                                   data-bs-toggle="tooltip"

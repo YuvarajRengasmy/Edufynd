@@ -412,7 +412,16 @@ export const ListMeetings = () => {
                   </div>
                 </div>
               <div className="card-body">
-                <div className="card-table">
+              <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="card-table">
                   <div className="table-responsive">
 
                     <table className=" table  table-hover card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
@@ -469,14 +478,14 @@ export const ListMeetings = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                      <Link
+                                      <button
                                         className="dropdown-item"
                                         onClick={() => {
                                           openPopup(data?._id);
                                         }}
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </Link>
+                                      </button>
                                     </div>
 
                             </td>
@@ -487,6 +496,132 @@ export const ListMeetings = () => {
                     </table>
                   </div>
                 </div>
+
+
+        
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {notification?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"></h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Created At</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")  || "Not Available"} <small className="text-danger fw-bold">Timer</small>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data?.date ? data?.date: "-")  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Time</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.time  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>HostName</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.hostName  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Subject</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                  {data?.subject  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                        className="btn btn-sm btn-outline-primary"
+                                        to={{
+                                          pathname: "/view_meetings",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>View
+                                      </Link>
+                                      <Link
+                                        className="btn btn-sm btn-outline-warning"
+                                        to={{
+                                          pathname: "/edit_meetings",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>Edit
+                                      </Link>
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                      </button>
+          </div>
+        </div>
+      </div>
+))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+               
                 <div className="d-flex justify-content-between align-items-center p-3">
                   <p className="me-auto ">
                     Show
@@ -522,7 +657,7 @@ export const ListMeetings = () => {
       <DialogContent>
         <div className="text-center p-4">
           <h5 className="mb-4" style={{fontSize:'14px'}}>
-            Are you sure you want to Delete <br /> the selected Meeting ?
+            Are you sure you want to Delete <br /> the Selected Meeting ?
           </h5>
           <button
             type="button"
