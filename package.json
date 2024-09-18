@@ -25,6 +25,7 @@
     "@tinymce/tinymce-react": "^5.1.1",
     "antd": "^5.20.5",
     "aos": "^2.3.4",
+    "axios": "^1.7.6",
     "bootstrap": "^5.3.3",
     "bootstrap-switch-button": "^1.1.0",
     "chart.js": "^4.4.3",

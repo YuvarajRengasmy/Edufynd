@@ -2,6 +2,7 @@ import API from "../api"
 import {Source} from "../endpoints"
 
 export const saveSource = (data) => {
+    console.log("ggg", data)
     return API.post(`${Source}`, data)
 }
 export const updateSource = (data) => {

@@ -195,7 +195,7 @@ import Select from 'react-select';
             navigate("/GlobalSettings");
             closeFilterPopup();
           } else {
-            toast.error("Failed to save data.");
+            toast.error();
           }
         })
         .catch((err) => {

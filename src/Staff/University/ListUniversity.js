@@ -27,6 +27,7 @@ import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 import { Chart, registerables } from 'chart.js';
 
+
 Chart.register(...registerables);
 
 export default function Masterproductlist() {
@@ -108,6 +109,7 @@ export default function Masterproductlist() {
     const data = {
       limit: 10,
       page: pagination.from,
+      id:getStaffId()
     };
 
     getFilterUniversity(data)

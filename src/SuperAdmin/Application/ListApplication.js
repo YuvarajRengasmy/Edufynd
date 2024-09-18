@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallApplication, deleteApplication } from "../../api/applicatin";
+import { getallApplication, deleteApplication, getAllApplicantCard } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -37,7 +37,7 @@ export default function Masterproductlist() {
   };
 
   const [application, setApplication] = useState([]);
-
+const [details, setDetails] = useState()
   const [submitted, setSubmitted] = useState(false);
 
   const [file, setFile] = useState(null);
@@ -56,7 +56,14 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getApplicationList();
+       getallApplicantCount()
+ 
   }, []);
+
+
+  const getallApplicantCount = ()=>{
+    getAllApplicantCard().then((res)=>setDetails(res?.data.result))
+  }
 
   const getApplicationList = () => {
     getallApplication()
@@ -490,8 +497,8 @@ export default function Masterproductlist() {
           <Link to="#" className="text-decoration-none">
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
               <div className="card-body text-center">
-                <h6><i className="fas fa-paper-plane"></i>&nbsp;&nbsp;Application Submitted</h6>
-                <p className="card-text">45</p>
+                <h6><i className="fas fa-paper-plane"></i>&nbsp;&nbsp;No of Application</h6>
+                <p className="card-text">{details?.totalApplication}</p>
               </div>
             </div>
           </Link>

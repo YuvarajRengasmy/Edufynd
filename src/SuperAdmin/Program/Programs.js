@@ -4,6 +4,7 @@ import {getSuperAdminForSearch} from '../../api/superAdmin';
 
 import {
   getallProgram,
+  getAllProgramCard,
   deleteProgram,
   getFilterProgram,
 } from "../../api/Program";
@@ -53,6 +54,7 @@ export default function Masterproductlist() {
   });
 
   const [program, setProgaram] = useState();
+  const [details, setDetails] = useState();
 
   useEffect(() => {
     getAllProgaramDetails();
@@ -70,6 +72,16 @@ useEffect(() => {
         handleSearch()
     }
 }, [searchValue])
+
+
+useEffect(() => {
+  getallProgramCount()
+ 
+}, []);
+
+const getallProgramCount = ()=>{
+  getAllProgramCard().then((res)=>setDetails(res?.data.result))
+}
 
   const getAllProgaramDetails = () => {
     const data = {
@@ -213,7 +225,8 @@ useEffect(() => {
 
     try {
       const response = await axios.post(
-        "https://api.edufynd.in/api/program/import",
+        // "https://api.edufynd.in/api/program/import",
+        "http://localhost:4409/api/program/import",
         formData,
         {
           headers: {
@@ -224,6 +237,7 @@ useEffect(() => {
       console.log("File uploaded successfully:", response.data);
     } catch (error) {
       console.error("Error uploading file:", error);
+       toast.error('Unsupported file format. Please upload CSV or XLSX.');
     }
   };
 
@@ -595,8 +609,8 @@ useEffect(() => {
         <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
             <div className="card-body text-center">
              
-              <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Total No Of Programs</h6>
-              <p className="card-text">250</p>
+              <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Total No of Programs</h6>
+              <p className="card-text">Count:{details?.totalProgram|| 0}</p>
             </div>
           </div>
           </Link>
@@ -607,8 +621,8 @@ useEffect(() => {
         <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
             <div className="card-body text-center">
              
-              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;Popular Categories</h6>
-              <p className="card-text">Data Science, AI, Business</p>
+              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;No of Country</h6>
+              <p className="card-text">Count:{details?.totalUniqueCountries|| 0}</p>
             </div>
           </div>
           </Link>
@@ -616,11 +630,11 @@ useEffect(() => {
 
  {/* Popular Categories Card2 */}
         <div className="col-md-3">
-        <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+        <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: "#0288D1" }}>
             <div className="card-body text-center">
              
-              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;Popular Categories</h6>
-              <p className="card-text">Data Science, AI, Business</p>
+              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;No of University</h6>
+              <p className="card-text">Count:{details?.universityName|| 0}</p>
             </div>
           </div>
           </Link>
