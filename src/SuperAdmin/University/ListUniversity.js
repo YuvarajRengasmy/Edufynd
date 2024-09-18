@@ -1053,11 +1053,11 @@ const chartRef = useRef(null);
           
           <div className="container">
   <div className="row">
-  {university?.map((data, index) => {
+  {university?.map((item, index) => {
       <div className="col-md-4 mb-4" key={index}>
         <div className="card shadow-sm  rounded-1 text-bg-light h-100">
           <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0">{data?.universityName}</h6>
+            <h6 className="mb-0">{item?.universityName}</h6>
           </div>
           <div className="card-body">
             <div className="row">
@@ -1077,7 +1077,7 @@ const chartRef = useRef(null);
                     <strong>University ID</strong>
                   </div>
                   <div className="col-md-7">
-                  {data?.universityCode}
+                  {item?.universityCode}
                   </div>
                 </div>
               </div>
@@ -1087,7 +1087,7 @@ const chartRef = useRef(null);
                     <strong>Country</strong>
                   </div>
                   <div className="col-md-7">
-                  {data?.country}
+                  {item?.country}
                   </div>
                 </div>
               </div>
@@ -1097,7 +1097,7 @@ const chartRef = useRef(null);
                     <strong>Campus</strong>
                   </div>
                   <div className="col-md-7">
-                  {data.campuses?.map((campus, yearIndex) => (
+                  {item.campuses?.map((campus, yearIndex) => (
                           <div key={yearIndex}>
                             {campus?.state?.length > 0
                               ? campus.state
@@ -1119,7 +1119,7 @@ const chartRef = useRef(null);
                     <strong>Popular Categories</strong>
                   </div>
                   <div className="col-md-7">
-                  {data?.popularCategories}
+                  {item?.popularCategories}
                   </div>
                 </div>
               </div>
@@ -1166,7 +1166,7 @@ const chartRef = useRef(null);
                               className="btn btn-sm btn-outline-primary"
                               to={{
                                 pathname: "/view_university",
-                                search: `?id=${data?._id}`,
+                                search: `?id=${item?._id}`,
                               }}
                             >
                               <i className="far fa-eye text-primary me-1"></i>
@@ -1178,7 +1178,7 @@ const chartRef = useRef(null);
                               className="btn btn-sm btn-outline-warning"
                               to={{
                                 pathname: "/edit_university",
-                                search: `?id=${data?._id}`,
+                                search: `?id=${item?._id}`,
                               }}
                             >
                               <i className="far fa-edit text-warning me-1"></i>
@@ -1187,7 +1187,7 @@ const chartRef = useRef(null);
                           
                             <button
                               className="btn btn-sm btn-outline-danger"
-                              onClick={() => openPopup(data?._id)}
+                              onClick={() => openPopup(item?._id)}
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
