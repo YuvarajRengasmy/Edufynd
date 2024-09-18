@@ -34,24 +34,7 @@ export const ViewForex = () => {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       >
         <div className="content-header">
-        {/* <nav aria-label="breadcrumb">
-  <ol className="breadcrumb justify-content-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListForexForm' className="text-decoration-none">ListForexForm</Link>
-    </li>
-  
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditForexForm",
-          search: `?id=${ forex?._id}`,
-        }} className="text-decoration-none">EditForexForm</Link>
-      </li>
-  
-  </ol>
-</nav> */}
+       
          
         </div>
         <div className="container">
@@ -66,6 +49,16 @@ export const ViewForex = () => {
                     <div className="col-md-6">
                       <h5>Agent Information</h5>
                       <div className="list-group">
+
+                      <div className="list-group-item d-flex align-items-center">
+                          <i className="fas fa-user-tie me-2 text-dark "></i>
+                          <div>
+                            <strong>Client Name:</strong>
+                            <p className="mb-0">
+                              {forex.typeOfClient || "Not Available"}
+                            </p>
+                          </div>
+                        </div>
                         <div className="list-group-item d-flex align-items-center">
                           <i className="fas fa-user-tie me-2 text-dark "></i>
                           <div>
@@ -255,8 +248,65 @@ export const ViewForex = () => {
                 </div>
               )}
             </div>
+{forex?.agentName ? (
+  <>
+   <div class="card mb-3">
+                  <div class="card-header bg-primary text-white">
+                   Agent Details
+                  </div>
+                  <div class="card-body ">
+                  <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Name:
+                      </div>
+                      <div class="col-6">{forex.agentName}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Business Name:
+                      </div>
+                      <div class="col-6">{forex.businessName}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Primary Number:
+                      </div>
+                      <div class="col-6">{ forex?.dial3  +"  "+ forex?.agentPrimaryNumber|| "Not Available"}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
+                      </div>
+                      <div class="col-6">{ forex?.dial4  +"  "+ forex?.agentWhatsAppNumber|| "Not Available"}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Email:
+                      </div>
+                      <div class="col-6">{forex?.agentEmail || "Not Available"}</div>
+                    </div>
 
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Student Name:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    
+                  </div>
+                </div>
+  </>
+  ) : (
+    <>
+      <tr>
+        <td className="fw-bold">Name of the Student</td>
+        <td>{forex?.studentName || "Not Available"}</td>
+      </tr>
+      
+    </>
+  )}
            
+
           </div>
 
 

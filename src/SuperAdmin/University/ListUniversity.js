@@ -5,7 +5,10 @@ import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
+  getAllUniversit,
   getFilterUniversity,
+  updateUniversity,
+  
 } from "../../api/university";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -53,6 +56,7 @@ export default function Masterproductlist() {
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
   const search = useRef(null);
+  const [details, setDetails] = useState();
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -63,6 +67,7 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getAllUniversityDetails();
+    getallUniversityCount();
   }, [pagination.from, pagination.to]);
 
   useEffect(() => {
@@ -86,6 +91,7 @@ export default function Masterproductlist() {
 
     getFilterUniversity(data)
       .then((res) => {
+        console.log(res?.data?.result?.universityCount);
         setUniversity(res?.data?.result?.universityList);
         setPagination({
           ...pagination,
@@ -96,6 +102,18 @@ export default function Masterproductlist() {
         console.log(err);
       });
   };
+ 
+
+
+  const getallUniversityCount = ()=>{
+    getAllUniversit()
+    .then((res)=>{
+      setDetails(res?.data.result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  });
+}
 
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
@@ -176,6 +194,7 @@ export default function Masterproductlist() {
       });
   };
 
+  
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
@@ -447,17 +466,62 @@ const chartRef = useRef(null);
 
 //satuses
 
-const [statuses, setStatuses] = useState(
-  (university && Array.isArray(university)) ? university.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-);
 
-// Toggle checkbox status
-const handleCheckboxChange = (index) => {
-  setStatuses((prevStatuses) => ({
-    ...prevStatuses,
-    [index]: !prevStatuses[index],
-  }));
-};
+
+// const [statuses, setStatuses] = useState({});  // Store toggle status
+
+// useEffect(() => {
+//   // Fetch all clients on component mount
+//   const fetchUniverity = async () => {
+//     try {
+//       const response = await getallUniversity();
+//       const universityData = Array.isArray(response.data) ? response.data : [];
+
+//       // Initialize statuses based on the fetched client data
+//       const initialStatuses = universityData.reduce((acc, universityData) => {
+//         return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
+//       }, {});
+
+//       setUniversity(universityData);  // Set clients data
+//       setStatuses(initialStatuses);  // Set initial statuses
+//     } catch (error) {
+//       console.error('Error fetching clients:', error);
+//     }
+//   };
+
+//   fetchUniverity();
+// }, []);  // Empty dependency array to run once on mount
+
+// // Toggle client status
+// const handleCheckboxChange = async (universityId) => {
+//   const currentStatus = statuses[universityId];
+//   const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+
+//   // Update the local state immediately for a quick UI response
+//   setStatuses((prevStatuses) => ({
+//     ...prevStatuses,
+//     [universityId]: !prevStatuses[universityId],
+//   }));
+
+//   // Prepare the client data to send to the backend
+//   const updatedUniversit = {
+//     _id: universityId,
+//     universityStatus: updatedStatus,  // Update the status based on toggle
+//   };
+
+//   try {
+//     await updateUniversity(updatedUniversit);  // Send update to the backend
+//     console.log(`University ${universityId} status updated to ${updatedStatus}`);
+//   } catch (error) {
+//     console.error('Error updating University status:', error);
+
+//     // Revert the status if there's an error during the update
+//     setStatuses((prevStatuses) => ({
+//       ...prevStatuses,
+//       [universityId]: !prevStatuses[universityId],  // Revert the change
+//     }));
+//   }
+// };
 
 
 //table filter
@@ -505,6 +569,7 @@ const handleCheckboxChange = (index) => {
               </div>
             </form>
           </li>
+          
           <li className="m-1">
             <button
               className="btn btn-primary text-white border-0 rounded-1"
@@ -660,7 +725,7 @@ const handleCheckboxChange = (index) => {
               <div className="row g-0">
                 <div className="col-7">
                 <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
-                <p className="card-text">Total: 50</p>
+                <p className="card-text">Total:{details?.totalUniversities || 0}</p>
                 </div>
                 <div className="col-auto ">
                 <div className="chart-container " style={{ position: 'relative', width: '4rem', height: '4rem' }}>
@@ -679,7 +744,7 @@ const handleCheckboxChange = (index) => {
               <div className="card-body">
                 <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Total: 20</p>
+                <p className="card-text mb-1">Total:{details?.totalUniqueCountries|| 0}</p>
                 <p className="card-text mb-1">Country List</p>
                 </div>
               </div>
@@ -693,8 +758,8 @@ const handleCheckboxChange = (index) => {
               <div className="card-body">
                 <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Status</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Active: 30</p>
-                <p className="card-text mb-1">Inactive: 10</p>
+                <p className="card-text mb-1">Active: {details?.activeUniversities|| 0}</p>
+                <p className="card-text mb-1">Inactive:  {details?.inactiveUniversities|| 0}</p>
                 </div>
                
               </div>
@@ -721,26 +786,80 @@ const handleCheckboxChange = (index) => {
     <div className="col-xl-12">
       <div className="card rounded-1 shadow-sm border-0">
       <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                         Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                         
-                        </p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
+
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
+
+
+
         <div className="card-body">
-          <div className="table-responsive">
+
+        <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="table-responsive">
             <table
               className="table table-hover card-table dataTable text-center "
               style={{ color: "#9265cc" }}
@@ -844,25 +963,41 @@ const handleCheckboxChange = (index) => {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.noofApplications||"Not Available"}
                       </td>
-                      <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        </td>
+                      {/* <td className="text-capitalize text-start ">
+    
+    <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
+                      </td> */}
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>View</Tooltip>}
-                          >
+                         
                             <Link
                               className="dropdown-item"
                               to={{
@@ -872,13 +1007,9 @@ const handleCheckboxChange = (index) => {
                             >
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
-                          </OverlayTrigger>
+                          
 
-                          <OverlayTrigger
-                            placement="bottom" 
-                            
-                            overlay={<Tooltip>Edit</Tooltip>}
-                          >
+                         
                             <Link
                               className="dropdown-item"
                               to={{
@@ -888,18 +1019,15 @@ const handleCheckboxChange = (index) => {
                             >
                               <i className="far fa-edit text-warning me-1"></i>
                             </Link>
-                          </OverlayTrigger>
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>Delete</Tooltip>}
-                          >
+                          
+                          
                             <button
                               className="dropdown-item"
                               onClick={() => openPopup(data?._id)}
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
-                          </OverlayTrigger>
+                          
                         </div>
                       </td>
                     </tr>
@@ -908,6 +1036,104 @@ const handleCheckboxChange = (index) => {
               </tbody>
             </table>
           </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {university?.map((data, index) => {
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"></h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Client ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Type of Client</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Primary No</strong>
+                  </div>
+                  <div className="col-md-7">
+                     
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Email ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                    
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 d-flex align-items-center">
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+            
+          </div>
+        </div>
+      </div>
+  })}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+       
           <div className="d-flex justify-content-between align-items-center p-3">
         <p className="me-auto ">
                           Show

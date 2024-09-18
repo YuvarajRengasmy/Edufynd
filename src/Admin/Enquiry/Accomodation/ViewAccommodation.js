@@ -114,6 +114,10 @@ export const ViewAccommodation = () => {
                         <td>{accommodation?.name || "Not Available"}</td>
                       </tr>
                       <tr>
+                        <td className="fw-bold">ClientName</td>
+                        <td>{accommodation?.typeOfClient || "Not Available"}</td>
+                      </tr>
+                      <tr>
                         <td className="fw-bold">Passport Number</td>
                         <td>
                           {accommodation?.passportNumber || "Not Available"}

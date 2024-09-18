@@ -70,7 +70,13 @@ function AddAgent() {
   const [countries, setCountries] = useState([]);
   const [lga, setLGA] = useState("");
   const [lgas, setLGAs] = useState([]);
-  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
+  const [copyToWhatsApp, setCopyToWhatsApp] = useState(false);
+  const [dail1, setDail1] = useState(null);
+  const [dail2, setDail2] = useState(null);
+  const [dail3, setDail3] = useState(null);
+  const [dail4, setDail4] = useState(null);
+
+  // Added state for checkbox
  // Add state for dial code
 
 const [dial, setDial] = useState([]);
@@ -109,7 +115,6 @@ const [dial, setDial] = useState([]);
     if (data.addressLine2 === "") error.addressLine2.required = true;
     if (data.addressLine3 === "") error.addressLine3.required = true;
     if (data.whatsAppNumber === "") error.whatsAppNumber.required = true;
-
     if (!isValidEmail(data.emailID)) error.emailID.valid = true;
     if (!isValidPhone(data.contactNo)) error.contactNo.valid = true;
     if (!isValidEmail(data.businessMailID)) error.businessMailID.valid = true;
@@ -259,6 +264,16 @@ const [dial, setDial] = useState([]);
     return true;
   };
 
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
+  const handleDail2 = (selectedOptions) => {
+    setDail2(selectedOptions);
+  };
+  const handleDail3 = (selectedOptions) => {
+    setDail3(selectedOptions);
+  };
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(client);
@@ -266,6 +281,9 @@ const [dial, setDial] = useState([]);
     setSubmitted(true);
     const updatedClient = {
       ...client,
+      dial1:dail1?.label,
+      dial2:dail2?.label,
+      dial3:dail3?.label,
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
@@ -284,6 +302,12 @@ const [dial, setDial] = useState([]);
     }
   };
 
+
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
+  
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -459,24 +483,22 @@ const [dial, setDial] = useState([]);
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={client?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+ 
+   <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
       type="text"
        aria-label="Text input with dropdown button"
@@ -484,7 +506,7 @@ const [dial, setDial] = useState([]);
         errors.businessContactNo.required ? 'is-invalid' : errors.businessContactNo.valid ? 'is-valid' : ''
       }`}
       placeholder="Example 123-456-7890"
-      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px",maxHeight: '100px' }}
       name="businessContactNo"
       value={client.businessContactNo}
       onChange={handleInputs}
@@ -522,25 +544,21 @@ const [dial, setDial] = useState([]);
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail2}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial2"
+                              onChange={handleDail2}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -629,25 +647,21 @@ const [dial, setDial] = useState([]);
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial3}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={handleDail3}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial3"
+                              onChange={handleDail3}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -760,13 +774,12 @@ const [dial, setDial] = useState([]);
                             value={countries.find(
                               (option) => option.value === country
                             )}
-                            className="submain-one-form-body-subsection-select "
+                            className=  {`submain-one-form-body-subsection-select ${
+                              errors.country.required ? 'is-invalid' : ''
+                            }`}
+                           
                           />
-                          {errors.country.required ? (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          ) : null}
+                         
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -782,14 +795,13 @@ const [dial, setDial] = useState([]);
                             value={states.find(
                               (option) => option.value === state
                             )}
-                            className="submain-one-form-body-subsection-select"
+                            className=  {`submain-one-form-body-subsection-select ${
+                              errors.state.required ? 'is-invalid' : ''
+                            }`}
                           />
+                         
 
-                          {errors.state.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
+                         
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -803,8 +815,12 @@ const [dial, setDial] = useState([]);
                             options={lgas}
                             name="lga"
                             styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
+                            className=  {`submain-one-form-body-subsection-select  ${
+                              errors.lga.required ? 'is-invalid' : ''
+                            }`}
                           />
+                         
+
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

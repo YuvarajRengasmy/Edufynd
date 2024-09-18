@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import { getallAgent, deleteAgent, getFilterAgent } from "../../api/agent";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { getSuperAdminForSearch } from "../../api/superAdmin";
+
 import {
   Dialog,
   DialogContent,
@@ -26,7 +28,12 @@ export default function Masterproductlist() {
     mobileNumber: "",
     courseFee: "",
   };
+
   const [file, setFile] = useState(null);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
@@ -34,6 +41,7 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -42,6 +50,18 @@ export default function Masterproductlist() {
 
   const [agent, setAgent] = useState();
 
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
   useEffect(() => {
     getAllAgentDetails();
   }, [pagination.from, pagination.to]);
@@ -67,6 +87,27 @@ export default function Masterproductlist() {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.agentList;
+        setAgent(universityList);
+        const result = universityList.length ? "Agent" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
   };
   const openPopup = (data) => {
     setOpen(true);
@@ -358,37 +399,35 @@ export default function Masterproductlist() {
             <div className="row ">
               <div className="col-xl-12">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search....."
-                        aria-describedby="button-addon3"
-                        className="form-control border-1  rounded-4 "
-                        style={{
-                        
-                          fontSize: "12px", // Keep the font size if it's correct
-                         
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
-                  </li>
+                <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
+          </li>
                   <li class="m-1">
                     <div>
                       <button
@@ -671,22 +710,63 @@ export default function Masterproductlist() {
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm mt-2 border-0 ">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                    <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
 
-                    </p>
-
-
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
+                      
+                     
+                    </div>
                   </div>
                 </div>
                   <div className="card-body">

@@ -35,7 +35,7 @@ export const ListBusiness = () => {
     passportNo: "",
     qualification: "",
     whatsAppNumber: "",
-    primaryNumber: "",
+    mobileNumber: "",
     email: "",
     cgpa: "",
     yearPassed: "",
@@ -539,9 +539,7 @@ export const ListBusiness = () => {
                               <th className="text-capitalize text-start sortable-handle">
                                 Date
                               </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Student Code
-                              </th>
+                              
                               <th className="text-capitalize text-start sortable-handle">
                                 Name
                               </th>
@@ -584,14 +582,12 @@ export const ListBusiness = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {formatDate(data?.createdOn) || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentCode || "Not Available"}
-                                  </td>
+                                 
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.primaryNumber || "Not Available"}
+                                    {data?.mobileNumber || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.email || "Not Available"}

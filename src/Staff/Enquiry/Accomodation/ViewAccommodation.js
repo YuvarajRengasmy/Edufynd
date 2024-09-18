@@ -99,6 +99,10 @@ export const ViewAccommodation = () => {
   )}
   {/* Common fields */}
   <tr>
+        <td className="fw-bold">Client Name</td>
+        <td>{accommodation?.typeOfClient || "Not Available"}</td>
+  </tr>
+  <tr>
         <td className="fw-bold">Name of the Student</td>
         <td>{accommodation?.name || "Not Available"}</td>
       </tr>

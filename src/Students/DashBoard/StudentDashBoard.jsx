@@ -2,6 +2,12 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale } from 'chart.js';
 import { Bar, Pie, Line, Radar, Doughnut, PolarArea } from 'react-chartjs-2';
 import Sidebar from '../../compoents/StudentSidebar';
+import { Link } from "react-router-dom";
+import { clearStorage } from "../../Utils/storage";
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // For dropdown to work
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, RadialLinearScale);
@@ -97,7 +103,7 @@ export const StudentDashBoard = () => {
 
   // State for current date and time
   const [currentDate, setCurrentDate] = useState(new Date());
-
+  const navigate = useNavigate();
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentDate(new Date());
@@ -119,6 +125,12 @@ export const StudentDashBoard = () => {
     return `${dayName}, ${day} ${monthName} ${year}`;
   };
 
+
+  const logout = () => {
+    clearStorage(); // Assuming clearStorage is defined elsewhere
+    toast.success("You have been logged out successfully.");
+    navigate("/");
+  };
   const formatTime = (date) => {
     return date.toLocaleTimeString();
   };
@@ -135,14 +147,57 @@ export const StudentDashBoard = () => {
       <div className="content-wrapper"  style={{fontSize:'12px'}}>
         <div className='content-header bg-light sticky-top shadow-sm mb-0 pb-0'>
           <div className='container-fluid mb-0 pb-0'>
-            <div className='row'>
-              <div className='col'>
-                <h6 className="h6">Dashboard</h6>
-                <p className="text-secondary mb-0">
-                  <DateTimeDisplay date={currentDate} />
-                </p>
-              </div>
-            </div>
+          <div className="row align-items-center">
+    
+      <div className="col">
+        <h6 className="h6">Dashboard</h6>
+        <p className="text-secondary mb-0">
+          <DateTimeDisplay date={currentDate} />
+        </p>
+      </div>
+
+     
+      <div className="col-auto">
+        <div className="dropdown">
+          <a
+            className="nav-link d-flex align-items-center"
+            href="#"
+            id="profileDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            
+            <img
+              src="https://via.placeholder.com/30"
+              alt="Profile"
+              style={{
+                objectFit: "cover",
+                width: "3rem",
+                height: "3rem",
+                borderRadius: "50%",
+              }}
+              className="img-fluid rounded-circle me-2"
+            />
+          </a>
+
+         
+          <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <li>
+              <Link className="dropdown-item" to="/StaffProfile">
+                Profile
+              </Link>
+            </li>
+            <li>
+              <Link className="dropdown-item" to="/" onClick={logout}>
+                Log Out
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
           </div>
         </div>
         

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate, Navigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../Utils/Validation';
 import { saveToken, getLoginType } from '../../Utils/storage';
 import FacebookLogin from 'react-facebook-login';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import { isAuthenticated } from '../../Utils/Auth';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../api/login';
@@ -13,9 +15,37 @@ const Login = () => {
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: { required: false, valid: false }, password: { required: false, valid: false } });
   const [submitted, setSubmitted] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [user, setUser] = useState([]);
+  // State for password visibility
   const navigate = useNavigate();
 
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse), // Correctly set user response
+    onError: (error) => console.log('Login Failed:', error)
+  });
+
+  useEffect(() => {
+    if (user?.access_token) {
+      // If we have a valid access token, fetch user data from Google
+      axios
+        .get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {
+          headers: {
+            Authorization: `Basic ` + btoa("edufynd:DAF87DSFDSFDSA98FSADKJE324KJL32HFD7FDSFB24343J49DSF"), // Correct usage of access token
+          }
+        })
+        .then((res) => {
+          // Process user data and navigate to the dashboard
+          console.log(res.data); // You can handle user data here, e.g., saving to storage
+          navigate('/dashboard'); // Redirect to dashboard after successful login
+        })
+        .catch((err) => {
+          console.log('Error fetching user info:', err);
+          toast.error('Error fetching user info');
+        });
+    }
+  }, [user, navigate]);
   const handleValidation = (data) => {
     let newErrors = {
       email: {
@@ -226,9 +256,13 @@ const Login = () => {
                     <hr className="border-0 border-top border-dark" style={{ margin: '0 1rem', flexGrow: '1', borderTop: '1px solid #ccc' }} />
                   </div>
                   <div className='d-flex justify-content-center'>
-                    <Link to='/' className="btn btn-google btn-user btn-block rounded-1  border-0 fw-semibold h-25   w-75" style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}>
+                  <button
+                      onClick={() => login()}
+                      className="btn btn-google btn-user btn-block rounded-1 border-0 fw-semibold h-25 w-75"
+                      style={{ backgroundColor: '#4285F4', color: '#fff', fontSize: '10px' }}
+                    >
                       <i className="fab fa-google fa-fw" /> &nbsp;Login with Google
-                    </Link>
+                    </button>
                     
                    
                   </div>

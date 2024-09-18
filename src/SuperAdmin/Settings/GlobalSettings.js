@@ -1,11 +1,9 @@
 import Mastersidebar from '../../compoents/sidebar';
 import { FaFilter } from "react-icons/fa";
-import { MdOutlineAdd } from "react-icons/md";
-import { Button } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
 import { saveCountryModule, getFilterCountryModule,getallCountryModule,  deleteCountryModule } from '../../api/universityModule/country';
-import { getallCountryList,getFilterCountryList } from "../../api/country";
+import { getallCountryList } from "../../api/country";
 import { toast } from 'react-toastify';
 import React, { useEffect, useState } from "react";
 import { ExportCsvService } from "../../Utils/Excel";
@@ -29,12 +27,12 @@ import Select from 'react-select';
   const [countries, setCountries] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [inputs, setInputs] = useState(initialStateInputs);
-  const [filter, setFilter] = useState(false);
-  const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
+  const [filter, setFilter] = useState([]);
+  const [submited, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
-  const ZERO = 0;
+
+  const [inputs, setInputs] = useState(initialStateInputs);
+  const navigate = useNavigate();
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -50,6 +48,8 @@ import Select from 'react-select';
     }
     return error;
   };
+
+  
 
   useEffect(() => {
     getAllCountryListDetails();
@@ -156,9 +156,7 @@ import Select from 'react-select';
     getAllCountryDetails();
   };
 
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+  
 
   const closeFilterPopup = () => {
     setOpenFilter(false);

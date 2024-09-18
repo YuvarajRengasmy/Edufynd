@@ -33,7 +33,7 @@ export const AdminListBusiness = () => {
     passportNo: "",
     qualification: "",
     whatsAppNumber: "",
-    primaryNumber: "",
+    mobileNumber: "",
     email: "",
     cgpa: "",
     yearPassed: "",
@@ -445,9 +445,7 @@ export const AdminListBusiness = () => {
                                 <th className="text-capitalize text-start sortable-handle">
                                   Date
                                 </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Student Code
-                                </th>
+                               
                                 <th className="text-capitalize text-start sortable-handle">
                                   Name
                                 </th>
@@ -488,13 +486,11 @@ export const AdminListBusiness = () => {
                                       {formatDate(data?.createdOn)}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {data?.studentCode}
-                                    </td>
-                                    <td className="text-capitalize text-start">
                                       {data?.name}
                                     </td>
+                                   
                                     <td className="text-capitalize text-start">
-                                      {data?.primaryNumber}
+                                      {data?.mobileNumber}
                                     </td>
                                     <td className="text-capitalize text-start">
                                       {data?.email}

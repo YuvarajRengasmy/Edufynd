@@ -162,14 +162,14 @@ const AddAgent = () => {
                     </Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <Link to="/ListClient" className="text-decoration-none">ListClient</Link>
+                    <Link to="/list_client" className="text-decoration-none">ListClient</Link>
                   </li>
 
                   <li className="breadcrumb-item">
                     <Link
                     className="text-decoration-none"
                       to={{
-                        pathname: "/EditClient",
+                        pathname: "/edit_client",
                         search: `?id=${id}`,
                       }}
                     >

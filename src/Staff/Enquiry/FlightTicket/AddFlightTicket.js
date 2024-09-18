@@ -10,10 +10,12 @@ import {getStaffId } from "../../../Utils/storage";
 import { getFilterSource } from "../../../api/settings/source";
 import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
+import { getallClient } from "../../../api/client";
 import Flags from "react-world-flags";
 
 export const Addflight = () => {
   const initialState = {
+    typeOfClient: "",
     source: "",
     name: "",
     studentName: "",
@@ -35,6 +37,7 @@ export const Addflight = () => {
     dial4: "",
   };
   const initialStateErrors = {
+    typeOfClient: { required: false },
     source: { required: false },
     name: { required: false },
     studentName: { required: false },
@@ -72,16 +75,28 @@ export const Addflight = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [client, setClient] = useState([]);
+
 
   useEffect(() => {
     getAllSourceDetails();
     getStudentList();
+    getClientList();
     getStaffDetails();
     getAgentList();
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
-
+  const getClientList = () => {
+    
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getStaffDetails = () => {
     const id = getStaffId();
     getSingleStaff(id)
@@ -164,7 +179,9 @@ export const Addflight = () => {
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
+    if (data.typeOfClient === "") {
+      error.typeOfClient.required = true;
+    }
     if (!data.source) {
       error.source.required = true;
     }
@@ -288,6 +305,39 @@ export const Addflight = () => {
                 </div>
                 <div className="card-body mt-5">
                   <div className="row g-3">
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            style={{
+                              backgroundColor: "#fff",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.typeOfClient.required ? "is-invalid" : ""
+                            }`}
+                            name="typeOfClient"
+                            placeholder="Select Client"
+                          >
+                            <option value={""}>Select Client</option>
+                            {client.map((data, index) => (
+                              <option key={index} value={data?.businessName}>
+                                {" "}
+                                {data?.businessName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.typeOfClient.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                  </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">
                         Source

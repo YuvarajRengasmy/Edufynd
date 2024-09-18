@@ -49,6 +49,16 @@ export const ViewForex = () => {
                     <div className="col-md-6">
                       <h5>Agent Information</h5>
                       <div className="list-group">
+
+                      <div className="list-group-item d-flex align-items-center">
+                          <i className="fas fa-user-tie me-2 text-dark "></i>
+                          <div>
+                            <strong>Client Name:</strong>
+                            <p className="mb-0">
+                              {forex.clientName || "Not Available"}
+                            </p>
+                          </div>
+                        </div>
                         <div className="list-group-item d-flex align-items-center">
                           <i className="fas fa-user-tie me-2 text-dark "></i>
                           <div>

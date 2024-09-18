@@ -11,13 +11,14 @@ import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
 import {  getSingleStaff } from "../../../api/staff";
 import {getStaffId } from "../../../Utils/storage";
-
+import { getallClient } from "../../../api/client";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 export const AddAccommodation = () => {
   const initialState = {
+    typeOfClient:"",
     source: "",
     studentName: "",
     name: "",
@@ -46,6 +47,7 @@ export const AddAccommodation = () => {
     assignedTo: "",
   };
   const initialStateErrors = {
+    typeOfClient:{required:false},
     source: { required: false },
     studentName: { required: false },
     name: { required: false },
@@ -88,7 +90,7 @@ export const AddAccommodation = () => {
   });
   const [university, setUniversity] = useState();
   const [countrie, setCountrie] = useState([]);
-
+  const [client, setClient] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [state, setState] = useState("");
@@ -108,9 +110,20 @@ export const AddAccommodation = () => {
     getStaffDetails();
     getStudentList();
     getAgentList();
+    getClientList();
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
+
+  const getClientList = () => {
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getStaffDetails = () => {
     const id = getStaffId();
     getSingleStaff(id)
@@ -223,15 +236,15 @@ export const AddAccommodation = () => {
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
+    if (!data.typeOfClient) {
+      error.typeOfClient.required = true;
+    }
     if (!data.source) {
       error.source.required = true;
     }
     if (!data.name) {
       error.name.required = true;
     }
-    
-   
     if (!data.passportNumber) {
       error.passportNo.required = true;
     }
@@ -456,6 +469,39 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="card-body mt-5">
                       <div className="row g-3">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            style={{
+                              backgroundColor: "#fff",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                             
+                            }}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.typeOfClient.required ? "is-invalid" : ""
+                            }`}
+                            name="typeOfClient"
+                            placeholder="Select Client"
+                          >
+                            <option value={""}>Select Client</option>
+                            {client.map((data, index) => (
+                              <option key={index} value={data?.businessName}>
+                                {" "}
+                                {data?.businessName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.typeOfClient.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                      </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label className="form-label" for="inputEmail4">
                           Source

@@ -53,6 +53,10 @@ export const ViewBusiness = () => {
                   style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
                 >
                   <tbody>
+                  <tr>
+                      <td className="fw-bold">ClientName </td>
+                      <td>{student?.typeOfClient || "Not Available"}</td>
+                    </tr>
                     <tr>
                       <td className="fw-bold">Student Name </td>
                       <td>{student?.name || "Not Available"}</td>
@@ -67,7 +71,7 @@ export const ViewBusiness = () => {
                     </tr>
                     <tr>
                       <td className="fw-bold">Contact Number </td>
-                      <td>{student?.primaryNumber || "Not Available"}</td>
+                      <td>{student?.mobileNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email ID </td>

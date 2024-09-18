@@ -14,8 +14,11 @@ import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
 import Mastersidebar from "../../../compoents/AdminSidebar";
+import { getallClient } from "../../../api/client";
+
 export const AddAccommodation = () => {
   const initialState = {
+    typeOfClient:"",
     source: "",
     studentName: "",
     name: "",
@@ -44,6 +47,7 @@ export const AddAccommodation = () => {
     assignedTo: "",
   };
   const initialStateErrors = {
+    typeOfClient:{required:false},
     source: { required: false },
     studentName: { required: false },
     name: { required: false },
@@ -73,6 +77,7 @@ export const AddAccommodation = () => {
   };
   const [forex, setForex] = useState(initialState);
   const [source, setSource] = useState([]);
+  const [client, setClient] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setForexs] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
@@ -97,6 +102,7 @@ export const AddAccommodation = () => {
 
   useEffect(() => {
     getAllUniversityList();
+    getClientList();
   }, []);
 
   useEffect(() => {
@@ -107,6 +113,16 @@ export const AddAccommodation = () => {
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
+
+  const getClientList = () => {
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllCountryDetails = () => {
     const data = {
       limit: 10,
@@ -206,7 +222,9 @@ export const AddAccommodation = () => {
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
+    if (!data.typeOfClient) {
+      error.typeOfClient.required = true;
+    }
     if (!data.source) {
       error.source.required = true;
     }
@@ -440,6 +458,41 @@ export const AddAccommodation = () => {
                     </div>
                     <div className="card-body mt-5">
                       <div className="row g-3">
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>
+                            {" "}
+                            Client Name<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            onChange={handleInputs}
+                            style={{
+                              backgroundColor: "#fff",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                             
+                            }}
+                            className={`form-select form-select-lg rounded-1 ${
+                              errors.typeOfClient.required ? "is-invalid" : ""
+                            }`}
+                            name="typeOfClient"
+                            placeholder="Select Client"
+                          >
+                            <option value={""}>Select Client</option>
+                            {client.map((data, index) => (
+                              <option key={index} value={data?.businessName}>
+                                {" "}
+                                {data?.businessName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.typeOfClient.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                      </div>
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputEmail4">
                             Source

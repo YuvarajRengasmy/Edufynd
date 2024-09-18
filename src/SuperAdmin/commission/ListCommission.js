@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import { getallCommission, deleteCommission } from "../../api/commission";
-import { Link } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -15,36 +14,45 @@ import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import { getSuperAdminForSearch } from "../../api/superAdmin";
+import { Link, useLocation } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 
-const initialState = {
-  country: "",
-  universityName: "",
-  paymentMethod: "",
-  amount: null,
-  percentage: null,
-  commissionPaidOn: "",
-  eligibility: "",
-  tax: "",
-  paymentType: "",
-  currency: "",
-  flag: "",
-  clientName: "",
-  years: [
-    {
-      id: 1,
-      year: "",
-      courseTypes: [{ courseType: "", inTake: "", value: null }],
-    },
-  ],
-};
+
 
 export default function Masterproductlist() {
+
+  const initialState = {
+    country: "",
+    universityName: "",
+    paymentMethod: "",
+    amount: null,
+    percentage: null,
+    commissionPaidOn: "",
+    eligibility: "",
+    tax: "",
+    paymentType: "",
+    currency: "",
+    flag: "",
+    clientName: "",
+    years: [
+      {
+        id: 1,
+        year: "",
+        courseTypes: [{ courseType: "", inTake: "", value: null }],
+      },
+    ],
+  };
+
+
+
   const [commission, setCommission] = useState([]);
-
+  const search = useRef(null);
   const [submitted, setSubmitted] = useState(false);
-
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -62,6 +70,21 @@ export default function Masterproductlist() {
   useEffect(() => {
     getCommissionList();
   }, []);
+
+
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
 
   const getCommissionList = () => {
     getallCommission()
@@ -98,6 +121,29 @@ export default function Masterproductlist() {
       });
   };
 
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.commissionList;
+        setCommission(universityList);
+        const result = universityList.length ? "commission" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  
   const openFilterPopup = () => {
     setOpenFilter(true);
   };
@@ -105,6 +151,8 @@ export default function Masterproductlist() {
   const closeFilterPopup = () => {
     setOpenFilter(false);
   };
+
+
 
   const handleInputs = (event) => {
     setCommission({ ...commission, [event.target.name]: event.target.value });
@@ -136,15 +184,9 @@ export default function Masterproductlist() {
             margin: [5, 5],
             bold: true,
           },
+         
           {
-            text: "ClientId",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-            text: "BusinessName",
+            text: "UniversityName",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -158,14 +200,14 @@ export default function Masterproductlist() {
             bold: true,
           },
           {
-            text: "BusinessContactNo",
+            text: "Eligibility",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Status",
+            text: "Tax",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -181,40 +223,35 @@ export default function Masterproductlist() {
               margin: [5, 3],
               border: [true, false, true, true],
             },
+           
             {
-              text: element?.clientID ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
-            {
-              text: element?.businessName ?? "-",
+              text: element?.universityName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
 
             {
-              text: element?.businessMailID ?? "-",
+              text: element?.paymentMethod ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.businessContactNo ?? "-",
+              text: element?.eligibility ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.status ?? "-",
+              text: element?.tax ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
           ]);
         });
-        templatePdf("clientList", tablebody, "landscape");
+        templatePdf("commissionList", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -230,31 +267,31 @@ export default function Masterproductlist() {
         let list = [];
         result?.forEach((res) => {
           list.push({
-            clientID: res?.clientID ?? "-",
-            businessName: res?.businessName ?? "-",
-            businessMailID: res?.businessMailID ?? "-",
-            businessContactNo: res?.businessContactNo ?? "-",
-            status: res?.status ?? "-",
+           
+            universityName: res?.universityName ?? "-",
+            paymentMethod: res?.paymentMethod ?? "-",
+            eligibility: res?.eligibility ?? "-",
+            tax: res?.tax ?? "-",
           });
         });
         let header1 = [
-          "clientID",
-          "businessName",
-          "businessMailID",
-          "businessContactNo",
-          "status",
+         
+          "universityName",
+          "paymentMethod",
+          "eligibility",
+          "tax",
         ];
         let header2 = [
           "Client Id",
-          "Business Name",
-          "Business MailID",
-          "Business ContactNo",
-          "Status",
+          "University Name",
+          "Payment Method",
+          "eligibility",
+          "Tax",
         ];
         ExportCsvService.downloadCsv(
           list,
-          "clientList",
-          "Client List",
+          "commissionList",
+          "Commission List",
 
           header1,
           header2
@@ -317,29 +354,34 @@ export default function Masterproductlist() {
     <div className="row">
       <div className="col-xl-12">
         <ol className="d-flex flex-row flex-wrap  justify-content-end justify-content-sm-evenly align-items-center list-unstyled mb-0">
-          <li className="flex-grow-1 d-none d-md-block">
-            <div className="input-group" style={{ maxWidth: "600px" }}>
-              <input
-                type="search"
-                placeholder="Search....."
-                aria-describedby="button-addon3"
-                className="form-control border-1 border-dark rounded-4"
-                style={{ fontSize: '12px' }}
-              />
-              <span
-                className="input-group-text bg-transparent border-0"
-                id="button-addon3"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer",
-                }}
-              >
-                <i className="fas fa-search" style={{ color: "black" }}></i>
-              </span>
-            </div>
+        <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
           </li>
           <li className="m-1">
             <button
@@ -425,7 +467,7 @@ export default function Masterproductlist() {
             </div>
           </div>
           <li className="m-1">
-            <Link>
+            <Link onClick={pdfDownload}>
               <button
                 className="btn text-white border-0 rounded-1"
                 style={{ backgroundColor: "#E12929", fontSize: "12px" }}
@@ -435,8 +477,9 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
-            <Link>
+            <Link onClick={exportCsv}>
               <button
+             
                 className="btn text-white border-0 rounded-1"
                 style={{ backgroundColor: "#22A033", fontSize: "12px" }}
               >
@@ -477,22 +520,63 @@ export default function Masterproductlist() {
     <div className="col-xl-12">
       <div className="card rounded-1 shadow-sm border-0">
       <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                    <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
 
-                    </p>
-
-
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
+                      
+                     
+                    </div>
                   </div>
                 </div>
         <div className="card-body">

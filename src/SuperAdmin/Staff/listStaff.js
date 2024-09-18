@@ -3,11 +3,10 @@ import Sortable from 'sortablejs';
 import {getallStaff,deleteStaff} from "../../api/staff";
 import Mastersidebar from "../../compoents/sidebar";
 import { formatDate } from "../../Utils/DateFormat";
-
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
-
+import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
 function ListStaff() {
 
@@ -21,15 +20,54 @@ function ListStaff() {
   });
 
 
-  
+  const [file, setFile] = useState(null);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
   const [staff, setStaff] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const search = useRef(null);
 
   useEffect(() => {
     getAllStaffDetails();
   }, [pagination.from, pagination.to]);
 
+
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.staffList;
+        setStaff(universityList);
+        const result = universityList.length ? "Staff" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
   const getAllStaffDetails = () => {
     const data = {
       limit: 10,
@@ -111,29 +149,34 @@ function ListStaff() {
     <div className="row">
       <div className='col-xl-12'>
         <ol className="list-unstyled mb-0 d-flex justify-content-end align-items-center w-100 mb-0">
-          <li className="flex-grow-1 me-2">
-            <div className="input-group" style={{ maxWidth: "600px" }}>
-              <input
-                type="search"
-                placeholder="Search...."
-                aria-describedby="button-addon3"
-                className="form-control border-1 rounded-4"
-                style={{ fontSize: "12px" }}
-              />
-              <span
-                className="input-group-text bg-transparent border-0"
-                id="button-addon3"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer"
-                }}
-              >
-                <i className="fas fa-search" style={{ color: "black" }}></i>
-              </span>
-            </div>
+        <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
           </li>
           <li className="ms-2">
             <div style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
@@ -302,24 +345,65 @@ function ListStaff() {
           <div className="col-md-12">
             <div className="card rounded-1 shadow-sm mt-2 border-0">
             <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                         Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                         
-                        </p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
+
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
               <div className="card-body">
                 <div className="card-table">
                   <div className="table-responsive">

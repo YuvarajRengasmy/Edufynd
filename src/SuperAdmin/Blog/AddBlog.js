@@ -492,7 +492,23 @@ export const AddBlog = () => {
                                 "bold",
                                 "italic",
                                 "link",
-                              ], // Adjust toolbar as needed
+                                "bulletedList",
+                                "numberedList",
+                                "blockQuote",
+                                "|",
+                                "insertTable",
+                                "mediaEmbed",
+                                "imageUpload",
+                                "|",
+                                "undo",
+                                "redo",
+                              ],
+                              image: {
+                                toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+                              },
+                              table: {
+                                contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+                              },
                             }}
                             onChange={(event, editor) => {
                               const data = editor.getData();

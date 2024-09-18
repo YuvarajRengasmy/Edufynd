@@ -90,35 +90,72 @@ export const ViewComission = () => {
               </div>
             </div>
 
-            {commission?.years?.map((year, yearIndex) => (
-  <div className="col-md-6" key={yearIndex}>
-    <div className="card border-0">
-      <div className="card-header bg-primary text-white">
-        Year {year.year || "Not Available"}
-      </div>
-      {year.courseTypes?.map((courseType, courseIndex) => (
-        <div key={courseIndex} className="card-body">
-          <ul className="list-group list-group-flush">
-            <li className="list-group-item">
-              <strong>Course Type:</strong> {courseType.courseType || "Not Available"}
-            </li>
-            {/* Map through the inTake array */}
-            {courseType.inTake?.map((intakeItem, intakeIndex) => (
-              <React.Fragment key={intakeIndex}>
-                <li className="list-group-item">
-                  <strong>Intake:</strong> {intakeItem.inTake || "Not Available"}
-                </li>
-                <li className="list-group-item">
-                  <strong>Value:</strong> {intakeItem.value || "Not Available"}
-                </li>
-              </React.Fragment>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  </div>
-))}
+            <div className="container my-3">
+              {commission?.years?.map((year, yearIndex) => (
+                <div className="row mb-4" key={yearIndex}>
+                  <div className="col-12">
+                    <div className="card shadow-sm border-0">
+                      <div className="card-header bg-primary text-white">
+                        <h4>Year: {year.year || "Not Available"}</h4>
+                      </div>
+                      <div className="card-body">
+                        <div className="accordion" id={`accordion${yearIndex}`}>
+                          {year.courseTypes?.map((courseType, courseIndex) => (
+                            <div
+                              className="accordion-item mb-3"
+                              key={courseIndex}
+                            >
+                              <h2
+                                className="accordion-header"
+                                id={`heading${yearIndex}-${courseIndex}`}
+                              >
+                                <button
+                                  className="accordion-button collapsed"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={`#collapse${yearIndex}-${courseIndex}`}
+                                  aria-expanded="false"
+                                  aria-controls={`collapse${yearIndex}-${courseIndex}`}
+                                >
+                                  Course Type:{" "}
+                                  {courseType.courseType || "Not Available"}
+                                </button>
+                              </h2>
+                              <div
+                                id={`collapse${yearIndex}-${courseIndex}`}
+                                className="accordion-collapse collapse"
+                                aria-labelledby={`heading${yearIndex}-${courseIndex}`}
+                                data-bs-parent={`#accordion${yearIndex}`}
+                              >
+                                <div className="accordion-body">
+                                  {courseType.inTake?.map(
+                                    (intakeItem, intakeIndex) => (
+                                      <div
+                                        className="list-group mb-2"
+                                        key={intakeIndex}
+                                      >
+                                        <div className="list-group-item">
+                                          <strong>Intake:</strong>{" "}
+                                          {intakeItem.inTake || "Not Available"}
+                                        </div>
+                                        <div className="list-group-item">
+                                          <strong>Value:</strong>{" "}
+                                          {intakeItem.value || "Not Available"}
+                                        </div>
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="container-fluid my-2">

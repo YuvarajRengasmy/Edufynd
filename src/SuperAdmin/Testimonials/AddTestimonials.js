@@ -12,7 +12,8 @@ import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { RichTextEditor } from '@mantine/rte';
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export const AddTestimonials = () => {
   const initialState = {
@@ -499,17 +500,48 @@ export const AddTestimonials = () => {
                             <label style={{ color: "#231F20" }}>
                              Content<span className="text-danger">*</span>
                               </label>
-                            <RichTextEditor
-           onChange={handleRichTextChange}
-           value={notification.content}
-          placeholder="Start writing your content here..."
-          style={{
-            fontFamily: "Plus Jakarta Sans",
-            fontSize: "12px",
-           
-           
-          }}
-        />
+                            
+         <CKEditor
+                            editor={ClassicEditor}
+                            data={notification.content} // Use 'data' instead of 'value'
+                            config={{
+                              placeholder: "Start writing your content here...",
+                              toolbar: [
+                                "heading",
+                                "|",
+                                "bold",
+                                "italic",
+                                "link",
+                                "bulletedList",
+                                "numberedList",
+                                "blockQuote",
+                                "|",
+                                "insertTable",
+                                "mediaEmbed",
+                                "imageUpload",
+                                "|",
+                                "undo",
+                                "redo",
+                              ],
+                              image: {
+                                toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+                              },
+                              table: {
+                                contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+                              },
+                            }}
+                            onChange={(event, editor) => {
+                              const data = editor.getData();
+                              console.log({ data });
+                              handleRichTextChange(data); // Call your handler here
+                            }}
+                            name="content"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                              zIndex: "0",
+                            }}
+                          />
         {errors.content.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.

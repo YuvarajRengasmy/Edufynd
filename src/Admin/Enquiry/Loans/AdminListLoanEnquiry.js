@@ -494,14 +494,13 @@ export const AdminListLoanEnquiry = () => {
                                       {data?.email}
                                     </td>
                                     <td className="text-capitalize text-start">
-                                      {data?.platform}
+                                      {data?.typeOfClient}
                                     </td>
-                                    <td className="text-capitalize text-start">
-                                      {data?.source}
-                                    </td>
+                                    
                                     <td className="text-capitalize text-start">
                                       {data?.assignedTo}
                                     </td>
+
                                     <td>
                                       <div className="d-flex">
                                         {studentPrivileges?.view && (
