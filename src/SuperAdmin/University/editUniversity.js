@@ -1078,6 +1078,7 @@ function Profile() {
                                 About{" "}
                                 <span className="text-danger">*</span>
                               </label>
+                              
                               <RichTextEditor
                                 placeholder="Start writing your content here..."
                                 name="about"

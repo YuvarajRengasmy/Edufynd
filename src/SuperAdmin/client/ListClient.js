@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient,updateClient, getAllClientCard } from "../../api/client";
+import {
+  getallClient,
+  deleteClient,
+  updateClient,
+  getAllClientCard,
+} from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -17,7 +22,7 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-import {getFilterClient} from '../../api/client'
+import { getFilterClient } from "../../api/client";
 import Downshift from "downshift";
 export default function Masterproductlist() {
   const initialState = {
@@ -34,7 +39,6 @@ export default function Masterproductlist() {
     emailID: "",
     gstn: "",
     clientStatus: "",
-    
   };
   const [client, setClient] = useState([]);
   const location = useLocation();
@@ -78,15 +82,13 @@ export default function Masterproductlist() {
     }
   }, [searchValue]);
 
-  
-useEffect(() => {
-  getallClientCount()
- 
-}, []);
+  useEffect(() => {
+    getallClientCount();
+  }, []);
 
-const getallClientCount = ()=>{
-  getAllClientCard().then((res)=>setDetails(res?.data.result))
-}
+  const getallClientCount = () => {
+    getAllClientCard().then((res) => setDetails(res?.data.result));
+  };
 
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
@@ -344,8 +346,6 @@ const getallClientCount = ()=>{
     };
   }, []);
 
-
-
   // filter
   const [showFilter, setShowFilter] = useState({
     typeOfClient: false,
@@ -355,11 +355,11 @@ const getallClientCount = ()=>{
     status: false,
   });
   const [inputValues, setInputValues] = useState({
-    typeOfClient: '',
-    name: '',
-    primaryNo: '',
-    email: '',
-    status: '',
+    typeOfClient: "",
+    name: "",
+    primaryNo: "",
+    email: "",
+    status: "",
   });
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -369,7 +369,6 @@ const getallClientCount = ()=>{
   const handleFilterClick = (column) => {
     setShowFilter((prev) => ({ ...prev, [column]: !prev[column] }));
   };
-  
 
   // Function to handle modal close
   const handleClose = (column) => {
@@ -400,14 +399,12 @@ const getallClientCount = ()=>{
 
   // Function to filter options based on the search input
   const filteredOptions = (options, filterKey) => {
-    return options.filter(option =>
+    return options.filter((option) =>
       option.toLowerCase().includes(inputValues[filterKey].toLowerCase())
     );
   };
-  
 
-
-  const [statuses, setStatuses] = useState({});  // Store toggle status
+  const [statuses, setStatuses] = useState({}); // Store toggle status
 
   useEffect(() => {
     // Fetch all clients on component mount
@@ -415,49 +412,52 @@ const getallClientCount = ()=>{
       try {
         const response = await getallClient();
         const clientsData = Array.isArray(response.data) ? response.data : [];
-  
+
         // Initialize statuses based on the fetched client data
         const initialStatuses = clientsData.reduce((acc, clientData) => {
-          return { ...acc, [clientData._id]: clientData.clientStatus === 'Active' };
+          return {
+            ...acc,
+            [clientData._id]: clientData.clientStatus === "Active",
+          };
         }, {});
-  
-        setClients(clientsData);  // Set clients data
-        setStatuses(initialStatuses);  // Set initial statuses
+
+        setClients(clientsData); // Set clients data
+        setStatuses(initialStatuses); // Set initial statuses
       } catch (error) {
-        console.error('Error fetching clients:', error);
+        console.error("Error fetching clients:", error);
       }
     };
-  
+
     fetchClients();
-  }, []);  // Empty dependency array to run once on mount
-  
+  }, []); // Empty dependency array to run once on mount
+
   // Toggle client status
   const handleCheckboxChange = async (clientId) => {
     const currentStatus = statuses[clientId];
-    const updatedStatus = currentStatus ? 'Inactive' : 'Active';
-  
+    const updatedStatus = currentStatus ? "Inactive" : "Active";
+
     // Update the local state immediately for a quick UI response
     setStatuses((prevStatuses) => ({
       ...prevStatuses,
       [clientId]: !prevStatuses[clientId],
     }));
-  
+
     // Prepare the client data to send to the backend
     const updatedClient = {
       _id: clientId,
-      clientStatus: updatedStatus,  // Update the status based on toggle
+      clientStatus: updatedStatus, // Update the status based on toggle
     };
-  
+
     try {
-      await updateClient(updatedClient);  // Send update to the backend
+      await updateClient(updatedClient); // Send update to the backend
       console.log(`Client ${clientId} status updated to ${updatedStatus}`);
     } catch (error) {
-      console.error('Error updating client status:', error);
-  
+      console.error("Error updating client status:", error);
+
       // Revert the status if there's an error during the update
       setStatuses((prevStatuses) => ({
         ...prevStatuses,
-        [clientId]: !prevStatuses[clientId],  // Revert the change
+        [clientId]: !prevStatuses[clientId], // Revert the change
       }));
     }
   };
@@ -478,7 +478,10 @@ const getallClientCount = ()=>{
                   {/* Search Form */}
                   <li className="flex-grow-1">
                     <form onSubmit={handleSearch}>
-                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <div
+                        className="input-group"
+                        style={{ maxWidth: "600px" }}
+                      >
                         <input
                           className="form-control form-control-sm border-1 border-dark rounded-4"
                           placeholder="Search..."
@@ -491,9 +494,17 @@ const getallClientCount = ()=>{
                           className="input-group-text bg-transparent border-0"
                           id="button-addon3"
                           type="submit"
-                          style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                          }}
                         >
-                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                          <i
+                            className="fas fa-search"
+                            style={{ color: "black" }}
+                          ></i>
                         </button>
                       </div>
                     </form>
@@ -584,7 +595,10 @@ const getallClientCount = ()=>{
                         <div className="d-flex justify-content-end gap-3">
                           <button
                             className="btn text-uppercase rounded-1 border-0 fw-semibold"
-                            style={{ backgroundColor: "#0f2239", color: "#fff" }} // Dark color for reset
+                            style={{
+                              backgroundColor: "#0f2239",
+                              color: "#fff",
+                            }} // Dark color for reset
                           >
                             Cancel
                           </button>
@@ -592,7 +606,10 @@ const getallClientCount = ()=>{
                             data-bs-dismiss="offcanvas"
                             type="submit"
                             className="btn text-uppercase rounded-1 border-0 fw-semibold"
-                            style={{ backgroundColor: "#fe5722", color: "#fff" }} // Primary color for apply
+                            style={{
+                              backgroundColor: "#fe5722",
+                              color: "#fff",
+                            }} // Primary color for apply
                           >
                             Apply
                           </button>
@@ -655,7 +672,6 @@ const getallClientCount = ()=>{
           </div>
         </div>
 
-
         <div className="container-fluid mt-3">
           <div className="row">
             <div className="col-md-3 col-sm-6 mb-3">
@@ -665,8 +681,12 @@ const getallClientCount = ()=>{
                   style={{ backgroundColor: "#00796B" }} // Tropical Teal
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients</h6>
-                    <p className="card-text">Total Client: {details?.totalClient || 0}</p>
+                    <h6 className="">
+                      <i className="fas fa-user-check"></i> No of Clients
+                    </h6>
+                    <p className="card-text">
+                      Total Client: {details?.totalClient || 0}
+                    </p>
                     {/* <p className="card-text">
                       <i className="fas fa-users"></i> Actively Engaged
                     </p> */}
@@ -682,12 +702,16 @@ const getallClientCount = ()=>{
                   style={{ backgroundColor: "#C62828" }} // Crimson Red
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-times"></i> Active Clients</h6>
+                    <h6 className="">
+                      <i className="fas fa-user-times"></i> Active Clients
+                    </h6>
                     <p className="card-text">
-                    <i className="fas fa-users"></i> Currently Active: {details?.activeClient || 0}    
+                      <i className="fas fa-users"></i> Currently Active:{" "}
+                      {details?.activeClient || 0}
                     </p>
                     <p className="card-text">
-                      <i className="fas fa-user-slash"></i> Currently Inactive: {details?.inactiveClient || 0}
+                      <i className="fas fa-user-slash"></i> Currently Inactive:{" "}
+                      {details?.inactiveClient || 0}
                     </p>
                   </div>
                 </div>
@@ -701,7 +725,9 @@ const getallClientCount = ()=>{
                   style={{ backgroundColor: "#0288D1" }} // Steel Blue
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
+                    <h6 className="">
+                      <i className="fas fa-file-invoice"></i> Invoices Raised
+                    </h6>
                     <p className="card-text">Total: 350</p>
                     <p className="card-text">
                       <i className="fas fa-file-invoice"></i> Pending Payments
@@ -718,10 +744,13 @@ const getallClientCount = ()=>{
                   style={{ backgroundColor: "#1A237E" }} // Navy Blue
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
+                    <h6 className="">
+                      <i className="fas fa-money-check-alt"></i> Invoices Paid
+                    </h6>
                     <p className="card-text">Total: 290</p>
                     <p className="card-text">
-                      <i className="fas fa-money-bill-wave"></i> Payments Received
+                      <i className="fas fa-money-bill-wave"></i> Payments
+                      Received
                     </p>
                   </div>
                 </div>
@@ -730,12 +759,11 @@ const getallClientCount = ()=>{
           </div>
         </div>
 
-
         <div className="container-fluid mt-3">
           <div className="row">
             <div className="col-xl-12">
               <div className="card border-0 rounded-1 shadow-sm">
-              <div className="card-header bg-white mb-0 mt-1 pb-0">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
                       <p className="me-auto ">
@@ -757,424 +785,505 @@ const getallClientCount = ()=>{
                     </div>
 
                     <div>
-                    
-                       
-                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-                          <li>
-                            {" "}
-                            <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
-            >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
-                            </a>
-                          </li>
-                          <li>
-                            
-                              <a
-                              className="nav-link "
-                              id="profile-tab"
-                              data-bs-toggle="tab"
-                              href="#tab-profile"
-                              role="tab"
-                              aria-controls="tab-profile"
-                              aria-selected="false"
-                            >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
-                            </a>
-                          </li>
-                        </ul>
-                      
-                     
+                      <ul
+                        class="nav nav-underline fs-9"
+                        id="myTab"
+                        role="tablist"
+                      >
+                        <li>
+                          {" "}
+                          <a
+                            className="nav-link active "
+                            id="home-tab"
+                            data-bs-toggle="tab"
+                            href="#tab-home"
+                            role="tab"
+                            aria-controls="tab-home"
+                            aria-selected="true"
+                          >
+                            <i class="fa fa-list" aria-hidden="true"></i> List
+                            View
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            className="nav-link "
+                            id="profile-tab"
+                            data-bs-toggle="tab"
+                            href="#tab-profile"
+                            role="tab"
+                            aria-controls="tab-profile"
+                            aria-selected="false"
+                          >
+                            <i class="fa fa-th" aria-hidden="true"></i> Grid
+                            View
+                          </a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
                 <div className="card-body">
-  <div className="tab-content m">
-    {/* List View */}
-    <div className="tab-pane fade show active" id="tab-home" role="tabpanel" aria-labelledby="home-tab">
-    
-                  <div className="table-responsive">
-                    <table
-                      className="table table-hover text-center"
-                      style={{ color: "#9265cc" }} // Existing color code
-                      ref={tableRef}
+                  <div className="tab-content m">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
                     >
-               <thead className="table-light" style={{ fontSize: '12px' }}>
-          <tr>
-            <th className="text-start">
-              <input type="checkbox" />
-            </th>
-            <th className="text-capitalize text-start">S No</th>
-            <th className="text-capitalize text-start">Code</th>
-
-            {/* Filterable Columns */}
-            <th className="text-capitalize text-start">
-              Type
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('typeOfClient')}
-              />
-              {showFilter.typeOfClient && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.typeOfClient}
-                    onInputValueChange={(value) => handleInputValueChange('typeOfClient', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Type',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
+                      <div className="table-responsive">
+                        <table
+                          className="table table-hover text-center"
+                          style={{ color: "#9265cc" }} // Existing color code
+                          ref={tableRef}
                         >
-                          {isOpen &&
-                            filteredOptions([], 'typeOfClient').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
-            </th>
+                          <thead
+                            className="table-light"
+                            style={{ fontSize: "12px" }}
+                          >
+                            <tr>
+                              <th className="text-start">
+                                <input type="checkbox" />
+                              </th>
+                              <th className="text-capitalize text-start">
+                                S No
+                              </th>
+                              <th className="text-capitalize text-start">
+                                Code
+                              </th>
 
-            <th className="text-capitalize text-start">
-              Name
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('name')}
-              />
-              {showFilter.name && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.name}
-                    onInputValueChange={(value) => handleInputValueChange('name', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Name',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions([], 'name').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
-            </th>
+                              {/* Filterable Columns */}
+                              <th className="text-capitalize text-start">
+                                Type
+                                <i
+                                  className="fa fa-filter ms-2"
+                                  aria-hidden="true"
+                                  onClick={() =>
+                                    handleFilterClick("typeOfClient")
+                                  }
+                                />
+                                {showFilter.typeOfClient && (
+                                  <div className="position-absolute bg-white border p-2">
+                                    <Downshift
+                                      inputValue={inputValues.typeOfClient}
+                                      onInputValueChange={(value) =>
+                                        handleInputValueChange(
+                                          "typeOfClient",
+                                          value
+                                        )
+                                      }
+                                      itemToString={(item) =>
+                                        item ? item : ""
+                                      }
+                                    >
+                                      {({
+                                        getInputProps,
+                                        getItemProps,
+                                        getMenuProps,
+                                        isOpen,
+                                        highlightedIndex,
+                                      }) => (
+                                        <div className="d-inline-block position-relative">
+                                          <input
+                                            {...getInputProps({
+                                              placeholder: "Search Type",
+                                              className:
+                                                "form-control form-control-sm mb-2",
+                                            })}
+                                          />
+                                          <ul
+                                            {...getMenuProps()}
+                                            className="list-group"
+                                            style={{
+                                              listStyle: "none",
+                                              padding: 0,
+                                            }}
+                                          >
+                                            {isOpen &&
+                                              filteredOptions(
+                                                [],
+                                                "typeOfClient"
+                                              ).map((item, index) => (
+                                                <li
+                                                  key={item}
+                                                  {...getItemProps({
+                                                    index,
+                                                    item,
+                                                    className: `list-group-item ${
+                                                      highlightedIndex === index
+                                                        ? "bg-primary text-white"
+                                                        : ""
+                                                    }`,
+                                                  })}
+                                                >
+                                                  {item}
+                                                </li>
+                                              ))}
+                                          </ul>
+                                        </div>
+                                      )}
+                                    </Downshift>
+                                  </div>
+                                )}
+                              </th>
 
-            <th className="text-capitalize text-start">
-              Primary No
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('primaryNo')}
-              />
-              {showFilter.primaryNo && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.primaryNo}
-                    onInputValueChange={(value) => handleInputValueChange('primaryNo', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Primary No',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions([], 'primaryNo').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
-            </th>
+                              <th className="text-capitalize text-start">
+                                Name
+                                <i
+                                  className="fa fa-filter ms-2"
+                                  aria-hidden="true"
+                                  onClick={() => handleFilterClick("name")}
+                                />
+                                {showFilter.name && (
+                                  <div className="position-absolute bg-white border p-2">
+                                    <Downshift
+                                      inputValue={inputValues.name}
+                                      onInputValueChange={(value) =>
+                                        handleInputValueChange("name", value)
+                                      }
+                                      itemToString={(item) =>
+                                        item ? item : ""
+                                      }
+                                    >
+                                      {({
+                                        getInputProps,
+                                        getItemProps,
+                                        getMenuProps,
+                                        isOpen,
+                                        highlightedIndex,
+                                      }) => (
+                                        <div className="d-inline-block position-relative">
+                                          <input
+                                            {...getInputProps({
+                                              placeholder: "Search Name",
+                                              className:
+                                                "form-control form-control-sm mb-2",
+                                            })}
+                                          />
+                                          <ul
+                                            {...getMenuProps()}
+                                            className="list-group"
+                                            style={{
+                                              listStyle: "none",
+                                              padding: 0,
+                                            }}
+                                          >
+                                            {isOpen &&
+                                              filteredOptions([], "name").map(
+                                                (item, index) => (
+                                                  <li
+                                                    key={item}
+                                                    {...getItemProps({
+                                                      index,
+                                                      item,
+                                                      className: `list-group-item ${
+                                                        highlightedIndex ===
+                                                        index
+                                                          ? "bg-primary text-white"
+                                                          : ""
+                                                      }`,
+                                                    })}
+                                                  >
+                                                    {item}
+                                                  </li>
+                                                )
+                                              )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                    </Downshift>
+                                  </div>
+                                )}
+                              </th>
 
-            <th className="text-capitalize text-start">
-              Email ID
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('email')}
-              />
-              {showFilter.email && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.email}
-                    onInputValueChange={(value) => handleInputValueChange('email', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Email ID',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-grop"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions([], 'email').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
-            </th>
+                              <th className="text-capitalize text-start">
+                                Primary No
+                                <i
+                                  className="fa fa-filter ms-2"
+                                  aria-hidden="true"
+                                  onClick={() => handleFilterClick("primaryNo")}
+                                />
+                                {showFilter.primaryNo && (
+                                  <div className="position-absolute bg-white border p-2">
+                                    <Downshift
+                                      inputValue={inputValues.primaryNo}
+                                      onInputValueChange={(value) =>
+                                        handleInputValueChange(
+                                          "primaryNo",
+                                          value
+                                        )
+                                      }
+                                      itemToString={(item) =>
+                                        item ? item : ""
+                                      }
+                                    >
+                                      {({
+                                        getInputProps,
+                                        getItemProps,
+                                        getMenuProps,
+                                        isOpen,
+                                        highlightedIndex,
+                                      }) => (
+                                        <div className="d-inline-block position-relative">
+                                          <input
+                                            {...getInputProps({
+                                              placeholder: "Search Primary No",
+                                              className:
+                                                "form-control form-control-sm mb-2",
+                                            })}
+                                          />
+                                          <ul
+                                            {...getMenuProps()}
+                                            className="list-group"
+                                            style={{
+                                              listStyle: "none",
+                                              padding: 0,
+                                            }}
+                                          >
+                                            {isOpen &&
+                                              filteredOptions(
+                                                [],
+                                                "primaryNo"
+                                              ).map((item, index) => (
+                                                <li
+                                                  key={item}
+                                                  {...getItemProps({
+                                                    index,
+                                                    item,
+                                                    className: `list-group-item ${
+                                                      highlightedIndex === index
+                                                        ? "bg-primary text-white"
+                                                        : ""
+                                                    }`,
+                                                  })}
+                                                >
+                                                  {item}
+                                                </li>
+                                              ))}
+                                          </ul>
+                                        </div>
+                                      )}
+                                    </Downshift>
+                                  </div>
+                                )}
+                              </th>
 
-            <th className="text-capitalize text-start">
-              Status
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('status')}
-              />
-              {showFilter.status && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.status}
-                    onInputValueChange={(value) => handleInputValueChange('status', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Status',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions(['Active', 'Inactive'], 'status').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
-            </th>
-            <th>Action</th>
-          </tr>
-        </thead>
+                              <th className="text-capitalize text-start">
+                                Email ID
+                                <i
+                                  className="fa fa-filter ms-2"
+                                  aria-hidden="true"
+                                  onClick={() => handleFilterClick("email")}
+                                />
+                                {showFilter.email && (
+                                  <div className="position-absolute bg-white border p-2">
+                                    <Downshift
+                                      inputValue={inputValues.email}
+                                      onInputValueChange={(value) =>
+                                        handleInputValueChange("email", value)
+                                      }
+                                      itemToString={(item) =>
+                                        item ? item : ""
+                                      }
+                                    >
+                                      {({
+                                        getInputProps,
+                                        getItemProps,
+                                        getMenuProps,
+                                        isOpen,
+                                        highlightedIndex,
+                                      }) => (
+                                        <div className="d-inline-block position-relative">
+                                          <input
+                                            {...getInputProps({
+                                              placeholder: "Search Email ID",
+                                              className:
+                                                "form-control form-control-sm mb-2",
+                                            })}
+                                          />
+                                          <ul
+                                            {...getMenuProps()}
+                                            className="list-grop"
+                                            style={{
+                                              listStyle: "none",
+                                              padding: 0,
+                                            }}
+                                          >
+                                            {isOpen &&
+                                              filteredOptions([], "email").map(
+                                                (item, index) => (
+                                                  <li
+                                                    key={item}
+                                                    {...getItemProps({
+                                                      index,
+                                                      item,
+                                                      className: `list-group-item ${
+                                                        highlightedIndex ===
+                                                        index
+                                                          ? "bg-primary text-white"
+                                                          : ""
+                                                      }`,
+                                                    })}
+                                                  >
+                                                    {item}
+                                                  </li>
+                                                )
+                                              )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                    </Downshift>
+                                  </div>
+                                )}
+                              </th>
 
+                              <th className="text-capitalize text-start">
+                                Status
+                                <i
+                                  className="fa fa-filter ms-2"
+                                  aria-hidden="true"
+                                  onClick={() => handleFilterClick("status")}
+                                />
+                                {showFilter.status && (
+                                  <div className="position-absolute bg-white border p-2">
+                                    <Downshift
+                                      inputValue={inputValues.status}
+                                      onInputValueChange={(value) =>
+                                        handleInputValueChange("status", value)
+                                      }
+                                      itemToString={(item) =>
+                                        item ? item : ""
+                                      }
+                                    >
+                                      {({
+                                        getInputProps,
+                                        getItemProps,
+                                        getMenuProps,
+                                        isOpen,
+                                        highlightedIndex,
+                                      }) => (
+                                        <div className="d-inline-block position-relative">
+                                          <input
+                                            {...getInputProps({
+                                              placeholder: "Search Status",
+                                              className:
+                                                "form-control form-control-sm mb-2",
+                                            })}
+                                          />
+                                          <ul
+                                            {...getMenuProps()}
+                                            className="list-group"
+                                            style={{
+                                              listStyle: "none",
+                                              padding: 0,
+                                            }}
+                                          >
+                                            {isOpen &&
+                                              filteredOptions(
+                                                ["Active", "Inactive"],
+                                                "status"
+                                              ).map((item, index) => (
+                                                <li
+                                                  key={item}
+                                                  {...getItemProps({
+                                                    index,
+                                                    item,
+                                                    className: `list-group-item ${
+                                                      highlightedIndex === index
+                                                        ? "bg-primary text-white"
+                                                        : ""
+                                                    }`,
+                                                  })}
+                                                >
+                                                  {item}
+                                                </li>
+                                              ))}
+                                          </ul>
+                                        </div>
+                                      )}
+                                    </Downshift>
+                                  </div>
+                                )}
+                              </th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
 
-
-          
-
-                      <tbody style={{ fontSize: "11px" }}>
-                        {client?.map((data, index) => (
-                          <tr key={index} className="align-middle">
-                            <td className=" text-start">
-                              <input type="checkbox" />
-                              </td>
-                            <td className="text-capitalize text-start">
-                              {pagination.from + index + 1}
-                            </td>
-                            <td className="text-capitalize text-start">
-                              {data?.clientID || "Not Available"}
-                            </td>
-                            <td className="text-capitalize text-start">
-                              {data?.typeOfClient || "Not Available"}
-                            </td>
-                            <td className="text-capitalize text-start">
-                              <Link
-                                className="text-decoration-none text-dark"
-                                to={{
-                                  pathname: "/view_client",
-                                  search: `?id=${data?._id}`,
-                                }}
-                              >
-                                {data?.businessName || "Not Available"}
-                              </Link>
-                            </td>
-                            <td className="text-capitalize text-start">
-                              {data?.businessContactNo || "Not Available"}
-                            </td>
-                            <td className="text-start">
-                              {data?.businessMailID || "Not Available"}
-                            </td>
-                            <td className="text-capitalize text-start ">
-    
-            <span className="form-check form-switch d-inline ms-2" >
-              {data?.clientStatus === "Active" ? (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.clientStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              ) : (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.clientStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              )}
-             <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-                {data?.clientStatus || "Not Available"}
-              </label>
-
-            </span>
-                            </td>
-                             {/* <td className="text-capitalize text-start">
+                          <tbody style={{ fontSize: "11px" }}>
+                            {client?.map((data, index) => (
+                              <tr key={index} className="align-middle">
+                                <td className=" text-start">
+                                  <input type="checkbox" />
+                                </td>
+                                <td className="text-capitalize text-start">
+                                  {pagination.from + index + 1}
+                                </td>
+                                <td className="text-capitalize text-start">
+                                  {data?.clientID || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start">
+                                  {data?.typeOfClient || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start">
+                                  <Link
+                                    className="text-decoration-none text-dark"
+                                    to={{
+                                      pathname: "/view_client",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    {data?.businessName || "Not Available"}
+                                  </Link>
+                                </td>
+                                <td className="text-capitalize text-start">
+                                  {data?.businessContactNo || "Not Available"}
+                                </td>
+                                <td className="text-start">
+                                  {data?.businessMailID || "Not Available"}
+                                </td>
+                                <td className="text-capitalize text-start ">
+                                  <span className="form-check form-switch d-inline ms-2">
+                                    {data?.clientStatus === "Active" ? (
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        value={data?.clientStatus}
+                                        id={`flexSwitchCheckDefault${index}`}
+                                        checked={statuses[data._id] || false}
+                                        onChange={() =>
+                                          handleCheckboxChange(
+                                            data._id,
+                                            statuses[data._id]
+                                          )
+                                        }
+                                      />
+                                    ) : (
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        value={data?.clientStatus}
+                                        id={`flexSwitchCheckDefault${index}`}
+                                        checked={statuses[data._id] || false}
+                                        onChange={() =>
+                                          handleCheckboxChange(
+                                            data._id,
+                                            statuses[data._id]
+                                          )
+                                        }
+                                      />
+                                    )}
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor={`flexSwitchCheckDefault${index}`}
+                                    >
+                                      {data?.clientStatus || "Not Available"}
+                                    </label>
+                                  </span>
+                                </td>
+                                {/* <td className="text-capitalize text-start">
     <span className="form-check form-switch d-inline ms-2">
       <input
         className="form-check-input"
@@ -1189,111 +1298,159 @@ const getallClientCount = ()=>{
       </label>
     </span>
   </td> */}
-                            <td className="text-capitalize text-start">
-                              <div className="d-flex justify-content-between align-items-start">
-                                <Link
-                                  className="text-decoration-none "
-                                  to={{
-                                    pathname: "/view_client",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                  data-bs-toggle="tooltip"
-                                  title="View"
-                                >
-                                  <i className="far fa-eye text-primary "></i>
-                                </Link>
-                                <Link
-                                  className="text-decoration-none "
-                                  to={{
-                                    pathname: "/edit_client",
-                                    search: `?id=${data?._id}`,
-                                  }}
-                                  data-bs-toggle="tooltip"
-                                  title="Edit"
-                                >
-                                  <i className="far fa-edit text-warning "></i>
-                                </Link>
-                                <button
-                                  className="text-decoration-none border-0 btn p-0 m-0 bg-white "
-                                  onClick={() => {
-                                    openPopup(data?._id);
-                                  }}
-                                  data-bs-toggle="tooltip"
-                                  title="Delete"
-                                >
-                                  <i className="far fa-trash-alt text-danger "></i>
-                                </button>
+                                <td className="text-capitalize text-start">
+                                  <div className="d-flex justify-content-between align-items-start">
+                                    <Link
+                                      className="text-decoration-none "
+                                      to={{
+                                        pathname: "/view_client",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      title="View"
+                                    >
+                                      <i className="far fa-eye text-primary "></i>
+                                    </Link>
+                                    <Link
+                                      className="text-decoration-none "
+                                      to={{
+                                        pathname: "/edit_client",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      title="Edit"
+                                    >
+                                      <i className="far fa-edit text-warning "></i>
+                                    </Link>
+                                    <button
+                                      className="text-decoration-none border-0 btn p-0 m-0 bg-white "
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      title="Delete"
+                                    >
+                                      <i className="far fa-trash-alt text-danger "></i>
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    {/* Grid View */}
+                    <div
+                      className="tab-pane fade"
+                      id="tab-profile"
+                      role="tabpanel"
+                      aria-labelledby="profile-tab"
+                    >
+                      {client?.map((data, index) => (
+                        <div className="row" key={index}>
+                          <div className="col-4">
+                            <div
+                              className="card shadow-sm"
+                              style={{ fontSize: "10px" }}
+                            >
+                              <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <h5 className="card-title mb-0">
+                                  {data?.businessName || "Not Available"}
+                                </h5>
                               </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                
-    </div>
-    {/* Grid View */}
-    <div className="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
-    {client?.map((data, index) => (
-      <div className="row" key={index}>
-        <div className="col-4">
-        <div className="card shadow-sm" style={{fontSize:'10px'}}>
-      <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <h5 className="card-title mb-0">{data?.businessName || "Not Available"}</h5>
-       
-      </div>
-      <div className="card-body">
-        <div className="row">
-          <div className="col-md-6">
-            <p className="text-muted">S.No:</p>
-            <p className="card-text"> {pagination.from + index + 1}</p>
-            <p className="text-muted">Client ID:</p>
-            <p className="card-text">{data?.clientID || "Not Available"}</p>
-            <p className="text-muted">Type of Client:</p>
-            <p className="card-text">{data?.typeOfClient || "Not Available"}</p>
-            <p className="text-muted">Status:</p>
-            <p className="card-text">
-              <span className="badge bg-success"> <span className="form-check form-switch d-inline ms-2" >
-              {data?.clientStatus === "Active" ? (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.clientStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              ) : (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.clientStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              )}
-             <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-                {data?.clientStatus || "Not Available"}
-              </label>
-
-            </span></span>
-            </p>
-          </div>
-          <div className="col-md-6">
-            <p className="text-muted">Name:</p>
-            <p className="card-text">{data?.businessName || "Not Available"}</p>
-            <p className="text-muted">Primary Number:</p>
-            <p className="card-text"> {data?.businessContactNo || "Not Available"}</p>
-            <p className="text-muted">Email ID:</p>
-            <p className="card-text"> {data?.businessMailID || "Not Available"}</p>
-          </div>
-        </div>
-      </div>
-      <div className="card-footer bg-light d-flex justify-content-between">
-      <Link
+                              <div className="card-body">
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <p className="text-muted">S.No:</p>
+                                    <p className="card-text">
+                                      {" "}
+                                      {pagination.from + index + 1}
+                                    </p>
+                                    <p className="text-muted">Client ID:</p>
+                                    <p className="card-text">
+                                      {data?.clientID || "Not Available"}
+                                    </p>
+                                    <p className="text-muted">
+                                      Type of Client:
+                                    </p>
+                                    <p className="card-text">
+                                      {data?.typeOfClient || "Not Available"}
+                                    </p>
+                                    <p className="text-muted">Status:</p>
+                                    <p className="card-text">
+                                      <span className="badge bg-success">
+                                        {" "}
+                                        <span className="form-check form-switch d-inline ms-2">
+                                          {data?.clientStatus === "Active" ? (
+                                            <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              role="switch"
+                                              value={data?.clientStatus}
+                                              id={`flexSwitchCheckDefault${index}`}
+                                              checked={
+                                                statuses[data._id] || false
+                                              }
+                                              onChange={() =>
+                                                handleCheckboxChange(
+                                                  data._id,
+                                                  statuses[data._id]
+                                                )
+                                              }
+                                            />
+                                          ) : (
+                                            <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              role="switch"
+                                              value={data?.clientStatus}
+                                              id={`flexSwitchCheckDefault${index}`}
+                                              checked={
+                                                statuses[data._id] || false
+                                              }
+                                              onChange={() =>
+                                                handleCheckboxChange(
+                                                  data._id,
+                                                  statuses[data._id]
+                                                )
+                                              }
+                                            />
+                                          )}
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor={`flexSwitchCheckDefault${index}`}
+                                          >
+                                            {data?.clientStatus ||
+                                              "Not Available"}
+                                          </label>
+                                        </span>
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <p className="text-muted">Name:</p>
+                                    <p className="card-text">
+                                      {data?.businessName || "Not Available"}
+                                    </p>
+                                    <p className="text-muted">
+                                      Primary Number:
+                                    </p>
+                                    <p className="card-text">
+                                      {" "}
+                                      {data?.businessContactNo ||
+                                        "Not Available"}
+                                    </p>
+                                    <p className="text-muted">Email ID:</p>
+                                    <p className="card-text">
+                                      {" "}
+                                      {data?.businessMailID || "Not Available"}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="card-footer bg-light d-flex justify-content-between">
+                                <Link
                                   className="btn btn-outline-primary btn-sm"
                                   to={{
                                     pathname: "/view_client",
@@ -1302,11 +1459,11 @@ const getallClientCount = ()=>{
                                   data-bs-toggle="tooltip"
                                   title="View"
                                 >
-                                  <i className="far fa-eye text-primary "></i>View
+                                  <i className="far fa-eye text-primary "></i>
+                                  View
                                 </Link>
-        
-       
-        <Link
+
+                                <Link
                                   className="btn btn-outline-warning btn-sm"
                                   to={{
                                     pathname: "/edit_client",
@@ -1315,62 +1472,59 @@ const getallClientCount = ()=>{
                                   data-bs-toggle="tooltip"
                                   title="Edit"
                                 >
-                                  <i className="far fa-edit text-warning "></i>Edit
+                                  <i className="far fa-edit text-warning "></i>
+                                  Edit
                                 </Link>
-        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                                <button
+                                  className="btn btn-outline-danger btn-sm"
+                                  onClick={() => {
                                     openPopup(data?._id);
                                   }}
                                   data-bs-toggle="tooltip"
-                                  title="Delete">
-          <i className="bi bi-trash"></i> Delete
-        </button>
-      </div>
-    </div>
-        </div>
-
-      </div>
-    ))}
-    
-   
-    </div>
-  </div>
-  </div>
-  <div className='card-footer bg-white'>
-  <div className="d-flex justify-content-between align-items-center p-3">
-                  <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
+                                  title="Delete"
+                                >
+                                  <i className="bi bi-trash"></i> Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-  </div>
-               
-              
+                <div className="card-footer bg-white">
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                    <p className="me-auto ">
+                      Show
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{
+                          width: "auto",
+                          display: "inline-block",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                      </select>{" "}
+                      Entries out of 100
+                    </p>
+                    <Pagination
+                      count={Math.ceil(pagination.count / pageSize)}
+                      onChange={handlePageChange}
+                      variant="outlined"
+                      shape="rounded"
+                      color="primary"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-
-  
-        
-
-
       </div>
       <Dialog open={open}>
         <DialogContent>
@@ -1451,15 +1605,6 @@ const getallClientCount = ()=>{
           </form>
         </DialogContent>
       </Dialog>
-
-
-  
-
-
-
-
-
-
     </>
   );
 }

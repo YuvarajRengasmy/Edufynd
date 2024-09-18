@@ -596,7 +596,7 @@ export const ListEvents = () => {
   <div className="row">
   {notification?.map((data, index) => (
       <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
           <div className="card-header   d-flex justify-content-between align-items-center">
             <h6 className="mb-0"></h6>
           </div>
@@ -608,57 +608,63 @@ export const ListEvents = () => {
                     <strong>S.No</strong>
                   </div>
                   <div className="col-md-7">
-                  
+                  {pagination.from + index + 1}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Program ID</strong>
+                    <strong>Created At</strong>
                   </div>
                   <div className="col-md-7">
-                  
+                  {formatDate(
+                                    data?.createdOn
+                                      ? data?.createdOn
+                                      : data?.modifiedOn
+                                      ? data?.modifiedOn
+                                      : "-"
+                                     )  || "Not Available"}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>University Name</strong>
+                    <strong>Date</strong>
                   </div>
                   <div className="col-md-7">
-                  
+                  {formatDate(data?.date ? data?.date : "-")  || "Not Available"}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Application Fee</strong>
+                    <strong>Topic</strong>
                   </div>
                   <div className="col-md-7">
-                  
+                  {data?.eventTopic  || "Not Available"}
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Course Fee</strong>
+                    <strong>University</strong>
                   </div>
                   <div className="col-md-7">
-                  
+                  {data?.universityName  || "Not Available"} 
                   </div>
                 </div>
               </div>
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Status</strong>
+                    <strong>Venue</strong>
                   </div>
                   <div className="col-md-7 ">
-                  
+                  {data?.venue  || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -666,7 +672,7 @@ export const ListEvents = () => {
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
           <Link
-                                      className="btn btn-sm btn-outline-"
+                                      className="btn btn-sm btn-outline-primary"
                                       to={{
                                         pathname: "/view_events",
                                         search: `?id=${data?._id}`,
@@ -674,10 +680,10 @@ export const ListEvents = () => {
                                       data-bs-toggle="tooltip"
                                       title="View"
                                     >
-                                      <i className="far fa-eye text-primary me-1"></i>
+                                      <i className="far fa-eye text-primary me-1"></i>View
                                     </Link>
                                     <Link
-                                      className="dropdown-item"
+                                      className="btn btn-sm btn-outline-warning"
                                       to={{
                                         pathname: "/edit_events",
                                         search: `?id=${data?._id}`,
@@ -685,15 +691,15 @@ export const ListEvents = () => {
                                       data-bs-toggle="tooltip"
                                       title="Edit"
                                     >
-                                      <i className="far fa-edit text-warning me-1"></i>
+                                      <i className="far fa-edit text-warning me-1"></i>Edit
                                     </Link>
                                     <button
-                                      className="dropdown-item"
+                                      className="btn btn-sm btn-outline-danger"
                                       onClick={() => {
                                         openPopup(data?._id);
                                       }}
                                     >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                      <i className="far fa-trash-alt text-danger me-1"></i>Delete
                                     </button>
           </div>
         </div>
