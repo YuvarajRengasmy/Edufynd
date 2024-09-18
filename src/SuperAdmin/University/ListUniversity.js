@@ -1128,7 +1128,7 @@ const chartRef = useRef(null);
                   <div className="col-md-5">
                     <strong>Status</strong>
                   </div>
-                  <div className="col-md-7 d-flex align-items-center">
+                  {/* <div className="col-md-7 d-flex align-items-center">
                   <span className="form-check form-switch d-inline ms-2" >
       {data?.universityStatus === "Active" ? (
         <input
@@ -1156,7 +1156,7 @@ const chartRef = useRef(null);
       </label>
 
     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
