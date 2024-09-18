@@ -10,6 +10,8 @@ import {
   updateUniversity,
   
 } from "../../api/university";
+import { getAllApplicantCard } from "../../api/applicatin";
+
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -57,6 +59,8 @@ export default function Masterproductlist() {
   const pageSize = 10;
   const search = useRef(null);
   const [details, setDetails] = useState();
+  const [detail, setDetail] = useState();
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -68,6 +72,7 @@ export default function Masterproductlist() {
   useEffect(() => {
     getAllUniversityDetails();
     getallUniversityCount();
+    getallApplicantCount();
   }, [pagination.from, pagination.to]);
 
   useEffect(() => {
@@ -115,6 +120,9 @@ export default function Masterproductlist() {
   });
 }
 
+const getallApplicantCount = ()=>{
+  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+}
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
       search.current.blur();
@@ -745,7 +753,6 @@ const chartRef = useRef(null);
                 <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
                 <p className="card-text mb-1">Total:{details?.totalUniqueCountries|| 0}</p>
-                <p className="card-text mb-1">Country List</p>
                 </div>
               </div>
             </div>
@@ -772,7 +779,7 @@ const chartRef = useRef(null);
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
               <div className="card-body">
                 <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;No Of Applications</h6>
-                <p className="card-text">Total: 500</p>
+                <p className="card-text">Total: {detail?.totalApplication}</p>
               </div>
             </div>
           </Link>

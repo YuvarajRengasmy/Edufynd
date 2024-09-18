@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {getSuperAdminForSearch} from '../../api/superAdmin';
-
+import { getAllApplicantCard } from "../../api/applicatin";
 import {
   getallProgram,
   getAllProgramCard,
@@ -44,7 +44,7 @@ export default function Masterproductlist() {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-
+  const [detail, setDetail] = useState();
   const pageSize = 10;
   const search = useRef(null);
   const [pagination, setPagination] = useState({
@@ -75,10 +75,14 @@ useEffect(() => {
 
 
 useEffect(() => {
-  getallProgramCount()
+  getallProgramCount();
+  getallApplicantCount();
  
 }, []);
 
+const getallApplicantCount = ()=>{
+  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+}
 const getallProgramCount = ()=>{
   getAllProgramCard().then((res)=>setDetails(res?.data.result))
 }
@@ -225,8 +229,8 @@ const getallProgramCount = ()=>{
 
     try {
       const response = await axios.post(
-        // "https://api.edufynd.in/api/program/import",
-        "http://localhost:4409/api/program/import",
+         "https://api.edufynd.in/api/program/import",
+        // "http://localhost:4409/api/program/import",
         formData,
         {
           headers: {
@@ -646,7 +650,7 @@ const getallProgramCount = ()=>{
             <div className="card-body text-center">
              
               <h6>   <i className="fas fa-chart-bar "></i>&nbsp;&nbsp;No Of Applications</h6>
-              <p className="card-text">1200</p>
+              <p className="card-text">{detail?.totalApplication}</p>
             </div>
           </div>
           </Link>
