@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient,updateClient, getAllClientCard } from "../../api/client";
+import { getallClient, deleteClient,updateClient, getAllClientCard,getFilterClient } from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -17,23 +17,14 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-import {getFilterClient} from '../../api/client'
 import Downshift from "downshift";
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
     businessName: "",
-    businessMailID: "",
-    businessContactNo: "",
-    website: "",
-    addressLine1: "", // Street Address, City, State, Postal Code, Country
-    addressLine2: "",
-    addressLine3: "",
-    name: "",
-    contactNo: "",
-    emailID: "",
-    gstn: "",
-    clientStatus: "",
+    businessContactNo:"", 
+    clientStatus:"",
+    businessMailID:"",
     
   };
   const [client, setClient] = useState([]);
@@ -80,7 +71,8 @@ export default function Masterproductlist() {
 
   
 useEffect(() => {
-  getallClientCount()
+  getallClientCount();
+  filterUniversityList();
  
 }, []);
 
@@ -129,6 +121,41 @@ const getallClientCount = ()=>{
         console.log(err);
       });
   };
+
+  const filterUniversityList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+
+      typeOfClient: inputs.typeOfClient,
+      businessName: inputs.businessName,
+      businessContactNo:inputs.businessContactNo, 
+      clientStatus:inputs.clientStatus,
+      businessMailID:inputs.businessMailID,
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getFilterClient(data)
+      .then((res) => {
+        setClient(res?.data?.result?.clientList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.clientCount,
+        });
+        closeFilterPopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const resetFilter = () => {
+    // setFilter(false);
+    setInputs(initialState);
+    getClientList();
+   
+  };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
@@ -159,7 +186,7 @@ const getallClientCount = ()=>{
   };
 
   const handleInputs = (event) => {
-    setClient({ ...client, [event.target.name]: event.target.value });
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
   const openImportPopup = () => {
     setOpenImport(true);
@@ -532,6 +559,18 @@ const getallClientCount = ()=>{
                     <div className="offcanvas-body">
                       <form>
                         <div className="row gy-3 mb-3">
+                        <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-id-card"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="typeOfClient"
+                              onChange={handleInputs}
+                              placeholder="Search... TypeOfClient"
+                            />
+                          </div>
                           <div className="input-group">
                             <span className="input-group-text">
                               <i className="fas fa-user"></i>
@@ -563,26 +602,16 @@ const getallClientCount = ()=>{
                             <input
                               type="text"
                               className="form-control"
-                              name="status"
+                              name="clientStatus"
                               onChange={handleInputs}
                               placeholder="Search... Status"
                             />
                           </div>
-                          <div className="input-group">
-                            <span className="input-group-text">
-                              <i className="fas fa-id-card"></i>
-                            </span>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="clientID"
-                              onChange={handleInputs}
-                              placeholder="Search... Client ID"
-                            />
-                          </div>
+                        
                         </div>
                         <div className="d-flex justify-content-end gap-3">
                           <button
+                             onClick={resetFilter}
                             className="btn text-uppercase rounded-1 border-0 fw-semibold"
                             style={{ backgroundColor: "#0f2239", color: "#fff" }} // Dark color for reset
                           >
@@ -591,6 +620,7 @@ const getallClientCount = ()=>{
                           <button
                             data-bs-dismiss="offcanvas"
                             type="submit"
+                            onClick={filterUniversityList}
                             className="btn text-uppercase rounded-1 border-0 fw-semibold"
                             style={{ backgroundColor: "#fe5722", color: "#fff" }} // Primary color for apply
                           >
@@ -1174,21 +1204,7 @@ const getallClientCount = ()=>{
 
             </span>
                             </td>
-                             {/* <td className="text-capitalize text-start">
-    <span className="form-check form-switch d-inline ms-2">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        role="switch"
-        id={`flexSwitchCheckDefault${index}`}
-        checked={statuses[data._id] || false}
-        onChange={() => handleCheckboxChange(data._id)}
-      />
-      <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-        {statuses[data._id] ? "Active" : "Inactive"}
-      </label>
-    </span>
-  </td> */}
+                         
                             <td className="text-capitalize text-start">
                               <div className="d-flex justify-content-between align-items-start">
                                 <Link
@@ -1232,7 +1248,7 @@ const getallClientCount = ()=>{
                   </div>
                 
     </div>
-    {/* Grid View */}
+  
     <div className="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
     {client?.map((data, index) => (
       <div className="row" key={index}>
