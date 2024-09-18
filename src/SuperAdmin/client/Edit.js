@@ -397,9 +397,10 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              value={client?.typeOfClient}
+                            
                               className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
                               name="typeOfClient"
+                              value={client?.typeOfClient}
                             >
                               <option value={""}>Select Client Type</option>
                               {type.map((data, index) => (
