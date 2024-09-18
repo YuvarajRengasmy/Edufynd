@@ -414,7 +414,16 @@ export const ListTraining = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                  <div className="card-table">
+
+                <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+<div className="card-table">
                     <div className="table-responsive">
 
                       <table className=" table table-hover card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
@@ -439,7 +448,7 @@ export const ListTraining = () => {
                               <input type="checkbox" />
                               </td>
                               <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
-                              <td className="text-capitalize text-start text-truncate" >{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-") || "Not Available"}</td>
+                              <td className="text-capitalize text-start text-truncate" >{formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-") || "Not Available"}<small className="text-danger">Timer</small></td>
                               <td className="text-capitalize text-start text-truncate">{data?.trainingTopic || "Not Available"}</td>
                              
                               <td className="text-capitalize text-start text-truncate">{data?.typeOfUser || "Not Available"}</td>
@@ -470,7 +479,7 @@ export const ListTraining = () => {
                                     <i className="far fa-edit text-warning me-1"></i>
 
                                   </Link>
-                                  <Link
+                                  <button
                                     className="dropdown-item"
                                     onClick={() => {
                                       openPopup(data?._id);
@@ -479,7 +488,7 @@ export const ListTraining = () => {
                                   >
                                     <i className="far fa-trash-alt text-danger me-1"></i>
 
-                                  </Link>
+                                  </button>
                                 </div>
 
                               </td>
@@ -490,6 +499,120 @@ export const ListTraining = () => {
                       </table>
                     </div>
                   </div>
+
+        
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {notification?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100"  style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"></h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-") || "Not Available"}<small className="text-danger">Timer</small>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Topic</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.trainingTopic || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Type Of User</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.typeOfUser || "Not Available"}
+                  </div>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                    className="btn btn-sm btn-outline-primary"
+                                    to={{
+                                      pathname: "/view_training",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                    data-bs-toggle="tooltip"
+                                    title="View"
+                                  >
+                                    <i className="far fa-eye text-primary me-1"></i>View
+
+                                  </Link>
+                                  <Link
+                                    className="btn btn-sm btn-outline-warning"
+                                    to={{
+                                      pathname: "/edit_training",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                    data-bs-toggle="tooltip"
+                                    title="Edit"
+                                  >
+                                    <i className="far fa-edit text-warning me-1"></i>Edit
+
+                                  </Link>
+                                  <button
+                                    className="btn btn-sm btn-outline-danger"
+                                    onClick={() => {
+                                      openPopup(data?._id);
+                                    }}
+                                   
+                                  >
+                                    <i className="far fa-trash-alt text-danger me-1"></i>Delete
+
+                                  </button>
+          </div>
+        </div>
+      </div>
+))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+                  
                   <div className="d-flex justify-content-between align-items-center p-3">
                   <p className="me-auto ">
                     Show
