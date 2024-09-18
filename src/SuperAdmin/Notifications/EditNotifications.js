@@ -231,9 +231,9 @@ export const EditNotifications = () => {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-      borderRadius: "4.91319px",
-      fontSize: "11px",
+      border: "1px solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4px",
+      fontSize: "12px",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -291,7 +291,7 @@ export const EditNotifications = () => {
                             </label>
 
                             <select
-                              class="form-select form-select-lg"
+                              class={`form-select form-select-lg ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -431,7 +431,7 @@ export const EditNotifications = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.subject.required ? 'is-invalid' :''}`}
                                 onChange={handleInputs}
                                 value={notification.subject}
                                 style={{
@@ -450,7 +450,7 @@ export const EditNotifications = () => {
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                                Uplaod Image<span className="text-danger">*</span>
+                                Upload Image<span className="text-danger">*</span>
                               </label>
                             <img
                                 className="img-fluid  img-thumbnail mx-auto d-block"
@@ -480,7 +480,7 @@ export const EditNotifications = () => {
                                 id="fileInputImage"
                                 type="file"
                                 accept="image/*"
-                                className="form-control border-0 text-dark bg-transparent"
+                                className={`form-control border-0 text-dark bg-transparent ${errors.uploadImage.required ? 'is-invalid' : ''}`}
                                 style={{
                                   display: "none",
                                   fontFamily: "Plus Jakarta Sans",

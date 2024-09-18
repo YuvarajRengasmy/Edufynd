@@ -152,17 +152,18 @@ export const EditTestimonials = () => {
                             
 
                             <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                            <button
+                            <Link
+                            to='/list_testimonials'
                                 style={{
                                   backgroundColor: "#231F20",
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                type='reset'
+                                
                                 className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                               >
                                 Cancel
-                              </button>
+                              </Link>
                               <button
                                 style={{
                                   backgroundColor: "#FE5722",

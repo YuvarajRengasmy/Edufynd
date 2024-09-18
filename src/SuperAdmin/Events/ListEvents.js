@@ -1,28 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import { Link } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  radioClasses,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {
-  getallEvent,
-  deleteEvent,
-  getFilterEvent,
-} from "../../api/Notification/event";
+import { deleteEvent, getFilterEvent } from "../../api/Notification/event";
 import { formatDate } from "../../Utils/DateFormat";
-
 import { FaFilter } from "react-icons/fa";
-import ListAgent from "../Admins/AdminList";
-
 export const ListEvents = () => {
   const [notification, setnotification] = useState([]);
   const [open, setOpen] = useState(false);
@@ -33,11 +17,9 @@ export const ListEvents = () => {
     from: 0,
     to: 0,
   });
-
   useEffect(() => {
     getAllClientDetails();
   }, [pagination.from, pagination.to]);
-
   const getAllClientDetails = () => {
     const data = {
       limit: 10,
@@ -56,7 +38,6 @@ export const ListEvents = () => {
         console.log(err);
       });
   };
-
   const deleteProgramData = () => {
     deleteEvent(deleteId)
       .then((res) => {
@@ -68,27 +49,21 @@ export const ListEvents = () => {
         console.log(err);
       });
   };
-
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
   };
-
   const closePopup = () => {
     setOpen(false);
   };
-
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
-
   const tableRef = useRef(null);
-
   useEffect(() => {
     const table = tableRef.current;
-
     // Apply SortableJS to the table headers
     const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
@@ -97,7 +72,6 @@ export const ListEvents = () => {
       onEnd: (evt) => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
-
         // Move the columns in the tbody
         table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
@@ -105,7 +79,6 @@ export const ListEvents = () => {
         });
       },
     });
-
     return () => {
       sortable.destroy();
     };
@@ -113,7 +86,6 @@ export const ListEvents = () => {
   return (
     <>
       <Mastersidebar />
-
       <div
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
@@ -131,9 +103,7 @@ export const ListEvents = () => {
                         aria-describedby="button-addon3"
                         className="form-control bg-white border-1  rounded-4 w-100"
                         style={{
-                          
                           fontSize: "12px", // Keep the font size if it's correct
-                          
                         }}
                       />
                       <span
@@ -209,7 +179,6 @@ export const ListEvents = () => {
                                   fontSize: "12px",
                                 }}
                               />
-
                               <label className="form-label">Users</label>
                               <br />
                               <input
@@ -232,7 +201,7 @@ export const ListEvents = () => {
                                   color: "#fff",
                                   fontSize: "12px",
                                 }}
-                                // onClick={resetFilter}
+                              // onClick={resetFilter}
                               >
                                 Reset
                               </button>
@@ -282,7 +251,6 @@ export const ListEvents = () => {
                       </span>
                     </Link>
                   </li>
-
                   <li class="m-1">
                     <Link class="btn-filters">
                       <span>
@@ -318,120 +286,112 @@ export const ListEvents = () => {
           </div>
         </div>
         <div className="container-fluid mt-3">
-      <div className="row">
-        {/* Card 1: Upcoming Events */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#00BCD4" }} // Cyan
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Events
-              </h6>
-              <p className="card-text">Events scheduled to happen soon.</p>
-              <p className="card-text">Total: 8</p>
+          <div className="row">
+            {/* Card 1: Upcoming Events */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#00BCD4" }} // Cyan
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Events
+                  </h6>
+                  <p className="card-text">Events scheduled to happen soon.</p>
+                  <p className="card-text">Total: 8</p>
+                </div>
+              </div>
+            </div>
+            {/* Card 2: Past Events */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#FF9800" }} // Orange
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Past Events
+                  </h6>
+                  <p className="card-text">Events that have already occurred.</p>
+                  <p className="card-text">Total: 22</p>
+                </div>
+              </div>
+            </div>
+            {/* Card 3: Scheduled Events */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#4CAF50" }} // Green
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Scheduled Events
+                  </h6>
+                  <p className="card-text">Events that are planned and scheduled.</p>
+                  <p className="card-text">Total: 15</p>
+                </div>
+              </div>
+            </div>
+            {/* Card 4: Event Feedback */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <div
+                className="card rounded-1 border-0 text-white shadow-sm"
+                style={{ backgroundColor: "#9C27B0" }} // Purple
+              >
+                <div className="card-body">
+                  <h6 className="">
+                    <i className="fas fa-comments" style={{ color: '#ffffff' }}></i> Event Feedback
+                  </h6>
+                  <p className="card-text">Feedback and reviews for events.</p>
+                  <p className="card-text">Total: 10</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Card 2: Past Events */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#FF9800" }} // Orange
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Past Events
-              </h6>
-              <p className="card-text">Events that have already occurred.</p>
-              <p className="card-text">Total: 22</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 3: Scheduled Events */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#4CAF50" }} // Green
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Scheduled Events
-              </h6>
-              <p className="card-text">Events that are planned and scheduled.</p>
-              <p className="card-text">Total: 15</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 4: Event Feedback */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#9C27B0" }} // Purple
-          >
-            <div className="card-body">
-              <h6 className="">
-                <i className="fas fa-comments" style={{ color: '#ffffff' }}></i> Event Feedback
-              </h6>
-              <p className="card-text">Feedback and reviews for events.</p>
-              <p className="card-text">Total: 10</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
         <div className="content-body">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow=sm border-0">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
-                      </p>
-                    </div>
-
-                    <div>
-                    
-                       
+                  <div className="card-header bg-white mb-0 mt-1 pb-0">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex  mb-0">
+                        <p className="me-auto ">
+                          Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="5">Active</option>
+                            <option value="10">InActive</option>
+                            <option value="20">Delete</option>
+                          </select>{" "}
+                        </p>
+                      </div>
+                      <div>
                         <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
                           <li>
                             {" "}
                             <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
-            >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                              className="nav-link active "
+                              id="home-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-home"
+                              role="tab"
+                              aria-controls="tab-home"
+                              aria-selected="true"
+                            >
+                              <i class="fa fa-list" aria-hidden="true"></i>    List View
                             </a>
                           </li>
                           <li>
-                            
-                              <a
+                            <a
                               className="nav-link "
                               id="profile-tab"
                               data-bs-toggle="tab"
@@ -440,238 +400,224 @@ export const ListEvents = () => {
                               aria-controls="tab-profile"
                               aria-selected="false"
                             >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                              <i class="fa fa-th" aria-hidden="true"></i>  Grid View
                             </a>
                           </li>
                         </ul>
-                      
-                     
-                    </div>
-                  </div>
-                </div>
-                  <div className="card-body">
-
-                  <div className="tab-content ">
-                    {/* List View */}
-                    <div
-                      className="tab-pane fade show active"
-                      id="tab-home"
-                      role="tabpanel"
-                      aria-labelledby="home-tab"
-                    >
-
-<div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className=" table table-hover card-table  dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "12px" }}
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                                <th className=" text-start">
-                            <input type="checkbox" />
-                            </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Created At
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Date
-                              </th>
-
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Topic
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                University
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Venue
-                              </th>
-
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action{" "}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {notification?.map((data, index) => (
-                              <tr
-                                key={index}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                              >
-                                <td className=" text-start">
-                              <input type="checkbox" />
-                              </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {pagination.from + index + 1}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {formatDate(
-                                    data?.createdOn
-                                      ? data?.createdOn
-                                      : data?.modifiedOn
-                                      ? data?.modifiedOn
-                                      : "-"
-                                     )  || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {formatDate(data?.date ? data?.date : "-")  || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.eventTopic  || "Not Available"}
-                                </td>
-
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.universityName  || "Not Available"} 
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.venue  || "Not Available"}
-                                </td>
-
-                                <td className="text-capitalize text-start text-truncate">
-                                  <div className="d-flex">
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/view_events",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="View"
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/edit_events",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                      data-bs-toggle="tooltip"
-                                      title="Edit"
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <button
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
                       </div>
                     </div>
-        
-</div>
-
-
-
-<div
-                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
-                    >
-          
-          <div className="container">
-  <div className="row">
-  {notification?.map((data, index) => (
-      <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
-          <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0"></h6>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>S.No</strong>
                   </div>
-                  <div className="col-md-7">
-                  {pagination.from + index + 1}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Created At</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {formatDate(
-                                    data?.createdOn
-                                      ? data?.createdOn
-                                      : data?.modifiedOn
-                                      ? data?.modifiedOn
-                                      : "-"
-                                     )  || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Date</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {formatDate(data?.date ? data?.date : "-")  || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Topic</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.eventTopic  || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>University</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.universityName  || "Not Available"} 
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Venue</strong>
-                  </div>
-                  <div className="col-md-7 ">
-                  {data?.venue  || "Not Available"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-          <Link
+                  <div className="card-body">
+                    <div className="tab-content ">
+                      {/* List View */}
+                      <div
+                        className="tab-pane fade show active"
+                        id="tab-home"
+                        role="tabpanel"
+                        aria-labelledby="home-tab"
+                      >
+                        <div className="card-table">
+                          <div className="table-responsive">
+                            <table
+                              className=" table table-hover card-table  dataTable text-center"
+                              style={{ color: "#9265cc", fontSize: "12px" }}
+                              ref={tableRef}
+                            >
+                              <thead className="table-light">
+                                <tr
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  <th className=" text-start">
+                                    <input type="checkbox" />
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    S No
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Created At
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Date
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Topic
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    University
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Venue
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Action{" "}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {notification?.map((data, index) => (
+                                  <tr
+                                    key={index}
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "11px",
+                                    }}
+                                  >
+                                    <td className=" text-start">
+                                      <input type="checkbox" />
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {pagination.from + index + 1}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {formatDate(
+                                        data?.createdOn
+                                          ? data?.createdOn
+                                          : data?.modifiedOn
+                                            ? data?.modifiedOn
+                                            : "-"
+                                      ) || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {formatDate(data?.date ? data?.date : "-") || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.eventTopic || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.universityName || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.venue || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      <div className="d-flex">
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/view_events",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="View"
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/edit_events",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                          data-bs-toggle="tooltip"
+                                          title="Edit"
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                        <button
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                      >
+                        <div className="container">
+                          <div className="row">
+                            {notification?.map((data, index) => (
+                              <div className="col-md-4 mb-4" key={index}>
+                                <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{ fontSize: '10px' }}>
+                                  <div className="card-header   d-flex justify-content-between align-items-center">
+                                    <h6 className="mb-0"></h6>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="row">
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>S.No</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {pagination.from + index + 1}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Created At</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {formatDate(
+                                              data?.createdOn
+                                                ? data?.createdOn
+                                                : data?.modifiedOn
+                                                  ? data?.modifiedOn
+                                                  : "-"
+                                            ) || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Date</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {formatDate(data?.date ? data?.date : "-") || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Topic</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.eventTopic || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>University</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.universityName || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Venue</strong>
+                                          </div>
+                                          <div className="col-md-7 ">
+                                            {data?.venue || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+                                    <Link
                                       className="btn btn-sm btn-outline-primary"
                                       to={{
                                         pathname: "/view_events",
@@ -701,44 +647,36 @@ export const ListEvents = () => {
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>Delete
                                     </button>
-          </div>
-        </div>
-      </div>
-))}
-  </div>
-</div>
-
-
-
-
-
-
-
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                </div>
-                    
                     <div className="d-flex justify-content-between align-items-center p-3">
-                  <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
-                </div>
+                      <p className="me-auto ">
+                        Show
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                        >
+                          <option value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                        </select>{" "}
+                        Entries    out of 100
+                      </p>
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

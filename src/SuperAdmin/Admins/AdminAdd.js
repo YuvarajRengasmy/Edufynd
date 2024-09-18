@@ -168,7 +168,7 @@ function AddAgent() {
                               type="text"
                               name="name"
                               onChange={handleInputs}
-                              className="form-control "
+                              className={`form-control ${errors.name.required ? 'is-invalid' : ''}`}
                               placeholder="Enter Admin name"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -189,15 +189,15 @@ function AddAgent() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control ${errors.role.required  ? 'is-invalid' : ''}`}
                               placeholder="Contact Number"
                               name="role"
                               onChange={handleInputs}
                             />
                             {errors.role.required ? (
-                              <span className="text-danger form-text profile_error">
+                              <div className="text-danger form-text profile_error">
                                 This field is required.
-                              </span>
+                              </div>
                             ) : null}
                           </div>
                         </div>
@@ -206,10 +206,10 @@ function AddAgent() {
                             <label style={{ color: "#231F20" }}>
                               Email<span className="text-danger">*</span>
                             </label>
-                            <div className="d-flex gap-4">
+                           
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.email.required ? 'is-invalid' : ''}`}
                                 placeholder="Enter Email"
                                 name="email"
                                 onChange={handleInputs}
@@ -222,12 +222,8 @@ function AddAgent() {
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
-                              ) : errors.email.valid ? (
-                                <div className="text-danger form-text">
-                                  Enter valid Email Id.
-                                </div>
                               ) : null}
-                            </div>
+                            
                           </div>
                         </div>
 
@@ -239,7 +235,7 @@ function AddAgent() {
                             </label>
                             <input
                               type="number"
-                              className="form-control "
+                              className={`form-control ${errors.mobileNumber.required ? 'is-invalid' : ''}`}
                               placeholder="Contact Number"
                               name="mobileNumber"
                               onChange={handleInputs}
@@ -252,11 +248,7 @@ function AddAgent() {
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
-                            ) : errors.mobileNumber.valid ? (
-                              <span className="text-danger form-text profile_error">
-                                Enter valid mobile number.
-                              </span>
-                            ) : null}
+                            ) :  null}
                           </div>
                         </div>
                         

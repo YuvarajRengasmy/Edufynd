@@ -1,29 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient } from "../../api/client";
 import { Link } from "react-router-dom";
 import {
   deleteTestimonial,
   getFilterTestimonial,
 } from "../../api/Notification/Testimonial";
 import { formatDate } from "../../Utils/DateFormat";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  radioClasses,
-} from "@mui/material";
-import Masterheader from "../../compoents/header";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
 import { FaFilter } from "react-icons/fa";
-import ListAgent from "../Admins/AdminList";
-
 export const ListTestimonials = () => {
   const [notification, setnotification] = useState([]);
   const [open, setOpen] = useState(false);
@@ -34,11 +20,9 @@ export const ListTestimonials = () => {
     from: 0,
     to: 0,
   });
-
   useEffect(() => {
     getAllClientDetails();
   }, [pagination.from, pagination.to]);
-
   const getAllClientDetails = () => {
     const data = {
       limit: 10,
@@ -62,12 +46,9 @@ export const ListTestimonials = () => {
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
-
   const tableRef = useRef(null);
-
   useEffect(() => {
     const table = tableRef.current;
-
     // Apply SortableJS to the table headers
     const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
@@ -76,7 +57,6 @@ export const ListTestimonials = () => {
       onEnd: (evt) => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
-
         // Move the columns in the tbody
         table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
@@ -84,12 +64,10 @@ export const ListTestimonials = () => {
         });
       },
     });
-
     return () => {
       sortable.destroy();
     };
   }, []);
-
   const deleteProgramData = () => {
     deleteTestimonial(deleteId)
       .then((res) => {
@@ -101,19 +79,15 @@ export const ListTestimonials = () => {
         console.log(err);
       });
   };
-
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
   };
-
   const closePopup = () => {
     setOpen(false);
   };
-
   useEffect(() => {
     const table = tableRef.current;
-
     // Apply SortableJS to the table headers
     const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
@@ -122,7 +96,6 @@ export const ListTestimonials = () => {
       onEnd: (evt) => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
-
         // Move the columns in the tbody
         table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
@@ -130,7 +103,6 @@ export const ListTestimonials = () => {
         });
       },
     });
-
     return () => {
       sortable.destroy();
     };
@@ -139,7 +111,6 @@ export const ListTestimonials = () => {
     <>
       <div>
         <Mastersidebar />
-
         <div
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
@@ -238,7 +209,6 @@ export const ListTestimonials = () => {
                                     fontSize: "12px",
                                   }}
                                 />
-
                                 <label className="form-label">Users</label>
                                 <br />
                                 <input
@@ -261,7 +231,7 @@ export const ListTestimonials = () => {
                                     color: "#fff",
                                     fontSize: "12px",
                                   }}
-                                  // onClick={resetFilter}
+                                // onClick={resetFilter}
                                 >
                                   Reset
                                 </button>
@@ -314,7 +284,6 @@ export const ListTestimonials = () => {
                         </span>
                       </Link>
                     </li>
-
                     <li class="m-1">
                       <Link class="btn-filters">
                         <span>
@@ -373,7 +342,6 @@ export const ListTestimonials = () => {
                   </div>
                 </div>
               </div>
-
               {/* Card 2: Verified Testimonials */}
               <div className="col-md-3 col-sm-6 mb-3">
                 <div
@@ -395,7 +363,6 @@ export const ListTestimonials = () => {
                   </div>
                 </div>
               </div>
-
               {/* Card 3: Pending Reviews */}
               <div className="col-md-3 col-sm-6 mb-3">
                 <div
@@ -415,7 +382,6 @@ export const ListTestimonials = () => {
                   </div>
                 </div>
               </div>
-
               {/* Card 4: Archived Testimonials */}
               <div className="col-md-3 col-sm-6 mb-3">
                 <div
@@ -462,7 +428,6 @@ export const ListTestimonials = () => {
                             </select>{" "}
                           </p>
                         </div>
-
                         <div>
                           <ul
                             class="nav nav-underline fs-9"
@@ -540,7 +505,6 @@ export const ListTestimonials = () => {
                                     <th className="text-capitalize text-start sortable-handle">
                                       Users
                                     </th>
-
                                     <th className="text-capitalize text-start sortable-handle">
                                       Action{" "}
                                     </th>
@@ -566,8 +530,8 @@ export const ListTestimonials = () => {
                                           item?.createdOn
                                             ? item?.createdOn
                                             : item?.modifiedOn
-                                            ? item?.modifiedOn
-                                            : "-"
+                                              ? item?.modifiedOn
+                                              : "-"
                                         ) || "Not Available"}
                                       </td>
                                       <td className="text-capitalize text-start text-truncate">
@@ -577,7 +541,6 @@ export const ListTestimonials = () => {
                                       <td className="text-capitalize text-start text-truncate">
                                         {item.typeOfUser || "Not Available"}
                                       </td>
-
                                       <td className="text-capitalize text-start text-truncate">
                                         <div className="d-flex">
                                           <Link
@@ -619,7 +582,6 @@ export const ListTestimonials = () => {
                             </div>
                           </div>
                         </div>
-
                         <div
                           class="tab-pane fade "
                           id="tab-profile"
@@ -659,8 +621,8 @@ export const ListTestimonials = () => {
                                                 item?.createdOn
                                                   ? item?.createdOn
                                                   : item?.modifiedOn
-                                                  ? item?.modifiedOn
-                                                  : "-"
+                                                    ? item?.modifiedOn
+                                                    : "-"
                                               ) || "Not Available"}
                                             </div>
                                           </div>
@@ -731,7 +693,6 @@ export const ListTestimonials = () => {
                           </div>
                         </div>
                       </div>
-
                       <div className="d-flex justify-content-between align-items-center p-3">
                         <p className="me-auto ">
                           Show
