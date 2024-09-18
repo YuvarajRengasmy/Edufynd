@@ -1237,21 +1237,21 @@ const getallClientCount = ()=>{
     {client?.map((data, index) => (
       <div className="row" key={index}>
         <div className="col-4">
-        <div className="card border-primary rounded-3 shadow-lg">
+        <div className="card shadow-sm" style={{fontSize:'10px'}}>
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <h5 className="card-title mb-0">{data?.businessName || "Not Available"}</h5>
-        <small className="text-light">User Information</small>
+       
       </div>
       <div className="card-body">
         <div className="row">
           <div className="col-md-6">
-            <h6 className="text-muted">S.No:</h6>
+            <p className="text-muted">S.No:</p>
             <p className="card-text"> {pagination.from + index + 1}</p>
-            <h6 className="text-muted">Client ID:</h6>
+            <p className="text-muted">Client ID:</p>
             <p className="card-text">{data?.clientID || "Not Available"}</p>
-            <h6 className="text-muted">Type of Client:</h6>
+            <p className="text-muted">Type of Client:</p>
             <p className="card-text">{data?.typeOfClient || "Not Available"}</p>
-            <h6 className="text-muted">Status:</h6>
+            <p className="text-muted">Status:</p>
             <p className="card-text">
               <span className="badge bg-success"> <span className="form-check form-switch d-inline ms-2" >
               {data?.clientStatus === "Active" ? (
@@ -1283,18 +1283,18 @@ const getallClientCount = ()=>{
             </p>
           </div>
           <div className="col-md-6">
-            <h6 className="text-muted">Name:</h6>
+            <p className="text-muted">Name:</p>
             <p className="card-text">{data?.businessName || "Not Available"}</p>
-            <h6 className="text-muted">Primary Number:</h6>
+            <p className="text-muted">Primary Number:</p>
             <p className="card-text"> {data?.businessContactNo || "Not Available"}</p>
-            <h6 className="text-muted">Email ID:</h6>
+            <p className="text-muted">Email ID:</p>
             <p className="card-text"> {data?.businessMailID || "Not Available"}</p>
           </div>
         </div>
       </div>
       <div className="card-footer bg-light d-flex justify-content-between">
       <Link
-                                  className="btn btn-primary btn-sm"
+                                  className="btn btn-outline-primary btn-sm"
                                   to={{
                                     pathname: "/view_client",
                                     search: `?id=${data?._id}`,
@@ -1307,7 +1307,7 @@ const getallClientCount = ()=>{
         
        
         <Link
-                                  className="btn btn-warning btn-sm"
+                                  className="btn btn-outline-warning btn-sm"
                                   to={{
                                     pathname: "/edit_client",
                                     search: `?id=${data?._id}`,
@@ -1317,7 +1317,7 @@ const getallClientCount = ()=>{
                                 >
                                   <i className="far fa-edit text-warning "></i>Edit
                                 </Link>
-        <button className="btn btn-danger btn-sm" onClick={() => {
+        <button className="btn btn-outline-danger btn-sm" onClick={() => {
                                     openPopup(data?._id);
                                   }}
                                   data-bs-toggle="tooltip"
