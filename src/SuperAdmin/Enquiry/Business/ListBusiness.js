@@ -702,7 +702,7 @@ export const ListBusiness = () => {
       <div className="col-md-4 mb-4" key={index}>
         <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
           <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0"></h6>
+            <h6 className="mb-0"> {data?.name || "Not Available"}</h6>
           </div>
           <div className="card-body">
             <div className="row">
@@ -712,7 +712,7 @@ export const ListBusiness = () => {
                     <strong>S.No</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {pagination.from + index + 1}
                   </div>
                 </div>
               </div>
@@ -722,7 +722,7 @@ export const ListBusiness = () => {
                     <strong>Business ID</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {data?.studentCode || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -732,7 +732,7 @@ export const ListBusiness = () => {
                     <strong>Date</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {formatDate(data?.createdOn) || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -742,7 +742,7 @@ export const ListBusiness = () => {
                     <strong>Primary No</strong>
                   </div>
                   <div className="col-md-7">
-                     
+                  {data?.primaryNumber || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -752,7 +752,7 @@ export const ListBusiness = () => {
                     <strong>Email ID</strong>
                   </div>
                   <div className="col-md-7">
-                    
+                  {data?.email || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -762,7 +762,7 @@ export const ListBusiness = () => {
                     <strong>Desired Country</strong>
                   </div>
                   <div className="col-md-7">
-                    
+                  {data?.desiredCountry || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -772,7 +772,7 @@ export const ListBusiness = () => {
                     <strong>Source</strong>
                   </div>
                   <div className="col-md-7">
-                    
+                  {data?.source || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -782,7 +782,7 @@ export const ListBusiness = () => {
                     <strong>Assigned To</strong>
                   </div>
                   <div className="col-md-7">
-                    
+                  {data?.assignedTo || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -791,8 +791,18 @@ export const ListBusiness = () => {
                   <div className="col-md-5">
                     <strong>Status</strong>
                   </div>
-                  <div className="col-md-7 d-flex align-items-center">
-                  
+                  <div className="col-md-7 ">
+                  {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
                   </div>
                 </div>
               </div>
@@ -800,7 +810,7 @@ export const ListBusiness = () => {
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
           <Link
-                                        className="btn btn-sm"
+                                        className="btn btn-sm btn-outline-primary"
                                         to={{
                                           pathname: "/view_business_enquiry",
                                           search: `?id=${data?._id}`,
@@ -808,10 +818,10 @@ export const ListBusiness = () => {
                                         data-bs-toggle="tooltip"
                                         title="View"
                                       >
-                                        <i className="far fa-eye text-primary me-1"></i>
+                                        <i className="far fa-eye text-primary me-1"></i>View
                                       </Link>
                                       <Link
-                                        className="dropdown-item"
+                                        className="btn btn-sm btn-outline-warning"
                                         to={{
                                           pathname: "/edit_business_enquiry",
                                           search: `?id=${data?._id}`,
@@ -819,18 +829,18 @@ export const ListBusiness = () => {
                                         data-bs-toggle="tooltip"
                                         title="Edit"
                                       >
-                                        <i className="far fa-edit text-warning me-1"></i>
+                                        <i className="far fa-edit text-warning me-1"></i> Edit
                                       </Link>
-                                      <Link
-                                        className="dropdown-item"
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
                                         onClick={() => {
                                           openPopup(data?._id);
                                         }}
                                         data-bs-toggle="tooltip"
                                         title="Delete"
                                       >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </Link>
+                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                      </button>
           </div>
         </div>
       </div>
