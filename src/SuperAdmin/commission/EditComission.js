@@ -988,7 +988,7 @@ const removeCourseType = async (yearIndex, courseTypeIndex) => {
 
 
 
-{/* <div className="row g-3 mt-3">
+<div className="row g-3 mt-3">
     <div className="col-12">
       {commission.years.map((year, yearIndex) => (
         <div className="row g-3" key={yearIndex}>
@@ -1131,7 +1131,7 @@ const removeCourseType = async (yearIndex, courseTypeIndex) => {
         </button>
       </div>
     </div>
-  </div> */}
+  </div>
 
 
 
