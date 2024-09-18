@@ -283,9 +283,9 @@ const [dial, setDial] = useState([]);
     setSubmitted(true);
     const updatedClient = {
       ...client,
-      dial1:dail1?.label,
-      dial2:dail2?.label,
-      dial3:dail3?.label,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+      dial3:dail3?.value,
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
@@ -309,6 +309,7 @@ const [dial, setDial] = useState([]);
     value: data.dialCode,
     label: `${data.dialCode} - ${data.name}`,
   }));
+
   
   const customStyles = {
     control: (provided) => ({

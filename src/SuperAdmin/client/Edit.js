@@ -78,7 +78,7 @@ function AddAgent() {
   const [dial, setDial] = useState([]);
 
   useEffect(() => {
-    // getAllClientDetails();
+     getAllClientDetails();
     getSingleDetails();
     getallCodeList();
   }, []);
@@ -93,16 +93,16 @@ function AddAgent() {
         console.log(err);
       });
   };
-  // const getAllClientDetails = () => {
-  //   getallClientModule()
-  //     .then((res) => {
-  //       console.log(res);
-  //       setType(res?.data?.result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const getAllClientDetails = () => {
+    getallClientModule()
+      .then((res) => {
+        console.log(res);
+        setType(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getSingleDetails = () => {
     getSingleClient(id)
       .then((res) => {
@@ -116,9 +116,9 @@ function AddAgent() {
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-    // if (data.typeOfClient === "") {
-    //   error.typeOfClient.required = true;
-    // }
+    if (data.typeOfClient === "") {
+      error.typeOfClient.required = true;
+    }
 
     if (data.businessName === "") {
       error.businessName.required = true;
@@ -385,7 +385,7 @@ function AddAgent() {
                     <div className="card-body mt-5">
                       <div className="row g-3">
                         
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Type of Client{" "}
                             <span className="text-danger">*</span>
@@ -397,8 +397,7 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                            
-                              className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1`}
                               name="typeOfClient"
                               value={client?.typeOfClient}
                             >
@@ -414,10 +413,9 @@ function AddAgent() {
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) }
+                            )}
                           </div>
                         </div>
-
 
                   
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
