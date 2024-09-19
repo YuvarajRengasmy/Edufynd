@@ -635,12 +635,12 @@ const UserProfile = () => {
                               className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
                               role="alert"
                             >
-                              Intakes
+                            {university?.businessName}
                             </div>
 
                             <div className="card card-body">
                               <h5 className="text-capitalize text-center">
-                                Program Intakes
+                               Intakes
                               </h5>
                               {Array.isArray(university?.inTake) &&
                                 university.inTake.map((inTake, index) => (
