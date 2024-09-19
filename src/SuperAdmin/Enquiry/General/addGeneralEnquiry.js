@@ -253,7 +253,7 @@ export const AddGeneralEnquiry = () => {
 
       <div
         className="content-wrapper"
-        style={{ backgroundColor: "#fff", fontSize: "14px" }}
+        style={{fontSize: "12px" }}
       >
         <div className="content-header">
           <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
@@ -772,9 +772,9 @@ agentPrimaryNumber"
                       </div>
                     </div>
                     {errors.mobileNumber.required && (
-                      <span className="text-danger form-text profile_error">
+                      <div className="text-danger form-text profile_error">
                         This field is required.
-                      </span>
+                      </div>
                     )}
                   </div>
 
@@ -839,9 +839,9 @@ agentPrimaryNumber"
                       />
                     </div>
                     {errors.whatsAppNumber.required && (
-                      <span className="text-danger form-text profile_error">
+                      <div className="text-danger form-text profile_error">
                         This field is required.
-                      </span>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -971,10 +971,10 @@ agentPrimaryNumber"
                   </div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label className="form-label" for="inputAddress">
-                      Do you need support for loan?{" "}
+                      Do You Need Loan Support?{" "}
                     </label>
                     <select
-                      className={`form-select form-select-lg  rounded-1 ${
+                      className={`form-select form-select-lg  rounded-1 text-capitalize ${
                         errors.doYouNeedSupportForLoan.required
                           ? "is-invalid"
                           : ""
@@ -997,23 +997,29 @@ agentPrimaryNumber"
                     ) : null}
                   </div>
                 </div>
-                <div className="row mb-3">
+               
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label className="form-label" for="inputPassword4">
                       Qualification
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-capitalize ${
                         errors.qualification.required ? "is-invalid" : ""
                       }`}
                       id="inputPassword4"
                       onChange={handleInputs}
                       type="text"
                       name="qualification"
-                      placeholder="Desired Course"
+                      placeholder="Example BE"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "14px",
+                      }}
+                      onKeyDown={(e) => {
+                        // Prevent non-letter characters
+                        if (/[^a-zA-Z\s]/.test(e.key)) {
+                          e.preventDefault();
+                        }
                       }}
                     />
                     {errors.qualification.required ? (
@@ -1029,17 +1035,23 @@ agentPrimaryNumber"
                       Assigned To
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-capitalize ${
                         errors.assignedTo.required ? "is-invalid" : ""
                       }`}
                       id="inputEmail4"
                       onChange={handleInputs}
                       type="text"
                       name="assignedTo"
-                      placeholder=" assignedTo Staff"
+                      placeholder=" Example Jake Doe"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
-                        fontSize: "14px",
+                        fontSize: "12px",
+                      }}
+                      onKeyDown={(e) => {
+                        // Prevent non-letter characters
+                        if (/[^a-zA-Z\s]/.test(e.key)) {
+                          e.preventDefault();
+                        }
                       }}
                     />
                     {errors.assignedTo.required ? (
@@ -1048,17 +1060,16 @@ agentPrimaryNumber"
                       </span>
                     ) : null}
                   </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="d-flex flex-row align-item-center justify-content-end gap-4">
+               
+               
+                  <div className="d-flex  align-item-center justify-content-end ">
                     <Link
                       style={{
-                        backgroundColor: "#231F20",
-                        fontFamily: "Plus Jakarta Sans",
+                      
                         fontSize: "14px",
                       }}
                       to="/list_general_enquiry"
-                      className="btn btn-cancel border text-white m-2"
+                      className="btn btn-dark  border-0  text-uppercase rounded-1 px-4 py-2 fw-semibold text-white m-1"
                     >
                       Cancel
                     </Link>
@@ -1070,12 +1081,12 @@ agentPrimaryNumber"
                         fontSize: "14px",
                       }}
                       type="submit"
-                      className="btn btn-save border text-white  m-2"
+                      className="btn   border-0 rounded-1 text-uppercase px-4 py-2 fw-semibold text-white m-1"
                     >
                       Submit
                     </button>
                   </div>
-                </div>
+               
               </form>
             </div>
           </div>

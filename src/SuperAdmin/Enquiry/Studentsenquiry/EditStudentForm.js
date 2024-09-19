@@ -418,7 +418,7 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className={`form-select form-select-lg rounded-2 ${errors.source.required ? 'is-invalid' : ''}`}
+                          className={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''}`}
                           name="source"
                           value={student.source}
                         >
@@ -456,7 +456,7 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="studentName"
                           value={student.studentName}
                         >
@@ -492,7 +492,7 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="agentName"
                           value={student.agentName}
                         >
@@ -516,18 +516,24 @@ export const AddStudentForm = () => {
                       Business Name
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-capitalize"
                       id="inputbusinessname"
                       type="text"
                       onChange={handleInputs}
                       value={student.businessName}
                       name="businessName"
                      
-                      placeholder="Enter Business Name"
+                      placeholder="Example Jane Doe"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
                     />
                   </div>
                 
@@ -651,17 +657,24 @@ export const AddStudentForm = () => {
                       Agent Email ID
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-lowercase"
                       name="agentEmail"
                       onChange={handleInputs}
                       id="inputEmail"
                       value={student?.agentEmail}
                       type="text"
-                      placeholder="Enter Email ID"
+                      placeholder="Example jane123@gmail.com"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                        'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
                     />
                   </div>
                  
@@ -675,17 +688,23 @@ export const AddStudentForm = () => {
                            Student Name
                          </label>
                          <input
-                           className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                           className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' : ''}`}
                            type="text"
                            id="inputEmail4"
                            name="name"
                            onChange={handleInputs}
                            value={student?.name}
-                           placeholder="Enter Name"
+                           placeholder="Example John Doe"
                            style={{
                              fontFamily: "Plus Jakarta Sans",
                              fontSize: "12px",
                            }}
+                           onKeyDown={(e) => {
+                            // Prevent non-letter characters
+                            if (/[^a-zA-Z\s]/.test(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                          />
                          {errors.name.required ? (
                            <span className="text-danger form-text profile_error">
@@ -702,7 +721,7 @@ export const AddStudentForm = () => {
                         Gender
                       </label>
                       <select
-                        class={`form-select form-select-lg rounded-1 ${errors.gender.required ? 'is-invalid' : ''} `}
+                        class={`form-select form-select-lg rounded-1 text-capitalize ${errors.gender.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
                         name="gender"
                         value={student?.gender}
@@ -729,7 +748,7 @@ export const AddStudentForm = () => {
                         DOB
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.dob.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.dob.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         id="inputPassword4"
                         type="date"
@@ -756,16 +775,22 @@ export const AddStudentForm = () => {
                         CitizenShip
                       </label>
                       <input
-                        className= {`form-control rounded-1 ${errors.citizenShip.required ? 'is-invalid' : ''}`}
+                        className= {`form-control rounded-1 text-capitalize ${errors.citizenShip.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         value={student?.citizenShip}
                         name="citizenShip"
                         id="inputPassword4"
                         type="text"
-                        placeholder="Enter CitizenShip"
+                        placeholder="Example Indian"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
 
@@ -784,17 +809,23 @@ export const AddStudentForm = () => {
                         Passport No
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.passportNo.required ?  'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ?  'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="passportNo"
                         value={student?.passportNo}
                         id="inputAddress"
                         type="text"
-                        placeholder="Enter Passport No"
+                        placeholder="Example WER234YRT"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
@@ -811,7 +842,7 @@ export const AddStudentForm = () => {
                         Expiry Date
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         value={student?.expiryDate}
                         name="expiryDate"
@@ -839,17 +870,24 @@ export const AddStudentForm = () => {
                         Email ID
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.email.required  ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-lowercase ${errors.email.required  ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         value={student?.email}
                         id="inputPassword4"
                         text="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example jake123@gmail.com"
                         name="email"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                          'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
@@ -985,16 +1023,22 @@ export const AddStudentForm = () => {
                         Qualification
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.qualification.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         value={student?.qualification}
                         type="text"
                         name="qualification"
-                        placeholder="Enter Qualification"
+                        placeholder="Example BE"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.qualification.required ? (
@@ -1014,16 +1058,21 @@ export const AddStudentForm = () => {
                         Year passed
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.yearPassed.required ? 'is-invalid' : ''}`}
                         id="inputAddress"
                         onChange={handleInputs}
                         name="yearPassed"
                         value={student?.yearPassed}
                         type="text"
-                        placeholder="Enter Passed Year"
+                        placeholder="Example 2024"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.yearPassed.required ? (
@@ -1037,16 +1086,21 @@ export const AddStudentForm = () => {
                         CGPA{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.cgpa.required ?  'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.cgpa.required ?  'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="cgpa"
                         id="inputAddress"
                         type="text"
                         value={student?.cgpa}
-                        placeholder=" Enter CGPA"
+                        placeholder=" Example 98"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.cgpa.required ? (
@@ -1064,16 +1118,22 @@ export const AddStudentForm = () => {
                         Desired Country
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         value={student?.desiredCountry}
                         name="desiredCountry"
                         type="text"
-                        placeholder="Enter Desired Country"
+                        placeholder="Example United States Of America"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.desiredCountry.required ? (
@@ -1087,16 +1147,22 @@ export const AddStudentForm = () => {
                         Desired University
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.desiredUniversity.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.desiredUniversity.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         type="text"
                         onChange={handleInputs}
                         value={student?.desiredUniversity}
                         name="desiredUniversity"
-                        placeholder="Enter Desired University"
+                        placeholder="Example Harvard University"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.desiredUniversity.required ? (
@@ -1114,16 +1180,22 @@ export const AddStudentForm = () => {
                         Desired Course
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         value={student?.desiredCourse}
                         type="text"
                         name="desiredCourse"
-                        placeholder="Enter Desired Course"
+                        placeholder="Example Game Designing"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.desiredCourse.required ? (
@@ -1138,7 +1210,7 @@ export const AddStudentForm = () => {
                           Do You Hold Any Other Offer?{" "}
                         </label>
                         <select
-                          className={`form-select form-select-lg rounded-1 ${errors.doYouHoldAnyOtherOffer.required ? 'is-invalid' : ''} `}
+                          className={`form-select form-select-lg rounded-1 text-capitalize ${errors.doYouHoldAnyOtherOffer.required ? 'is-invalid' : ''} `}
                           name="doYouHoldAnyOtherOffer"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
@@ -1162,16 +1234,22 @@ export const AddStudentForm = () => {
                           Referee Name
                         </label>
                         <input
-                          className={`form-control rounded-1 ${errors.refereeName.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-capitalize ${errors.refereeName.required ? 'is-invalid' : ''}`}
                           id="inputEmail4"
                           type="text"
                           name="refereeName"
                           value={student?.refereeName}
                           onChange={handleInputs}
-                          placeholder="Enter Referee Name"
+                          placeholder="Example John Doe"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
+                          }}
+                          onKeyDown={(e) => {
+                            // Prevent non-letter characters
+                            if (/[^a-zA-Z\s]/.test(e.key)) {
+                              e.preventDefault();
+                            }
                           }}
                         />
                         {errors.refereeName.required ? (
@@ -1250,16 +1328,22 @@ export const AddStudentForm = () => {
                             Country
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className="form-control rounded-1 text-capitalize"
                             id="inputEmail4"
                             type="text"
                             name="country"
                             onChange={handleInputs}
                             value={student?.country}
-                            placeholder=" Enter Country"
+                            placeholder=" Example United Kingdom"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                         </div>
@@ -1268,16 +1352,22 @@ export const AddStudentForm = () => {
                             University
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className="form-control rounded-1 text-capitalize"
                             id="inputEmail4"
                             type="text"
                             onChange={handleInputs}
                             value={student?.universityName}
                             name="universityName"
-                            placeholder="Enter University "
+                            placeholder="Example Coventry"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                         </div>
@@ -1286,16 +1376,22 @@ export const AddStudentForm = () => {
                             Program
                           </label>
                           <input
-                            className="form-control rounded-2"
+                            className="form-control rounded-1 text-capitalize"
                             id="inputEmail4"
                             type="text"
                             onChange={handleInputs}
                             value={student?.programName}
                             name="programName"
-                            placeholder="Enter Program"
+                            placeholder="Example Machine Learning"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                         </div>
@@ -1309,7 +1405,7 @@ export const AddStudentForm = () => {
                           Request Loan Support
                         </label>
                         <select
-                          className={`form-select form-select-lg rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
+                          className={`form-select form-select-lg rounded-1 text-capitalize ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
                           name="doYouNeedSupportForLoan"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
@@ -1333,7 +1429,7 @@ export const AddStudentForm = () => {
                           Register for IELTS class
                         </label>
                         <input
-                          className={`form-control rounded-1 ${errors.registerForIELTSClass.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-capitalize ${errors.registerForIELTSClass.required ? 'is-invalid' : ''}`}
                           id="inputEmail4"
                           type="text"
                           name="registerForIELTSClass"
@@ -1343,6 +1439,12 @@ export const AddStudentForm = () => {
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
+                          }}
+                          onKeyDown={(e) => {
+                            // Prevent non-letter characters
+                            if (/[^a-zA-Z\s]/.test(e.key)) {
+                              e.preventDefault();
+                            }
                           }}
                         />
                         {errors.registerForIELTSClass.required ? (
@@ -1361,16 +1463,22 @@ export const AddStudentForm = () => {
                           Assigned To
                         </label>
                         <input
-                          className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-capitalize ${errors.assignedTo.required ? 'is-invalid' : ''}`}
                           id="inputEmail4"
                           onChange={handleInputs}
                           type="text"
                           name="assignedTo"
                           value={student?.assignedTo}
-                          placeholder=" Assigned To Staff"
+                          placeholder=" Example Admin"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
+                          }}
+                          onKeyDown={(e) => {
+                            // Prevent non-letter characters
+                            if (/[^a-zA-Z\s]/.test(e.key)) {
+                              e.preventDefault();
+                            }
                           }}
                         />
                         {errors.assignedTo.required ? (

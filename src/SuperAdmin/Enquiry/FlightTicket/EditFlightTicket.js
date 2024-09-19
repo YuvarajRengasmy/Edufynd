@@ -301,7 +301,7 @@ export const Addflight = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''} `}
                         name="source"
                         value={flight?.source}
                       >
@@ -337,7 +337,7 @@ export const Addflight = () => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="form-select form-select-lg rounded-2 "
+                            className="form-select form-select-lg rounded-1 text-capitalize "
                             name="studentName"
                             value={flight?.studentName}
                           >
@@ -374,7 +374,7 @@ export const Addflight = () => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="form-select form-select-lg rounded-2 "
+                            className="form-select form-select-lg rounded-1 text-capitalize "
                             name="agentName"
                             value={flight?.agentName}
                           >
@@ -399,17 +399,23 @@ export const Addflight = () => {
                             Business Name
                           </label>
                           <input
-                            className="form-control"
+                            className="form-control rounded-1 text-capitalize"
                             id="inputbusinessname"
                             type="text"
                             onChange={handleInputs}
                             value={flight.businessName}
                             name="businessName"
-                            placeholder="Enter Business Name"
+                            placeholder="Example John Doe"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -575,37 +581,50 @@ export const Addflight = () => {
                             Agent Email ID
                           </label>
                           <input
-                            className="form-control"
+                            className="form-control rounded-1 text-lowercase"
                             name="agentEmail"
                             onChange={handleInputs}
                             id="inputEmail"
                             value={flight?.agentEmail}
                             type="text"
-                            placeholder="Enter Email ID"
+                            placeholder="Example john123@gmail.com"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                         </div>
                       </div>
                     ) : null}
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputstudentname">
-                        Name of the Student
+                      Student Name
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' : ''}`}
                         name="name"
                         onChange={handleInputs}
                         value={flight?.name}
                         id="inputstudentname"
                         type="text"
-                        placeholder="Enter Name of the Student"
+                        placeholder="Example Jane Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.name.required ? (
@@ -620,17 +639,23 @@ export const Addflight = () => {
                         Passport No<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.passportNo.required ?  'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ?  'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
                         value={flight?.passportNo}
                         type="text"
-                        placeholder="Enter Passport No"
+                        placeholder="Example WERE24YRT"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
@@ -641,11 +666,11 @@ export const Addflight = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpassportno">
-                        Passport Expiry Date
+                       Expiry Date
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="expiryDate"
@@ -670,16 +695,22 @@ export const Addflight = () => {
                         From<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.from.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.from.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="from"
                         value={flight?.from}
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter from Location"
+                        placeholder="Example Chennai"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.from.required ? (
@@ -693,16 +724,22 @@ export const Addflight = () => {
                         To<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.to.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.to.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="to"
                         value={flight?.to}
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter to Location"
+                        placeholder="Example United Kingdom"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.to.required ? (
@@ -719,7 +756,7 @@ export const Addflight = () => {
                         </span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.dateOfTravel.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.dateOfTravel.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="dateOfTravel"
                         onChange={handleInputs}
@@ -730,6 +767,7 @@ export const Addflight = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        
                       />
                       {errors.dateOfTravel.required ? (
                         <div className="text-danger form-text">
@@ -894,17 +932,25 @@ export const Addflight = () => {
                         Email ID<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : ''}`}
                         name="email"
                         onChange={handleInputs}
                         value={flight?.email}
                         id="inputEmail"
                         type="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example jake123@gmail.com"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                          'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
+
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
