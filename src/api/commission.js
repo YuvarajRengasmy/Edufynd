@@ -9,7 +9,7 @@ export const getallCommission = () => {
     return API.get(`${CommissionPage}`)
 }
 export const getFilterCommission = (data) => {
-  return API.put(`${CommissionPage}/getUniversityFilterCommission`, data);
+  return API.put(`${CommissionPage}/getFilterCommission`, data);
 };
 
 export const getSingleCommission = (data) => {

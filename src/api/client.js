@@ -19,8 +19,11 @@ export const getSingleClient = (data) => {
   export const deleteClient = (data) => {
     return API.delete(`${Client}`, { params: { _id: data } });
   };
+  export const activeClient = (data) => {
+    return API.put(`${Client}/activeClient`, { params: { _id: data } });
+  };
   export const updateClient = (data) => {
-    return API.put(`${Client}`, data);
+    return API.put(`${Client}`,  data);
   };
 
   export const getFilterClient = (data) => {

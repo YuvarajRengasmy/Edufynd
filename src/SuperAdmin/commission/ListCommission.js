@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallCommission, deleteCommission } from "../../api/commission";
+import { getallCommission, deleteCommission,getFilterCommission } from "../../api/commission";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,6 @@ import {
   Pagination,
   radioClasses,
 } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -17,8 +16,6 @@ import { toast } from "react-toastify";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { Link, useLocation } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
-
-
 
 export default function Masterproductlist() {
 
@@ -60,7 +57,7 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -69,7 +66,8 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getCommissionList();
-  }, []);
+   
+  }, [pagination.from, pagination.to,pageSize]);
 
 
   useEffect(() => {
@@ -87,10 +85,19 @@ export default function Masterproductlist() {
 
 
   const getCommissionList = () => {
-    getallCommission()
+    const data = {
+      limit: pageSize, // Use dynamic page size here
+      page: pagination.from,
+    };
+    getFilterCommission(data)
       .then((res) => {
-        const value = res?.data?.result;
+        console.log("yuvaraj",res)
+        const value = res?.data?.result?.dropDownList;
         setCommission(value);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.dropDownCount || 0,
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -100,6 +107,15 @@ export default function Masterproductlist() {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
   const openPopup = (data) => {
     setOpen(true);
@@ -115,6 +131,32 @@ export default function Masterproductlist() {
         toast.success(res?.data?.message);
         closePopup();
         getCommissionList();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const filterCommissionList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+      universityName: inputs.universityName,
+     country: inputs.country,
+     paymentMethod: inputs.paymentMethod,
+      paymentType: inputs.paymentType,
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterCommission(data)
+      .then((res) => {
+        console.log("ui",res)
+        setCommission(res?.data?.result?.dropDownList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.dropDownCount,
+        });
+        closeFilterPopup();
       })
       .catch((err) => {
         console.log(err);
@@ -154,9 +196,7 @@ export default function Masterproductlist() {
 
 
 
-  const handleInputs = (event) => {
-    setCommission({ ...commission, [event.target.name]: event.target.value });
-  };
+ 
   const openImportPopup = () => {
     setOpenImport(true);
   };
@@ -391,6 +431,7 @@ export default function Masterproductlist() {
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight"
+              
             >
               <FaFilter />
             </button>
@@ -402,7 +443,7 @@ export default function Masterproductlist() {
             aria-labelledby="offcanvasRightLabel"
           >
             <div className="offcanvas-header">
-              <h5 id="offcanvasRightLabel">Filter Client</h5>
+              <h5 id="offcanvasRightLabel">Filter Commission</h5>
               <button
                 type="button"
                 className="btn-close text-reset"
@@ -413,35 +454,39 @@ export default function Masterproductlist() {
             <div className="offcanvas-body">
               <form>
                 <div className="row g-4 mb-3">
-                
+                <label className="form-label">UniversityName</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="businessName"
+                    name="universityName"
+                    onChange={handleInputs}
                     placeholder="Search...Client Name"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
-                
+                 <label className="form-label">Country</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="businessContactNo"
+                    name="country"
+                    onChange={handleInputs}
                     placeholder="Search...Client Contact No"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
-                
+                <label className="form-label">PaymentMethod</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="status"
+                    name="paymentMethod"
+                    onChange={handleInputs}
                     placeholder="Search...Status"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
-                  
+                  <label className="form-label">PaymentType</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="clientID"
+                    name="paymentType"
+                    onChange={handleInputs}
                     placeholder="Search...Client Id"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
@@ -456,6 +501,7 @@ export default function Masterproductlist() {
                   </button>
                   <button
                     data-bs-dismiss="offcanvas"
+                    onClick={filterCommissionList}
                     type="submit"
                     className="btn btn-save border-0 fw-semibold  rounded-1  text-white float-right mx-2"
                     style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -635,7 +681,7 @@ export default function Masterproductlist() {
                         {pagination.from + index + 1}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
-                        {data?.universityName || "Not Available"}
+                        {data?.universityName || "Not Available"} 
                       </td>
                       <td className="text-capitalize text-start text-truncate">
                         {data?.country || "Not Available"}
@@ -645,7 +691,7 @@ export default function Masterproductlist() {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/ViewCommission",
+                            pathname: "/view_commission",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -653,7 +699,7 @@ export default function Masterproductlist() {
   <div key={yearIndex}>
     {year?.year || "Not Available"} _
     {year?.courseTypes?.length > 0 && year?.courseTypes[0]?.inTake?.length > 0
-      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${year?.courseTypes[0]?.inTake[0]?.value}`
+      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${year?.courseTypes[0]?.inTake[0]?.value}%`
       : "Not Available"}{" ,"}
   </div>
 ))}
@@ -867,19 +913,23 @@ export default function Masterproductlist() {
         </div>
 
         <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}
