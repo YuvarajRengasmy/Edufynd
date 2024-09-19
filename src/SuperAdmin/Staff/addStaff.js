@@ -108,7 +108,10 @@ export const AddStaff = () => {
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const navigate = useNavigate();
-
+  const [dail1, setDail1] = useState(null);
+  const [dail2, setDail2] = useState(null);
+  const [dail3, setDail3] = useState(null);
+  const [dail4, setDail4] = useState(null);
 
   useEffect(() => {
     getAllStaffDetails();
@@ -314,13 +317,28 @@ export const AddStaff = () => {
     return true;
   };
 
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
+  const handleDail2 = (selectedOptions) => {
+    setDail2(selectedOptions);
+  };
+  const handleDail3 = (selectedOptions) => {
+    setDail3(selectedOptions);
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(staff);
     setErrors(newError);
     setSubmitted(true);
+    const staffData={
+      ...staff,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+      dial3:dail3?.value,
+    }
     if (handleErrors(newError)) {
-      saveStaff(staff)
+      saveStaff(staffData)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_staff");
@@ -337,6 +355,11 @@ export const AddStaff = () => {
     value: data.empName,
     label: data.empName,
   }));
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
+
 
   return (
     <>
@@ -745,24 +768,21 @@ export const AddStaff = () => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={staff?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
       type="text"
        aria-label="Text input with dropdown button"
@@ -813,25 +833,21 @@ export const AddStaff = () => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={staff?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail2}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial2"
+                              onChange={handleDail2}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -1326,25 +1342,21 @@ export const AddStaff = () => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={staff?.dial3}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail3}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial3"
+                              onChange={handleDail3}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
