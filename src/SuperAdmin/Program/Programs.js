@@ -2,22 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {getSuperAdminForSearch} from '../../api/superAdmin';
 import { getAllApplicantCard } from "../../api/applicatin";
-import {
-  getallProgram,
-  getAllProgramCard,
-  deleteProgram,
-  getFilterProgram,
-} from "../../api/Program";
+import {getallProgram,getAllProgramCard,deleteProgram,getFilterProgram,} from "../../api/Program";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  radioClasses,
-} from "@mui/material";
-import Masterheader from "../../compoents/header";
+import {Dialog,DialogContent,DialogTitle,IconButton,Pagination,radioClasses,} from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -44,21 +31,20 @@ export default function Masterproductlist() {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [detail, setDetail] = useState();
-  const pageSize = 10;
   const search = useRef(null);
+  const [pageSize, setPageSize] = useState(10); 
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
-
   const [program, setProgaram] = useState();
+  const [detail, setDetail] = useState();
   const [details, setDetails] = useState();
 
   useEffect(() => {
     getAllProgaramDetails();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to,pageSize]);
 
   useEffect(() => {
     if (search.current) {
@@ -87,9 +73,10 @@ const getallProgramCount = ()=>{
   getAllProgramCard().then((res)=>setDetails(res?.data.result))
 }
 
+
   const getAllProgaramDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
     getFilterProgram(data)
@@ -110,6 +97,10 @@ const getallProgramCount = ()=>{
     setPagination({ ...pagination, from: from, to: to });
   };
 
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
 
   const handleInputsearch = (event) => {
     if (event.key === 'Enter') {
@@ -1023,19 +1014,23 @@ const getallProgramCount = ()=>{
         
         </div>
         <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}

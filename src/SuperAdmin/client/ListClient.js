@@ -41,9 +41,10 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [searchClear, setSearchClear] = useState("");
-  const pageSize = 10;
+
   const search = useRef(null);
 
+  const [pageSize, setPageSize] = useState(10); // Default page size
   const [details, setDetails] = useState();
 
   const [pagination, setPagination] = useState({
@@ -54,7 +55,7 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getClientList();
-  }, []);
+  }, [pageSize]);
 
   useEffect(() => {
     if (search.current) {
@@ -87,6 +88,8 @@ const getallClientCount = ()=>{
     }
   };
 
+
+ 
   const handleClear = () => {
     setSearchClear([]); // Clear the state value
     if (search.current) {
@@ -108,7 +111,12 @@ const getallClientCount = ()=>{
   };
 
   const getClientList = () => {
-    getFilterClient()
+
+    const params = {
+      limit: pageSize, // Use dynamic page size here
+      page: pagination.from,
+    };
+    getFilterClient(params)
       .then((res) => {
         const value = res?.data?.result?.clientList;
         setClient(value);
@@ -160,7 +168,14 @@ const getallClientCount = ()=>{
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+    
   };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -443,6 +458,7 @@ const getallClientCount = ()=>{
         const response = await getallClient();
         const clientsData = Array.isArray(response.data) ? response.data : [];
   
+        
         // Initialize statuses based on the fetched client data
         const initialStatuses = clientsData.reduce((acc, clientData) => {
           return { ...acc, [clientData._id]: clientData.clientStatus === 'Active' };
@@ -1353,26 +1369,30 @@ const getallClientCount = ()=>{
   </div>
   <div className='card-footer bg-white'>
   <div className="d-flex justify-content-between align-items-center p-3">
-                  <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
+  <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
+        <Pagination
+                        count={Math.ceil(pagination.count / pageSize)} // Adjust pagination based on dynamic page size
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
                 </div>
   </div>
                

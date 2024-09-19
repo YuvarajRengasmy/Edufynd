@@ -1,61 +1,111 @@
-/*App.js*/
-import React, { useState, useEffect } from 'react';
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import {
+  getallUniversity,
+  deleteUniversity,
+  saveUniversity,
+  getAllUniversit,
+  getFilterUniversity,
+  updateUniversity,
+  
+} from "../../api/university";
+const UniversityList = () => {
+  const [universities, setUniversities] = useState([]);
+  const [statuses, setStatuses] = useState({}); // To store the switch status of universities
 
-function App() {
-    const [ user, setUser ] = useState([]);
-    const [ profile, setProfile ] = useState([]);
+  // Fetch all universities on component mount
+  useEffect(() => {
+    const fetchUniversity = async () => {
+      try {
+        const response = await getallUniversity();
+        const universityData = Array.isArray(response.data) ? response.data : [];
 
-    const login = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
-        onError: (error) => console.log('Login Failed:', error)
-    });
+        // Initialize the statuses based on the fetched university data
+        const initialStatuses = universityData.reduce((acc, university) => {
+          return { ...acc, [university.id]: university.universityStatus === 'Active' };
+        }, {});
 
-    useEffect(
-        () => {
-            if (user) {
-                axios
-                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        setProfile(res.data);
-                    })
-                    .catch((err) => console.log(err));
-            }
-        },
-        [ user ]
-    );
-
-    // log out function to log the user out of google and set the profile array to null
-    const logOut = () => {
-        googleLogout();
-        setProfile(null);
+        setUniversities(universityData); // Set universities data
+        setStatuses(initialStatuses); // Set initial statuses
+      } catch (error) {
+        console.error('Error fetching universities:', error);
+      }
     };
 
-    return (
-        <div>
-            <h2>React Google Login</h2>
-            <br />
-            <br />
-            {profile ? (
-                <div>
-                    <img src={profile.picture} alt="user image" />
-                    <h3>User Logged in</h3>
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
-                    <br />
-                    <br />
-                    <button onClick={logOut}>Log out</button>
-                </div>
-            ) : (
-                <button onClick={() => login()}>Sign in with Google 🚀 </button>
-            )}
-        </div>
-    );
-}
-export default App;
+    fetchUniversity();
+  }, []); // Run only once on component mount
+
+  // Toggle university status
+  const handleCheckboxChanges = async (id, currentStatus) => {
+    const updatedStatus = currentStatus ? 'Inactive' : 'Active';
+
+    // Update the local state immediately for a quick UI response
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [id]: !prevStatuses[id],
+    }));
+
+    // Prepare the university data to send to the backend
+    const updateData = {
+      _id: id,
+      universityStatus: updatedStatus, // Update the status based on toggle
+    };
+
+    try {
+      await updateUniversity(updateData); // Send update to the backend
+      console.log(`University ${id} status updated to ${updatedStatus}`);
+    } catch (error) {
+      console.error('Error updating University status:', error);
+
+      // Revert the status if there's an error during the update
+      setStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [id]: !prevStatuses[id], // Revert the change
+      }));
+    }
+  };
+
+  return (
+    <div>
+      <h3>University List</h3>
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>University Name</th>
+            <th>Location</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {universities?.map((data, index) => (
+            <tr key={data.id}>
+              <td>{index + 1}</td>
+              <td>{data.name}</td>
+              <td>{data.location}</td>
+              <td className="text-capitalize text-start">
+                <span className="form-check form-switch d-inline ms-2">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id={`flexSwitchCheckDefault1${index}`}
+                    checked={statuses[data.id] || false}
+                    onChange={() => handleCheckboxChanges(data.id, statuses[data.id])}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor={`flexSwitchCheckDefault1${index}`}
+                  >
+                    {statuses[data.id] ? 'Active' : 'Inactive'}
+                  </label>
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default UniversityList;

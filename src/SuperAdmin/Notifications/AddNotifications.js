@@ -24,7 +24,7 @@ export const AddNotifications = () => {
     subject: "",
     content: "",
     uploadImage: "",
-    createdBy: "",
+  
   };
 
   const initialStateErrors = {
@@ -489,7 +489,7 @@ export const AddNotifications = () => {
                               ) : null}
                             </div>
                             <div className="text-end">
-                          <button className="btn btn-primary">Add</button>
+                         
                           </div>
                           </div>
 
