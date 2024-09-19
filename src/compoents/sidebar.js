@@ -1275,9 +1275,9 @@ const Sidebar = () => {
   <Link to="/list_admin"
     className={`nav-link sidebar_link ${[
       "/list_admin",
-      "/add_Admin",
-      "/edit_Admin",
-      "/view_Admin",
+      "/add_admin",
+      "/edit_admin",
+      "/view_admin",
     ].includes(currentPath) ? "active" : ""}`}
     data-path="/list_admin"
     data-bs-toggle="tooltip"

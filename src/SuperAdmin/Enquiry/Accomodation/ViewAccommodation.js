@@ -80,10 +80,7 @@ export const ViewAccommodation = () => {
         <td className="fw-bold">Source: Student/Agent</td>
         <td>{accommodation?.source || "Not Available"}</td>
       </tr>
-      <tr>
-        <td className="fw-bold">Agent ID</td>
-        <td>{accommodation?.agentId || "Not Available"}</td>
-      </tr>
+     
       <tr>
         <td className="fw-bold">Agent Name</td>
         <td>{accommodation?.agentName || "Not Available"}</td>

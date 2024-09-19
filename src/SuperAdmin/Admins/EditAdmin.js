@@ -157,7 +157,7 @@ function EditAgent() {
                               type="text"
                               name="name"
                               onChange={handleInputs}
-                              className="form-control "
+                              className={`form-control ${errors.name.required ? 'is-invalid' : ''}`}
                               value={inputs.name}
                               placeholder="Enter Admin name"
                               style={{
@@ -179,7 +179,7 @@ function EditAgent() {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control ${errors.role.required  ? 'is-invalid' : ''}`}
                               placeholder="Contact Number"
                               name="role"
                               value={inputs.role}
@@ -200,7 +200,7 @@ function EditAgent() {
                             <div className="d-flex gap-4">
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.email.required ? 'is-invalid' : ''}`}
                                 placeholder="Enter Email"
                                 name="email"
                                 value={inputs.email}
@@ -214,11 +214,7 @@ function EditAgent() {
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
-                              ) : errors.email.valid ? (
-                                <div className="text-danger form-text">
-                                  Enter valid Email Id.
-                                </div>
-                              ) : null}
+                              )  : null}
                             </div>
                           </div>
                         </div>
@@ -231,7 +227,7 @@ function EditAgent() {
                             </label>
                             <input
                               type="number"
-                              className="form-control "
+                              className={`form-control ${errors.mobileNumber.required ? 'is-invalid'  : ''}`}
                               placeholder="Contact Number"
                               name="mobileNumber"
                               value={inputs.mobileNumber}
@@ -245,11 +241,7 @@ function EditAgent() {
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
-                            ) : errors.mobileNumber.valid ? (
-                              <span className="text-danger form-text profile_error">
-                                Enter valid mobile number.
-                              </span>
-                            ) : null}
+                            )  : null}
                           </div>
                         </div>
                         

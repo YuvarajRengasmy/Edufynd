@@ -328,7 +328,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors?.requestTraining?.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -350,7 +350,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors?.trainingTopic?.required  ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -373,7 +373,7 @@ export const AddTraining = () => {
                               </label>
 
                               <select
-                                class="form-select form-select-lg"
+                                className={`form-control ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
                                 name="typeOfUser"
                                 onChange={handleInputs}
                                 aria-label="Default select example"
@@ -487,7 +487,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.material.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -508,7 +508,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="date"
-                                className="form-control "
+                                className={`form-control ${errors?.date?.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -527,7 +527,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="time"
-                                className="form-control "
+                                className={`form-control ${errors?.time?.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -549,7 +549,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.subject.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -570,7 +570,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.name.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -592,7 +592,7 @@ export const AddTraining = () => {
                               </label>
                               <input
                                 type="file"
-                                className="form-control "
+                                className={`form-control ${errors.uploadDocument.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
