@@ -256,7 +256,7 @@ export const AddGeneralEnquiry = () => {
         style={{ backgroundColor: "#fff", fontSize: "14px" }}
       >
         <div className="content-header">
-          <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+          <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
             <div
               className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
               style={{ background: "#fe5722", color: "#fff" }}
@@ -279,7 +279,7 @@ export const AddGeneralEnquiry = () => {
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
-                      className={`form-select form-select-lg rounded-1 ${
+                      className={`form-select form-select-lg rounded-1 text-capitalize ${
                         errors.source.required ? "is-invalid" : ""
                       } `}
                       name="source"
@@ -316,10 +316,10 @@ export const AddGeneralEnquiry = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="studentName"
                         >
-                          <option value="">Select students</option>
+                          <option value="">Select Student</option>
                           {students.length > 0 ? (
                             students.map((data, index) => (
                               <option
@@ -352,7 +352,7 @@ export const AddGeneralEnquiry = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="agentName"
                         >
                           <option value="">Select Agent</option>
@@ -376,13 +376,13 @@ export const AddGeneralEnquiry = () => {
                           Business Name
                         </label>
                         <input
-                          className="form-control rounded-1"
+                          className="form-control rounded-1 text-capitalize"
                           id="inputbusinessname"
                           type="text"
                           onChange={handleInputs}
                           value={student.businessName}
                           name="businessName"
-                          placeholder="Enter Business Name"
+                          placeholder="Example John Doe"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
@@ -550,7 +550,7 @@ agentPrimaryNumber"
                           Agent Email ID
                         </label>
                         <input
-                          className="form-control rounded-1"
+                          className="form-control rounded-1 text-lowercase"
                           name="agentEmail"
                           onChange={handleInputs}
                           id="inputEmail"
@@ -560,7 +560,15 @@ agentPrimaryNumber"
                           style={{
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
+                            
                           }}
+                          onKeyDown={(e) => {
+                            // Prevent default behavior for disallowed keys
+                       if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                            'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                         e.preventDefault();
+                       }
+                      }}
                         />
                       </div>
                     </div>
@@ -569,21 +577,27 @@ agentPrimaryNumber"
                 <div className="row mb-3">
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label className="form-label" for="inputstudentname">
-                      Name of the Student
+                     Student Name
                       <span className="text-danger">*</span>
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-capitalize ${
                         errors.name.required ? "is-invalid" : ""
                       }`}
                       name="name"
                       onChange={handleInputs}
                       id="inputstudentname"
                       type="text"
-                      placeholder="Enter Name of the Student"
+                      placeholder="Example Jane Doe"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
+                      }}
+                      onKeyDown={(e) => {
+                        // Prevent non-letter characters
+                        if (/[^a-zA-Z\s]/.test(e.key)) {
+                          e.preventDefault();
+                        }
                       }}
                     />
                     {errors.name.required ? (
@@ -592,7 +606,7 @@ agentPrimaryNumber"
                       </div>
                     ) : errors.name.valid ? (
                       <div className="text-danger form-text">
-                        Enter Name Letter Only
+                         This field is required.
                       </div>
                     ) : null}
                   </div>
@@ -601,18 +615,24 @@ agentPrimaryNumber"
                       Passport No<span className="text-danger">*</span>
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-uppercase ${
                         errors.passportNo.required ? "is-invalid" : ""
                       }`}
                       id="inputpassportno"
                       onChange={handleInputs}
                       name="passportNo"
                       type="text"
-                      placeholder="Enter Passport No"
+                      placeholder="Example  M12345678"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
                     />
                     {errors.passportNo.required ? (
                       <div className="text-danger form-text">
@@ -620,7 +640,7 @@ agentPrimaryNumber"
                       </div>
                     ) : errors.passportNo.valid ? (
                       <div className="text-danger form-text">
-                        Enter Vaild Passport Number Only
+                        This field is required.
                       </div>
                     ) : null}
                   </div>
@@ -629,7 +649,7 @@ agentPrimaryNumber"
                       Expiry Date<span className="text-danger">*</span>
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-uppercase ${
                         errors.expiryDate.required ? "is-invalid" : ""
                       }`}
                       id="inputpassportno"
@@ -655,14 +675,14 @@ agentPrimaryNumber"
                       Email ID<span className="text-danger">*</span>
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-lowercase ${
                         errors.email.required ? "is-invalid" : ""
                       }`}
                       name="email"
                       onChange={handleInputs}
                       id="inputEmail"
                       type="text"
-                      placeholder="Enter Email ID"
+                      placeholder="Example johndoe123@gmail.com"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
@@ -674,7 +694,7 @@ agentPrimaryNumber"
                       </div>
                     ) : errors.email.valid ? (
                       <div className="text-danger form-text">
-                        Enter valid Email Id.
+                        This field is required.
                       </div>
                     ) : null}
                   </div>
@@ -838,11 +858,17 @@ agentPrimaryNumber"
                       name="cgpa"
                       id="inputAddress"
                       type="text"
-                      placeholder="CGPA"
+                      placeholder="Example 98"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "14px",
                       }}
+                      onKeyDown={(e) => {
+                        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                
                     />
                     {errors.cgpa.required ? (
                       <div className="text-danger form-text">
@@ -863,11 +889,17 @@ agentPrimaryNumber"
                       onChange={handleInputs}
                       name="yearPassed"
                       type="text"
-                      placeholder="Year passed"
+                      placeholder="Example 2024"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "14px",
                       }}
+                      onKeyDown={(e) => {
+                        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                
                     />
                     {errors.yearPassed.required ? (
                       <div className="text-danger form-text">
@@ -880,17 +912,23 @@ agentPrimaryNumber"
                       Desired Country
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-capitalize ${
                         errors.desiredCountry.required ? "is-invalid" : ""
                       }`}
                       id="inputEmail4"
                       onChange={handleInputs}
                       name="desiredCountry"
                       type="text"
-                      placeholder="Desired Country"
+                      placeholder="Example United Kingdom"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "14px",
+                      }}
+                      onKeyDown={(e) => {
+                        // Prevent non-letter characters
+                        if (/[^a-zA-Z\s]/.test(e.key)) {
+                          e.preventDefault();
+                        }
                       }}
                     />
                     {errors.desiredCountry.required ? (
@@ -906,17 +944,23 @@ agentPrimaryNumber"
                       Desired Course
                     </label>
                     <input
-                      className={`form-control rounded-1 ${
+                      className={`form-control rounded-1 text-capitalize ${
                         errors.desiredCourse.required ? "is-invalid" : ""
                       }`}
                       id="inputPassword4"
                       onChange={handleInputs}
                       type="text"
                       name="desiredCourse"
-                      placeholder="Desired Course"
+                      placeholder="Example Game Designing"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "14px",
+                      }}
+                      onKeyDown={(e) => {
+                        // Prevent non-letter characters
+                        if (/[^a-zA-Z\s]/.test(e.key)) {
+                          e.preventDefault();
+                        }
                       }}
                     />
                     {errors.desiredCourse.required ? (
