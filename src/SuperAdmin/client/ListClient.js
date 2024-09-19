@@ -1262,7 +1262,7 @@ const getallClientCount = ()=>{
                             <td className="text-start">
                               {data?.businessMailID || "Not Available"}
                             </td>
-                            {/* <td className="text-capitalize text-start ">
+                            <td className="text-capitalize text-start ">
     
             <span className="form-check form-switch d-inline ms-2" >
               {data?.clientStatus === "Active" ? (
@@ -1291,7 +1291,7 @@ const getallClientCount = ()=>{
               </label>
 
             </span>
-                            </td> */}
+                            </td>
                          
                             <td className="text-capitalize text-start">
                               <div className="d-flex justify-content-between align-items-start">
