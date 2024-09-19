@@ -442,7 +442,16 @@ export const ListBlog = () => {
                   </div>
                 </div>
                   <div className="card-body">
-                    <div className="card-table">
+
+                  <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+ <div className="card-table">
                       <div className="table-responsive">
                         <table
                           className=" table table-hover card-table  dataTable text-center"
@@ -513,7 +522,7 @@ export const ListBlog = () => {
                                   >
                                     <i className="far fa-edit text-warning me-1"></i>
                                   </Link>
-                                  <Link
+                                  <button
                                     className="dropdown-item"
                                     data-bs-toggle="tooltip"
                                     onClick={() => {
@@ -522,7 +531,7 @@ export const ListBlog = () => {
                                     title="Delete"
                                   >
                                     <i className="far fa-trash-alt text-danger me-1"></i>
-                                  </Link>
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -532,6 +541,118 @@ export const ListBlog = () => {
                         </table>
                       </div>
                     </div>
+
+        
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {blog?.map((data,index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"></h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data.createdOn)}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Title</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data.title}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Category</strong>
+                  </div>
+                  <div className="col-md-7" style={{textAlign:'justify'}}>
+                  {data.category}
+                  </div>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                    className="btn btn-sm btn-outline-primary"
+                                    to={{
+                                      pathname: "/view_blog",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                    data-bs-toggle="tooltip"
+                                    title="View"
+                                  >
+                                    <i className="far fa-eye text-primary me-1"></i>View
+                                  </Link>
+                                  <Link
+                                    className="btn btn-sm btn-outline-warning"
+                                    to={{
+                                      pathname: "/edit_blog",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                    data-bs-toggle="tooltip"
+                                    title="Edit"
+                                  >
+                                    <i className="far fa-edit text-warning me-1"></i>Edit
+                                  </Link>
+                                  <button
+                                    className="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="tooltip"
+                                    onClick={() => {
+                                      openPopup(data?._id);
+                                    }}
+                                    title="Delete"
+                                  >
+                                    <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                  </button>
+          </div>
+        </div>
+      </div>
+))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+                   
 
                     <div className="d-flex justify-content-between align-items-center p-3">
         <p className="me-auto ">

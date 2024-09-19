@@ -660,7 +660,7 @@ function Profile() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize  ${
                                   errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''
     }`}
                             placeholder="Enter University name"
@@ -806,7 +806,7 @@ function Profile() {
                           <input
                             type="text"
                             value={university?.email}
-                            className={`form-control rounded-1 ${
+                            className={`form-control text-lowercase rounded-1 ${
                               errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
                             }`}
                             placeholder="Enter Email"
@@ -831,7 +831,7 @@ function Profile() {
                           <input
                             type="text"
                             value={university?.website}
-                            className={`form-control rounded-1 ${
+                            className={`form-control text-lowercase rounded-1 ${
                               errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
                             }`}
                             placeholder="Enter Website"
@@ -1078,6 +1078,7 @@ function Profile() {
                                 About{" "}
                                 <span className="text-danger">*</span>
                               </label>
+                              
                               <RichTextEditor
                                 placeholder="Start writing your content here..."
                                 name="about"

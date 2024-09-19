@@ -269,14 +269,24 @@ export const AddGeneralEnquiry = () => {
 
       <Mastersidebar />
 
-      <div className='content-wrapper' style={{ backgroundColor: '#fff', fontSize: '14px' }}>
+      <div className='content-wrapper' style={{  fontSize: '14px' }}>
         <div className='content-header'>
-          <div className='container card card-body p-4 border-0'>
-            <h4 className='card-title text-center fw-bold'>Add General Enquiry</h4>
-            <hr />
+        <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
+                    <div
+                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+                      style={{ background: "#fe5722", color: "#fff" }}
+                    >
+                      <h5 className="text-center text-capitalize p-1">
+                        {" "}
+                       Edit General Enquiry
+                      </h5>
+                    </div>
+          <div className=' card-body mt-5 '>
+          
+            
             <form className="p-1" onSubmit={handleSubmit}>
 
-              <div className='row mb-3'>
+              <div className='row g-3'>
 
               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label className="form-label" for="inputEmail4">
@@ -768,7 +778,7 @@ export const AddGeneralEnquiry = () => {
 </div>
               <div className='row mb-3'>
 
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputAddress">CGPA </label>
                   <input className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
                    value={student?.cgpa} onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
@@ -778,7 +788,7 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputAddress"> Year passed</label>
                   <input className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`} id="inputAddress" value={student?.yearPassed} onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.yearPassed.required ? (
@@ -788,7 +798,7 @@ export const AddGeneralEnquiry = () => {
                   ) : null}
 
                 </div>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputEmail4">Desired Country</label>
                   <input className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`} id="inputEmail4" value={student?.desiredCountry} onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.desiredCountry.required ? (
@@ -801,7 +811,7 @@ export const AddGeneralEnquiry = () => {
 
               </div>
               <div className='row mb-3'>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputPassword4">Desired Course</label>
                   <input className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`} id="inputPassword4" value={student?.desiredCourse} onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.desiredCourse.required ? (
@@ -811,7 +821,7 @@ export const AddGeneralEnquiry = () => {
                   ) : null}
 
                 </div>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputAddress">Do you need support for loan? </label>
                   <select className={`form-select form-select-lg  rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
                     name="doYouNeedSupportForLoan"
@@ -833,7 +843,7 @@ export const AddGeneralEnquiry = () => {
                
               </div>
               <div className='row mb-3'>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputPassword4">Qualification</label>
                   <input className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`} value={student?.qualification} id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.qualification.required ? (
@@ -844,7 +854,7 @@ export const AddGeneralEnquiry = () => {
 
                 </div>
 
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputEmail4"> Assigned To</label>
                   <input className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`} id="inputEmail4" value={student?.assignedTo} onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
                   {errors.assignedTo.required ?
@@ -863,11 +873,11 @@ export const AddGeneralEnquiry = () => {
                 <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
 
 
-                  <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/list_general_enquiry" className="btn btn-cancel border text-white w-10 m-2">
+                  <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/list_general_enquiry" className="btn btn-cancel border-0 text-white m-2">
                     Cancel
                   </Link>
 
-                  <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border text-white w-10 m-2">
+                  <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border-0 text-white  m-2">
                     Submit
                   </button>
 
@@ -876,6 +886,7 @@ export const AddGeneralEnquiry = () => {
               </div>
 
             </form>
+          </div>
           </div>
         </div>
 

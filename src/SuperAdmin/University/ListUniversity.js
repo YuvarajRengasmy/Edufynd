@@ -39,8 +39,7 @@ Chart.register(...registerables);
 export default function Masterproductlist() {
   const initialStateInputs = {
     universityName: "",
-    state: "",
-    lga: "",
+   
     averageFees: "",
     country: "",
     popularCategories: "",
@@ -56,7 +55,8 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
+
   const search = useRef(null);
   const [details, setDetails] = useState();
   const [detail, setDetail] = useState();
@@ -73,7 +73,7 @@ export default function Masterproductlist() {
     getAllUniversityDetails();
     getallUniversityCount();
     getallApplicantCount();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to,pageSize]);
 
   useEffect(() => {
     if (search.current) {
@@ -90,7 +90,7 @@ export default function Masterproductlist() {
 
   const getAllUniversityDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
 
@@ -181,7 +181,6 @@ const getallApplicantCount = ()=>{
     const data = {
       universityName: inputs.universityName,
       country: inputs.country,
-      // state: inputs?.lga && inputs.lga.length > 0 ? inputs.lga.join(", ") : inputs?.state?.join(", ") ?? "-",
       averageFees: inputs.averageFees,
       popularCategories: inputs.popularCategories,
       limit: 10,
@@ -220,6 +219,10 @@ const getallApplicantCount = ()=>{
     setOpenImport(false);
   };
 
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -617,15 +620,7 @@ const chartRef = useRef(null);
                     placeholder="Example Stanford"
                     style={{ fontSize: "12px" }}
                   />
-                  <label className="form-label">Campus</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="state"
-                    onChange={handleInputs}
-                    placeholder="Example Apple Park"
-                    style={{ fontSize: "12px" }}
-                  />
+                  
                   <label className="form-label">Average Fees</label>
                   <input
                     type="text"
@@ -1207,20 +1202,24 @@ const chartRef = useRef(null);
                     </div>
                 </div>
        
-          <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}

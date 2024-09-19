@@ -21,7 +21,7 @@ import { getallCode } from "../../api/settings/dailcode";
 
 function AddAgent() {
   const initialState = {
-    // typeOfClient: "",
+    typeOfClient: "",
     businessName: "",
     businessMailID: "",
     businessContactNo: "",
@@ -42,7 +42,7 @@ function AddAgent() {
   };
 
   const initialStateErrors = {
-    // typeOfClient: { required: false },
+    typeOfClient: { required: false },
     businessName: { required: false },
     businessMailID: { required: false, valid: false },
     businessContactNo: { required: false, valid: false },
@@ -105,7 +105,7 @@ const [dial, setDial] = useState([]);
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-    // if (data.typeOfClient === "") error.typeOfClient.required = true;
+    if (data.typeOfClient === "") error.typeOfClient.required = true;
     if (data.businessName === "") error.businessName.required = true;
     if (data.businessMailID === "") error.businessMailID.required = true;
     if (data.businessContactNo === "") error.businessContactNo.required = true;
@@ -283,9 +283,9 @@ const [dial, setDial] = useState([]);
     setSubmitted(true);
     const updatedClient = {
       ...client,
-      dial1:dail1?.label,
-      dial2:dail2?.label,
-      dial3:dail3?.label,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+      dial3:dail3?.value,
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
@@ -309,6 +309,7 @@ const [dial, setDial] = useState([]);
     value: data.dialCode,
     label: `${data.dialCode} - ${data.name}`,
   }));
+
   
   const customStyles = {
     control: (provided) => ({
@@ -361,7 +362,7 @@ const [dial, setDial] = useState([]);
                             <span className="text-danger">*</span>
                           </label>
                           <div className="">
-                            {/* <select
+                            <select
                               onChange={handleInputs}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -369,20 +370,20 @@ const [dial, setDial] = useState([]);
                               }}
                               className={`form-select form-select-lg rounded-1`}
                               name="typeOfClient"
-                            > */}
-                              {/* <option value={""}>Select Client Type</option> */}
-                              {/* {type.map((data, index) => (
+                            >
+                              <option value={""}>Select Client Type</option>
+                              {type.map((data, index) => (
                                 <option key={index} value={data?.typeOfClient}>
                                   {" "}
                                   {data?.typeOfClient}
                                 </option>
-                              ))} */}
-                            {/* </select> */}
-                            {/* {errors.typeOfClient.required && (
+                              ))}
+                            </select>
+                            {errors.typeOfClient.required && (
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            )} */}
+                            )}
                           </div>
                         </div>
 
@@ -650,7 +651,7 @@ const [dial, setDial] = useState([]);
   </label>
   <div className="input-group mb-3">
   <Select
-                              value={handleDail3}
+                              value={dail3}
                               options={dialOptions}
                               placeholder="code"
                               name="dial3"

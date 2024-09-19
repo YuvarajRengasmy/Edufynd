@@ -76,9 +76,12 @@ function AddAgent() {
   const [lgas, setLGAs] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
-
+  const [dail1, setDail1] = useState(null);
+  const [dail2, setDail2] = useState(null);
+  const [dail3, setDail3] = useState(null);
+  const [dail4, setDail4] = useState(null);
   useEffect(() => {
-    // getAllClientDetails();
+     getAllClientDetails();
     getSingleDetails();
     getallCodeList();
   }, []);
@@ -93,16 +96,16 @@ function AddAgent() {
         console.log(err);
       });
   };
-  // const getAllClientDetails = () => {
-  //   getallClientModule()
-  //     .then((res) => {
-  //       console.log(res);
-  //       setType(res?.data?.result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const getAllClientDetails = () => {
+    getallClientModule()
+      .then((res) => {
+        console.log(res);
+        setType(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getSingleDetails = () => {
     getSingleClient(id)
       .then((res) => {
@@ -116,9 +119,9 @@ function AddAgent() {
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-    // if (data.typeOfClient === "") {
-    //   error.typeOfClient.required = true;
-    // }
+    if (data.typeOfClient === "") {
+      error.typeOfClient.required = true;
+    }
 
     if (data.businessName === "") {
       error.businessName.required = true;
@@ -303,7 +306,15 @@ function AddAgent() {
     }
     return true;
   };
-
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
+  const handleDail2 = (selectedOptions) => {
+    setDail2(selectedOptions);
+  };
+  const handleDail3 = (selectedOptions) => {
+    setDail3(selectedOptions);
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(client);
@@ -311,6 +322,9 @@ function AddAgent() {
     setSubmitted(true);
     const updatedClient = {
       ...client,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+      dial3:dail3?.value,
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
@@ -329,7 +343,10 @@ function AddAgent() {
       toast.error("Please fill mandatory fields");
     }
   };
-
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -385,7 +402,7 @@ function AddAgent() {
                     <div className="card-body mt-5">
                       <div className="row g-3">
                         
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Type of Client{" "}
                             <span className="text-danger">*</span>
@@ -397,9 +414,9 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              value={client?.typeOfClient}
-                              className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1`}
                               name="typeOfClient"
+                              value={client?.typeOfClient}
                             >
                               <option value={""}>Select Client Type</option>
                               {type.map((data, index) => (
@@ -413,10 +430,9 @@ function AddAgent() {
                               <div className="text-danger form-text">
                                 This field is required.
                               </div>
-                            ) }
+                            )}
                           </div>
                         </div>
-
 
                   
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -520,24 +536,21 @@ function AddAgent() {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={client?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder={client?.dial1}
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
       type="text"
        aria-label="Text input with dropdown button"
@@ -583,26 +596,21 @@ function AddAgent() {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-
+  <Select
+                              value={dail2}
+                              options={dialOptions}
+                              placeholder={client?.dial2}
+                              name="dial2"
+                              onChange={handleDail2}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
     type="text"
     className={`form-control rounded-1 ${
@@ -689,25 +697,21 @@ function AddAgent() {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={client?.dial3}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail3}
+                              options={dialOptions}
+                              placeholder={client?.dial3}
+                              name="dial3"
+                              onChange={handleDail3}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"

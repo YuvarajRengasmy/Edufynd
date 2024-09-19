@@ -266,7 +266,7 @@ export const AddMeetings = () => {
                             Type of user <span className="text-danger">*</span>
                           </label>
                           <select
-                            className="form-select form-select-lg"
+                            className={`form-select form-select-lg ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
                             name="typeOfUser"
                             onChange={handleInputs}
                             aria-label="Default select example"
@@ -382,7 +382,7 @@ export const AddMeetings = () => {
                           </label>
                           <input
                             type="text"
-                            className="form-control form-control-lg"
+                            className={`form-control  ${errors.subject.required ? 'is-invalid' : ''}`}
                             name="subject"
                             value={notification.subject}
                             onChange={handleInputs}
@@ -390,15 +390,14 @@ export const AddMeetings = () => {
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
-                              border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-                              borderRadius: "4.91319px",
+                              
                             }}
                           />
-                          {errors.subject.required && (
+                          {errors.subject.required ? (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
-                          )}
+                          ) : null}
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -407,7 +406,7 @@ export const AddMeetings = () => {
                           </label>
                           <input
                             type="date"
-                            className="form-control form-control-lg"
+                            className={`form-control  ${errors.date.required ? 'is-invalid' : ''}`}
                             name="date"
                             value={notification.date}
                             onChange={handleInputs}
@@ -415,8 +414,7 @@ export const AddMeetings = () => {
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
-                              border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-                              borderRadius: "4.91319px",
+                              
                             }}
                           />
                           {errors.date.required && (
@@ -432,7 +430,7 @@ export const AddMeetings = () => {
                           </label>
                           <input
                             type="time"
-                            className="form-control form-control-lg"
+                            className={`form-control  ${errors.time.required ? 'is-invalid' : ''}`}
                             name="time"
                             value={notification.time}
                             onChange={handleInputs}
@@ -440,8 +438,7 @@ export const AddMeetings = () => {
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
-                              border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-                              borderRadius: "4.91319px",
+                              
                             }}
                           />
                           {errors.time.required && (

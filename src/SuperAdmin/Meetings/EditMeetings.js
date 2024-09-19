@@ -425,7 +425,7 @@ export const AddMeetings = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control  ${errors.subject.required ? 'is-invalid' : ''}`}
                                 onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -450,7 +450,7 @@ export const AddMeetings = () => {
                               </label>
                               <input
                                 type="date"
-                                className="form-control "
+                                className={`form-control  ${errors.date.required ? 'is-invalid' : ''}`}
                                 value={notification?.date?notification?.date.slice(0,10):""}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -473,7 +473,7 @@ export const AddMeetings = () => {
                               </label>
                               <input
                                 type='time'
-                                className="form-control "
+                                className={`form-control  ${errors.time.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",

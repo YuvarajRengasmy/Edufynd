@@ -645,7 +645,7 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control text-capitalize rounded-1 ${
                                   errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''
     }`}
                               placeholder="Enter University Name"
@@ -799,7 +799,7 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control text-lowercase rounded-1 ${
       errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
     }`}
                               placeholder="Example johndoe123@gmail.com"
@@ -823,7 +823,7 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-lowercase ${
       errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
     }`}
                               placeholder="Example www.edufynd.com"
@@ -991,6 +991,7 @@ const App = () => {
                                   ...base,
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
+                                  zIndex:'2'
                                 }),
                               }}
                               placeholder="Select Intake"
@@ -1080,6 +1081,7 @@ const App = () => {
     fontSize: "12px",
     zIndex: '0'
   }}
+  
 />
                             </div>
                           </div>

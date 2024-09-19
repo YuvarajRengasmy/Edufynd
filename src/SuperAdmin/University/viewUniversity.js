@@ -1,42 +1,22 @@
-import { RiCoinsFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
-import { IoMdRocket } from "react-icons/io";
-import { IoMailUnread } from "react-icons/io5";
-import banner from "../../styles/Assets/Student/EventBanner.png";
 import { getSingleUniversity } from "../../api/university";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import BackButton from "../../compoents/backButton";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  backdropClasses,
-  radioClasses,
-} from "@mui/material";
+import { Pagination} from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
 import { getFilterProgram, getProgramUniversity } from "../../api/Program";
 import Sidebar from "../../compoents/sidebar";
-import { FaUniversity } from "react-icons/fa";
-import { FaGlobeAmericas } from "react-icons/fa";
 import { RichTextEditor } from "@mantine/rte";
 
 const UserProfile = () => {
-  const initialStateInputs = {
-    inTake: "",
-    programTitle: "",
-    applicationFee: "",
-    courseType: "",
-  };
+ 
 
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
   var searchValue = location.state;
   const [link, setLink] = useState("");
   const [inputs, setInputs] = useState(false);
-  const [open, setOpen] = useState(false);
   const [data, setData] = useState(false);
   const [university, setUniversity] = useState();
   const [commission, setCommission] = useState([]);
@@ -180,26 +160,7 @@ const UserProfile = () => {
     setPagination({ ...pagination, from: from, to: to });
   };
 
-  //   event?.preventDefault();
-  //   setFilter(true);
-  //   const data = {
-  //     universityName: university?.universityName,
-  //     universityId: university?._id,
-  //     limit: 10,
-  //     page: pagination.from,
-  //   };
-  //   getUniversityProgram(data)
-  //     .then((res) => {
-  //       setProgram(res?.data?.result?.programList);
-  //       setPagination({
-  //         ...pagination,
-  //         count: res?.data?.result?.programCount,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  
   return (
     <>
       <div>
@@ -355,12 +316,7 @@ const UserProfile = () => {
                                 Avg &nbsp; {university?.averageFees}{" "}
                                 <i class="fa  nav-icon"></i>
                               </p>
-                              {/* <div className="text-white mb-1 fw-semibold" style={{ fontSize: '14px' }}>
-                <span style={{ color: '#fe5722', fontSize: '14px' }}>
-                  <i className="fa fa-envelope nav-icon"></i>
-                </span>{' '}
-                {university?.email}
-              </div> */}
+                              
                             </div>
                           </div>
                         </div>
@@ -679,12 +635,12 @@ const UserProfile = () => {
                               className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
                               role="alert"
                             >
-                              Intakes
+                            {university?.businessName}
                             </div>
 
                             <div className="card card-body">
                               <h5 className="text-capitalize text-center">
-                                Program Intakes
+                               Intakes
                               </h5>
                               {Array.isArray(university?.inTake) &&
                                 university.inTake.map((inTake, index) => (

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { updatedPromotion, getSinglePromotion } from "../../api/promotions";
 import { getallStaff } from "../../api/staff";
@@ -8,12 +8,11 @@ import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Sidebar from "../../compoents/sidebar";
-import { Link ,useLocation} from "react-router-dom";
-import { RichTextEditor } from '@mantine/rte';
-
+import { Link, useLocation } from "react-router-dom";
+import { RichTextEditor } from "@mantine/rte";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddPromotions = () => {
-
-  
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
@@ -23,14 +22,14 @@ export const AddPromotions = () => {
     subject: "",
     content: "",
     uploadImage: "",
-    createdBy:"",
+    createdBy: "",
   };
 
   const initialStateErrors = {
     typeOfUser: { required: false },
     userName: { required: false },
     subject: { required: false },
-     content: { required: false },
+    content: { required: false },
     uploadImage: { required: false },
   };
 
@@ -72,7 +71,7 @@ export const AddPromotions = () => {
   const getAdminList = () => {
     getallAdmin()
       .then((res) => {
-        setAdmin(res?.data?.result );
+        setAdmin(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -111,9 +110,9 @@ export const AddPromotions = () => {
     if (data.subject === "") {
       error.subject.required = true;
     }
-     if (data.content === "") {
-       error.content.required = true;
-     }
+    if (data.content === "") {
+      error.content.required = true;
+    }
     if (data.uploadImage === "") {
       error.uploadImage.required = true;
     }
@@ -121,7 +120,6 @@ export const AddPromotions = () => {
     return error;
   };
 
-  
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -140,13 +138,18 @@ export const AddPromotions = () => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
-    } else{
-      setnotification({ ...notification, [event?.target?.name]: event?.target?.value });
+    } else {
+      setnotification({
+        ...notification,
+        [event?.target?.name]: event?.target?.value,
+      });
     }
-    
+
     if (submitted) {
-      const newError = handleValidation({...notification,
-        [event.target.name]: event.target.value,});
+      const newError = handleValidation({
+        ...notification,
+        [event.target.name]: event.target.value,
+      });
       setErrors(newError);
     }
   };
@@ -155,7 +158,10 @@ export const AddPromotions = () => {
     const values = selectedOptions
       ? selectedOptions.map((option) => option.value)
       : [];
-    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
+    setnotification((prevNotification) => ({
+      ...prevNotification,
+      [name]: values,
+    }));
   };
 
   const handleErrors = (obj) => {
@@ -170,14 +176,12 @@ export const AddPromotions = () => {
     return true;
   };
 
-  
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -210,7 +214,7 @@ export const AddPromotions = () => {
     value: data.empName,
     label: data.empName,
   }));
- 
+
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
@@ -220,7 +224,7 @@ export const AddPromotions = () => {
     value: data.agentName,
     label: data.agentName,
   }));
- 
+
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -237,12 +241,9 @@ export const AddPromotions = () => {
     }),
   };
 
-
-  
   return (
     <>
- 
- <div>
+      <div>
         <Sidebar />
 
         <div
@@ -266,67 +267,70 @@ export const AddPromotions = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
-                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                                Upload Image<span className="text-danger">*</span>
-                              </label>
+                              Upload Image<span className="text-danger">*</span>
+                            </label>
                             <img
-                                className="img-fluid  img-thumbnail mx-auto d-block rounded-pill"
-                                src={
-                                  notification?.uploadImage
-                                    ? notification?.uploadImage
-                                    : "https://via.placeholder.com/128"
-                                }
-                                alt="student-image"
-                                style={{ width: "8rem", height: "8rem" }}
-                              />
+                              className="img-fluid  img-thumbnail mx-auto d-block rounded-pill"
+                              src={
+                                notification?.uploadImage
+                                  ? notification?.uploadImage
+                                  : "https://via.placeholder.com/128"
+                              }
+                              alt="student-image"
+                              style={{ width: "8rem", height: "8rem" }}
+                            />
                             <label
-                                htmlFor="fileInputImage"
-                                className="position-absolute fs-6  "
-                                style={{
-                                  cursor: "pointer",
-                                  bottom: "5%",
-                                  left: "52.5%",
-                                  transform: "translate(50%, 50%)",
-                                  color: "#0f2239",
-                                }}
-                              >
-                                <i className="fas fa-camera"></i>
-                              </label>
-                              <input
-                               name="uploadImage"
-                                id="fileInputImage"
-                                type="file"
-                                accept="image/*"
-                                className="form-control border-0 text-dark bg-transparent"
-                                style={{
-                                  display: "none",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                onChange={handleInputs}
-                              />
-                              {errors.uploadImage.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
+                              htmlFor="fileInputImage"
+                              className="position-absolute fs-6  "
+                              style={{
+                                cursor: "pointer",
+                                bottom: "5%",
+                                left: "52.5%",
+                                transform: "translate(50%, 50%)",
+                                color: "#0f2239",
+                              }}
+                            >
+                              <i className="fas fa-camera"></i>
+                            </label>
+                            <input
+                              name="uploadImage"
+                              id="fileInputImage"
+                              type="file"
+                              accept="image/*"
+                              className="form-control border-0 text-dark bg-transparent"
+                              style={{
+                                display: "none",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                            />
+                            {errors.uploadImage.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
 
-<div className="text-end">
-                          <button className="btn btn-primary">Add</button>
-                          </div>
+                            <div className="text-end">
+                              <button className="btn btn-primary">Add</button>
                             </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                           UserName <span className="text-danger">*</span>
-                          </label>
-                          <select class="form-select " aria-label="Default select example">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-</div>
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              UserName <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              class="form-select "
+                              aria-label="Default select example"
+                            >
+                              <option selected>Open this select menu</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Type of Users{" "}
@@ -357,108 +361,105 @@ export const AddPromotions = () => {
                             ) : null}
                           </div>
                           {notification.typeOfUser === "staff" ? (
-                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                             <label style={{ color: "#231F20" }}>
-                               Admin List<span className="text-danger">*</span>
-                             </label>
-                            <Select
-                             isMulti
-                             placeholder="Select staff"
-                             onChange={handleSelectChange}
-                              options={staffOptions}
-                              value={
-                                notification?.userName
-                                  ? notification?.userName.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
-                                  : null
-                              }
-                             name="userName"
-                             
-                             styles={customStyles}
-                             className="submain-one-form-body-subsection-select"
-                           />
-                             {errors.userName.required ? (
-                               <div className="text-danger form-text">
-                                 This field is required.
-                               </div>
-                             ) : null}
-                           </div>
-                          ) : notification.typeOfUser === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Student List<span className="text-danger">*</span>
+                                Admin List<span className="text-danger">*</span>
                               </label>
-                             <Select
-                              isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               value={
-                                notification?.userName
-                                  ? notification?.userName.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
-                                  : null
-                              }
-                               options={studentOptions}
-                              name="userName"
-                              
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
+                              <Select
+                                isMulti
+                                placeholder="Select staff"
+                                onChange={handleSelectChange}
+                                options={staffOptions}
+                                value={
+                                  notification?.userName
+                                    ? notification?.userName.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
                               {errors.userName.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
                               ) : null}
                             </div>
-                          ) :notification.typeOfUser === "agent" ? (
+                          ) : notification.typeOfUser === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Admin List<span className="text-danger">*</span>
-                            </label>
-                           <Select
-                            isMulti
-                            placeholder="Select Country"
-                             onChange={handleSelectChange}
-                             value={
-                              notification?.userName
-                                ? notification?.userName.map((inTake) => ({
-                                    value: inTake,
-                                    label: inTake,
-                                  }))
-                                : null
-                            }
-                             options={agentOptions}
-                            name="userName"
-                            
-                            styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
-                          />
-                            {errors.userName.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            ) : null}
-                          </div>
+                              <label style={{ color: "#231F20" }}>
+                                Student List
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                value={
+                                  notification?.userName
+                                    ? notification?.userName.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                options={studentOptions}
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.userName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : notification.typeOfUser === "agent" ? (
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Admin List<span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                value={
+                                  notification?.userName
+                                    ? notification?.userName.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                options={agentOptions}
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.userName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
                           ) : notification.typeOfUser === "admin" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Admin List<span className="text-danger">*</span>
                               </label>
-                             <Select
-                              isMulti
-                              placeholder="Select Country"
-                               onChange={handleSelectChange}
-                               options={adminOptions}
-                               value={notification.userName}
-                              name="userName"
-                              
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
+                              <Select
+                                isMulti
+                                placeholder="Select Country"
+                                onChange={handleSelectChange}
+                                options={adminOptions}
+                                value={notification.userName}
+                                name="userName"
+                                styles={customStyles}
+                                className="submain-one-form-body-subsection-select"
+                              />
                               {errors.userName.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -474,7 +475,9 @@ export const AddPromotions = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control rounded-1 ${
+                                  errors.subject.required ? "is-invalid" : ""
+                                }`}
                                 onChange={handleInputs}
                                 value={notification.subject}
                                 style={{
@@ -490,19 +493,64 @@ export const AddPromotions = () => {
                                 </div>
                               ) : null}
                             </div>
-
-                            
                           </div>
 
-                          <div className="row gy-2 ">
-                            
-                          </div>
+                          <div className="row gy-2 "></div>
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content} // Use 'data' instead of 'value'
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data); // Call your handler here
+                                }}
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex: "0",
+                                }}
+                              />
+                              {/* <RichTextEditor
                                 placeholder="Start writing your content here..."
                                 name="content"
                                 onChange={handleRichTextChange}
@@ -513,7 +561,7 @@ export const AddPromotions = () => {
                                   minHeight: "200px",
                                   overflowY: "auto",
                                 }}
-                              />
+                              /> */}
                               {errors.content.required && (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -522,13 +570,9 @@ export const AddPromotions = () => {
                             </div>
                           </div>
 
-                       
-
-                         
-
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                            to="/list_promotions"
+                              to="/list_promotions"
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
@@ -561,8 +605,7 @@ export const AddPromotions = () => {
           </div>
         </div>
       </div>
-   
     </>
-  )
-}
-export default AddPromotions
+  );
+};
+export default AddPromotions;

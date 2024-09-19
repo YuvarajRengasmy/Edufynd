@@ -24,7 +24,7 @@ export const AddNotifications = () => {
     subject: "",
     content: "",
     uploadImage: "",
-    createdBy: "",
+  
   };
 
   const initialStateErrors = {
@@ -219,9 +219,9 @@ export const AddNotifications = () => {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-      borderRadius: "4.91319px",
-      fontSize: "11px",
+      border: "1px solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4px",
+      fontSize: "12px",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -264,7 +264,7 @@ export const AddNotifications = () => {
                           <label style={{ color: "#231F20" }}>
                            UserName <span className="text-danger">*</span>
                           </label>
-                          <select class="form-select" aria-label="Default select example">
+                          <select className="form-select" aria-label="Default select example">
   <option selected>Open this select menu</option>
   <option value="1">One</option>
   <option value="2">Two</option>
@@ -278,7 +278,7 @@ export const AddNotifications = () => {
                             </label>
 
                             <select
-                              class="form-select form-select-lg"
+                              className={`form-select form-select-lg ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -389,7 +389,7 @@ export const AddNotifications = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control ${errors.subject.required ? 'is-invalid' :''}`}
                                 onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -472,7 +472,7 @@ export const AddNotifications = () => {
                               </label>
                               <input
                                 type="file"
-                                className="form-control "
+                                className={`form-control ${errors.uploadImage.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -489,7 +489,7 @@ export const AddNotifications = () => {
                               ) : null}
                             </div>
                             <div className="text-end">
-                          <button className="btn btn-primary">Add</button>
+                         
                           </div>
                           </div>
 

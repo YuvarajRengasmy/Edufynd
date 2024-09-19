@@ -159,18 +159,18 @@ a {
 } */
 
 /* Custom styles for form fields on focus */
-.form-control:focus,
+/* .form-control:focus,
 .form-select:focus {
-  border-color: #231f20 !important; /* Attractive orange border color on focus */
-  box-shadow: none !important; /* Slightly more pronounced shadow */
-  outline: none !important; /* Remove default outline */
+  border-color: #231f20 !important; 
+  box-shadow: none !important; 
+  outline: none !important;
 }
 
-/* Optional: Custom styles for form control labels on focus */
+
 .form-control:focus ~ .form-label,
 .form-select:focus ~ .form-label {
-  color: #231f20 !important; /* Change label color to match border */
-}
+  color: #231f20 !important;
+} */
 
 
 .my-facebook-button {
@@ -191,3 +191,4 @@ a {
   margin-right: 10px; /* Space between icon and text */
   font-size: 20px; /* Adjust icon size */
 }
+

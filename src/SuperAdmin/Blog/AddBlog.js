@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { RichTextEditor } from "@mantine/rte";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
-import { getallCategory } from "../../api/settings/blogSettings";
 import { getFilterCategory } from "../../api/settings/blogSettings";
-import {saveBlog} from "../../api/blog";
+import { saveBlog } from "../../api/blog";
 import DatePicker from "react-datepicker"; // Add this line
 import Sidebar from "../../compoents/sidebar";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
 export const AddBlog = () => {
   const initialState = {
     title: "",
@@ -20,12 +16,11 @@ export const AddBlog = () => {
     tags: [],
     optionalURL: "",
     content: "",
-    uploadFile: [{fileName: "", uploadImage: "" }],
+    uploadFile: [{ fileName: "", uploadImage: "" }],
     uploadFiles: "",
     category: "",
     schedulePost: "",
   };
-
   const initialStateErrors = {
     title: { required: false },
     slug: { required: false },
@@ -35,11 +30,10 @@ export const AddBlog = () => {
     optionalURL: { required: false },
     content: { required: false },
     uploadImage: { required: false },
-     uploadFiles: { required: false },
+    uploadFiles: { required: false },
     category: { required: false },
     schedulePost: { required: false },
   };
-
   const [blog, setBlog] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
@@ -48,14 +42,12 @@ export const AddBlog = () => {
   const pageSize = 10;
   const [tags, setTags] = useState([]);
   const [input, setInput] = useState("");
-
   const [isScheduled, setIsScheduled] = useState(false);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
-
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
     if (data.title === "") {
@@ -79,20 +71,17 @@ export const AddBlog = () => {
     if (data.content === "") {
       error.content.required = true;
     }
-    
     if (data.uploadFiles === "") {
       error.uploadFiles.required = true;
     }
     if (data.category === "") {
       error.category.required = true;
     }
-   
     return error;
   };
   useEffect(() => {
     getAllCategoryDetails();
   }, [pagination.from, pagination.to]);
-
   const getAllCategoryDetails = () => {
     const data = {
       limit: pageSize,
@@ -110,9 +99,6 @@ export const AddBlog = () => {
         console.log(err);
       });
   };
-
- 
-
   const convertToBase65 = (e, name, index, listName) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -126,11 +112,9 @@ export const AddBlog = () => {
       console.log("Error: ", error);
     };
   };
-  
   const handleListInputChange = (e, index, listName) => {
     const { name, value, files } = e.target;
     const updatedList = [...blog[listName]];
-  
     if (files && files[0]) {
       convertToBase65(e, name, index, listName);
     } else {
@@ -138,20 +122,16 @@ export const AddBlog = () => {
       setBlog({ ...blog, [listName]: updatedList });
     }
   };
-  
-
   const addEntry = (listName) => {
     const newEntry = listName === "uploadFile"
-      ? { fileName: "",uploadImage: ""}
+      ? { fileName: "", uploadImage: "" }
       : null;
     setBlog({ ...blog, [listName]: [...blog[listName], newEntry] });
   };
-
   const removeEntry = (index, listName) => {
     const updatedList = blog[listName].filter((_, i) => i !== index);
     setBlog({ ...blog, [listName]: updatedList });
   };
-
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -166,7 +146,6 @@ export const AddBlog = () => {
       console.log("Error: ", error);
     };
   };
-
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && input.trim()) {
       event.preventDefault();
@@ -176,14 +155,12 @@ export const AddBlog = () => {
       setInput(""); // Clear the input field
     }
   };
-
   // Function to remove a tag by index
   const removeTag = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
-  
     if (name === "tags") {
       // Since the input value is handled separately for tags, we don't update the `blog` state here
       setInput(value);
@@ -194,7 +171,6 @@ export const AddBlog = () => {
         [name]: value,
       }));
     }
-  
     if (files && files[0]) {
       // Handle file uploads if any
       convertToBase64(event, name);
@@ -205,7 +181,6 @@ export const AddBlog = () => {
         [name]: value,
       }));
     }
-  
     if (submitted) {
       // Handle validation if the form has been submitted
       const newError = handleValidation({
@@ -215,12 +190,9 @@ export const AddBlog = () => {
       setErrors(newError);
     }
   };
-  
-
   const handleRichTextChange = (value) => {
     setBlog((prevUniversity) => ({
       ...prevUniversity,
-
       content: value,
     }));
   };
@@ -240,8 +212,6 @@ export const AddBlog = () => {
       }));
     }
   }, [blog.title])
-
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -253,8 +223,6 @@ export const AddBlog = () => {
     }
     return true;
   };
-
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(blog);
@@ -280,7 +248,6 @@ export const AddBlog = () => {
   return (
     <>
       <Sidebar />
-
       <div
         className="content-wrapper"
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
@@ -304,7 +271,7 @@ export const AddBlog = () => {
                         <label htmlFor="title">Title</label>
                         <input
                           type="text"
-                          className="form-control rounded-1 text-muted"
+                          className={`form-control rounded-1 text-muted ${errors.title.required ? 'is-invalid' : ''}`}
                           id="title"
                           onChange={handleInputs}
                           placeholder="Title"
@@ -321,7 +288,6 @@ export const AddBlog = () => {
                           </div>
                         )}
                       </div>
-
                       <div className="form-group">
                         <label htmlFor="slug">
                           Slug
@@ -332,7 +298,7 @@ export const AddBlog = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control rounded-1 text-muted"
+                          className={`form-control rounded-1 text-muted ${errors.slug.required ? 'is-invalid' : ''}`}
                           id="slug"
                           placeholder="Slug"
                           onChange={handleInputs}
@@ -349,13 +315,12 @@ export const AddBlog = () => {
                           </div>
                         )}
                       </div>
-
                       <div className="form-group">
                         <label htmlFor="summary">
                           Summary & Description (Meta Tag)
                         </label>
                         <textarea
-                          className="form-control rounded-1 text-muted"
+                          className={`form-control rounded-1 text-muted ${errors.summary.required ? 'is-invalid' : ''}`}
                           id="summary"
                           placeholder="Summary & Description (Meta Tag)"
                           style={{
@@ -371,12 +336,11 @@ export const AddBlog = () => {
                           </div>
                         )}
                       </div>
-
                       <div className="form-group">
                         <label htmlFor="keywords">Keywords (Meta Tag)</label>
                         <input
                           type="text"
-                          className="form-control rounded-1 text-muted"
+                          className={`form-control rounded-1 text-muted ${errors.keyWords.required ? 'is-invalid' : ''}`}
                           id="keywords"
                           placeholder="Keywords (Meta Tag)"
                           style={{
@@ -393,67 +357,65 @@ export const AddBlog = () => {
                           </div>
                         )}
                       </div>
-
                       <div className="form-group">
-        <label htmlFor="tags-input">Tags </label>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            border: "1px solid #ccc",
-            padding: "5px",
-          }}
-        >
-          {tags.map((tag, index) => (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "5px",
-                margin: "5px",
-                backgroundColor: "#e1e1e1",
-                borderRadius: "5px",
-              }}
-            >
-              <span>{tag}</span>
-              <button
-                type="button"
-                onClick={() => removeTag(index)}
-                style={{
-                  marginLeft: "10px",
-                  backgroundColor: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                &times;
-              </button>
-            </div>
-          ))}
-          <input
-            type="text"
-            id="tags-input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            name="tags"
-            className="form-control rounded-1 text-muted"
-            style={{
-              border: "none",
-              outline: "none",
-              padding: "5px",
-              flexGrow: 1,
-            }}
-          />
-        </div>
-      </div>
-
+                        <label htmlFor="tags-input">Tags </label>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            border: "1px solid #ccc",
+                            padding: "5px",
+                          }}
+                        >
+                          {tags.map((tag, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "5px",
+                                margin: "5px",
+                                backgroundColor: "#e1e1e1",
+                                borderRadius: "5px",
+                              }}
+                            >
+                              <span>{tag}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeTag(index)}
+                                style={{
+                                  marginLeft: "10px",
+                                  backgroundColor: "transparent",
+                                  border: "none",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                &times;
+                              </button>
+                            </div>
+                          ))}
+                          <input
+                            type="text"
+                            id="tags-input"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            name="tags"
+                            className='form-control rounded-1 text-muted'
+                            style={{
+                              border: "none",
+                              outline: "none",
+                              padding: "5px",
+                              flexGrow: 1,
+                            }}
+                          />
+                        </div>
+                      </div>
                       <div className="form-group">
                         <label htmlFor="optionalUrl">Optional URL</label>
                         <input
                           type="url"
-                          className="form-control rounded-1 text-muted"
+                          className={`form-control rounded-1 text-muted ${errors.optionalURL.required ? 'is-invalid' : ''}`}
                           id="optionalUrl"
                           placeholder="Optional URL"
                           style={{
@@ -470,17 +432,11 @@ export const AddBlog = () => {
                           </div>
                         )}
                       </div>
-
                       <label className="control-label control-label-content">
                         Content
                       </label>
                       <div className="col-xl-12 col-lg-12 col-md-6 col-sm-12">
                         <div className="form-group">
-                          <label style={{ color: "#231F20" }}>
-                            Admission Requirements{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-
                           <CKEditor
                             editor={ClassicEditor}
                             data={blog.content} // Use 'data' instead of 'value'
@@ -522,7 +478,6 @@ export const AddBlog = () => {
                               zIndex: "0",
                             }}
                           />
-
                           {errors.content.required && (
                             <div className="text-danger form-text">
                               This field is required.
@@ -566,58 +521,55 @@ export const AddBlog = () => {
                               {" "}
                               Main banner image{" "}
                             </small>
-
                             {blog.uploadFile.map((uploadImage, index) => (
-  <div key={index} className="mb-3">
-    <div className="row gy-2 ">
-    <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-    <label style={{ color: "#231F20" }}>File Name</label>
-    <input
-      type="text"
-      name="fileName"
-      value={uploadImage.fileName}
-      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
-      className="form-control rounded-1"
-      style={{ fontSize: "12px" }}
-      placeholder="File Upload Title"
-    />
-    </div>
-    <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-    <label style={{ color: "#231F20" }}>File Document</label>
-    <input
-      type="file"
-      name="uploadImage"
-      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
-      className="form-control rounded-1 "
-      style={{ fontSize: "12px" }}
-      placeholder="Upload File"
-    />
-    </div>
-    </div>
-    <button
-      type="button"
-      onClick={() => removeEntry(index, "uploadFile")}
-      className="btn mt-2"
-    >
-      <i className="far fa-trash-alt text-danger me-1"></i>
-    </button>
-  </div>
-))}
-
-<button
-  type="button"
-  onClick={() => addEntry("uploadFile")}
-className="btn text-white mt-2 col-sm-6"
-  style={{ backgroundColor: "#7267ef" }}
->
-  <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-</button>
+                              <div key={index} className="mb-3">
+                                <div className="row gy-2 ">
+                                  <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>File Name</label>
+                                    <input
+                                      type="text"
+                                      name="fileName"
+                                      value={uploadImage.fileName}
+                                      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
+                                      className="form-control rounded-1"
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="File Upload Title"
+                                    />
+                                  </div>
+                                  <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>File Document</label>
+                                    <input
+                                      type="file"
+                                      name="uploadImage"
+                                      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
+                                      className="form-control rounded-1 "
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="Upload File"
+                                    />
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeEntry(index, "uploadFile")}
+                                  className="btn mt-2"
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+                                </button>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={() => addEntry("uploadFile")}
+                              className="btn text-white mt-2 col-sm-6"
+                              style={{ backgroundColor: "#7267ef" }}
+                            >
+                              <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
                   {/* Files Section */}
                   <div className="card card-body border-0 rounded-1 shadow-sm p-3">
                     <div className="box">
@@ -639,7 +591,7 @@ className="btn text-white mt-2 col-sm-6"
                             <div className="col-sm-12 m-b-5">
                               <input
                                 type="file"
-                                className="form-control rounded-1 text-muted"
+                                className={`form-control rounded-1 text-muted ${errors.uploadFiles.required ? 'is-invalid' : ''}`}
                                 name="uploadFiles"
                                 id="file"
                                 placeholder="Add File"
@@ -648,7 +600,6 @@ className="btn text-white mt-2 col-sm-6"
                                   fontSize: "12px",
                                 }}
                                 onChange={handleInputs}
-                               
                               />
                               {errors.uploadFiles.required && (
                                 <div className="text-danger form-text">
@@ -667,7 +618,6 @@ className="btn text-white mt-2 col-sm-6"
                       </div>
                     </div>
                   </div>
-
                   {/* Category Section */}
                   <div className="card card-body border-0 rounded-1 shadow-sm p-3">
                     <div className="box">
@@ -678,13 +628,11 @@ className="btn text-white mt-2 col-sm-6"
                       </div>
                       <div className="box-body">
                         <div className="form-group">
-                          <label htmlFor="category">Category</label>
                           <select
                             id="category"
                             name="category"
-                            className="form-select"
+                            className={`form-select form-select-lg rounded-1 text-muted ${errors.category.required ? 'is-invalid' : ''}`}
                             autoComplete="off"
-                            required
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -711,7 +659,6 @@ className="btn text-white mt-2 col-sm-6"
                       </div>
                     </div>
                   </div>
-
                   {/* Publish Section */}
                   <div className="form-check form-switch">
                     <input
@@ -725,7 +672,6 @@ className="btn text-white mt-2 col-sm-6"
                       Schedule Post
                     </label>
                   </div>
-
                   {isScheduled && (
                     <div className="form-group mt-3">
                       <label htmlFor="schedulePost">Schedule Date</label>
@@ -752,32 +698,31 @@ className="btn text-white mt-2 col-sm-6"
                     </div>
                   )}
                   <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                          <Link
-                            style={{
-                              backgroundColor: "#231F20",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            to="/list_client"
-                            className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
-                          >
-                            Cancel
-                          </Link>
-                          <button
-                            style={{
-                              backgroundColor: "#FE5722",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            type="submit"
-                            className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                          >
-                            Submit
-                          </button>
-                        </div>
+                    <Link
+                      style={{
+                        backgroundColor: "#231F20",
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      to="/list_blog"
+                      className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
+                    >
+                      Cancel
+                    </Link>
+                    <button
+                      style={{
+                        backgroundColor: "#FE5722",
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      type="submit"
+                      className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
               </div>
-             
             </form>
           </div>
         </div>
@@ -785,5 +730,4 @@ className="btn text-white mt-2 col-sm-6"
     </>
   );
 };
-
 export default AddBlog;

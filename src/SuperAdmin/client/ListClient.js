@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient,updateClient, getAllClientCard } from "../../api/client";
+import { getallClient, deleteClient,updateClient, getAllClientCard,getFilterClient } from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -17,23 +17,14 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-import {getFilterClient} from '../../api/client'
 import Downshift from "downshift";
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
     businessName: "",
-    businessMailID: "",
-    businessContactNo: "",
-    website: "",
-    addressLine1: "", // Street Address, City, State, Postal Code, Country
-    addressLine2: "",
-    addressLine3: "",
-    name: "",
-    contactNo: "",
-    emailID: "",
-    gstn: "",
-    clientStatus: "",
+    businessContactNo:"", 
+    clientStatus:"",
+    businessMailID:"",
     
   };
   const [client, setClient] = useState([]);
@@ -50,9 +41,10 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [searchClear, setSearchClear] = useState("");
-  const pageSize = 10;
+
   const search = useRef(null);
 
+  const [pageSize, setPageSize] = useState(10); // Default page size
   const [details, setDetails] = useState();
 
   const [pagination, setPagination] = useState({
@@ -63,7 +55,7 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getClientList();
-  }, []);
+  }, [pageSize]);
 
   useEffect(() => {
     if (search.current) {
@@ -80,7 +72,8 @@ export default function Masterproductlist() {
 
   
 useEffect(() => {
-  getallClientCount()
+  getallClientCount();
+  filterUniversityList();
  
 }, []);
 
@@ -95,6 +88,8 @@ const getallClientCount = ()=>{
     }
   };
 
+
+ 
   const handleClear = () => {
     setSearchClear([]); // Clear the state value
     if (search.current) {
@@ -116,7 +111,12 @@ const getallClientCount = ()=>{
   };
 
   const getClientList = () => {
-    getFilterClient()
+
+    const params = {
+      limit: pageSize, // Use dynamic page size here
+      page: pagination.from,
+    };
+    getFilterClient(params)
       .then((res) => {
         const value = res?.data?.result?.clientList;
         setClient(value);
@@ -129,11 +129,53 @@ const getallClientCount = ()=>{
         console.log(err);
       });
   };
+
+  const filterUniversityList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+
+      typeOfClient: inputs.typeOfClient,
+      businessName: inputs.businessName,
+      businessContactNo:inputs.businessContactNo, 
+      clientStatus:inputs.clientStatus,
+      businessMailID:inputs.businessMailID,
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getFilterClient(data)
+      .then((res) => {
+        setClient(res?.data?.result?.clientList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.clientCount,
+        });
+        closeFilterPopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const resetFilter = () => {
+    // setFilter(false);
+    setInputs(initialState);
+    getClientList();
+   
+  };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+    
   };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -159,7 +201,7 @@ const getallClientCount = ()=>{
   };
 
   const handleInputs = (event) => {
-    setClient({ ...client, [event.target.name]: event.target.value });
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
   const openImportPopup = () => {
     setOpenImport(true);
@@ -416,6 +458,7 @@ const getallClientCount = ()=>{
         const response = await getallClient();
         const clientsData = Array.isArray(response.data) ? response.data : [];
   
+        
         // Initialize statuses based on the fetched client data
         const initialStatuses = clientsData.reduce((acc, clientData) => {
           return { ...acc, [clientData._id]: clientData.clientStatus === 'Active' };
@@ -532,6 +575,18 @@ const getallClientCount = ()=>{
                     <div className="offcanvas-body">
                       <form>
                         <div className="row gy-3 mb-3">
+                        <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-id-card"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="typeOfClient"
+                              onChange={handleInputs}
+                              placeholder="Search... TypeOfClient"
+                            />
+                          </div>
                           <div className="input-group">
                             <span className="input-group-text">
                               <i className="fas fa-user"></i>
@@ -563,26 +618,16 @@ const getallClientCount = ()=>{
                             <input
                               type="text"
                               className="form-control"
-                              name="status"
+                              name="clientStatus"
                               onChange={handleInputs}
                               placeholder="Search... Status"
                             />
                           </div>
-                          <div className="input-group">
-                            <span className="input-group-text">
-                              <i className="fas fa-id-card"></i>
-                            </span>
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="clientID"
-                              onChange={handleInputs}
-                              placeholder="Search... Client ID"
-                            />
-                          </div>
+                        
                         </div>
                         <div className="d-flex justify-content-end gap-3">
                           <button
+                             onClick={resetFilter}
                             className="btn text-uppercase rounded-1 border-0 fw-semibold"
                             style={{ backgroundColor: "#0f2239", color: "#fff" }} // Dark color for reset
                           >
@@ -591,6 +636,7 @@ const getallClientCount = ()=>{
                           <button
                             data-bs-dismiss="offcanvas"
                             type="submit"
+                            onClick={filterUniversityList}
                             className="btn text-uppercase rounded-1 border-0 fw-semibold"
                             style={{ backgroundColor: "#fe5722", color: "#fff" }} // Primary color for apply
                           >
@@ -735,43 +781,65 @@ const getallClientCount = ()=>{
           <div className="row">
             <div className="col-xl-12">
               <div className="card border-0 rounded-1 shadow-sm">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
+              <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
-                  <div className="d-flex  mb-0">
-                    <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
 
-                    </p>
-
-
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
+                      
+                     
+                    </div>
                   </div>
-                 
-                 
-           <div>
-  <div className="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sort By
-    </button>
-    <ul class="dropdown-menu">
-  <li> <a className="nav-link active" id="home-tab" data-bs-toggle="tab" href="#tab-home" role="tab" aria-controls="tab-home" aria-selected="true">List View</a></li> 
-  <li><a className="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="false">Grid View</a></li>   
-    </ul>
-  </div>
-  {/* Tab Content */}
-
-  
- 
-</div>
-</div>
                 </div>
                 <div className="card-body">
   <div className="tab-content m">
@@ -1152,21 +1220,7 @@ const getallClientCount = ()=>{
 
             </span>
                             </td>
-                             {/* <td className="text-capitalize text-start">
-    <span className="form-check form-switch d-inline ms-2">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        role="switch"
-        id={`flexSwitchCheckDefault${index}`}
-        checked={statuses[data._id] || false}
-        onChange={() => handleCheckboxChange(data._id)}
-      />
-      <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-        {statuses[data._id] ? "Active" : "Inactive"}
-      </label>
-    </span>
-  </td> */}
+                         
                             <td className="text-capitalize text-start">
                               <div className="d-flex justify-content-between align-items-start">
                                 <Link
@@ -1210,26 +1264,26 @@ const getallClientCount = ()=>{
                   </div>
                 
     </div>
-    {/* Grid View */}
+  
     <div className="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
     {client?.map((data, index) => (
       <div className="row" key={index}>
         <div className="col-4">
-        <div className="card border-primary rounded-3 shadow-lg">
+        <div className="card shadow-sm" style={{fontSize:'10px'}}>
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <h5 className="card-title mb-0">{data?.businessName || "Not Available"}</h5>
-        <small className="text-light">User Information</small>
+       
       </div>
       <div className="card-body">
         <div className="row">
           <div className="col-md-6">
-            <h6 className="text-muted">S.No:</h6>
+            <p className="text-muted">S.No:</p>
             <p className="card-text"> {pagination.from + index + 1}</p>
-            <h6 className="text-muted">Client ID:</h6>
+            <p className="text-muted">Client ID:</p>
             <p className="card-text">{data?.clientID || "Not Available"}</p>
-            <h6 className="text-muted">Type of Client:</h6>
+            <p className="text-muted">Type of Client:</p>
             <p className="card-text">{data?.typeOfClient || "Not Available"}</p>
-            <h6 className="text-muted">Status:</h6>
+            <p className="text-muted">Status:</p>
             <p className="card-text">
               <span className="badge bg-success"> <span className="form-check form-switch d-inline ms-2" >
               {data?.clientStatus === "Active" ? (
@@ -1261,18 +1315,18 @@ const getallClientCount = ()=>{
             </p>
           </div>
           <div className="col-md-6">
-            <h6 className="text-muted">Name:</h6>
+            <p className="text-muted">Name:</p>
             <p className="card-text">{data?.businessName || "Not Available"}</p>
-            <h6 className="text-muted">Primary Number:</h6>
+            <p className="text-muted">Primary Number:</p>
             <p className="card-text"> {data?.businessContactNo || "Not Available"}</p>
-            <h6 className="text-muted">Email ID:</h6>
+            <p className="text-muted">Email ID:</p>
             <p className="card-text"> {data?.businessMailID || "Not Available"}</p>
           </div>
         </div>
       </div>
       <div className="card-footer bg-light d-flex justify-content-between">
       <Link
-                                  className="btn btn-primary btn-sm"
+                                  className="btn btn-outline-primary btn-sm"
                                   to={{
                                     pathname: "/view_client",
                                     search: `?id=${data?._id}`,
@@ -1285,7 +1339,7 @@ const getallClientCount = ()=>{
         
        
         <Link
-                                  className="btn btn-warning btn-sm"
+                                  className="btn btn-outline-warning btn-sm"
                                   to={{
                                     pathname: "/edit_client",
                                     search: `?id=${data?._id}`,
@@ -1295,7 +1349,7 @@ const getallClientCount = ()=>{
                                 >
                                   <i className="far fa-edit text-warning "></i>Edit
                                 </Link>
-        <button className="btn btn-danger btn-sm" onClick={() => {
+        <button className="btn btn-outline-danger btn-sm" onClick={() => {
                                     openPopup(data?._id);
                                   }}
                                   data-bs-toggle="tooltip"
@@ -1315,26 +1369,30 @@ const getallClientCount = ()=>{
   </div>
   <div className='card-footer bg-white'>
   <div className="d-flex justify-content-between align-items-center p-3">
-                  <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                  <Pagination
-                    count={Math.ceil(pagination.count / pageSize)}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    shape="rounded"
-                    color="primary"
-                  />
+  <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
+        <Pagination
+                        count={Math.ceil(pagination.count / pageSize)} // Adjust pagination based on dynamic page size
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
                 </div>
   </div>
                
