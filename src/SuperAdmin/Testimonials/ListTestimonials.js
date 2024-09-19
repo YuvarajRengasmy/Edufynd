@@ -6,7 +6,13 @@ import {
   getFilterTestimonial,
 } from "../../api/Notification/Testimonial";
 import { formatDate } from "../../Utils/DateFormat";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+} from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
@@ -231,7 +237,7 @@ export const ListTestimonials = () => {
                                     color: "#fff",
                                     fontSize: "12px",
                                   }}
-                                // onClick={resetFilter}
+                                  // onClick={resetFilter}
                                 >
                                   Reset
                                 </button>
@@ -530,8 +536,8 @@ export const ListTestimonials = () => {
                                           item?.createdOn
                                             ? item?.createdOn
                                             : item?.modifiedOn
-                                              ? item?.modifiedOn
-                                              : "-"
+                                            ? item?.modifiedOn
+                                            : "-"
                                         ) || "Not Available"}
                                       </td>
                                       <td className="text-capitalize text-start text-truncate">
@@ -621,8 +627,8 @@ export const ListTestimonials = () => {
                                                 item?.createdOn
                                                   ? item?.createdOn
                                                   : item?.modifiedOn
-                                                    ? item?.modifiedOn
-                                                    : "-"
+                                                  ? item?.modifiedOn
+                                                  : "-"
                                               ) || "Not Available"}
                                             </div>
                                           </div>

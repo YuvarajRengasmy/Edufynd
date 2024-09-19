@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { updatedTraining, getSingleTraining } from "../../api/Notification/traning";
-
+import {
+  updatedTraining,
+  getSingleTraining,
+} from "../../api/Notification/traning";
 import { getallStaff } from "../../api/staff";
 import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Select from "react-select";
-
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
-import { Link,useLocation } from "react-router-dom";
-import { RichTextEditor } from "@mantine/rte";
-
+import { Link, useLocation } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const EditTraining = () => {
-
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-
   const initialState = {
     requestTraining: "",
     trainingTopic: "",
@@ -37,7 +30,6 @@ export const EditTraining = () => {
     content: "",
     uploadDocument: "",
   };
-
   const initialStateErrors = {
     requestTraining: {
       required: false,
@@ -73,7 +65,6 @@ export const EditTraining = () => {
       required: false,
     },
   };
-
   const [notification, setnotification] = useState(initialState);
   const [staff, setStaff] = useState([]);
   const [admin, setAdmin] = useState([]);
@@ -82,7 +73,6 @@ export const EditTraining = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     getStaffList();
     getNotificationList();
@@ -90,7 +80,6 @@ export const EditTraining = () => {
     getAgentList();
     getStudentList();
   }, []);
-
   const getNotificationList = () => {
     getSingleTraining(id)
       .then((res) => {
@@ -136,10 +125,8 @@ export const EditTraining = () => {
         console.log(err);
       });
   };
-
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
     if (data.requestTraining === "") {
       error.requestTraining.required = true;
     }
@@ -173,10 +160,8 @@ export const EditTraining = () => {
     if (data.uploadDocument === "") {
       error.uploadDocument.required = true;
     }
-
     return error;
   };
-
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -201,7 +186,6 @@ export const EditTraining = () => {
         [event?.target?.name]: event?.target?.value,
       });
     }
-
     if (submitted) {
       const newError = handleValidation({
         ...notification,
@@ -220,7 +204,6 @@ export const EditTraining = () => {
       [name]: values,
     }));
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -232,14 +215,12 @@ export const EditTraining = () => {
     }
     return true;
   };
-
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(notification);
@@ -261,27 +242,22 @@ export const EditTraining = () => {
       toast.error("Please fill mandatory fields");
     }
   };
-
   const adminOptions = admin.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const staffOptions = staff.map((data, index) => ({
     value: data.empName,
     label: data.empName,
   }));
-
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const agentOptions = agent.map((data, index) => ({
     value: data.agentName,
     label: data.agentName,
   }));
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -297,12 +273,10 @@ export const EditTraining = () => {
       },
     }),
   };
-
   return (
     <>
       <div>
         <Sidebar />
-
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -324,387 +298,488 @@ export const EditTraining = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                           UserName <span className="text-danger">*</span>
-                          </label>
-                          <select class="form-select" aria-label="Default select example">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-</div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Request Training
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter Request Training"
-                                name="requestTraining"
-                                onChange={handleInputs}
-                                value={notification?.requestTraining}
-                              />
-                              {errors?.requestTraining?.required && (
-                                <p className="text-danger">
-                                  Please Enter Request Training
-                                </p>
-                              )}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Training Topic
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter Training Topic"
-                                name="trainingTopic"
-                                onChange={handleInputs}
-                                value={notification?.trainingTopic}
-                              />
-                              {errors?.trainingTopic?.required && (
-                                <p className="text-danger">
-                                  Please Enter Training Topic
-                                </p>
-                              )}
-                            </div>
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Type of Users{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-
-                              <select
-                                class="form-select form-select-lg"
-                                name="typeOfUser"
-                                onChange={handleInputs}
-                                aria-label="Default select example"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                value={notification?.typeOfUser}
-                              >
-                                <option selected>Select User</option>
-                                <option value="staff">Staff</option>
-                                <option value="student">Student</option>
-                                <option value="agent">Agent</option>
-                                <option value="admin">Admin</option>
-                              </select>
-                              {errors.typeOfUser.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            {notification.typeOfUser === "staff" ? (
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Admin List
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                  isMulti
-                                  placeholder="Select staff"
-                                  onChange={handleSelectChange}
-                                  options={staffOptions}
-                                  name="usersName"
-                                  styles={customStyles}
-                                  value={
-                                    notification?.usersName
-                                      ? notification?.usersName.map((inTake) => ({
-                                          value: inTake,
-                                          label: inTake,
-                                        }))
-                                      : null
-                                  }
-                                  className="submain-one-form-body-subsection-select"
-                                />
-                                {errors.usersName.required ? (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                ) : null}
-                              </div>
-                            ) : notification.typeOfUser === "student" ? (
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Student List
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                  isMulti
-                                  placeholder="Select Country"
-                                  onChange={handleSelectChange}
-                                  options={studentOptions}
-                                  name="usersName"
-                                  styles={customStyles}
-                                  value={
-                                    notification?.usersName
-                                      ? notification?.usersName.map((inTake) => ({
-                                          value: inTake,
-                                          label: inTake,
-                                        }))
-                                      : null
-                                  }
-                                  className="submain-one-form-body-subsection-select"
-                                />
-                                {errors.usersName.required ? (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                ) : null}
-                              </div>
-                            ) : notification.typeOfUser === "agent" ? (
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Admin List
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                  isMulti
-                                  placeholder="Select Country"
-                                  onChange={handleSelectChange}
-                                  options={agentOptions}
-                                  name="usersName"
-                                  styles={customStyles}
-                                  value={
-                                    notification?.usersName
-                                      ? notification?.usersName.map((inTake) => ({
-                                          value: inTake,
-                                          label: inTake,
-                                        }))
-                                      : null
-                                  }
-                                  className="submain-one-form-body-subsection-select"
-                                />
-                                {errors.usersName.required ? (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                ) : null}
-                              </div>
-                            ) : notification.typeOfUser === "admin" ? (
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Admin List
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                  isMulti
-                                  placeholder="Select Country"
-                                  onChange={handleSelectChange}
-                                  options={adminOptions}
-                                  name="usersName"
-                                  styles={customStyles}
-                                  value={
-                                    notification?.usersName
-                                      ? notification?.usersName.map((inTake) => ({
-                                          value: inTake,
-                                          label: inTake,
-                                        }))
-                                      : null
-                                  }
-                                  className="submain-one-form-body-subsection-select"
-                                />
-                                {errors.usersName.required ? (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                ) : null}
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Host Nmae <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              class="form-select form-select-lg rounded-1 text-capitalize"
+                              aria-label="Default select example"
+                            >
+                              <option selected>Select User</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Request Training
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors?.requestTraining?.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              placeholder="Enter Request Training"
+                              name="requestTraining"
+                              onChange={handleInputs}
+                              value={notification?.requestTraining}
+                            />
+                            {errors?.requestTraining?.required && (
+                              <p className="text-danger">
+                                This field is required.
+                              </p>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Training Topic
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.trainingTopic?.required
+                                  ? "is-invalid"
+                                  : ""
+                              } `}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              placeholder="Example English Language  "
+                              name="trainingTopic"
+                              onChange={handleInputs}
+                              value={notification?.trainingTopic}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                            {errors?.trainingTopic?.required && (
+                              <p className="text-danger">
+                                This field is required.
+                              </p>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Type of Users{" "}
+                              <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              class={`form-select form-select-lg rounded-1 text-capitalize ${
+                                errors.typeOfUser.required ? "is-invalid" : ""
+                              }`}
+                              name="typeOfUser"
+                              onChange={handleInputs}
+                              aria-label="Default select example"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              value={notification?.typeOfUser}
+                            >
+                              <option selected>Select User</option>
+                              <option value="staff">Staff</option>
+                              <option value="student">Student</option>
+                              <option value="agent">Agent</option>
+                              <option value="admin">Admin</option>
+                            </select>
+                            {errors.typeOfUser.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
                               </div>
                             ) : null}
-                          
-                         
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Material<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className={`form-control ${errors.material.required ? 'is-invalid' : ''}`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Material"
-                                name="material"
-                               value={notification.material?notification.material:''}
-                                onChange={handleInputs}
-                              />
-                              {errors.material.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Date<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className={`form-control ${errors?.date?.required ? 'is-invalid' : ''}`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                value={notification?.date?notification?.date.slice(0,10):""}
-                                placeholder="Enter  Date"
-                                name="date"
-                                onChange={handleInputs}
-                              />
-                              {errors?.date?.required && (
-                                <p className="text-danger">Please Enter Date</p>
-                              )}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Time<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="time"
-                                className={`form-control ${errors?.time?.required ? 'is-invalid' : ''}`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Time"
-                                name="time"
-                                value={notification.time}
-                                onChange={handleInputs}
-                              />
-                              {errors?.time?.required && (
-                                <p className="text-danger">Please Enter Time</p>
-                              )}
-                            </div>
-                          
-
-                         
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Subject<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className={`form-control ${errors.subject.required ? 'is-invalid' : ''}`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Subject"
-                                name="subject"
-                                value={notification.subject}
-                                onChange={handleInputs}
-                              />
-                              {errors.subject.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Name<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className={`form-control ${errors.name.required ? 'is-invalid' : ''}`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Enter  Name"
-                                name="name"
-                                onChange={handleInputs}
-                                value={notification.name}
-                              />
-                              {errors.name.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                                Upload Image<span className="text-danger">*</span>
-                              </label>
-                            <img
-                                className="img-fluid   rounded-circle border   mx-auto d-block"
-                                src={
-                                  notification?.uploadDocument
-                                    ? notification?.uploadDocument
-                                    : "https://via.placeholder.com/128"
-                                }
-                                alt="student-image"
-                                style={{ width: "7rem", height: "7rem" }}
-                              />
-                            <label
-                                htmlFor="fileInputImage"
-                                className="position-absolute fs-6  "
-                                style={{
-                                  cursor: "pointer",
-                                  bottom: "0",
-                                  left: "50%",
-                                  transform: "translate(50%, 50%)",
-                                  color: "#0f2239",
-                                }}
-                              >
-                                <i className="fas fa-camera"></i>
-                              </label>
-                              <input
-                               name="uploadDocument"
-                                id="fileInputImage"
-                                type="file"
-                                accept="image/*"
-                                className={`form-control border-0 text-dark bg-transparent ${errors.uploadDocument.required ? 'is-invalid' : ''}`}
-                               
-                                style={{
-                                  display: "none",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                onChange={handleInputs}
-                              />
-                              {errors.uploadDocument.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="text-end">
-                          <button className="btn btn-primary">Add</button>
                           </div>
-                          
-
+                          {notification.typeOfUser === "staff" ? (
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Staff List
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Staff"
+                                onChange={handleSelectChange}
+                                options={staffOptions}
+                                name="usersName"
+                                styles={customStyles}
+                                value={
+                                  notification?.usersName
+                                    ? notification?.usersName.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.usersName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : notification.typeOfUser === "student" ? (
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Student List
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Student"
+                                onChange={handleSelectChange}
+                                options={studentOptions}
+                                name="usersName"
+                                styles={customStyles}
+                                value={
+                                  notification?.usersName
+                                    ? notification?.usersName.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.usersName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : notification.typeOfUser === "agent" ? (
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Agent List
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Agent"
+                                onChange={handleSelectChange}
+                                options={agentOptions}
+                                name="usersName"
+                                styles={customStyles}
+                                value={
+                                  notification?.usersName
+                                    ? notification?.usersName.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.usersName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : notification.typeOfUser === "admin" ? (
+                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                              <label style={{ color: "#231F20" }}>
+                                Admin List
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Select
+                                isMulti
+                                placeholder="Select Admin"
+                                onChange={handleSelectChange}
+                                options={adminOptions}
+                                name="usersName"
+                                styles={customStyles}
+                                value={
+                                  notification?.usersName
+                                    ? notification?.usersName.map((inTake) => ({
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
+                                    : null
+                                }
+                                className="submain-one-form-body-subsection-select"
+                              />
+                              {errors.usersName.required ? (
+                                <div className="text-danger form-text">
+                                  This field is required.
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : null}
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Material<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.material.required ? "is-invalid" : ""
+                              }`}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              placeholder="Example Software"
+                              name="material"
+                              value={
+                                notification.material
+                                  ? notification.material
+                                  : ""
+                              }
+                              onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                            {errors.material.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Date<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="date"
+                              className={`form-control rounded-1 text-uppercase ${
+                                errors?.date?.required ? "is-invalid" : ""
+                              }`}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              value={
+                                notification?.date
+                                  ? notification?.date.slice(0, 10)
+                                  : ""
+                              }
+                              placeholder="Enter  Date"
+                              name="date"
+                              onChange={handleInputs}
+                            />
+                            {errors?.date?.required && (
+                              <p className="text-danger">
+                                {" "}
+                                This field is required.
+                              </p>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Time<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="time"
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors?.time?.required ? "is-invalid" : ""
+                              }`}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              placeholder="Enter  Time"
+                              name="time"
+                              value={notification.time}
+                              onChange={handleInputs}
+                            />
+                            {errors?.time?.required && (
+                              <p className="text-danger">
+                                {" "}
+                                This field is required.
+                              </p>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Subject<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.subject.required ? "is-invalid" : ""
+                              }`}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              placeholder="Example Meetings "
+                              name="subject"
+                              value={notification.subject}
+                              onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                            {errors.subject.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Name<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.name.required ? "is-invalid" : ""
+                              }`}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              placeholder="Example Jon Doe"
+                              name="name"
+                              onChange={handleInputs}
+                              value={notification.name}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                            {errors.name.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Upload Image<span className="text-danger">*</span>
+                            </label>
+                            <img
+                              className="img-fluid   rounded-circle border   mx-auto d-block"
+                              src={
+                                notification?.uploadDocument
+                                  ? notification?.uploadDocument
+                                  : "https://via.placeholder.com/128"
+                              }
+                              alt="student-image"
+                              style={{ width: "7rem", height: "7rem" }}
+                            />
+                            <label
+                              htmlFor="fileInputImage"
+                              className="position-absolute fs-6  "
+                              style={{
+                                cursor: "pointer",
+                                bottom: "0",
+                                left: "50%",
+                                transform: "translate(50%, 50%)",
+                                color: "#0f2239",
+                              }}
+                            >
+                              <i className="fas fa-camera"></i>
+                            </label>
+                            <input
+                              name="uploadDocument"
+                              id="fileInputImage"
+                              type="file"
+                              accept="image/*"
+                              className={`form-control border-0 text-dark bg-transparent ${
+                                errors.uploadDocument.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              style={{
+                                display: "none",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleInputs}
+                            />
+                            {errors.uploadDocument.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="text-end">
+                            <button className="btn btn-dark px-4 py-2 text-uppercase fw-semibold rounded-1 border-0">
+                              {" "}
+                              <i
+                                class="fa fa-plus-circle"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              &nbsp;&nbsp;Add
+                            </button>
+                          </div>
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
                                 name="content"
-                                onChange={handleRichTextChange}
-                                value={notification.content}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                 
+                                  zIndex: "0",
                                 }}
                               />
                               {errors.content.required && (
@@ -714,17 +789,13 @@ export const EditTraining = () => {
                               )}
                             </div>
                           </div>
-
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <div className=" d-flex justify-content-end  ml-auto">
                             <Link
                               to="/list_training"
                               style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              type="reset"
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                              className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
                             </Link>
@@ -735,7 +806,7 @@ export const EditTraining = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Submit
                             </button>

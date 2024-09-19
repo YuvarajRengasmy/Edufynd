@@ -17,6 +17,8 @@ import "react-quill/dist/quill.snow.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { RichTextEditor } from "@mantine/rte";
 import { Link } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddNotifications = () => {
   const initialState = {
     typeOfUser: "",
@@ -248,7 +250,7 @@ export const AddNotifications = () => {
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
@@ -262,10 +264,10 @@ export const AddNotifications = () => {
                         <div className="row g-3">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
-                           UserName <span className="text-danger">*</span>
+                           HostName <span className="text-danger">*</span>
                           </label>
-                          <select className="form-select" aria-label="Default select example">
-  <option selected>Open this select menu</option>
+                          <select className="form-select form-select-lg rounded-1 text-capitalize" aria-label="Default select example">
+  <option selected>Select User</option>
   <option value="1">One</option>
   <option value="2">Two</option>
   <option value="3">Three</option>
@@ -273,12 +275,12 @@ export const AddNotifications = () => {
 </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Type of Users{" "}
+                              Type of Users
                               <span className="text-danger">*</span>
                             </label>
 
                             <select
-                              className={`form-select form-select-lg ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -302,11 +304,11 @@ export const AddNotifications = () => {
                           {notification.typeOfUser === "staff" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
+                                Staff List<span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select staff"
+                                placeholder="Select Staff"
                                 onChange={handleSelectChange}
                                 options={staffOptions}
                                 name="userName"
@@ -327,7 +329,7 @@ export const AddNotifications = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Student"
                                 onChange={handleSelectChange}
                                 options={studentOptions}
                                 name="userName"
@@ -343,11 +345,11 @@ export const AddNotifications = () => {
                           ) : notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
+                                Agent List<span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Agent"
                                 onChange={handleSelectChange}
                                 options={agentOptions}
                                 name="userName"
@@ -367,7 +369,7 @@ export const AddNotifications = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Admin"
                                 onChange={handleSelectChange}
                                 options={adminOptions}
                                 name="userName"
@@ -382,20 +384,20 @@ export const AddNotifications = () => {
                             </div>
                           ) : null}
 
-                          <div className="row gy-2 ">
+                         
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Subject<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.subject.required ? 'is-invalid' :''}`}
+                                className={`form-control rounded-1 text-capitalize ${errors.subject.required ? 'is-invalid' :''}`}
                                 onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter  Subject"
+                                placeholder="Example Meetings"
                                 name="subject"
                               />
                               {errors.subject.required ? (
@@ -404,58 +406,63 @@ export const AddNotifications = () => {
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
                                 name="content"
-                                onChange={handleRichTextChange}
-                                value={notification.content}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                 
+                                  zIndex: "0",
                                 }}
-                                controls={[
-                                  // Basic Text Formatting
-                                  ['bold', 'italic', 'underline', 'strike'],
-                          
-                                  // Headings
-                                  ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-                          
-                                  // Lists and Indentation
-                                  ['unorderedList', 'orderedList'],
-                                  ['indent', 'outdent'],
-                          
-                                  // Media & Embeds
-                                  ['link', 'image', 'video'],
-                                  ['blockquote', 'codeBlock'],
-                          
-                                  // Text Alignment
-                                  ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
-                          
-                                  // Subscript and Superscript
-                                  ['subscript', 'superscript'],
-                          
-                                  // Colors
-                                  ['color', 'backgroundColor'],
-                          
-                                  // Advanced Embeds (These might need custom implementation)
-                                  ['insertTable'],  // Note: You might need to manually handle this
-                                  ['customHTML'],   // Note: This requires custom implementation
-                          
-                                  // Utility Functions
-                                  ['clean'],
-                                  ['code', 'redo', 'undo'],
-                          
-                                  // Font Options
-                                  ['fontFamily', 'fontSize'],
-                                ]}
                               />
+                            
                               {errors.content.required && (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -472,7 +479,7 @@ export const AddNotifications = () => {
                               </label>
                               <input
                                 type="file"
-                                className={`form-control ${errors.uploadImage.required ? 'is-invalid' : ''}`}
+                                className={`form-control rounded-1 text-capitalize ${errors.uploadImage.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -488,8 +495,14 @@ export const AddNotifications = () => {
                                 </div>
                               ) : null}
                             </div>
-                            <div className="text-end">
-                         
+                            <div className="text-start">
+                            <button
+                        type="button"
+                        
+                        className="btn btn-dark px-4 py-2 text-uppercase fw-semibold col-sm-1 rounded-1 border-0"
+                      >
+                        <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                      </button>
                           </div>
                           </div>
 

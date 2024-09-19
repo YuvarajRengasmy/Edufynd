@@ -414,7 +414,7 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className={`form-select form-select-lg rounded-1`}
+                              className={`form-select form-select-lg text-capitalize rounded-1`}
                               name="typeOfClient"
                               value={client?.typeOfClient}
                             >
@@ -445,7 +445,7 @@ function AddAgent() {
                             type="text"
                             value={client?.businessName}
                             style={{
-                              fontFamily: "Plus Jakarta Sans",
+                              fontFamily: "Plus Jakarta Sans text-capitalize",
                               fontSize: "12px",
                             }}
                             name="businessName"
@@ -482,7 +482,7 @@ function AddAgent() {
                           <input
                             type="text"
                             value={client?.website}
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-lowercase ${
                               errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
                             }`}
                             style={{
@@ -510,7 +510,7 @@ function AddAgent() {
                           <input
                             type="text"
                             value={client?.businessMailID}
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-lowercase ${
                               errors.businessMailID.required ? 'is-invalid' : errors.businessMailID.valid ? 'is-valid' : ''
                             }`}
                             placeholder="Example john123@gmail.com"
@@ -520,6 +520,13 @@ function AddAgent() {
                             }}
                             name="businessMailID"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           {errors.businessMailID.required && (
                             <div className="text-danger form-text">
@@ -641,7 +648,7 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.name.required? 'is-invalid' : errors.name.valid ? 'is-valid' : ''
                             }`}
                             value={client?.name}
@@ -674,7 +681,7 @@ function AddAgent() {
                           <input
                             type="text"
                             value={client?.emailID}
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-lowercase ${
                               errors.emailID.required  ? 'is-invalid' : errors.emailID.valid ? 'is-valid' : ''
                             }`}
                             style={{
@@ -684,7 +691,15 @@ function AddAgent() {
                             placeholder="Example janedoe123@gmail.com"
                             name="emailID"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
+                          
                           {errors.emailID.required && (
                             <div className="text-danger form-text">
                               This field is required.
@@ -745,7 +760,7 @@ function AddAgent() {
                           <input
                             type="text"
                             value={client?.addressLine1}
-                            className="form-control rounded-1"
+                            className="form-control rounded-1 text-capitalize"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -768,7 +783,7 @@ function AddAgent() {
                           <input
                             type="text"
                             value={client?.addressLine2}
-                            className="form-control rounded-1 "
+                            className="form-control rounded-1 text-capitalize "
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -790,7 +805,7 @@ function AddAgent() {
                           <input
                             type="text"
                             value={client?.addressLine3}
-                            className="form-control rounded-1 "
+                            className="form-control rounded-1 text-capitalize "
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",

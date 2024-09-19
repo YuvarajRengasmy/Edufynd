@@ -228,9 +228,9 @@ export const AddPromotions = () => {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-      borderRadius: "4.91319px",
-      fontSize: "11px",
+      border: "1px solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4px",
+      fontSize: "12px",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -253,7 +253,7 @@ export const AddPromotions = () => {
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
@@ -313,7 +313,7 @@ export const AddPromotions = () => {
                               Host Name<span className="text-danger">*</span>
                             </label>
                             <Select
-                              placeholder="Select staff"
+                              placeholder="Select Staff"
                               onChange={(selectedOption) =>
                                 setnotification({
                                   ...notification,
@@ -337,7 +337,7 @@ export const AddPromotions = () => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              class={`form-select form-select-lg rounded-1 ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
+                              class={`form-select form-select-lg rounded-1 text-capitalize ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -362,11 +362,11 @@ export const AddPromotions = () => {
                           {notification.typeOfUser === "staff" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
+                                Staff List<span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select staff"
+                                placeholder="Select Staff"
                                 onChange={handleSelectChange}
                                 options={staffOptions}
                                 value={
@@ -394,7 +394,7 @@ export const AddPromotions = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Student"
                                 onChange={handleSelectChange}
                                 value={
                                   notification?.userName
@@ -418,11 +418,11 @@ export const AddPromotions = () => {
                           ) : notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
+                              Agent List<span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Agent"
                                 onChange={handleSelectChange}
                                 value={
                                   notification?.userName
@@ -450,7 +450,7 @@ export const AddPromotions = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Admin"
                                 onChange={handleSelectChange}
                                 options={adminOptions}
                                 value={notification.userName}
@@ -471,15 +471,21 @@ export const AddPromotions = () => {
                             </label>
                             <input
                               type="text"
-                              className={`form-control rounded-1 ${errors.subject.required ? 'is-invalid' : ''}`}
+                              className={`form-control rounded-1 text-capitalize ${errors.subject.required ? 'is-invalid' : ''}`}
                               onChange={handleInputs}
                               value={notification.subject}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Subject"
+                              placeholder="Example Meeetings"
                               name="subject"
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.subject.required ? (
                               <div className="text-danger form-text">
@@ -541,9 +547,15 @@ export const AddPromotions = () => {
                                     name="fileName"
                                     value={fileUpload.fileName}
                                     onChange={(e) => handleListInputChange(e, index, "fileUpload")}
-                                    className="form-control rounded-1"
+                                    className="form-control rounded-1 text-capitalize"
                                     style={{ fontSize: "12px" }}
-                                    placeholder="File Upload Title"
+                                    placeholder="Example Demo File"
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -570,21 +582,20 @@ export const AddPromotions = () => {
                           <button
                             type="button"
                             onClick={() => addEntry("fileUpload")}
-                            className="btn text-white mt-2 col-sm-2"
-                            style={{ backgroundColor: "#7267ef" }}
+                            className="btn btn-dark px-4 py-2 text-uppercase fw-semibold col-sm-1 rounded-1 border-0"
+                            
                           >
                             <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
                           </button>
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <div className="d-flex justify-content-end  ">
                             <Link
                               to="/list_promotions"
                               style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
+                                
                                 fontSize: "12px",
                               }}
                               type="reset"
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                              className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
                             </Link>
@@ -595,7 +606,7 @@ export const AddPromotions = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Submit
                             </button>

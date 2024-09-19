@@ -401,7 +401,7 @@ export const ListPromotions = () => {
                             class="nav nav-underline "
                             id="myTab"
                             role="tablist"
-                            style={{fontSize:'12px'}}
+                            style={{ fontSize: "12px" }}
                           >
                             <li>
                               {" "}

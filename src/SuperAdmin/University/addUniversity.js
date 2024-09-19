@@ -584,7 +584,7 @@ const App = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className={`form-select form-select-lg rounded-1 ${errors.businessName.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.businessName.required ? 'is-invalid':''}`}
                               name="businessName"
                               placeholder="Select Client"
                             >
@@ -610,7 +610,7 @@ const App = () => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`form-select form-select-lg rounded-1 ${errors.institutionType.required  ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.institutionType.required  ? 'is-invalid':''}`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -809,6 +809,14 @@ const App = () => {
                               }}
                               name="email"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent default behavior for disallowed keys
+                           if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                                'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                             e.preventDefault();
+                           }
+                          }}
+
                             />
                             {errors.email.required && (
                               <div className="text-danger form-text">
@@ -1008,7 +1016,7 @@ const App = () => {
                               Offer TAT<span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`form-select form-select-lg rounded-1 ${errors.offerTAT.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.offerTAT.required ? 'is-invalid':''}`}
                               name="offerTAT"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",

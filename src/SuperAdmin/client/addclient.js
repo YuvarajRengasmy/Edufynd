@@ -314,9 +314,9 @@ const [dial, setDial] = useState([]);
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      border: "1.4783px solid rgba(11, 70, 84, 0.25)",
-      borderRadius: "4.91319px",
-      fontSize: "11px",
+      border: "1 solid rgba(11, 70, 84, 0.25)",
+      borderRadius: "4px",
+      fontSize: "12px",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -431,7 +431,7 @@ const [dial, setDial] = useState([]);
   </label>
   <input
     type="text"
-    className={`form-control rounded-1 ${
+    className={`form-control rounded-1 text-lowercase ${
       errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
     }`}
     style={{
@@ -469,7 +469,15 @@ const [dial, setDial] = useState([]);
                             }}
                             name="businessMailID"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
+                          
                           {errors.businessMailID.required  &&(
                             <div className="text-danger form-text">
                               This field is required.
@@ -596,7 +604,7 @@ const [dial, setDial] = useState([]);
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.name.required? 'is-invalid' : errors.name.valid ? 'is-valid' : ''
                             }`}
                             placeholder="Example Jane Doe"
@@ -627,7 +635,7 @@ const [dial, setDial] = useState([]);
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-lowercase  ${
                               errors.emailID.required  ? 'is-invalid' : errors.emailID.valid ? 'is-valid' : ''
                             }`}
                             style={{
@@ -637,6 +645,13 @@ const [dial, setDial] = useState([]);
                             placeholder="Example janedoe123@gmail.com"
                             name="emailID"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           {errors.emailID.required &&(
                             <div className="text-danger form-text">
@@ -698,7 +713,7 @@ const [dial, setDial] = useState([]);
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.addressLine1.required ? 'is-invalid' : ''
                             }`}
                             style={{
@@ -722,7 +737,7 @@ const [dial, setDial] = useState([]);
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize${
                               errors.addressLine2.required ? 'is-invalid' :  ''
                             }`}
                             style={{
@@ -745,7 +760,7 @@ const [dial, setDial] = useState([]);
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.addressLine3.required? 'is-invalid' : errors.addressLine3.valid ? 'is-valid' : ''
                             }`}
                             style={{
