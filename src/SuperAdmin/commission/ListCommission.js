@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallCommission, deleteCommission } from "../../api/commission";
+import { getallCommission, deleteCommission,getFilterCommission,updatedCommission } from "../../api/commission";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,6 @@ import {
   Pagination,
   radioClasses,
 } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -17,8 +16,6 @@ import { toast } from "react-toastify";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { Link, useLocation } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
-
-
 
 export default function Masterproductlist() {
 
@@ -48,7 +45,8 @@ export default function Masterproductlist() {
 
   const [commission, setCommission] = useState([]);
   const search = useRef(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
   const location = useLocation();
   var searchValue = location.state;
   const [link, setLink] = useState("");
@@ -60,7 +58,7 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -69,7 +67,8 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getCommissionList();
-  }, []);
+   
+  }, [pagination.from, pagination.to,pageSize]);
 
 
   useEffect(() => {
@@ -87,10 +86,19 @@ export default function Masterproductlist() {
 
 
   const getCommissionList = () => {
-    getallCommission()
+    const data = {
+      limit: pageSize, // Use dynamic page size here
+      page: pagination.from,
+    };
+    getFilterCommission(data)
       .then((res) => {
-        const value = res?.data?.result;
+        console.log("yuvaraj",res)
+        const value = res?.data?.result?.dropDownList;
         setCommission(value);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.dropDownCount || 0,
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -100,6 +108,15 @@ export default function Masterproductlist() {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
   const openPopup = (data) => {
     setOpen(true);
@@ -115,6 +132,32 @@ export default function Masterproductlist() {
         toast.success(res?.data?.message);
         closePopup();
         getCommissionList();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const filterCommissionList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+      universityName: inputs.universityName,
+     country: inputs.country,
+     paymentMethod: inputs.paymentMethod,
+      paymentType: inputs.paymentType,
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterCommission(data)
+      .then((res) => {
+        console.log("ui",res)
+        setCommission(res?.data?.result?.dropDownList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.dropDownCount,
+        });
+        closeFilterPopup();
       })
       .catch((err) => {
         console.log(err);
@@ -144,29 +187,10 @@ export default function Masterproductlist() {
   };
 
   
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+ 
 
   const closeFilterPopup = () => {
     setOpenFilter(false);
-  };
-
-
-
-  const handleInputs = (event) => {
-    setCommission({ ...commission, [event.target.name]: event.target.value });
-  };
-  const openImportPopup = () => {
-    setOpenImport(true);
-  };
-
-  const closeImportPopup = () => {
-    setOpenImport(false);
-  };
-
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
   };
 
   const pdfDownload = (event) => {
@@ -329,17 +353,70 @@ export default function Masterproductlist() {
     };
   }, []);
 
-  const [statuses, setStatuses] = useState(
-    (commission && Array.isArray(commission)) ? commission.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-  );
-  
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [index]: !prevStatuses[index],
-    }));
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
   };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = commission.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
+      // deleteSelectedcommission();
+    } else if (action === "Activate") {
+      activateSelectedcommission();
+    }
+  };
+ 
+
+  const deleteSelectedCommission = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => deleteCommission(id)))
+        .then((responses) => {
+          toast.success("commission deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getCommissionList();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete commission.");
+        });
+    } else {
+      toast.warning("No commission selected.");
+    }
+  };
+
+  const activateSelectedcommission = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updatedCommission(id,{ active: true })))
+        .then((responses) => {
+          toast.success("commission activated successfully!");
+          setSelectedIds([]);
+          getCommissionList();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate commission.");
+        });
+    } else {
+      toast.warning("No commission selected.");
+    }
+  };
+
+  
 
   return (
     <>
@@ -391,6 +468,7 @@ export default function Masterproductlist() {
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight"
+              
             >
               <FaFilter />
             </button>
@@ -402,7 +480,7 @@ export default function Masterproductlist() {
             aria-labelledby="offcanvasRightLabel"
           >
             <div className="offcanvas-header">
-              <h5 id="offcanvasRightLabel">Filter Client</h5>
+              <h5 id="offcanvasRightLabel">Filter Commission</h5>
               <button
                 type="button"
                 className="btn-close text-reset"
@@ -413,35 +491,39 @@ export default function Masterproductlist() {
             <div className="offcanvas-body">
               <form>
                 <div className="row g-4 mb-3">
-                
+                <label className="form-label">UniversityName</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="businessName"
+                    name="universityName"
+                    onChange={handleInputs}
                     placeholder="Search...Client Name"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
-                
+                 <label className="form-label">Country</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="businessContactNo"
+                    name="country"
+                    onChange={handleInputs}
                     placeholder="Search...Client Contact No"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
-                
+                <label className="form-label">PaymentMethod</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="status"
+                    name="paymentMethod"
+                    onChange={handleInputs}
                     placeholder="Search...Status"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
-                  
+                  <label className="form-label">PaymentType</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="clientID"
+                    name="paymentType"
+                    onChange={handleInputs}
                     placeholder="Search...Client Id"
                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                   />
@@ -456,6 +538,7 @@ export default function Masterproductlist() {
                   </button>
                   <button
                     data-bs-dismiss="offcanvas"
+                    onClick={filterCommissionList}
                     type="submit"
                     className="btn btn-save border-0 fw-semibold  rounded-1  text-white float-right mx-2"
                     style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
@@ -522,22 +605,23 @@ export default function Masterproductlist() {
       <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
-                      </p>
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
+                          </p>
                     </div>
 
                     <div>
@@ -600,7 +684,13 @@ export default function Masterproductlist() {
                 <thead className="table-light" style={{fontSize:'12px'}}>
                   <tr>
                   <th className=" text-start">
-                            <input type="checkbox" />
+                  <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === commission.length
+                                    }
+                                  />
                             </th>
                     <th className="text-capitalize text-start sortable-handle">
                       S No
@@ -629,13 +719,17 @@ export default function Masterproductlist() {
                   {commission.map((data, index) => (
                     <tr key={index}>
                       <td className=" text-start">
-                              <input type="checkbox" />
+                      <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                               </td>
                       <td className="text-capitalize text-start text-truncate">
                         {pagination.from + index + 1}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
-                        {data?.universityName || "Not Available"}
+                        {data?.universityName || "Not Available"} 
                       </td>
                       <td className="text-capitalize text-start text-truncate">
                         {data?.country || "Not Available"}
@@ -645,7 +739,7 @@ export default function Masterproductlist() {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/ViewCommission",
+                            pathname: "/view_commission",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -653,7 +747,7 @@ export default function Masterproductlist() {
   <div key={yearIndex}>
     {year?.year || "Not Available"} _
     {year?.courseTypes?.length > 0 && year?.courseTypes[0]?.inTake?.length > 0
-      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${year?.courseTypes[0]?.inTake[0]?.value}`
+      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${year?.courseTypes[0]?.inTake[0]?.value}%`
       : "Not Available"}{" ,"}
   </div>
 ))}
@@ -663,7 +757,7 @@ export default function Masterproductlist() {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.paymentType || "Not Available"}
                       </td>
-                      <td className="text-capitalize text-start ">
+                      {/* <td className="text-capitalize text-start ">
             {statuses[index] ? 'Active' : 'Inactive'}
             <span className="form-check form-switch d-inline ms-2" >
               <input
@@ -675,7 +769,7 @@ export default function Masterproductlist() {
                 onChange={() => handleCheckboxChange(index)}
               />
             </span>
-          </td>
+          </td> */}
                       <td>
                         <div className="d-flex">
                           <Link
@@ -795,15 +889,13 @@ export default function Masterproductlist() {
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 ">
-                  {statuses[index] ? 'Active' : 'Inactive'}
+                 
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+               
               />
             </span>
                   </div>
@@ -867,19 +959,23 @@ export default function Masterproductlist() {
         </div>
 
         <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}
@@ -921,6 +1017,32 @@ export default function Masterproductlist() {
           </div>
         </DialogContent>
       </Dialog>
+      <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedCommission}
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
       <Dialog fullWidth maxWidth="sm">
         <DialogTitle>
           Filter University

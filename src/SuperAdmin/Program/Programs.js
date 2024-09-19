@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {getSuperAdminForSearch} from '../../api/superAdmin';
 import { getAllApplicantCard } from "../../api/applicatin";
-import {getallProgram,getAllProgramCard,deleteProgram,getFilterProgram,} from "../../api/Program";
+import {getallProgram,getAllProgramCard,deleteProgram,getFilterProgram,updatedProgram} from "../../api/Program";
 import { Link, useLocation } from "react-router-dom";
 import {Dialog,DialogContent,DialogTitle,IconButton,Pagination,radioClasses,} from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
@@ -24,6 +24,8 @@ export default function Masterproductlist() {
   const location = useLocation()
   var searchValue = location.state
   const [link ,setLink] = useState('');
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
   const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -38,7 +40,7 @@ export default function Masterproductlist() {
     from: 0,
     to: pageSize,
   });
-  const [program, setProgaram] = useState();
+  const [program, setProgaram] = useState([]);
   const [detail, setDetail] = useState();
   const [details, setDetails] = useState();
 
@@ -142,9 +144,7 @@ const getallProgramCount = ()=>{
       });
   };
 
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+
 
   const closeFilterPopup = () => {
     setOpenFilter(false);
@@ -378,26 +378,26 @@ const getallProgramCount = ()=>{
       });
   };
 
-  const tableRef = useRef(null);
+  // const tableRef = useRef(null);
 
   // useEffect(() => {
   //   const table = tableRef.current;
 
   //   // Apply SortableJS to the table headers
-  //   const sortable = new Sortable(table.querySelector('thead tr'), {
+  //   const sortable = new Sortable(table.querySelector("thead tr"), {
   //     animation: 150,
   //     swapThreshold: 0.5,
-  //     handle: '.sortable-handle',
+  //     handle: ".sortable-handle",
   //     onEnd: (evt) => {
   //       const oldIndex = evt.oldIndex;
   //       const newIndex = evt.newIndex;
 
   //       // Move the columns in the tbody
-  //       table.querySelectorAll('tbody tr').forEach((row) => {
+  //       table.querySelectorAll("tbody tr").forEach((row) => {
   //         const cells = Array.from(row.children);
   //         row.insertBefore(cells[oldIndex], cells[newIndex]);
   //       });
-  //     }
+  //     },
   //   });
 
   //   return () => {
@@ -405,19 +405,70 @@ const getallProgramCount = ()=>{
   //   };
   // }, []);
 
-
-
-  const [statuses, setStatuses] = useState(
-    (program && Array.isArray(program)) ? program.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-  );
-  
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [index]: !prevStatuses[index],
-    }));
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
   };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = program.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
+      // deleteSelectedprogram();
+    } else if (action === "Activate") {
+      activateSelectedProgram();
+    }
+  };
+ 
+
+  const deleteSelectedProgram = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) =>deleteProgram(id)))
+        .then((responses) => {
+          toast.success("program deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllProgaramDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete program.");
+        });
+    } else {
+      toast.warning("No program selected.");
+    }
+  };
+
+  const activateSelectedProgram = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updatedProgram(id,{ active: true })))
+        .then((responses) => {
+          toast.success("program activated successfully!");
+          setSelectedIds([]);
+          getAllProgaramDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate program.");
+        });
+    } else {
+      toast.warning("No program selected.");
+    }
+  };
+
+  
   return (
     <>
       <div>
@@ -656,22 +707,23 @@ const getallProgramCount = ()=>{
       <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
-                      </p>
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
+                          </p>
                     </div>
 
                     <div>
@@ -726,8 +778,9 @@ const getallProgramCount = ()=>{
 
 <div className="table-responsive">
           <table
-            className="table table-hover card-table dataTable text-center"
-            style={{ color: "#9265cc", fontSize: "13px" }}
+            className="table card-table table-hover dataTable text-center"
+            style={{ color: "#9265cc", fontSize: "12px" }}
+            // ref={tableRef}
           >
             <thead className="table-light">
               <tr
@@ -737,7 +790,13 @@ const getallProgramCount = ()=>{
                 }}
               >
                 <th className=" text-start">
-                            <input type="checkbox" />
+                <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === program.length
+                                    }
+                                  />
                             </th>
                 <th className="text-capitalize text-start sortable-handle">
                   S No
@@ -788,7 +847,11 @@ const getallProgramCount = ()=>{
                     }}
                   >
                     <td className=" text-start">
-                              <input type="checkbox" />
+                    <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                               </td>
                     <td className="text-capitalize text-start text-truncate" >
                       {pagination.from + index + 1}
@@ -823,15 +886,13 @@ const getallProgramCount = ()=>{
                         : "Not Available"}
                     </td>
                     <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
+           
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+              
               />
             </span>
           </td>
@@ -948,15 +1009,13 @@ const getallProgramCount = ()=>{
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 ">
-                  {statuses[index] ? 'Active' : 'Inactive'}
+                 
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+                
               />
             </span>
                   </div>
@@ -1071,6 +1130,33 @@ const getallProgramCount = ()=>{
             </div>
           </DialogContent>
         </Dialog>
+        <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedProgram}
+                     
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University

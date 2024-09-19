@@ -128,7 +128,7 @@ export const ViewComission = () => {
                             <strong>Intake:</strong> {intakeItem.inTake || "Not Available"}
                           </div>
                           <div className="list-group-item">
-                            <strong>Value:</strong> {intakeItem.value || "Not Available"}
+                            <strong>Value:</strong> {intakeItem.value || "Not Available"}%
                           </div>
                         </div>
                       ))}
