@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient,updateClient, getAllClientCard,getFilterClient } from "../../api/client";
+import { getallClient, deleteClient,updateClient,activeClient, getAllClientCard,getFilterClient } from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -33,6 +33,7 @@ export default function Masterproductlist() {
   const [link, setLink] = useState("");
   const [data, setData] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -176,6 +177,66 @@ const getallClientCount = ()=>{
     setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
   };
 
+
+  const handleCheckboxChanges = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = client.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      deleteSelectedNotifications();
+    } else if (action === "Activate") {
+      activateSelectedNotifications();
+    }
+  };
+
+  const deleteSelectedNotifications = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => deleteClient(id)))
+        .then((responses) => {
+          toast.success("Client deleted successfully!");
+          setSelectedIds([]);
+          getClientList ();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete Client.");
+        });
+    } else {
+      toast.warning("No Client selected.");
+    }
+  };
+
+  const activateSelectedNotifications = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => activeClient(id)))
+        .then((responses) => {
+          toast.success("Client activated successfully!");
+          setSelectedIds([]);
+          getClientList();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate Client.");
+        });
+    } else {
+      toast.warning("No notifications selected.");
+    }
+  };
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -787,18 +848,19 @@ const getallClientCount = ()=>{
                       <p className="me-auto ">
                         Change
                         <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
                       </p>
                     </div>
 
@@ -855,7 +917,13 @@ const getallClientCount = ()=>{
                <thead className="table-light" style={{ fontSize: '12px' }}>
           <tr>
             <th className="text-start">
-              <input type="checkbox" />
+            <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === client.length
+                                    }
+                                  />
             </th>
             <th className="text-capitalize text-start">S No</th>
             <th className="text-capitalize text-start">Code</th>
@@ -1162,7 +1230,11 @@ const getallClientCount = ()=>{
                         {client?.map((data, index) => (
                           <tr key={index} className="align-middle">
                             <td className=" text-start">
-                              <input type="checkbox" />
+                            <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChanges(data._id)}
+                                    />
                               </td>
                             <td className="text-capitalize text-start">
                               {pagination.from + index + 1}
