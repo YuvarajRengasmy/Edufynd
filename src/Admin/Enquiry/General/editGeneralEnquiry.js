@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -11,13 +11,10 @@ import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import { getallCode } from "../../../api/settings/dailcode";
 import Flags from "react-world-flags";
-
 import Mastersidebar from "../../../compoents/AdminSidebar";
-
 export const AddGeneralEnquiry = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-
   const initialState = {
     source: "",
     name: "",
@@ -77,7 +74,6 @@ export const AddGeneralEnquiry = () => {
   const [students, setStudents] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
-
   useEffect(() => {
     getAllSourceDetails();
     getStudentList();
@@ -85,7 +81,6 @@ export const AddGeneralEnquiry = () => {
     getallCodeList();
     getStudentDetails();
   }, []);
-
   const getStudentDetails = () => {
     getSingleGeneralEnquiry(id)
       .then((res) => {
@@ -131,10 +126,8 @@ export const AddGeneralEnquiry = () => {
         console.log(err);
       });
   };
-
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
     if (data.source === "") {
       error.source.required = true;
     }
@@ -188,7 +181,6 @@ export const AddGeneralEnquiry = () => {
     }
     return error;
   };
-
   const handleCheckboxChange = (e) => {
     const isChecked = e.target.checked;
     setCopyToWhatsApp(isChecked);
@@ -204,7 +196,6 @@ export const AddGeneralEnquiry = () => {
       }));
     }
   };
-
   const handleCheckboxChanges = (e) => {
     const isChecked = e.target.checked;
     setCopyToWhatsApp(isChecked);
@@ -230,7 +221,6 @@ export const AddGeneralEnquiry = () => {
       setErrors(newError);
     }
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -242,7 +232,6 @@ export const AddGeneralEnquiry = () => {
     }
     return true;
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
@@ -261,23 +250,23 @@ export const AddGeneralEnquiry = () => {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
-
-  return (
-    <>
-      <Mastersidebar />
-
-      <div
-        className="content-wrapper"
-        style={{ backgroundColor: "#fff", fontSize: "14px" }}
-      >
-        <div className="content-header">
-          <div className="container card card-body p-4 border-0">
-            <h4 className="card-title text-center fw-bold">
-              Add General Enquiry
-            </h4>
-            <hr />
+  return <>
+    <Mastersidebar />
+    <div className="content-wrapper" style={{ fontSize: "12px" }}>
+      <div className="content-header">
+        <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
+          <div
+            className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+            style={{ background: "#fe5722", color: "#fff" }}
+          >
+            <h5 className="text-center text-capitalize p-1">
+              {" "}
+              Edit General Enquiry
+            </h5>
+          </div>
+          <div className=" card-body mt-5 ">
             <form className="p-1" onSubmit={handleSubmit}>
-              <div className="row mb-3">
+              <div className="row g-3 mb-3">
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputEmail4">
                     Source
@@ -288,7 +277,7 @@ export const AddGeneralEnquiry = () => {
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "12px",
                     }}
-                    className="form-select form-select-lg rounded-2 "
+                    className="form-select form-select-lg rounded-1 text-capitalize "
                     name="source"
                     value={student.source}
                   >
@@ -302,7 +291,6 @@ export const AddGeneralEnquiry = () => {
                     ) : (
                       <option value="">No Source Found</option>
                     )}
-
                     <option value="others">Others</option>
                   </select>
                   {errors.source.required ? (
@@ -311,7 +299,6 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-
                 {student.source === "Student" ? (
                   <div className="row g-3">
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -324,7 +311,7 @@ export const AddGeneralEnquiry = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        className="form-select form-select-lg rounded-2 "
+                        className="form-select form-select-lg rounded-1 text-capitalize "
                         name="studentName"
                         value={student.studentName}
                       >
@@ -343,7 +330,6 @@ export const AddGeneralEnquiry = () => {
                         ) : (
                           <option value="">No Source Found</option>
                         )}
-
                         <option value="others">Others</option>
                       </select>
                     </div>
@@ -361,7 +347,7 @@ export const AddGeneralEnquiry = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        className="form-select form-select-lg rounded-2 "
+                        className="form-select form-select-lg rounded-1 text-capitalize "
                         name="agentName"
                         value={student.agentName}
                       >
@@ -377,7 +363,6 @@ export const AddGeneralEnquiry = () => {
                         ) : (
                           <option value="">No Source Found</option>
                         )}
-
                         <option value="others">Others</option>
                       </select>
                     </div>
@@ -386,16 +371,22 @@ export const AddGeneralEnquiry = () => {
                         Business Name
                       </label>
                       <input
-                        className="form-control"
+                        className="form-control rounded-1 text-capitalize"
                         id="inputbusinessname"
                         type="text"
                         onChange={handleInputs}
                         value={student.businessName}
                         name="businessName"
-                        placeholder="Enter Business Name"
+                        placeholder="Example John Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                     </div>
@@ -466,7 +457,6 @@ export const AddGeneralEnquiry = () => {
                             }}
                           />
                         </div>
-
                         <div className="form-check ms-3 ">
                           <input
                             className="form-check-input"
@@ -483,7 +473,6 @@ export const AddGeneralEnquiry = () => {
                         </span>
                       )}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label style={{ color: "#231F20" }}>
                         Agent WhatsApp Number
@@ -502,7 +491,10 @@ export const AddGeneralEnquiry = () => {
                           onChange={handleInputs}
                         >
                           {dial?.map((item) => (
-                            <option value={item?.dialCode} key={item?.dialCode}>
+                            <option
+                              value={item?.dialCode}
+                              key={item?.dialCode}
+                            >
                               {item?.dialCode} - {item?.name} -
                               {item?.flag && (
                                 <Flags
@@ -514,7 +506,6 @@ export const AddGeneralEnquiry = () => {
                             </option>
                           ))}
                         </select>
-
                         <input
                           type="text"
                           className={`form-control rounded-1 ${
@@ -558,42 +549,70 @@ export const AddGeneralEnquiry = () => {
                         Agent Email ID
                       </label>
                       <input
-                        className="form-control"
+                        className="form-control rounded-1 text-lowercase"
                         name="agentEmail"
                         onChange={handleInputs}
                         id="inputEmail"
                         value={student?.agentEmail}
                         type="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example johndoe123@gmail.com"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                          if (
+                            !/^[a-zA-Z0-9@._-]*$/.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                              "ArrowUp",
+                              "ArrowDown",
+                              "Tab",
+                              "Enter",
+                              "Shift",
+                              "Control",
+                              "Alt",
+                              "Meta",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                     </div>
                   </div>
                 ) : null}
               </div>
-              <div className="row mb-3">
+              <div className="row g-3">
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputstudentname">
-                    Name of the Student
+                    Student Name
                     <span className="text-danger">*</span>
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-capitalize ${
                       errors.name.required ? "is-invalid" : ""
                     }`}
                     name="name"
                     onChange={handleInputs}
                     id="inputstudentname"
                     type="text"
-                    placeholder="Enter Name of the Student"
+                    placeholder="Example Jane Doe"
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "12px",
                     }}
                     value={student?.name}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                   {errors.name.required ? (
                     <div className="text-danger form-text">
@@ -601,7 +620,7 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : errors.name.valid ? (
                     <div className="text-danger form-text">
-                      Enter Name Letter Only
+                      This field is required.
                     </div>
                   ) : null}
                 </div>
@@ -610,7 +629,7 @@ export const AddGeneralEnquiry = () => {
                     Passport No<span className="text-danger">*</span>
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-uppercase ${
                       errors.passportNo.required ? "is-invalid" : ""
                     }`}
                     id="inputpassportno"
@@ -623,6 +642,20 @@ export const AddGeneralEnquiry = () => {
                       fontSize: "12px",
                     }}
                     value={student?.passportNo}
+                    onKeyDown={(e) => {
+                      // Prevent default behavior for disallowed keys
+                      if (
+                        !/^[a-zA-Z0-9]$/.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                   {errors.passportNo.required ? (
                     <div className="text-danger form-text">
@@ -630,7 +663,7 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : errors.passportNo.valid ? (
                     <div className="text-danger form-text">
-                      Enter Vaild Passport Number Only
+                      This field is required.
                     </div>
                   ) : null}
                 </div>
@@ -639,7 +672,7 @@ export const AddGeneralEnquiry = () => {
                     Expiry Date<span className="text-danger">*</span>
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-uppercase ${
                       errors.expiryDate.required ? "is-invalid" : ""
                     }`}
                     id="inputpassportno"
@@ -659,26 +692,46 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-              </div>
-              <div className="row mb-3">
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputEmail">
                     Email ID<span className="text-danger">*</span>
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-lowercase ${
                       errors.email.required ? "is-invalid" : ""
                     }`}
                     name="email"
                     onChange={handleInputs}
                     id="inputEmail"
                     type="text"
-                    placeholder="Enter Email ID"
+                    placeholder="Example jane123@gmail.com"
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "12px",
                     }}
                     value={student?.email}
+                    onKeyDown={(e) => {
+                      // Prevent default behavior for disallowed keys
+                      if (
+                        !/^[a-zA-Z0-9@._-]*$/.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                          "ArrowUp",
+                          "ArrowDown",
+                          "Tab",
+                          "Enter",
+                          "Shift",
+                          "Control",
+                          "Alt",
+                          "Meta",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                   {errors.email.required ? (
                     <div className="text-danger form-text">
@@ -686,11 +739,10 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : errors.email.valid ? (
                     <div className="text-danger form-text">
-                      Enter valid Email Id.
+                      This field is required.
                     </div>
                   ) : null}
                 </div>
-
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label style={{ color: "#231F20" }}>
                     Primary Number
@@ -751,7 +803,6 @@ export const AddGeneralEnquiry = () => {
                         }}
                       />
                     </div>
-
                     <div className="form-check ms-3 ">
                       <input
                         className="form-check-input"
@@ -768,7 +819,6 @@ export const AddGeneralEnquiry = () => {
                     </span>
                   )}
                 </div>
-
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label style={{ color: "#231F20" }}>
                     WhatsApp Number
@@ -799,7 +849,6 @@ export const AddGeneralEnquiry = () => {
                         </option>
                       ))}
                     </select>
-
                     <input
                       type="text"
                       className={`form-control  ${
@@ -834,9 +883,7 @@ export const AddGeneralEnquiry = () => {
                     </span>
                   )}
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputAddress">
                     CGPA{" "}
                   </label>
@@ -849,10 +896,23 @@ export const AddGeneralEnquiry = () => {
                     name="cgpa"
                     id="inputAddress"
                     type="text"
-                    placeholder="CGPA"
+                    placeholder="Example 98"
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      if (
+                        !/^[0-9]$/i.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
                     }}
                   />
                   {errors.cgpa.required ? (
@@ -861,7 +921,7 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputAddress">
                     {" "}
                     Year passed
@@ -875,10 +935,23 @@ export const AddGeneralEnquiry = () => {
                     onChange={handleInputs}
                     name="yearPassed"
                     type="text"
-                    placeholder="Year passed"
+                    placeholder="Example 2024"
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      if (
+                        !/^[0-9]$/i.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
                     }}
                   />
                   {errors.yearPassed.required ? (
@@ -887,12 +960,12 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputEmail4">
                     Desired Country
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-capitalize ${
                       errors.desiredCountry.required ? "is-invalid" : ""
                     }`}
                     id="inputEmail4"
@@ -900,10 +973,16 @@ export const AddGeneralEnquiry = () => {
                     onChange={handleInputs}
                     name="desiredCountry"
                     type="text"
-                    placeholder="Desired Country"
+                    placeholder="Example United Kingdom"
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
                     }}
                   />
                   {errors.desiredCountry.required ? (
@@ -912,14 +991,12 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputPassword4">
                     Desired Course
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-capitalize ${
                       errors.desiredCourse.required ? "is-invalid" : ""
                     }`}
                     id="inputPassword4"
@@ -927,10 +1004,16 @@ export const AddGeneralEnquiry = () => {
                     onChange={handleInputs}
                     type="text"
                     name="desiredCourse"
-                    placeholder="Desired Course"
+                    placeholder="Example Game Design"
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
                     }}
                   />
                   {errors.desiredCourse.required ? (
@@ -939,12 +1022,12 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputAddress">
-                    Do you need support for loan?{" "}
+                    Do You Need Loan Support?{" "}
                   </label>
                   <select
-                    className={`form-select form-select-lg  rounded-1 ${
+                    className={`form-select form-select-lg  rounded-1 text-capitalize ${
                       errors.doYouNeedSupportForLoan.required
                         ? "is-invalid"
                         : ""
@@ -967,14 +1050,12 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputPassword4">
                     Qualification
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-capitalize ${
                       errors.qualification.required ? "is-invalid" : ""
                     }`}
                     value={student?.qualification}
@@ -982,10 +1063,16 @@ export const AddGeneralEnquiry = () => {
                     onChange={handleInputs}
                     type="text"
                     name="qualification"
-                    placeholder="Desired Course"
+                    placeholder="Example Be"
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
                     }}
                   />
                   {errors.qualification.required ? (
@@ -994,14 +1081,13 @@ export const AddGeneralEnquiry = () => {
                     </div>
                   ) : null}
                 </div>
-
-                <div className="col">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                   <label className="form-label" for="inputEmail4">
                     {" "}
                     Assigned To
                   </label>
                   <input
-                    className={`form-control rounded-1 ${
+                    className={`form-control rounded-1 text-capitalize ${
                       errors.assignedTo.required ? "is-invalid" : ""
                     }`}
                     id="inputEmail4"
@@ -1009,10 +1095,16 @@ export const AddGeneralEnquiry = () => {
                     onChange={handleInputs}
                     type="text"
                     name="assignedTo"
-                    placeholder=" assignedTo Staff"
+                    placeholder="Example Jake Doe "
                     style={{
                       fontFamily: "Plus Jakarta Sans",
                       fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
                     }}
                   />
                   {errors.assignedTo.required ? (
@@ -1022,38 +1114,33 @@ export const AddGeneralEnquiry = () => {
                   ) : null}
                 </div>
               </div>
-              <div className="row mb-3">
-                <div className="d-flex flex-row align-item-center justify-content-end gap-4">
-                  <Link
-                    style={{
-                      backgroundColor: "#231F20",
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "14px",
-                    }}
-                    to="/admin_list_general_enquiry"
-                    className="btn btn-cancel border text-white w-10 m-2"
-                  >
-                    Cancel
-                  </Link>
-
-                  <button
-                    style={{
-                      backgroundColor: "#FE5722",
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "14px",
-                    }}
-                    type="submit"
-                    className="btn btn-save border text-white w-10 m-2"
-                  >
-                    Submit
-                  </button>
-                </div>
+              <div className="d-flex  justify-content-end">
+                <Link
+                  style={{
+                    fontSize: "14px",
+                  }}
+                  to="/admin_list_general_enquiry"
+                  className="btn btn-dark  border-0  text-uppercase rounded-1 px-4 py-2 fw-semibold text-white m-1"
+                >
+                  Cancel
+                </Link>
+                <button
+                  style={{
+                    backgroundColor: "#FE5722",
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: "14px",
+                  }}
+                  type="submit"
+                  className="btn   border-0 rounded-1 text-uppercase px-4 py-2 fw-semibold text-white m-1"
+                >
+                  Submit
+                </button>
               </div>
             </form>
           </div>
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>;
 };
 export default AddGeneralEnquiry;

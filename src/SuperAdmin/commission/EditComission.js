@@ -667,6 +667,11 @@ const removeCourseType = async (yearIndex, courseTypeIndex) => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.eligibility.required && (
                             <span className="text-danger form-text profile_error">
@@ -1082,6 +1087,11 @@ const removeCourseType = async (yearIndex, courseTypeIndex) => {
                       className="form-control"
                       value={intake.value}
                       onChange={(e) => handleIntakeChange(yearIndex, courseTypeIndex, intakeIndex, "value", e.target.value)}
+                      onKeyDown={(e) => {
+                        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </div>
                   <div className='d-inline text-end'>

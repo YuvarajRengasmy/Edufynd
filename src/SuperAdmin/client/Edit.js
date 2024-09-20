@@ -450,7 +450,7 @@ function AddAgent() {
                             }}
                             name="businessName"
                             onChange={handleInputs}
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.businessName.required ? 'is-invalid' : errors.businessName.valid ? 'is-valid' : ''
                             }`}
                             placeholder="Example John Doe"
@@ -890,7 +890,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            to="/ListClient"
+                            to="/list_client"
                             className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                           >
                             Cancel

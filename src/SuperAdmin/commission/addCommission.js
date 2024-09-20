@@ -555,6 +555,11 @@ function AddCommission() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.eligibility.required && (
                             <span className="text-danger form-text profile_error">
@@ -798,6 +803,11 @@ function AddCommission() {
                             e.target.value
                           )
                         }
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                       </div>
 

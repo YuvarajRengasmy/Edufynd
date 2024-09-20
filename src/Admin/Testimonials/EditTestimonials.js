@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { saveClient } from "../../api/client";
-import { getallClientModule } from "../../api/universityModule/clientModule";
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link } from "react-router-dom";
-import { RichTextEditor } from "@mantine/rte";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React from "react";
 export const EditTestimonials = () => {
   return (
     <>
       <div>
         <Sidebar />
-
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -28,7 +17,7 @@ export const EditTestimonials = () => {
               <form>
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
@@ -45,10 +34,10 @@ export const EditTestimonials = () => {
                               UserName <span className="text-danger">*</span>
                             </label>
                             <select
-                              class="form-select"
+                              class="form-select form-select-lg rounded-1 text-capitalize"
                               aria-label="Default select example"
                             >
-                              <option selected>Open this select menu</option>
+                              <option selected>Select Staff</option>
                               <option value="1">One</option>
                               <option value="2">Two</option>
                               <option value="3">Three</option>
@@ -56,20 +45,26 @@ export const EditTestimonials = () => {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Type of uses<span className="text-danger">*</span>
+                              Type Of Users
+                              <span className="text-danger">*</span>
                             </label>
                             <select
                               type="text"
-                              className="form-select "
+                              className="form-select form-select-lg rounded-1  "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
                               placeholder="Enter Name"
                               name="Username"
-                            ></select>
+                            >
+                              <option selected>Select User</option>
+                              <option value="staff">Staff</option>
+                              <option value="student">Student</option>
+                              <option value="agent">Agent</option>
+                              <option value="admin">Admin</option>
+                            </select>
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Course/University
@@ -77,41 +72,37 @@ export const EditTestimonials = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className="form-control rounded-1 text-capitalize  "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Course/University"
+                              placeholder="Example  UG/Coventry"
                               name="Username"
+                              onKeyDown={(e) => {
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Location<span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className="form-control rounded-1 text-capitalize"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
                               placeholder="Enter  Location"
                               name="Username"
-                            />
-                          </div>
-
-                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Content<span className="text-danger">*</span>
-                            </label>
-                            <RichTextEditor
-                              placeholder="Start writing your content here..."
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
+                              onKeyDown={(e) => {
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
                               }}
                             />
                           </div>
@@ -121,7 +112,7 @@ export const EditTestimonials = () => {
                             </label>
                             <input
                               type="file"
-                              className="form-control "
+                              className="form-control tounded-1 text-capitalize "
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -130,7 +121,13 @@ export const EditTestimonials = () => {
                               name="Username"
                             />
                             <div className="text-end">
-                              <button className="btn btn-primary">Add</button>
+                              <button className="btn btn-dark px-4 py-2 text-uppercase fw-semibold rounded-1 border-0">
+                                <i
+                                  class="fa fa-plus-circle"
+                                  aria-hidden="true"
+                                ></i>{" "}
+                                &nbsp;&nbsp;Add
+                              </button>
                             </div>
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -140,28 +137,79 @@ export const EditTestimonials = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className="form-control rounded-1 text-capitalize"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
                               placeholder="Enter   Counsellor Name "
                               name="Username"
+                              onKeyDown={(e) => {
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </div>
-
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                            <button
+                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Content<span className="text-danger">*</span>
+                            </label>
+                            <CKEditor
+                              editor={ClassicEditor}
+                              config={{
+                                placeholder:
+                                  "Start writing your content here...",
+                                toolbar: [
+                                  "heading",
+                                  "|",
+                                  "bold",
+                                  "italic",
+                                  "link",
+                                  "bulletedList",
+                                  "numberedList",
+                                  "blockQuote",
+                                  "|",
+                                  "insertTable",
+                                  "mediaEmbed",
+                                  "imageUpload",
+                                  "|",
+                                  "undo",
+                                  "redo",
+                                ],
+                                image: {
+                                  toolbar: [
+                                    "imageTextAlternative",
+                                    "imageStyle:full",
+                                    "imageStyle:side",
+                                  ],
+                                },
+                                table: {
+                                  contentToolbar: [
+                                    "tableColumn",
+                                    "tableRow",
+                                    "mergeTableCells",
+                                  ],
+                                },
+                              }}
+                              name="content"
                               style={{
-                                backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
+                                zIndex: "0",
                               }}
-                              type="reset"
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                            />
+                          </div>
+                          <div className=" d-flex justify-content-end  ">
+                            <Link
+                              to="/admin_list_testimonials"
+                              style={{
+                                fontSize: "12px",
+                              }}
+                              className="btn rounded-1 btn-dark border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
-                            </button>
+                            </Link>
                             <button
                               style={{
                                 backgroundColor: "#FE5722",
@@ -169,7 +217,7 @@ export const EditTestimonials = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Update
                             </button>

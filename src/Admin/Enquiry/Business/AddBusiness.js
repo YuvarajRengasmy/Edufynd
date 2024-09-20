@@ -3,20 +3,18 @@ import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
-import { getAdminIdId } from "../../../Utils/storage";
-import { getallClient } from "../../../api/client";
+
 import Mastersidebar from "../../../compoents/AdminSidebar";
 
 export const AddBusiness = () => {
   const initialState = {
-    typeOfClient: "",
     source: "",
     name: "",
     dob: "",
     passportNo: "",
     qualification: "",
     whatsAppNumber: "",
-    mobileNumber: "",
+    primaryNumber: "",
     email: "",
     cgpa: "",
     yearPassed: "",
@@ -26,14 +24,13 @@ export const AddBusiness = () => {
     assignedTo: "",
   };
   const initialStateErrors = {
-    typeOfClient: { required: false },
     source: { required: false },
     name: { required: false },
     dob: { required: false },
     passportNo: { required: false },
     qualification: { required: false },
     whatsAppNumber: { required: false },
-    mobileNumber: { required: false },
+    primaryNumber: { required: false },
     email: { required: false },
     cgpa: { required: false },
     yearPassed: { required: false },
@@ -45,29 +42,11 @@ export const AddBusiness = () => {
   const [student, setStudent] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const [client, setClient] = useState([]);
-
   const navigate = useNavigate();
 
-  
-  useEffect(() => {
-    getClientList();
-  }, []);
-  const getClientList = () => {
-    
-    getallClient()
-      .then((res) => {
-        setClient(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
-    if (data.typeOfClient === "") {
-      error.typeOfClient.required = true;
-    }
+
     if (data.source === "") {
       error.source.required = true;
     }
@@ -86,8 +65,8 @@ export const AddBusiness = () => {
     if (data.whatsAppNumber === "") {
       error.whatsAppNumber.required = true;
     }
-    if (data.mobileNumber === "") {
-      error.mobileNumber.required = true;
+    if (data.primaryNumber === "") {
+      error.primaryNumber.required = true;
     }
     if (data.email === "") {
       error.email.required = true;
@@ -113,8 +92,8 @@ export const AddBusiness = () => {
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
-    if (!isValidPhone(data.mobileNumber)) {
-      error.mobileNumber.valid = true;
+    if (!isValidPhone(data.primaryNumber)) {
+      error.primaryNumber.valid = true;
     }
     if (!isValidPhone(data.whatsAppNumber)) {
       error.whatsAppNumber.valid = true;
@@ -153,7 +132,7 @@ export const AddBusiness = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveBusinessEnquiry({ ...student, adminId: getAdminIdId() })
+      saveBusinessEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/admin_list_business_enquiry");
@@ -161,7 +140,7 @@ export const AddBusiness = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    } else {
+    }else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
@@ -186,39 +165,6 @@ export const AddBusiness = () => {
               <div className="card-body mt-5">
                 <form className="p-1" onSubmit={handleSubmit}>
                   <div className="row g-3">
-                    
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            {" "}
-                            Client Name<span className="text-danger">*</span>
-                          </label>
-                          <select
-                            onChange={handleInputs}
-                            style={{
-                              backgroundColor: "#fff",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            className={`form-select form-select-lg rounded-1 ${
-                              errors.typeOfClient.required ? "is-invalid" : ""
-                            }`}
-                            name="typeOfClient"
-                            placeholder="Select Client"
-                          >
-                            <option value={""}>Select Client</option>
-                            {client.map((data, index) => (
-                              <option key={index} value={data?.businessName}>
-                                {" "}
-                                {data?.businessName}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.typeOfClient.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
-                        </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">
                         Source
@@ -229,9 +175,8 @@ export const AddBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        className={`form-select form-select-lg rounded-1 ${
-                          errors.source.required ? "is-invalid" : ""
-                        } `}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''} `}
+
                         name="source"
                       >
                         <option value="">Select Source</option>
@@ -250,17 +195,21 @@ export const AddBusiness = () => {
                         Student Name
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.name.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' : ''}`}
                         type="text"
                         id="inputEmail4"
                         name="name"
                         onChange={handleInputs}
-                        placeholder="Enter Name"
+                        placeholder="Example John Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.name.required ? (
@@ -275,9 +224,7 @@ export const AddBusiness = () => {
                         DOB
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.dob.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-uppercase ${errors.dob.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         id="inputPassword4"
                         type="date"
@@ -300,18 +247,23 @@ export const AddBusiness = () => {
                         Email ID
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.email.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         id="inputPassword4"
                         text="text"
-                        placeholder="Email ID"
+                        placeholder="Example john123@gmail.com"
                         name="email"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                          'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
@@ -319,7 +271,7 @@ export const AddBusiness = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid Email Id.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -329,14 +281,12 @@ export const AddBusiness = () => {
                         Passport No
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.passportNo.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1  text-uppercase ${errors.passportNo.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="passportNo"
                         id="inputAddress"
                         type="text"
-                        placeholder="Passport No"
+                        placeholder="Example ME12348765"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
@@ -353,26 +303,29 @@ export const AddBusiness = () => {
                         Contact Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.mobileNumber.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.primaryNumber.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         id="inputEmail4"
                         type="text"
-                        name="mobileNumber"
-                        placeholder="Contact Number"
+                        name="primaryNumber"
+                        placeholder="Example +91 92625-87341"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
-                      {errors.mobileNumber.required ? (
+                      {errors.primaryNumber.required ? (
                         <span className="text-danger form-text profile_error">
                           This field is required.
                         </span>
-                      ) : errors.mobileNumber.valid ? (
+                      ) : errors.primaryNumber.valid ? (
                         <span className="text-danger form-text profile_error">
-                          Enter valid mobile number.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -382,17 +335,20 @@ export const AddBusiness = () => {
                         CGPA{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.cgpa.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
                         onChange={handleInputs}
                         name="cgpa"
                         id="inputAddress"
                         type="text"
-                        placeholder="CGPA"
+                        placeholder="Example 98"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.cgpa.required ? (
@@ -407,17 +363,20 @@ export const AddBusiness = () => {
                         Year passed
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.yearPassed.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`}
                         id="inputAddress"
                         onChange={handleInputs}
                         name="yearPassed"
                         type="text"
-                        placeholder="Year passed"
+                        placeholder="Example 2024"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.yearPassed.required ? (
@@ -431,17 +390,21 @@ export const AddBusiness = () => {
                         Desired Country
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.desiredCountry.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-capitalize ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         name="desiredCountry"
                         type="text"
-                        placeholder="Desired Country"
+                        placeholder="Example United Kingdom"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.desiredCountry.required ? (
@@ -456,17 +419,21 @@ export const AddBusiness = () => {
                         Desired Course
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.desiredCourse.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-capitalize ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
                         name="desiredCourse"
-                        placeholder="Desired Course"
+                        placeholder="Example Game Design"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.desiredCourse.required ? (
@@ -477,14 +444,10 @@ export const AddBusiness = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">
-                        Do you need support for loan?{" "}
+                        Do you Need Loan Support?{" "}
                       </label>
                       <select
-                        className={`form-select form-select-lg rounded-1 ${
-                          errors.doYouNeedSupportForLoan.required
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
                         name="doYouNeedSupportForLoan"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
@@ -507,17 +470,20 @@ export const AddBusiness = () => {
                         WhatsApp Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.whatsAppNumber.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 ${errors.whatsAppNumber.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         type="text"
                         name="whatsAppNumber"
-                        placeholder="Contact Number"
+                        placeholder="Example +91 92625-87341"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.whatsAppNumber.required ? (
@@ -526,7 +492,7 @@ export const AddBusiness = () => {
                         </span>
                       ) : errors.whatsAppNumber.valid ? (
                         <span className="text-danger form-text profile_error">
-                          Enter valid WhatsApp number.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
@@ -536,17 +502,21 @@ export const AddBusiness = () => {
                         Qualification
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.qualification.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-capitalize ${errors.qualification.required ? 'is-invalid' : ''}`}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
                         name="qualification"
-                        placeholder="Desired Course"
+                        placeholder="Example BE"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.qualification.required ? (
@@ -562,9 +532,7 @@ export const AddBusiness = () => {
                         Assigned To
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.assignedTo.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-capitalize ${errors.assignedTo.required ? 'is-invalid' : ''}`}
                         id="inputEmail4"
                         onChange={handleInputs}
                         type="text"
@@ -573,6 +541,12 @@ export const AddBusiness = () => {
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.assignedTo.required ? (

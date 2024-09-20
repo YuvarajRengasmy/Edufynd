@@ -1,31 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import {
   updatedTraining,
   getSingleTraining,
 } from "../../api/Notification/traning";
-
 import { getallStaff } from "../../api/staff";
 import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Select from "react-select";
-
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link, useLocation } from "react-router-dom";
-import { RichTextEditor } from "@mantine/rte";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const EditTraining = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-
   const initialState = {
     requestTraining: "",
     trainingTopic: "",
@@ -39,7 +30,6 @@ export const EditTraining = () => {
     content: "",
     uploadDocument: "",
   };
-
   const initialStateErrors = {
     requestTraining: {
       required: false,
@@ -75,7 +65,6 @@ export const EditTraining = () => {
       required: false,
     },
   };
-
   const [notification, setnotification] = useState(initialState);
   const [staff, setStaff] = useState([]);
   const [admin, setAdmin] = useState([]);
@@ -84,7 +73,6 @@ export const EditTraining = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     getStaffList();
     getNotificationList();
@@ -92,7 +80,6 @@ export const EditTraining = () => {
     getAgentList();
     getStudentList();
   }, []);
-
   const getNotificationList = () => {
     getSingleTraining(id)
       .then((res) => {
@@ -138,10 +125,8 @@ export const EditTraining = () => {
         console.log(err);
       });
   };
-
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
     if (data.requestTraining === "") {
       error.requestTraining.required = true;
     }
@@ -175,10 +160,8 @@ export const EditTraining = () => {
     if (data.uploadDocument === "") {
       error.uploadDocument.required = true;
     }
-
     return error;
   };
-
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -203,7 +186,6 @@ export const EditTraining = () => {
         [event?.target?.name]: event?.target?.value,
       });
     }
-
     if (submitted) {
       const newError = handleValidation({
         ...notification,
@@ -222,7 +204,6 @@ export const EditTraining = () => {
       [name]: values,
     }));
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -234,14 +215,12 @@ export const EditTraining = () => {
     }
     return true;
   };
-
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(notification);
@@ -263,27 +242,22 @@ export const EditTraining = () => {
       toast.error("Please fill mandatory fields");
     }
   };
-
   const adminOptions = admin.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const staffOptions = staff.map((data, index) => ({
     value: data.empName,
     label: data.empName,
   }));
-
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const agentOptions = agent.map((data, index) => ({
     value: data.agentName,
     label: data.agentName,
   }));
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -299,12 +273,10 @@ export const EditTraining = () => {
       },
     }),
   };
-
   return (
     <>
       <div>
         <Sidebar />
-
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -328,13 +300,13 @@ export const EditTraining = () => {
                         <div className="row g-3">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              UserName <span className="text-danger">*</span>
+                              Host Nmae <span className="text-danger">*</span>
                             </label>
                             <select
-                              class="form-select"
+                              class="form-select form-select-lg rounded-1 text-capitalize"
                               aria-label="Default select example"
                             >
-                              <option selected>Open this select menu</option>
+                              <option selected>Select User</option>
                               <option value="1">One</option>
                               <option value="2">Two</option>
                               <option value="3">Three</option>
@@ -347,7 +319,11 @@ export const EditTraining = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors?.requestTraining?.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -359,7 +335,7 @@ export const EditTraining = () => {
                             />
                             {errors?.requestTraining?.required && (
                               <p className="text-danger">
-                                Please Enter Request Training
+                                This field is required.
                               </p>
                             )}
                           </div>
@@ -370,31 +346,41 @@ export const EditTraining = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.trainingTopic?.required
+                                  ? "is-invalid"
+                                  : ""
+                              } `}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter Training Topic"
+                              placeholder="Example English Language  "
                               name="trainingTopic"
                               onChange={handleInputs}
                               value={notification?.trainingTopic}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors?.trainingTopic?.required && (
                               <p className="text-danger">
-                                Please Enter Training Topic
+                                This field is required.
                               </p>
                             )}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Type of Users{" "}
                               <span className="text-danger">*</span>
                             </label>
-
                             <select
-                              class="form-select form-select-lg"
+                              class={`form-select form-select-lg rounded-1 text-capitalize ${
+                                errors.typeOfUser.required ? "is-invalid" : ""
+                              }`}
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -419,12 +405,12 @@ export const EditTraining = () => {
                           {notification.typeOfUser === "staff" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List
+                                Staff List
                                 <span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select staff"
+                                placeholder="Select Staff"
                                 onChange={handleSelectChange}
                                 options={staffOptions}
                                 name="usersName"
@@ -453,7 +439,7 @@ export const EditTraining = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Student"
                                 onChange={handleSelectChange}
                                 options={studentOptions}
                                 name="usersName"
@@ -477,12 +463,12 @@ export const EditTraining = () => {
                           ) : notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List
+                                Agent List
                                 <span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Agent"
                                 onChange={handleSelectChange}
                                 options={agentOptions}
                                 name="usersName"
@@ -511,7 +497,7 @@ export const EditTraining = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Admin"
                                 onChange={handleSelectChange}
                                 options={adminOptions}
                                 name="usersName"
@@ -533,19 +519,20 @@ export const EditTraining = () => {
                               ) : null}
                             </div>
                           ) : null}
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Material<span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.material.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Material"
+                              placeholder="Example Software"
                               name="material"
                               value={
                                 notification.material
@@ -553,6 +540,12 @@ export const EditTraining = () => {
                                   : ""
                               }
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.material.required ? (
                               <div className="text-danger form-text">
@@ -566,7 +559,9 @@ export const EditTraining = () => {
                             </label>
                             <input
                               type="date"
-                              className="form-control "
+                              className={`form-control rounded-1 text-uppercase ${
+                                errors?.date?.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -581,7 +576,10 @@ export const EditTraining = () => {
                               onChange={handleInputs}
                             />
                             {errors?.date?.required && (
-                              <p className="text-danger">Please Enter Date</p>
+                              <p className="text-danger">
+                                {" "}
+                                This field is required.
+                              </p>
                             )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -590,7 +588,9 @@ export const EditTraining = () => {
                             </label>
                             <input
                               type="time"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors?.time?.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -601,25 +601,35 @@ export const EditTraining = () => {
                               onChange={handleInputs}
                             />
                             {errors?.time?.required && (
-                              <p className="text-danger">Please Enter Time</p>
+                              <p className="text-danger">
+                                {" "}
+                                This field is required.
+                              </p>
                             )}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Subject<span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.subject.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Subject"
+                              placeholder="Example Meetings "
                               name="subject"
                               value={notification.subject}
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.subject.required ? (
                               <div className="text-danger form-text">
@@ -633,15 +643,23 @@ export const EditTraining = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.name.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Name"
+                              placeholder="Example Jon Doe"
                               name="name"
                               onChange={handleInputs}
                               value={notification.name}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.name.required ? (
                               <div className="text-danger form-text">
@@ -681,7 +699,11 @@ export const EditTraining = () => {
                               id="fileInputImage"
                               type="file"
                               accept="image/*"
-                              className="form-control border-0 text-dark bg-transparent"
+                              className={`form-control border-0 text-dark bg-transparent ${
+                                errors.uploadDocument.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               style={{
                                 display: "none",
                                 fontFamily: "Plus Jakarta Sans",
@@ -696,22 +718,68 @@ export const EditTraining = () => {
                             ) : null}
                           </div>
                           <div className="text-end">
-                            <button className="btn btn-primary">Add</button>
+                            <button className="btn btn-dark px-4 py-2 text-uppercase fw-semibold rounded-1 border-0">
+                              {" "}
+                              <i
+                                class="fa fa-plus-circle"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              &nbsp;&nbsp;Add
+                            </button>
                           </div>
-
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
                                 name="content"
-                                onChange={handleRichTextChange}
-                                value={notification.content}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
+                                  zIndex: "0",
                                 }}
                               />
                               {errors.content.required && (
@@ -721,17 +789,13 @@ export const EditTraining = () => {
                               )}
                             </div>
                           </div>
-
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <div className=" d-flex justify-content-end  ml-auto">
                             <Link
                               to="/admin_list_training"
                               style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              type="reset"
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                              className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
                             </Link>
@@ -742,7 +806,7 @@ export const EditTraining = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Submit
                             </button>

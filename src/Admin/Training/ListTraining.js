@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {
-  getallTraining,
   deleteTraining,
   getFilterTraining,
 } from "../../api/Notification/traning";
@@ -13,16 +12,10 @@ import {
   DialogTitle,
   IconButton,
   Pagination,
-  radioClasses,
 } from "@mui/material";
 import Mastersidebar from "../../compoents/AdminSidebar";
-import { ExportCsvService } from "../../Utils/Excel";
-import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
 import { FaFilter } from "react-icons/fa";
-import ListAgent from "../Admins/AdminList";
-
 export const ListTraining = () => {
   const [notification, setnotification] = useState([]);
   const [open, setOpen] = useState(false);
@@ -33,11 +26,9 @@ export const ListTraining = () => {
     from: 0,
     to: 0,
   });
-
   useEffect(() => {
     getAllClientDetails();
   }, [pagination.from, pagination.to]);
-
   const getAllClientDetails = () => {
     const data = {
       limit: 10,
@@ -56,7 +47,6 @@ export const ListTraining = () => {
         console.log(err);
       });
   };
-
   const deleteProgramData = () => {
     deleteTraining(deleteId)
       .then((res) => {
@@ -68,28 +58,22 @@ export const ListTraining = () => {
         console.log(err);
       });
   };
-
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
   };
-
   const closePopup = () => {
     setOpen(false);
   };
-
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
-
   const tableRef = useRef(null);
-
   useEffect(() => {
     const table = tableRef.current;
-
-    // Apply SortableJS to the table headers
+    
     const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
       swapThreshold: 0.5,
@@ -97,15 +81,13 @@ export const ListTraining = () => {
       onEnd: (evt) => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
-
-        // Move the columns in the tbody
+        
         table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
           row.insertBefore(cells[oldIndex], cells[newIndex]);
         });
       },
     });
-
     return () => {
       sortable.destroy();
     };
@@ -114,7 +96,6 @@ export const ListTraining = () => {
     <>
       <div>
         <Mastersidebar />
-
         <div
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
@@ -135,7 +116,7 @@ export const ListTraining = () => {
                           aria-describedby="button-addon3"
                           className="form-control  border-1  rounded-4 w-100"
                           style={{
-                            fontSize: "12px", // Keep the font size if it's correct
+                            fontSize: "12px", 
                           }}
                         />
                         <span
@@ -211,7 +192,6 @@ export const ListTraining = () => {
                                     fontSize: "12px",
                                   }}
                                 />
-
                                 <label className="form-label">Users</label>
                                 <br />
                                 <input
@@ -234,14 +214,14 @@ export const ListTraining = () => {
                                     color: "#fff",
                                     fontSize: "12px",
                                   }}
-                                  // onClick={resetFilter}
+                                
                                 >
                                   Reset
                                 </button>
                                 <button
                                   data-bs-dismiss="offcanvas"
                                   type="submit"
-                                  // onClick={filterProgramList}
+                                  
                                   className="btn btn-save border-0 fw-semibold   rounded-pill text-white float-right mx-2"
                                   style={{
                                     backgroundColor: "#fe5722",
@@ -287,7 +267,6 @@ export const ListTraining = () => {
                         </span>
                       </Link>
                     </li>
-
                     <li class="m-1">
                       <Link class="btn-filters">
                         <span>
@@ -304,10 +283,7 @@ export const ListTraining = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link
-                        class="btn btn-pix-primary"
-                        to="/admin_add_training"
-                      >
+                      <Link class="btn btn-pix-primary" to="/admin_add_training">
                         <button
                           className="btn    fw-semibold  border-0 rounded-1 text-white  "
                           style={{
@@ -328,14 +304,13 @@ export const ListTraining = () => {
               </div>
             </div>
           </div>
-
           <div className="container-fluid mt-3">
             <div className="row">
               {/* Card 1: New Materials */}
               <div className="col-md-3 col-sm-6 mb-3">
                 <div
                   className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#FF9800" }} // Orange
+                  style={{ backgroundColor: "#FF9800" }} 
                 >
                   <div className="card-body">
                     <h6 className="">
@@ -352,12 +327,11 @@ export const ListTraining = () => {
                   </div>
                 </div>
               </div>
-
               {/* Card 2: Completed Trainings */}
               <div className="col-md-3 col-sm-6 mb-3">
                 <div
                   className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#4CAF50" }} // Green
+                  style={{ backgroundColor: "#4CAF50" }} 
                 >
                   <div className="card-body">
                     <h6 className="">
@@ -374,12 +348,11 @@ export const ListTraining = () => {
                   </div>
                 </div>
               </div>
-
               {/* Card 3: Pending Reviews */}
               <div className="col-md-3 col-sm-6 mb-3">
                 <div
                   className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#2196F3" }} // Blue
+                  style={{ backgroundColor: "#2196F3" }} 
                 >
                   <div className="card-body">
                     <h6 className="">
@@ -394,12 +367,11 @@ export const ListTraining = () => {
                   </div>
                 </div>
               </div>
-
               {/* Card 4: Reviewed Materials */}
               <div className="col-md-3 col-sm-6 mb-3">
                 <div
                   className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#F44336" }} // Red
+                  style={{ backgroundColor: "#F44336" }} 
                 >
                   <div className="card-body">
                     <h6 className="">
@@ -424,98 +396,257 @@ export const ListTraining = () => {
                 <div className="col-xl-12">
                   <div className="card rounded-1 shadow-sm border-0">
                     <div className="card-header bg-white mb-0 mt-1 pb-0">
-                      <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                          Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{
-                              width: "auto",
-                              display: "inline-block",
-                              fontSize: "12px",
-                            }}
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div className="d-flex  mb-0">
+                          <p className="me-auto ">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                            >
+                              <option value="5">Active</option>
+                              <option value="10">InActive</option>
+                              <option value="20">Delete</option>
+                            </select>{" "}
+                          </p>
+                        </div>
+                        <div>
+                          <ul
+                            class="nav nav-underline fs-9"
+                            id="myTab"
+                            role="tablist"
                           >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                        </p>
+                            <li>
+                              {" "}
+                              <a
+                                className="nav-link active "
+                                id="home-tab"
+                                data-bs-toggle="tab"
+                                href="#tab-home"
+                                role="tab"
+                                aria-controls="tab-home"
+                                aria-selected="true"
+                              >
+                                <i class="fa fa-list" aria-hidden="true"></i>{" "}
+                                List View
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                className="nav-link "
+                                id="profile-tab"
+                                data-bs-toggle="tab"
+                                href="#tab-profile"
+                                role="tab"
+                                aria-controls="tab-profile"
+                                aria-selected="false"
+                              >
+                                <i class="fa fa-th" aria-hidden="true"></i> Grid
+                                View
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                     <div className="card-body">
-                      <div className="card-table">
-                        <div className="table-responsive">
-                          <table
-                            className=" table table-hover card-table  dataTable text-center"
-                            style={{ color: "#9265cc", fontSize: "12px" }}
-                            ref={tableRef}
-                          >
-                            <thead className="table-light">
-                              <tr
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
+                      <div className="tab-content ">
+                        {/* List View */}
+                        <div
+                          className="tab-pane fade show active"
+                          id="tab-home"
+                          role="tabpanel"
+                          aria-labelledby="home-tab"
+                        >
+                          <div className="card-table">
+                            <div className="table-responsive">
+                              <table
+                                className=" table table-hover card-table  dataTable text-center"
+                                style={{ color: "#9265cc", fontSize: "12px" }}
+                                ref={tableRef}
                               >
-                                <th className=" text-start">
-                                  <input type="checkbox" />
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  S No
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Date
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  {" "}
-                                  Topic
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Type Of User
-                                </th>
-
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Action{" "}
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
+                                <thead className="table-light">
+                                  <tr
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                  >
+                                    <th className=" text-start">
+                                      <input type="checkbox" />
+                                    </th>
+                                    <th className="text-capitalize text-start sortable-handle">
+                                      S No
+                                    </th>
+                                    <th className="text-capitalize text-start sortable-handle">
+                                      Date
+                                    </th>
+                                    <th className="text-capitalize text-start sortable-handle">
+                                      {" "}
+                                      Topic
+                                    </th>
+                                    <th className="text-capitalize text-start sortable-handle">
+                                      Type Of User
+                                    </th>
+                                    <th className="text-capitalize text-start sortable-handle">
+                                      Action{" "}
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {notification?.map((data, index) => (
+                                    <tr
+                                      key={index}
+                                      style={{
+                                        fontFamily: "Plus Jakarta Sans",
+                                        fontSize: "11px",
+                                      }}
+                                    >
+                                      <td className=" text-start">
+                                        <input type="checkbox" />
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {pagination.from + index + 1}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {formatDate(
+                                          data?.createdOn
+                                            ? data?.createdOn
+                                            : data?.modifiedOn
+                                              ? data?.modifiedOn
+                                              : "-"
+                                        ) || "Not Available"}
+                                        <small className="text-danger">
+                                          Timer
+                                        </small>
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {data?.trainingTopic || "Not Available"}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {data?.typeOfUser || "Not Available"}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        <div className="d-flex">
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/admin_iew_training",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                            data-bs-toggle="tooltip"
+                                            title="View"
+                                          >
+                                            <i className="far fa-eye text-primary me-1"></i>
+                                          </Link>
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/admin_edit_training",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                            data-bs-toggle="tooltip"
+                                            title="Edit"
+                                          >
+                                            <i className="far fa-edit text-warning me-1"></i>
+                                          </Link>
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              openPopup(data?._id);
+                                            }}
+                                          >
+                                            <i className="far fa-trash-alt text-danger me-1"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="tab-pane fade "
+                          id="tab-profile"
+                          role="tabpanel"
+                          aria-labelledby="profile-tab"
+                        >
+                          <div className="container">
+                            <div className="row">
                               {notification?.map((data, index) => (
-                                <tr
-                                  key={index}
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "11px",
-                                  }}
-                                >
-                                  <td className=" text-start">
-                                    <input type="checkbox" />
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {pagination.from + index + 1}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {formatDate(
-                                      data?.createdOn
-                                        ? data?.createdOn
-                                        : data?.modifiedOn
-                                        ? data?.modifiedOn
-                                        : "-"
-                                    ) || "Not Available"}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.trainingTopic || "Not Available"}
-                                  </td>
-
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.typeOfUser || "Not Available"}
-                                  </td>
-
-                                  <td className="text-capitalize text-start text-truncate">
-                                    <div className="d-flex">
+                                <div className="col-md-4 mb-4" key={index}>
+                                  <div
+                                    className="card shadow-sm  rounded-1 text-bg-light h-100"
+                                    style={{ fontSize: "10px" }}
+                                  >
+                                    <div className="card-header   d-flex justify-content-between align-items-center">
+                                      <h6 className="mb-0"></h6>
+                                    </div>
+                                    <div className="card-body">
+                                      <div className="row">
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>S.No</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {pagination.from + index + 1}
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>Date</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {formatDate(
+                                                data?.createdOn
+                                                  ? data?.createdOn
+                                                  : data?.modifiedOn
+                                                    ? data?.modifiedOn
+                                                    : "-"
+                                              ) || "Not Available"}
+                                              <small className="text-danger">
+                                                Timer
+                                              </small>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>Topic</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {data?.trainingTopic ||
+                                                "Not Available"}
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>Type Of User</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {data?.typeOfUser ||
+                                                "Not Available"}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
                                       <Link
-                                        className="dropdown-item"
+                                        className="btn btn-sm btn-outline-primary"
                                         to={{
                                           pathname: "/admin_view_training",
                                           search: `?id=${data?._id}`,
@@ -524,9 +655,10 @@ export const ListTraining = () => {
                                         title="View"
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
+                                        View
                                       </Link>
                                       <Link
-                                        className="dropdown-item"
+                                        className="btn btn-sm btn-outline-warning"
                                         to={{
                                           pathname: "/admin_edit_training",
                                           search: `?id=${data?._id}`,
@@ -535,21 +667,23 @@ export const ListTraining = () => {
                                         title="Edit"
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
+                                        Edit
                                       </Link>
-                                      <Link
-                                        className="dropdown-item"
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
                                         onClick={() => {
                                           openPopup(data?._id);
                                         }}
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </Link>
+                                        Delete
+                                      </button>
                                     </div>
-                                  </td>
-                                </tr>
+                                  </div>
+                                </div>
                               ))}
-                            </tbody>
-                          </table>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div className="d-flex justify-content-between align-items-center p-3">
@@ -641,7 +775,7 @@ export const ListTraining = () => {
               </div>
               <div>
                 <Link
-                  to="#"
+                  to="/ListUniversity"
                   className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                   style={{
                     backgroundColor: "#0f2239",
@@ -653,7 +787,7 @@ export const ListTraining = () => {
                 </Link>
                 <button
                   type="submit"
-                  // onClick={handleFileUpload}
+                  
                   className="btn btn-save border-0 rounded-pill  fw-semibold px-3 py-1 text-white float-right mx-2"
                   style={{
                     backgroundColor: "#fe5722",
