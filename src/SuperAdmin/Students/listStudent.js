@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent,updateStudent } from "../../api/student";
 import { Link, useLocation } from "react-router-dom";
@@ -13,7 +13,6 @@ import { getStudentId, } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
 import { getAllApplicantCard } from "../../api/applicatin";
-
 
 export default function Masterproductlist() {
 
@@ -50,7 +49,6 @@ primaryNumber:""
     getAllStudentDetails();
   }, [pagination.from, pagination.to,pageSize]);
 
-  
   useEffect(() => {
     if (search.current) {
       search.current.focus();
@@ -70,7 +68,6 @@ primaryNumber:""
       studentId:getStudentId,
       superAdminId:getStudentId,
     
-
     };
     getFilterStudentAdmin(data)
     
@@ -222,8 +219,6 @@ primaryNumber:""
     }
   };
 
-
-
   const pdfDownload = (event) => {
     event?.preventDefault();
     getallStudent(student)
@@ -338,7 +333,6 @@ primaryNumber:""
           citizenship: res?.citizenship ?? "-",
           gender: res?.gender ?? "-",
            
-
           });
         });
         let header1 = [
@@ -348,7 +342,6 @@ primaryNumber:""
           "cityizenship",
           "gender",
    
-
         ];
         let header2 = [
           "StudentName",
@@ -427,8 +420,6 @@ primaryNumber:""
     }
   };
  
-
-  
   const deleteSelectedStudent = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) =>deleteStudent(id)))
@@ -464,15 +455,12 @@ primaryNumber:""
     }
   };
 
-
   return (
     <>
       <div >
       
           <Mastersidebar />
         
-      
-
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div className="content-header bg-light shadow-sm sticky-top">
   <div className="container">
@@ -634,8 +622,6 @@ primaryNumber:""
   </div>
 </div>
 
-
-
 <div className="container mt-3 " >
       <div className="row ">
         {/* Application Submitted Card */}
@@ -721,7 +707,6 @@ primaryNumber:""
       </div>
     </div>
         
-        
             <div className="container">
             <div className="row">
               <div className="col-xl-12">
@@ -751,7 +736,6 @@ primaryNumber:""
 
                     <div>
                     
-                       
                         <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
                           <li>
                             {" "}
@@ -784,13 +768,11 @@ primaryNumber:""
                           </li>
                         </ul>
                       
-                     
                     </div>
                   </div>
                 </div>
          <div className="card-body">
 
-          
          <div className="tab-content ">
                     {/* List View */}
                     <div
@@ -820,7 +802,6 @@ primaryNumber:""
                      <th className="text-capitalize text-start sortable-handle"> Code</th>
                      <th className="text-capitalize text-start sortable-handle"> Name</th>
                     
-                  
                      <th className="text-capitalize text-start sortable-handle">Email</th>
                      <th className="text-capitalize text-start  sortable-handle">Mobile Number</th>
                      <th className="text-capitalize text-start sortable-handle">Created At</th>
@@ -901,8 +882,6 @@ primaryNumber:""
              </div>
            </div>
 </div>
-
-
 
 <div
                      class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
@@ -1025,19 +1004,9 @@ primaryNumber:""
   </div>
 </div>
 
-
-
-
-
-
-
                     </div>
                 </div>
 
-
-
-
-         
                 <div className="d-flex justify-content-between align-items-center p-3">
         <p className="me-auto">
           Show
@@ -1071,11 +1040,8 @@ primaryNumber:""
               </div>
             </div>
          
-         
-       
       </div>
              
-   
          <Dialog open={open}>
    <DialogContent>
      <div className="text-center m-4">
@@ -1185,9 +1151,6 @@ primaryNumber:""
    </DialogContent>
  </Dialog>
               
-        
-   
-    
     </div>
     </>
   );
