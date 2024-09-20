@@ -1128,7 +1128,7 @@ const Sidebar = () => {
 
 <li className="nav-item">
   <Link 
-    to="/staff_list_chat"
+    to="/staff_chat"
     className={`nav-link sidebar_link ${
       ["/staff_list_chat", "/staff_add_chat", "/staff_edit_chat", "/staff_view_chat"].includes(currentPath)
         ? "active"
