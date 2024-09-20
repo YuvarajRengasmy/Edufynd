@@ -7,9 +7,10 @@ import {
   isValidNo,
   isValidPassportNumber
 } from "../../Utils/Validation";
+import Select from "react-select";
 import { toast } from "react-toastify";
 import { StudentSuperEdit, getSingleStudent } from "../../api/student";
-import Sidebar from "../../compoents/AgentSidebar";
+import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
@@ -112,7 +113,8 @@ function AddAgent() {
   const navigate = useNavigate();
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false);
-
+  const [dail1, setDail1] = useState(null);
+  const [dail2, setDail2] = useState(null);
 
   useEffect(() => {
     getStudentDetails();
@@ -302,22 +304,40 @@ const getallCodeList = () => {
     }
     return true;
   };
+
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
+  const handleDail2 = (selectedOptions) => {
+    setDail2(selectedOptions);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
+    const studentData={
+      ...student,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+     
+    }
     if (handleErrors(newError)) {
-        StudentSuperEdit(student)
+        StudentSuperEdit(studentData)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/agent_list_student");
+          navigate("/list_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
     }
   };
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
   return (
     <>
     
@@ -395,7 +415,7 @@ const getallCodeList = () => {
                                   Source<span className="text-danger">*</span>
                                 </label>
                                 <select
-                                     class={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''}`}
+                                     class={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''}`}
                                   value={student?.source}
                                   aria-label="Default select example"
                                   style={{
@@ -435,8 +455,14 @@ const getallCodeList = () => {
                                   }}
                                   name="name"
                                   onChange={handleInputs}
-                                  className={`form-control ${errors.name.required ? 'is-invalid' :  '' }`}
+                                  className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' :  '' }`}
                                   placeholder="Example John Doe"
+                                  onKeyDown={(e) => {
+                                    // Prevent non-letter characters
+                                    if (/[^a-zA-Z\s]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                                 {errors.name.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -456,7 +482,7 @@ const getallCodeList = () => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.citizenship.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.citizenship.required ? 'is-invalid' :  '' }`}
                                 value={student?.citizenship}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -465,6 +491,12 @@ const getallCodeList = () => {
                                 placeholder="Example Indian"
                                 name="citizenship"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.citizenship.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -478,7 +510,7 @@ const getallCodeList = () => {
                               </label>
                               <input
                                 type="date"
-                                className={`form-control ${errors.dob.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-uppercase ${errors.dob.required ? 'is-invalid' :  '' }`}
                                 placeholder="Enter Name"
                                 value={student?.dob}
                                 style={{
@@ -505,7 +537,7 @@ const getallCodeList = () => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.passportNo.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ? 'is-invalid' :  '' }`}
                                 value={student?.passportNo}
                                 placeholder="Example M12345678"
                                 style={{
@@ -514,6 +546,12 @@ const getallCodeList = () => {
                                 }}
                                 name="passportNo"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                              {errors.passportNo.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -533,7 +571,7 @@ const getallCodeList = () => {
                               <input
                                 type="date"
                                 value={student?.expiryDate}
-                                className={`form-control ${errors.expiryDate.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-uppercase ${errors.expiryDate.required ? 'is-invalid' :  '' }`}
                                 placeholder="Enter Contact Number "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -556,7 +594,7 @@ const getallCodeList = () => {
                               <select
                                 type="text"
                                 value={student?.gender}
-                                className={`form-select ${errors.gender.required ? 'is-invalid' : '' }`}
+                                className={`form-select rounded-1 text-capitalize ${errors.gender.required ? 'is-invalid' : '' }`}
                                 placeholder="Select Gender"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -583,7 +621,7 @@ const getallCodeList = () => {
                               <input
                                 type="text"
                                 value={student?.email}
-                                className={`form-control ${errors.email.required ? 'is-invalid' : '' }`}
+                                className={`form-control  rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -591,6 +629,13 @@ const getallCodeList = () => {
                                 placeholder="Example johndoe123@gmail.com"
                                 name="email"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                                  'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                               {errors.email.required ? (
                                 <div className="text-danger form-text">
@@ -611,24 +656,21 @@ const getallCodeList = () => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={student?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder={student?.dial1}
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
       type="text"
        aria-label="Text input with dropdown button"
@@ -679,25 +721,21 @@ const getallCodeList = () => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={student?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail2}
+                              options={dialOptions}
+                              placeholder={student?.dial2}
+                              name="dial2"
+                              onChange={handleDail2}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -734,7 +772,7 @@ const getallCodeList = () => {
                               <input
                                 type="text"
                                 value={student?.highestQualification}
-                                className={`form-control ${errors.highestQualification.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.highestQualification.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -742,6 +780,12 @@ const getallCodeList = () => {
                                 placeholder="Example B.A. in English"
                                 name="highestQualification"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.highestQualification.required ? (
                                 <div className="text-danger form-text">
@@ -761,7 +805,7 @@ const getallCodeList = () => {
                               <input
                                 type="text"
                                 value={student?.degreeName}
-                                className={`form-control ${errors.degreeName.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.degreeName.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -769,6 +813,12 @@ const getallCodeList = () => {
                                 placeholder="Example  B.Sc. IT"
                                 name="degreeName"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.degreeName.required ? (
                                 <div className="text-danger form-text">
@@ -787,7 +837,7 @@ const getallCodeList = () => {
                               <input
                                 type="number"
                                 value={student?.percentage}
-                                className={`form-control ${errors.percentage.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.percentage.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -795,6 +845,11 @@ const getallCodeList = () => {
                                 placeholder="Example 85"
                                 name="percentage"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.percentage.required ? (
                                 <div className="text-danger form-text">
@@ -814,7 +869,7 @@ const getallCodeList = () => {
                               <input
                                 type="text"
                                 value={student?.institution}
-                                className={`form-control ${errors.institution.required ? 'is-invalid' :  '' }`}
+                                className={`form-control  rounded-1 text-capitalize ${errors.institution.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -822,6 +877,12 @@ const getallCodeList = () => {
                                 placeholder="Example Harvard University"
                                 name="institution"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.institution.required ? (
                                 <div className="text-danger form-text">
@@ -841,7 +902,7 @@ const getallCodeList = () => {
                               <input
                                 type="date"
                                 value={student?.academicYear}
-                                className={`form-control ${errors.academicYear.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-uppercase ${errors.academicYear.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -862,7 +923,7 @@ const getallCodeList = () => {
                               </label>
                               <input
                                 type="date"
-                                className={`form-control ${errors.yearPassed.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-uppercase ${errors.yearPassed.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -895,7 +956,7 @@ const getallCodeList = () => {
                                 </label>
                                 <input
                                   type="text"
-                                  className="form-control "
+                                  className="form-control rounded-1 text-capitalize "
                                   value={student?.duration}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -904,6 +965,11 @@ const getallCodeList = () => {
                                   placeholder="Example 2 Years"
                                   name="duration"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -912,7 +978,7 @@ const getallCodeList = () => {
                                 </label>
                                 <input
                                   type="Text"
-                                  className="form-control  "
+                                  className="form-control rounded-1 text-capitalize  "
                                   value={student?.lastEmployeer}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -921,6 +987,12 @@ const getallCodeList = () => {
                                   placeholder="Example Microsoft Corporation"
                                   name="lastEmployeer"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    // Prevent non-letter characters
+                                    if (/[^a-zA-Z\s]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -929,7 +1001,7 @@ const getallCodeList = () => {
                                 </label>
                                 <input
                                   type="Text"
-                                  className="form-control  "
+                                  className="form-control rounded-1 text-capitalize  "
                                   value={student?.lastDesignation}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -938,6 +1010,12 @@ const getallCodeList = () => {
                                   placeholder="Example Senior Software Engineer"
                                   name="lastDesignation"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    // Prevent non-letter characters
+                                    if (/[^a-zA-Z\s]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
 
@@ -949,7 +1027,7 @@ const getallCodeList = () => {
                                 <select
                                   type="text"
                                   value={student?.doHaveAnyEnglishLanguageTest}
-                                  className={`form-select form-select-lg ${errors.doHaveAnyEnglishLanguageTest.required ? 'is-invalid'  : '' }`}
+                                  className={`form-select form-select-lg  rounded-1 text-capitalize ${errors.doHaveAnyEnglishLanguageTest.required ? 'is-invalid'  : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -988,7 +1066,7 @@ const getallCodeList = () => {
                                   <select
                                     type="text"
                                     value={student?.englishTestType}
-                                    className="form-select form-select-lg rounded-2"
+                                    className="form-select form-select-lg rounded-1 text-capitalize"
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1014,7 +1092,7 @@ const getallCodeList = () => {
                                   <input
                                     type="text"
                                     value={student?.testScore}
-                                    className="form-control "
+                                    className="form-control rounded-1 text-capitalize"
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1022,6 +1100,11 @@ const getallCodeList = () => {
                                     placeholder="Example 75"
                                     name="testScore"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1031,7 +1114,7 @@ const getallCodeList = () => {
                                   <input
                                     type="date"
                                     value={student?.dateOfTest}
-                                    className="form-control text-uppercase "
+                                    className="form-control text-uppercase rounded-1  "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "11px",
@@ -1053,7 +1136,7 @@ const getallCodeList = () => {
                                 <select
                                   type="text"
                                   value={student?.doYouHaveTravelHistory}
-                                  className={`form-select form-select-lg ${errors.doYouHaveTravelHistory.required ? 'is-invalid'  : '' }`}
+                                  className={`form-select form-select-lg rounded-1 text-capitalize ${errors.doYouHaveTravelHistory.required ? 'is-invalid'  : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1091,7 +1174,7 @@ const getallCodeList = () => {
                                   <input
                                     type="date"
                                     value={student?.date}
-                                    className="form-control text-uppercase "
+                                    className="form-control text-uppercase rounded-1  "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "11px",
@@ -1099,6 +1182,7 @@ const getallCodeList = () => {
                                     placeholder="Enter Date"
                                     name="date"
                                     onChange={handleInputs}
+                                    
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1108,7 +1192,7 @@ const getallCodeList = () => {
                                   <input
                                     type="text"
                                     value={student?.purpose}
-                                    className="form-control "
+                                    className="form-control rounded-1 text-capitalize "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1116,6 +1200,12 @@ const getallCodeList = () => {
                                     placeholder="Example Work"
                                     name="purpose"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1125,7 +1215,7 @@ const getallCodeList = () => {
                                   <input
                                     type="text"
                                     value={student?.countryName}
-                                    className="form-control  "
+                                    className="form-control  rounded-1 text-capitalize "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1133,6 +1223,12 @@ const getallCodeList = () => {
                                     placeholder="Example New Year"
                                     name="countryName"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                
@@ -1149,7 +1245,7 @@ const getallCodeList = () => {
                                 <select
                                   type="text"
                                   value={student?.anyVisaRejections}
-                                  className={`form-select form-select-lg ${errors.anyVisaRejections.required ? 'is-invalid'  : '' }`}
+                                  className={`form-select form-select-lg rounded-1 text-capitalize ${errors.anyVisaRejections.required ? 'is-invalid'  : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1179,7 +1275,7 @@ const getallCodeList = () => {
                                   <input
                                     type="text"
                                     value={student?.visaReason}
-                                    className="form-control "
+                                    className="form-control rounded-1 text-capitalize "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1187,6 +1283,12 @@ const getallCodeList = () => {
                                     placeholder="Example Studying"
                                     name="visaReason"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1195,7 +1297,7 @@ const getallCodeList = () => {
                                   </label>
                                   <input
                                     type="date"
-                                    className="form-control text-uppercase "
+                                    className="form-control text-uppercase rounded-1  "
                                     value={student?.dateVisa}
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
@@ -1204,6 +1306,7 @@ const getallCodeList = () => {
                                     placeholder="Enter Travel Date"
                                     name="dateVisa"
                                     onChange={handleInputs}
+                                    
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1212,7 +1315,7 @@ const getallCodeList = () => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control "
+                                    className="form-control rounded-1 text-capitalize "
                                     value={student?.purposeVisa}
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
@@ -1221,6 +1324,12 @@ const getallCodeList = () => {
                                     placeholder="Example Study"
                                     name="purposeVisa"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1230,7 +1339,7 @@ const getallCodeList = () => {
                                   <input
                                     type="text"
                                     value={student?.countryNameVisa}
-                                    className="form-control  "
+                                    className="form-control rounded-1 text-capitalize  "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1238,6 +1347,12 @@ const getallCodeList = () => {
                                     placeholder="Example United Kingdom"
                                     name="countryNameVisa"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                
@@ -1253,7 +1368,7 @@ const getallCodeList = () => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.desiredUniversity.required ? 'is-invalid' : '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.desiredUniversity.required ? 'is-invalid' : '' }`}
                                 value={student?.desiredUniversity}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -1262,6 +1377,12 @@ const getallCodeList = () => {
                                 placeholder="Example Standford University "
                                 name="desiredUniversity"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredUniversity.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -1277,7 +1398,7 @@ const getallCodeList = () => {
                               <input
                                 type="text"
                                 value={student?.desiredCountry}
-                                className={`form-control ${errors.desiredCountry.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.desiredCountry.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1285,6 +1406,12 @@ const getallCodeList = () => {
                                 placeholder="Example New York "
                                 name="desiredCountry"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredCountry.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -1300,7 +1427,7 @@ const getallCodeList = () => {
                               <input
                                 type="text"
                                 value={student?.desiredCourse}
-                                className={`form-control ${errors.desiredCourse.required ? 'is-invalid' : '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.desiredCourse.required ? 'is-invalid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1308,6 +1435,12 @@ const getallCodeList = () => {
                                 placeholder="Example Game Development "
                                 name="desiredCourse"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredCourse.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -1322,7 +1455,7 @@ const getallCodeList = () => {
                               <select
                                 type="text"
                                 value={student?.finance}
-                                className={`form-select form-select-lg ${errors.finance.required ? 'is-invalid' : '' }`}
+                                className={`form-select form-select-lg rounded-1 text-capitalize ${errors.finance.required ? 'is-invalid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1374,7 +1507,7 @@ const getallCodeList = () => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/agent_list_student"
+                                  to="/list_student"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel

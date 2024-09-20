@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
 
-import Mastersidebar from "../../compoents/AgentSidebar";
+import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -255,7 +255,7 @@ export const ListNotifications = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/agent_add_notifications">
+                    <Link class="btn btn-pix-primary" to="/admin_add_notifications">
                       <button
                         className="btn btn-outline   fw-semibold rounded-1  border-0 text-white  "
                         style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -353,26 +353,76 @@ export const ListNotifications = () => {
             <div className="col-xl-12">
               <div className="card rounded-1 shadow-sm  border-0">
               <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                    <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
 
-                    </p>
-
-
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
+                      
+                     
+                    </div>
                   </div>
                 </div>
                 <div className="card-body">
-                  <div className="card-table">
+                <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="card-table">
                     <div className="table-responsive">
 
                       <table className=" table  table-hover card-table  dataTable text-center" style={{ color: '#9265cc', fontSize: '12px' }} ref={tableRef}>
@@ -410,7 +460,7 @@ export const ListNotifications = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/agent_view_notifications",
+                                            pathname: "/admin_view_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -419,20 +469,20 @@ export const ListNotifications = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/agent_edit_notifications",
+                                            pathname: "/admin_edit_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>
                                         </Link>
-                                        <Link
+                                        <button
                                           className="dropdown-item"
                                           onClick={() => {
                                             openPopup(data?._id);
                                           }}
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>
-                                        </Link>
+                                        </button>
                                       </div>
 
                               </td>
@@ -443,6 +493,112 @@ export const ListNotifications = () => {
                       </table>
                     </div>
                   </div>
+        
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {notification?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"></h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data?.createdOn ? data?.createdOn : data?.modifiedOn ? data?.modifiedOn : "-")  || "Not Available"}  <small>Timer</small>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Type of User</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.typeOfUser  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Subject</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.subject  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+           
+            
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                          className="btn btn-sm btn-outline-primary"
+                                          to={{
+                                            pathname: "/admin_view_notifications",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>View
+                                        </Link>
+                                        <Link
+                                          className="btn btn-sm btn-outline-warning"
+                                          to={{
+                                            pathname: "/admin_edit_notifications",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>Edit
+                                        </Link>
+                                        <button
+                                          className="btn btn-sm btn-outline-danger"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                        </button>
+          </div>
+        </div>
+      </div>
+))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+                 
                   <div className="d-flex justify-content-between align-items-center p-3">
                   <p className="me-auto ">
                     Show
@@ -535,7 +691,7 @@ export const ListNotifications = () => {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
 

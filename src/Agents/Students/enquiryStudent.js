@@ -9,7 +9,7 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { StudentSuperAdmin, getallStudent } from "../../api/student";
-import Sidebar from "../../compoents/AgentSidebar";
+import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getSingleStudnetEnquiry } from "../../api/Enquiry/student";
 

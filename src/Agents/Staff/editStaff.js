@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { updateStaff, getSingleStaff,getallStaff } from "../../api/staff";
 import { getallDepartment } from "../../api/universityModule/Department";
+
+
 import { getallCode } from "../../api/settings/dailcode";
 import CheckBox from "./privileges"
 
@@ -13,7 +15,7 @@ import {
   isValidName,
   isValidDob,
 } from "../../Utils/Validation";
-import Sidebar from "../../compoents/AgentSidebar";
+import Sidebar from "../../compoents/sidebar";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
 import BackButton from "../../compoents/backButton";
@@ -51,7 +53,7 @@ export const AddStaff = () => {
     city: "",
     idCard: "",
     active: "",
-    // privileges: "",
+   
     companyAssests: "",
     mobileName: "",
     brandName: "",
@@ -63,6 +65,7 @@ export const AddStaff = () => {
     ipAddress: "",
     userName: "",
     loginPassword: "",
+ 
   };
   const initialStateErrors = {
     photo: { required: false },
@@ -92,7 +95,7 @@ export const AddStaff = () => {
     idCard: { required: false }, // – Yes / No (If ‘Yes’ card to be generated)
     active: { required: false },
     role:{required:false},
-    // privileges: { required: false },
+  
     companyAssests: { required: false },
     mobileName: { required: false },
     brandName: { required: false },
@@ -113,7 +116,10 @@ export const AddStaff = () => {
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const navigate = useNavigate();
-
+  const [dail1, setDail1] = useState(null);
+  const [dail2, setDail2] = useState(null);
+  const [dail3, setDail3] = useState(null);
+  const [dail4, setDail4] = useState(null);
 
   useEffect(() => {
     getAllStaffDetails();
@@ -335,16 +341,31 @@ export const AddStaff = () => {
     return true;
   };
 
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
+  const handleDail2 = (selectedOptions) => {
+    setDail2(selectedOptions);
+  };
+  const handleDail3 = (selectedOptions) => {
+    setDail3(selectedOptions);
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(staff);
     setErrors(newError);
     setSubmitted(true);
+    const staffData={
+      ...staff,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+      dial3:dail3?.value,
+    }
     if (handleErrors(newError)) {
-      updateStaff(staff)
+      updateStaff(staffData)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/agent_list_staff");
+          navigate("/list_staff");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -355,7 +376,10 @@ export const AddStaff = () => {
     value: data.empName,
     label: data.empName,
   }));
-
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
   return (
     <>
   
@@ -439,7 +463,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.empName.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example John Doe "
@@ -451,6 +475,12 @@ export const AddStaff = () => {
                                 }}
                                 name="empName"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.empName.required ? (
                                 <div className="text-danger form-text">
@@ -495,14 +525,14 @@ export const AddStaff = () => {
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Role/Designation
+                                Designation
                                 <span className="text-danger">*</span>
                               </label>
-
                               <select
-                           className={`form-select form-select-lg rounded-1 ${
-                            errors.designation.required ? 'is-invalid' :  ''
-                          }`}
+                           
+                            className={`form-select form-select-lg rounded-1 text-capitalize ${
+                              errors.designation.required ? 'is-invalid' : errors.designation.valid ? 'is-valid' : ''
+                            }`}
                             style={{ fontSize: "12px" }}
                             name="designation"
                             onChange={handleInputs}
@@ -511,16 +541,17 @@ export const AddStaff = () => {
                           >
                             <option value="">Select Department Head</option>
                             {department.map((data, index) => (
-                              <option key={index} value={data?.departmentHead}>
-                                {data?.departmentHead}
+                              <option key={index} value={data?.department}>
+                                {data?.department}
                               </option>
                             ))}
-                               </select>
-                              {errors.designation.required ? (
+                          </select>
+                             
+                              {errors.designation.required && (
                                 <span className="form-text text-danger">
                                   This field is required.
                                 </span>
-                              ) : null}
+                              ) }
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -536,12 +567,18 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.role.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Enter  Role "
                                 name="role"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.role.required ? (
                                 <span className="form-text text-danger">
@@ -582,7 +619,7 @@ export const AddStaff = () => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.reportingManager.required ? 'is-invalid' : ''
                                 }`}
                                 value={staff?.reportingManager}
@@ -594,6 +631,12 @@ export const AddStaff = () => {
                                 placeholder="Example Jane Doe"
                                 name="reportingManager"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.reportingManager.required ? (
                                 <span className="form-text text-danger">
@@ -615,12 +658,17 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1  text-capitalize ${
                                   errors.shiftTiming.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example 10.00 AM - 07.00 PM"
                                 name="shiftTiming"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.shiftTiming.required ? (
                                 <span className="form-text text-danger">
@@ -641,12 +689,17 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.probationDuration.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example 6 months"
                                 name="probationDuration"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.probationDuration.required ? (
                                 <span className="form-text text-danger">
@@ -663,7 +716,7 @@ export const AddStaff = () => {
                               <input
                                 type="text"
                                 value={staff?.email}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-lowercase ${
                                   errors.email.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example jay.j@afynd.com "
@@ -674,6 +727,13 @@ export const AddStaff = () => {
                                 }}
                                 name="email"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                                  'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                               {errors.email.required ? (
                                 <div className="text-danger form-text">
@@ -694,7 +754,7 @@ export const AddStaff = () => {
                                 name="team"
                                 onChange={handleInputs}
                                 value={staff?.team}
-                                className={`form-select form-select-lg rounded-1 ${
+                                className={`form-select form-select-lg rounded-1 text-capitalize ${
                                   errors.team.required ? 'is-invalid' :  ''
                                 }`}
                                 style={{
@@ -758,11 +818,18 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-lowercase ${
                                   errors.personalMail.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example johndoe123@gmail.com"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                                  'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                               {errors.personalMail.required ? (
                                 <div className="text-danger form-text">
@@ -784,24 +851,21 @@ export const AddStaff = () => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={staff?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder={staff?.dial1}
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
       type="text"
        aria-label="Text input with dropdown button"
@@ -852,25 +916,21 @@ export const AddStaff = () => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={staff?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail2}
+                              options={dialOptions}
+                              placeholder={staff?.dial2}
+                              name="dial2"
+                              onChange={handleDail2}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -912,7 +972,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.address.required ? 'is-invalid' :  ''
                                 }`}
                                 placeholder="Example 17/3A2, Gandhi St,"
@@ -937,7 +997,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.address2.required ? 'is-invalid' : ''
                                 }`}
                                 placeholder="Example Alwartirunagar, Chennai"
@@ -962,7 +1022,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.pin.required ? 'is-invalid' : ''
                                 }`}
                                 placeholder="Example 632001"
@@ -987,7 +1047,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.country.required ? 'is-invalid'  : ''
                                 }`}
                                 placeholder="Example Indai"
@@ -1012,7 +1072,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.state.required ? 'is-invalid'  : ''
                                 }`}
                                 placeholder="Example Tamil Nadu"
@@ -1037,7 +1097,7 @@ export const AddStaff = () => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-capitalize ${
                                   errors.city.required ? 'is-invalid'  : ''
                                 }`}
                                 placeholder="Example Chennai"
@@ -1056,7 +1116,7 @@ export const AddStaff = () => {
                                 ID Card <span className="text-danger">*</span>
                               </label>
                               <select
-                               className={`form-select form-select-lg rounded-2 ${errors.idCard.required ? 'is-invalid':''}`}
+                               className={`form-select form-select-lg rounded-1 text-capitalize ${errors.idCard.required ? 'is-invalid':''}`}
                                 onChange={handleInputs}
                                 value={staff?.idCard}
                                 name="idCard"
@@ -1081,7 +1141,7 @@ export const AddStaff = () => {
                                 Status <span className="text-danger">*</span>
                               </label>
                               <select
-                                 className={`form-select form-select-lg rounded-1 ${errors.active.required ? 'is-invalid ':''}`}
+                                 className={`form-select form-select-lg rounded-1 text-capitalize ${errors.active.required ? 'is-invalid ':''}`}
                                 onChange={handleInputs}
                                 name="active"
                                 value={staff?.active}
@@ -1107,7 +1167,7 @@ export const AddStaff = () => {
                                 <span className="text-danger">*</span>
                               </label>
                              <select
-                               className={`form-select form-select-lg rounded-1 ${errors.role.required ? 'is-invalid':''}`}
+                               className={`form-select form-select-lg rounded-1 text-capitalize ${errors.role.required ? 'is-invalid':''}`}
                                 onChange={handleInputs}
                                 name="role"
                                 value={staff?.role}
@@ -1144,7 +1204,7 @@ export const AddStaff = () => {
                                 name="companyAssests"
                                 value={staff?.companyAssests}
                                 onChange={handleInputs}
-                                className={`form-select form-select-lg rounded-1 ${
+                                className={`form-select form-select-lg rounded-1 text-capitalize ${
                                   errors.companyAssests.required ? 'is-invalid' : errors.companyAssests.valid ? 'is-valid' : ''
                                 }`}
                                 style={{
@@ -1177,7 +1237,7 @@ export const AddStaff = () => {
                                     name="laptopName"
                                     value={staff?.laptopName}
                                     onChange={handleInputs}
-                                    className='form-select form-select-lg rounded-1 '
+                                    className='form-select form-select-lg rounded-1 text-capitalize '
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
@@ -1203,7 +1263,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         value={staff?.brand}
-                                        className='form-control rounded-1 '
+                                        className='form-control rounded-1 text-capitalize '
                                         placeholder="Example Apple"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1212,6 +1272,12 @@ export const AddStaff = () => {
                                         }}
                                         name="brand"
                                         onChange={handleInputs}
+                                        onKeyDown={(e) => {
+                                          // Prevent non-letter characters
+                                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                                            e.preventDefault();
+                                          }
+                                        }}
                                       />
                                       
                                     </div>
@@ -1222,7 +1288,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className='form-control rounded-1'
+                                        className='form-control rounded-1 text-capitalize'
                                         placeholder="Example MacBook Air"
                                         value={staff?.modelName}
                                         style={{
@@ -1232,6 +1298,12 @@ export const AddStaff = () => {
                                         }}
                                         name="modelName"
                                         onChange={handleInputs}
+                                        onKeyDown={(e) => {
+                                          // Prevent non-letter characters
+                                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                                            e.preventDefault();
+                                          }
+                                        }}
                                       />
                                       
                                     </div>
@@ -1243,7 +1315,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className={`form-control rounded-1 ${
+                                        className={`form-control rounded-1 text-capitalize ${
                                           errors.ipAddress.required ? 'is-invalid' : errors.ipAddress.valid ? 'is-valid' : ''
                                         }`}
                                         placeholder="Example IPv4 192.168.1.1"
@@ -1269,7 +1341,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className='form-control rounded-1 '
+                                        className='form-control rounded-1 text-capitalize '
                                         value={staff?.userName}
                                         placeholder="Example Afynd01"
                                         style={{
@@ -1279,6 +1351,12 @@ export const AddStaff = () => {
                                         }}
                                         name="userName"
                                         handleInputs={handleInputs}
+                                        onKeyDown={(e) => {
+                                          // Prevent non-letter characters
+                                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                                            e.preventDefault();
+                                          }
+                                        }}
                                       />
                                      
                                     </div>
@@ -1289,7 +1367,7 @@ export const AddStaff = () => {
                                       </label>
                                       <input
                                         type="text"
-                                        className='form-control rounded-1' 
+                                        className='form-control rounded-1 ' 
                                         value={staff?.loginPassword}
                                         placeholder="Example G7$kL!8mQz@1wXp^"
                                         style={{
@@ -1314,7 +1392,7 @@ export const AddStaff = () => {
                                     name="mobileName"
                                     onChange={handleInputs}
                                     value={staff?.mobileName}
-                                    className='form-select form-select-lg rounded-1' 
+                                    className='form-select form-select-lg rounded-1 text-capitalize' 
                                     style={{
                                       backgroundColor: "#fff",
                                       fontFamily: "Plus Jakarta Sans",
@@ -1340,7 +1418,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         value={staff?.brandName}
-                                        className='form-control rounded-1 '
+                                        className='form-control rounded-1 text-uppercase '
                                         placeholder="Example  Samsung"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1349,6 +1427,13 @@ export const AddStaff = () => {
                                         }}
                                         name="brandName"
                                         onChange={handleInputs}
+                                        onKeyDown={(e) => {
+                                          // Prevent non-letter characters
+                                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                                            e.preventDefault();
+                                          }
+                                        }}
+                                        
                                       />
                                       
                                     </div>
@@ -1360,7 +1445,7 @@ export const AddStaff = () => {
                                       <input
                                         type="text"
                                         value={staff?.imei}
-                                        className='form-control rounded-1 '
+                                        className='form-control rounded-1 text-uppercase '
                                         placeholder="Example 356938035643209"
                                         style={{
                                           backgroundColor: "#fff",
@@ -1369,6 +1454,12 @@ export const AddStaff = () => {
                                         }}
                                         name="imei"
                                         onChange={handleInputs}
+                                        onKeyDown={(e) => {
+                                          // Prevent default behavior for disallowed keys
+                                     if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                       e.preventDefault();
+                                     }
+                                    }}
                                       />
                                      
                                     </div>
@@ -1378,25 +1469,21 @@ export const AddStaff = () => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={staff?.dial3}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail3}
+                              options={dialOptions}
+                              placeholder={staff?.dial3}
+                              name="dial3"
+                              onChange={handleDail3}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -1422,7 +1509,7 @@ export const AddStaff = () => {
                             <div className="row g-2">
                               <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                 <Link
-                                  to="/agent_list_staff"
+                                  to="/list_staff"
                                   style={{
                                     backgroundColor: "#231F20",
                                     fontFamily: "Plus Jakarta Sans",
