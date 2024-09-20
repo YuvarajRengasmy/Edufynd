@@ -846,7 +846,7 @@ const handleValidation = (data) => {
                               <input
                                 type="number"
                                 value={student?.percentage}
-                                className={`form-control rounded-1${errors.percentage.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.percentage.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -972,6 +972,11 @@ const handleValidation = (data) => {
                                   placeholder="Example 2 Years"
                                   name="duration"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1483,7 +1488,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.workExperience}
-                                className="form-control text-capitalize "
+                                className="form-control text-capitalize rounded-1 "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1491,6 +1496,11 @@ const handleValidation = (data) => {
                                 placeholder="Enter Work Experience"
                                 name="workExperience"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.workExperience.required ? (
                                 <span className="text-danger form-text profile_error">
