@@ -369,7 +369,7 @@ function EditAgent() {
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
       >
         <div className="content-header">
-<PrivilagesAgent/>
+
         <BackButton/>
          
         </div>

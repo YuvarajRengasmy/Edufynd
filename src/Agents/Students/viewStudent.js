@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import { getSingleStudent,getSingleStudentLog } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
 import {
@@ -332,36 +332,7 @@ function Profile() {
         <div className="content-header ">
           <BackButton />
 
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb float-end">
-              <li className="breadcrumb-item">
-                <Link
-                  to="/DashBoard"
-                  target="_self"
-                  className="text-decoration-none"
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link to="/list_student" className="text-decoration-none">
-                  ListSudent
-                </Link>
-              </li>
-              {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-              <li className="breadcrumb-item">
-                <Link
-                  to={{
-                    pathname: "/edit_student",
-                    search: `?id=${student?._id}`,
-                  }}
-                  className="text-decoration-none"
-                >
-                  EditStudent
-                </Link>
-              </li>
-            </ol>
-          </nav>
+          
 
           <div className="container-fluid">
             <div className="container-fluid">
@@ -1169,7 +1140,7 @@ function Profile() {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/view_application",
+                                          pathname: "/agent_view_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -1178,7 +1149,7 @@ function Profile() {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/edit_application",
+                                          pathname: "/agent_edit_application",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >

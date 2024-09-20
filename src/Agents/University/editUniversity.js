@@ -13,7 +13,7 @@ import { getallCategories } from "../../api/universityModule/categories";
 import { getallOfferTatModule } from "../../api/universityModule/offerTat";
 import { getallInstitutionModule } from "../../api/universityModule/institutation";
 import { getallModule } from "../../api/allmodule";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import Select from "react-select";
 import { getallIntake } from "../../api/intake";
 import CountryRegion from "countryregionjs";
@@ -408,7 +408,7 @@ function Profile() {
       updateUniversity(updatedUniversity)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_university");
+          navigate("/agent_list_university");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1225,7 +1225,7 @@ function Profile() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              to="/list_university"
+                              to="/agent_list_university"
                               className="btn btn-cancel border-0 px-4 py-2 text-uppercase fw-semibold text-white  m-1"
                             >
                               Cancel

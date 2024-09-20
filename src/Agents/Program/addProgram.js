@@ -305,7 +305,7 @@ function Profile() {
       })
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/admin_list_program");
+          navigate("/agent_list_program");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1030,7 +1030,7 @@ function Profile() {
                           <div className="row g-2">
                             <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                               <Link
-                                to="/admin_list_program"
+                                to="/agent_list_program"
                                 style={{
                                   backgroundColor: "#231F20",
                                   fontFamily: "Plus Jakarta Sans",

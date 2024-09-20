@@ -199,7 +199,7 @@ export const EditNotifications = () => {
       updatedNotifications(updateNotifications)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/admin_list_notifications");
+          navigate("/agent_list_notifications");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -628,7 +628,7 @@ export const EditNotifications = () => {
 
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                            to='/admin_list_notifications'
+                            to='/agent_list_notifications'
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",

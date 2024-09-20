@@ -196,7 +196,7 @@ export const ListMeetings = () => {
                           </div>
                           <div>
                             <Link
-                            to="/ListMeetings"
+                            to="#"
 
                               data-bs-dismiss="offcanvas"
                               className="btn btn-cancel border-0 fw-semibold    rounded-pill text-white float-right bg"

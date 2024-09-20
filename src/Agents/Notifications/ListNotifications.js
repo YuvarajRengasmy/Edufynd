@@ -255,7 +255,7 @@ export const ListNotifications = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/admin_add_notifications">
+                    <Link class="btn btn-pix-primary" to="/agent_add_notifications">
                       <button
                         className="btn btn-outline   fw-semibold rounded-1  border-0 text-white  "
                         style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -460,7 +460,7 @@ export const ListNotifications = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/admin_view_notifications",
+                                            pathname: "/agent_view_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -469,7 +469,7 @@ export const ListNotifications = () => {
                                         <Link
                                           className="dropdown-item"
                                           to={{
-                                            pathname: "/admin_edit_notifications",
+                                            pathname: "/agent_edit_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -560,7 +560,7 @@ export const ListNotifications = () => {
           <Link
                                           className="btn btn-sm btn-outline-primary"
                                           to={{
-                                            pathname: "/admin_view_notifications",
+                                            pathname: "/agent_view_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >
@@ -569,7 +569,7 @@ export const ListNotifications = () => {
                                         <Link
                                           className="btn btn-sm btn-outline-warning"
                                           to={{
-                                            pathname: "/admin_edit_notifications",
+                                            pathname: "/agent_edit_notifications",
                                             search: `?id=${data?._id}`,
                                           }}
                                         >

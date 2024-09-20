@@ -17,7 +17,7 @@ import { getallInstitutionModule } from "../../api/universityModule/institutatio
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
 import {getYear} from '../../Utils/DateFormat';
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
 import { RichTextEditor } from "@mantine/rte";
@@ -412,7 +412,7 @@ const App = () => {
       saveUniversity(updatedUniversity)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_university");
+          navigate("/agent_list_university");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1158,7 +1158,7 @@ const App = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              to="/list_university"
+                              to="/agent_list_university"
                               className="btn btn-cancel border-0 px-4 py-2 fw-semibold text-uppercase text-white  m-1"
                             >
                               Cancel

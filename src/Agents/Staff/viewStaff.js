@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AgentSidebar";
 import { useLocation } from "react-router-dom";
 import { getSingleStaff,getSingleStaffLog  } from "../../api/staff";
 import { Link } from "react-router-dom";
@@ -50,24 +50,7 @@ export const ViewStaff = () => {
 
 
           <BackButton/>
-          <nav aria-label="breadcrumb">
-  <ol className="breadcrumb float-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/list_staff' className="text-decoration-none">ListStaff</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/edit_staff",
-          search: `?id=${staff?._id}`,
-        }} className="text-decoration-none">EditStaff</Link>
-      </li>
-  
-  </ol>
-</nav>
+        
             <div className="container-fluid ">
             <h2 className="mb-4 text-center">Staff Details</h2>
               <div className="row">

@@ -4,7 +4,7 @@ import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent,u
 import { Link, useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AgentSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { formatDate } from "../../Utils/DateFormat";
@@ -607,7 +607,7 @@ primaryNumber:""
             </Link>
           </li>
           <li className="m-0">
-            <Link className="btn btn-pix-primary border-0 rounded-1" to="/add_student">
+            <Link className="btn btn-pix-primary border-0 rounded-1" to="/agent_add_student">
               <button
                 className="btn fw-semibold rounded-1 border-0 text-white"
                 style={{ backgroundColor: "#231f20", fontSize: '12px' }}
@@ -845,7 +845,7 @@ primaryNumber:""
                            <Link
                              className="dropdown-item"
                              to={{
-                               pathname: "/view_student",
+                               pathname: "/agent_view_student",
                                search: `?id=${data?._id}`,
                              }}
                            >
@@ -855,7 +855,7 @@ primaryNumber:""
                            <Link
                              className="dropdown-item"
                              to={{
-                               pathname: "/edit_student",
+                               pathname: "/agent_edit_student",
                                search: `?id=${data?._id}`,
                              }}
                            >
@@ -971,7 +971,7 @@ primaryNumber:""
           <Link
                              className="btn btn-sm btn-outline-primary"
                              to={{
-                               pathname: "/view_student",
+                               pathname: "/agent_view_student",
                                search: `?id=${data?._id}`,
                              }}
                            >
@@ -981,7 +981,7 @@ primaryNumber:""
                            <Link
                              className="btn btn-sm btn-outline-warning"
                              to={{
-                               pathname: "/edit_student",
+                               pathname: "/agent_edit_student",
                                search: `?id=${data?._id}`,
                              }}
                            >
@@ -1130,7 +1130,7 @@ primaryNumber:""
        </div>
        <div>
          <Link
-           to="/ListUniversity"
+           to="#"
            className="btn btn-cancel border-0 rounded-pill text-white  fw-semibold  px-3 py-1 float-right bg"
            style={{ backgroundColor: "#0f2239" }}
 
