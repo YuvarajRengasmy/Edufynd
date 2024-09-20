@@ -225,6 +225,7 @@ const getallClientCount = ()=>{
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => activeClient(id)))
         .then((responses) => {
+          console.log("rajaram",responses);
           toast.success("Client activated successfully!");
           setSelectedIds([]);
           getClientList();

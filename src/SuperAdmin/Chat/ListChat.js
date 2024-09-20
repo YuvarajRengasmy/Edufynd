@@ -45,7 +45,7 @@ const ListChat = () => {
     }
   };
   useEffect(() => {
-    const newSocket = io("https://api.edufynd.in");
+    const newSocket = io("http://localhost:4409/api/");
     setSocket(newSocket);
 
     newSocket.on("socketId", (id) => {});
@@ -493,7 +493,7 @@ const ListChat = () => {
           <h5 className="mb-0" style={{ color: '#343a40' }}>{selectedStaff ? selectedStaff.empName : "User Name"}</h5>
           <small className="text-muted">{selectedStaff && issuperAdminOnline(selectedStaff._id) ? "Online" : "Offline"}</small>
         </div>
-        <div className="ms-auto">
+        {/* <div className="ms-auto">
           <div className="dropdown">
             <i className="fas fa-cog fa-lg text-muted " id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
             <ul className="dropdown-menu" aria-labelledby="settingsDropdown">
@@ -503,17 +503,17 @@ const ListChat = () => {
               <li><a className="dropdown-item" href="#">Log Out</a></li>
             </ul>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="input-group p-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search or start new chat"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ borderRadius: '25px', borderColor: '#ced4da' ,fontSize:'12px'}}
-        />
+      <input
+                      className="form-control form-control-sm mb-3"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      type="text"
+                      placeholder="Search for people, groups, and messages"
+                      style={{ fontSize: "12px" }}
+                    />
         <div className="input-group-append">
           <button className="btn btn-outline-primary" type="button" style={{ borderRadius: '25px' }}><i className="fas fa-search"></i></button>
         </div>
@@ -522,12 +522,7 @@ const ListChat = () => {
         <li className="nav-item">
           <a className="nav-link active" id="all-tab" data-bs-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" id="unread-tab" data-bs-toggle="tab" href="#unread" role="tab" aria-controls="unread" aria-selected="false">Unread</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" id="groups-tab" data-bs-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="false">Groups</a>
-        </li>
+       
       </ul>
       <div className="tab-content" id="chatTabContent" style={{ overflowY: 'auto', height: 'calc(100% - 160px)' }}>
         <div className="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
@@ -553,86 +548,7 @@ const ListChat = () => {
             ))}
           </div>
         </div>
-        <div className="tab-pane fade" id="unread" role="tabpanel" aria-labelledby="unread-tab">
-          <div className="list-group list-group-flush">
-            <a href="#" className="list-group-item list-group-item-action" >
-              <div className="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" className="rounded-circle me-3" alt="Contact Image" style={{ width: '3rem', height: '3rem' }} />
-                <div className="w-100">
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0" style={{ color: '#343a40' }}>John Doe</h6>
-                    <small className="text-muted">2 min ago</small>
-                  </div>
-                  <p className="mb-0 text-truncate" style={{ color: '#6c757d' }}>You have a new message.</p>
-                </div>
-              </div>
-            </a>
-            <a href="#" className="list-group-item list-group-item-action" >
-              <div className="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" className="rounded-circle me-3" alt="Contact Image" style={{ width: '3rem', height: '3rem' }} />
-                <div className="w-100">
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0" style={{ color: '#343a40' }}>Jane Smith</h6>
-                    <small className="text-muted">15 min ago</small>
-                  </div>
-                  <p className="mb-0 text-truncate" style={{ color: '#6c757d' }}>Reminder: Please submit your report.</p>
-                </div>
-              </div>
-            </a>
-            <a href="#" className="list-group-item list-group-item-action" >
-              <div className="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" className="rounded-circle me-3" alt="Contact Image" style={{ width: '3rem', height: '3rem' }} />
-                <div className="w-100">
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0" style={{ color: '#343a40' }}>Michael Brown</h6>
-                    <small className="text-muted">30 min ago</small>
-                  </div>
-                  <p className="mb-0 text-truncate" style={{ color: '#6c757d' }}>New task assigned: Update project status.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div className="tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
-          <div className="list-group list-group-flush">
-            <a href="#" className="list-group-item list-group-item-action" >
-              <div className="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" className="rounded-circle me-3" alt="Group Image" style={{ width: '3rem', height: '3rem' }} />
-                <div className="w-100">
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0" style={{ color: '#343a40' }}>Project Team A</h6>
-                    <small className="text-muted">5 new messages</small>
-                  </div>
-                  <p className="mb-0 text-truncate" style={{ color: '#6c757d' }}>Discussing upcoming project milestones.</p>
-                </div>
-              </div>
-            </a>
-            <a href="#" className="list-group-item list-group-item-action" >
-              <div className="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" className="rounded-circle me-3" alt="Group Image" style={{ width: '3rem', height: '3rem' }} />
-                <div className="w-100">
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0" style={{ color: '#343a40' }}>Marketing Strategy</h6>
-                    <small className="text-muted">12 new messages</small>
-                  </div>
-                  <p className="mb-0 text-truncate" style={{ color: '#6c757d' }}>Reviewing marketing strategies for Q4.</p>
-                </div>
-              </div>
-            </a>
-            <a href="#" className="list-group-item list-group-item-action" >
-              <div className="d-flex align-items-center">
-                <img src="https://via.placeholder.com/50" className="rounded-circle me-3" alt="Group Image" style={{ width: '3rem', height: '3rem' }} />
-                <div className="w-100">
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0" style={{ color: '#343a40' }}>Product Development</h6>
-                    <small className="text-muted">8 new messages</small>
-                  </div>
-                  <p className="mb-0 text-truncate" style={{ color: '#6c757d' }}>Updates on the new product features.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
+       
       </div>
     </div>
 
@@ -644,18 +560,7 @@ const ListChat = () => {
           <h5 className="mb-0" style={{ color: '#343a40' }}>{selectedStaff ? selectedStaff.empName : "Contact Name"}</h5>
           <small className="text-muted">  {selectedStaff && selectedStaff.designation}</small>
         </div>
-        <div className="ms-auto">
-         
-        
-          <div className="dropdown ms-3">
-            <i className="fas fa-ellipsis-v fa-lg text-muted " id="moreOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
-            <ul className="dropdown-menu" aria-labelledby="moreOptionsDropdown">
-              <li><a className="dropdown-item" href="#">Block Contact</a></li>
-              <li><a className="dropdown-item" href="#">Report Spam</a></li>
-              <li><a className="dropdown-item" href="#">Clear Chat History</a></li>
-            </ul>
-          </div>
-        </div>
+       
       </div>
       <div className="flex-grow-1 overflow-auto p-3 bg-light" style={{ scrollbarWidth: 'thin', scrollbarColor: '#007bff #e9ecef' }}>
         <div className="chat-messages">
@@ -684,7 +589,7 @@ const ListChat = () => {
                   />
                 ) : null}
                 <div
-                  className={`p-3 rounded ${message.senderType === "superAdmin" ? "bg-primary text-white" : "bg-secondary text-white"}`}
+                  className={`p-2 rounded ${message.senderType === "superAdmin" ? "bg-primary text-white" : "bg-secondary text-white"}`}
                 >
                   <p className="mb-1">{message.message}</p>
                   <small className="text-muted">{message.sentOn}</small>
@@ -697,10 +602,7 @@ const ListChat = () => {
         </div>
       </div>
       <div className="input-group p-3 border-top bg-white gap-2">
-        <button className="btn btn-outline-primary" style={{ borderRadius: '25px' }}><i className="far fa-smile"></i></button>
-        <button className="btn btn-outline-primary" style={{ borderRadius: '25px' }}><i className="fas fa-camera"></i></button>
-        <button className="btn btn-outline-primary" style={{ borderRadius: '25px' }}><i className="fas fa-paperclip"></i></button>
-        <button className="btn btn-outline-primary" style={{ borderRadius: '25px' }}><i className="fas fa-microphone"></i></button>
+        
         <input
           type="text"
           className="form-control"
