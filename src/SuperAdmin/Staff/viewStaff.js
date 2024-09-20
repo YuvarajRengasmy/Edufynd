@@ -113,11 +113,11 @@ export const ViewStaff = () => {
                           </p>
                           <p>
                             <i className="fas fa-mobile-alt me-2"></i>
-                            <strong>Personal Contact No:</strong> {staff?.mobileNumber  || "Not Available"}
+                            <strong>Personal Contact No:</strong>{staff?.dial1}-{staff?.mobileNumber  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-phone-alt me-2"></i>
-                            <strong>Emergency Contact:</strong> {staff?.emergencyContactNo  || "Not Available"}
+                            <strong>Emergency Contact:</strong> {staff?.dial2}-{staff?.emergencyContactNo  || "Not Available"}
                           </p>
                         </div>
                         <div className="col-md-6">
@@ -189,7 +189,7 @@ export const ViewStaff = () => {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>Country:</strong> {staff?.country || "Not Available"}
+                      <strong>CountryName:</strong> {staff?.country || "Not Available"}
                     </li>
                     <li className="list-group-item">
                       <strong>State:</strong>  {staff?.state|| "No Travel History"} 
@@ -197,9 +197,7 @@ export const ViewStaff = () => {
                     <li className="list-group-item">
                       <strong>City:</strong> {staff?.city || "No Travel History"}
                     </li>
-                    <li className="list-group-item">
-                      <strong>Country Name:</strong> {staff?.countryName|| "No Travel History"}
-                    </li>
+                   
                     
                   </ul>
 
@@ -217,8 +215,9 @@ export const ViewStaff = () => {
                         <div className="col-md-6">
                           <p>
                             <i className="fas fa-laptop me-2"></i>
-                            <strong>Company Assets:</strong> {staff?.companyAssets  || "Not Available"}
+                            <strong>Company Assets:</strong> {staff?.companyAssests  || "Not Available"}
                           </p>
+                         
                           <p>
                             <i className="fas fa-mobile-alt me-2"></i>
                             <strong>Mobile Brand Name:</strong> {staff?.brandName  || "Not Available"}
@@ -229,8 +228,9 @@ export const ViewStaff = () => {
                           </p>
                           <p>
                             <i className="fas fa-phone me-2"></i>
-                            <strong>Phone Number:</strong> {staff?.phoneNumber  || "Not Available"}
+                            <strong>Phone Number:</strong>{staff?.dial3}- {staff?.phoneNumber  || "Not Available"}
                           </p>
+                          
                         </div>
                         <div className="col-md-6">
                           <p>

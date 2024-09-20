@@ -238,7 +238,8 @@ const getallProgramCount = ()=>{
 
   const pdfDownload = (event) => {
     event?.preventDefault();
-    getFilterProgram(program)
+
+    getallProgram(program)
       .then((res) => {
         var result = res?.data?.result;
         var tablebody = [];
@@ -250,36 +251,30 @@ const getallProgramCount = ()=>{
             margin: [5, 5],
             bold: true,
           },
+         
           {
-            text: "University Name",
+            text: "UniversityName",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Program Title",
+            text: "BusinessMailID",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Application Fees",
+            text: "Eligibility",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Course Fees",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-            text: "Campus",
+            text: "Tax",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -295,40 +290,35 @@ const getallProgramCount = ()=>{
               margin: [5, 3],
               border: [true, false, true, true],
             },
+           
             {
               text: element?.universityName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
-            {
-              text: element?.programTitle ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
 
             {
-              text: element?.applicationFee ?? "-",
+              text: element?.paymentMethod ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.courseFee ?? "-",
+              text: element?.eligibility ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.campus ?? "-",
+              text: element?.tax ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
           ]);
         });
-        templatePdf("Program List", tablebody, "landscape");
+        templatePdf("commissionList", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -337,37 +327,38 @@ const getallProgramCount = ()=>{
 
   const exportCsv = (event) => {
     event?.preventDefault();
-    getFilterProgram(program)
+
+    getallProgram(program)
       .then((res) => {
         var result = res?.data?.result;
         let list = [];
         result?.forEach((res) => {
           list.push({
+           
             universityName: res?.universityName ?? "-",
-            programTitle: res?.programTitle ?? "-",
-            applicationFee: res?.applicationFee ?? "-",
-            courseFee: res?.courseFee ?? "-",
-            campus: res?.campus ?? "-",
+            paymentMethod: res?.paymentMethod ?? "-",
+            eligibility: res?.eligibility ?? "-",
+            tax: res?.tax ?? "-",
           });
         });
         let header1 = [
+         
           "universityName",
-          "programTitle",
-          "applicationFee",
-          "courseFee",
-          "campus",
+          "paymentMethod",
+          "eligibility",
+          "tax",
         ];
         let header2 = [
+          "Client Id",
           "University Name",
-          "Program Title",
-          "Application Fees",
-          "Course Fees",
-          "Campus",
+          "Payment Method",
+          "eligibility",
+          "Tax",
         ];
         ExportCsvService.downloadCsv(
           list,
-          "programList",
-          "Program List",
+          "commissionList",
+          "Commission List",
 
           header1,
           header2
@@ -377,6 +368,7 @@ const getallProgramCount = ()=>{
         console.log(err);
       });
   };
+  
 
   // const tableRef = useRef(null);
 
@@ -431,8 +423,6 @@ const getallProgramCount = ()=>{
       activateSelectedProgram();
     }
   };
- 
-
   const deleteSelectedProgram = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) =>deleteProgram(id)))
@@ -450,7 +440,6 @@ const getallProgramCount = ()=>{
       toast.warning("No program selected.");
     }
   };
-
   const activateSelectedProgram = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => updatedProgram(id,{ active: true })))
@@ -466,9 +455,7 @@ const getallProgramCount = ()=>{
     } else {
       toast.warning("No program selected.");
     }
-  };
-
-  
+  }; 
   return (
     <>
       <div>
@@ -604,8 +591,8 @@ const getallProgramCount = ()=>{
           <li className="m-1">
             <Link onClick={pdfDownload}>
               <button
-                className="btn text-white rounded-1 border-0"
                 style={{ backgroundColor: "#E12929", fontSize: "12px" }}
+                className="btn text-white rounded-1 border-0"
               >
                 <i className="fa fa-file-pdf" aria-hidden="true"></i>
               </button>
@@ -614,8 +601,8 @@ const getallProgramCount = ()=>{
           <li className="m-1">
             <Link onClick={exportCsv}>
               <button
-                className="btn text-white rounded-1 border-0"
                 style={{ backgroundColor: "#22A033", fontSize: "12px" }}
+                className="btn text-white rounded-1 border-0"
               >
                 <i className="fa fa-file-excel" aria-hidden="true"></i>
               </button>
@@ -685,7 +672,6 @@ const getallProgramCount = ()=>{
           </div>
           </Link>
         </div>
-
         {/* Number of Applications Card */}
         <div className="col-md-3">
         <Link to='#' className="text-decoration-none">    <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
@@ -931,16 +917,11 @@ const getallProgramCount = ()=>{
               })}
             </tbody>
           </table>
-          </div>
-        
+          </div>   
 </div>
-
-
-
 <div
                      class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
-                    >
-          
+                    >      
           <div className="container">
   <div className="row">
   {program?.map((data, index) => {
@@ -1008,14 +989,12 @@ const getallProgramCount = ()=>{
                   <div className="col-md-5">
                     <strong>Status</strong>
                   </div>
-                  <div className="col-md-7 ">
-                 
+                  <div className="col-md-7 ">      
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
-                role="switch"
-                
+                role="switch"      
               />
             </span>
                   </div>
@@ -1049,28 +1028,15 @@ const getallProgramCount = ()=>{
                           }}
                         >
                           <i className="btn btn-sm btn-outline-danger"></i>
-                        </button>
+                   </button>
           </div>
         </div>
       </div>
 })}
   </div>
 </div>
-
-
-
-
-
-
-
                     </div>
-                </div>
-
-
-
-
-         
-        
+                </div>  
         </div>
         <div className="d-flex justify-content-between align-items-center p-3">
         <p className="me-auto">
@@ -1098,14 +1064,10 @@ const getallProgramCount = ()=>{
             color="primary"
           />
         </div>
-      
       </div>
     </div>
   </div>
-</div>
-
-
-          
+</div>         
         </div>
         <Dialog open={open}>
           <DialogContent>
