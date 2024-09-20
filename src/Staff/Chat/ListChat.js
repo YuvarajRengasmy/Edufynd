@@ -16,7 +16,7 @@ import {
 } from "mdb-react-ui-kit";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import io from "socket.io-client";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/StaffSidebar"
 
 const ListChat = () => {
   const [showChatlist, setShowChatlist] = useState(true);
