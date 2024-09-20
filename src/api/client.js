@@ -16,6 +16,9 @@ export const getAllClientCard = () => {
 export const getSingleClient = (data) => {
     return API.get(`${Client}/getSingleClient`, { params: { _id: data } });
   };
+  export const getSingleClientLog = (data) => {
+    return API.get(`${Client}/SingleLog`, { params: { _id: data } });
+  };
   export const deleteClient = (data) => {
     return API.delete(`${Client}`, { params: { _id: data } });
   };
@@ -29,3 +32,7 @@ export const getSingleClient = (data) => {
   export const getFilterClient = (data) => {
     return API.put(`${Client}/getFilterClient`, data);
   };
+
+  export const getLogsClient = () => {
+    return API.get(`${Client}/logs`)
+  }

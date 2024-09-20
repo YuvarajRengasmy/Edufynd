@@ -14,12 +14,18 @@ export const updateStudent = (data) => {
 export const getSingleStudent = (data) => {
     return API.get(`${Student}/getSingleStudent`, { params: { _id: data } })
 }
+export const getSingleStudentLog = (data) => {
+  return API.get(`${Student}/SingleLog`, { params: { _id: data } })
+}
 export const saveContact = (data) => {
     return API.post(`${Student}/contact`, data);
   };
 
   export const getallStudent = () => {
     return API.get(`${Student}`)
+}
+export const getallStudentLog = () => {
+  return API.get(`${Student}/logs`)
 }
 export const getFilterStudent = (data) => {
   return API.put(`${Student}/getFilterStudentBySuperAdmin`, data);

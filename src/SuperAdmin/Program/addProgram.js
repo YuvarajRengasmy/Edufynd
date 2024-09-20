@@ -17,8 +17,8 @@ import Sidebar from "../../compoents/sidebar";
 import { getUniversitiesByCountry } from "../../api/university";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { RichTextEditor } from "@mantine/rte";
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 function Profile() {
   const initialState = {
@@ -974,25 +974,59 @@ function Profile() {
                             ) : null}
                           </div>
 
-                          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Academic requirement
-                            </label>
-                            <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="academicRequirement"
-                                onChange={handleRichTextChange}
-                                value={program.academicRequirement}
-                               type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                
-                                  zIndex:'0'
-                                }}
-                              />
-                          </div>
+                          
 
+                          <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                              Academic requirement
+                                <span className="text-danger">*</span>
+                              </label>
+
+                              <CKEditor
+  editor={ClassicEditor}
+  data={program.academicRequirement}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
+
+                             
+                            </div>
+                          </div>
                           <div className="row g-2">
                             <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">
                               <Link

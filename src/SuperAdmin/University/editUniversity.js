@@ -20,6 +20,8 @@ import CountryRegion from "countryregionjs";
 import { getallCountryList } from "../../api/country"; // Adjust the imports as necessary
 import { updateUniversity, getSingleUniversity } from "../../api/university";
 import { RichTextEditor } from "@mantine/rte";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -1107,44 +1109,114 @@ function Profile() {
                           ) : null}
                         </div>
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                          <div className="form-group">
-                            <label style={{ color: "#231F20" }}>
-                              About <span className="text-danger">*</span>
-                            </label>
-                            <RichTextEditor
-                              placeholder="Start writing your content here..."
-                              name="about"
-                              onChange={handleRichAboutChange}
-                              value={university.about}
-                              type="text"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                                zIndex: "0",
-                              }}
-                            />
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                                About{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                             
+                               <CKEditor
+  editor={ClassicEditor}
+  data={university.about} 
+  name="about" // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichAboutChange(data);
+    // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+  
+/>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                          <div className="form-group">
-                            <label style={{ color: "#231F20" }}>
-                              Admission Requirements{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <RichTextEditor
-                              placeholder="Start writing your content here..."
-                              name="admissionRequirement"
-                              onChange={handleRichTextChange}
-                              value={university.admissionRequirement}
-                              type="text"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                                zIndex: "0",
-                              }}
-                            />
+                         
+
+
+
+                          
+                          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                                Admission Requirements{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+
+                              <CKEditor
+  editor={ClassicEditor}
+  data={university.admissionRequirement}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
+
+                             
+                            </div>
                           </div>
-                        </div>
+                          
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link

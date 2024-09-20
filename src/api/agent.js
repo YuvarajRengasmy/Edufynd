@@ -17,10 +17,16 @@ export const saveContact = (data) => {
 export const getSingleAgent = (data) => {
     return API.get(`${Agent}/getsingleagent`, { params: { _id: data } })
 }
+export const getSingleAgentLog = (data) => {
+  return API.get(`${Agent}/SingleLog`, { params: { _id: data } })
+}
 
-
-  export const getallAgent = () => {
+export const getallAgent = () => {
     return API.get(`${Agent}`)
+}
+
+export const getallAgentLog = () => {
+  return API.get(`${Agent}/logs`)
 }
 export const getFilterAgent = (data) => {
   return API.put(`${Agent}/getFilterStudentByAgent`, data);

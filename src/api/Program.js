@@ -8,7 +8,9 @@ export const saveProgram = (data) => {
 export const getallProgram = () => {
     return API.get(`${Program}`)
 }
-
+export const getLogsProgram = () => {
+  return API.get(`${Program}/logs`)
+}
 export const getAllProgramCard = () => {
   return API.get(`${Program}/card`)
 }
@@ -19,6 +21,9 @@ export const getSingleProgram = (data) => {
     return API.get(`${Program}/getSingleProgram`, { params: { _id: data } });
   };
 
+  export const getSingleProgramLog = (data) => {
+    return API.get(`${Program}/SingleLog`, { params: { _id: data } });
+  };
   export const getProgramUniversity = (data) => {
     return API.get(`${Program}/getProgramUniversity`, { params: {universityId: data } });
   };
