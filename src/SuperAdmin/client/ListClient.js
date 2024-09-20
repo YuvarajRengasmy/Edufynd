@@ -224,6 +224,7 @@ const getallClientCount = ()=>{
   const activateSelectedNotifications = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => activeClient(id)))
+      // Promise.all(selectedIds.map((id) => updateClient(id)))
         .then((responses) => {
           toast.success("Client activated successfully!");
           setSelectedIds([]);
@@ -234,9 +235,15 @@ const getallClientCount = ()=>{
           toast.error("Failed to activate Client.");
         });
     } else {
-      toast.warning("No notifications selected.");
+      toast.warning("No selected Client.");
     }
   };
+ 
+
+
+  
+  
+ 
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
