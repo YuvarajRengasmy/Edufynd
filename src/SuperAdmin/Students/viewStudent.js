@@ -337,7 +337,7 @@ function Profile() {
                 <Link
                   to={{
                     pathname: "/edit_student",
-                    search: `?studentId=${student?._id}`,
+                    search: `?id=${student?._id}`,
                   }}
                   className="text-decoration-none"
                 >
@@ -483,8 +483,12 @@ function Profile() {
                             {student?.gender || "Not Available"}
                           </p>
                           <p>
+                            <strong>PrimaryNumber:</strong>{" "}
+                            {student?.dial2}-{student?.primaryNumber || "Not Available"}
+                          </p>
+                          <p>
                             <strong>WhatsApp Number:</strong>{" "}
-                            {student?.whatsAppNumber || "Not Available"}
+                           {student?.dial2}-{student?.whatsAppNumber || "Not Available"}
                           </p>
                         </div>
                       </div>
@@ -562,18 +566,19 @@ function Profile() {
                             <strong>Travel History:</strong>{" "}
                             {student?.doYouHaveTravelHistory || "Not Available"}
                           </p>
-                          <p>
-                            <strong>Travel Date:</strong>{" "}
-                            {student?.date || "No Travel History"}
-                          </p>
-                          <p>
-                            <strong>Purpose:</strong>{" "}
-                            {student?.purpose || "No Travel History"}
-                          </p>
-                          <p>
-                            <strong>Country Name:</strong>{" "}
-                            {student?.countryName || "No Travel History"}
-                          </p>
+                          {student?.doYouHaveTravelHistory === "Yes" && (
+  <>
+    <p>
+      <strong>Travel Date:</strong> {student?.date || "Not Available"}
+    </p>
+    <p>
+      <strong>Purpose:</strong> {student?.purpose || "Not Available"}
+    </p>
+    <p>
+      <strong>Country Name:</strong> {student?.countryName || "Not Available"}
+    </p>
+  </>
+)}
                         </div>
                       </div>
 
@@ -583,6 +588,8 @@ function Profile() {
                             <strong>Visa Rejections:</strong>{" "}
                             {student?.anyVisaRejections || "Not Available"}
                           </p>
+                          {student?.anyVisaRejections === "Yes" &&
+                            <>
                           <p>
                             <strong>Visa Reason:</strong>{" "}
                             {student?.visaReason || "No Visa Rejections"}
@@ -599,6 +606,8 @@ function Profile() {
                             <strong>Country:</strong>{" "}
                             {student?.countryNameVisa || "No Visa Rejections"}
                           </p>
+                          </>
+}
                           
                           
                         </div>
@@ -1144,8 +1153,8 @@ function Profile() {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/view_appilcation",
-                                          search: `?studentId=${data?._id}`,
+                                          pathname: "/view_application",
+                                          search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
@@ -1154,7 +1163,7 @@ function Profile() {
                                         className="dropdown-item"
                                         to={{
                                           pathname: "/edit_application",
-                                          search: `?studentId=${data?._id}`,
+                                          search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>

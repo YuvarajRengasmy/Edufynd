@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getSingleTraining } from "../../api/Notification/traning";
 import { RichTextEditor } from "@mantine/rte";
 import Sidebar from "../../compoents/sidebar";
@@ -9,11 +9,9 @@ export const ViewTraining = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [training, setTraining] = useState({});
-
   useEffect(() => {
     getNotificationList();
   }, []);
-
   const getNotificationList = () => {
     getSingleTraining(id)
       .then((res) => {
@@ -23,12 +21,10 @@ export const ViewTraining = () => {
         console.log(err);
       });
   };
-
   return (
     <>
       <div>
         <Sidebar />
-
         <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
           <div className="content-header">
           <BackButton/>
@@ -47,13 +43,11 @@ export const ViewTraining = () => {
           search: `?id=${training?._id}`,
         }} className="text-decoration-none">EditTraining</Link>
       </li>
-  
   </ol>
 </nav>
             <div className="container-fluid my-3">
               <div className="card border-light shadow-sm p-4">
                 <div className="card-body">
-                  
                   <div className="d-flex align-items-center mb-4">
                     <div className="bg-light rounded-circle p-3 mr-3 text-primary">
                       <i className="fas fa-chalkboard-teacher fa-2x"></i>
@@ -68,7 +62,6 @@ export const ViewTraining = () => {
                       </p>
                     </div>
                   </div>
-
                   <div className="border-left border-primary pl-4 mb-4">
                     <div className="mb-3">
                       <h6 className="font-weight-bold text-primary">
@@ -96,7 +89,6 @@ export const ViewTraining = () => {
                       </p>
                     </div>
                   </div>
-
                   <div className="mb-4">
                     <h6 className="text-primary mb-2">Additional Information:</h6>
                     <p className="mb-1">
@@ -122,7 +114,6 @@ export const ViewTraining = () => {
                       </span> &nbsp;&nbsp; Subject: {training?.subject  || "Not Available"}
                     </p>
                   </div>
-
                   <div>
                     <h6 className="text-primary mb-2">Content:</h6>
                     <p className="card-text">
@@ -132,15 +123,12 @@ export const ViewTraining = () => {
                 </div>
               </div>
             </div>
-
             <div className="container-fluid my-2">
   <div className="row ">
     <div className="col-12 col-lg-7 col-auto">
       <ul className="list-unstyled">
-        
         <li className="mb-4 position-relative">
           <div className="row align-items-start g-0">
-
           <div className="col-1 d-flex justify-content-center align-items-center">
               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
                 <i className="fas fa-check" />
@@ -150,30 +138,23 @@ export const ViewTraining = () => {
               <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
               <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
             </div>
-           
-          
-           
             <div className="col-7">
             <div className="mb-3">
-              
               <div className="bg-success text-white rounded-3 p-2">
                 <h6 className="mb-1">New University Name</h6>
                 <p className="mb-0">University Y</p>
               </div>
             </div>
               <div className="mb-3">
-             
                 <div className="bg-danger text-white rounded-3 p-2">
                   <h6 className="mb-1">Old University Name</h6>
                   <p className="mb-0">University X</p>
                 </div>
               </div>
-           
             </div>
           </div>
           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
         </li>
-       
       </ul>
     </div>
   </div>
@@ -184,5 +165,4 @@ export const ViewTraining = () => {
     </>
   );
 };
-
 export default ViewTraining;

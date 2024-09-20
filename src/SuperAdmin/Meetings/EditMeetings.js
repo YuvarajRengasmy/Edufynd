@@ -14,6 +14,8 @@ import { getallStudent } from "../../api/student";
 import Select from "react-select";
 import { Link,useLocation } from "react-router-dom";
 import { RichTextEditor } from '@mantine/rte';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddMeetings = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -259,7 +261,7 @@ export const AddMeetings = () => {
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
@@ -271,14 +273,28 @@ export const AddMeetings = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Host Name<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              class="form-select form-select-lg rounded-1 text-capitalize"
+                              aria-label="Default select example"
+                            >
+                              <option selected>Select User</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                             Host Name{" "}
+                          Type Of User{" "}
                               <span className="text-danger">*</span>
                             </label>
 
                             <select
-                              class="form-select form-select-lg"
+                              class={`form-select form-select-lg rounded-1 text-capitalize ${errors.hostName.required ? 'is-invalid' : ''}`}
                               name="hostName"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -303,11 +319,11 @@ export const AddMeetings = () => {
                           {notification.hostName === "staff" ? (
                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                              <label style={{ color: "#231F20" }}>
-                               Admin List<span className="text-danger">*</span>
+                               Staff List<span className="text-danger">*</span>
                              </label>
                             <Select
                              isMulti
-                             placeholder="Select staff"
+                             placeholder="Select Staff"
                              onChange={handleSelectChange}
                               options={staffOptions}
                               value={
@@ -336,7 +352,7 @@ export const AddMeetings = () => {
                               </label>
                              <Select
                               isMulti
-                              placeholder="Select Country"
+                              placeholder="Select Student"
                                onChange={handleSelectChange}
                                options={studentOptions}
                                value={
@@ -361,11 +377,11 @@ export const AddMeetings = () => {
                           ) :notification.hostName === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Admin List<span className="text-danger">*</span>
+                              Agent List<span className="text-danger">*</span>
                             </label>
                            <Select
                             isMulti
-                            placeholder="Select Country"
+                            placeholder="Select Agent"
                              onChange={handleSelectChange}
                              options={agentOptions}
                              value={
@@ -394,7 +410,7 @@ export const AddMeetings = () => {
                               </label>
                              <Select
                               isMulti
-                              placeholder="Select Country"
+                              placeholder="Select Admin"
                                onChange={handleSelectChange}
                                options={adminOptions}
                                value={
@@ -418,14 +434,14 @@ export const AddMeetings = () => {
                             </div>
                           ) : null}
 
-                          <div className="row gy-2 ">
+                         
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Subject<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className={`form-control  ${errors.subject.required ? 'is-invalid' : ''}`}
+                                className={`form-control rounded-1 text-capitalize  ${errors.subject.required ? 'is-invalid' : ''}`}
                                 onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -434,6 +450,12 @@ export const AddMeetings = () => {
                                 value={notification?.subject}
                                 placeholder="Enter  Subject"
                                 name="subject"
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.subject.required ? (
                                 <div className="text-danger form-text">
@@ -441,16 +463,16 @@ export const AddMeetings = () => {
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          
 
-                          <div className="row gy-2 ">
+                        
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                               Date<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="date"
-                                className={`form-control  ${errors.date.required ? 'is-invalid' : ''}`}
+                                className={`form-control rounded-1 text-uppercase ${errors.date.required ? 'is-invalid' : ''}`}
                                 value={notification?.date?notification?.date.slice(0,10):""}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -473,7 +495,7 @@ export const AddMeetings = () => {
                               </label>
                               <input
                                 type='time'
-                                className={`form-control  ${errors.time.required ? 'is-invalid' : ''}`}
+                                className={`form-control rounded-1 text-uppercase ${errors.time.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -491,13 +513,63 @@ export const AddMeetings = () => {
                               ) : null}
                               
                             </div>
-                            </div>
+                          
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
+                                name="content"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex: "0",
+                                }}
+                              />
+                              {/* <RichTextEditor
                                 placeholder="Start writing your content here..."
                                 name="content"
                                 onChange={handleRichTextChange}
@@ -508,7 +580,7 @@ export const AddMeetings = () => {
                                   minHeight: "200px",
                                   overflowY: "auto",
                                 }}
-                              />
+                              /> */}
                               {errors.content.required && (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -519,16 +591,15 @@ export const AddMeetings = () => {
                          
                          
 
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <div className="d-flex justify-content-end  ">
                             <Link
                             to="/list_meetings"
                               style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
+                               
                                 fontSize: "12px",
                               }}
                              
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                              className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
                             </Link>
@@ -539,7 +610,7 @@ export const AddMeetings = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Submit
                             </button>

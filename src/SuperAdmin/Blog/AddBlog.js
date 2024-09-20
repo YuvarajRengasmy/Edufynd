@@ -123,9 +123,8 @@ export const AddBlog = () => {
     }
   };
   const addEntry = (listName) => {
-    const newEntry = listName === "uploadFile"
-      ? { fileName: "", uploadImage: "" }
-      : null;
+    const newEntry =
+      listName === "uploadFile" ? { fileName: "", uploadImage: "" } : null;
     setBlog({ ...blog, [listName]: [...blog[listName], newEntry] });
   };
   const removeEntry = (index, listName) => {
@@ -211,7 +210,7 @@ export const AddBlog = () => {
         slug: `crm.edufynd.in/${generatedSlug}`,
       }));
     }
-  }, [blog.title])
+  }, [blog.title]);
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -268,10 +267,12 @@ export const AddBlog = () => {
                     </div>
                     <div className="card-body mt-5">
                       <div className="form-group">
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title">Title <span className="text-danger">*</span></label>
                         <input
                           type="text"
-                          className={`form-control rounded-1 text-muted ${errors.title.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-muted ${
+                            errors.title.required ? "is-invalid" : ""
+                          }`}
                           id="title"
                           onChange={handleInputs}
                           placeholder="Title"
@@ -295,10 +296,12 @@ export const AddBlog = () => {
                             (If you leave it blank, it will be generated
                             automatically.)
                           </small>
-                        </label>
+                          <span className="text-danger">*</span> </label>
                         <input
                           type="text"
-                          className={`form-control rounded-1 text-muted ${errors.slug.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-muted ${
+                            errors.slug.required ? "is-invalid" : ""
+                          }`}
                           id="slug"
                           placeholder="Slug"
                           onChange={handleInputs}
@@ -318,9 +321,11 @@ export const AddBlog = () => {
                       <div className="form-group">
                         <label htmlFor="summary">
                           Summary & Description (Meta Tag)
-                        </label>
+                          <span className="text-danger">*</span>    </label>
                         <textarea
-                          className={`form-control rounded-1 text-muted ${errors.summary.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-muted ${
+                            errors.summary.required ? "is-invalid" : ""
+                          }`}
                           id="summary"
                           placeholder="Summary & Description (Meta Tag)"
                           style={{
@@ -337,10 +342,12 @@ export const AddBlog = () => {
                         )}
                       </div>
                       <div className="form-group">
-                        <label htmlFor="keywords">Keywords (Meta Tag)</label>
+                        <label htmlFor="keywords">Keywords (Meta Tag)<span className="text-danger">*</span></label>
                         <input
                           type="text"
-                          className={`form-control rounded-1 text-muted ${errors.keyWords.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-muted ${
+                            errors.keyWords.required ? "is-invalid" : ""
+                          }`}
                           id="keywords"
                           placeholder="Keywords (Meta Tag)"
                           style={{
@@ -358,7 +365,7 @@ export const AddBlog = () => {
                         )}
                       </div>
                       <div className="form-group">
-                        <label htmlFor="tags-input">Tags </label>
+                        <label htmlFor="tags-input">Tags <span className="text-danger">*</span></label>
                         <div
                           style={{
                             display: "flex",
@@ -401,7 +408,7 @@ export const AddBlog = () => {
                             onChange={(e) => setInput(e.target.value)}
                             onKeyDown={handleKeyDown}
                             name="tags"
-                            className='form-control rounded-1 text-muted'
+                            className="form-control rounded-1 text-muted"
                             style={{
                               border: "none",
                               outline: "none",
@@ -412,10 +419,12 @@ export const AddBlog = () => {
                         </div>
                       </div>
                       <div className="form-group">
-                        <label htmlFor="optionalUrl">Optional URL</label>
+                        <label htmlFor="optionalUrl">Optional URL <span className="text-danger">*</span></label>
                         <input
                           type="url"
-                          className={`form-control rounded-1 text-muted ${errors.optionalURL.required ? 'is-invalid' : ''}`}
+                          className={`form-control rounded-1 text-muted ${
+                            errors.optionalURL.required ? "is-invalid" : ""
+                          }`}
                           id="optionalUrl"
                           placeholder="Optional URL"
                           style={{
@@ -433,7 +442,7 @@ export const AddBlog = () => {
                         )}
                       </div>
                       <label className="control-label control-label-content">
-                        Content
+                        Content<span className="text-danger">*</span>
                       </label>
                       <div className="col-xl-12 col-lg-12 col-md-6 col-sm-12">
                         <div className="form-group">
@@ -460,10 +469,18 @@ export const AddBlog = () => {
                                 "redo",
                               ],
                               image: {
-                                toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+                                toolbar: [
+                                  "imageTextAlternative",
+                                  "imageStyle:full",
+                                  "imageStyle:side",
+                                ],
                               },
                               table: {
-                                contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+                                contentToolbar: [
+                                  "tableColumn",
+                                  "tableRow",
+                                  "mergeTableCells",
+                                ],
                               },
                             }}
                             onChange={(event, editor) => {
@@ -491,7 +508,7 @@ export const AddBlog = () => {
                 <div className="col-lg-4">
                   <div className="card card-body border-0 rounded-1 shadow-sm p-3">
                     <div className="container">
-                      <h6 className="box-title">Image</h6>
+                      <h6 className="box-title">Image </h6>
                       <div
                         className="box-body"
                         style={{
@@ -525,23 +542,39 @@ export const AddBlog = () => {
                               <div key={index} className="mb-3">
                                 <div className="row gy-2 ">
                                   <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>File Name</label>
+                                    <label style={{ color: "#231F20" }}>
+                                      File Name
+                                    </label>
                                     <input
                                       type="text"
                                       name="fileName"
                                       value={uploadImage.fileName}
-                                      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
                                       className="form-control rounded-1"
                                       style={{ fontSize: "12px" }}
                                       placeholder="File Upload Title"
                                     />
                                   </div>
                                   <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>File Document</label>
+                                    <label style={{ color: "#231F20" }}>
+                                      File Document
+                                    </label>
                                     <input
                                       type="file"
                                       name="uploadImage"
-                                      onChange={(e) => handleListInputChange(e, index, "uploadFile")}
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
                                       className="form-control rounded-1 "
                                       style={{ fontSize: "12px" }}
                                       placeholder="Upload File"
@@ -550,7 +583,9 @@ export const AddBlog = () => {
                                 </div>
                                 <button
                                   type="button"
-                                  onClick={() => removeEntry(index, "uploadFile")}
+                                  onClick={() =>
+                                    removeEntry(index, "uploadFile")
+                                  }
                                   className="btn mt-2"
                                 >
                                   <i className="far fa-trash-alt text-danger me-1"></i>
@@ -563,7 +598,8 @@ export const AddBlog = () => {
                               className="btn text-white mt-2 col-sm-6"
                               style={{ backgroundColor: "#7267ef" }}
                             >
-                              <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                              <i className="fas fa-plus-circle"></i>
+                              &nbsp;&nbsp;Add
                             </button>
                           </div>
                         </div>
@@ -591,7 +627,11 @@ export const AddBlog = () => {
                             <div className="col-sm-12 m-b-5">
                               <input
                                 type="file"
-                                className={`form-control rounded-1 text-muted ${errors.uploadFiles.required ? 'is-invalid' : ''}`}
+                                className={`form-control rounded-1 text-muted ${
+                                  errors.uploadFiles.required
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 name="uploadFiles"
                                 id="file"
                                 placeholder="Add File"
@@ -631,7 +671,9 @@ export const AddBlog = () => {
                           <select
                             id="category"
                             name="category"
-                            className={`form-select form-select-lg rounded-1 text-muted ${errors.category.required ? 'is-invalid' : ''}`}
+                            className={`form-select form-select-lg rounded-1 text-muted ${
+                              errors.category.required ? "is-invalid" : ""
+                            }`}
                             autoComplete="off"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -697,15 +739,13 @@ export const AddBlog = () => {
                       )}
                     </div>
                   )}
-                  <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                  <div className=" d-flex justify-content-end ">
                     <Link
                       style={{
-                        backgroundColor: "#231F20",
-                        fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
                       to="/list_blog"
-                      className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
+                      className="btn btn-dark border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                     >
                       Cancel
                     </Link>
@@ -716,7 +756,7 @@ export const AddBlog = () => {
                         fontSize: "12px",
                       }}
                       type="submit"
-                      className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+                      className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                     >
                       Submit
                     </button>

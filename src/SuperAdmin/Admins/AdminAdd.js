@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
+import { useState } from "react";
+import { isValidEmail, isValidPhone } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { getSuperAdminId, saveToken } from "../../Utils/storage";
-import { isAuthenticated } from "../../Utils/Auth";
+import { getSuperAdminId } from "../../Utils/storage";
 import { createAdminBySuperAdmin } from "../../api/admin";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
-
 function AddAgent() {
   const initialState = {
     name: "",
@@ -29,25 +23,21 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   // const [type, setType] = useState('admin');
-
   const navigate = useNavigate();
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (data.name === "") {
       error.name.required = true;
     }
-
     if (data.email === "") {
       error.email.required = true;
     }
-   
     if (data.mobileNumber === "") {
       error.mobileNumber.required = true;
     }
     if (data.role === "") {
       error.role.required = true;
     }
-   
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
@@ -56,7 +46,6 @@ function AddAgent() {
     }
     return error;
   };
-
   const handleInputs = (event) => {
     setInputs({ ...inputs, [event?.target?.name]: event?.target?.value });
     if (submitted) {
@@ -67,7 +56,6 @@ function AddAgent() {
       setErrors(newError);
     }
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -79,8 +67,6 @@ function AddAgent() {
     }
     return true;
   };
-
-
   //   event.preventDefault();
   //   const newError = handleValidation(inputs);
   //   setErrors(newError);
@@ -109,16 +95,16 @@ function AddAgent() {
   //     }
   //   }
   // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-
-      createAdminBySuperAdmin({ ...inputs, role: "admin" ,
-        superAdminId: getSuperAdminId()
+      createAdminBySuperAdmin({
+        ...inputs,
+        role: "admin",
+        superAdminId: getSuperAdminId(),
       })
         .then((res) => {
           toast.success(res?.data?.message);
@@ -127,16 +113,13 @@ function AddAgent() {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }
-    else {
+    } else {
       toast.error("Please Fill Staff Mandatory Fields");
     }
   };
-
   return (
     <>
       <Sidebar />
-
       <div
         className="content-wrapper "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
@@ -145,7 +128,7 @@ function AddAgent() {
           <div className=" container-fluid ">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                   <div
                     className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                     style={{ background: "#fe5722", color: "#fff" }}
@@ -168,11 +151,19 @@ function AddAgent() {
                               type="text"
                               name="name"
                               onChange={handleInputs}
-                              className={`form-control ${errors.name.required ? 'is-invalid' : ''}`}
-                              placeholder="Enter Admin name"
+                              className={`form-control text-capitalize rounded-1 ${
+                                errors.name.required ? "is-invalid" : ""
+                              }`}
+                              placeholder="Example John doe"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
+                              }}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
                               }}
                             />
                             {errors.name.required ? (
@@ -189,10 +180,18 @@ function AddAgent() {
                             </label>
                             <input
                               type="text"
-                              className={`form-control ${errors.role.required  ? 'is-invalid' : ''}`}
-                              placeholder="Contact Number"
+                              className={`form-control text-capitalize rounded-1 ${
+                                errors.role.required ? "is-invalid" : ""
+                              }`}
+                              placeholder="Example Manager"
                               name="role"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.role.required ? (
                               <div className="text-danger form-text profile_error">
@@ -206,27 +205,48 @@ function AddAgent() {
                             <label style={{ color: "#231F20" }}>
                               Email<span className="text-danger">*</span>
                             </label>
-                           
-                              <input
-                                type="text"
-                                className={`form-control ${errors.email.required ? 'is-invalid' : ''}`}
-                                placeholder="Enter Email"
-                                name="email"
-                                onChange={handleInputs}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              />
-                              {errors.email.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            
+                            <input
+                              type="text"
+                              className={`form-control text-lowercase rounded-1 ${
+                                errors.email.required ? "is-invalid" : ""
+                              }`}
+                              placeholder="Example john123@gmail.com"
+                              name="email"
+                              onChange={handleInputs}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              onKeyDown={(e) => {
+                                // Prevent default behavior for disallowed keys
+                                if (
+                                  !/^[a-zA-Z0-9@._-]*$/.test(e.key) &&
+                                  ![
+                                    "Backspace",
+                                    "Delete",
+                                    "ArrowLeft",
+                                    "ArrowRight",
+                                    "ArrowUp",
+                                    "ArrowDown",
+                                    "Tab",
+                                    "Enter",
+                                    "Shift",
+                                    "Control",
+                                    "Alt",
+                                    "Meta",
+                                  ].includes(e.key)
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            />
+                            {errors.email.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
                           </div>
                         </div>
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
                           <div className="form-group">
                             <label style={{ color: "#231F20" }}>
@@ -235,47 +255,59 @@ function AddAgent() {
                             </label>
                             <input
                               type="number"
-                              className={`form-control ${errors.mobileNumber.required ? 'is-invalid' : ''}`}
-                              placeholder="Contact Number"
+                              className={`form-control rounded-1 ${
+                                errors.mobileNumber.required ? "is-invalid" : ""
+                              }`}
+                              placeholder="Example +91 98201-10409"
                               name="mobileNumber"
                               onChange={handleInputs}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
+                              onKeyDown={(e) => {
+                                if (
+                                  !/^[0-9]$/i.test(e.key) &&
+                                  ![
+                                    "Backspace",
+                                    "Delete",
+                                    "ArrowLeft",
+                                    "ArrowRight",
+                                  ].includes(e.key)
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.mobileNumber.required ? (
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
-                            ) :  null}
+                            ) : null}
                           </div>
                         </div>
-                        
                       </div>
-                      <div className="row ">
-                        <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                          <Link
-                            style={{
-                              backgroundColor: "#0f2239",
-                              fontSize: "12px",
-                            }}
-                            to="/list_admin"
-                            className="btn btn-cancel px-4 py-2 fw-semibold text-uppercase d-inline border-0 text-white  m-1"
-                          >
-                            Cancel
-                          </Link>
-                          <button
-                            style={{
-                              backgroundColor: "#FE5722",
-                              fontSize: "12px",
-                            }}
-                            type="submit"
-                            className="btn btn-save px-4 py-2 fw-semibold text-uppercase d-inline border-0 text-white m-1"
-                          >
-                            Submit
-                          </button>
-                        </div>
+                      <div className=" d-flex justify-content-end  ">
+                        <Link
+                          style={{
+                            backgroundColor: "#0f2239",
+                            fontSize: "12px",
+                          }}
+                          to="/list_admin"
+                          className="btn  px-4 py-2 fw-semibold text-uppercase rounded-1  border-0 text-white  m-1"
+                        >
+                          Cancel
+                        </Link>
+                        <button
+                          style={{
+                            backgroundColor: "#FE5722",
+                            fontSize: "12px",
+                          }}
+                          type="submit"
+                          className="btn  px-4 py-2 fw-semibold text-uppercase rounded-1 border-0 text-white m-1"
+                        >
+                          Submit
+                        </button>
                       </div>
                     </form>
                   </div>

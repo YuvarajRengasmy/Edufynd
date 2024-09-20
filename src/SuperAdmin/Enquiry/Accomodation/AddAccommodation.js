@@ -453,7 +453,7 @@ export const AddAccommodation = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
+                          className={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''} `}
                           name="source"
                           value={forex?.source}
                         >
@@ -489,7 +489,7 @@ export const AddAccommodation = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="studentName"
                         >
                           <option value="">Select students</option>
@@ -524,7 +524,7 @@ export const AddAccommodation = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="agentName"
                         >
                           <option value="">Select Agent</option>
@@ -547,17 +547,23 @@ export const AddAccommodation = () => {
                       Business Name
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-capitalize"
                       id="inputbusinessname"
                       type="text"
                       onChange={handleInputs}
                       value={forex.businessName}
                       name="businessName"
-                      placeholder="Enter Business Name"
+                      placeholder="Example Jake Doe"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
                     />
                   </div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -680,17 +686,24 @@ export const AddAccommodation = () => {
                       Agent Email ID
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-lowercase"
                       name="agentEmail"
                       onChange={handleInputs}
                       id="inputEmail"
                       value={forex?.agentEmail}
                       type="text"
-                      placeholder="Enter Email ID"
+                      placeholder="Example jake123@gmail.com"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                        'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
                     />
                   </div>
                  
@@ -701,20 +714,26 @@ export const AddAccommodation = () => {
                     ) : null}
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputstudentname">
-                            Name of the Student
+                          Student Name
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' : ''}`}
                             name="name"
                             onChange={handleInputs}
                             value={forex?.name}
                             id="inputstudentname"
                             type="text"
-                            placeholder="Enter Name of the Student"
+                            placeholder="Example John Doe"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.name.required ? (
@@ -728,17 +747,23 @@ export const AddAccommodation = () => {
                             Passport No<span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.passportNumber.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-uppercase ${errors.passportNumber.required ? 'is-invalid' : ''}`}
                             id="inputpassportno"
                             onChange={handleInputs}
                             name="passportNumber"
                             value={forex?.passportNumber}
                             type="text"
-                            placeholder="Enter Passport No"
+                            placeholder="Example WER23YRT"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           {errors.passportNumber.required ? (
                             <div className="text-danger form-text">
@@ -751,7 +776,7 @@ export const AddAccommodation = () => {
                             Expiry Date<span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-uppercase ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                             id="inputpassportno"
                             name="expiryDate"
                             value={forex?.expiryDate}
@@ -775,17 +800,24 @@ export const AddAccommodation = () => {
                             Email ID<span className="text-danger">*</span>
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : ''}`}
                             name="email"
                             onChange={handleInputs}
                             value={forex?.email}
                             id="inputEmail"
                             type="text"
-                            placeholder="Enter Email ID"
+                            placeholder="Example john123@gmail.com"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           {errors.email.required ? (
                             <div className="text-danger form-text">
@@ -919,16 +951,22 @@ export const AddAccommodation = () => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-capitalize ${errors.universityName.required ? 'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="universityName"
                             onChange={handleInputs}
                             value={forex?.universityName}
                             type="text"
-                            placeholder="Enter Student ID"
+                            placeholder="Example Harvard University"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.universityName.required ? (
@@ -942,16 +980,22 @@ export const AddAccommodation = () => {
                             Course<span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.courseType.required ?  'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-capitalize ${errors.courseType.required ?  'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="courseType"
                             onChange={handleInputs}
                             type="text"
                             value={forex?.courseType}
-                            placeholder="Enter Course"
+                            placeholder="Example Machine Learning"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.courseType.required ? (
@@ -1021,16 +1065,22 @@ export const AddAccommodation = () => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.accommodationType.required ?  'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-capitalize ${errors.accommodationType.required ?  'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="accommodationType"
                             type="text"
                             value={forex.accommodationType}
                             onChange={handleInputs}
-                            placeholder="Enter Accommodation Type"
+                            placeholder="Example Personal"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.accommodationType.required ? (
@@ -1044,7 +1094,7 @@ export const AddAccommodation = () => {
                             Assigned To <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`form-select form-select-lg rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''} `}
+                            className={`form-select form-select-lg rounded-1 text-capitalize ${errors.assignedTo.required ? 'is-invalid' : ''} `}
                             onChange={handleInputs}
                             value={forex.assignedTo}
                             name="assignedTo"
@@ -1054,7 +1104,7 @@ export const AddAccommodation = () => {
                             }}
                             id="inputassignedto"
                           >
-                            <option>Assigned To</option>
+                            <option>Select User</option>
                             <option>Agent</option>
                             <option>Admin</option>
                           </select>
@@ -1070,16 +1120,22 @@ export const AddAccommodation = () => {
                             Finalised By<span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className={`form-control rounded-1 ${errors.final.required ? 'is-invalid' : ''}`}
+                            className={`form-control rounded-1 text-capitalize ${errors.final.required ? 'is-invalid' : ''}`}
                             id="inputstudentid"
                             name="final"
                             value={forex.final}
                             onChange={handleInputs}
                             type="text"
-                            placeholder="Enter   Finalised By"
+                            placeholder="Example Admin"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.final.required ? (

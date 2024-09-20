@@ -554,7 +554,7 @@ export default function ListAgent() {
                                 <td className="text-capitalize text-start text-truncate">
                                   {data?.name || "Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate ">
+                                <td className="text-lowercase text-start text-truncate ">
                                   {data?.email || "Not Available"}
                                 </td>
                                 <td className="text-capitalize text-start text-truncate">

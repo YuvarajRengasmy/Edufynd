@@ -50,13 +50,15 @@ export default function Masterproductlist() {
   const [link, setLink] = useState("");
   const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [pageSize, setPageSize] = useState(10); 
-
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
   const search = useRef(null);
   const [details, setDetails] = useState();
   const [detail, setDetail] = useState();
@@ -67,7 +69,7 @@ export default function Masterproductlist() {
     to: pageSize,
   });
 
-  const [university, setUniversity] = useState();
+  const [university, setUniversity] = useState([]);
 
   useEffect(() => {
     getAllUniversityDetails();
@@ -148,6 +150,9 @@ const getallApplicantCount = ()=>{
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
+
+
+
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -168,9 +173,7 @@ const getallApplicantCount = ()=>{
       });
   };
 
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+ 
 
   const closeFilterPopup = () => {
     setOpenFilter(false);
@@ -475,67 +478,71 @@ const chartRef = useRef(null);
     };
   }, []);
 
-//satuses
 
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
 
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = university.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
 
-// const [statuses, setStatuses] = useState({});  // Store toggle status
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
 
-// useEffect(() => {
-//   // Fetch all clients on component mount
-//   const fetchUniverity = async () => {
-//     try {
-//       const response = await getallUniversity();
-//       const universityData = Array.isArray(response.data) ? response.data : [];
+      // deleteSelectedUniversity();
+    } else if (action === "Activate") {
+      activateSelectedUniversity();
+    }
+  };
 
-//       // Initialize statuses based on the fetched client data
-//       const initialStatuses = universityData.reduce((acc, universityData) => {
-//         return { ...acc, [universityData._id]: universityData.universityStatus === 'Active' };
-//       }, {});
+  const deleteSelectedUniversity = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => deleteUniversity(id)))
+        .then((responses) => {
+          toast.success("university deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllUniversityDetails();
+        
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete notifications.");
+        });
+    } else {
+      toast.warning("No notifications selected.");
+    }
+  };
 
-//       setUniversity(universityData);  // Set clients data
-//       setStatuses(initialStatuses);  // Set initial statuses
-//     } catch (error) {
-//       console.error('Error fetching clients:', error);
-//     }
-//   };
+  const activateSelectedUniversity = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updateUniversity(id,{ active: true })))
+        .then((responses) => {
+          toast.success("University activated successfully!");
+          setSelectedIds([]);
+          getAllUniversityDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate University.");
+        });
+    } else {
+      toast.warning("No university selected.");
+    }
+  }
 
-//   fetchUniverity();
-// }, []);  // Empty dependency array to run once on mount
-
-// // Toggle client status
-// const handleCheckboxChange = async (universityId) => {
-//   const currentStatus = statuses[universityId];
-//   const updatedStatus = currentStatus ? 'Inactive' : 'Active';
-
-//   // Update the local state immediately for a quick UI response
-//   setStatuses((prevStatuses) => ({
-//     ...prevStatuses,
-//     [universityId]: !prevStatuses[universityId],
-//   }));
-
-//   // Prepare the client data to send to the backend
-//   const updatedUniversit = {
-//     _id: universityId,
-//     universityStatus: updatedStatus,  // Update the status based on toggle
-//   };
-
-//   try {
-//     await updateUniversity(updatedUniversit);  // Send update to the backend
-//     console.log(`University ${universityId} status updated to ${updatedStatus}`);
-//   } catch (error) {
-//     console.error('Error updating University status:', error);
-
-//     // Revert the status if there's an error during the update
-//     setStatuses((prevStatuses) => ({
-//       ...prevStatuses,
-//       [universityId]: !prevStatuses[universityId],  // Revert the change
-//     }));
-//   }
-// };
-
-
-//table filter
 
   return (
     <>
@@ -692,16 +699,7 @@ const chartRef = useRef(null);
               </button>
             </Link>
           </li>
-          <li className="m-1">
-            <Link onClick={openImportPopup}>
-              <button
-                style={{ backgroundColor: "#7627ef", fontSize: "12px" }}
-                className="btn text-white rounded-1 border-0"
-              >
-                <i className="fa fa-upload" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
+         
           <li className="m-1">
             <Link to="/add_university">
               <button
@@ -790,22 +788,23 @@ const chartRef = useRef(null);
       <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
-                      </p>
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
+                          </p>
                     </div>
 
                     <div>
@@ -870,7 +869,13 @@ const chartRef = useRef(null);
               <thead className="table-light"  style={{ fontSize: "11px" }}>
                 <tr>
                 <th className=" text-start">
-                            <input type="checkbox" />
+                <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === university.length
+                                    }
+                                  />
                             </th>
                   <th className="text-capitalize text-start sortable-handle">
                     S No
@@ -912,7 +917,11 @@ const chartRef = useRef(null);
                   return (
                     <tr key={index}>
                       <td className=" text-start">
-                              <input type="checkbox" />
+                      <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                               </td>
                       <td className="text-capitalize text-start">
                         {pagination.from + index + 1}
@@ -1268,6 +1277,34 @@ const chartRef = useRef(null);
             </div>
           </DialogContent>
         </Dialog>
+       
+        <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedUniversity}
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
+
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University

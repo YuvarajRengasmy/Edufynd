@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { StudentSuperAdmin, getallStudent } from "../../api/student";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Flags from "react-world-flags";
+import Select from "react-select";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
@@ -116,8 +116,10 @@ function AddAgent() {
   const navigate = useNavigate();
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
-
-
+  const [dail1, setDail1] = useState(null);
+  const [dail2, setDail2] = useState(null);
+  const [dail3, setDail3] = useState(null);
+  const [dail4, setDail4] = useState(null);
 
 
   useEffect(() => {
@@ -314,13 +316,27 @@ const handleValidation = (data) => {
     }
     return true;
   };
+
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
+  const handleDail2 = (selectedOptions) => {
+    setDail2(selectedOptions);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
+    const studentData={
+      ...student,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+     
+    }
     if (handleErrors(newError)) {
-      StudentSuperAdmin(student)
+      StudentSuperAdmin(studentData)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_student");
@@ -330,6 +346,10 @@ const handleValidation = (data) => {
         });
     }
   };
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
   return (
     <>
     
@@ -645,24 +665,21 @@ const handleValidation = (data) => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={student?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
       type="text"
        aria-label="Text input with dropdown button"
@@ -713,25 +730,21 @@ const handleValidation = (data) => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={student?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail2}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial2"
+                              onChange={handleDail2}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -833,7 +846,7 @@ const handleValidation = (data) => {
                               <input
                                 type="number"
                                 value={student?.percentage}
-                                className={`form-control rounded-1${errors.percentage.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.percentage.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -959,6 +972,11 @@ const handleValidation = (data) => {
                                   placeholder="Example 2 Years"
                                   name="duration"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1470,7 +1488,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.workExperience}
-                                className="form-control text-capitalize "
+                                className="form-control text-capitalize rounded-1 "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1478,6 +1496,11 @@ const handleValidation = (data) => {
                                 placeholder="Enter Work Experience"
                                 name="workExperience"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.workExperience.required ? (
                                 <span className="text-danger form-text profile_error">

@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 export const ListNotifications = () => {
   const [notification, setnotification] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
-  const [open, setOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -89,11 +89,13 @@ export const ListNotifications = () => {
   const handleActionChange = (event) => {
     const action = event.target.value;
     if (action === "Delete") {
-      deleteSelectedNotifications();
+      setOpenDelete(true);
+      // deleteSelectedNotifications();
     } else if (action === "Activate") {
       activateSelectedNotifications();
     }
   };
+ 
 
   const deleteSelectedNotifications = () => {
     if (selectedIds.length > 0) {
@@ -294,7 +296,7 @@ export const ListNotifications = () => {
                   </div>
                 </div>
 
-                <Dialog open={open} onClose={() => setOpen(false)}>
+                <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
                   <div className="dialog-content">
                     <h5>Are you sure you want to delete?</h5>
                     <button
@@ -305,7 +307,7 @@ export const ListNotifications = () => {
                     </button>
                     <button
                       className="btn btn-secondary"
-                      onClick={() => setOpen(false)}
+                      onClick={() => setOpenDelete(false)}
                     >
                       Cancel
                     </button>

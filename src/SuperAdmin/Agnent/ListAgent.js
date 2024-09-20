@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallAgent, deleteAgent, getFilterAgent } from "../../api/agent";
+import { getallAgent, deleteAgent,updateAgent, getFilterAgent } from "../../api/agent";
 import { Link, useLocation } from "react-router-dom";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 
@@ -26,21 +26,24 @@ export default function Masterproductlist() {
     agentName: "",
     agentCode: "",
     mobileNumber: "",
-    courseFee: "",
+    businessName: "",
   };
 
+
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
   const [file, setFile] = useState(null);
   const location = useLocation();
   var searchValue = location.state;
   const [link, setLink] = useState("");
   const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
-  const [inputs, setInputs] = useState(false);
+  const [inputs, setInputs] = useState("");
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
   const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -48,7 +51,7 @@ export default function Masterproductlist() {
     to: pageSize,
   });
 
-  const [agent, setAgent] = useState();
+  const [agent, setAgent] = useState([]);
 
   useEffect(() => {
     if (search.current) {
@@ -64,19 +67,19 @@ export default function Masterproductlist() {
   }, [searchValue]);
   useEffect(() => {
     getAllAgentDetails();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to.pageSize]);
 
   const getAllAgentDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
-    getallAgent(data)
+    getFilterAgent(data)
       .then((res) => {
-        setAgent(res?.data?.result);
+        setAgent(res?.data?.result?.agentList);
         setPagination({
           ...pagination,
-          count: res?.data?.result,
+          count: res?.data?.result?.agentCount,
         });
       })
       .catch((err) => {
@@ -87,6 +90,11 @@ export default function Masterproductlist() {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
   };
 
   const handleInputsearch = (event) => {
@@ -136,6 +144,9 @@ export default function Masterproductlist() {
   const closeFilterPopup = () => {
     setOpenFilter(false);
   };
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+  };
   const filterAgentList = (event) => {
     event?.preventDefault();
     setFilter(true);
@@ -143,22 +154,21 @@ export default function Masterproductlist() {
       agentName: inputs.agentName,
       agentCode: inputs.agentCode,
       mobileNumber: inputs.mobileNumber,
-      status: inputs.status,
+      businessName: inputs.businessName,
       limit: 10,
       page: pagination.from,
     };
     getFilterAgent(data)
-      .then((res) => {
-        setAgent(res?.data?.result?.agentList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.agentCount,
-        });
-        closeFilterPopup();
-      })
-      .catch((err) => {
-        console.log(err);
+    .then((res) => {
+      setAgent(res?.data?.result?.agentList);
+      setPagination({
+        ...pagination,
+        count: res?.data?.result?.agentCount,
       });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   const resetFilter = () => {
@@ -167,9 +177,7 @@ export default function Masterproductlist() {
     getAllAgentDetails();
   };
 
-  const handleInputs = (event) => {
-    setInputs({ ...inputs, [event.target.name]: event.target.value });
-  };
+ 
   const openImportPopup = () => {
     setOpenImport(true);
   };
@@ -206,7 +214,7 @@ export default function Masterproductlist() {
 
   const pdfDownload = (event) => {
     event?.preventDefault();
-    getFilterAgent(agent)
+    getallAgent(agent)
       .then((res) => {
         var result = res?.data?.result;
         var tablebody = [];
@@ -219,35 +227,35 @@ export default function Masterproductlist() {
             bold: true,
           },
           {
-            text: "University Name",
+            text: "Agent Name",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Program Title",
+            text: "Business Name",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Application Fees",
+            text: "Agent Code",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Course Fees",
+            text: "Mobile Number",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Campus",
+            text: "Staff Name",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -264,39 +272,39 @@ export default function Masterproductlist() {
               border: [true, false, true, true],
             },
             {
-              text: element?.universityName ?? "-",
+              text: element?.agentName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.programTitle ?? "-",
+              text: element?.businessName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
 
             {
-              text: element?.applicationFee ?? "-",
+              text: element?.agentCode?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.courseFee ?? "-",
+              text: element?.staffName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.campus ?? "-",
+              text: element?.mobileNumber ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
           ]);
         });
-        templatePdf("Student List", tablebody, "landscape");
+        templatePdf("agent List", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -305,37 +313,37 @@ export default function Masterproductlist() {
 
   const exportCsv = (event) => {
     event?.preventDefault();
-    getFilterAgent(agent)
+    getallAgent(agent)
       .then((res) => {
         var result = res?.data?.result;
         let list = [];
         result?.forEach((res) => {
           list.push({
-            universityName: res?.universityName ?? "-",
-            programTitle: res?.programTitle ?? "-",
-            applicationFee: res?.applicationFee ?? "-",
-            courseFee: res?.courseFee ?? "-",
-            campus: res?.campus ?? "-",
+            agentName: res?.agentName ?? "-",
+            businessName: res?.businessName ?? "-",
+            agentCode: res?.agentCode ?? "-",
+            staffName: res?.staffName ?? "-",
+            mobileNumber: res?.mobileNumber ?? "-",
           });
         });
         let header1 = [
-          "universityName",
-          "programTitle",
-          "applicationFee",
-          "courseFee",
-          "campus",
+          "agentName",
+          "businessName",
+          "agentCode",
+          "staffName",
+          "mobileNumber",
         ];
         let header2 = [
-          "University Name",
-          "Program Title",
-          "Application Fees",
-          "Course Fees",
-          "Campus",
+          "Agent Name",
+          "Business Name",
+          "Agent Code",
+          "Staff Name",
+          "Mobile Number",
         ];
         ExportCsvService.downloadCsv(
           list,
-          "programList",
-          "Program List",
+          "agentList",
+          "Agent List",
 
           header1,
           header2
@@ -373,17 +381,70 @@ export default function Masterproductlist() {
     };
   }, []);
 
-  const [statuses, setStatuses] = useState(
-    (agent && Array.isArray(agent)) ? agent.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-  );
-  
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [index]: !prevStatuses[index],
-    }));
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
   };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = agent.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
+      // deleteSelectedagent();
+    } else if (action === "Activate") {
+      activateSelectedagent();
+    }
+  };
+ 
+
+  
+  const deleteSelectedagent = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) =>deleteAgent(id)))
+        .then((responses) => {
+          toast.success("agent deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllAgentDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete agent.");
+        });
+    } else {
+      toast.warning("No agent selected.");
+    }
+  };
+
+  const activateSelectedagent = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updateAgent(id,{ active: true })))
+        .then((responses) => {
+          toast.success("agent activated successfully!");
+          setSelectedIds([]);
+          getAllAgentDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate agent.");
+        });
+    } else {
+      toast.warning("No agent selected.");
+    }
+  };
+
 
 
   return (
@@ -472,6 +533,19 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               />
+                               <label className="form-label">Agent Name</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="businessName"
+                                onChange={handleInputs}
+                                placeholder="Search...Business Name"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              />
                               <label className="form-label">Agent Code</label>
                               <br />
                               <input
@@ -500,19 +574,7 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               />
-                              <label className="form-label">Status</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="status"
-                                onChange={handleInputs}
-                                placeholder="Search...Status"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                              />
+                             
                             </div>
                             <div>
                               <button
@@ -712,22 +774,23 @@ export default function Masterproductlist() {
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
-                      </p>
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
+                          </p>
                     </div>
 
                     <div>
@@ -795,7 +858,13 @@ export default function Masterproductlist() {
                               }}
                             >
                                <th className=" text-start">
-                            <input type="checkbox" />
+                               <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === agent.length
+                                    }
+                                  />
                             </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 S No
@@ -838,7 +907,11 @@ export default function Masterproductlist() {
                                 }}
                               >
                                 <td className=" text-start">
-                              <input type="checkbox" />
+                                <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                               </td>
                                 <td className="text-capitalize text-start text-truncate">
                                   {pagination.from + index + 1}
@@ -867,15 +940,13 @@ export default function Masterproductlist() {
                                       || "Not Available" )}
                                 </td>
                                 <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
+           
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+                
               />
             </span>
           </td>
@@ -996,15 +1067,13 @@ export default function Masterproductlist() {
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 ">
-                  {statuses[index] ? 'Active' : 'Inactive'}
+                  
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+               
               />
             </span>
                   </div>
@@ -1058,20 +1127,24 @@ export default function Masterproductlist() {
 
 
                   
-                    <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}
@@ -1079,7 +1152,7 @@ export default function Masterproductlist() {
             shape="rounded"
             color="primary"
           />
-        </div>
+        </div> 
                   </div>
                 </div>
               </div>
@@ -1112,6 +1185,35 @@ export default function Masterproductlist() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedagent}
+                     
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
+
       <Dialog open={openFilter} fullWidth maxWidth="sm">
         <DialogTitle>
           Filter University

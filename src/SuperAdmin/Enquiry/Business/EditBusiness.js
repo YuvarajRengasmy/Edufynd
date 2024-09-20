@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
 import {
   updateStudnetEnquiry,
   getSingleStudnetEnquiry,
 } from "../../../api/Enquiry/student";
-
 import Mastersidebar from "../../../compoents/sidebar";
 import { Student } from "../../../api/endpoints";
-
 export const EditBusiness = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-
   const initialState = {
     source: "",
     name: "",
@@ -51,11 +47,9 @@ export const EditBusiness = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     getStudentDetails();
   }, []);
-
   const getStudentDetails = () => {
     getSingleStudnetEnquiry(id)
       .then((res) => {
@@ -67,7 +61,6 @@ export const EditBusiness = () => {
   };
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
     if (data.source === "") {
       error.source.required = true;
     }
@@ -121,7 +114,6 @@ export const EditBusiness = () => {
     }
     return error;
   };
-
   const handleInputs = (event) => {
     setStudent({ ...student, [event?.target?.name]: event?.target?.value });
     if (submitted) {
@@ -132,7 +124,6 @@ export const EditBusiness = () => {
       setErrors(newError);
     }
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -144,14 +135,12 @@ export const EditBusiness = () => {
     }
     return true;
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
-   
-   if (handleErrors(newError)) {
+    if (handleErrors(newError)) {
       updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
@@ -160,15 +149,13 @@ export const EditBusiness = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
+    } else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
-
   return (
     <>
       <Mastersidebar />
-
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
           <div className="container-fluid">
@@ -196,7 +183,9 @@ export const EditBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${
+                          errors.source.required ? "is-invalid" : ""
+                        } `}
                         name="source"
                       >
                         <option value="">Select Source</option>
@@ -215,16 +204,24 @@ export const EditBusiness = () => {
                         Student Name
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${
+                          errors.name.required ? "is-invalid" : ""
+                        }`}
                         value={student?.name}
                         type="text"
                         id="inputEmail4"
                         name="name"
                         onChange={handleInputs}
-                        placeholder="Enter Name"
+                        placeholder="Example John Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.name.required ? (
@@ -233,13 +230,14 @@ export const EditBusiness = () => {
                         </div>
                       ) : null}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">
                         DOB
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.dob.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${
+                          errors.dob.required ? "is-invalid" : ""
+                        }`}
                         value={student?.dob}
                         onChange={handleInputs}
                         id="inputPassword4"
@@ -257,22 +255,45 @@ export const EditBusiness = () => {
                         </div>
                       ) : null}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">
                         Email ID
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-lowercase ${
+                          errors.email.required ? "is-invalid" : ""
+                        }`}
                         value={Student?.email}
                         onChange={handleInputs}
                         id="inputPassword4"
                         text="text"
-                        placeholder="Email ID"
+                        placeholder="Example johndoe123@gmail.com"
                         name="email"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                          if (
+                            !/^[a-zA-Z0-9@._-]*$/.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                              "ArrowUp",
+                              "ArrowDown",
+                              "Tab",
+                              "Enter",
+                              "Shift",
+                              "Control",
+                              "Alt",
+                              "Meta",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.email.required ? (
@@ -281,26 +302,41 @@ export const EditBusiness = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid Email Id.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">
                         Passport No
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${
+                          errors.passportNo.required ? "is-invalid" : ""
+                        }`}
                         value={student?.passportNo}
                         onChange={handleInputs}
                         name="passportNo"
                         id="inputAddress"
                         type="text"
-                        placeholder="Passport No"
+                        placeholder="Example ME12398754"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                          if (
+                            !/^[a-zA-Z0-9]$/.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.passportNo.required ? (
@@ -314,16 +350,31 @@ export const EditBusiness = () => {
                         Contact Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.primaryNumber.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.primaryNumber.required ? "is-invalid" : ""
+                        }`}
                         value={student?.primaryNumber}
                         onChange={handleInputs}
                         id="inputEmail4"
                         type="text"
                         name="primaryNumber"
-                        placeholder="Contact Number"
+                        placeholder="Example +91 95672-67583"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (
+                            !/^[0-9]$/i.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.primaryNumber.required ? (
@@ -332,26 +383,40 @@ export const EditBusiness = () => {
                         </span>
                       ) : errors.primaryNumber.valid ? (
                         <span className="text-danger form-text profile_error">
-                          Enter valid mobile number.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputAddress">
                         CGPA{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.cgpa.required ? "is-invalid" : ""
+                        }`}
                         onChange={handleInputs}
                         value={student?.cgpa}
                         name="cgpa"
                         id="inputAddress"
                         type="text"
-                        placeholder="CGPA"
+                        placeholder="Example 98"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (
+                            !/^[0-9]$/i.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.cgpa.required ? (
@@ -366,16 +431,31 @@ export const EditBusiness = () => {
                         Year passed
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.yearPassed.required ? "is-invalid" : ""
+                        }`}
                         id="inputAddress"
                         value={student?.yearPassed}
                         onChange={handleInputs}
                         name="yearPassed"
                         type="text"
-                        placeholder="Year passed"
+                        placeholder="Example 2024"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (
+                            !/^[0-9]$/i.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.yearPassed.required ? (
@@ -389,16 +469,24 @@ export const EditBusiness = () => {
                         Desired Country
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${
+                          errors.desiredCountry.required ? "is-invalid" : ""
+                        }`}
                         id="inputEmail4"
                         value={student?.desiredCountry}
                         onChange={handleInputs}
                         name="desiredCountry"
                         type="text"
-                        placeholder="Desired Country"
+                        placeholder="Example United Kingdom"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.desiredCountry.required ? (
@@ -407,22 +495,29 @@ export const EditBusiness = () => {
                         </div>
                       ) : null}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">
                         Desired Course
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${
+                          errors.desiredCourse.required ? "is-invalid" : ""
+                        }`}
                         id="inputPassword4"
                         value={student?.desiredCourse}
                         onChange={handleInputs}
                         type="text"
                         name="desiredCourse"
-                        placeholder="Desired Course"
+                        placeholder="Example Game Design"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.desiredCourse.required ? (
@@ -436,7 +531,11 @@ export const EditBusiness = () => {
                         Do you need support for loan?{" "}
                       </label>
                       <select
-                        className={`form-select form-select-lg rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${
+                          errors.doYouNeedSupportForLoan.required
+                            ? "is-invalid"
+                            : ""
+                        }`}
                         name="doYouNeedSupportForLoan"
                         value={student?.doYouNeedSupportForLoan}
                         style={{
@@ -460,16 +559,31 @@ export const EditBusiness = () => {
                         WhatsApp Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.whatsAppNumber.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 ${
+                          errors.whatsAppNumber.required ? "is-invalid" : ""
+                        }`}
                         id="inputEmail4"
                         value={student?.whatsAppNumber}
                         onChange={handleInputs}
                         type="text"
                         name="whatsAppNumber"
-                        placeholder="Contact Number"
+                        placeholder="Example +91 95672-67583"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (
+                            !/^[0-9]$/i.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.whatsAppNumber.required ? (
@@ -478,26 +592,33 @@ export const EditBusiness = () => {
                         </span>
                       ) : errors.whatsAppNumber.valid ? (
                         <span className="text-danger form-text profile_error">
-                          Enter valid WhatsApp number.
+                          This field is required.
                         </span>
                       ) : null}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputPassword4">
                         Qualification
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${
+                          errors.qualification.required ? "is-invalid" : ""
+                        }`}
                         value={student?.qualification}
                         id="inputPassword4"
                         onChange={handleInputs}
                         type="text"
                         name="qualification"
-                        placeholder="Desired Course"
+                        placeholder="Example BE"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.qualification.required ? (
@@ -506,23 +627,30 @@ export const EditBusiness = () => {
                         </div>
                       ) : null}
                     </div>
-
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">
                         {" "}
                         Assigned To
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${
+                          errors.assignedTo.required ? "is-invalid" : ""
+                        }`}
                         value={student?.assignedTo}
                         id="inputEmail4"
                         onChange={handleInputs}
                         type="text"
                         name="assignedTo"
-                        placeholder=" assignedTo Staff"
+                        placeholder="Example Jake Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.assignedTo.required ? (
@@ -545,7 +673,6 @@ export const EditBusiness = () => {
                       >
                         Cancel
                       </Link>
-
                       <button
                         style={{
                           backgroundColor: "#FE5722",
