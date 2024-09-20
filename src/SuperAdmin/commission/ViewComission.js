@@ -122,8 +122,11 @@ export const ViewComission = () => {
                     data-bs-parent={`#accordion${yearIndex}`}
                   >
                     <div className="accordion-body">
-                      {courseType.inTake?.map((intakeItem, intakeIndex) => (
-                        <div className="list-group mb-2" key={intakeIndex}>
+                    
+                        <div className="row">
+                        {courseType.inTake?.map((intakeItem, intakeIndex) => (
+                            <div className="col-sm-4">
+<div className="list-group mb-2" key={intakeIndex}>
                           <div className="list-group-item">
                             <strong>Intake:</strong> {intakeItem.inTake || "Not Available"}
                           </div>
@@ -131,7 +134,12 @@ export const ViewComission = () => {
                             <strong>Value:</strong> {intakeItem.value || "Not Available"}%
                           </div>
                         </div>
+                        </div>
                       ))}
+                        </div>
+                      
+                        
+                     
                     </div>
                   </div>
                 </div>

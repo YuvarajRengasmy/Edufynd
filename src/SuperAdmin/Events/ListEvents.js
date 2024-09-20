@@ -1,7 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Pagination,
+} from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
 import { toast } from "react-toastify";
 import { deleteEvent, getFilterEvent } from "../../api/Notification/event";
@@ -201,7 +207,7 @@ export const ListEvents = () => {
                                   color: "#fff",
                                   fontSize: "12px",
                                 }}
-                              // onClick={resetFilter}
+                                // onClick={resetFilter}
                               >
                                 Reset
                               </button>
@@ -295,7 +301,11 @@ export const ListEvents = () => {
               >
                 <div className="card-body">
                   <h6 className="">
-                    <i className="fas fa-calendar-day" style={{ color: '#ffffff' }}></i> Upcoming Events
+                    <i
+                      className="fas fa-calendar-day"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Upcoming Events
                   </h6>
                   <p className="card-text">Events scheduled to happen soon.</p>
                   <p className="card-text">Total: 8</p>
@@ -310,9 +320,15 @@ export const ListEvents = () => {
               >
                 <div className="card-body">
                   <h6 className="">
-                    <i className="fas fa-calendar-check" style={{ color: '#ffffff' }}></i> Past Events
+                    <i
+                      className="fas fa-calendar-check"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Past Events
                   </h6>
-                  <p className="card-text">Events that have already occurred.</p>
+                  <p className="card-text">
+                    Events that have already occurred.
+                  </p>
                   <p className="card-text">Total: 22</p>
                 </div>
               </div>
@@ -325,9 +341,15 @@ export const ListEvents = () => {
               >
                 <div className="card-body">
                   <h6 className="">
-                    <i className="fas fa-calendar-alt" style={{ color: '#ffffff' }}></i> Scheduled Events
+                    <i
+                      className="fas fa-calendar-alt"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Scheduled Events
                   </h6>
-                  <p className="card-text">Events that are planned and scheduled.</p>
+                  <p className="card-text">
+                    Events that are planned and scheduled.
+                  </p>
                   <p className="card-text">Total: 15</p>
                 </div>
               </div>
@@ -340,7 +362,11 @@ export const ListEvents = () => {
               >
                 <div className="card-body">
                   <h6 className="">
-                    <i className="fas fa-comments" style={{ color: '#ffffff' }}></i> Event Feedback
+                    <i
+                      className="fas fa-comments"
+                      style={{ color: "#ffffff" }}
+                    ></i>{" "}
+                    Event Feedback
                   </h6>
                   <p className="card-text">Feedback and reviews for events.</p>
                   <p className="card-text">Total: 10</p>
@@ -375,7 +401,11 @@ export const ListEvents = () => {
                         </p>
                       </div>
                       <div>
-                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                        <ul
+                          class="nav nav-underline fs-9"
+                          id="myTab"
+                          role="tablist"
+                        >
                           <li>
                             {" "}
                             <a
@@ -387,7 +417,8 @@ export const ListEvents = () => {
                               aria-controls="tab-home"
                               aria-selected="true"
                             >
-                              <i class="fa fa-list" aria-hidden="true"></i>    List View
+                              <i class="fa fa-list" aria-hidden="true"></i> List
+                              View
                             </a>
                           </li>
                           <li>
@@ -400,7 +431,8 @@ export const ListEvents = () => {
                               aria-controls="tab-profile"
                               aria-selected="false"
                             >
-                              <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                              <i class="fa fa-th" aria-hidden="true"></i> Grid
+                              View
                             </a>
                           </li>
                         </ul>
@@ -478,12 +510,14 @@ export const ListEvents = () => {
                                         data?.createdOn
                                           ? data?.createdOn
                                           : data?.modifiedOn
-                                            ? data?.modifiedOn
-                                            : "-"
+                                          ? data?.modifiedOn
+                                          : "-"
                                       ) || "Not Available"}
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
-                                      {formatDate(data?.date ? data?.date : "-") || "Not Available"}
+                                      {formatDate(
+                                        data?.date ? data?.date : "-"
+                                      ) || "Not Available"}
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
                                       {data?.eventTopic || "Not Available"}
@@ -536,13 +570,19 @@ export const ListEvents = () => {
                         </div>
                       </div>
                       <div
-                        class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                        class="tab-pane fade "
+                        id="tab-profile"
+                        role="tabpanel"
+                        aria-labelledby="profile-tab"
                       >
                         <div className="container">
                           <div className="row">
                             {notification?.map((data, index) => (
                               <div className="col-md-4 mb-4" key={index}>
-                                <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{ fontSize: '10px' }}>
+                                <div
+                                  className="card shadow-sm  rounded-1 text-bg-light h-100"
+                                  style={{ fontSize: "10px" }}
+                                >
                                   <div className="card-header   d-flex justify-content-between align-items-center">
                                     <h6 className="mb-0"></h6>
                                   </div>
@@ -568,8 +608,8 @@ export const ListEvents = () => {
                                               data?.createdOn
                                                 ? data?.createdOn
                                                 : data?.modifiedOn
-                                                  ? data?.modifiedOn
-                                                  : "-"
+                                                ? data?.modifiedOn
+                                                : "-"
                                             ) || "Not Available"}
                                           </div>
                                         </div>
@@ -580,7 +620,9 @@ export const ListEvents = () => {
                                             <strong>Date</strong>
                                           </div>
                                           <div className="col-md-7">
-                                            {formatDate(data?.date ? data?.date : "-") || "Not Available"}
+                                            {formatDate(
+                                              data?.date ? data?.date : "-"
+                                            ) || "Not Available"}
                                           </div>
                                         </div>
                                       </div>
@@ -590,7 +632,8 @@ export const ListEvents = () => {
                                             <strong>Topic</strong>
                                           </div>
                                           <div className="col-md-7">
-                                            {data?.eventTopic || "Not Available"}
+                                            {data?.eventTopic ||
+                                              "Not Available"}
                                           </div>
                                         </div>
                                       </div>
@@ -600,7 +643,8 @@ export const ListEvents = () => {
                                             <strong>University</strong>
                                           </div>
                                           <div className="col-md-7">
-                                            {data?.universityName || "Not Available"}
+                                            {data?.universityName ||
+                                              "Not Available"}
                                           </div>
                                         </div>
                                       </div>
@@ -626,7 +670,8 @@ export const ListEvents = () => {
                                       data-bs-toggle="tooltip"
                                       title="View"
                                     >
-                                      <i className="far fa-eye text-primary me-1"></i>View
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                      View
                                     </Link>
                                     <Link
                                       className="btn btn-sm btn-outline-warning"
@@ -637,7 +682,8 @@ export const ListEvents = () => {
                                       data-bs-toggle="tooltip"
                                       title="Edit"
                                     >
-                                      <i className="far fa-edit text-warning me-1"></i>Edit
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                      Edit
                                     </Link>
                                     <button
                                       className="btn btn-sm btn-outline-danger"
@@ -645,7 +691,8 @@ export const ListEvents = () => {
                                         openPopup(data?._id);
                                       }}
                                     >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                      Delete
                                     </button>
                                   </div>
                                 </div>
@@ -661,13 +708,17 @@ export const ListEvents = () => {
                         <select
                           className="form-select form-select-sm rounded-1 d-inline mx-2"
                           aria-label="Default select example1"
-                          style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
                         >
                           <option value="5">5</option>
                           <option value="10">10</option>
                           <option value="20">20</option>
                         </select>{" "}
-                        Entries    out of 100
+                        Entries out of 100
                       </p>
                       <Pagination
                         count={Math.ceil(pagination.count / pageSize)}

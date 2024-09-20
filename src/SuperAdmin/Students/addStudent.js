@@ -525,7 +525,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ? 'is-invalid' :  '' }`}
                                 value={student?.passportNo}
                                 placeholder="Example  M12345678"
                                 style={{
@@ -534,6 +534,12 @@ const handleValidation = (data) => {
                                 }}
                                 name="passportNo"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                              {errors.passportNo.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -611,6 +617,13 @@ const handleValidation = (data) => {
                                 placeholder="Example johndoe123@gmail.com"
                                 name="email"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                                  'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                               {errors.email.required ? (
                                 <div className="text-danger form-text">
@@ -1170,6 +1183,12 @@ const handleValidation = (data) => {
                                     placeholder="Example Work"
                                     name="purpose"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1187,6 +1206,12 @@ const handleValidation = (data) => {
                                     placeholder="Example New Year"
                                     name="countryName"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                
@@ -1246,6 +1271,12 @@ const handleValidation = (data) => {
                                     placeholder="Example Studying"
                                     name="visaReason"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1280,6 +1311,12 @@ const handleValidation = (data) => {
                                     placeholder="Example Study"
                                     name="purposeVisa"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1297,6 +1334,12 @@ const handleValidation = (data) => {
                                     placeholder="Example United Kingdom"
                                     name="countryNameVisa"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                
@@ -1321,6 +1364,12 @@ const handleValidation = (data) => {
                                 placeholder="Example Standford University "
                                 name="desiredUniversity"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredUniversity.required && (
                                 <span className="text-danger form-text profile_error">
@@ -1344,6 +1393,12 @@ const handleValidation = (data) => {
                                 placeholder="Example New York "
                                 name="desiredCountry"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredCountry.required && (
                                 <span className="text-danger form-text profile_error">
@@ -1367,6 +1422,12 @@ const handleValidation = (data) => {
                                 placeholder="Example Game Development "
                                 name="desiredCourse"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredCourse.required && (
                                 <span className="text-danger form-text profile_error">

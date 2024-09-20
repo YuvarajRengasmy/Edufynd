@@ -422,7 +422,7 @@ export const AddForex = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''} `}
+                          className={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''} `}
                           name="source"
                           value={forex.source}
                         >
@@ -458,7 +458,7 @@ export const AddForex = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="studentName"
                           value={forex.studentName}
                         >
@@ -494,7 +494,7 @@ export const AddForex = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="agentName"
                           value={forex?.agentName}
                         >
@@ -518,17 +518,23 @@ export const AddForex = () => {
                       Business Name
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-capitalize"
                       id="inputbusinessname"
                       type="text"
                       onChange={handleInputs}
                       value={forex.businessName}
                       name="businessName"
-                      placeholder="Enter Business Name"
+                      placeholder="Example Jake Doe"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
                     />
                   </div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -651,17 +657,25 @@ export const AddForex = () => {
                       Agent Email ID
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-lowercase"
                       name="agentEmail"
                       onChange={handleInputs}
                       id="inputEmail"
                       value={forex?.agentEmail}
                       type="text"
-                      placeholder="Enter Email ID"
+                      placeholder="Example jake123@gmail.com"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                        'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
+
                     />
                   </div>
                  
@@ -673,21 +687,27 @@ export const AddForex = () => {
                    
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputstudentname">
-                        Name of the Student
+                       Student Name
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' : ''}`}
                         name="name"
                         onChange={handleInputs}
                         id="inputstudentname"
                         type="text"
-                        placeholder="Enter Name of the Student"
+                        placeholder="Example John Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
                         value={forex?.name}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                       {errors.name.required ? (
                         <div className="text-danger form-text">
@@ -704,17 +724,23 @@ export const AddForex = () => {
                         Passport No<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
                         type="text"
-                        placeholder="Enter Passport No"
+                        placeholder="Example WE345YRT"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
                         value={forex?.passportNo}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
@@ -731,7 +757,7 @@ export const AddForex = () => {
                         Expiry Date<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1  text-uppercase ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         name="expiryDate"
                         onChange={handleInputs}
@@ -754,16 +780,23 @@ export const AddForex = () => {
                         Email ID<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : ''}`}
                         name="email"
                         onChange={handleInputs}
                         id="inputEmail"
                         type="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example jake123@gmail.com"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                          'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                         value={forex?.email}
                       />
                       {errors.email.required ? (
@@ -898,15 +931,21 @@ export const AddForex = () => {
                         University Name<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.universityName.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.universityName.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="universityName"
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter Student ID"
+                        placeholder="Example Stanford University"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                         value={forex?.universityName}
                       />
@@ -926,17 +965,23 @@ export const AddForex = () => {
                         Course<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.courseType.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.courseType.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="courseType"
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter Course"
+                        placeholder="Example Machine Learning"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
                         value={forex?.courseType}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                       {errors.courseType.required ? (
                         <div className="text-danger form-text">
@@ -950,7 +995,7 @@ export const AddForex = () => {
                         Payment Type<span className="text-danger">*</span>{" "}
                       </label>
                       <select
-                        className={`form-select form-select-lg rounded-1 ${errors.paymentType.required ? 'is-invalid' : ''} `}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.paymentType.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
                         name="paymentType"
                         style={{
@@ -983,13 +1028,14 @@ export const AddForex = () => {
                         Country<span className="text-danger">*</span>
                       </label>
                       <select
-                        className={`form-select form-select-lg rounded-1 ${errors.country.required ? 'is-invalid' : ''} `}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.country.required ? 'is-invalid' : ''} `}
                         name="country"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
                         onChange={handleInputs}
+                        
                       >
                         <option value="" disabled hidden>
                           Select Country
@@ -1046,7 +1092,7 @@ export const AddForex = () => {
                         Assigned To <span className="text-danger">*</span>
                       </label>
                       <select
-                        className={`form-select form-select-lg rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''} `}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.assignedTo.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
                         name="assignedTo"
                         style={{
@@ -1056,7 +1102,7 @@ export const AddForex = () => {
                         value={forex?.assignedTo}
                         id="inputassignedto"
                       >
-                        <option>Assigned To</option>
+                        <option>Select User</option>
                         <option>Agent</option>
                         <option>Admin</option>
                       </select>
@@ -1072,16 +1118,21 @@ export const AddForex = () => {
                         Value<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.value.required ?  'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.value.required ?  'is-invalid' : ''}`}
                         id="inputamount"
                         name="value"
                         onChange={handleInputs}
                         value={forex?.value}
                         type="number"
-                        placeholder="Enter Mark up"
+                        placeholder="Example 20"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.value.required ? (
@@ -1096,16 +1147,21 @@ export const AddForex = () => {
                         Mark up<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.markUp.required ? 'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.markUp.required ? 'is-invalid' : ''}`}
                         id="inputamount"
                         name="markUp"
                         onChange={handleInputs}
                         value={forex?.markUp}
                         type="text"
-                        placeholder="Enter Mark up"
+                        placeholder="Example 10"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.markUp.required ? (
@@ -1121,16 +1177,21 @@ export const AddForex = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.profit.required ?  'is-invalid' : ''}`}
+                        className={`form-control rounded-1 text-capitalize ${errors.profit.required ?  'is-invalid' : ''}`}
                         id="inputamount"
                         onChange={handleInputs}
                         value={forex?.profit}
                         name="profit"
                         type="text"
-                        placeholder="Enter Profit"
+                        placeholder="Example 200"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.profit.required ? (

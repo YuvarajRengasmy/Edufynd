@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { isValidEmail, isValidPhone } from '../../../Utils/Validation';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from "react";
+import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
+import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { updateGeneralEnquiry,getSingleGeneralEnquiry } from '../../../api/Enquiry/GeneralEnquiry';
-import {getFilterSource} from "../../../api/settings/source";
-import{getallStudent} from "../../../api/student";
+import {
+  updateGeneralEnquiry,
+  getSingleGeneralEnquiry,
+} from "../../../api/Enquiry/GeneralEnquiry";
+import { getFilterSource } from "../../../api/settings/source";
+import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import { getallCode } from "../../../api/settings/dailcode";
 import Flags from "react-world-flags";
-
-import Mastersidebar from '../../../compoents/sidebar';
-
+import Mastersidebar from "../../../compoents/sidebar";
 export const AddGeneralEnquiry = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-
   const initialState = {
     source: "",
     name: "",
@@ -32,14 +32,14 @@ export const AddGeneralEnquiry = () => {
     assignedTo: "",
     dial1: "",
     dial2: "",
-    dial3:"",
-    dial4:"",
+    dial3: "",
+    dial4: "",
     agentName: "",
     businessName: "",
     agentPrimaryNumber: "",
     agentWhatsAppNumber: "",
     agentEmail: "",
-  }
+  };
   const initialStateErrors = {
     source: { required: false },
     name: { required: false },
@@ -64,18 +64,16 @@ export const AddGeneralEnquiry = () => {
     dial2: { required: false },
     dial3: { required: false },
     dial4: { required: false },
-
-  }
-  const [student, setStudent] = useState(initialState)
-  const [errors, setErrors] = useState(initialStateErrors)
+  };
+  const [student, setStudent] = useState(initialState);
+  const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const navigate = useNavigate()
-  const [source ,setSource] = useState([]);
+  const navigate = useNavigate();
+  const [source, setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setStudents] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
-
   useEffect(() => {
     getAllSourceDetails();
     getStudentList();
@@ -83,16 +81,15 @@ export const AddGeneralEnquiry = () => {
     getallCodeList();
     getStudentDetails();
   }, []);
-
   const getStudentDetails = () => {
     getSingleGeneralEnquiry(id)
-          .then((res) => {
-            setStudent(res?.data?.result);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
+      .then((res) => {
+        setStudent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAgentList = () => {
     getallAgent()
       .then((res) => {
@@ -121,20 +118,16 @@ export const AddGeneralEnquiry = () => {
       });
   };
   const getAllSourceDetails = () => {
-  
     getFilterSource()
       .then((res) => {
         setSource(res?.data?.result?.sourceList || []);
-       
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
     if (data.source === "") {
       error.source.required = true;
     }
@@ -186,9 +179,8 @@ export const AddGeneralEnquiry = () => {
     if (!isValidPhone(data.whatsAppNumber)) {
       error.whatsAppNumber.valid = true;
     }
-    return error
-  }
-
+    return error;
+  };
   const handleCheckboxChange = (e) => {
     const isChecked = e.target.checked;
     setCopyToWhatsApp(isChecked);
@@ -204,7 +196,6 @@ export const AddGeneralEnquiry = () => {
       }));
     }
   };
-
   const handleCheckboxChanges = (e) => {
     const isChecked = e.target.checked;
     setCopyToWhatsApp(isChecked);
@@ -221,14 +212,15 @@ export const AddGeneralEnquiry = () => {
     }
   };
   const handleInputs = (event) => {
-    setStudent({ ...student, [event?.target?.name]: event?.target?.value })
+    setStudent({ ...student, [event?.target?.name]: event?.target?.value });
     if (submitted) {
-      const newError = handleValidation({ ...student, [event.target.name]: event.target.value })
-      setErrors(newError)
+      const newError = handleValidation({
+        ...student,
+        [event.target.name]: event.target.value,
+      });
+      setErrors(newError);
     }
-  }
-
-
+  };
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -239,14 +231,13 @@ export const AddGeneralEnquiry = () => {
       }
     }
     return true;
-  }
-
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
-    if (handleErrors(newError)){
+    if (handleErrors(newError)) {
       updateGeneralEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
@@ -255,533 +246,675 @@ export const AddGeneralEnquiry = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
+    } else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
-
-
-
-  return (
-    <>
-
-
-
-      <Mastersidebar />
-
-      <div className='content-wrapper' style={{  fontSize: '14px' }}>
-        <div className='content-header'>
+  return <>
+    <Mastersidebar />
+    <div className="content-wrapper" style={{ fontSize: "12px" }}>
+      <div className="content-header">
         <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
-                    <div
-                      className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                      style={{ background: "#fe5722", color: "#fff" }}
-                    >
-                      <h5 className="text-center text-capitalize p-1">
-                        {" "}
-                       Edit General Enquiry
-                      </h5>
-                    </div>
-          <div className=' card-body mt-5 '>
-          
-            
+          <div
+            className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
+            style={{ background: "#fe5722", color: "#fff" }}
+          >
+            <h5 className="text-center text-capitalize p-1">
+              {" "}
+              Edit General Enquiry
+            </h5>
+          </div>
+          <div className=" card-body mt-5 ">
             <form className="p-1" onSubmit={handleSubmit}>
-
-              <div className='row g-3'>
-
-              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                        <label className="form-label" for="inputEmail4">
-                          Source
-                        </label>
-                        <select
-                          onChange={handleInputs}
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          className="form-select form-select-lg rounded-2 "
-                          name="source"
-                          value={student.source}
-                        >
-                          <option value="">Select Source</option>
-                          {source.length > 0 ? (
-                          source.map((data, index) => (
-                          <option key={index} value={data.sourceName}>
+              <div className="row g-3 mb-3">
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label className="form-label" for="inputEmail4">
+                    Source
+                  </label>
+                  <select
+                    onChange={handleInputs}
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "12px",
+                    }}
+                    className="form-select form-select-lg rounded-1 text-capitalize "
+                    name="source"
+                    value={student.source}
+                  >
+                    <option value="">Select Source</option>
+                    {source.length > 0 ? (
+                      source.map((data, index) => (
+                        <option key={index} value={data.sourceName}>
                           {data.sourceName}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">No Source Found</option>
-                  )}
-                        
-                          <option value="others">Others</option>
-                        </select>
-                        {errors.source.required ? (
-                          <div className="text-danger form-text">
-                            This field is required.
-                          </div>
-                        ) : null}
-                      </div>
-
-                      {student.source === "Student" ? (
-                    <div className="row g-3">
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputAgentName">
-                            Name
-                          </label>
-                          <select
-                          onChange={handleInputs}
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          className="form-select form-select-lg rounded-2 "
-                          name="studentName"
-                          value={student.studentName}
-                        >
-                          <option value="">Select students</option>
-                          {students.length > 0 ? (
-                          students.map((data, index) => (
-                          <option key={index} value={`${data.name} - ${data.studentCode}`}>
-                          {data.name}{" - "}{data.studentCode}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">No Source Found</option>
-                  )}
-                        
-                          <option value="others">Others</option>
-                        </select>
-                          
-                        </div>
-                        
-                       </div>
-                     
-                  
-                    ) : null}
-                      {student.source === "Agent" ? (
-                    <div className="row gx-4 gy-2">
+                        </option>
+                      ))
+                    ) : (
+                      <option value="">No Source Found</option>
+                    )}
+                    <option value="others">Others</option>
+                  </select>
+                  {errors.source.required ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : null}
+                </div>
+                {student.source === "Student" ? (
+                  <div className="row g-3">
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputAgentName">
-                      Agent Name
-                    </label>
-                    <select
-                          onChange={handleInputs}
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          className="form-select form-select-lg rounded-2 "
-                          name="agentName"
-                          value={student.agentName}
-                        >
-                          <option value="">Select Agent</option>
-                          {agent.length > 0 ? (
+                      <label className="form-label" for="inputAgentName">
+                        Name
+                      </label>
+                      <select
+                        onChange={handleInputs}
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                        className="form-select form-select-lg rounded-1 text-capitalize "
+                        name="studentName"
+                        value={student.studentName}
+                      >
+                        <option value="">Select students</option>
+                        {students.length > 0 ? (
+                          students.map((data, index) => (
+                            <option
+                              key={index}
+                              value={`${data.name} - ${data.studentCode}`}
+                            >
+                              {data.name}
+                              {" - "}
+                              {data.studentCode}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="">No Source Found</option>
+                        )}
+                        <option value="others">Others</option>
+                      </select>
+                    </div>
+                  </div>
+                ) : null}
+                {student.source === "Agent" ? (
+                  <div className="row gx-4 gy-2">
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputAgentName">
+                        Agent Name
+                      </label>
+                      <select
+                        onChange={handleInputs}
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                        className="form-select form-select-lg rounded-1 text-capitalize "
+                        name="agentName"
+                        value={student.agentName}
+                      >
+                        <option value="">Select Agent</option>
+                        {agent.length > 0 ? (
                           agent.map((data, index) => (
-                          <option key={index} value={data?.agentName}>
-                          {data.agentName}{" - "}{data.agentCode}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">No Source Found</option>
-                  )}
-                        
-                          <option value="others">Others</option>
-                        </select>
-                   
-                  </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputbusinessname">
-                      Business Name
-                    </label>
-                    <input
-                      className="form-control"
-                      id="inputbusinessname"
-                      type="text"
-                      onChange={handleInputs}
-                      value={student.businessName}
-                      name="businessName"
-                      placeholder="Enter Business Name"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    
-                    />
-                  </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     Agent Primary Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="d-flex align-items-end">
-
-
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={student?.dial3} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-  <input
-      type="text"
-       aria-label="Text input with dropdown button"
-      className={`form-control  ${
-        errors.agentPrimaryNumber.required ? 'is-invalid' : errors.agentPrimaryNumber.valid ? 'is-valid' : ''
-      }`}
-      placeholder="Example 123-456-7890"
-      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-      name="agentPrimaryNumber"
-      value={student.agentPrimaryNumber}
-      onChange={handleInputs}
-      onKeyDown={(e) => {
-        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-          e.preventDefault();
-        }
-      }}
-    />
-</div>
-
-
-    
-    <div className="form-check ms-3 ">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        id="copyToWhatsApp"
-        checked={copyToWhatsApp}
-        onChange={handleCheckboxChanges}
-      />
-     
-    </div>
-  </div>
-  {errors.agentPrimaryNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     Agent WhatsApp Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={student?.dial4}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-
-  <input
-    type="text"
-    className={`form-control rounded-1 ${
-      errors.agentWhatsAppNumber.required ? 'is-invalid' : errors.agentWhatsAppNumber.valid ? 'is-valid' : ''
-    }`}
-    placeholder="Example 123-456-7890"
-    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-    name="agentWhatsAppNumber"
-    value={student.agentWhatsAppNumber}
-    onChange={handleInputs}
-    onKeyDown={(e) => {
-      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-  </div>
-  {errors.agentWhatsAppNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputEmail">
-                      Agent Email ID
-                    </label>
-                    <input
-                      className="form-control"
-                      name="agentEmail"
-                      onChange={handleInputs}
-                      id="inputEmail"
-                      value={student?.agentEmail}
-                      type="text"
-                      placeholder="Enter Email ID"
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "12px",
-                      }}
-                    />
-                  </div>
-                 
-                  </div>
-                     
-                      
-                
-                    ) : null}
-               
-
-
-              </div>
-              <div className='row mb-3'>
-              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputstudentname">
-                        Name of the Student
+                            <option key={index} value={data?.agentName}>
+                              {data.agentName}
+                              {" - "}
+                              {data.agentCode}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="">No Source Found</option>
+                        )}
+                        <option value="others">Others</option>
+                      </select>
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" for="inputbusinessname">
+                        Business Name
+                      </label>
+                      <input
+                        className="form-control rounded-1 text-capitalize"
+                        id="inputbusinessname"
+                        type="text"
+                        onChange={handleInputs}
+                        value={student.businessName}
+                        name="businessName"
+                        placeholder="Example John Doe"
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label style={{ color: "#231F20" }}>
+                        Agent Primary Number
                         <span className="text-danger">*</span>
                       </label>
-                      <input
-                        className={`form-control rounded-1 ${errors.name.required ? 'is-invalid' : ''}`}
-                        name="name"
-                        onChange={handleInputs}
-                        id="inputstudentname"
-                        type="text"
-                        placeholder="Enter Name of the Student"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                        value={student?.name}
-                      />
-                      {errors.name.required ? (
-                        <div className="text-danger form-text">
+                      <div className="d-flex align-items-end">
+                        <div className="input-group mb-3">
+                          <select
+                            className="form-select form-select-sm"
+                            name="dial3"
+                            style={{
+                              maxWidth: "75px",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            onChange={handleInputs}
+                            value={student?.dial3}
+                          >
+                            {dial?.map((item) => (
+                              <option
+                                value={item?.dialCode}
+                                key={item?.dialCode}
+                              >
+                                {item?.dialCode} - {item?.name} -
+                                {item?.flag && (
+                                  <Flags
+                                    code={item?.flag}
+                                    className="me-2"
+                                    style={{ width: "40px", height: "30px" }}
+                                  />
+                                )}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            type="text"
+                            aria-label="Text input with dropdown button"
+                            className={`form-control  ${
+                              errors.agentPrimaryNumber.required
+                                ? "is-invalid"
+                                : errors.agentPrimaryNumber.valid
+                                ? "is-valid"
+                                : ""
+                            }`}
+                            placeholder="Example 123-456-7890"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="agentPrimaryNumber"
+                            value={student.agentPrimaryNumber}
+                            onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (
+                                !/^[0-9]$/i.test(e.key) &&
+                                ![
+                                  "Backspace",
+                                  "Delete",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                ].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </div>
+                        <div className="form-check ms-3 ">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="copyToWhatsApp"
+                            checked={copyToWhatsApp}
+                            onChange={handleCheckboxChanges}
+                          />
+                        </div>
+                      </div>
+                      {errors.agentPrimaryNumber.required && (
+                        <span className="text-danger form-text profile_error">
                           This field is required.
-                        </div>
-                      ) : errors.name.valid ? (
-                        <div className="text-danger form-text">
-                          Enter Name Letter Only
-                        </div>
-                      ) : null}
+                        </span>
+                      )}
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputpassportno">
-                        Passport No<span className="text-danger">*</span>
+                      <label style={{ color: "#231F20" }}>
+                        Agent WhatsApp Number
+                        <span className="text-danger">*</span>
                       </label>
-                      <input
-                        className={`form-control rounded-1 ${errors.passportNo.required ? 'is-invalid' : ''}`}
-                        id="inputpassportno"
-                        onChange={handleInputs}
-                        name="passportNo"
-                        type="text"
-                        placeholder="Enter Passport No"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                        value={student?.passportNo}
-                      />
-                      {errors.passportNo.required ? (
-                        <div className="text-danger form-text">
+                      <div className="input-group mb-3">
+                        <select
+                          className="form-select form-select-sm"
+                          name="dial4"
+                          style={{
+                            maxWidth: "75px",
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          value={student?.dial4}
+                          onChange={handleInputs}
+                        >
+                          {dial?.map((item) => (
+                            <option
+                              value={item?.dialCode}
+                              key={item?.dialCode}
+                            >
+                              {item?.dialCode} - {item?.name} -
+                              {item?.flag && (
+                                <Flags
+                                  code={item?.flag}
+                                  className="me-2"
+                                  style={{ width: "40px", height: "30px" }}
+                                />
+                              )}
+                            </option>
+                          ))}
+                        </select>
+                        <input
+                          type="text"
+                          className={`form-control rounded-1 ${
+                            errors.agentWhatsAppNumber.required
+                              ? "is-invalid"
+                              : errors.agentWhatsAppNumber.valid
+                              ? "is-valid"
+                              : ""
+                          }`}
+                          placeholder="Example 123-456-7890"
+                          style={{
+                            fontFamily: "Plus Jakarta Sans",
+                            fontSize: "12px",
+                          }}
+                          name="agentWhatsAppNumber"
+                          value={student.agentWhatsAppNumber}
+                          onChange={handleInputs}
+                          onKeyDown={(e) => {
+                            if (
+                              !/^[0-9]$/i.test(e.key) &&
+                              ![
+                                "Backspace",
+                                "Delete",
+                                "ArrowLeft",
+                                "ArrowRight",
+                              ].includes(e.key)
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
+                        />
+                      </div>
+                      {errors.agentWhatsAppNumber.required && (
+                        <span className="text-danger form-text profile_error">
                           This field is required.
-                        </div>
-                      ) : errors.passportNo.valid ? (
-                        <div className="text-danger form-text">
-                          Enter Vaild Passport Number Only
-                        </div>
-                      ) : null}
+                        </span>
+                      )}
                     </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" for="inputpassportno">
-                        Expiry Date<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className={`form-control rounded-1 ${errors.expiryDate.required ? 'is-invalid' : ''}`}
-                        id="inputpassportno"
-                        name="expiryDate"
-                        onChange={handleInputs}
-                        type="date"
-                        placeholder="Enter ExpiryDate"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
-                        value={student?.expiryDate}
-                      />
-                      {errors.expiryDate.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : null}
-                    </div>
-</div>
-<div className='row mb-3'>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail">
-                        Email ID<span className="text-danger">*</span>
+                        Agent Email ID
                       </label>
                       <input
-                        className={`form-control rounded-1 ${errors.email.required ? 'is-invalid' : ''}`}
-                        name="email"
+                        className="form-control rounded-1 text-lowercase"
+                        name="agentEmail"
                         onChange={handleInputs}
                         id="inputEmail"
+                        value={student?.agentEmail}
                         type="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example johndoe123@gmail.com"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        value={student?.email}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                          if (
+                            !/^[a-zA-Z0-9@._-]*$/.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                              "ArrowUp",
+                              "ArrowDown",
+                              "Tab",
+                              "Enter",
+                              "Shift",
+                              "Control",
+                              "Alt",
+                              "Meta",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
                       />
-                      {errors.email.required ? (
-                        <div className="text-danger form-text">
-                          This field is required.
-                        </div>
-                      ) : errors.email.valid ? (
-                        <div className="text-danger form-text">
-                          Enter valid Email Id.
-                        </div>
-                      ) : null}
                     </div>
-
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     Primary Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="d-flex align-items-end">
-
-
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={student?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-  <input
-      type="text"
-       aria-label="Text input with dropdown button"
-      className={`form-control  ${
-        errors.mobileNumber.required ? 'is-invalid'  : ''
-      }`}
-      placeholder="Example 123-456-7890"
-      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-      name="mobileNumber"
-      value={student.mobileNumber}
-      onChange={handleInputs}
-      onKeyDown={(e) => {
-        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-          e.preventDefault();
-        }
-      }}
-    />
-</div>
-
-
-    
-    <div className="form-check ms-3 ">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        id="copyToWhatsApp"
-        checked={copyToWhatsApp}
-        onChange={handleCheckboxChange}
-      />
-     
-    </div>
-  </div>
-  {errors.mobileNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     WhatsApp Number
-    <span className="text-danger">*</span>
-  </label>
-  <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={student?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
-
-  <input
-    type="text"
-    className={`form-control  ${
-      errors.whatsAppNumber.required ? 'is-invalid' : ''
-    }`}
-    placeholder="Example 123-456-7890"
-    style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-    name="whatsAppNumber"
-    value={student.whatsAppNumber}
-    onChange={handleInputs}
-    onKeyDown={(e) => {
-      if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-  />
-  </div>
-  {errors.whatsAppNumber.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-</div>
-</div>
-              <div className='row mb-3'>
-
+                  </div>
+                ) : null}
+              </div>
+              <div className="row g-3">
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label" for="inputAddress">CGPA </label>
-                  <input className={`form-control rounded-1 ${errors.cgpa.required ? 'is-invalid' : ''}`}
-                   value={student?.cgpa} onChange={handleInputs} name='cgpa' id="inputAddress" type="text" placeholder="CGPA" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <label className="form-label" for="inputstudentname">
+                    Student Name
+                    <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-capitalize ${
+                      errors.name.required ? "is-invalid" : ""
+                    }`}
+                    name="name"
+                    onChange={handleInputs}
+                    id="inputstudentname"
+                    type="text"
+                    placeholder="Example Jane Doe"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "12px",
+                    }}
+                    value={student?.name}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {errors.name.required ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : errors.name.valid ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : null}
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label className="form-label" for="inputpassportno">
+                    Passport No<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-uppercase ${
+                      errors.passportNo.required ? "is-invalid" : ""
+                    }`}
+                    id="inputpassportno"
+                    onChange={handleInputs}
+                    name="passportNo"
+                    type="text"
+                    placeholder="Enter Passport No"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "12px",
+                    }}
+                    value={student?.passportNo}
+                    onKeyDown={(e) => {
+                      // Prevent default behavior for disallowed keys
+                      if (
+                        !/^[a-zA-Z0-9]$/.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {errors.passportNo.required ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : errors.passportNo.valid ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : null}
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label className="form-label" for="inputpassportno">
+                    Expiry Date<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-uppercase ${
+                      errors.expiryDate.required ? "is-invalid" : ""
+                    }`}
+                    id="inputpassportno"
+                    name="expiryDate"
+                    onChange={handleInputs}
+                    type="date"
+                    placeholder="Enter ExpiryDate"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "12px",
+                    }}
+                    value={student?.expiryDate}
+                  />
+                  {errors.expiryDate.required ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : null}
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label className="form-label" for="inputEmail">
+                    Email ID<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-lowercase ${
+                      errors.email.required ? "is-invalid" : ""
+                    }`}
+                    name="email"
+                    onChange={handleInputs}
+                    id="inputEmail"
+                    type="text"
+                    placeholder="Example jane123@gmail.com"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "12px",
+                    }}
+                    value={student?.email}
+                    onKeyDown={(e) => {
+                      // Prevent default behavior for disallowed keys
+                      if (
+                        !/^[a-zA-Z0-9@._-]*$/.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                          "ArrowUp",
+                          "ArrowDown",
+                          "Tab",
+                          "Enter",
+                          "Shift",
+                          "Control",
+                          "Alt",
+                          "Meta",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {errors.email.required ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : errors.email.valid ? (
+                    <div className="text-danger form-text">
+                      This field is required.
+                    </div>
+                  ) : null}
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label style={{ color: "#231F20" }}>
+                    Primary Number
+                    <span className="text-danger">*</span>
+                  </label>
+                  <div className="d-flex align-items-end">
+                    <div className="input-group mb-3">
+                      <select
+                        className="form-select form-select-sm"
+                        name="dial1"
+                        style={{
+                          maxWidth: "75px",
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                        onChange={handleInputs}
+                        value={student?.dial1}
+                      >
+                        {dial?.map((item) => (
+                          <option value={item?.dialCode} key={item?.dialCode}>
+                            {item?.dialCode} - {item?.name} -
+                            {item?.flag && (
+                              <Flags
+                                code={item?.flag}
+                                className="me-2"
+                                style={{ width: "40px", height: "30px" }}
+                              />
+                            )}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="text"
+                        aria-label="Text input with dropdown button"
+                        className={`form-control  ${
+                          errors.mobileNumber.required ? "is-invalid" : ""
+                        }`}
+                        placeholder="Example 123-456-7890"
+                        style={{
+                          fontFamily: "Plus Jakarta Sans",
+                          fontSize: "12px",
+                        }}
+                        name="mobileNumber"
+                        value={student.mobileNumber}
+                        onChange={handleInputs}
+                        onKeyDown={(e) => {
+                          if (
+                            !/^[0-9]$/i.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="form-check ms-3 ">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="copyToWhatsApp"
+                        checked={copyToWhatsApp}
+                        onChange={handleCheckboxChange}
+                      />
+                    </div>
+                  </div>
+                  {errors.mobileNumber.required && (
+                    <span className="text-danger form-text profile_error">
+                      This field is required.
+                    </span>
+                  )}
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label style={{ color: "#231F20" }}>
+                    WhatsApp Number
+                    <span className="text-danger">*</span>
+                  </label>
+                  <div className="input-group mb-3">
+                    <select
+                      className="form-select form-select-sm"
+                      name="dial2"
+                      style={{
+                        maxWidth: "75px",
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      value={student?.dial2}
+                      onChange={handleInputs}
+                    >
+                      {dial?.map((item) => (
+                        <option value={item?.dialCode} key={item?.dialCode}>
+                          {item?.dialCode} - {item?.name} -
+                          {item?.flag && (
+                            <Flags
+                              code={item?.flag}
+                              className="me-2"
+                              style={{ width: "40px", height: "30px" }}
+                            />
+                          )}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      className={`form-control  ${
+                        errors.whatsAppNumber.required ? "is-invalid" : ""
+                      }`}
+                      placeholder="Example 123-456-7890"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      name="whatsAppNumber"
+                      value={student.whatsAppNumber}
+                      onChange={handleInputs}
+                      onKeyDown={(e) => {
+                        if (
+                          !/^[0-9]$/i.test(e.key) &&
+                          ![
+                            "Backspace",
+                            "Delete",
+                            "ArrowLeft",
+                            "ArrowRight",
+                          ].includes(e.key)
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </div>
+                  {errors.whatsAppNumber.required && (
+                    <span className="text-danger form-text profile_error">
+                      This field is required.
+                    </span>
+                  )}
+                </div>
+                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                  <label className="form-label" for="inputAddress">
+                    CGPA{" "}
+                  </label>
+                  <input
+                    className={`form-control rounded-1 ${
+                      errors.cgpa.required ? "is-invalid" : ""
+                    }`}
+                    value={student?.cgpa}
+                    onChange={handleInputs}
+                    name="cgpa"
+                    id="inputAddress"
+                    type="text"
+                    placeholder="Example 98"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      if (
+                        !/^[0-9]$/i.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   {errors.cgpa.required ? (
                     <div className="text-danger form-text">
                       This field is required.
@@ -789,112 +922,225 @@ export const AddGeneralEnquiry = () => {
                   ) : null}
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label" for="inputAddress"> Year passed</label>
-                  <input className={`form-control rounded-1 ${errors.yearPassed.required ? 'is-invalid' : ''}`} id="inputAddress" value={student?.yearPassed} onChange={handleInputs} name="yearPassed" type="text" placeholder="Year passed" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <label className="form-label" for="inputAddress">
+                    {" "}
+                    Year passed
+                  </label>
+                  <input
+                    className={`form-control rounded-1 ${
+                      errors.yearPassed.required ? "is-invalid" : ""
+                    }`}
+                    id="inputAddress"
+                    value={student?.yearPassed}
+                    onChange={handleInputs}
+                    name="yearPassed"
+                    type="text"
+                    placeholder="Example 2024"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      if (
+                        !/^[0-9]$/i.test(e.key) &&
+                        ![
+                          "Backspace",
+                          "Delete",
+                          "ArrowLeft",
+                          "ArrowRight",
+                        ].includes(e.key)
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   {errors.yearPassed.required ? (
                     <div className="text-danger form-text">
                       This field is required.
                     </div>
                   ) : null}
-
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label" for="inputEmail4">Desired Country</label>
-                  <input className={`form-control rounded-1 ${errors.desiredCountry.required ? 'is-invalid' : ''}`} id="inputEmail4" value={student?.desiredCountry} onChange={handleInputs} name="desiredCountry" type="text" placeholder='Desired Country' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <label className="form-label" for="inputEmail4">
+                    Desired Country
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-capitalize ${
+                      errors.desiredCountry.required ? "is-invalid" : ""
+                    }`}
+                    id="inputEmail4"
+                    value={student?.desiredCountry}
+                    onChange={handleInputs}
+                    name="desiredCountry"
+                    type="text"
+                    placeholder="Example United Kingdom"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   {errors.desiredCountry.required ? (
                     <div className="text-danger form-text">
                       This field is required.
                     </div>
                   ) : null}
-
                 </div>
-
-              </div>
-              <div className='row mb-3'>
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label" for="inputPassword4">Desired Course</label>
-                  <input className={`form-control rounded-1 ${errors.desiredCourse.required ? 'is-invalid' : ''}`} id="inputPassword4" value={student?.desiredCourse} onChange={handleInputs} type="text" name="desiredCourse" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <label className="form-label" for="inputPassword4">
+                    Desired Course
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-capitalize ${
+                      errors.desiredCourse.required ? "is-invalid" : ""
+                    }`}
+                    id="inputPassword4"
+                    value={student?.desiredCourse}
+                    onChange={handleInputs}
+                    type="text"
+                    name="desiredCourse"
+                    placeholder="Example Game Design"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   {errors.desiredCourse.required ? (
                     <div className="text-danger form-text">
                       This field is required.
                     </div>
                   ) : null}
-
                 </div>
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label" for="inputAddress">Do you need support for loan? </label>
-                  <select className={`form-select form-select-lg  rounded-1 ${errors.doYouNeedSupportForLoan.required ? 'is-invalid' : ''}`}
+                  <label className="form-label" for="inputAddress">
+                    Do You Need Loan Support?{" "}
+                  </label>
+                  <select
+                    className={`form-select form-select-lg  rounded-1 text-capitalize ${
+                      errors.doYouNeedSupportForLoan.required
+                        ? "is-invalid"
+                        : ""
+                    }`}
                     name="doYouNeedSupportForLoan"
-                    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "12px",
+                    }}
                     value={student?.doYouNeedSupportForLoan}
-                    onChange={handleInputs}>
+                    onChange={handleInputs}
+                  >
                     <option value=""> Select Loan support </option>
                     <option value="yes"> Yes </option>
                     <option value="no">No </option>
-
                   </select>
                   {errors.doYouNeedSupportForLoan.required ? (
                     <div className="text-danger form-text">
                       This field is required.
                     </div>
                   ) : null}
-
                 </div>
-               
-              </div>
-              <div className='row mb-3'>
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label" for="inputPassword4">Qualification</label>
-                  <input className={`form-control rounded-1 ${errors.qualification.required ? 'is-invalid' : ''}`} value={student?.qualification} id="inputPassword4" onChange={handleInputs} type="text" name="qualification" placeholder='Desired Course' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
+                  <label className="form-label" for="inputPassword4">
+                    Qualification
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-capitalize ${
+                      errors.qualification.required ? "is-invalid" : ""
+                    }`}
+                    value={student?.qualification}
+                    id="inputPassword4"
+                    onChange={handleInputs}
+                    type="text"
+                    name="qualification"
+                    placeholder="Example Be"
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   {errors.qualification.required ? (
                     <div className="text-danger form-text">
                       This field is required.
                     </div>
                   ) : null}
-
                 </div>
-
                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                  <label className="form-label" for="inputEmail4"> Assigned To</label>
-                  <input className={`form-control rounded-1 ${errors.assignedTo.required ? 'is-invalid' : ''}`} id="inputEmail4" value={student?.assignedTo} onChange={handleInputs} type="text" name="assignedTo" placeholder=' assignedTo Staff' style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} />
-                  {errors.assignedTo.required ?
-
+                  <label className="form-label" for="inputEmail4">
+                    {" "}
+                    Assigned To
+                  </label>
+                  <input
+                    className={`form-control rounded-1 text-capitalize ${
+                      errors.assignedTo.required ? "is-invalid" : ""
+                    }`}
+                    id="inputEmail4"
+                    value={student?.assignedTo}
+                    onChange={handleInputs}
+                    type="text"
+                    name="assignedTo"
+                    placeholder="Example Jake Doe "
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: "14px",
+                    }}
+                    onKeyDown={(e) => {
+                      // Prevent non-letter characters
+                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {errors.assignedTo.required ? (
                     <span className="text-danger form-text profile_error">
-
                       This field is required.
-
-                    </span> : null
-
-                  }
-
+                    </span>
+                  ) : null}
                 </div>
               </div>
-              <div className='row mb-3'>
-                <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
-
-
-                  <Link style={{ backgroundColor: "#231F20", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} to="/list_general_enquiry" className="btn btn-cancel border-0 text-white m-2">
-                    Cancel
-                  </Link>
-
-                  <button style={{ backgroundColor: "#FE5722", fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }} type="submit" className="btn btn-save border-0 text-white  m-2">
-                    Submit
-                  </button>
-
-                </div>
-
+              <div className="d-flex  justify-content-end">
+                <Link
+                  style={{
+                    fontSize: "14px",
+                  }}
+                  to="/list_general_enquiry"
+                  className="btn btn-dark  border-0  text-uppercase rounded-1 px-4 py-2 fw-semibold text-white m-1"
+                >
+                  Cancel
+                </Link>
+                <button
+                  style={{
+                    backgroundColor: "#FE5722",
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: "14px",
+                  }}
+                  type="submit"
+                  className="btn   border-0 rounded-1 text-uppercase px-4 py-2 fw-semibold text-white m-1"
+                >
+                  Submit
+                </button>
               </div>
-
             </form>
           </div>
-          </div>
         </div>
-
       </div>
-
-
-
-    </>
-  )
-}
-export default AddGeneralEnquiry
+    </div>
+  </>;
+};
+export default AddGeneralEnquiry;
