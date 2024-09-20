@@ -699,6 +699,16 @@ const chartRef = useRef(null);
               </button>
             </Link>
           </li>
+          <li className="m-1">
+            <Link onClick={openImportPopup}>
+              <button
+                className="btn text-white rounded-1 border-0"
+                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
+              >
+                <i className="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
          
           <li className="m-1">
             <Link to="/add_university">
