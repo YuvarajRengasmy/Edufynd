@@ -1313,7 +1313,7 @@ const chartRef = useRef(null);
                     </button>
                   </div>
                   </DialogContent>
-                </Dialog>
+        </Dialog>
 
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>

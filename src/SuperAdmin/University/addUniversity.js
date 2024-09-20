@@ -1082,7 +1082,8 @@ const App = () => {
   onChange={(event, editor) => {
     const data = editor.getData();
     console.log({ data });
-    handleRichTextChange(data);  // Call your handler here
+    handleRichAboutChange(data);
+    // Call your handler here
   }}
   style={{
     fontFamily: "Plus Jakarta Sans",

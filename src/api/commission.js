@@ -18,12 +18,17 @@ export const getSingleCommission = (data) => {
   export const deleteCommission = (data) => {
     return API.delete(`${CommissionPage}`, { params: { _id: data } });
   };
- 
-
   export const  getSingleUniversityCommission = (data) => {
     return API.get(`${CommissionPage}/getSingleUniversity`, { params: {universityId: data } });
+  };
+
+  export const  getSingleCommissionLog = (data) => {
+    return API.get(`${CommissionPage}/SingleLog`, { params: { _id: data } });
   };
 
   export const updatedCommission = (data) => {
     return API.put(`${CommissionPage}`, data);
   };
+  export const getLogsCommission = () => {
+    return API.get(`${CommissionPage}/logs`)
+  }

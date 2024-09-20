@@ -6,7 +6,7 @@ import { getallCurrency } from "../../api/currency";
 import { getFilterYear } from "../../api/year";
 import { getallTaxModule } from "../../api/universityModule/tax";
 import { FaTrash } from "react-icons/fa";
-import { getUniversitiesByCountry } from "../../api/university";
+import { getUniversitiesByCountry, getallUniversity } from "../../api/university";
 import Flags from "react-world-flags";
 import Sidebar from "../../compoents/sidebar";
 import BackButton from "../../compoents/backButton";
@@ -53,6 +53,7 @@ function AddCommission() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [countries, setCountries] = useState([]);
+  const [university, setUniversity] = useState([]);
   const [tax, setTax] = useState([]);
   const [universities, setUniversities] = useState([]);
   const [years, setYears] = useState([]);
@@ -69,8 +70,20 @@ function AddCommission() {
     getAllCurrencyDetails();
     getAllTaxDetails();
     getAllYearDetails();
+    getAllUniversityList();
     getEditCommissionDetails();
   }, [pagination.from, pagination.to]);
+
+
+  const getAllUniversityList = () => {
+    getallUniversity()
+      .then((res) => {
+        setUniversity(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getAllCurrencyDetails = () => {
     getallCurrency()
@@ -484,11 +497,11 @@ const removeCourseType = async (yearIndex, courseTypeIndex) => {
                             value={commission.country?commission.country:"Not Available"}
                           >
                             <option value="">Select Country</option>
-                            {countries.map((country) => (
-                              <option key={country._id} value={country.country}>
-                                {country.country}
-                              </option>
-                            ))}
+                            {[...new Set(university.map(uni => uni.country))].map((country, index) => (
+                             <option key={index} value={country}>
+                               {country}
+                             </option>
+                              ))}
                           </select>
                           {errors.country.required ? (
                             <span className="text-danger form-text profile_error">
