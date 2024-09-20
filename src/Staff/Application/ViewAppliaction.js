@@ -656,7 +656,7 @@ export const ViewApplication = () => {
 
                             // Define the range of statuses for user1 (first 3) and user2 (last 3)
                             const showForUser1 = currentUser === "Counciler" && index < 3;
-                            const showForUser2 = currentUser === "Development Team" && index >= 3;
+                            const showForUser2 = currentUser === "Process Executive" && index >= 3;
 
                             // Only display statuses that match the current user's criteria
                             if (showForUser1 || showForUser2) {
