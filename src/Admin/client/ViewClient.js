@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { getSingleClient } from "../../api/client";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
@@ -70,78 +70,26 @@ const AddAgent = () => {
 
       setClient(clientData);
       setRows([
-        {
-          id: 1,
-          label: "Client ID",
-          value: clientData?.clientID || "Not Available",
-        },
-        {
-          id: 2,
-          label: "Type of client",
-          value: clientData?.typeOfClient || "Not Available",
-        },
-        {
-          id: 3,
-          label: "Business Name",
-          value: clientData?.businessName || "Not Available",
-        },
-        {
-          id: 4,
-          label: "Business Mail ID",
-          value: clientData?.businessMailID || "Not Available",
-        },
+        { id: 1, label: "Client ID", value: clientData?.clientID || "Not Available" },
+        { id: 2, label: "Type of client", value: clientData?.typeOfClient || "Not Available" },
+        { id: 3, label: "Business Name", value: clientData?.businessName || "Not Available" },
+        { id: 4, label: "Business Mail ID", value: clientData?.businessMailID || "Not Available" },
         {
           id: 5,
           label: "Business Contact No",
-          value: clientData?.businessContactNo || "Not Available",
+          value: clientData?.businessContactNo || "Not Available"
         },
-        {
-          id: 6,
-          label: "whatsAppNumber",
-          value: clientData?.whatsAppNumber || "Not Available",
-        },
-        {
-          id: 6,
-          label: "Website",
-          value: clientData?.website || "Not Available",
-        },
-        {
-          id: 7,
-          label: "Staff Name",
-          value: clientData?.name || "Not Available",
-        },
-        {
-          id: 8,
-          label: "Staff Contact No",
-          value: clientData?.contactNo || "Not Available",
-        },
-        {
-          id: 9,
-          label: "Staff Email ID",
-          value: clientData?.emailID || "Not Available",
-        },
-        {
-          id: 10,
-          label: "Address Line 1",
-          value: clientData?.addressLine1 || "Not Available",
-        },
-        {
-          id: 10,
-          label: "Address Line 2",
-          value: clientData?.addressLine2 || "Not Available",
-        },
-        {
-          id: 10,
-          label: "Pincode",
-          value: clientData?.addressLine3 || "Not Available",
-        },
+        { id: 6, label: "whatsAppNumber", value:clientData?.whatsAppNumber || "Not Available" },
+        { id: 6, label: "Website", value: clientData?.website || "Not Available" },
+        { id: 7, label: "Staff Name", value: clientData?.name || "Not Available" },
+        { id: 8, label: "Staff Contact No", value: clientData?.contactNo || "Not Available" },
+        { id: 9, label: "Staff Email ID", value: clientData?.emailID  || "Not Available"},
+        { id: 10, label: "Address Line 1", value: clientData?.addressLine1 || "Not Available" },
+        { id: 10, label: "Address Line 2", value: clientData?.addressLine2 || "Not Available" },
+        { id: 10, label: "Pincode", value: clientData?.addressLine3 || "Not Available" },
         { id: 11, label: "city", value: clientData?.lga || "Not Available" },
         { id: 12, label: "State", value: clientData?.state || "Not Available" },
-        {
-          id: 13,
-          label: "Country",
-          value: clientData?.country || "Not Available",
-        },
+        { id: 13, label: "Country", value: clientData?.country || "Not Available" },
       ]);
     } catch (err) {
       console.error(err);
@@ -165,17 +113,19 @@ const AddAgent = () => {
 
   return (
     <>
-      <DndProvider backend={HTML5Backend}>
-        <Sidebar />
+    <DndProvider backend={HTML5Backend}>
+      <Sidebar />
 
-        <div
-          className="content-wrapper"
-          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-        >
-          <div className="content-header text-end">
-            <BackButton />
-          </div>
-          <div className="container-fluid mt-3">
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+      >
+        <div className="content-header text-end">
+
+        <BackButton/>
+        
+        </div>
+        <div className="container-fluid mt-3">
             <div className="card border-0 rounded-0 shadow-sm p-3 position-relative">
               <div
                 className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
@@ -204,62 +154,57 @@ const AddAgent = () => {
                   </tbody>
                 </table>
               </div>
+            
             </div>
           </div>
 
-          <div className="container-fluid my-2">
-            <div className="row ">
-              <div className="col-12 col-lg-7 col-auto">
-                <ul className="list-unstyled">
-                  <li className="mb-4 position-relative">
-                    <div className="row align-items-start g-0">
-                      <div className="col-1 d-flex justify-content-center align-items-center">
-                        <div
-                          className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
-                          style={{ width: "2rem", height: "2rem" }}
-                        >
-                          <i className="fas fa-check" />
-                        </div>
-                      </div>
-                      <div className="col-4 text-center">
-                        <p className="mb-1 fw-semibold text-muted">
-                          23 August, 2023 10:30 AM
-                        </p>
-                        <p className="mb-0 text-muted">
-                          Changed by:<strong>John Doe</strong>
-                        </p>
-                      </div>
+        <div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        
+        <li className="mb-4 position-relative">
+          <div className="row align-items-start g-0">
 
-                      <div className="col-7">
-                        <div className="mb-3">
-                          <div className="bg-success text-white rounded-3 p-2">
-                            <h6 className="mb-1">New University Name</h6>
-                            <p className="mb-0">University Y</p>
-                          </div>
-                        </div>
-                        <div className="mb-3">
-                          <div className="bg-danger text-white rounded-3 p-2">
-                            <h6 className="mb-1">Old University Name</h6>
-                            <p className="mb-0">University X</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="position-absolute top-0 start-0 translate-middle-x"
-                      style={{
-                        width: 2,
-                        height: "100%",
-                        backgroundColor: "#007bff",
-                      }}
-                    />
-                  </li>
-                </ul>
+          <div className="col-1 d-flex justify-content-center align-items-center">
+              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                <i className="fas fa-check" />
               </div>
             </div>
+            <div className="col-4 text-center">
+              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+            </div>
+           
+            <div className="col-7">
+            <div className="mb-3">
+              
+              <div className="bg-success text-white rounded-3 p-2">
+                <h6 className="mb-1">New University Name</h6>
+                <p className="mb-0">University Y</p>
+              </div>
+            </div>
+              <div className="mb-3">
+             
+                <div className="bg-danger text-white rounded-3 p-2">
+                  <h6 className="mb-1">Old University Name</h6>
+                  <p className="mb-0">University X</p>
+                </div>
+              </div>
+           
+            </div>
           </div>
-        </div>
-      </DndProvider>
+          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </DndProvider>
+
     </>
   );
 };

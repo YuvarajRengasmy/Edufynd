@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getSingleBusinessEnquiry } from "../../../api/Enquiry/business";
+import { getSingleStudnetEnquiry } from "../../../api/Enquiry/student";
 import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/AdminSidebar";
@@ -16,9 +16,8 @@ export const ViewBusiness = () => {
   }, []);
 
   const getStudentDetails = () => {
-    getSingleBusinessEnquiry(id)
+    getSingleStudnetEnquiry(id)
       .then((res) => {
-        console.log(res?.data?.result);
         setStudent(res?.data?.result);
       })
       .catch((err) => {
@@ -33,7 +32,7 @@ export const ViewBusiness = () => {
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
 
-     
+       
          
         </div>
         <div className="container-fluid">
@@ -53,10 +52,6 @@ export const ViewBusiness = () => {
                   style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
                 >
                   <tbody>
-                  <tr>
-                      <td className="fw-bold">ClientName </td>
-                      <td>{student?.typeOfClient || "Not Available"}</td>
-                    </tr>
                     <tr>
                       <td className="fw-bold">Student Name </td>
                       <td>{student?.name || "Not Available"}</td>
@@ -71,7 +66,7 @@ export const ViewBusiness = () => {
                     </tr>
                     <tr>
                       <td className="fw-bold">Contact Number </td>
-                      <td>{student?.mobileNumber || "Not Available"}</td>
+                      <td>{student?.primaryNumber || "Not Available"}</td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Email ID </td>

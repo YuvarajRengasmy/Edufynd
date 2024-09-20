@@ -1,12 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
+import { getSuperAdminForSearch } from "../../api/superAdmin";
 import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
+  getAllUniversit,
   getFilterUniversity,
+  updateUniversity,
+  
 } from "../../api/university";
-import { Link } from "react-router-dom";
+import { getAllApplicantCard } from "../../api/applicatin";
+
+import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -20,49 +26,65 @@ import Masterheader from "../../compoents/header";
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
-import { getAdminIdId } from "../../Utils/storage";
-import { getSingleAdmin } from "../../api/admin";
 import { toast } from "react-toastify";
 import "./ListTable.css";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
+import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import * as XLSX from "xlsx";
+import { Chart, registerables } from 'chart.js';
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin } from "../../api/admin";
+import Downshift from "downshift";
+Chart.register(...registerables);
 
-export const AdminListUniversity = () => {
+export default function Masterproductlist() {
   const initialStateInputs = {
     universityName: "",
-    state: "",
-    lga: "",
+   
     averageFees: "",
     country: "",
     popularCategories: "",
   };
   const [file, setFile] = useState(null);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [staff, setStaff] = useState([]);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const search = useRef(null);
+  const [details, setDetails] = useState();
+  const [detail, setDetail] = useState();
+  const [staff, setStaff] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
 
-  const [university, setUniversity] = useState();
+  const [university, setUniversity] = useState([]);
 
   useEffect(() => {
-    getAllUniversityDetails();
     getStaffDetails();
-  }, [pagination.from, pagination.to]);
+    getAllUniversityDetails();
+    getallUniversityCount();
+    getallApplicantCount();
+  }, [pagination.from, pagination.to,pageSize]);
 
   const getStaffDetails = () => {
     const id = getAdminIdId();
     getSingleAdmin(id)
       .then((res) => {
-        console.log("yuvraj", res);
+        console.log("yuvi", res);
         setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
       })
       .catch((err) => {
@@ -75,20 +97,35 @@ export const AdminListUniversity = () => {
   }
 
   const studentPrivileges = staff?.privileges?.find(
-    (privilege) => privilege.module === "university"
+    (privilege) => privilege.module === "client"
   );
 
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
+
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
   const getAllUniversityDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
 
     getFilterUniversity(data)
       .then((res) => {
+        console.log(res?.data?.result?.universityCount);
         setUniversity(res?.data?.result?.universityList);
         setPagination({
           ...pagination,
@@ -99,11 +136,50 @@ export const AdminListUniversity = () => {
         console.log(err);
       });
   };
+ 
+
+
+  const getallUniversityCount = ()=>{
+    getAllUniversit()
+    .then((res)=>{
+      setDetails(res?.data.result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  });
+}
+
+const getallApplicantCount = ()=>{
+  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+}
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.universityList;
+        setUniversity(universityList);
+        const result = universityList.length ? "universities" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
+
+
+
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -124,9 +200,7 @@ export const AdminListUniversity = () => {
       });
   };
 
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+ 
 
   const closeFilterPopup = () => {
     setOpenFilter(false);
@@ -137,7 +211,6 @@ export const AdminListUniversity = () => {
     const data = {
       universityName: inputs.universityName,
       country: inputs.country,
-      // state: inputs?.lga && inputs.lga.length > 0 ? inputs.lga.join(", ") : inputs?.state?.join(", ") ?? "-",
       averageFees: inputs.averageFees,
       popularCategories: inputs.popularCategories,
       limit: 10,
@@ -158,6 +231,7 @@ export const AdminListUniversity = () => {
       });
   };
 
+  
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
@@ -175,6 +249,10 @@ export const AdminListUniversity = () => {
     setOpenImport(false);
   };
 
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -369,7 +447,129 @@ export const AdminListUniversity = () => {
     };
   }, []);
 
-  // Function to handle the display of cities or state
+ 
+const chartRef = useRef(null);
+  const chartInstance = useRef(null);
+
+  useEffect(() => {
+    const ctx = chartRef.current.getContext('2d');
+    
+    // Clean up existing chart instance if it exists
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    // Create a new Chart instance
+    chartInstance.current = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+      
+        datasets: [{
+        
+          data: [10, 20, 30], // Sample data
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return tooltipItem.label + ': ' + tooltipItem.raw;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Cleanup chart instance on component unmount
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, []);
+
+
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = university.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
+
+      // deleteSelectedUniversity();
+    } else if (action === "Activate") {
+      activateSelectedUniversity();
+    }
+  };
+
+  const deleteSelectedUniversity = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => deleteUniversity(id)))
+        .then((responses) => {
+          toast.success("university deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllUniversityDetails();
+        
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete notifications.");
+        });
+    } else {
+      toast.warning("No notifications selected.");
+    }
+  };
+
+  const activateSelectedUniversity = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updateUniversity(id,{ active: true })))
+        .then((responses) => {
+          toast.success("University activated successfully!");
+          setSelectedIds([]);
+          getAllUniversityDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate University.");
+        });
+    } else {
+      toast.warning("No university selected.");
+    }
+  }
+
 
   return (
     <>
@@ -380,453 +580,723 @@ export const AdminListUniversity = () => {
           className="content-wrapper  "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-          <div className="content-header ">
-            <div className="container">
-              <div className="row">
-                <div className="col-xl-12">
-                  <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                    <li className="flex-grow-1">
-                      <div
-                        className="input-group"
-                        style={{ maxWidth: "600px" }}
-                      >
-                        <input
-                          type="search"
-                          placeholder="Search"
-                          aria-describedby="button-addon3"
-                          className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
-                          style={{
-                            borderColor: "#FE5722",
-                            paddingRight: "1.5rem",
-                            marginLeft: "0px",
-                            fontSize: "12px", // Keep the font size if it's correct
-                            height: "11px", // Set the height to 11px
-                            padding: "0px", // Adjust padding to fit the height
-                          }}
-                        />
-                        <span
-                          className="input-group-text bg-transparent border-0"
-                          id="button-addon3"
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <i
-                            className="fas fa-search"
-                            style={{ color: "black" }}
-                          ></i>
-                        </span>
-                      </div>
-                    </li>
-                    <li class="m-1">
-                      <div
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "14px",
-                        }}
-                      >
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          style={{ fontSize: "11px" }}
-                          data-bs-toggle="offcanvas"
-                          data-bs-target="#offcanvasRight"
-                          aria-controls="offcanvasRight"
-                        >
-                          {" "}
-                          <FaFilter />
-                        </button>
-                        <div
-                          className="offcanvas offcanvas-end"
-                          tabIndex={-1}
-                          id="offcanvasRight"
-                          aria-labelledby="offcanvasRightLabel"
-                        >
-                          <div className="offcanvas-header">
-                            <h5 id="offcanvasRightLabel">Filter University</h5>
-                            <button
-                              type="button"
-                              className="btn-close text-reset"
-                              data-bs-dismiss="offcanvas"
-                              aria-label="Close"
-                            />
-                          </div>
-                          <div className="offcanvas-body ">
-                            <form>
-                              <div className="from-group mb-3">
-                                <label className="form-label">
-                                  University Name
-                                </label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="universityName"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Search...University Name"
-                                />
+         <div className="content-header bg-light shadow-sm sticky-top">
+  <div className="container">
+    <div className="row">
+      <div className="col-xl-12">
+        <ul className="d-flex align-items-center justify-content-end mb-0 list-unstyled">
+          <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
+          </li>
+          
+          <li className="m-1">
+            <button
+              className="btn btn-primary text-white border-0 rounded-1"
+              type="button"
+              style={{ fontSize: "12px" }}
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight"
+            >
+              <FaFilter />
+            </button>
+          </li>
+          <div
+            className="offcanvas offcanvas-end"
+            tabIndex={-1}
+            id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel"
+          >
+            <div className="offcanvas-header">
+              <h6 id="offcanvasRightLabel">Filter University</h6>
+              <button
+                type="button"
+                className="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              />
+            </div>
+            <div className="offcanvas-body">
+              <form>
+                <div className="from-group mb-3">
+                  <label className="form-label">University Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="universityName"
+                    onChange={handleInputs}
+                    placeholder="Example Stanford"
+                    style={{ fontSize: "12px" }}
+                  />
+                  
+                  <label className="form-label">Average Fees</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="averageFees"
+                    onChange={handleInputs}
+                    placeholder="Example 5000"
+                    style={{ fontSize: "12px" }}
+                  />
+                  <label className="form-label">Country</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="country"
+                    onChange={handleInputs}
+                    placeholder="Example United Kingdom"
+                    style={{ fontSize: "12px" }}
+                  />
+                  <label className="form-label">Popular Categories</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="popularCategories"
+                    onChange={handleInputs}
+                    placeholder="Example Harvard University"
+                    style={{ fontSize: "12px" }}
+                  />
+                </div>
+                <div>
+                  <button
+                    data-bs-dismiss="offcanvas"
+                    type="submit"
+                    onClick={filterUniversityList}
+                    className="btn btn-save border-0 text-white float-right px-4 py-2 fw-semibold text-uppercase mx-2"
+                    style={{ backgroundColor: "#fe5722", fontSize: "12px" }}
+                  >
+                    Apply
+                  </button>
+                  <button
+                    data-bs-dismiss="offcanvas"
+                    type="button"
+                    onClick={resetFilter}
+                    className="btn btn-cancel border-0 text-white px-4 py-2 float-right fw-semibold bg text-uppercase"
+                    style={{ backgroundColor: "#231f20", fontSize: "12px" }}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <li className="m-1">
+            <Link onClick={pdfDownload}>
+              <button
+                style={{ backgroundColor: "#E12929", fontSize: "12px" }}
+                className="btn text-white rounded-1 border-0"
+              >
+                <i className="fa fa-file-pdf" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="m-1">
+            <Link onClick={exportCsv}>
+              <button
+                style={{ backgroundColor: "#22A033", fontSize: "12px" }}
+                className="btn text-white rounded-1 border-0"
+              >
+                <i className="fa fa-file-excel" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="m-1">
+            <Link onClick={openImportPopup}>
+              <button
+                className="btn text-white rounded-1 border-0"
+                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
+              >
+                <i className="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+         
+          <li className="m-1">
+          {studentPrivileges?.add && (
+            <Link to="/admin_add_university">
+              <button
+                className="btn border-0 fw-semibold text-white"
+                style={{ backgroundColor: "#231f20", fontSize: "12px" }}
+              >
+                <i className="fa fa-plus-circle me-2" aria-hidden="true"></i> Add University
+              </button>
+            </Link>
+          )}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
-                                <label className="form-label">Campus</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="state"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Search...Campus"
-                                />
-                                <label className="form-label">
-                                  Average Fees
-                                </label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="averageFees"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Search...Average Fees"
-                                />
-                                <label className="form-label">Country</label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="country"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Search...Country"
-                                />
 
-                                <label className="form-label">
-                                  Popular Categories
-                                </label>
-                                <br />
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  name="popularCategories"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Search...Popular Categories"
-                                />
-                              </div>
-                              <div>
-                                <button
-                                  data-bs-dismiss="offcanvas"
-                                  className="btn btn-cancel border-0 text-white rounded-pill px-4 py-2 float-right fw-semibold bg text-uppercase"
-                                  style={{
-                                    backgroundColor: "#0f2239",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  onClick={resetFilter}
-                                >
-                                  Reset
-                                </button>
-                                <button
-                                  data-bs-dismiss="offcanvas"
-                                  type="submit"
-                                  onClick={filterUniversityList}
-                                  className="btn btn-save border-0 text-white float-right rounded-pill px-4 py-2 fw-semibold text-uppercase mx-2"
-                                  style={{
-                                    backgroundColor: "#fe5722",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  Apply
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="m-2">
-                      <Link onClick={pdfDownload}>
-                        <button
-                          style={{
-                            backgroundColor: "#E12929",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <span>
-                            <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                          </span>
-                        </button>
-                      </Link>
-                    </li>
-                    <li class="m-1">
-                      <Link onClick={exportCsv} class="btn-filters">
-                        <span>
-                          <button
-                            style={{
-                              backgroundColor: "#22A033",
-                              fontSize: "11px",
-                            }}
-                            className="btn text-white "
-                          >
-                            <i class="fa fa-file-excel" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
 
-                    <li class="m-1">
-                      <Link onClick={openImportPopup} class="btn-filters">
-                        <span>
-                          <button
-                            style={{
-                              backgroundColor: "#9265cc",
-                              fontSize: "11px",
-                            }}
-                            className="btn text-white "
-                          >
-                            <i class="fa fa fa-upload" aria-hidden="true"></i>
-                          </button>
-                        </span>
-                      </Link>
-                    </li>
-                    {studentPrivileges?.add && (
-                      <li class="m-1">
-                        <Link class="btn  border-0" to="/admin_add_university">
-                          <button
-                            className="btn border-0 text-uppercase fw-semibold px-4 py-2 text-white  "
-                            style={{
-                              backgroundColor: "#fe5722",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <i
-                              class="fa fa-plus-circle me-2"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            Add University
-                          </button>
-                        </Link>
-                      </li>
-                    )}
-                  </ol>
+          <div className="container mt-2 mb-0">
+      <div className="row">
+        <div className="col-md-3 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 text-white shadow-sm p-3" style={{ backgroundColor: "#00796B" }}> {/* Tropical Teal */}
+              <div className="row g-0">
+                <div className="col-7">
+                <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
+                <p className="card-text">Total:{details?.totalUniversities || 0}</p>
+                </div>
+                <div className="col-auto ">
+                <div className="chart-container " style={{ position: 'relative', width: '4rem', height: '4rem' }}>
+                    <canvas ref={chartRef} style={{ width: '100%', height: '100%' }}/>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        <div className="col-md-3 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Steel Blue */}
+              <div className="card-body">
+                <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
+                <div className="d-flex align-items-center justify-content-between"> 
+                <p className="card-text mb-1">Total:{details?.totalUniqueCountries|| 0}</p>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="content-body">
-            <div className="container">
-              <div className="row">
-                <div className="col-xl-12">
-                  <div className="card rounded-0 border-0 ">
-                    <div className="card-body">
-                      <div className="card-table">
-                        <div className="table-responsive">
-                          <table
-                            className="table table-hover card-table dataTable text-center"
-                            style={{ color: "#9265cc", fontSize: "13px" }}
-                            ref={tableRef}
-                          >
-                            <thead className="table-light">
-                              <tr
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                <th className="text-capitalize text-start sortable-handle">
-                                  S No
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Code
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  University Name
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  country
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Campus
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Popular Categories
-                                </th>
-                                <th className="text-capitalize text-start sortable-handle">
-                                  App
-                                </th>
+          </Link>
+        </div>
 
-                                <th className="text-capitalize text-start sortable-handle">
-                                  Action
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {university?.map((data, index) => {
-                                const isExpanded = !!expandedRows[index];
+        <div className="col-md-3 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#C62828" }}> {/* Crimson Red */}
+              <div className="card-body">
+                <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Status</h6>
+                <div className="d-flex align-items-center justify-content-between"> 
+                <p className="card-text mb-1">Active: {details?.activeUniversities|| 0}</p>
+                <p className="card-text mb-1">Inactive:  {details?.inactiveUniversities|| 0}</p>
+                </div>
+               
+              </div>
+            </div>
+          </Link>
+        </div>
 
-                                return (
-                                  <tr
-                                    key={index}
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "11px",
-                                    }}
-                                  >
-                                    <td className="text-capitalize text-start">
-                                      {pagination.from + index + 1}
-                                    </td>
-                                    <td className="text-capitalize text-start">
-                                      {data?.universityCode}
-                                    </td>
-                                    <td
-                                      className="text-capitalize text-start"
-                                      onMouseEnter={() => toggleRow(index)}
-                                      onMouseLeave={() => toggleRow(index)}
-                                      title={data?.universityName}
-                                    >
-                                      {getDisplayText(
-                                        data?.universityName,
-                                        isExpanded
-                                      )}
-                                    </td>
-                                    <td className="text-capitalize text-start">
-                                      {data?.country}
-                                    </td>
-                                    <td className="text-capitalize text-start">
-                                      {data.campuses?.map(
-                                        (campus, yearIndex) => (
-                                          <div key={yearIndex}>
-                                            {campus?.state?.length > 0
-                                              ? campus.state
-                                              : "Not Available"}
-                                            __
-                                            {campus?.lga?.length > 0
-                                              ? campus.lga
-                                              : "Not Available"}
-                                            __
-                                          </div>
-                                        )
-                                      )}
-                                    </td>
-                                    <td
-                                      className="text-capitalize text-start"
-                                      onMouseEnter={() => toggleRow(index)}
-                                      onMouseLeave={() => toggleRow(index)}
-                                      title={data?.popularCategories}
-                                    >
-                                      {" "}
-                                      {getDisplayText(
-                                        data?.popularCategories.join(", "),
-                                        isExpanded
-                                      )}{" "}
-                                    </td>
+        <div className="col-md-3 mb-3">
+          <Link to="#" className="text-decoration-none">
+            <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
+              <div className="card-body">
+                <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;No Of Applications</h6>
+                <p className="card-text">Total: {detail?.totalApplication}</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
 
-                                    <td className="text-capitalize text-start">
-                                      {data?.noofApplications}
-                                    </td>
-                                    <td>
-                                      <div className="d-flex">
-                                        {studentPrivileges?.view && (
-                                          <Link
-                                            className="dropdown-item"
-                                            to={{
-                                              pathname:
-                                                "/admin_view_university",
-                                              search: `?id=${data?._id}`,
-                                            }}
-                                            data-bs-toggle="tooltip"
-                                            title="View"
-                                          >
-                                            <i className="far fa-eye text-primary me-1"></i>
-                                          </Link>
-                                        )}
-                                        {studentPrivileges?.edit && (
-                                          <Link
-                                            className="dropdown-item"
-                                            to={{
-                                              pathname:
-                                                "/admin_edit_university",
-                                              search: `?id=${data?._id}`,
-                                            }}
-                                            data-bs-toggle="tooltip"
-                                            title="Edit"
-                                          >
-                                            <i className="far fa-edit text-warning me-1"></i>
-                                          </Link>
-                                        )}
-                                        {studentPrivileges?.delete && (
-                                          <button
-                                            className="dropdown-item"
-                                            onClick={() => {
-                                              openPopup(data?._id);
-                                            }}
-                                            data-bs-toggle="tooltip"
-                                            title="Delete"
-                                          >
-                                            <i className="far fa-trash-alt text-danger me-1"></i>
-                                          </button>
-                                        )}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div className="float-right my-2">
-                        <Pagination
-                          count={Math.ceil(pagination.count / pageSize)}
-                          onChange={handlePageChange}
-                          variant="outlined"
-                          shape="rounded"
-                          color="primary"
-                        />
-                      </div>
+
+<div className="container">
+  <div className="row">
+    <div className="col-xl-12">
+      <div className="card rounded-1 shadow-sm border-0">
+      <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              {studentPrivileges?.delete && (   <option value="Delete">Delete</option>)}
+                            </select>
+                          </p>
+                    </div>
+
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
+                      
+                     
                     </div>
                   </div>
                 </div>
+
+
+
+        <div className="card-body">
+
+        <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="table-responsive">
+            <table
+              className="table table-hover card-table dataTable text-center "
+              style={{ color: "#9265cc" }}
+              ref={tableRef}
+            >
+              <thead className="table-light"  style={{ fontSize: "11px" }}>
+                <tr>
+                <th className=" text-start">
+                <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === university.length
+                                    }
+                                  />
+                            </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    S No
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    Code
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    Name    <i className="fa fa-filter" aria-hidden="true"></i>
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    Country   <i className="fa fa-filter" aria-hidden="true"></i>
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    Campus   <i className="fa fa-filter" aria-hidden="true"></i>
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    Popular Categories  <i className="fa fa-filter" aria-hidden="true"></i>
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    Application 
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    status  
+        <i className="fa fa-filter" aria-hidden="true"></i>
+      
+                  </th>
+                  <th className="text-capitalize text-start sortable-handle">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody  style={{ fontSize: "10px" }}>
+                {university?.map((data, index) => {
+                  const isExpanded = !!expandedRows[index];
+
+                  return (
+                    <tr key={index}>
+                      <td className=" text-start">
+                      <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
+                              </td>
+                      <td className="text-capitalize text-start">
+                        {pagination.from + index + 1}
+                      </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        {data?.universityCode}
+                      </td>
+                      <td
+                        className="text-capitalize text-start text-truncate"
+                        onMouseEnter={() => toggleRow(index)}
+                        onMouseLeave={() => toggleRow(index)}
+                        title={data?.universityName}
+                      >
+                      
+                          {getDisplayText(data?.universityName, isExpanded)}
+                      
+                      </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        {data?.country}
+                      </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        {data.campuses?.map((campus, yearIndex) => (
+                          <div key={yearIndex}>
+                            {campus?.state?.length > 0
+                              ? campus.state
+                              : "Not Available"}
+                            {"_"}
+                            {campus?.lga?.length > 0
+                              ? campus.lga
+                              : "Not Available"}{"_"}
+                             {campus?.primary === "true" ? campus.primary ? <i className="fas fa-check text-primary">Primary Campus</i> : "Secondary Campus": "Secondary Campus"}
+
+                          </div>
+                        ))}
+                      </td>
+                      <td
+                        className="text-capitalize text-start text-truncate"
+                        onMouseEnter={() => toggleRow(index)}
+                        onMouseLeave={() => toggleRow(index)}
+                        title={data?.popularCategories}
+                      >
+                        {getDisplayText(data?.popularCategories.join(", "), isExpanded)}
+                      </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        {data?.noofApplications||"Not Available"}
+                      </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        </td>
+                      {/* <td className="text-capitalize text-start ">
+    
+    <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
+                      </td> */}
+                      <td className="text-capitalize text-start text-truncate">
+                        <div className="d-flex">
+                        {studentPrivileges?.view && (
+                            <Link
+                              className="dropdown-item"
+                              to={{
+                                pathname: "/admin_view_university",
+                                search: `?id=${data?._id}`,
+                              }}
+                            >
+                              <i className="far fa-eye text-primary me-1"></i>
+                            </Link>
+                        )}
+                          {studentPrivileges?.edit && (
+
+                         
+                            <Link
+                              className="dropdown-item"
+                              to={{
+                                pathname: "/admin_edit_university",
+                                search: `?id=${data?._id}`,
+                              }}
+                            >
+                              <i className="far fa-edit text-warning me-1"></i>
+                            </Link>
+                          
+                            )}
+                            {studentPrivileges?.delete && (
+                            <button
+                              className="dropdown-item"
+                              onClick={() => openPopup(data?._id)}
+                            >
+                              <i className="far fa-trash-alt text-danger me-1"></i>
+                            </button>
+                            )}
+                          
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {university?.map((item, index) => {
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0">{item?.universityName}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>University ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item?.universityCode}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Country</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item?.country}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Campus</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item.campuses?.map((campus, yearIndex) => (
+                          <div key={yearIndex}>
+                            {campus?.state?.length > 0
+                              ? campus.state
+                              : "Not Available"}
+                            {"_"}
+                            {campus?.lga?.length > 0
+                              ? campus.lga
+                              : "Not Available"}{"_"}
+                             {campus?.primary === "true" ? campus.primary ? <i className="fas fa-check text-primary">Primary Campus</i> : "Secondary Campus": "Secondary Campus"}
+
+                          </div>
+                        ))}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Popular Categories</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item?.popularCategories}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  {/* <div className="col-md-7 d-flex align-items-center">
+                  <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
+                  </div> */}
+                </div>
               </div>
             </div>
           </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {studentPrivileges?.view && (
+          <Link
+                              className="btn btn-sm btn-outline-primary"
+                              to={{
+                                pathname: "/admin_view_university",
+                                search: `?id=${item?._id}`,
+                              }}
+                            >
+                              <i className="far fa-eye text-primary me-1"></i>
+                            </Link>
+          )}
+
+{studentPrivileges?.edit && (  
+                            <Link
+                              className="btn btn-sm btn-outline-warning"
+                              to={{
+                                pathname: "/admin_edit_university",
+                                search: `?id=${item?._id}`,
+                              }}
+                            >
+                              <i className="far fa-edit text-warning me-1"></i>
+                            </Link>
+)}
+                          
+                          {studentPrivileges?.delete && (
+                            <button
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => openPopup(item?._id)}
+                            >
+                              <i className="far fa-trash-alt text-danger me-1"></i>
+                            </button>
+                          )}
+          </div>
+        </div>
+      </div>
+  })}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+       
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+          
         </div>
         <Dialog open={open}>
           <DialogContent>
             <div className="text-center m-4">
-              <h5
+              <h6
                 className="mb-4"
                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
               >
                 Are you sure you want to Delete <br /> the selected University ?
-              </h5>
+              </h6>
               <button
                 type="button"
                 className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
@@ -846,6 +1316,34 @@ export const AdminListUniversity = () => {
             </div>
           </DialogContent>
         </Dialog>
+       
+        <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedUniversity}
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
+
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University
@@ -895,65 +1393,8 @@ export const AdminListUniversity = () => {
             </form>
           </DialogContent>
         </Dialog>
-        {/* <div className="modal fade" id="addCountryModal" tabIndex="-1" aria-labelledby="addCountryModalLabel" aria-hidden="true" ref={modalRef}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="addCountryModalLabel">{isEdit }</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="mb-3">
-                  <label htmlFor="intakeName" className="form-label">Intake Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="intakeName"
-                    name="intakeName"
-                    value={inputs.intakeName}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.intakeName.required && (
-                    <span className="text-danger">Intake Name is required</span>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="startDate" className="form-label">Start Date</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="startDate"
-                    name="startDate"
-                    value={inputs.startDate}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.startDate.required && (
-                    <span className="text-danger">Start Date is required</span>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="endDate" className="form-label">End Date</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="endDate"
-                    name="endDate"
-                    value={inputs.endDate}
-                    onChange={handleInputs}
-                  />
-                  {submitted && errors.endDate.required && (
-                    <span className="text-danger">End Date is required</span>
-                  )}
-                </div>
-                <button type="submit" className="btn btn-primary">{isEdit ? "Update" : "Save"}</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> */}
+       
       </div>
     </>
   );
-};
-export default AdminListUniversity;
+}

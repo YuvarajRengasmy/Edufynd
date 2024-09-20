@@ -1346,7 +1346,7 @@ const chartRef = useRef(null);
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
                 >

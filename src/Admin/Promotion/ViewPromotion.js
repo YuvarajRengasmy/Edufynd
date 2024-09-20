@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getSinglePromotion } from "../../api/promotions";
 import { RichTextEditor } from "@mantine/rte";
 import { Link, useLocation } from "react-router-dom";
@@ -11,7 +11,6 @@ export const ViewPromotion = () => {
   useEffect(() => {
     getPromotionList();
   }, []);
-
   const getPromotionList = () => {
     getSinglePromotion(id)
       .then((res) => {
@@ -26,22 +25,20 @@ export const ViewPromotion = () => {
       <div style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
         <div>
           <Sidebar />
-
           <div
             className="content-wrapper "
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="content-header ">
               <BackButton />
-
+             
               <div class="container-fluid mt-4">
                 <div class="bg-primary text-white p-3 rounded mb-4 d-flex justify-content-between align-items-center">
                   <h1 class="display-4">Promotion Details</h1>
-                  <a href="promotions.html" class="btn btn-light">
+                  <a href="#" class="btn btn-light">
                     Back to Promotions
                   </a>
                 </div>
-
                 <div class="row">
                   <div class="col-lg-8">
                     <div class="card mb-4">
@@ -57,13 +54,11 @@ export const ViewPromotion = () => {
                           <strong>Content:</strong> Get amazing discounts on all
                           summer products. Shop now and enjoy exclusive offers!
                         </p>
-
                         <img
                           src="promotion-image.jpg"
                           class="img-fluid rounded mb-3"
                           alt="Promotion Image"
                         />
-
                         <div class="d-flex">
                           <button class="btn btn-primary me-2">Edit</button>
                           <button class="btn btn-danger">Delete</button>
@@ -71,7 +66,6 @@ export const ViewPromotion = () => {
                       </div>
                     </div>
                   </div>
-
                   <div class="col-lg-4">
                     <div class="card">
                       <div class="card-header bg-dark text-white">
@@ -100,7 +94,6 @@ export const ViewPromotion = () => {
                   </div>
                 </div>
               </div>
-
               <div className="container-fluid">
                 <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                   <div
@@ -166,7 +159,6 @@ export const ViewPromotion = () => {
                   </div>
                 </div>
               </div>
-
               <div className="container-fluid my-2">
                 <div className="row ">
                   <div className="col-12 col-lg-7 col-auto">
@@ -189,7 +181,6 @@ export const ViewPromotion = () => {
                               Changed by:<strong>John Doe</strong>
                             </p>
                           </div>
-
                           <div className="col-7">
                             <div className="mb-3">
                               <div className="bg-success text-white rounded-3 p-2">
