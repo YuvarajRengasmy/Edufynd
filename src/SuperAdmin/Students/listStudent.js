@@ -650,7 +650,6 @@ primaryNumber:""
             </div>
           </Link>
         </div>
-
         {/* Offered and Rejected Card */}
         <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">

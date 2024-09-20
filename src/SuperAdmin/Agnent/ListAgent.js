@@ -29,6 +29,9 @@ export default function Masterproductlist() {
     courseFee: "",
   };
 
+
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
   const [file, setFile] = useState(null);
   const location = useLocation();
   var searchValue = location.state;
@@ -40,7 +43,7 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
   const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -48,7 +51,7 @@ export default function Masterproductlist() {
     to: pageSize,
   });
 
-  const [agent, setAgent] = useState();
+  const [agent, setAgent] = useState([]);
 
   useEffect(() => {
     if (search.current) {
@@ -64,7 +67,7 @@ export default function Masterproductlist() {
   }, [searchValue]);
   useEffect(() => {
     getAllAgentDetails();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to.pageSize]);
 
   const getAllAgentDetails = () => {
     const data = {

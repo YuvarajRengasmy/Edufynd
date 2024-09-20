@@ -483,8 +483,12 @@ function Profile() {
                             {student?.gender || "Not Available"}
                           </p>
                           <p>
+                            <strong>PrimaryNumber:</strong>{" "}
+                            {student?.dial2}-{student?.primaryNumber || "Not Available"}
+                          </p>
+                          <p>
                             <strong>WhatsApp Number:</strong>{" "}
-                            {student?.whatsAppNumber || "Not Available"}
+                           {student?.dial2}-{student?.whatsAppNumber || "Not Available"}
                           </p>
                         </div>
                       </div>
