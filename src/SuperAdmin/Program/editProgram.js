@@ -620,7 +620,7 @@ function Profile() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.programTitle.required
                                 ? "is-invalid"
                                 : errors.programTitle.valid
@@ -636,6 +636,12 @@ function Profile() {
                             value={program?.programTitle}
                             name="programTitle"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.programTitle.required ? (
                             <div className="text-danger form-text">
@@ -666,6 +672,11 @@ function Profile() {
                             placeholder="Enter Application Fee"
                             name="applicationFee"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.applicationFee.required && (
                             <span className="text-danger form-text profile_error">
@@ -805,6 +816,11 @@ function Profile() {
           onChange={(e) => handleInputChange(index, "courseFees", e.target.value)}
           className="form-control"
           placeholder="Enter Course Fees"
+          onKeyDown={(e) => {
+            if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+              e.preventDefault();
+            }
+          }}
         />
         {errors.campuses && errors.campuses[index]?.courseFees?.required && (
           <span className="text-danger form-text profile_error">
@@ -827,6 +843,11 @@ function Profile() {
           onChange={(e) => handleInputChange(index, "duration", e.target.value)}
           className="form-control"
           placeholder="Enter Duration"
+          onKeyDown={(e) => {
+            if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+              e.preventDefault();
+            }
+          }}
         />
         {errors.campuses && errors.campuses[index]?.duration?.required && (
           <span className="text-danger form-text profile_error">
