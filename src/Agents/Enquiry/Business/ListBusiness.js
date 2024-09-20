@@ -16,7 +16,7 @@ import {
   radioClasses,
 } from "@mui/material";
 import { formatDate } from "../../../Utils/DateFormat";
-import Sidebar from "../../../compoents/AgentSidebar";
+import Mastersidebar from "../../../compoents/sidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -140,7 +140,7 @@ export const ListBusiness = () => {
 
   return (
     <>
-      <Sidebar />
+      <Mastersidebar />
 
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header  bg-light shadow-sm sticky-top">
@@ -362,7 +362,7 @@ export const ListBusiness = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/agent_add_business_enquiry">
+                    <Link class="btn btn-pix-primary" to="/add_business_enquiry">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -462,36 +462,75 @@ export const ListBusiness = () => {
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm border-0">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                  <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>{" "}
+                      </p>
+                    </div>
 
-                    </p>
-                       <div className="p-0 m-0">
-                       <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
-                       </div>
-                        <div className="m-0 p-0">
-                        <select class="form-select form-select-sm rounded-1 d-inline mx-2" aria-label="Default select example2"    style={{ width: "auto", display: "inline-block", fontSize: "12px" }}>
-  <option selected>Select Staff</option>
-  <option value="1">Staff 1</option>
-  <option value="2">Staff 2</option>
- 
-</select>
-                        </div>
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
                   <div className="card-body">
-                    <div className="card-table">
+                  <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+                         <div className="card-table">
                       <div className="table-responsive">
                         <table
                           className="table table-hover card-table dataTable text-center"
@@ -602,7 +641,7 @@ export const ListBusiness = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/agent_view_business_enquiry",
+                                          pathname: "/view_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -613,7 +652,7 @@ export const ListBusiness = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/agent_edit_business_enquiry",
+                                          pathname: "/edit_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -621,7 +660,7 @@ export const ListBusiness = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                      <button
+                                      <Link
                                         className="dropdown-item"
                                         onClick={() => {
                                           openPopup(data?._id);
@@ -630,7 +669,7 @@ export const ListBusiness = () => {
                                         title="Delete"
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </button>
+                                      </Link>
                                     </div>
                                   </td>
                                 </tr>
@@ -649,6 +688,177 @@ export const ListBusiness = () => {
                         </table>
                       </div>
                     </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {student?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"> {data?.name || "Not Available"}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Business ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.studentCode || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data?.createdOn) || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Primary No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.primaryNumber || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Email ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.email || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Desired Country</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.desiredCountry || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Source</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.source || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Assigned To</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.assignedTo || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                  {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                        className="btn btn-sm btn-outline-primary"
+                                        to={{
+                                          pathname: "/view_business_enquiry",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="View"
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>View
+                                      </Link>
+                                      <Link
+                                        className="btn btn-sm btn-outline-warning"
+                                        to={{
+                                          pathname: "/edit_business_enquiry",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="Edit"
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i> Edit
+                                      </Link>
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                        data-bs-toggle="tooltip"
+                                        title="Delete"
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                      </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+                 
 
                    
                   </div>

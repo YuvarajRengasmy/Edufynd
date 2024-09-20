@@ -1,47 +1,27 @@
-import { RiCoinsFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
-import { IoMdRocket } from "react-icons/io";
-import { IoMailUnread } from "react-icons/io5";
-import banner from "../../styles/Assets/Student/EventBanner.png";
-import { getSingleUniversity } from "../../api/university";
+import { getSingleUniversity,getLogsUniversity,getSingleLogUniversity } from "../../api/university";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import BackButton from "../../compoents/backButton";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  backdropClasses,
-  radioClasses,
-} from "@mui/material";
+import { Pagination} from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
-import { getFilterProgram, getProgramUniversity } from "../../api/Program";
-import Sidebar from "../../compoents/AgentSidebar";
-import { FaUniversity } from "react-icons/fa";
-import { FaGlobeAmericas } from "react-icons/fa";
+import { getFilterProgram, getProgramUniversity, } from "../../api/Program";
+import Sidebar from "../../compoents/sidebar";
 import { RichTextEditor } from "@mantine/rte";
 
 const UserProfile = () => {
-  const initialStateInputs = {
-    inTake: "",
-    programTitle: "",
-    applicationFee: "",
-    courseType: "",
-  };
+ 
 
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
   var searchValue = location.state;
   const [link, setLink] = useState("");
   const [inputs, setInputs] = useState(false);
-  const [open, setOpen] = useState(false);
   const [data, setData] = useState(false);
   const [university, setUniversity] = useState();
   const [commission, setCommission] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
-
+  const [logs, setLogs] = useState([]);
   const [program, setProgram] = useState([]);
   const pageSize = 5;
   const search = useRef(null);
@@ -54,7 +34,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUniversityDetails();
-
+    getUniversityLogs();
     getUniversityCommissionDetails();
     // filter ? filterProgramList() : getAllProgram();
   }, [universityId, pagination.from, pagination.to]);
@@ -85,6 +65,16 @@ const UserProfile = () => {
     getSingleUniversity(universityId)
       .then((res) => {
         setUniversity(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getUniversityLogs = () => {
+    getSingleLogUniversity(universityId)
+      .then((res) => {
+        console.log("yuvi",res);
+        setLogs(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -180,26 +170,7 @@ const UserProfile = () => {
     setPagination({ ...pagination, from: from, to: to });
   };
 
-  //   event?.preventDefault();
-  //   setFilter(true);
-  //   const data = {
-  //     universityName: university?.universityName,
-  //     universityId: university?._id,
-  //     limit: 10,
-  //     page: pagination.from,
-  //   };
-  //   getUniversityProgram(data)
-  //     .then((res) => {
-  //       setProgram(res?.data?.result?.programList);
-  //       setPagination({
-  //         ...pagination,
-  //         count: res?.data?.result?.programCount,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  
   return (
     <>
       <div>
@@ -209,7 +180,7 @@ const UserProfile = () => {
           className="content-wrapper"
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
         >
-          <div className="content-header text-end">
+          <div className=" text-end">
           <BackButton/>
           </div>
           <div className="container-fluid ">
@@ -273,7 +244,7 @@ const UserProfile = () => {
                                 {university?.universityName}
                               </h5>
                             </div>
-                            <div className="d-flex  flex-lg-row flex-xs-column  justify-content-between align-items-start">
+                            <div className="d-flex   flex-wrap   justify-content-between align-items-start">
                               <p
                                 className="text-white fw-semibold mb-1"
                                 style={{ fontSize: "14px" }}
@@ -355,12 +326,7 @@ const UserProfile = () => {
                                 Avg &nbsp; {university?.averageFees}{" "}
                                 <i class="fa  nav-icon"></i>
                               </p>
-                              {/* <div className="text-white mb-1 fw-semibold" style={{ fontSize: '14px' }}>
-                <span style={{ color: '#fe5722', fontSize: '14px' }}>
-                  <i className="fa fa-envelope nav-icon"></i>
-                </span>{' '}
-                {university?.email}
-              </div> */}
+                              
                             </div>
                           </div>
                         </div>
@@ -612,36 +578,41 @@ const UserProfile = () => {
                                               </div>
                                             
                                             </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Eligibility For Commission - <b>   {commission.eligibility}%</b>
                                               </div>
                                               
                                             </div>
+                                          </div>
+                                          <div className="row gy-3 py-2">
+                                          
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Payment TAT -<b> {commission.paymentType}</b>
                                               </div>
                                               
                                             </div>
-                                          </div>
-                                          <div className="row gy-3 py-2">
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Tax - <b> {commission.tax}</b>
                                               </div>
                                               
                                             </div>
+                                          </div>
+                                          <div className="row gy-3 py-2">
+                                            
+                                            {commission?.commissionPaidOn ? (
                                             <div className="col-sm-6">
                                               <div className=" text-lead text-capitalize">
                                                 Commission Paid On - <b>{commission.commissionPaidOn
                                                   ? commission.commissionPaidOn
                                                   : "null"}</b>
                                               </div>
+                                              
                                              
                                             </div>
+                                            ):null}
                                           </div>
                                         </div>
                                       </div>
@@ -674,12 +645,12 @@ const UserProfile = () => {
                               className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
                               role="alert"
                             >
-                              Intakes
+                            {university?.businessName}
                             </div>
 
                             <div className="card card-body">
                               <h5 className="text-capitalize text-center">
-                                Program Intakes
+                               Intakes
                               </h5>
                               {Array.isArray(university?.inTake) &&
                                 university.inTake.map((inTake, index) => (
@@ -882,16 +853,16 @@ const UserProfile = () => {
 
                                 <div className="col-md-3">
                                   <Link
-                                    to="/AddProgram"
+                                    to="/add_program"
                                     type="button"
                                     class="btn btn-sm text-uppercase fw-semibold px-4 py-2"
                                     style={{
                                       backgroundColor: "#231f20",
-                                      color: "#fff",
+                                     
                                     }}
                                   >
-                                    <i class="fa fa-plus-circle nav-icon text-white"></i>
-                                    &nbsp;&nbsp;Add Program
+                                    <i class="fa fa-plus-circle nav-icon text-white">   &nbsp;&nbsp;Add Program</i>
+                                 
                                   </Link>
                                 </div>
                               </div>
@@ -1027,47 +998,42 @@ const UserProfile = () => {
               </div>
             </div>
 
-          <div className="container-fluid my-2">
+            <div className="container-fluid my-2">
   <div className="row ">
     <div className="col-12 col-lg-7 col-auto">
       <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
+        {logs.map((log, index) => (
+           <li className="mb-4 position-relative" key={index}>
+           <div className="row align-items-start g-0">
 
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
-              </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
-            </div>
-          </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
+             <div className="col-1 d-flex justify-content-center align-items-center">
+               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                 <i className="fas fa-check" />
+               </div>
+             </div>
+             <div className="col-4 text-center">
+               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
+               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
+             </div>
+
+             <div className="col-12">
+               {log.changes.map((change, changeIndex) => (
+                 <div key={changeIndex} className="mb-3">
+                   <div className="bg-success text-white rounded-3 p-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
+                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
+                   </div>
+                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
+                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+         </li>
+        ))}
       </ul>
     </div>
   </div>

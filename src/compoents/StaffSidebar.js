@@ -1126,7 +1126,7 @@ const Sidebar = () => {
   </Link>
 </li> */}
 
-{/* <li className="nav-item">
+<li className="nav-item">
   <Link 
     to="/staff_list_chat"
     className={`nav-link sidebar_link ${
@@ -1134,15 +1134,15 @@ const Sidebar = () => {
         ? "active"
         : ""
     }`}
-    data-path="/staff_list_chat"
+    data-path="/staff_chat"
     data-bs-toggle="tooltip"
     title={isCollapsed ? "Chat" : ""}
-    ref={el => (sidebarRefs.current['/list_chat'] = el)}
+    ref={el => (sidebarRefs.current['/staff_chat'] = el)}
   >
     <i className="fa fa-comments nav-icon"></i> 
     {!isCollapsed && " Chat"}
   </Link>
-</li> */}
+</li>
 
 {/* <li className="nav-item">
   <Link 

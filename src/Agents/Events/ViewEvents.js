@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { updatedEvent, getSingleEvent } from "../../api/Notification/event";
+import { useEffect, useState } from "react";
+import { getSingleEvent } from "../../api/Notification/event";
 import { Link, useLocation } from "react-router-dom";
-
 import Sidebar from "../../compoents/AgentSidebar";
+import BackButton from "../../compoents/backButton";
 export const ViewEvents = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [notification, setnotification] = useState([]);
-
   useEffect(() => {
     getEventList();
   }, []);
-
   const getEventList = () => {
     getSingleEvent(id)
       .then((res) => {
@@ -21,18 +19,16 @@ export const ViewEvents = () => {
         console.log(err);
       });
   };
-
   return (
     <>
       <Sidebar />
-
       <div
         className="content-wrapper "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
         <div className="content-header ">
-          
-      
+          <BackButton/>
+         
           <div className="container-fluid">
             <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
               <div
@@ -52,42 +48,42 @@ export const ViewEvents = () => {
                   }}
                 >
                   <tbody>
-                  <tr>
+                    <tr>
                       <th>Host Name</th>
                       <td>Staff Name</td>
                     </tr>
                     <tr>
                       <th>Type of User</th>
-                      <td>{notification?.typeOfUser   || "Not Available"}</td>
+                      <td>{notification?.typeOfUser || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Username</th>
                       {Array.isArray(notification?.userName) &&
-                      notification.userName.length > 0
+                        notification.userName.length > 0
                         ? notification.userName.map((username, index) => (
-                            <li key={index}>{username}</li>
-                          ))
-                        : "N/A"  || "Not Available"}
+                          <li key={index}>{username}</li>
+                        ))
+                        : "N/A" || "Not Available"}
                     </tr>
                     <tr>
                       <th>Event Topic</th>
-                      <td>{notification?.eventTopic  || "Not Available"}</td>
+                      <td>{notification?.eventTopic || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>University</th>
-                      <td>{notification?.universityName  || "Not Available"}</td>
+                      <td>{notification?.universityName || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Date</th>
-                      <td>{notification?.date  || "Not Available"}</td>
+                      <td>{notification?.date || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Time</th>
-                      <td>{notification?.time  || "Not Available"}</td>
+                      <td>{notification?.time || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Venue</th>
-                      <td>{notification?.venue  || "Not Available"}</td>
+                      <td>{notification?.venue || "Not Available"}</td>
                     </tr>
                     <tr>
                       <th>Content</th>
@@ -102,52 +98,42 @@ export const ViewEvents = () => {
               </div>
             </div>
           </div>
-
           <div className="container-fluid my-2">
-  <div className="row ">
-    <div className="col-12 col-lg-7 col-auto">
-      <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
-
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
+            <div className="row ">
+              <div className="col-12 col-lg-7 col-auto">
+                <ul className="list-unstyled">
+                  <li className="mb-4 position-relative">
+                    <div className="row align-items-start g-0">
+                      <div className="col-1 d-flex justify-content-center align-items-center">
+                        <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{ width: '2rem', height: '2rem' }}>
+                          <i className="fas fa-check" />
+                        </div>
+                      </div>
+                      <div className="col-4 text-center">
+                        <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+                        <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+                      </div>
+                      <div className="col-7">
+                        <div className="mb-3">
+                          <div className="bg-success text-white rounded-3 p-2">
+                            <h6 className="mb-1">New University Name</h6>
+                            <p className="mb-0">University Y</p>
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <div className="bg-danger text-white rounded-3 p-2">
+                            <h6 className="mb-1">Old University Name</h6>
+                            <p className="mb-0">University X</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="position-absolute top-0 start-0 translate-middle-x" style={{ width: 2, height: '100%', backgroundColor: '#007bff' }} />
+                  </li>
+                </ul>
               </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
             </div>
           </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
-      </ul>
-    </div>
-  </div>
-</div>
         </div>
       </div>
     </>

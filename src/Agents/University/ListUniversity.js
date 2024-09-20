@@ -5,8 +5,13 @@ import {
   getallUniversity,
   deleteUniversity,
   saveUniversity,
+  getAllUniversit,
   getFilterUniversity,
+  updateUniversity,
+  
 } from "../../api/university";
+import { getAllApplicantCard } from "../../api/applicatin";
+
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -18,10 +23,11 @@ import {
   radioClasses,
 } from "@mui/material";
 import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/AgentSidebar";
+import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
+import "./ListTable.css";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
@@ -33,8 +39,7 @@ Chart.register(...registerables);
 export default function Masterproductlist() {
   const initialStateInputs = {
     universityName: "",
-    state: "",
-    lga: "",
+   
     averageFees: "",
     country: "",
     popularCategories: "",
@@ -45,24 +50,32 @@ export default function Masterproductlist() {
   const [link, setLink] = useState("");
   const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
   const search = useRef(null);
+  const [details, setDetails] = useState();
+  const [detail, setDetail] = useState();
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
 
-  const [university, setUniversity] = useState();
+  const [university, setUniversity] = useState([]);
 
   useEffect(() => {
     getAllUniversityDetails();
-  }, [pagination.from, pagination.to]);
+    getallUniversityCount();
+    getallApplicantCount();
+  }, [pagination.from, pagination.to,pageSize]);
 
   useEffect(() => {
     if (search.current) {
@@ -79,12 +92,13 @@ export default function Masterproductlist() {
 
   const getAllUniversityDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
 
     getFilterUniversity(data)
       .then((res) => {
+        console.log(res?.data?.result?.universityCount);
         setUniversity(res?.data?.result?.universityList);
         setPagination({
           ...pagination,
@@ -95,7 +109,22 @@ export default function Masterproductlist() {
         console.log(err);
       });
   };
+ 
 
+
+  const getallUniversityCount = ()=>{
+    getAllUniversit()
+    .then((res)=>{
+      setDetails(res?.data.result)
+  })
+  .catch((err)=>{
+    console.log(err)
+  });
+}
+
+const getallApplicantCount = ()=>{
+  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+}
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
       search.current.blur();
@@ -121,6 +150,9 @@ export default function Masterproductlist() {
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
+
+
+
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -141,9 +173,7 @@ export default function Masterproductlist() {
       });
   };
 
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+ 
 
   const closeFilterPopup = () => {
     setOpenFilter(false);
@@ -154,7 +184,6 @@ export default function Masterproductlist() {
     const data = {
       universityName: inputs.universityName,
       country: inputs.country,
-      // state: inputs?.lga && inputs.lga.length > 0 ? inputs.lga.join(", ") : inputs?.state?.join(", ") ?? "-",
       averageFees: inputs.averageFees,
       popularCategories: inputs.popularCategories,
       limit: 10,
@@ -175,6 +204,7 @@ export default function Masterproductlist() {
       });
   };
 
+  
   const resetFilter = () => {
     setFilter(false);
     setInputs(initialStateInputs);
@@ -192,6 +222,10 @@ export default function Masterproductlist() {
     setOpenImport(false);
   };
 
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -444,22 +478,71 @@ const chartRef = useRef(null);
     };
   }, []);
 
-//satuses
 
-const [statuses, setStatuses] = useState(
-  (university && Array.isArray(university)) ? university.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-);
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
 
-// Toggle checkbox status
-const handleCheckboxChange = (index) => {
-  setStatuses((prevStatuses) => ({
-    ...prevStatuses,
-    [index]: !prevStatuses[index],
-  }));
-};
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = university.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
 
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
 
-//table filter
+      // deleteSelectedUniversity();
+    } else if (action === "Activate") {
+      activateSelectedUniversity();
+    }
+  };
+
+  const deleteSelectedUniversity = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => deleteUniversity(id)))
+        .then((responses) => {
+          toast.success("university deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllUniversityDetails();
+        
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete notifications.");
+        });
+    } else {
+      toast.warning("No notifications selected.");
+    }
+  };
+
+  const activateSelectedUniversity = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updateUniversity(id,{ active: true })))
+        .then((responses) => {
+          toast.success("University activated successfully!");
+          setSelectedIds([]);
+          getAllUniversityDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate University.");
+        });
+    } else {
+      toast.warning("No university selected.");
+    }
+  }
+
 
   return (
     <>
@@ -504,6 +587,7 @@ const handleCheckboxChange = (index) => {
               </div>
             </form>
           </li>
+          
           <li className="m-1">
             <button
               className="btn btn-primary text-white border-0 rounded-1"
@@ -543,15 +627,7 @@ const handleCheckboxChange = (index) => {
                     placeholder="Example Stanford"
                     style={{ fontSize: "12px" }}
                   />
-                  <label className="form-label">Campus</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="state"
-                    onChange={handleInputs}
-                    placeholder="Example Apple Park"
-                    style={{ fontSize: "12px" }}
-                  />
+                  
                   <label className="form-label">Average Fees</label>
                   <input
                     type="text"
@@ -626,15 +702,16 @@ const handleCheckboxChange = (index) => {
           <li className="m-1">
             <Link onClick={openImportPopup}>
               <button
-                style={{ backgroundColor: "#7627ef", fontSize: "12px" }}
                 className="btn text-white rounded-1 border-0"
+                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
               >
                 <i className="fa fa-upload" aria-hidden="true"></i>
               </button>
             </Link>
           </li>
+         
           <li className="m-1">
-            <Link to="/agent_add_university">
+            <Link to="/add_university">
               <button
                 className="btn border-0 fw-semibold text-white"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -659,7 +736,7 @@ const handleCheckboxChange = (index) => {
               <div className="row g-0">
                 <div className="col-7">
                 <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No Of University</h6>
-                <p className="card-text">Total: 50</p>
+                <p className="card-text">Total:{details?.totalUniversities || 0}</p>
                 </div>
                 <div className="col-auto ">
                 <div className="chart-container " style={{ position: 'relative', width: '4rem', height: '4rem' }}>
@@ -678,8 +755,7 @@ const handleCheckboxChange = (index) => {
               <div className="card-body">
                 <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp;Countries Listed</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Total: 20</p>
-                <p className="card-text mb-1">Country List</p>
+                <p className="card-text mb-1">Total:{details?.totalUniqueCountries|| 0}</p>
                 </div>
               </div>
             </div>
@@ -692,8 +768,8 @@ const handleCheckboxChange = (index) => {
               <div className="card-body">
                 <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Status</h6>
                 <div className="d-flex align-items-center justify-content-between"> 
-                <p className="card-text mb-1">Active: 30</p>
-                <p className="card-text mb-1">Inactive: 10</p>
+                <p className="card-text mb-1">Active: {details?.activeUniversities|| 0}</p>
+                <p className="card-text mb-1">Inactive:  {details?.inactiveUniversities|| 0}</p>
                 </div>
                
               </div>
@@ -706,7 +782,7 @@ const handleCheckboxChange = (index) => {
             <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
               <div className="card-body">
                 <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;No Of Applications</h6>
-                <p className="card-text">Total: 500</p>
+                <p className="card-text">Total: {detail?.totalApplication}</p>
               </div>
             </div>
           </Link>
@@ -720,26 +796,81 @@ const handleCheckboxChange = (index) => {
     <div className="col-xl-12">
       <div className="card rounded-1 shadow-sm border-0">
       <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                         Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                         
-                        </p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
+                          </p>
+                    </div>
+
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
+
+
+
         <div className="card-body">
-          <div className="table-responsive">
+
+        <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="table-responsive">
             <table
               className="table table-hover card-table dataTable text-center "
               style={{ color: "#9265cc" }}
@@ -748,7 +879,13 @@ const handleCheckboxChange = (index) => {
               <thead className="table-light"  style={{ fontSize: "11px" }}>
                 <tr>
                 <th className=" text-start">
-                            <input type="checkbox" />
+                <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === university.length
+                                    }
+                                  />
                             </th>
                   <th className="text-capitalize text-start sortable-handle">
                     S No
@@ -790,7 +927,11 @@ const handleCheckboxChange = (index) => {
                   return (
                     <tr key={index}>
                       <td className=" text-start">
-                              <input type="checkbox" />
+                      <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                               </td>
                       <td className="text-capitalize text-start">
                         {pagination.from + index + 1}
@@ -843,51 +984,71 @@ const handleCheckboxChange = (index) => {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.noofApplications||"Not Available"}
                       </td>
-                      <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
+                      <td className="text-capitalize text-start text-truncate">
+                        </td>
+                      {/* <td className="text-capitalize text-start ">
+    
+    <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
+                      </td> */}
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
-                        
+                         
                             <Link
                               className="dropdown-item"
                               to={{
-                                pathname: "/agent_view_university",
+                                pathname: "/view_university",
                                 search: `?id=${data?._id}`,
                               }}
                             >
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
-                        
                           
+
+                         
                             <Link
                               className="dropdown-item"
                               to={{
-                                pathname: "/agent_edit_university",
+                                pathname: "/edit_university",
                                 search: `?id=${data?._id}`,
                               }}
                             >
                               <i className="far fa-edit text-warning me-1"></i>
                             </Link>
-                         
-                         
+                          
+                          
                             <button
                               className="dropdown-item"
                               onClick={() => openPopup(data?._id)}
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
-                         
+                          
                         </div>
                       </td>
                     </tr>
@@ -896,20 +1057,188 @@ const handleCheckboxChange = (index) => {
               </tbody>
             </table>
           </div>
-          <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {university?.map((item, index) => {
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0">{item?.universityName}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>University ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item?.universityCode}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Country</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item?.country}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Campus</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item.campuses?.map((campus, yearIndex) => (
+                          <div key={yearIndex}>
+                            {campus?.state?.length > 0
+                              ? campus.state
+                              : "Not Available"}
+                            {"_"}
+                            {campus?.lga?.length > 0
+                              ? campus.lga
+                              : "Not Available"}{"_"}
+                             {campus?.primary === "true" ? campus.primary ? <i className="fas fa-check text-primary">Primary Campus</i> : "Secondary Campus": "Secondary Campus"}
+
+                          </div>
+                        ))}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Popular Categories</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {item?.popularCategories}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  {/* <div className="col-md-7 d-flex align-items-center">
+                  <span className="form-check form-switch d-inline ms-2" >
+      {data?.universityStatus === "Active" ? (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      ) : (
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={data?.universityStatus}
+          id={`flexSwitchCheckDefault${index}`}
+          checked={statuses[data._id] || false}
+          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
+        />
+      )}
+     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
+        {data?.universityStatus || "Not Available"}
+      </label>
+
+    </span>
+                  </div> */}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                              className="btn btn-sm btn-outline-primary"
+                              to={{
+                                pathname: "/view_university",
+                                search: `?id=${item?._id}`,
+                              }}
+                            >
+                              <i className="far fa-eye text-primary me-1"></i>
+                            </Link>
+                          
+
+                         
+                            <Link
+                              className="btn btn-sm btn-outline-warning"
+                              to={{
+                                pathname: "/edit_university",
+                                search: `?id=${item?._id}`,
+                              }}
+                            >
+                              <i className="far fa-edit text-warning me-1"></i>
+                            </Link>
+                          
+                          
+                            <button
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => openPopup(item?._id)}
+                            >
+                              <i className="far fa-trash-alt text-danger me-1"></i>
+                            </button>
+          </div>
+        </div>
+      </div>
+  })}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+       
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}
@@ -958,6 +1287,34 @@ const handleCheckboxChange = (index) => {
             </div>
           </DialogContent>
         </Dialog>
+       
+        <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedUniversity}
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+        </Dialog>
+
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University
@@ -989,7 +1346,7 @@ const handleCheckboxChange = (index) => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
                 >
