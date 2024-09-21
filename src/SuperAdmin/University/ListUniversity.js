@@ -526,6 +526,7 @@ const chartRef = useRef(null);
     }
   };
 
+  
   const activateSelectedUniversity = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => updateUniversity(id,{ active: true })))

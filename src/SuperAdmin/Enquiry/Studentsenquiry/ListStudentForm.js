@@ -4,6 +4,7 @@ import {
   getallStudnetEnquiry,
   getSingleStudnetEnquiry,
   deleteStudnetEnquiry,
+  
 } from "../../../api/Enquiry/student";
 import { Link } from "react-router-dom";
 import {

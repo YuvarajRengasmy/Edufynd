@@ -9,7 +9,9 @@ export const updateLoanEnquiry= (data) => {
     return API.put(`${Loan}`, data)
 }
 
-
+export const getSingleLogUniversity = (data) => {
+    return API.get(`${Loan}/SingleLog`, { params: { _id: data } });
+  };
 
 export const getSingleLoanEnquiry = (data) => {
     return API.get(`${Loan}/getSingleLoanEnquiry`, { params: { _id: data } })

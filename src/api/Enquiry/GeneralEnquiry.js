@@ -12,6 +12,9 @@ export const updateGeneralEnquiry= (data) => {
 export const getSingleGeneralEnquiry = (data) => {
     return API.get(`${GeneralEnquiry}/getSingleGeneralEnquiry`, { params: { _id: data } })
 }
+export const getSingleLogUniversity = (data) => {
+    return API.get(`${GeneralEnquiry}/SingleLog`, { params: { _id: data } });
+  };
 export const getallGeneralEnquiry = () => {
     return API.get(`${GeneralEnquiry}`)
 }

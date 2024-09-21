@@ -7,8 +7,9 @@ import { Pagination} from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
 import { getFilterProgram, getProgramUniversity, } from "../../api/Program";
 import Sidebar from "../../compoents/sidebar";
-import { RichTextEditor } from "@mantine/rte";
 
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 const UserProfile = () => {
  
 
@@ -443,10 +444,15 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                  <RichTextEditor
-                                    value={university?.about}
-                                    readOnly
-                                  />{" "}
+                                 
+                                   <CKEditor
+        editor={ClassicEditor}
+        data={university?.about} 
+        disabled={true}                    
+        config={{
+          toolbar: [],                   
+        }}
+      />
                                 </p>
                               </div>
                               <div
@@ -631,10 +637,15 @@ const UserProfile = () => {
                                   className="clearfix"
                                   style={{ textAlign: "justify" }}
                                 >
-                                  <RichTextEditor
-                                    value={university?.admissionRequirement}
-                                    readOnly
-                                  />
+                               
+                                   <CKEditor
+        editor={ClassicEditor}
+        data={university?.admissionRequirement || ''} 
+        disabled={true}                    
+        config={{
+          toolbar: [],                   
+        }}
+      />
                                 </p>
                               </div>
                             </div>

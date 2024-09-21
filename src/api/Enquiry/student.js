@@ -12,6 +12,9 @@ export const updateStudnetEnquiry= (data) => {
 export const getSingleStudnetEnquiry = (data) => {
     return API.get(`${StudnetEnquiry}/getSingleStudentEnquiry`, { params: { _id: data } })
 }
+export const getSingleLogUniversity = (data) => {
+    return API.get(`${StudnetEnquiry}/SingleLog`, { params: { _id: data } });
+  };
 export const getallStudnetEnquiry = () => {
     return API.get(`${StudnetEnquiry}`)
 }

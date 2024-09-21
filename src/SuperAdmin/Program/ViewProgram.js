@@ -9,8 +9,8 @@ import Sidebar from "../../compoents/sidebar";
 import Flags from "react-world-flags";
 import { Pagination } from "@mui/material";
 import { toast } from 'react-toastify';
-import { University } from "../../api/endpoints";
-import { RichTextEditor } from "@mantine/rte";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import BackButton from "../../compoents/backButton";
 export const Course = () => {
   const location = useLocation();
@@ -509,10 +509,15 @@ const handleSubmit = (event) => {
                                 aria-labelledby="home-tab"
                               >
                                 <p style={{ textAlign: "justify" }}>
-                                  <RichTextEditor
-                                    value={program?.academicRequirement  || "Not Available"}
-                                    readOnly
-                                  />
+                                  
+                                   <CKEditor
+        editor={ClassicEditor}
+        data={program?.academicRequirement  || "Not Available"} 
+        disabled={true}                    
+        config={{
+          toolbar: [],                   
+        }}
+      />
                                 </p>
                               </div>
                               <div
