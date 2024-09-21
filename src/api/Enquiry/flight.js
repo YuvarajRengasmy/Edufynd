@@ -12,6 +12,10 @@ export const updateFlightEnquiry= (data) => {
 export const getSingleFlightEnquiry = (data) => {
     return API.get(`${Flight}/getSingleFlightEnquiry`,{params: {_id:data}})
 }
+
+export const getSingleLogUniversity = (data) => {
+    return API.get(`${Flight}/SingleLog`, { params: { _id: data } });
+  };
 export const getallFlightEnquiry = () => {
     return API.get(`${Flight}`)
 }

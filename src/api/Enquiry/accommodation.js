@@ -8,9 +8,9 @@ export const saveAccommodationEnquiry = (data) => {
 export const updateAccommodationEnquiry= (data) => {
     return API.put(`${Accommodation}`, data)
 }
-
-
-
+export const getSingleLogUniversity = (data) => {
+    return API.get(`${Accommodation}/SingleLog`, { params: { _id: data } });
+};
 export const getSingleAccommodationEnquiry = (data) => {
     return API.get(`${Accommodation}/getSingleAccommodation`, { params: { _id: data } })
 }

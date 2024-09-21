@@ -12,6 +12,10 @@ export const updateBusinessEnquiry= (data) => {
 export const getSingleBusinessEnquiry = (data) => {
     return API.get(`${BusinessEnquiry}/getSingleBusinessEnquiry`, { params: { _id: data } })
 }
+
+export const getSingleLogUniversity = (data) => {
+    return API.get(`${BusinessEnquiry}/SingleLog`, { params: { _id: data } });
+};
 export const getallBusinessEnquiry = () => {
     return API.get(`${BusinessEnquiry}`)
 }

@@ -1,7 +1,31 @@
 import Sidebar from "../../compoents/sidebar";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { updatedTestimonial,getSingleTestimonial } from "../../api/Notification/Testimonial";
 import BackButton from "../../compoents/backButton";
+import { RichTextEditor } from "@mantine/rte";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const ViewTestimonials = () => {
+
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  const [notification, setnotification] = useState([]);
+  useEffect(() => {
+    getSingleDetails();
+  }, []);
+
+  const getSingleDetails = () => {
+    getSingleTestimonial(id)
+      .then((res) => {
+        setnotification(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
   return (
     <>
       <div>
@@ -36,6 +60,7 @@ export const ViewTestimonials = () => {
                   <Link
                     to={{
                       pathname: "/edit_Testimonials",
+                      search: `?id=${id}`,
                     }}
                     className="text-decoration-none"
                   >
@@ -63,40 +88,56 @@ export const ViewTestimonials = () => {
                     }}
                   >
                     <tbody>
+                    <tr>
+                        <th>Host Name</th>
+                        <td>{notification?.hostName}</td>
+                      </tr>
                       <tr>
-                        <th>Name</th>
-                        <td>John Doe</td>
+                        <th>Type Of User</th>
+                        <td>{notification?.typeOfUser}</td>
                       </tr>
                       <tr>
                         <th>Course/University</th>
-                        <td>Computer Science / MIT</td>
+                        <td>{notification?.courseOrUniversityName}</td>
                       </tr>
                       <tr>
                         <th>Location</th>
-                        <td>Room 101, Main Building</td>
+                        <td>{notification?.location}</td>
+                      </tr>
+                      <tr>
+                        <th>Counsellor Name</th>
+                        <td>{notification?.counselorName}</td>
                       </tr>
                       <tr>
                         <th>Content</th>
                         <td>
-                          This training session will cover advanced React
-                          techniques, including hooks, context API, and
-                          performance optimization.
-                        </td>
+      <CKEditor
+        editor={ClassicEditor}
+        data={notification?.content || ''} 
+        disabled={true}                    
+        config={{
+          toolbar: [],                   
+        }}
+      />
+    </td>
                       </tr>
                       <tr>
                         <th>Image</th>
-                        <td>
-                          <img
-                            src="path/to/image.jpg"
-                            alt="Training"
-                            style={{ width: "100px", height: "auto" }}
-                          />
-                        </td>
+                        {Array.isArray(notification?.uploadFile) && notification.uploadFile.length > 0 && (
+                          
+                            <td >
+                               {notification.uploadFile.map((data, index) => (
+                              <img
+                                className="img-fluid img-thumbnail mx-auto d-block"
+                                src={data.uploadImage ? data.uploadImage : "https://via.placeholder.com/128"}
+                                alt="uploaded-file"
+                                style={{ width: "10rem", height: "5rem" }}
+                              />
+                            ))}
+                            </td>
+                        )}
                       </tr>
-                      <tr>
-                        <th>Counsellor Name</th>
-                        <td>Jane Smith</td>
-                      </tr>
+                     
                     </tbody>
                   </table>
                 </div>

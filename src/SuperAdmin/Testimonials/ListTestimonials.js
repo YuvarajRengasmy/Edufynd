@@ -74,7 +74,7 @@ export const ListTestimonials = () => {
       sortable.destroy();
     };
   }, []);
-  const deleteProgramData = () => {
+  const deleteClientData = () => {
     deleteTestimonial(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
@@ -732,29 +732,31 @@ export const ListTestimonials = () => {
             </div>
           </div>
         </div>
-        <Dialog>
-          <DialogContent>
-            <div className="text-center p-4">
-              <h5 className="mb-4" style={{ fontSize: "14px" }}>
-                Are you sure you want to Delete <br /> the selected Product ?
-              </h5>
-              <button
-                type="button"
-                className="btn btn-save btn-success px-3 py-1 border-0 rounded-pill fw-semibold rounded-1 mx-3"
-                style={{ fontSize: "12px" }}
-              >
-                Yes
-              </button>
-              <button
-                type="button"
-                className="btn btn-cancel  btn-danger px-3 py-1 border-0 rounded-pill fw-semibold rounded-1 "
-                style={{ fontSize: "12px" }}
-              >
-                No
-              </button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <Dialog open={open}>
+        <DialogContent>
+          <div className="text-center p-4">
+            <h6 className="mb-4 text-capitalize">
+              Are you sure you want to delete the selected Testimonial?
+            </h6>
+            <button
+              type="button"
+              className="btn btn-success px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase mx-3"
+              onClick={deleteClientData}
+              style={{ fontSize: "12px" }}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger px-4 py-2 border-0 rounded-pill fw-semibold text-uppercase"
+              onClick={closePopup}
+              style={{ fontSize: "12px" }}
+            >
+              No
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
         <Dialog fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University
