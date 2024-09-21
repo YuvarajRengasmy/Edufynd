@@ -54,7 +54,7 @@ export const ListStudentForm = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-  onst [staff, setStaff] = useState(null);
+  const [staff, setStaff] = useState(null);
 
 
   useEffect(() => {
