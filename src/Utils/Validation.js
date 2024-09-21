@@ -38,8 +38,8 @@ export const isValidName = (name) => {
 export const isValidNumberLessThanOrEqualTo35 = (number) => {
   return !isNaN(number) && Number(number) <= 35;
 };
-export const isValidNumberLessThanOrEqualTo95 = (number) => {
-  return !isNaN(number) && Number(number) <= 95;
+export const isValidNumberLessThanOrEqualTo99 = (number) => {
+  return !isNaN(number) && Number(number) <= 99;
 };
 export const  isValidPinCode= (number) => {
   return typeof number === 'string' && /^\d{1,6}$/.test(number);

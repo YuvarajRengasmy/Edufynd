@@ -8,7 +8,7 @@ import {
  
   isValidPAN,
   isValidBankAccountNumber,
-  isValidNumberLessThanOrEqualTo95,
+  isValidNumberLessThanOrEqualTo99,
 } from "../../Utils/Validation";
 import { SuperAgent } from "../../api/agent";
 import Flags from "react-world-flags";
@@ -257,7 +257,7 @@ function AddAgent() {
     if (data.agentsCommission === '') {
       error.agentsCommission.required = true;
     }
-    if (!isValidNumberLessThanOrEqualTo95(data.agentsCommission)) {
+    if (!isValidNumberLessThanOrEqualTo99(data.agentsCommission)) {
       error.agentsCommission.valid = true;
     }
     if (!isValidPAN(data.panNumberCompany)) {
@@ -1235,11 +1235,7 @@ function AddAgent() {
                             <option value="No">No</option>
                           </select>
                          
-                          <span className="text-center  text-capitalize">
-                            <small>
-                              If 'Yes' 10% on commision will be charged'
-                            </small>{" "}
-                          </span>
+                          
                         </div>
                       </div>
 

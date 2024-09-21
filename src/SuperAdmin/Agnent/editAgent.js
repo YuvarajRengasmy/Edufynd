@@ -8,7 +8,7 @@ import {
   isValidGSTN,
   isValidPAN,
   isValidBankAccountNumber,
-  isValidNumberLessThanOrEqualTo95,
+  isValidNumberLessThanOrEqualTo99,
 } from "../../Utils/Validation";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
@@ -269,9 +269,10 @@ function EditAgent() {
     if (data.agentsCommission === "") {
       error.agentsCommission.required = true;
     }
-    if (!isValidNumberLessThanOrEqualTo95(data.agentsCommission)) {
+    if (!isValidNumberLessThanOrEqualTo99(data.agentsCommission)) {
       error.agentsCommission.valid = true;
     }
+    
     if (!isValidPAN(data.panNumberCompany)) {
       error.panNumberCompany.valid = true;
     }
@@ -1278,9 +1279,7 @@ function EditAgent() {
                             <option value="No">No</option>
                           </select>
                           <span>
-                            <small className="text-capitalize">
-                              If 'Yes' 10% on commision will be charged'
-                            </small>{" "}
+                            
                           </span>
                         </div>
                       </div>
