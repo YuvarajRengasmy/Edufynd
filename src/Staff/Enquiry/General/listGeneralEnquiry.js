@@ -20,8 +20,8 @@ import Mastersidebar from "../../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getStaffId } from "../../Utils/storage";
-import {  getSingleStaff } from "../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
+import {  getSingleStaff } from "../../../api/staff";
 
 import { FaFilter } from "react-icons/fa";
 
