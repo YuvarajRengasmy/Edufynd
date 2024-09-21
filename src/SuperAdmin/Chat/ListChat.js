@@ -349,7 +349,13 @@ const ListChat = () => {
                   />
                 ) : null}
                 <div
-                  className={`p-2 rounded ${message.senderType === "superAdmin" ? "bg-primary text-white" : "bg-secondary text-white"}`}
+                  className={`p-2 rounded text-end ${message.senderType === "superAdmin" ? "bg-success text-white" : "bg-secondary text-white"}`}
+                >
+                  <p className="mb-1">{message.message}</p>
+                  <small className="text-muted">{message.sentOn}</small>
+                </div>
+                <div
+                  className={`p-2 rounded text-start ${message.senderType === "staff" ? "bg-success text-white" : "bg-secondary text-white"}`}
                 >
                   <p className="mb-1">{message.message}</p>
                   <small className="text-muted">{message.sentOn}</small>

@@ -948,7 +948,7 @@ const chartRef = useRef(null);
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/ViewUniversity",
+                            pathname: "/view_university",
                             search: `?id=${data?._id}`,
                           }}
                         >
