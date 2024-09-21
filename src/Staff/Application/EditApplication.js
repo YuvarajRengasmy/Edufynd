@@ -1,6 +1,5 @@
 import React from "react";
-import Sidebar from '../../compoents/StaffSidebar';
-import Select from "react-select";
+import Sidebar from "../../compoents/StaffSidebar";
 import { Link } from "react-router-dom";
 export const EditApplication = () => {
   return (
@@ -619,7 +618,7 @@ export const EditApplication = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              to="/ListApplication"
+                              to="/staff_list_application"
                               className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                             >
                               Cancel

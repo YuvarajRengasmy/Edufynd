@@ -3,7 +3,6 @@ import Sortable from "sortablejs";
 import {
   getallForexEnquiry,
   getSingleForexEnquiry,
-  getFilterForexEnquiry,
   deleteForexEnquiry,
 } from "../../../api/Enquiry/Forex";
 import { Link } from "react-router-dom";
@@ -19,9 +18,9 @@ import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
-import {  getSingleStaff } from "../../../api/staff";
-import {getStaffId } from "../../../Utils/storage";
 import { toast } from "react-toastify";
+import {getStaffId } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
 
 import { FaFilter } from "react-icons/fa";
 
@@ -36,34 +35,16 @@ export const ListForex = () => {
   const [forex, setForex] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [staff, setStaff] = useState(null);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [staff, setStaff] = useState(null);
 
   useEffect(() => {
     getAllForexDetails();
     getStaffDetails();
   }, [pagination.from, pagination.to]);
 
-  const getAllForexDetails = () => {
-    const data = {
-      limit: 10,
-      page: pagination.from,
-      staffId:getStaffId()
-    };
-    getFilterForexEnquiry(data)
-      .then((res) => {
-        setForex(res?.data?.result?.forexList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.forexCount,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const getStaffDetails = () => {
     const id = getStaffId();
@@ -81,11 +62,26 @@ export const ListForex = () => {
     // return null; // or a loading spinner
   }
   
-  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'forexEnquiry');
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'forex');
   
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
+  
+
+  const getAllForexDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getallForexEnquiry(data)
+      .then((res) => {
+        setForex(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
@@ -138,6 +134,18 @@ export const ListForex = () => {
       sortable.destroy();
     };
   }, []);
+
+  const [statuses, setStatuses] = useState(
+    (forex && Array.isArray(forex)) ? forex.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
 
   return (
     <>
@@ -354,8 +362,8 @@ export const ListForex = () => {
                       </span>
                     </Link>
                   </li>
-                  {studentPrivileges?.add && (
                   <li class="m-1">
+                  {studentPrivileges?.add && (
                     <Link class="btn btn-pix-primary " to="/staff_add_forex_form">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
@@ -372,8 +380,8 @@ export const ListForex = () => {
                         Add Forex Form
                       </button>
                     </Link>
-                  </li>
                   )}
+                  </li>
                 </ol>
               </div>
             </div>
@@ -457,36 +465,76 @@ export const ListForex = () => {
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm border-0">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                  <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          {studentPrivileges?.delete && (       <option value="20">Delete</option> )}
+                        </select>{" "}
+                      </p>
+                    </div>
 
-                    </p>
-                       <div className="p-0 m-0">
-                       <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
-                       </div>
-                        <div className="m-0 p-0">
-                        <select class="form-select form-select-sm rounded-1 d-inline mx-2" aria-label="Default select example2"    style={{ width: "auto", display: "inline-block", fontSize: "12px" }}>
-  <option selected>Select Staff</option>
-  <option value="1">Staff 1</option>
-  <option value="2">Staff 2</option>
- 
-</select>
-                        </div>
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
                   <div className="card-body">
-                    <div className="card-table">
+                  <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="card-table">
                       <div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable text-center"
@@ -510,12 +558,13 @@ export const ListForex = () => {
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
-                                Date{" "}
+                                ID{" "}
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
-                                ID{" "}
+                                Date{" "}
                               </th>
+                             
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 Student Name
@@ -559,6 +608,9 @@ export const ListForex = () => {
                                     {pagination.from + index + 1}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
+                                    {data?.forexID || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
                                     {formatDate(
                                       data?.createdOn
                                         ? data?.createdOn
@@ -567,9 +619,7 @@ export const ListForex = () => {
                                         : "-"
                                         || "Not Available"  )}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.forexID || "Not Available"}
-                                  </td>
+                                
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.name || "Not Available"}
                                   </td>
@@ -582,9 +632,19 @@ export const ListForex = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.assignedTo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.status || "Not Available"}
-                                  </td>
+                                  <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                     {studentPrivileges?.view && (
@@ -598,7 +658,7 @@ export const ListForex = () => {
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
                                     )}
-                                      {studentPrivileges?.edit && (
+                                     {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -608,7 +668,7 @@ export const ListForex = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                      )}
+                                     )}
                                       {studentPrivileges?.delete && (
                                       <button
                                         className="dropdown-item"
@@ -637,6 +697,166 @@ export const ListForex = () => {
                         </table>
                       </div>
                     </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {forex?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"> {data?.name || "Not Available"}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Forex ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.forexID || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(
+                                      data?.createdOn
+                                        ? data?.createdOn
+                                        : data?.modifiedOn
+                                        ? data?.modifiedOn
+                                        : "-"
+                                        || "Not Available"  )}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Passport No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.passportNo || "Not Available"} 
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Source</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.source || "Not Available"}
+                  </div>
+                </div>
+              </div>
+             
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong >Assigned To</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                  {data?.assignedTo || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                  {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {studentPrivileges?.view && (
+          <Link
+                                        className="btn btn-sm btn-outline-primary"
+                                        to={{
+                                          pathname: "/staff_view_forex_form",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>View
+                                      </Link>
+          )}
+           {studentPrivileges?.edit && (
+                                      <Link
+                                        className="btn btn-sm btn-outline-warning"
+                                        to={{
+                                          pathname: "/staff_edit_forex_form",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>Edit
+                                      </Link>
+           )}
+            {studentPrivileges?.delete && (
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                      </button>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+                    
                  
                   </div>
                   <div className="d-flex justify-content-between m-2">

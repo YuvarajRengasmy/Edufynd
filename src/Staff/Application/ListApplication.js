@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallApplication, deleteApplication,getFilterApplican } from "../../api/applicatin";
+import {
+  getallApplication,
+  deleteApplication,
+  getAllApplicantCard,
+} from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -12,14 +16,14 @@ import {
 } from "@mui/material";
 import Masterheader from "../../compoents/header";
 import { getMonthYear } from "../../Utils/DateFormat";
-import {getStaffId } from "../../Utils/storage";
-import {  getSingleStaff } from "../../api/staff";
+
 import Mastersidebar from "../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-
+import {getStaffId } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
@@ -38,9 +42,9 @@ export default function Masterproductlist() {
   };
 
   const [application, setApplication] = useState([]);
-
+  const [details, setDetails] = useState();
   const [submitted, setSubmitted] = useState(false);
-  const [staff, setStaff] = useState(null);
+
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -48,6 +52,7 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [staff, setStaff] = useState(null);
   const pageSize = 10;
   const [pagination, setPagination] = useState({
     count: 0,
@@ -56,10 +61,10 @@ export default function Masterproductlist() {
   });
 
   useEffect(() => {
-    getApplicationList();
     getStaffDetails();
+    getApplicationList();
+    getallApplicantCount();
   }, []);
-
   const getStaffDetails = () => {
     const id = getStaffId();
     getSingleStaff(id)
@@ -81,20 +86,16 @@ export default function Masterproductlist() {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
+
+  const getallApplicantCount = () => {
+    getAllApplicantCard().then((res) => setDetails(res?.data.result));
+  };
+
   const getApplicationList = () => {
-    const data = {
-      limit: 10,
-      page: pagination.from,
-      staffId:getStaffId()
-    };
-    getFilterApplican(data)
+    getallApplication()
       .then((res) => {
-        console.log("yuvi",res)
-        setApplication(res?.data?.result?.applicantList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.applicantCount,
-        });
+        const value = res?.data?.result;
+        setApplication(value);
       })
       .catch((err) => {
         console.log(err);
@@ -319,6 +320,20 @@ export default function Masterproductlist() {
     };
   }, []);
 
+  const [statuses, setStatuses] = useState(
+    application && Array.isArray(application)
+      ? application.reduce((acc, _, index) => ({ ...acc, [index]: false }), {})
+      : {}
+  );
+
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
+
   return (
     <>
       <Mastersidebar />
@@ -327,442 +342,683 @@ export default function Masterproductlist() {
         className="content-wrapper  "
         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
       >
-       <div className="content-header bg-light shadow-sm sticky-top">
-  <div className="container-fluid">
-    <div className="row">
-      <div className="col-xl-12">
-        <ol className="d-flex justify-content-between align-items-center mb-0 list-unstyled">
-          <li className="flex-grow-1">
-            <div className="input-group" style={{ maxWidth: "600px" }}>
-              <input
-                type="search"
-                placeholder="Search"
-                aria-describedby="button-addon3"
-                className="form-control border-1 ps-1 rounded-4"
-                style={{ fontSize: "12px" }}
-              />
-              <span
-                className="input-group-text bg-transparent border-0"
-                id="button-addon3"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer",
-                }}
-              >
-                <i className="fas fa-search" style={{ color: "black" }}></i>
-              </span>
-            </div>
-          </li>
-          <li className="m-1">
-            <button
-              className="btn btn-primary"
-              style={{ fontSize: "12px" }}
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight"
-            >
-              <FaFilter />
-            </button>
-            <div
-              className="offcanvas offcanvas-end"
-              tabIndex={-1}
-              id="offcanvasRight"
-              aria-labelledby="offcanvasRightLabel"
-            >
-              <div className="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Filter Application</h5>
-                <button
-                  type="button"
-                  className="btn-close text-reset"
-                  data-bs-dismiss="offcanvas"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="offcanvas-body">
-                <form>
-                  <div className="form-group mb-3">
-                    <label className="form-label">Applicant Code</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="businessName"
-                      onChange={handleInputs}
-                      placeholder="Search...Applicant Code"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <label className="form-label mt-3">University Applied</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="businessContactNo"
-                      onChange={handleInputs}
-                      placeholder="Search...University Applied"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <label className="form-label mt-3">Course Applied</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="status"
-                      onChange={handleInputs}
-                      placeholder="Search...Course Applied"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <label className="form-label mt-3">Status</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="clientID"
-                      onChange={handleInputs}
-                      placeholder="Search...Status"
-                      style={{ fontSize: "12px" }}
-                    />
-                  </div>
-                  <div className="d-flex justify-content-end">
-                    <button
-                      data-bs-dismiss="offcanvas"
-                      className="btn btn-cancel border-0 fw-semibold text-white"
-                      style={{
-                        backgroundColor: "#0f2239",
-                        fontSize: "14px",
-                      }}
-                    >
-                      Reset
-                    </button>
-                    <button
-                      data-bs-dismiss="offcanvas"
-                      type="submit"
-                      className="btn btn-save border-0 fw-semibold text-white ms-2"
-                      style={{
-                        backgroundColor: "#fe5722",
-                        fontSize: "14px",
-                      }}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </li>
-          <li className="m-1">
-            <Link onClick={pdfDownload}>
-              <button
-                style={{ backgroundColor: "#E12929", fontSize: "12px" }}
-                className="btn text-white"
-              >
-                <i className="fa fa-file-pdf" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link onClick={exportCsv}>
-              <button
-                style={{ backgroundColor: "#22A033", fontSize: "12px" }}
-                className="btn text-white"
-              >
-                <i className="fa fa-file-excel" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link onClick={openImportPopup}>
-              <button
-                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
-                className="btn text-white"
-              >
-                <i className="fa fa-upload" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          {studentPrivileges?.add && (
-          <li className="m-1">
-            <Link to="/add_application">
-              <button
-                className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
-                style={{
-                  backgroundColor: "#231f20",
-                  fontSize: "12px",
-                }}
-              >
-                <i className="fa fa-plus-circle me-2" aria-hidden="true"></i>
-                Add Application
-              </button>
-            </Link>
-          </li>
-          )}
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-    
-
-    <div className="container-fluid mt-3 " >
-      <div className="row">
-        {/* Application Submitted Card */}
-        <div className="col-md-3 flex-shrink-0">
-          <Link to="#" className="text-decoration-none">
-            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
-              <div className="card-body text-center">
-                <h6><i className="fas fa-paper-plane"></i>&nbsp;&nbsp;Application Submitted</h6>
-                <p className="card-text">45</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Offered and Rejected Card */}
-        <div className="col-md-3 flex-shrink-0">
-          <Link to="#" className="text-decoration-none">
-            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#2196F3', color: '#fff' }}>
-              <div className="card-body text-center">
-            
-                <div className="d-flex align-items-center justify-content-between">
-                  <div className="d-flex flex-column">
-                    <h6><i className="fas fa-thumbs-up"></i>&nbsp;&nbsp;Offered</h6>
-                    <p className="card-text">30</p>
-                  </div>
-                  <div className="d-flex flex-column">
-                    <h6><i className="fas fa-thumbs-down"></i>&nbsp;&nbsp;Rejected</h6>
-                    <p className="card-text">15</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Deposit Paid Card */}
-        <div className="col-md-3 flex-shrink-0">
-          <Link to="#" className="text-decoration-none">
-            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FFC107', color: '#fff' }}>
-              <div className="card-body text-center">
-                <h6><i className="fas fa-money-bill-wave"></i>&nbsp;&nbsp;Deposit Paid</h6>
-                <p className="card-text">20</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Travel Card */}
-        <div className="col-md-3 flex-shrink-0">
-          <Link to="#" className="text-decoration-none">
-            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#FF5722', color: '#fff' }}>
-              <div className="card-body text-center">
-                <h6><i className="fas fa-plane"></i>&nbsp;&nbsp;Travel</h6>
-                <p className="card-text">10</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Enrolled Card */}
-        <div className="col-md-3 flex-shrink-0">
-          <Link to="#" className="text-decoration-none">
-            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#009688', color: '#fff' }}>
-              <div className="card-body text-center">
-                <h6><i className="fas fa-user-check"></i>&nbsp;&nbsp;Enrolled</h6>
-                <p className="card-text">25</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Invoices Raised Card */}
-        <div className="col-md-3 flex-shrink-0">
-          <Link to="#" className="text-decoration-none">
-            <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3F51B5', color: '#fff' }}>
-              <div className="card-body text-center">
-                <h6><i className="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;Invoices Raised</h6>
-                <p className="card-text">8</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-      </div>
-    </div>
-       
+        <div className="content-header bg-light shadow-sm sticky-top">
           <div className="container-fluid">
             <div className="row">
               <div className="col-xl-12">
-                <div className="card rounded-1 shadow-sm border-0">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                    <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                <ol className="d-flex justify-content-between align-items-center mb-0 list-unstyled">
+                  <li className="flex-grow-1">
+                    <div className="input-group" style={{ maxWidth: "600px" }}>
+                      <input
+                        type="search"
+                        placeholder="Search"
+                        aria-describedby="button-addon3"
+                        className="form-control border-1 ps-1 rounded-4"
+                        style={{ fontSize: "12px" }}
+                      />
+                      <span
+                        className="input-group-text bg-transparent border-0"
+                        id="button-addon3"
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          cursor: "pointer",
+                        }}
                       >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
-
-                    </p>
-
-
-                  </div>
-                </div>
-                  <div className="card-body">
-                    <div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className=" table table-hover card-table dataTable table-responsive-sm text-center"
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
+                        <i
+                          className="fas fa-search"
+                          style={{ color: "black" }}
+                        ></i>
+                      </span>
+                    </div>
+                  </li>
+                  <li className="m-1">
+                    <button
+                      className="btn btn-primary"
+                      style={{ fontSize: "12px" }}
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                    >
+                      <FaFilter />
+                    </button>
+                    <div
+                      className="offcanvas offcanvas-end"
+                      tabIndex={-1}
+                      id="offcanvasRight"
+                      aria-labelledby="offcanvasRightLabel"
+                    >
+                      <div className="offcanvas-header">
+                        <h5 id="offcanvasRightLabel">Filter Application</h5>
+                        <button
+                          type="button"
+                          className="btn-close text-reset"
+                          data-bs-dismiss="offcanvas"
+                          aria-label="Close"
+                        />
+                      </div>
+                      <div className="offcanvas-body">
+                        <form>
+                          <div className="form-group mb-3">
+                            <label className="form-label">Applicant Code</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="businessName"
+                              onChange={handleInputs}
+                              placeholder="Search...Applicant Code"
+                              style={{ fontSize: "12px" }}
+                            />
+                            <label className="form-label mt-3">
+                              University Applied
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="businessContactNo"
+                              onChange={handleInputs}
+                              placeholder="Search...University Applied"
+                              style={{ fontSize: "12px" }}
+                            />
+                            <label className="form-label mt-3">
+                              Course Applied
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="status"
+                              onChange={handleInputs}
+                              placeholder="Search...Course Applied"
+                              style={{ fontSize: "12px" }}
+                            />
+                            <label className="form-label mt-3">Status</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="clientID"
+                              onChange={handleInputs}
+                              placeholder="Search...Status"
+                              style={{ fontSize: "12px" }}
+                            />
+                          </div>
+                          <div className="d-flex justify-content-end">
+                            <button
+                              data-bs-dismiss="offcanvas"
+                              className="btn btn-cancel border-0 fw-semibold text-white"
                               style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
+                                backgroundColor: "#0f2239",
+                                fontSize: "14px",
                               }}
                             >
-                              <th className=" text-start">
-                            <input type="checkbox" />
-                            </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Date
-                              </th>
-                              <th className="text-capitalize text-start">
-                                {" "}
-                                Code
-                              </th>
+                              Reset
+                            </button>
+                            <button
+                              data-bs-dismiss="offcanvas"
+                              type="submit"
+                              className="btn btn-save border-0 fw-semibold text-white ms-2"
+                              style={{
+                                backgroundColor: "#fe5722",
+                                fontSize: "14px",
+                              }}
+                            >
+                              Apply
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="m-1">
+                    <Link onClick={pdfDownload}>
+                      <button
+                        style={{ backgroundColor: "#E12929", fontSize: "12px" }}
+                        className="btn text-white"
+                      >
+                        <i className="fa fa-file-pdf" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
+                  <li className="m-1">
+                    <Link onClick={exportCsv}>
+                      <button
+                        style={{ backgroundColor: "#22A033", fontSize: "12px" }}
+                        className="btn text-white"
+                      >
+                        <i className="fa fa-file-excel" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
+                  <li className="m-1">
+                    <Link onClick={openImportPopup}>
+                      <button
+                        style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
+                        className="btn text-white"
+                      >
+                        <i className="fa fa-upload" aria-hidden="true"></i>
+                      </button>
+                    </Link>
+                  </li>
+                  <li className="m-1">
+                    <Link to="/staff_add_application">
+                      <button
+                        className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
+                        style={{
+                          backgroundColor: "#231f20",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <i
+                          className="fa fa-plus-circle me-2"
+                          aria-hidden="true"
+                        ></i>
+                        Add Application
+                      </button>
+                    </Link>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Name
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                University Applied
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Course Applied
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Status
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {application?.map((data, index) => (
+        <div className="container-fluid mt-3 ">
+          <div className="row">
+            {/* Application Submitted Card */}
+            <div className="col-md-3 flex-shrink-0">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 shadow-sm"
+                  style={{ backgroundColor: "#4CAF50", color: "#fff" }}
+                >
+                  <div className="card-body text-center">
+                    <h6>
+                      <i className="fas fa-paper-plane"></i>&nbsp;&nbsp;No of
+                      Application
+                    </h6>
+                    <p className="card-text">{details?.totalApplication}</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Offered and Rejected Card */}
+            <div className="col-md-3 flex-shrink-0">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 shadow-sm"
+                  style={{ backgroundColor: "#2196F3", color: "#fff" }}
+                >
+                  <div className="card-body text-center">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6>
+                          <i className="fas fa-thumbs-up"></i>
+                          &nbsp;&nbsp;Offered
+                        </h6>
+                        <p className="card-text">30</p>
+                      </div>
+                      <div className="d-flex flex-column">
+                        <h6>
+                          <i className="fas fa-thumbs-down"></i>
+                          &nbsp;&nbsp;Rejected
+                        </h6>
+                        <p className="card-text">15</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Deposit Paid Card */}
+            <div className="col-md-3 flex-shrink-0">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 shadow-sm"
+                  style={{ backgroundColor: "#FFC107", color: "#fff" }}
+                >
+                  <div className="card-body text-center">
+                    <h6>
+                      <i className="fas fa-money-bill-wave"></i>
+                      &nbsp;&nbsp;Deposit Paid
+                    </h6>
+                    <p className="card-text">20</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Travel Card */}
+            <div className="col-md-3 flex-shrink-0">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 shadow-sm"
+                  style={{ backgroundColor: "#FF5722", color: "#fff" }}
+                >
+                  <div className="card-body text-center">
+                    <h6>
+                      <i className="fas fa-plane"></i>&nbsp;&nbsp;Travel
+                    </h6>
+                    <p className="card-text">10</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Enrolled Card */}
+            <div className="col-md-3 flex-shrink-0">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 shadow-sm"
+                  style={{ backgroundColor: "#009688", color: "#fff" }}
+                >
+                  <div className="card-body text-center">
+                    <h6>
+                      <i className="fas fa-user-check"></i>&nbsp;&nbsp;Enrolled
+                    </h6>
+                    <p className="card-text">25</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Invoices Raised Card */}
+            <div className="col-md-3 flex-shrink-0">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 shadow-sm"
+                  style={{ backgroundColor: "#3F51B5", color: "#fff" }}
+                >
+                  <div className="card-body text-center">
+                    <h6>
+                      <i className="fas fa-file-invoice-dollar"></i>
+                      &nbsp;&nbsp;Invoices Raised
+                    </h6>
+                    <p className="card-text">8</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="card rounded-1 shadow-sm border-0">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                      <p className="me-auto ">
+                        Change
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <option value="5">Active</option>
+                          <option value="10">InActive</option>
+                          <option value="20">Delete</option>
+                        </select>
+                      </p>
+                    </div>
+
+                    <div>
+                      <ul
+                        class="nav nav-underline fs-9"
+                        id="myTab"
+                        role="tablist"
+                      >
+                        <li>
+                          <a
+                            className="nav-link active "
+                            id="home-tab"
+                            data-bs-toggle="tab"
+                            href="#tab-home"
+                            role="tab"
+                            aria-controls="tab-home"
+                            aria-selected="true"
+                          >
+                            <i class="fa fa-list" aria-hidden="true"></i> List
+                            View
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            className="nav-link "
+                            id="profile-tab"
+                            data-bs-toggle="tab"
+                            href="#tab-profile"
+                            role="tab"
+                            aria-controls="tab-profile"
+                            aria-selected="false"
+                          >
+                            <i class="fa fa-th" aria-hidden="true"></i> Grid
+                            View
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+                      <div className="card-table">
+                        <div className="table-responsive">
+                          <table
+                            className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                            ref={tableRef}
+                          >
+                            <thead className="table-light">
                               <tr
-                                key={index}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
+                                  fontSize: "12px",
                                 }}
                               >
-                                <td className=" text-start">
-                              <input type="checkbox" />
-                              </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {pagination.from + index + 1}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {getMonthYear(data?.createdOn) || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.applicationCode || "Not Available"}
-                                </td>
+                                <th className=" text-start">
+                                  <input type="checkbox" />
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
+                                <th className="text-capitalize text-start">
+                                  {" "}
+                                  Code
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Date
+                                </th>
 
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.name || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.universityName || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.course || data?.programTitle ||"Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate"></td>
-
-                                <td className="text-capitalize text-start text-truncate">
-                                  <div className="d-flex">
-                                  {studentPrivileges?.view && (
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/staff_view_application",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                  )}
-                                  {studentPrivileges?.edit && (
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/edit_application",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                  )}
-                                  {studentPrivileges?.delete && (
-                                    <Link
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link>
-                                  )}
-                                  </div>
-                                </td>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  {" "}
+                                  Name
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  University Applied
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Course Applied
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Status
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action
+                                </th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {application?.map((data, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <td className=" text-start">
+                                    <input type="checkbox" />
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {pagination.from + index + 1}
+                                  </td>
+
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.applicationCode || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {getMonthYear(data?.createdOn) ||
+                                      "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.name || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.universityName || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.course ||
+                                      data?.programTitle ||
+                                      "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start ">
+                                    {statuses[index] ? "Active" : "Inactive"}
+                                    <span className="form-check form-switch d-inline ms-2">
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id={`flexSwitchCheckDefault${index}`}
+                                        checked={statuses[index] || false}
+                                        onChange={() =>
+                                          handleCheckboxChange(index)
+                                        }
+                                      />
+                                    </span>
+                                  </td>
+
+                                  <td className="text-capitalize text-start text-truncate">
+                                    <div className="d-flex">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/staff_view_application",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/staff_edit_application",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
+                                      <Link
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </Link>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
-          <Pagination
-            count={Math.ceil(pagination.count / pageSize)}
-            onChange={handlePageChange}
-            variant="outlined"
-            shape="rounded"
-            color="primary"
-          />
-        </div>
-                    
+                    <div
+                      class="tab-pane fade "
+                      id="tab-profile"
+                      role="tabpanel"
+                      aria-labelledby="profile-tab"
+                    >
+                      <div className="container">
+                        <div className="row">
+                          {application?.map((data, index) => (
+                            <div className="col-md-4 mb-4" key={index}>
+                              <div
+                                className="card shadow-sm  rounded-1 text-bg-light h-100"
+                                style={{ fontSize: "10px" }}
+                              >
+                                <div className="card-header   d-flex justify-content-between align-items-center">
+                                  <h6 className="mb-0">
+                                    {data?.name || "Not Available"}
+                                  </h6>
+                                </div>
+                                <div className="card-body">
+                                  <div className="row">
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>S.No</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {pagination.from + index + 1}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong> Application ID</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.applicationCode ||
+                                            "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Date</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {getMonthYear(data?.createdOn) ||
+                                            "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>University Applied</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.universityName ||
+                                            "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Course Applied</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.course ||
+                                            data?.programTitle ||
+                                            "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Status</strong>
+                                        </div>
+                                        <div className="col-md-7 ">
+                                          {statuses[index]
+                                            ? "Active"
+                                            : "Inactive"}
+                                          <span className="form-check form-switch d-inline ms-2">
+                                            <input
+                                              className="form-check-input"
+                                              type="checkbox"
+                                              role="switch"
+                                              id={`flexSwitchCheckDefault${index}`}
+                                              checked={statuses[index] || false}
+                                              onChange={() =>
+                                                handleCheckboxChange(index)
+                                              }
+                                            />
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+                                  <Link
+                                    className="btn btn-sm btn-outline-primary"
+                                    to={{
+                                      pathname: "/staff_view_application",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    <i className="far fa-eye text-primary me-1"></i>
+                                  </Link>
+                                  <Link
+                                    className="btn btn-sm btn-outline-primary"
+                                    to={{
+                                      pathname: "/staff_edit_application",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    <i className="far fa-edit text-warning me-1"></i>
+                                  </Link>
+                                  <button
+                                    className="btn btn-sm btn-outline-danger"
+                                    onClick={() => {
+                                      openPopup(data?._id);
+                                    }}
+                                  >
+                                    <i className="far fa-trash-alt text-danger me-1"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                    <p className="me-auto ">
+                      Show
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{
+                          width: "auto",
+                          display: "inline-block",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                      </select>{" "}
+                      Entries out of 100
+                    </p>
+                    <Pagination
+                      count={Math.ceil(pagination.count / pageSize)}
+                      onChange={handlePageChange}
+                      variant="outlined"
+                      shape="rounded"
+                      color="primary"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-       
+        </div>
       </div>
       <Dialog open={open}>
         <DialogContent>
@@ -819,7 +1075,7 @@ export default function Masterproductlist() {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
               >

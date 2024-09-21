@@ -9,16 +9,19 @@ import {
 } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { StudentSuperAdmin, getallStudent } from "../../api/student";
-import Mastersidebar from "../../compoents/StaffSidebar";
-import {  getSingleStaff } from "../../api/staff";
+import Sidebar from "../../compoents/StaffSidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Flags from "react-world-flags";
+import Select from "react-select";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
-import {getStaffId } from "../../Utils/storage";
 import BackButton from "../../compoents/backButton";
+
+
 function AddAgent() {
-  
+    const location = useLocation();
+    const id = new URLSearchParams(location.search).get("id");
+
+    
   const initialState = {
     source: "",
     name: "",
@@ -39,6 +42,7 @@ function AddAgent() {
     testScore: "",
     dial1: "",
     dial2: "",
+    
     dateOfTest: "",
     desiredCountry: "",
     desiredUniversity: "",
@@ -110,40 +114,30 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-  const [staff,setStaff] = useState(null);
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
-
-
+  const [dail1, setDail1] = useState(null);
+  const [dail2, setDail2] = useState(null);
+  const [dail3, setDail3] = useState(null);
+  const [dail4, setDail4] = useState(null);
 
 
   useEffect(() => {
-    getStaffDetails();
-    getStudentDetail();
+    getStudentDetails();
     getallCodeList();
 }, []);
 
+const getStudentDetails = () => {
+  getallStudent(id)
+        .then((res) => {
+          console.log("balan", res)
+            setStudent(res?.data?.result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
-const getStudentDetail = () => {
-getallStudent()
-      .then((res) => {
-          setStudent(res?.data?.result);
-      })
-      .catch((err) => {
-          console.log(err);
-      });
-};
-const getStaffDetails = () => {
-  const id = getStaffId();
-  getSingleStaff(id)
-    .then((res) => {
-      console.log("yuvi", res);
-      setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 const getallCodeList = () => {
   getallCode()
     .then((res) => {
@@ -322,19 +316,28 @@ const handleValidation = (data) => {
     }
     return true;
   };
+
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
+  const handleDail2 = (selectedOptions) => {
+    setDail2(selectedOptions);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
+    const studentData={
+      ...student,
+      dial1:dail1?.value,
+      dial2:dail2?.value,
+     
+    }
     if (handleErrors(newError)) {
-      StudentSuperAdmin({...student,
-        staffId:staff._id,
-        adminId:staff.adminId
-
-      })
+      StudentSuperAdmin(studentData)
         .then((res) => {
-          console.log("res", res);
           toast.success(res?.data?.message);
           navigate("/staff_list_student");
         })
@@ -343,12 +346,16 @@ const handleValidation = (data) => {
         });
     }
   };
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
   return (
     <>
     
         <div >
          
-            <Mastersidebar />
+            <Sidebar />
         
           <div
             className="content-wrapper "
@@ -460,8 +467,14 @@ const handleValidation = (data) => {
                                   }}
                                   name="name"
                                   onChange={handleInputs}
-                                  className={`form-control ${errors.name.required ? 'is-invalid' : '' }`}
+                                  className={`form-control text-capitalize rounded-1 ${errors.name.required ? 'is-invalid' : '' }`}
                                   placeholder="Example John Doe"
+                                  onKeyDown={(e) => {
+                                    // Prevent non-letter characters
+                                    if (/[^a-zA-Z\s]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                                 {errors.name.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -481,7 +494,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.citizenship.required ? 'is-invalid' :  '' }`}
+                                className={`form-control text-capitalize rounded-1 ${errors.citizenship.required ? 'is-invalid' :  '' }`}
                                 value={student?.citizenship}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -490,6 +503,12 @@ const handleValidation = (data) => {
                                 placeholder="Example Indian"
                                 name="citizenship"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.citizenship.required && (
                                 <span className="text-danger form-text profile_error">
@@ -503,7 +522,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="date"
-                                className={`form-control ${errors.dob.required ? 'is-invalid' :  '' }`}
+                                className={`form-control text-uppercase rounded-1 ${errors.dob.required ? 'is-invalid' :  '' }`}
                                 placeholder="Enter Name"
                                 value={student?.dob}
                                 style={{
@@ -526,15 +545,21 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.passportNo.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ? 'is-invalid' :  '' }`}
                                 value={student?.passportNo}
-                                placeholder="Example M12345678"
+                                placeholder="Example  M12345678"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
                                 name="passportNo"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                              {errors.passportNo.required ? (
                                   <span className="text-danger form-text profile_error">
@@ -554,7 +579,7 @@ const handleValidation = (data) => {
                               <input
                                 type="date"
                                 value={student?.expiryDate}
-                                className={`form-control ${errors.expiryDate.required ? 'is-invalid' :  '' }`}
+                                className={`form-control text-uppercase rounded-1 ${errors.expiryDate.required ? 'is-invalid' :  '' }`}
                                 placeholder="Enter Contact Number "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -577,7 +602,7 @@ const handleValidation = (data) => {
                               <select
                                 type="text"
                                 value={student?.gender}
-                                className={`form-select ${errors.gender.required ? 'is-invalid' :  '' }`}
+                                className={`form-select form-select-lg rounded-1  text-capitalize ${errors.gender.required ? 'is-invalid' :  '' }`}
                                 placeholder="Select Gender"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -604,7 +629,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.email}
-                                className={`form-control ${errors.email.required ? 'is-invalid' : '' }`}
+                                className={`form-control text-lowercase rounded-1 ${errors.email.required ? 'is-invalid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -612,6 +637,13 @@ const handleValidation = (data) => {
                                 placeholder="Example johndoe123@gmail.com"
                                 name="email"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent default behavior for disallowed keys
+                             if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                                  'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                               e.preventDefault();
+                             }
+                            }}
                               />
                               {errors.email.required ? (
                                 <div className="text-danger form-text">
@@ -633,24 +665,21 @@ const handleValidation = (data) => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  onChange={handleInputs} value={student?.dial1} >
-  
-  {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
   <input
       type="text"
        aria-label="Text input with dropdown button"
@@ -701,25 +730,21 @@ const handleValidation = (data) => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
-  value={student?.dial2}
-  onChange={handleInputs}>
-    
-    {dial?.map((item) => (
-    <option value={item?.dialCode} key={item?.dialCode}>
-      {item?.dialCode} - {item?.name} -
-      {item?.flag && (
-        <Flags
-          code={item?.flag}
-          className="me-2"
-          style={{ width: "40px", height: "30px" }}
-        />
-      )}
-    </option>
-  ))}
-
-   
-  </select>
+  <Select
+                              value={dail2}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial2"
+                              onChange={handleDail2}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
 
   <input
     type="text"
@@ -756,7 +781,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.highestQualification}
-                                className={`form-control ${errors.highestQualification.required ? 'is-invalid' :  '' }`}
+                                className={`form-control text-capitalize rounded-1 ${errors.highestQualification.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -764,6 +789,12 @@ const handleValidation = (data) => {
                                 placeholder="Example B.A. in English"
                                 name="highestQualification"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.highestQualification.required ? (
                                 <div className="text-danger form-text">
@@ -783,7 +814,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.degreeName}
-                                className={`form-control ${errors.degreeName.required ? 'is-invalid' :  '' }`}
+                                className={`form-control text-capitalize rounded-1${errors.degreeName.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -791,6 +822,12 @@ const handleValidation = (data) => {
                                 placeholder="Example  B.Sc. IT"
                                 name="degreeName"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.degreeName.required ? (
                                 <div className="text-danger form-text">
@@ -809,7 +846,7 @@ const handleValidation = (data) => {
                               <input
                                 type="number"
                                 value={student?.percentage}
-                                className={`form-control ${errors.percentage.required ? 'is-invalid' :  '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.percentage.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -836,7 +873,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.institution}
-                                className={`form-control ${errors.institution.required ? 'is-invalid' : '' }`}
+                                className={`form-control text-capitalize rounded-1 ${errors.institution.required ? 'is-invalid' : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -844,6 +881,12 @@ const handleValidation = (data) => {
                                 placeholder="Example Harvard University"
                                 name="institution"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.institution.required ? (
                                 <div className="text-danger form-text">
@@ -863,7 +906,7 @@ const handleValidation = (data) => {
                               <input
                                 type="date"
                                 value={student?.academicYear}
-                                className={`form-control ${errors.academicYear.required ? 'is-invalid' :  '' }`}
+                                className={`form-control text-uppercase rounded-1 ${errors.academicYear.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -871,6 +914,7 @@ const handleValidation = (data) => {
                                 placeholder="Enter Start Date"
                                 name="academicYear"
                                 onChange={handleInputs}
+                                
                               />
                               {errors.academicYear.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -884,7 +928,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="date"
-                                className={`form-control ${errors.yearPassed.required ? 'is-invalid' :  '' }`}
+                                className={`form-control text-uppercase rounded-1 ${errors.yearPassed.required ? 'is-invalid' :  '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -919,7 +963,7 @@ const handleValidation = (data) => {
                                 </label>
                                 <input
                                   type="text"
-                                  className="form-control "
+                                  className="form-control rounded-1 "
                                   value={student?.duration}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -928,6 +972,11 @@ const handleValidation = (data) => {
                                   placeholder="Example 2 Years"
                                   name="duration"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -936,7 +985,7 @@ const handleValidation = (data) => {
                                 </label>
                                 <input
                                   type="Text"
-                                  className="form-control  "
+                                  className="form-control text-capitalize  rounded-1 "
                                   value={student?.lastEmployeer}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -945,6 +994,12 @@ const handleValidation = (data) => {
                                   placeholder="Example Microsoft Corporation"
                                   name="lastEmployeer"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    // Prevent non-letter characters
+                                    if (/[^a-zA-Z\s]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -953,7 +1008,7 @@ const handleValidation = (data) => {
                                 </label>
                                 <input
                                   type="Text"
-                                  className="form-control  "
+                                  className="form-control text-capitalize rounded-1"
                                   value={student?.lastDesignation}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -962,6 +1017,12 @@ const handleValidation = (data) => {
                                   placeholder="Example Senior Software Engineer"
                                   name="lastDesignation"
                                   onChange={handleInputs}
+                                  onKeyDown={(e) => {
+                                    // Prevent non-letter characters
+                                    if (/[^a-zA-Z\s]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                               </div>
 
@@ -973,7 +1034,7 @@ const handleValidation = (data) => {
                                 <select
                                   type="text"
                                   value={student?.doHaveAnyEnglishLanguageTest}
-                                  className={`form-select form-select-lg ${errors.doHaveAnyEnglishLanguageTest.required ? 'is-invalid'  : '' }`}
+                                  className={`form-select form-select-lg text-capitalize rounded-1${errors.doHaveAnyEnglishLanguageTest.required ? 'is-invalid'  : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1012,7 +1073,7 @@ const handleValidation = (data) => {
                                   <select
                                     type="text"
                                     value={student?.englishTestType}
-                                    className="form-select form-select-lg rounded-2"
+                                    className="form-select form-select-lg rounded-1 text-capitalize "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1038,7 +1099,7 @@ const handleValidation = (data) => {
                                   <input
                                     type="text"
                                     value={student?.testScore}
-                                    className="form-control "
+                                    className="form-control rounded-1"
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1055,7 +1116,7 @@ const handleValidation = (data) => {
                                   <input
                                     type="date"
                                     value={student?.dateOfTest}
-                                    className="form-control text-uppercase "
+                                    className="form-control text-uppercase rounded-1 "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "11px",
@@ -1077,7 +1138,7 @@ const handleValidation = (data) => {
                                 <select
                                   type="text"
                                   value={student?.doYouHaveTravelHistory}
-                                  className={`form-select form-select-lg ${errors.doYouHaveTravelHistory.required ? 'is-invalid' : '' }`}
+                                  className={`form-select form-select-lg rounded-1  text-capitalize${errors.doYouHaveTravelHistory.required ? 'is-invalid' : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1115,7 +1176,7 @@ const handleValidation = (data) => {
                                   <input
                                     type="date"
                                     value={student?.date}
-                                    className="form-control text-uppercase "
+                                    className="form-control text-uppercase rounded-1 "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "11px",
@@ -1132,7 +1193,7 @@ const handleValidation = (data) => {
                                   <input
                                     type="text"
                                     value={student?.purpose}
-                                    className="form-control "
+                                    className="form-control text-capitalize rounded-1 "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1140,6 +1201,12 @@ const handleValidation = (data) => {
                                     placeholder="Example Work"
                                     name="purpose"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1149,7 +1216,7 @@ const handleValidation = (data) => {
                                   <input
                                     type="text"
                                     value={student?.countryName}
-                                    className="form-control  "
+                                    className="form-control text-capitalize  rounded-1 "
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1157,6 +1224,12 @@ const handleValidation = (data) => {
                                     placeholder="Example New Year"
                                     name="countryName"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                
@@ -1173,7 +1246,7 @@ const handleValidation = (data) => {
                                 <select
                                   type="text"
                                   value={student?.anyVisaRejections}
-                                  className={`form-select form-select-lg ${errors.anyVisaRejections.required ? 'is-invalid'  : '' }`}
+                                  className={`form-select form-select-lg text-capitalize rounded-1${errors.anyVisaRejections.required ? 'is-invalid'  : '' }`}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
@@ -1208,7 +1281,7 @@ const handleValidation = (data) => {
                                   <input
                                     type="text"
                                     value={student?.visaReason}
-                                    className="form-control "
+                                    className="form-control  text-capitalize rounded-1"
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1216,6 +1289,12 @@ const handleValidation = (data) => {
                                     placeholder="Example Studying"
                                     name="visaReason"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1224,7 +1303,7 @@ const handleValidation = (data) => {
                                   </label>
                                   <input
                                     type="date"
-                                    className="form-control text-uppercase "
+                                    className="form-control text-uppercase rounded-1 "
                                     value={student?.dateVisa}
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
@@ -1241,7 +1320,7 @@ const handleValidation = (data) => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control "
+                                    className="form-control text-capitalize rounded-1"
                                     value={student?.purposeVisa}
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
@@ -1250,6 +1329,12 @@ const handleValidation = (data) => {
                                     placeholder="Example Study"
                                     name="purposeVisa"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1259,7 +1344,7 @@ const handleValidation = (data) => {
                                   <input
                                     type="text"
                                     value={student?.countryNameVisa}
-                                    className="form-control  "
+                                    className="form-control   text-capitalize rounded-1"
                                     style={{
                                       fontFamily: "Plus Jakarta Sans",
                                       fontSize: "12px",
@@ -1267,6 +1352,12 @@ const handleValidation = (data) => {
                                     placeholder="Example United Kingdom"
                                     name="countryNameVisa"
                                     onChange={handleInputs}
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
                                   />
                                 </div>
                                
@@ -1282,7 +1373,7 @@ const handleValidation = (data) => {
                               </label>
                               <input
                                 type="text"
-                                className={`form-control ${errors.desiredUniversity.required ? 'is-invalid'  : '' }`}
+                                className={`form-control text-capitalize rounded-1 ${errors.desiredUniversity.required ? 'is-invalid'  : '' }`}
                                 value={student?.desiredUniversity}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -1291,6 +1382,12 @@ const handleValidation = (data) => {
                                 placeholder="Example Standford University "
                                 name="desiredUniversity"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredUniversity.required && (
                                 <span className="text-danger form-text profile_error">
@@ -1306,7 +1403,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.desiredCountry}
-                                className={`form-control ${errors.desiredCountry.required ? 'is-invalid'  : '' }`}
+                                className={`form-control text-capitalize rounded-1 ${errors.desiredCountry.required ? 'is-invalid'  : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1314,6 +1411,12 @@ const handleValidation = (data) => {
                                 placeholder="Example New York "
                                 name="desiredCountry"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredCountry.required && (
                                 <span className="text-danger form-text profile_error">
@@ -1329,7 +1432,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.desiredCourse}
-                                className={`form-control ${errors.desiredCourse.required ? 'is-invalid'  : '' }`}
+                                className={`form-control text-capitalize  rounded-1${errors.desiredCourse.required ? 'is-invalid'  : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1337,6 +1440,12 @@ const handleValidation = (data) => {
                                 placeholder="Example Game Development "
                                 name="desiredCourse"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.desiredCourse.required && (
                                 <span className="text-danger form-text profile_error">
@@ -1351,7 +1460,7 @@ const handleValidation = (data) => {
                               <select
                                 type="text"
                                 value={student?.finance}
-                                className={`form-select form-select-lg ${errors.finance.required ? 'is-invalid'  : '' }`}
+                                className={`form-select form-select-lg text-capitalize rounded-1 ${errors.finance.required ? 'is-invalid'  : '' }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1379,7 +1488,7 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.workExperience}
-                                className="form-control "
+                                className="form-control text-capitalize rounded-1 "
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -1387,6 +1496,11 @@ const handleValidation = (data) => {
                                 placeholder="Enter Work Experience"
                                 name="workExperience"
                                 onChange={handleInputs}
+                                onKeyDown={(e) => {
+                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.workExperience.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -1408,7 +1522,7 @@ const handleValidation = (data) => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/list_student"
+                                  to="/staff_list_student"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel
