@@ -36,24 +36,7 @@ export const StudentForm = () => {
         <div className="content-header">
 
 
-        <nav aria-label="breadcrumb">
-  <ol className="breadcrumb justify-content-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListStudentForm' className="text-decoration-none">ListStudentEnquiry</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditStudentForm",
-          search: `?id=${ student?._id}`,
-        }} className="text-decoration-none">EditStudentEnquiry</Link>
-      </li>
-  
-  </ol>
-</nav>
+     
           <div class="container">
             <div class="col-12 text-center">
               <h2>Student Enquiry Profile</h2>
@@ -134,8 +117,61 @@ export const StudentForm = () => {
                   </div>
                 </div>
                
+                {student?.agentName ? (
+                  <>
+                  
+                <div class="card mb-3">
+                  <div class="card-header bg-primary text-white">
+                   Agent Details
+                  </div>
+                  <div class="card-body ">
+                  <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Name:
+                      </div>
+                      <div class="col-6">{student?.agentName || "Not Available"}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Business Name:
+                      </div>
+                      <div class="col-6">{student?.businessName || "Not Available"}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Primary Number:
+                      </div>
+                      <div class="col-6">{student?.dial1 + " " +student?.primaryNumber  || "Not Available"}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
+                      </div>
+                      <div class="col-6">{student?.dial2 + " " +student?.whatsAppNumber || "Not Available"}</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Email:
+                      </div>
+                      <div class="col-6">{student?.agentEmail || "Not Available"}</div>
+                    </div>
 
-              
+                   
+                    
+                  </div>
+                </div>
+                 </>
+                  ) : (
+                    <>
+                      <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Student Name:
+                      </div>
+                      <div class="col-6">{student?.studentName || "Not Available"}</div>
+                    </div>
+                      
+                    </>
+                  )}
 
                 <div class="card mb-3">
                   <div class="card-header bg-primary text-white">
@@ -897,6 +933,51 @@ export const StudentForm = () => {
        
         
       </div>
+    </div>
+  </div>
+</div>
+<div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        
+        <li className="mb-4 position-relative">
+          <div className="row align-items-start g-0">
+
+          <div className="col-1 d-flex justify-content-center align-items-center">
+              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                <i className="fas fa-check" />
+              </div>
+            </div>
+            <div className="col-4 text-center">
+              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
+              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
+            </div>
+           
+          
+           
+            <div className="col-7">
+            <div className="mb-3">
+              
+              <div className="bg-success text-white rounded-3 p-2">
+                <h6 className="mb-1">New University Name</h6>
+                <p className="mb-0">University Y</p>
+              </div>
+            </div>
+              <div className="mb-3">
+             
+                <div className="bg-danger text-white rounded-3 p-2">
+                  <h6 className="mb-1">Old University Name</h6>
+                  <p className="mb-0">University X</p>
+                </div>
+              </div>
+           
+            </div>
+          </div>
+          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+        </li>
+       
+      </ul>
     </div>
   </div>
 </div>

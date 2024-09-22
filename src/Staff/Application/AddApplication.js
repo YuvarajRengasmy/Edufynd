@@ -1,4 +1,3 @@
-import React from 'react'
 import Sidebar from '../../compoents/StaffSidebar';
 import { Link } from "react-router-dom";
 import BackButton from "../../compoents/backButton";
@@ -7,8 +6,6 @@ export const AddApplication = () => {
   return (
     <>
         
-        
-         
             <Sidebar />
           
           <div
@@ -18,8 +15,6 @@ export const AddApplication = () => {
             <div className="content-header ">
             <BackButton/>
 
-
-              
             </div>
             <div className=" container-fluid ">
                 <div className="row ">
@@ -38,8 +33,6 @@ export const AddApplication = () => {
                         <div className="card-body mt-5 ">
                           <div className="row g-3 ">
                            
-                           
-
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Student Name{" "}
@@ -295,7 +288,6 @@ export const AddApplication = () => {
                                 
                               />
                               
-                             
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -401,10 +393,6 @@ export const AddApplication = () => {
                                
                               </div>
 
-                            
-                            
-                             
-                             
                             </div>
                             
                               <div className="row g-3">
@@ -467,7 +455,6 @@ export const AddApplication = () => {
                                 </div>
                               </div>
                            
-
 <div className="row g-3">
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
@@ -514,9 +501,6 @@ export const AddApplication = () => {
                                     
                                   />
                                
-                               
-
-                             
                               </div>
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
@@ -535,8 +519,6 @@ export const AddApplication = () => {
                                   />
                                 </div>
 
-                           
-                              
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <label style={{ color: "#231F20" }}>
                                     Travel History
@@ -554,14 +536,6 @@ export const AddApplication = () => {
                                   />
                                 </div>
                               
-                               
-
-
-                             
-                           
-                         
-                           
-                            
                                     <div className="row g-3">
                               
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -613,10 +587,8 @@ export const AddApplication = () => {
                                   />
                                 </div>
                                
-
                                 </div>
                                 
-                             
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                Country{" "}
@@ -727,8 +699,6 @@ export const AddApplication = () => {
                              
                             </div>
                          
-                          
-
                             <div className="row g-3">
                               <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                 <Link
@@ -737,7 +707,7 @@ export const AddApplication = () => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/list_application"
+                                  to="/staff_list_application"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel
@@ -764,7 +734,6 @@ export const AddApplication = () => {
               </div>
           </div>
        
-     
       </>
   )
 }

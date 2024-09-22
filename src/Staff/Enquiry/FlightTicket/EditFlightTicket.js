@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { getallClient } from "../../../api/client";
+
 import { getallCode } from "../../../api/settings/dailcode";
-import {
-  updateFlightEnquiry,
-  getSingleFlightEnquiry,
-} from "../../../api/Enquiry/flight";
+import { updateFlightEnquiry,getSingleFlightEnquiry } from "../../../api/Enquiry/flight";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 import { getFilterSource } from "../../../api/settings/source";
 import { getallStudent } from "../../../api/student";
@@ -16,15 +13,14 @@ import Flags from "react-world-flags";
 
 export const Addflight = () => {
   const location = useLocation();
-  const id = new URLSearchParams(location.search).get("id");
+ const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    typeOfClient: "",
     source: "",
     name: "",
     studentName: "",
     passportNo: "",
-    expiryDate: "",
+    expiryDate:"",
     primaryNumber: "",
 
     whatsAppNumber: "",
@@ -43,7 +39,6 @@ export const Addflight = () => {
     dial4: "",
   };
   const initialStateErrors = {
-    typeOfClient: { required: false },
     source: { required: false },
     name: { required: false },
     studentName: { required: false },
@@ -80,7 +75,6 @@ export const Addflight = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-  const [client, setClient] = useState([]);
 
   useEffect(() => {
     getAllSourceDetails();
@@ -88,30 +82,19 @@ export const Addflight = () => {
     getAgentList();
     getFlightDetails();
     getallCodeList();
-    getClientList();
   }, [pagination.from, pagination.to]);
 
 
-  const getClientList = () => {
-    
-    getallClient()
-      .then((res) => {
-        setClient(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   const getFlightDetails = () => {
-    getSingleFlightEnquiry(id)
-      .then((res) => {
-        console.log("res", res);
-        setFlight(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+        getSingleFlightEnquiry(id)
+          .then((res) => {
+            console.log("res", res);
+            setFlight(res?.data?.result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
   const getallCodeList = () => {
     getallCode()
       .then((res) => {
@@ -184,9 +167,6 @@ export const Addflight = () => {
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
-    if (!data.typeOfClient) {
-      error.typeOfClient.required = true;
-    }
     if (!data.source) {
       error.source.required = true;
     }
@@ -232,10 +212,10 @@ export const Addflight = () => {
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
-
+  
     setFlight((prevProgram) => {
       const updatedProgram = { ...prevProgram, [name]: value };
-
+  
       if (name === "agentName") {
         const selectedAgent = agent.find((u) => u.agentName === value);
         if (selectedAgent) {
@@ -246,13 +226,13 @@ export const Addflight = () => {
             agentWhatsAppNumber: selectedAgent.whatsAppNumber,
             agentEmail: selectedAgent.email,
             dial1: selectedAgent.dial1,
-            dial2: selectedAgent.dial2,
+            dial2: selectedAgent.dial2
           };
         }
-      }
+      } 
       return updatedProgram;
     });
-
+  
     if (submitted) {
       const newError = handleValidation({
         ...flight,
@@ -281,12 +261,12 @@ export const Addflight = () => {
       updateFlightEnquiry(flight)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/admin_list_flight_ticket");
+          navigate("/staff_list_flight_ticket");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    } else {
+    }else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };
@@ -311,39 +291,6 @@ export const Addflight = () => {
                 </div>
                 <div className="card-body mt-5">
                   <div className="row g-3">
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            {" "}
-                            Client Name<span className="text-danger">*</span>
-                          </label>
-                          <select
-                            onChange={handleInputs}
-                            style={{
-                              backgroundColor: "#fff",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            className={`form-select form-select-lg rounded-1 ${
-                              errors.typeOfClient.required ? "is-invalid" : ""
-                            }`}
-                            name="typeOfClient"
-                            placeholder="Select Client"
-                            value={flight?.typeOfClient}
-                          >
-                            <option value={""}>Select Client</option>
-                            {client.map((data, index) => (
-                              <option key={index} value={data?.businessName}>
-                                {" "}
-                                {data?.businessName}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.typeOfClient.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
-                        </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputEmail4">
                         Source
@@ -354,9 +301,7 @@ export const Addflight = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
-                        className={`form-select form-select-lg rounded-1 ${
-                          errors.source.required ? "is-invalid" : ""
-                        } `}
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''} `}
                         name="source"
                         value={flight?.source}
                       >
@@ -392,7 +337,7 @@ export const Addflight = () => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="form-select form-select-lg rounded-2 "
+                            className="form-select form-select-lg rounded-1 text-capitalize "
                             name="studentName"
                             value={flight?.studentName}
                           >
@@ -429,7 +374,7 @@ export const Addflight = () => {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className="form-select form-select-lg rounded-2 "
+                            className="form-select form-select-lg rounded-1 text-capitalize "
                             name="agentName"
                             value={flight?.agentName}
                           >
@@ -454,17 +399,23 @@ export const Addflight = () => {
                             Business Name
                           </label>
                           <input
-                            className="form-control"
+                            className="form-control rounded-1 text-capitalize"
                             id="inputbusinessname"
                             type="text"
                             onChange={handleInputs}
                             value={flight.businessName}
                             name="businessName"
-                            placeholder="Enter Business Name"
+                            placeholder="Example John Doe"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -510,6 +461,7 @@ export const Addflight = () => {
                                 className={`form-control  ${
                                   errors.agentPrimaryNumber.required
                                     ? "is-invalid"
+                                   
                                     : ""
                                 }`}
                                 placeholder="Example 123-456-7890"
@@ -592,6 +544,7 @@ export const Addflight = () => {
                               className={`form-control  ${
                                 errors.agentWhatsAppNumber.required
                                   ? "is-invalid"
+                                  
                                   : ""
                               }`}
                               placeholder="Example 123-456-7890"
@@ -628,39 +581,50 @@ export const Addflight = () => {
                             Agent Email ID
                           </label>
                           <input
-                            className="form-control"
+                            className="form-control rounded-1 text-lowercase"
                             name="agentEmail"
                             onChange={handleInputs}
                             id="inputEmail"
                             value={flight?.agentEmail}
                             type="text"
-                            placeholder="Enter Email ID"
+                            placeholder="Example john123@gmail.com"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                         </div>
                       </div>
                     ) : null}
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputstudentname">
-                        Name of the Student
+                      Student Name
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.name.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' : ''}`}
                         name="name"
                         onChange={handleInputs}
                         value={flight?.name}
                         id="inputstudentname"
                         type="text"
-                        placeholder="Enter Name of the Student"
+                        placeholder="Example Jane Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.name.required ? (
@@ -675,19 +639,23 @@ export const Addflight = () => {
                         Passport No<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.passportNo.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ?  'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
                         value={flight?.passportNo}
                         type="text"
-                        placeholder="Enter Passport No"
+                        placeholder="Example WERE24YRT"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
@@ -698,13 +666,11 @@ export const Addflight = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputpassportno">
-                        Passport Expiry Date
+                       Expiry Date
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.expiryDate.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-uppercase ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="expiryDate"
@@ -721,6 +687,7 @@ export const Addflight = () => {
                           This field is required.
                         </div>
                       ) : null}
+                      
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputuniversity">
@@ -728,18 +695,22 @@ export const Addflight = () => {
                         From<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.from.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-uppercase ${errors.from.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="from"
                         value={flight?.from}
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter from Location"
+                        placeholder="Example Chennai"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.from.required ? (
@@ -753,18 +724,22 @@ export const Addflight = () => {
                         To<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.to.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-capitalize ${errors.to.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="to"
                         value={flight?.to}
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter to Location"
+                        placeholder="Example United Kingdom"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.to.required ? (
@@ -781,9 +756,7 @@ export const Addflight = () => {
                         </span>{" "}
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.dateOfTravel.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-uppercase ${errors.dateOfTravel.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="dateOfTravel"
                         onChange={handleInputs}
@@ -794,6 +767,7 @@ export const Addflight = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        
                       />
                       {errors.dateOfTravel.required ? (
                         <div className="text-danger form-text">
@@ -839,7 +813,10 @@ export const Addflight = () => {
                             type="text"
                             aria-label="Text input with dropdown button"
                             className={`form-control  ${
-                              errors.primaryNumber.required ? "is-invalid" : ""
+                              errors.primaryNumber.required
+                                ? "is-invalid"
+                                
+                                : ""
                             }`}
                             placeholder="Example 123-456-7890"
                             style={{
@@ -916,7 +893,10 @@ export const Addflight = () => {
                         <input
                           type="text"
                           className={`form-control  ${
-                            errors.whatsAppNumber.required ? "is-invalid" : ""
+                            errors.whatsAppNumber.required
+                              ? "is-invalid"
+                              
+                              : ""
                           }`}
                           placeholder="Example 123-456-7890"
                           style={{
@@ -952,19 +932,25 @@ export const Addflight = () => {
                         Email ID<span className="text-danger">*</span>
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.email.required ? "is-invalid" : ""
-                        }`}
+                        className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : ''}`}
                         name="email"
                         onChange={handleInputs}
                         value={flight?.email}
                         id="inputEmail"
                         type="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example jake123@gmail.com"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                          'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
+
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
@@ -972,7 +958,7 @@ export const Addflight = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          This field is required.
+                           This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -980,7 +966,7 @@ export const Addflight = () => {
                     <div className="row g-2">
                       <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                         <Link
-                          to="/admin_list_flight_ticket"
+                          to="/staff_list_flight_ticket"
                           style={{
                             backgroundColor: "#231F20",
                             fontFamily: "Plus Jakarta Sans",
