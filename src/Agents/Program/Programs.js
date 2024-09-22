@@ -619,7 +619,7 @@ const getallProgramCount = ()=>{
             </Link>
           </li>
           <li className="m-0">
-            <Link className="btn btn-pix-primary border-0" to="/admin_add_program">
+            <Link className="btn btn-pix-primary border-0" to="/agent_add_program">
               <button
                 className="btn rounded-1 fw-semibold border-0 text-white"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -887,7 +887,7 @@ const getallProgramCount = ()=>{
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/view_program",
+                            pathname: "/agent_view_program",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -896,7 +896,7 @@ const getallProgramCount = ()=>{
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/edit_program",
+                            pathname: "/agent_edit_program",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -1006,7 +1006,7 @@ const getallProgramCount = ()=>{
           <Link
                           className="btn btn-sm btn-outline-primary"
                           to={{
-                            pathname: "/view_program",
+                            pathname: "/agent_view_program",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -1015,7 +1015,7 @@ const getallProgramCount = ()=>{
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/edit_program",
+                            pathname: "/agent_edit_program",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -1149,7 +1149,7 @@ const getallProgramCount = ()=>{
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-3 py-1 text-white float-right bg"
                   style={{ backgroundColor: "#0f2239" }}
                 >

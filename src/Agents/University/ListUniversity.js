@@ -23,7 +23,7 @@ import {
   radioClasses,
 } from "@mui/material";
 import Masterheader from "../../compoents/header";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AgentSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
@@ -711,7 +711,7 @@ const chartRef = useRef(null);
           </li>
          
           <li className="m-1">
-            <Link to="/add_university">
+            <Link to="/agent_add_university">
               <button
                 className="btn border-0 fw-semibold text-white"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -948,7 +948,7 @@ const chartRef = useRef(null);
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/ViewUniversity",
+                            pathname: "/agent_view_university",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -1022,7 +1022,7 @@ const chartRef = useRef(null);
                             <Link
                               className="dropdown-item"
                               to={{
-                                pathname: "/view_university",
+                                pathname: "/agent_view_university",
                                 search: `?id=${data?._id}`,
                               }}
                             >
@@ -1034,7 +1034,7 @@ const chartRef = useRef(null);
                             <Link
                               className="dropdown-item"
                               to={{
-                                pathname: "/edit_university",
+                                pathname: "/agent_edit_university",
                                 search: `?id=${data?._id}`,
                               }}
                             >
@@ -1179,7 +1179,7 @@ const chartRef = useRef(null);
           <Link
                               className="btn btn-sm btn-outline-primary"
                               to={{
-                                pathname: "/view_university",
+                                pathname: "/agent_view_university",
                                 search: `?id=${item?._id}`,
                               }}
                             >
@@ -1191,7 +1191,7 @@ const chartRef = useRef(null);
                             <Link
                               className="btn btn-sm btn-outline-warning"
                               to={{
-                                pathname: "/edit_university",
+                                pathname: "/agent_edit_university",
                                 search: `?id=${item?._id}`,
                               }}
                             >

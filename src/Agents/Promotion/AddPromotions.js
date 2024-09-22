@@ -200,7 +200,7 @@ export const AddPromotions = () => {
       savePromotion(updateNotifications)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/admin_list_promotions");
+          navigate("/agent_list_promotions");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -589,12 +589,12 @@ export const AddPromotions = () => {
                           </button>
                           <div className="d-flex justify-content-end  ">
                             <Link
-                              to="/admin_list_promotions"
+                              to="/agent_list_promotions"
                               style={{
                                 
                                 fontSize: "12px",
                               }}
-                              type="reset"
+                             
                               className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import {getallStaff,deleteStaff,getFilterStaffSuperAdmin,updateStaff} from "../../api/staff";
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AgentSidebar";
 import { formatDate } from "../../Utils/DateFormat";
 import { Link, useLocation } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
@@ -551,7 +551,7 @@ function ListStaff() {
             </Link>
           </li>
           <li className="ms-2">
-            <Link className="btn btn-pix-primary" to="/add_staff">
+            <Link className="btn btn-pix-primary" to="/agent_add_staff">
               <button
                 className="btn btn-outline fw-semibold border-0 rounded-1 text-white"
                 style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
@@ -742,7 +742,7 @@ function ListStaff() {
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/view_staff",
+                                    pathname: "/agent_view_staff",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -752,7 +752,7 @@ function ListStaff() {
                                 <Link
                                   className="dropdown-item"
                                   to={{
-                                    pathname: "/edit_staff",
+                                    pathname: "/agent_edit_staff",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -881,7 +881,7 @@ function ListStaff() {
           <Link
                                   className="btn btn-sm btn-outline-primary"
                                   to={{
-                                    pathname: "/view_staff",
+                                    pathname: "/agent_view_staff",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >
@@ -891,7 +891,7 @@ function ListStaff() {
                                 <Link
                                   className="btn btn-sm btn-outline-warning"
                                   to={{
-                                    pathname: "/edit_staff",
+                                    pathname: "/agent_edit_staff",
                                     search: `?id=${data?._id}`,
                                   }}
                                 >

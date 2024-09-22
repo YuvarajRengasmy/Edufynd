@@ -13,7 +13,7 @@ import {
 } from "../../Utils/Validation";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
@@ -341,7 +341,7 @@ export const AddStaff = () => {
       saveStaff(staffData)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_staff");
+          navigate("/agent_list_staff");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1461,7 +1461,7 @@ export const AddStaff = () => {
                             <div className="row g-2">
                               <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                                 <Link
-                                  to="/list_staff"
+                                  to="/agent_list_staff"
                                   style={{
                                     backgroundColor: "#231F20",
                                     fontFamily: "Plus Jakarta Sans",

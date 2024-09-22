@@ -739,7 +739,7 @@ export default function Masterproductlist() {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/view_commission",
+                            pathname: "/ agent_view_commission",
                             search: `?id=${data?._id}`,
                           }}
                         >

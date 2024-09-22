@@ -266,7 +266,7 @@ export const ListPromotions = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                      <Link class="btn btn-pix-primary" to="/admin_add_promotions">
+                      <Link class="btn btn-pix-primary" to="/agent_add_promotions">
                         <button
                           className="btn btn-outline rounded-1  fw-semibold  border-0 text-white  "
                           style={{
@@ -514,7 +514,7 @@ export const ListPromotions = () => {
                                           <Link
                                             className="dropdown-item"
                                             to={{
-                                              pathname: "/admin_view_promotions",
+                                              pathname: "/agent_view_promotions",
                                               search: `?id=${data?._id}`,
                                             }}
                                           >
@@ -523,7 +523,7 @@ export const ListPromotions = () => {
                                           <Link
                                             className="dropdown-item"
                                             to={{
-                                              pathname: "/admin_edit_promotions",
+                                              pathname: "/agent_edit_promotions",
                                               search: `?id=${data?._id}`,
                                             }}
                                           >
@@ -618,7 +618,7 @@ export const ListPromotions = () => {
                                       <Link
                                         className="btn btn-sm btn-outline-primary"
                                         to={{
-                                          pathname: "/admin_view_promotions",
+                                          pathname: "/agent_view_promotions",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -628,7 +628,7 @@ export const ListPromotions = () => {
                                       <Link
                                         className="btn btn-sm btn-outline-warning"
                                         to={{
-                                          pathname: "/admin_edit_promotions",
+                                          pathname: "/agent_edit_promotions",
                                           search: `?id=${data?._id}`,
                                         }}
                                       >
@@ -738,7 +738,7 @@ export const ListPromotions = () => {
               </div>
               <div>
                 <Link
-                  to="/list_promotions"
+                  to="/agent_list_promotions"
                   className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                   style={{
                     backgroundColor: "#0f2239",

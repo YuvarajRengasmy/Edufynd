@@ -4,7 +4,7 @@ import {saveApplication} from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
 import { Link, useLocation,useNavigate } from "react-router-dom";
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import Flags from "react-world-flags";
 import { Pagination } from "@mui/material";
 import { toast } from 'react-toastify';
@@ -211,7 +211,7 @@ const handleSubmit = (event) => {
       .then((res) => {
         console.log(res);
         toast.success(res?.data?.message);
-        navigate("/Programs");
+        navigate("/agent_list_program");
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
@@ -276,7 +276,7 @@ const handleSubmit = (event) => {
                           <Link 
                           
                           to={{
-                            pathname: "/ViewUniversity",
+                            pathname: "/agent_view_university",
                             search: `?id=${program?.universityId}`,
                           }}
                           >
@@ -1063,30 +1063,7 @@ const handleSubmit = (event) => {
                                 />
                               </div>
                             </div>
-                            <nav aria-label="breadcrumb">
-                              <ol className="breadcrumb float-end">
-                                <li className="breadcrumb-item">
-                                  <Link to="/dashBoard" target="_self" className="text-decoration-none text-capitalize">
-                                    Dashboard
-                                  </Link>
-                                </li>
-                                <li className="breadcrumb-item">
-                                  <Link to="/list_program" className="text-decoration-none text-capitalize">ListProgram</Link>
-                                </li>
-
-                                <li className="breadcrumb-item">
-                                  <Link
-                                  className="text-decoration-none text-capitalize"
-                                    to={{
-                                      pathname: "/edit_program",
-                                      search: `?id=${id}`,
-                                    }}
-                                  >
-                                    EditProgram
-                                  </Link>
-                                </li>
-                              </ol>
-                            </nav>
+                           
                           </div>
                         </div>
                       </div>

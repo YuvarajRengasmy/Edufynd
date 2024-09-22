@@ -10,7 +10,7 @@ import {
 import Select from "react-select";
 import { toast } from "react-toastify";
 import { StudentSuperEdit, getSingleStudent } from "../../api/student";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
@@ -327,7 +327,7 @@ const getallCodeList = () => {
         StudentSuperEdit(studentData)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_student");
+          navigate("/agent_list_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -350,7 +350,7 @@ const getallCodeList = () => {
             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
           >
             <div className="content-header ">
-              <Privilages/>
+            
             <BackButton/>
             
             </div>
@@ -1507,7 +1507,7 @@ const getallCodeList = () => {
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "12px",
                                   }}
-                                  to="/list_student"
+                                  to="/agent_list_student"
                                   className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
                                 >
                                   Cancel

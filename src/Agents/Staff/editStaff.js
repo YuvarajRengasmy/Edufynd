@@ -15,7 +15,7 @@ import {
   isValidName,
   isValidDob,
 } from "../../Utils/Validation";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AgentSidebar";
 import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
 import BackButton from "../../compoents/backButton";
@@ -394,7 +394,7 @@ export const AddStaff = () => {
           >
             <div className="" >
               <div className="d-flex justify-content-end mb-0 ">
-              <CheckBox/>
+             
               <BackButton/>
               </div>
            
