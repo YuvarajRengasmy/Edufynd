@@ -11,6 +11,9 @@ export const getallTestimonial = () => {
 }
 
 
+export const getSingleLogged = (data) => {
+  return API.get(`${Testimonial}/getSingleLogged`, { params: { _id: data } });
+};
 export const getSingleTestimonial = (data) => {
     return API.get(`${Testimonial}/getSingleTestimonial`, { params: { _id: data } });
   };
