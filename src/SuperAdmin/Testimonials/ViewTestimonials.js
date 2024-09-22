@@ -1,7 +1,7 @@
 import Sidebar from "../../compoents/sidebar";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { updatedTestimonial,getSingleTestimonial,getSingleLogged } from "../../api/Notification/Testimonial";
+import { updatedTestimonial,getSingleTestimonial,getSingleLog } from "../../api/Notification/Testimonial";
 import BackButton from "../../compoents/backButton";
 import { RichTextEditor } from "@mantine/rte";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -28,8 +28,9 @@ export const ViewTestimonials = () => {
       });
   };
   const getUniversityLogs = () => {
-    getSingleLogged(id)
+    getSingleLog(id)
       .then((res) => {
+        
         console.log("yuvi",res);
         setLogs(res?.data?.result);
       })
