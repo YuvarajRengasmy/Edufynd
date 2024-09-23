@@ -1133,7 +1133,7 @@ export const AddGeneralEnquiry = () => {
                   type="submit"
                   className="btn   border-0 rounded-1 text-uppercase px-4 py-2 fw-semibold text-white m-1"
                 >
-                  Submit
+                  Update
                 </button>
               </div>
             </form>

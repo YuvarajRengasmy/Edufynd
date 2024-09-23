@@ -334,7 +334,7 @@ function EditAgent() {
                         type="submit"
                         className="btn  px-4 py-2 fw-semibold text-uppercase rounded-1 border-0 text-white m-1"
                       >
-                        Submit
+                       Update
                       </button>
                     </div>
                   </form>
