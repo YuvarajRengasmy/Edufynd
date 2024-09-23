@@ -811,9 +811,10 @@ const chartRef = useRef(null);
                               }}
                               onChange={handleActionChange}
                             >
-                              <option value="">Select Action</option>
-                              <option value="Activate">Activate</option>
-                              <option value="Delete">Delete</option>
+                             <option value="">Select Action</option>
+      <option value="Activate">Activate</option>
+      <option value="Deactivate">Deactivate</option>
+      <option value="Delete">Delete</option>
                             </select>
                           </p>
                     </div>

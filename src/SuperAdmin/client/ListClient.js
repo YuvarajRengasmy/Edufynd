@@ -196,16 +196,16 @@ const getallClientCount = ()=>{
   const handleActionChange = (event) => {
     const action = event.target.value;
     if (action === "Delete") {
-      deleteSelectedNotifications();
+      deleteSelectedUsers();
     } else if (action === "Activate") {
-      activateSelectedNotifications();
+      activateSelectedUsers();
     } else if (action === "Deactivate") {
-      deactivateSelectedNotifications(); 
+      deactivateSelectedUsers(); 
     }
   };
 
  
-  const deleteSelectedNotifications = () => {
+  const deleteSelectedUsers = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => deleteClient(id)))
         .then((responses) => {
@@ -222,25 +222,8 @@ const getallClientCount = ()=>{
     }
   };
 
-  // const activateSelectedNotifications = () => {
-  //   if (selectedIds.length > 0) {
-  //     Promise.all(selectedIds.map((id) => activeClient(id)))
-  //     // Promise.all(selectedIds.map((id) => updateClient(id)))
-  //       .then((responses) => {
-  //         console.log("rajaram",responses);
-  //         toast.success("Client activated successfully!");
-  //         setSelectedIds([]);
-  //         getClientList();
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         toast.error("Failed to activate Client.");
-  //       });
-  //   } else {
-  //     toast.warning("No selected Client.");
-  //   }
-  // };
-  const activateSelectedNotifications = () => {
+
+  const activateSelectedUsers = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to activate the clients
       activeClient({ clientIds: selectedIds })
@@ -252,14 +235,14 @@ const getallClientCount = ()=>{
         })
         .catch((err) => {
           console.error(err);
-          toast.error("Failed to activate client.");
+          toast.error("Already clients were Activated");
         });
     } else {
       toast.warning("No selected Client.");
     }
   };
   
-  const deactivateSelectedNotifications = () => {
+  const deactivateSelectedUsers = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to deactivate the clients
       deactivateClient({ clientIds: selectedIds })
@@ -918,8 +901,9 @@ const getallClientCount = ()=>{
     >
       <option value="">Select Action</option>
       <option value="Activate">Activate</option>
-      <option value="Delete">Delete</option>
       <option value="Deactivate">Deactivate</option>
+      <option value="Delete">Delete</option>
+      
       
     </select>
   </p>
