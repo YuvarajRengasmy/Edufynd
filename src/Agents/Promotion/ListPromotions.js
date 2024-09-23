@@ -13,8 +13,8 @@ import Mastersidebar from "../../compoents/AgentSidebar";
 import { toast } from "react-toastify";
 import { formatDate } from "../../Utils/DateFormat";
 import { FaFilter } from "react-icons/fa";
-import {getAgentId } from "../../Utils/storage";
-import {  getSingleAgent } from "../../api/agent";
+import { getAgentId } from "../../Utils/storage";
+import { getSingleAgent } from "../../api/agent";
 
 export const ListPromotions = () => {
   const [notification, setnotification] = useState([]);
@@ -41,13 +41,15 @@ export const ListPromotions = () => {
         console.log(err);
       });
   };
-  
+
   if (!agent || !agent.privileges) {
     // return null; // or a loading spinner
   }
-  
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'promotions');
-  
+
+  const agentPrivileges = agent?.privileges?.find(
+    (privilege) => privilege.module === "promotions"
+  );
+
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
@@ -292,23 +294,26 @@ export const ListPromotions = () => {
                       </Link>
                     </li>
                     <li class="m-1">
-                    {agentPrivileges?.add && (
-                      <Link class="btn btn-pix-primary" to="/agent_add_promotions">
-                        <button
-                          className="btn btn-outline rounded-1  fw-semibold  border-0 text-white  "
-                          style={{
-                            backgroundColor: "#231f20",
-                            fontSize: "12px",
-                          }}
+                      {agentPrivileges?.add && (
+                        <Link
+                          class="btn btn-pix-primary"
+                          to="/agent_add_promotions"
                         >
-                          <i
-                            class="fa fa-plus-circle me-2"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          Add Promotion
-                        </button>
-                      </Link>
-                    )}
+                          <button
+                            className="btn btn-outline rounded-1  fw-semibold  border-0 text-white  "
+                            style={{
+                              backgroundColor: "#231f20",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <i
+                              class="fa fa-plus-circle me-2"
+                              aria-hidden="true"
+                            ></i>{" "}
+                            Add Promotion
+                          </button>
+                        </Link>
+                      )}
                     </li>
                   </ol>
                 </div>
@@ -420,7 +425,9 @@ export const ListPromotions = () => {
                             >
                               <option value="active">Active</option>
                               <option value="inActive">Inactive</option>
-                              {agentPrivileges?.delete && (   <option value="20">Delete</option> )}
+                              {agentPrivileges?.delete && (
+                                <option value="20">Delete</option>
+                              )}
                             </select>{" "}
                           </p>
                         </div>
@@ -539,37 +546,39 @@ export const ListPromotions = () => {
                                       </td>
                                       <td className="text-capitalize text-start text-truncate">
                                         <div className="d-flex justify-coontent-between align-items-center">
-                                        {agentPrivileges?.view && (
-                                          <Link
-                                            className="dropdown-item"
-                                            to={{
-                                              pathname: "/agent_view_promotions",
-                                              search: `?id=${data?._id}`,
-                                            }}
-                                          >
-                                            <i className="far fa-eye text-primary me-1"></i>
-                                          </Link>
-                                        )}
-                                         {agentPrivileges?.edit && (
-                                          <Link
-                                            className="dropdown-item"
-                                            to={{
-                                              pathname: "/agent_edit_promotions",
-                                              search: `?id=${data?._id}`,
-                                            }}
-                                          >
-                                            <i className="far fa-edit text-warning me-1"></i>
-                                          </Link>
-                                         )}
+                                          {agentPrivileges?.view && (
+                                            <Link
+                                              className="dropdown-item"
+                                              to={{
+                                                pathname:
+                                                  "/agent_view_promotions",
+                                                search: `?id=${data?._id}`,
+                                              }}
+                                            >
+                                              <i className="far fa-eye text-primary me-1"></i>
+                                            </Link>
+                                          )}
+                                          {agentPrivileges?.edit && (
+                                            <Link
+                                              className="dropdown-item"
+                                              to={{
+                                                pathname:
+                                                  "/agent_edit_promotions",
+                                                search: `?id=${data?._id}`,
+                                              }}
+                                            >
+                                              <i className="far fa-edit text-warning me-1"></i>
+                                            </Link>
+                                          )}
                                           {agentPrivileges?.delete && (
-                                          <button
-                                            className="dropdown-item"
-                                            onClick={() => {
-                                              openPopup(data?._id);
-                                            }}
-                                          >
-                                            <i className="far fa-trash-alt text-danger me-1"></i>
-                                          </button>
+                                            <button
+                                              className="dropdown-item"
+                                              onClick={() => {
+                                                openPopup(data?._id);
+                                              }}
+                                            >
+                                              <i className="far fa-trash-alt text-danger me-1"></i>
+                                            </button>
                                           )}
                                         </div>
                                       </td>
@@ -649,40 +658,40 @@ export const ListPromotions = () => {
                                       </div>
                                     </div>
                                     <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-                                    {agentPrivileges?.view && (
-                                      <Link
-                                        className="btn btn-sm btn-outline-primary"
-                                        to={{
-                                          pathname: "/agent_view_promotions",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>
-                                        View
-                                      </Link>
-                                    )}
-                                     {agentPrivileges?.edit && (
-                                      <Link
-                                        className="btn btn-sm btn-outline-warning"
-                                        to={{
-                                          pathname: "/agent_edit_promotions",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>
-                                        Edit
-                                      </Link>
-                                     )}
+                                      {agentPrivileges?.view && (
+                                        <Link
+                                          className="btn btn-sm btn-outline-primary"
+                                          to={{
+                                            pathname: "/agent_view_promotions",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                          View
+                                        </Link>
+                                      )}
+                                      {agentPrivileges?.edit && (
+                                        <Link
+                                          className="btn btn-sm btn-outline-warning"
+                                          to={{
+                                            pathname: "/agent_edit_promotions",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                          Edit
+                                        </Link>
+                                      )}
                                       {agentPrivileges?.delete && (
-                                      <button
-                                        className="btn btn-sm btn-ouline-danger"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                        Delete
-                                      </button>
+                                        <button
+                                          className="btn btn-sm btn-ouline-danger"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                          Delete
+                                        </button>
                                       )}
                                     </div>
                                   </div>

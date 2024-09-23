@@ -1223,7 +1223,7 @@ export const AddForex = () => {
                           type="submit"
                           className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-1"
                         >
-                          Submit
+                        Update
                         </button>
                       </div>
                     </div>

@@ -79,7 +79,7 @@ export const ListStudentForm = () => {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'studentEnquiry');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege

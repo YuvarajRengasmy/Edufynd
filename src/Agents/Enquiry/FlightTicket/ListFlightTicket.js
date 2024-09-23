@@ -62,7 +62,7 @@ export const ListFlightTicket = () => {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'flight');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'flightEnquiry');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege

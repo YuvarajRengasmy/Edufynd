@@ -78,7 +78,7 @@ export const ListBusiness = () => {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'business');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'businessEnquiry');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege

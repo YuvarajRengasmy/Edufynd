@@ -31,7 +31,7 @@ export const ViewPromotion = () => {
           >
             <div className="content-header ">
               <BackButton />
-             
+
               <div class="container-fluid mt-4">
                 <div class="bg-primary text-white p-3 rounded mb-4 d-flex justify-content-between align-items-center">
                   <h1 class="display-4">Promotion Details</h1>
