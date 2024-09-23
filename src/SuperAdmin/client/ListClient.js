@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallClient, deleteClient,updateClient,activeClient, getAllClientCard,getFilterClient } from "../../api/client";
+import { getallClient, deleteClient,updateClient,activeClient, getAllClientCard,getFilterClient, deactivateClient } from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -179,9 +179,7 @@ const getallClientCount = ()=>{
 
 
   const handleCheckboxChanges = (id) => {
-    setSelectedIds((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((selectedId) => selectedId !== id)
+    setSelectedIds((prevSelected) =>prevSelected.includes(id) ? prevSelected.filter((selectedId) => selectedId !== id)
         : [...prevSelected, id]
     );
   };
@@ -201,9 +199,12 @@ const getallClientCount = ()=>{
       deleteSelectedNotifications();
     } else if (action === "Activate") {
       activateSelectedNotifications();
+    } else if (action === "Deactivate") {
+      deactivateSelectedNotifications(); 
     }
   };
 
+ 
   const deleteSelectedNotifications = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => deleteClient(id)))
@@ -221,27 +222,61 @@ const getallClientCount = ()=>{
     }
   };
 
+  // const activateSelectedNotifications = () => {
+  //   if (selectedIds.length > 0) {
+  //     Promise.all(selectedIds.map((id) => activeClient(id)))
+  //     // Promise.all(selectedIds.map((id) => updateClient(id)))
+  //       .then((responses) => {
+  //         console.log("rajaram",responses);
+  //         toast.success("Client activated successfully!");
+  //         setSelectedIds([]);
+  //         getClientList();
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         toast.error("Failed to activate Client.");
+  //       });
+  //   } else {
+  //     toast.warning("No selected Client.");
+  //   }
+  // };
   const activateSelectedNotifications = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => activeClient(id)))
-      // Promise.all(selectedIds.map((id) => updateClient(id)))
-        .then((responses) => {
-          console.log("rajaram",responses);
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ clientIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
           toast.success("Client activated successfully!");
-          setSelectedIds([]);
-          getClientList();
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getClientList(); // Refresh the client list
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate Client.");
+          console.error(err);
+          toast.error("Failed to activate client.");
         });
     } else {
       toast.warning("No selected Client.");
     }
   };
- 
-
-
+  
+  const deactivateSelectedNotifications = () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ clientIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Client deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getClientList(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Failed to deactivate client.");
+        });
+    } else {
+      toast.warning("No selected Client.");
+    }
+  };
   
   
  
@@ -852,7 +887,7 @@ const getallClientCount = ()=>{
               <div className="card border-0 rounded-1 shadow-sm">
               <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
+                    {/* <div className="d-flex  mb-0">
                       <p className="me-auto ">
                         Change
                         <select
@@ -870,7 +905,26 @@ const getallClientCount = ()=>{
                               <option value="Delete">Delete</option>
                             </select>
                       </p>
-                    </div>
+                    </div> */}
+
+<div className="d-flex mb-0">
+  <p className="me-auto ">
+    Change
+    <select
+      className="form-select form-select-sm rounded-1 d-inline mx-2"
+      aria-label="Default select example1"
+      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+      onChange={handleActionChange}
+    >
+      <option value="">Select Action</option>
+      <option value="Activate">Activate</option>
+      <option value="Delete">Delete</option>
+      <option value="Deactivate">Deactivate</option>
+      
+    </select>
+  </p>
+</div>
+
 
                     <div>
                     
@@ -924,7 +978,7 @@ const getallClientCount = ()=>{
                     >
                <thead className="table-light" style={{ fontSize: '12px' }}>
           <tr>
-            <th className="text-start">
+            {/* <th className="text-start">
             <input
                                     type="checkbox"
                                     onChange={handleSelectAll}
@@ -932,7 +986,19 @@ const getallClientCount = ()=>{
                                       selectedIds.length === client.length
                                     }
                                   />
-            </th>
+            </th> */}
+
+
+            <th className="text-start">
+  <input
+    type="checkbox"
+    onChange={handleSelectAll}
+    checked={selectedIds.length === client.length}
+  />
+</th>
+
+
+
             <th className="text-capitalize text-start">S No</th>
             <th className="text-capitalize text-start">Code</th>
 
