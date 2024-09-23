@@ -27,6 +27,10 @@ export const deleteStudnetEnquiry= (data) => {
   };
 
 
+  export const assignStaffToEnquiries  = (data) => {
+    return API.post(`${StudnetEnquiry}/assign`, data);
+  };
+
 
 
 

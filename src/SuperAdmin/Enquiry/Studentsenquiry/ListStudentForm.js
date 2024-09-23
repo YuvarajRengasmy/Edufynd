@@ -4,6 +4,7 @@ import {
   getallStudnetEnquiry,
   getSingleStudnetEnquiry,
   deleteStudnetEnquiry,
+  assignStaffToEnquiries
   
 } from "../../../api/Enquiry/student";
 import { getallStaff } from "../../../api/staff";
@@ -57,6 +58,9 @@ export const ListStudentForm = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [selectedStaffId, setSelectedStaffId] = useState('');
 
 
 
@@ -153,6 +157,40 @@ export const ListStudentForm = () => {
       ...prevStatuses,
       [index]: !prevStatuses[index],
     }));
+  };
+
+
+  const handleSelectStudent = (event, studentId) => {
+    if (event.target.checked) {
+      // Add the student ID to the selectedIds array
+      setSelectedIds([...selectedIds, studentId]);
+    } else {
+      // Remove the student ID from the selectedIds array
+      setSelectedIds(selectedIds.filter(id => id !== studentId));
+    }
+  };
+  
+
+
+  const handleStaffSelect = (event) => {
+    setSelectedStaffId(event.target.value);  // Capture selected staff ID
+  };
+  
+  const handleSubmitStaffAssign = () => {
+    if (selectedIds.length > 0 && selectedStaffId) {
+      // Send the selected enquiry IDs and staffId to the backend
+      assignStaffToEnquiries({ studentEnquiryIds: selectedIds, staffId: selectedStaffId })
+        .then((response) => {
+          toast.success('Staff assigned successfully!');
+          setSelectedIds([]);  // Clear selected enquiries
+          getallStudnetEnquiry();  // Refresh the list of student enquiries
+        })
+        .catch((err) => {
+          toast.error('Failed to assign staff.');
+        });
+    } else {
+      toast.warning('Please select enquiries and staff.');
+    }
   };
 
   return (
@@ -519,6 +557,10 @@ export const ListStudentForm = () => {
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
+
+
+
+{/* 
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
@@ -544,11 +586,10 @@ export const ListStudentForm = () => {
                    <option key={index} value={staff?.empName}>{staff?.empName}</option>
                 ))}
                
-                
-
+    
                </select>
               </div>
-            
+  
             </form>
           </div>
           <div className="modal-footer">
@@ -567,7 +608,56 @@ export const ListStudentForm = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
+
+<div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+        <div className="modal-header">
+            <h1 className="modal-title fs-5" id="exampleModalLabel">Assign to</h1>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div className="modal-body">
+            <form>
+                <div className="mb-3">
+                    <label htmlFor="exampleFormControlInput1" className="form-label">Staff List</label>
+                    <select
+                        className="form-select-sm rounded-1"
+                        name="staffName"
+                        onChange={handleStaffSelect}  // Capture selected staffId
+                    >
+                        <option value="1">Select a Staff</option>
+                        {staff.map((staff, index) => (
+                            <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
+                        ))}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div className="modal-footer">
+            <button
+                type="button"
+                className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
+                data-bs-dismiss="modal"
+            >
+                Close
+            </button>
+            <button
+                type="button"
+                className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
+                onClick={handleSubmitStaffAssign}  // Call the function to assign the staff
+            >
+                Submit
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
     </div>
 
     <div>
@@ -630,6 +720,17 @@ export const ListStudentForm = () => {
                                 {" "}
                                 <input type="checkbox" />
                               </th>
+
+{/* <th className="text-capitalize text-start sortable-handle">
+    <input
+        type="checkbox"
+        onChange={handleSelectEnquiry}
+        checked={selectedIds.includes(enquiry._id)}  // Check if the enquiry is selected
+    />
+</th> */}
+
+
+
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 S.No.
@@ -681,15 +782,19 @@ export const ListStudentForm = () => {
                             {student && student.length > 0 ? (
                               student.map((data, index) => (
                                 <tr
-                                  key={index}
+                                key={data._id}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "10px",
                                   }}
                                 >
-                                   <td>
-                        <input type="checkbox" />
-                      </td>
+                            <td>
+          <input
+            type="checkbox"
+            checked={selectedIds.includes(data._id)} // Check if the student is selected
+            onChange={(e) => handleSelectStudent(e, data._id)} // Handle checkbox toggle
+          />
+        </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
