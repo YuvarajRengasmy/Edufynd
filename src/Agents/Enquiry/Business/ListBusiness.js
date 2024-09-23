@@ -16,11 +16,12 @@ import {
   radioClasses,
 } from "@mui/material";
 import { formatDate } from "../../../Utils/DateFormat";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import {getAgentId } from "../../../Utils/storage";
+import {  getSingleAgent } from "../../../api/agent";
 import { FaFilter } from "react-icons/fa";
 
 export const ListBusiness = () => {
@@ -54,10 +55,36 @@ export const ListBusiness = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [agent, setAgent] = useState(null);
 
   useEffect(() => {
     getAllStudentDetails();
+    getAgentDetails();
   }, [pagination.from, pagination.to]);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'business');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
+  
+  
 
   const getAllStudentDetails = () => {
     const data = {
@@ -362,7 +389,8 @@ export const ListBusiness = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn btn-pix-primary" to="/add_business_enquiry">
+                  {agentPrivileges?.add && (
+                    <Link class="btn btn-pix-primary" to="/agent_add_business_enquiry">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
                         style={{
@@ -378,6 +406,7 @@ export const ListBusiness = () => {
                         Add Business Enquiry
                       </button>
                     </Link>
+                  )}
                   </li>
                 </ol>
               </div>
@@ -477,7 +506,7 @@ export const ListBusiness = () => {
                         >
                           <option value="5">Active</option>
                           <option value="10">InActive</option>
-                          <option value="20">Delete</option>
+                          {agentPrivileges?.delete && (      <option value="20">Delete</option> )}
                         </select>{" "}
                       </p>
                     </div>
@@ -638,10 +667,11 @@ export const ListBusiness = () => {
           </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
+                                    {agentPrivileges?.view && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/view_business_enquiry",
+                                          pathname: "/agent_view_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -649,10 +679,12 @@ export const ListBusiness = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
+                                    )}
+                                    {agentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/edit_business_enquiry",
+                                          pathname: "/agent_edit_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -660,6 +692,8 @@ export const ListBusiness = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
+                                    )}
+                                    {agentPrivileges?.delete && (
                                       <Link
                                         className="dropdown-item"
                                         onClick={() => {
@@ -670,6 +704,7 @@ export const ListBusiness = () => {
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
                                       </Link>
+                                    )}
                                     </div>
                                   </td>
                                 </tr>
@@ -809,10 +844,11 @@ export const ListBusiness = () => {
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {agentPrivileges?.view && (
           <Link
                                         className="btn btn-sm btn-outline-primary"
                                         to={{
-                                          pathname: "/view_business_enquiry",
+                                          pathname: "/agent_view_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -820,10 +856,12 @@ export const ListBusiness = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>View
                                       </Link>
+          )}
+          {agentPrivileges?.edit && (
                                       <Link
                                         className="btn btn-sm btn-outline-warning"
                                         to={{
-                                          pathname: "/edit_business_enquiry",
+                                          pathname: "/agent_edit_business_enquiry",
                                           search: `?id=${data?._id}`,
                                         }}
                                         data-bs-toggle="tooltip"
@@ -831,6 +869,8 @@ export const ListBusiness = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i> Edit
                                       </Link>
+          )}
+          {agentPrivileges?.delete && (
                                       <button
                                         className="btn btn-sm btn-outline-danger"
                                         onClick={() => {
@@ -841,6 +881,7 @@ export const ListBusiness = () => {
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>Delete
                                       </button>
+          )}
           </div>
         </div>
       </div>

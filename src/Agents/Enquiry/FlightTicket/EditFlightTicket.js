@@ -5,7 +5,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 
 import { getallCode } from "../../../api/settings/dailcode";
 import { updateFlightEnquiry,getSingleFlightEnquiry } from "../../../api/Enquiry/flight";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import { getFilterSource } from "../../../api/settings/source";
 import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
@@ -261,7 +261,7 @@ export const Addflight = () => {
       updateFlightEnquiry(flight)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_flight_ticket");
+          navigate("/agent_list_flight_ticket");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -966,7 +966,7 @@ export const Addflight = () => {
                     <div className="row g-2">
                       <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                         <Link
-                          to="/list_flight_ticket"
+                          to="/agent_list_flight_ticket"
                           style={{
                             backgroundColor: "#231F20",
                             fontFamily: "Plus Jakarta Sans",

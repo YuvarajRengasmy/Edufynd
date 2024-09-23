@@ -16,7 +16,8 @@ import { toast } from "react-toastify";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { Link, useLocation } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
-
+import {getAgentId } from "../../Utils/storage";
+import {  getSingleAgent } from "../../api/agent";
 export default function Masterproductlist() {
 
   const initialState = {
@@ -59,6 +60,7 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [pageSize, setPageSize] = useState(10); 
+  const [agent, setAgent] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -67,9 +69,31 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getCommissionList();
-   
+    getAgentDetails();
   }, [pagination.from, pagination.to,pageSize]);
 
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   useEffect(() => {
     if (search.current) {
@@ -581,6 +605,7 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
+          {agentPrivileges?.add && (
             <Link to="/agent_add_commission">
               <button
                 className="btn rounded-1 fw-semibold border-0 text-white"
@@ -590,6 +615,7 @@ export default function Masterproductlist() {
                 Add Commission
               </button>
             </Link>
+          )}
           </li>
         </ol>
       </div>
@@ -736,6 +762,7 @@ export default function Masterproductlist() {
                       </td>
                     
                       <td className="text-capitalize text-start text-truncate">
+                      {agentPrivileges?.view && (
                         <Link
                           className="dropdown-item"
                           to={{
@@ -753,6 +780,7 @@ export default function Masterproductlist() {
 ))}
 
                         </Link>
+                      )}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
                         {data?.paymentType || "Not Available"}
@@ -770,6 +798,7 @@ export default function Masterproductlist() {
           </td>
                       <td>
                         <div className="d-flex">
+                        {agentPrivileges?.view && (
                           <Link
                             className="dropdown-item"
                             to={{
@@ -781,6 +810,8 @@ export default function Masterproductlist() {
                           >
                             <i className="far fa-eye text-primary me-1"></i>
                           </Link>
+                        )}
+                        {agentPrivileges?.edit && (
                           <Link
                             className="dropdown-item"
                             to={{
@@ -792,12 +823,15 @@ export default function Masterproductlist() {
                           >
                             <i className="far fa-edit text-warning me-1"></i>
                           </Link>
+                        )}
+                        {agentPrivileges?.delete && (
                           <Link
                             className="dropdown-item"
                             onClick={() => openPopup(data?._id)}
                           >
                             <i className="far fa-trash-alt text-danger me-1"></i>
                           </Link>
+                        )}
                         </div>
                       </td>
                     </tr>
@@ -902,7 +936,7 @@ export default function Masterproductlist() {
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-         
+          {agentPrivileges?.view && (
                           <Link
                             className=" btn btn-outline-primary btn-sm"
                             to={{
@@ -914,6 +948,10 @@ export default function Masterproductlist() {
                           >
                             <i className="far fa-eye text-primary "></i> View
                           </Link>
+          )}
+          
+          
+          {agentPrivileges?.edit && (
                           <Link
                             className="btn btn-outline-warning btn-sm"
                             to={{
@@ -925,13 +963,15 @@ export default function Masterproductlist() {
                           >
                             <i className="far fa-edit text-warning"></i> Edit
                           </Link>
+          )}
+           {agentPrivileges?.delete && (
                           <button
                             className="btn btn-outline-danger btn-sm"
                             onClick={() => openPopup(data?._id)}
                           >
                             <i className="far fa-trash-alt text-danger "></i> Delete
                           </button>
-                       
+           )}
           </div>
         </div>
       </div>

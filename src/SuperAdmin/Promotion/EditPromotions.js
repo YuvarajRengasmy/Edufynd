@@ -710,7 +710,7 @@ export const AddPromotions = () => {
                               type="submit"
                               className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
-                              Submit
+                            update
                             </button>
                           </div>
                         </div>

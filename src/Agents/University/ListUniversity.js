@@ -32,6 +32,8 @@ import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import * as XLSX from "xlsx";
+import {getAgentId } from "../../Utils/storage";
+import {  getSingleAgent } from "../../api/agent";
 import { Chart, registerables } from 'chart.js';
 import Downshift from "downshift";
 Chart.register(...registerables);
@@ -62,7 +64,7 @@ export default function Masterproductlist() {
   const search = useRef(null);
   const [details, setDetails] = useState();
   const [detail, setDetail] = useState();
-
+  const [agent, setAgent] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -75,7 +77,30 @@ export default function Masterproductlist() {
     getAllUniversityDetails();
     getallUniversityCount();
     getallApplicantCount();
+    getAgentDetails();
   }, [pagination.from, pagination.to,pageSize]);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   useEffect(() => {
     if (search.current) {
@@ -711,6 +736,7 @@ const chartRef = useRef(null);
           </li>
          
           <li className="m-1">
+          {agentPrivileges?.add && (
             <Link to="/agent_add_university">
               <button
                 className="btn border-0 fw-semibold text-white"
@@ -719,6 +745,7 @@ const chartRef = useRef(null);
                 <i className="fa fa-plus-circle me-2" aria-hidden="true"></i> Add University
               </button>
             </Link>
+          )}
           </li>
         </ul>
       </div>
@@ -812,7 +839,7 @@ const chartRef = useRef(null);
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
-                              <option value="Delete">Delete</option>
+                              {agentPrivileges?.delete && (    <option value="Delete">Delete</option> )}
                             </select>
                           </p>
                     </div>
@@ -1018,7 +1045,7 @@ const chartRef = useRef(null);
                       </td> */}
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
-                         
+                        {agentPrivileges?.view && (
                             <Link
                               className="dropdown-item"
                               to={{
@@ -1028,7 +1055,8 @@ const chartRef = useRef(null);
                             >
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
-                          
+                        )}
+                        {agentPrivileges?.edit && (
 
                          
                             <Link
@@ -1040,14 +1068,16 @@ const chartRef = useRef(null);
                             >
                               <i className="far fa-edit text-warning me-1"></i>
                             </Link>
+                        )}
                           
-                          
+                          {agentPrivileges?.delete && (
                             <button
                               className="dropdown-item"
                               onClick={() => openPopup(data?._id)}
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
+                          )}
                           
                         </div>
                       </td>
@@ -1176,6 +1206,7 @@ const chartRef = useRef(null);
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {agentPrivileges?.view && (
           <Link
                               className="btn btn-sm btn-outline-primary"
                               to={{
@@ -1186,7 +1217,8 @@ const chartRef = useRef(null);
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
                           
-
+                            )}
+                            {agentPrivileges?.edit && (
                          
                             <Link
                               className="btn btn-sm btn-outline-warning"
@@ -1197,6 +1229,8 @@ const chartRef = useRef(null);
                             >
                               <i className="far fa-edit text-warning me-1"></i>
                             </Link>
+                            )}
+                            {agentPrivileges?.delete && (
                           
                           
                             <button
@@ -1205,6 +1239,7 @@ const chartRef = useRef(null);
                             >
                               <i className="far fa-trash-alt text-danger me-1"></i>
                             </button>
+                            )}
           </div>
         </div>
       </div>

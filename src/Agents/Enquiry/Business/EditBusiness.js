@@ -6,7 +6,7 @@ import {
   updateStudnetEnquiry,
   getSingleStudnetEnquiry,
 } from "../../../api/Enquiry/student";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import { Student } from "../../../api/endpoints";
 export const EditBusiness = () => {
   const location = useLocation();
@@ -144,7 +144,7 @@ export const EditBusiness = () => {
       updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_business_enquiry");
+          navigate("/agent_list_business_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -668,7 +668,7 @@ export const EditBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        to="/list_business_enquiry"
+                        to="/agent_list_business_enquiry"
                         className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 py-2  text-white m-2"
                       >
                         Cancel

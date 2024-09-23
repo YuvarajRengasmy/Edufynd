@@ -9,7 +9,8 @@ import { toast } from "react-toastify";
 import {getallMeeting,deleteMeeting,getFilterMeeting  } from "../../api/Notification/meeting";
 import { formatDate } from "../../Utils/DateFormat";
 import { FaFilter } from "react-icons/fa";
-
+import {getAgentId } from "../../Utils/storage";
+import {  getSingleAgent } from "../../api/agent";
 
 
 export const ListMeetings = () => {
@@ -17,6 +18,8 @@ export const ListMeetings = () => {
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const [agent, setAgent] = useState(null);
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -26,7 +29,30 @@ export const ListMeetings = () => {
 
   useEffect(() => {
     getAllClientDetails();
+    getAgentDetails();
   }, [pagination.from, pagination.to]);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'meetings');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   const getAllClientDetails = () => {
     const data={
@@ -254,6 +280,7 @@ export const ListMeetings = () => {
                   </Link>
                 </li>
                 <li class="m-1">
+                {agentPrivileges?.add && (
                   <Link class="btn btn-pix-primary" to="/agent_add_meetings">
                     <button
                       className="btn    fw-semibold  rounded-1 border-0 text-white  "
@@ -266,6 +293,7 @@ export const ListMeetings = () => {
                        Add Meeting
                     </button>
                   </Link>
+                )}
                 </li>
 
               </ol>
@@ -367,7 +395,7 @@ export const ListMeetings = () => {
                         >
                           <option value="5">Active</option>
                           <option value="10">InActive</option>
-                          <option value="20">Delete</option>
+                          {agentPrivileges?.delete && (     <option value="20">Delete</option>  )}
                         </select>{" "}
                       </p>
                     </div>
@@ -460,6 +488,7 @@ export const ListMeetings = () => {
                           
                             <td className="text-capitalize text-start text-truncate">
                             <div className="d-flex">
+                            {agentPrivileges?.view && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -469,6 +498,8 @@ export const ListMeetings = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
+                            )}
+                            {agentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -478,6 +509,8 @@ export const ListMeetings = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
+                            )}
+                            {agentPrivileges?.delete && (
                                       <button
                                         className="dropdown-item"
                                         onClick={() => {
@@ -486,6 +519,7 @@ export const ListMeetings = () => {
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
                                       </button>
+                            )}
                                     </div>
 
                             </td>
@@ -580,6 +614,7 @@ export const ListMeetings = () => {
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {agentPrivileges?.view && (
           <Link
                                         className="btn btn-sm btn-outline-primary"
                                         to={{
@@ -589,6 +624,8 @@ export const ListMeetings = () => {
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>View
                                       </Link>
+          )}
+          {agentPrivileges?.edit && (
                                       <Link
                                         className="btn btn-sm btn-outline-warning"
                                         to={{
@@ -598,6 +635,8 @@ export const ListMeetings = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>Edit
                                       </Link>
+          )}
+          {agentPrivileges?.delete && (
                                       <button
                                         className="btn btn-sm btn-outline-danger"
                                         onClick={() => {
@@ -606,6 +645,7 @@ export const ListMeetings = () => {
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>Delete
                                       </button>
+          )}
           </div>
         </div>
       </div>

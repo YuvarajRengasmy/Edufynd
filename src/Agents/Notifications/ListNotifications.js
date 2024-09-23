@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
 
-import Mastersidebar from "../../compoents/sidebar";
+import Mastersidebar from "../../compoents/AgentSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 
 import { FaFilter } from "react-icons/fa";
-
+import {getAgentId } from "../../Utils/storage";
+import {  getSingleAgent } from "../../api/agent";
 
 
 export const ListNotifications = () => {
@@ -22,6 +23,7 @@ export const ListNotifications = () => {
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const [agent, setAgent] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -31,7 +33,30 @@ export const ListNotifications = () => {
 
   useEffect(() => {
     getAllClientDetails();
+    getAgentDetails();
   }, [pagination.from, pagination.to]);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'notifications');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   const getAllClientDetails = () => {
     const data = {
@@ -255,6 +280,7 @@ export const ListNotifications = () => {
                     </Link>
                   </li>
                   <li class="m-1">
+                  {agentPrivileges?.add && (
                     <Link class="btn btn-pix-primary" to="/agent_add_notifications">
                       <button
                         className="btn btn-outline   fw-semibold rounded-1  border-0 text-white  "
@@ -267,6 +293,7 @@ export const ListNotifications = () => {
                          Add Notifications
                       </button>
                     </Link>
+                  )}
                   </li>
 
                 </ol>
@@ -368,7 +395,7 @@ export const ListNotifications = () => {
                         >
                           <option value="5">Active</option>
                           <option value="10">InActive</option>
-                          <option value="20">Delete</option>
+                          {agentPrivileges?.delete && (        <option value="20">Delete</option> )}
                         </select>{" "}
                       </p>
                     </div>
@@ -457,6 +484,7 @@ export const ListNotifications = () => {
                             
                               <td className="text-capitalize text-start text-truncate">
                               <div className="d-flex justify-content-between align-items-center">
+                              {agentPrivileges?.view && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
@@ -466,6 +494,8 @@ export const ListNotifications = () => {
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>
                                         </Link>
+                              )}
+                              {agentPrivileges?.edit && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
@@ -475,6 +505,8 @@ export const ListNotifications = () => {
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>
                                         </Link>
+                              )}
+                              {agentPrivileges?.delete && (
                                         <button
                                           className="dropdown-item"
                                           onClick={() => {
@@ -483,6 +515,7 @@ export const ListNotifications = () => {
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>
                                         </button>
+                              )}
                                       </div>
 
                               </td>
@@ -557,6 +590,7 @@ export const ListNotifications = () => {
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {agentPrivileges?.view && (
           <Link
                                           className="btn btn-sm btn-outline-primary"
                                           to={{
@@ -566,6 +600,8 @@ export const ListNotifications = () => {
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>View
                                         </Link>
+          )}
+          {agentPrivileges?.edit && (
                                         <Link
                                           className="btn btn-sm btn-outline-warning"
                                           to={{
@@ -575,6 +611,8 @@ export const ListNotifications = () => {
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>Edit
                                         </Link>
+          )}
+          {agentPrivileges?.delete && (
                                         <button
                                           className="btn btn-sm btn-outline-danger"
                                           onClick={() => {
@@ -583,6 +621,7 @@ export const ListNotifications = () => {
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>Delete
                                         </button>
+          )}
           </div>
         </div>
       </div>

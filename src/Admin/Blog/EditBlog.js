@@ -796,7 +796,7 @@ export const AddBlog = () => {
                       type="submit"
                       className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
                     >
-                      Submit
+                      Update
                     </button>
                   </div>
                 </div>

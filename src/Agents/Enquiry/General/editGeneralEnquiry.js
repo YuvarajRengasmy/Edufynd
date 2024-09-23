@@ -11,7 +11,7 @@ import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import { getallCode } from "../../../api/settings/dailcode";
 import Flags from "react-world-flags";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 export const AddGeneralEnquiry = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -241,7 +241,7 @@ export const AddGeneralEnquiry = () => {
       updateGeneralEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_general_enquiry");
+          navigate("/agent_list_general_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1119,7 +1119,7 @@ export const AddGeneralEnquiry = () => {
                   style={{
                     fontSize: "14px",
                   }}
-                  to="/list_general_enquiry"
+                  to="/agent_list_general_enquiry"
                   className="btn btn-dark  border-0  text-uppercase rounded-1 px-4 py-2 fw-semibold text-white m-1"
                 >
                   Cancel

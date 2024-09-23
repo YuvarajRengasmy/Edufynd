@@ -839,6 +839,70 @@ const chartRef = useRef(null);
                               <option value="Delete">Delete</option>
                             </select>
                           </p>
+                          <button
+        type="button"
+        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
+      </button>
+   
+
+    {/* Modal */}
+    <div
+      className="modal fade"
+      id="exampleModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="exampleModalLabel">
+              Assign to
+            </h1>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form>
+              <div className="mb-3">
+                <label htmlFor="exampleFormControlInput1" className="form-label">
+                  Staff List
+                </label>
+                <input
+                  type="text"
+                  className="form-control rounded-1 text-capitalize"
+                  id="exampleFormControlInput1"
+                  placeholder="Example JohnDoe"
+                />
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
                     </div>
 
                     <div>

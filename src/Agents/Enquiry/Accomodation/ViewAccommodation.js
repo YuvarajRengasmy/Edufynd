@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSingleAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
 import { useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
@@ -34,24 +34,7 @@ export const ViewAccommodation = () => {
       
         <div className="content-header">
 
-        <nav aria-label="breadcrumb">
-  <ol className="breadcrumb justify-content-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListAccommodation' className="text-decoration-none">ListAccommodation</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditAccommodation",
-          search: `?id=${ accommodation?._id}`,
-        }} className="text-decoration-none">EditAccommodation</Link>
-      </li>
-  
-  </ol>
-</nav>
+     
          
         </div>
         <div className="container">

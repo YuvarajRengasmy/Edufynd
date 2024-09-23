@@ -13,7 +13,7 @@ import CountryRegion from "countryregionjs";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { updateAccommodationEnquiry,getSingleAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 export const AddAccommodation = () => {
 
   const location = useLocation();
@@ -409,7 +409,7 @@ export const AddAccommodation = () => {
       updateAccommodationEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_accommodation");
+          navigate("/agent_list_accommodation");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1165,7 +1165,7 @@ export const AddAccommodation = () => {
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                              to="/list_accommodation"
+                              to="/agent_list_accommodation"
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",

@@ -19,7 +19,7 @@ import { updateForexEnquiry, getSingleForexEnquiry, } from "../../../api/Enquiry
 import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 export const AddForex = () => {
 
   const location = useLocation();
@@ -382,7 +382,7 @@ export const AddForex = () => {
       updateForexEnquiry(forex)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_forex_form");
+          navigate("/agent_list_forex_form");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1204,7 +1204,7 @@ export const AddForex = () => {
                     <div className="row g-2">
                       <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                         <Link
-                          to="/list_forex_form"
+                          to="/agent_list_forex_form"
                           style={{
                             backgroundColor: "#231F20",
                             fontFamily: "Plus Jakarta Sans",
