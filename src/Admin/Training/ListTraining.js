@@ -16,19 +16,50 @@ import {
 import Mastersidebar from "../../compoents/AdminSidebar";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin } from "../../api/admin";
 export const ListTraining = () => {
   const [notification, setnotification] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const [staff, setStaff] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: 0,
   });
+
+
   useEffect(() => {
+    getStaffDetails();
     getAllClientDetails();
   }, [pagination.from, pagination.to]);
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+
+  const studentPrivileges = staff?.privileges?.find(
+    (privilege) => privilege.module === "training"
+  );
+
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
+  
   const getAllClientDetails = () => {
     const data = {
       limit: 10,
@@ -283,6 +314,7 @@ export const ListTraining = () => {
                       </Link>
                     </li>
                     <li class="m-1">
+                    {studentPrivileges?.add && (
                       <Link class="btn btn-pix-primary" to="/admin_add_training">
                         <button
                           className="btn    fw-semibold  border-0 rounded-1 text-white  "
@@ -298,6 +330,7 @@ export const ListTraining = () => {
                           Add Training
                         </button>
                       </Link>
+                    )}
                     </li>
                   </ol>
                 </div>
@@ -411,7 +444,7 @@ export const ListTraining = () => {
                             >
                               <option value="5">Active</option>
                               <option value="10">InActive</option>
-                              <option value="20">Delete</option>
+                              {studentPrivileges?.delete && (          <option value="20">Delete</option> )}
                             </select>{" "}
                           </p>
                         </div>
@@ -533,6 +566,7 @@ export const ListTraining = () => {
                                       </td>
                                       <td className="text-capitalize text-start text-truncate">
                                         <div className="d-flex">
+                                        {studentPrivileges?.view && (
                                           <Link
                                             className="dropdown-item"
                                             to={{
@@ -544,6 +578,8 @@ export const ListTraining = () => {
                                           >
                                             <i className="far fa-eye text-primary me-1"></i>
                                           </Link>
+                                        )}
+                                        {studentPrivileges?.edit && (
                                           <Link
                                             className="dropdown-item"
                                             to={{
@@ -555,6 +591,8 @@ export const ListTraining = () => {
                                           >
                                             <i className="far fa-edit text-warning me-1"></i>
                                           </Link>
+                                        )}
+                                        {studentPrivileges?.delete && (
                                           <button
                                             className="dropdown-item"
                                             onClick={() => {
@@ -563,7 +601,9 @@ export const ListTraining = () => {
                                           >
                                             <i className="far fa-trash-alt text-danger me-1"></i>
                                           </button>
+                                           )}
                                         </div>
+                                         
                                       </td>
                                     </tr>
                                   ))}
@@ -645,6 +685,7 @@ export const ListTraining = () => {
                                       </div>
                                     </div>
                                     <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+                                    {studentPrivileges?.view && (
                                       <Link
                                         className="btn btn-sm btn-outline-primary"
                                         to={{
@@ -657,6 +698,8 @@ export const ListTraining = () => {
                                         <i className="far fa-eye text-primary me-1"></i>
                                         View
                                       </Link>
+                                    )}
+                                     {studentPrivileges?.edit && (
                                       <Link
                                         className="btn btn-sm btn-outline-warning"
                                         to={{
@@ -669,6 +712,8 @@ export const ListTraining = () => {
                                         <i className="far fa-edit text-warning me-1"></i>
                                         Edit
                                       </Link>
+                                     )}
+                                      {studentPrivileges?.delete && (
                                       <button
                                         className="btn btn-sm btn-outline-danger"
                                         onClick={() => {
@@ -678,6 +723,7 @@ export const ListTraining = () => {
                                         <i className="far fa-trash-alt text-danger me-1"></i>
                                         Delete
                                       </button>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
@@ -775,7 +821,7 @@ export const ListTraining = () => {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 rounded-pill  px-3 py-1 fw-semibold text-white float-right bg"
                   style={{
                     backgroundColor: "#0f2239",

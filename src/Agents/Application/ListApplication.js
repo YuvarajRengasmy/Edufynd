@@ -836,7 +836,7 @@ export default function Masterproductlist() {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
               >

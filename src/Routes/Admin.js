@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "../../src/Pages/Login/PrivateRoute";
+import Loading from "../compoents/Loading";
 import  NotFound from "../../src/Pages/Login/404FoundError";
 import AdminAddAdmin from "../Admin/Admins/AdminAdd";
 import AdminEditAdmin from "../Admin/Admins/EditAdmin";
@@ -210,6 +211,23 @@ import EditLoanEnquiry from "../Admin/Enquiry/Loans/editLoanEnquiry";
 import ListLoanEnquiry from "../Admin/Enquiry/Loans/AdminListLoanEnquiry";
 
 export const Admin = () => {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate a delay for data fetching or any initialization logic
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(false); // Set loading to false after the delay
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loading />; // Show loading component while loading
+  }
+
   return (
 
     <Routes>

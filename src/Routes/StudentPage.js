@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
+import Loading from "../compoents/Loading";
 import  NotFound from "../../src/Pages/Login/404FoundError";
 import Home from "../Students/Home/Program";
 import Profile from "../Students/Profile/Profile";
@@ -17,6 +18,24 @@ import StudentDashBoard from "../Students/DashBoard/StudentDashBoard";
 
 
 function RegisterPage() {
+
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate a delay for data fetching or any initialization logic
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(false); // Set loading to false after the delay
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loading />; // Show loading component while loading
+  }
+
   return (
     <div>
 

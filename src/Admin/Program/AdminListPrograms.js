@@ -70,7 +70,7 @@ export default function Masterproductlist() {
   }
 
   const studentPrivileges = staff?.privileges?.find(
-    (privilege) => privilege.module === "client"
+    (privilege) => privilege.module === "program"
   );
 
   if (!studentPrivileges) {

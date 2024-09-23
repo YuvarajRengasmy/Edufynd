@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import Loading from "../compoents/Loading";
 import { Routes, Route } from 'react-router-dom';
 
 import Register from "../Pages/Register/register";
@@ -10,6 +10,23 @@ import Check from "./checkcode"
 
 
 function RegisterPage() {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate a delay for data fetching or any initialization logic
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(false); // Set loading to false after the delay
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loading />; // Show loading component while loading
+  }
+
   return (
     <div>
 
