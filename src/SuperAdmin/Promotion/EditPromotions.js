@@ -16,13 +16,17 @@ export const AddPromotions = () => {
   const id = new URLSearchParams(location.search).get("id");
   const initialState = {
     typeOfUser: "",
+    hostName:"",
     userName: "",
     subject: "",
     content: "",
     uploadImage: "",
+    fileUpload: [{ fileName: "", fileImage: "" }],
     createdBy: "",
   };
+  
   const initialStateErrors = {
+    hostName:{required:false},
     typeOfUser: { required: false },
     userName: { required: false },
     subject: { required: false },
@@ -97,6 +101,9 @@ export const AddPromotions = () => {
     if (data.userName === "") {
       error.userName.required = true;
     }
+    if (data.hostName === "") {
+      error.hostName.required = true;
+    }
     if (data.subject === "") {
       error.subject.required = true;
     }
@@ -108,6 +115,42 @@ export const AddPromotions = () => {
     }
     return error;
   };
+
+  const convertToBase65 = (e, name, index, listName) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const updatedList = [...notification[listName]];
+      updatedList[index][name] = reader.result;
+      setnotification({ ...notification, [listName]: updatedList });
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...notification[listName]];
+    if (files && files[0]) {
+      convertToBase65(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setnotification({ ...notification, [listName]: updatedList });
+    }
+  };
+
+  const addEntry = (listName) => {
+    const newEntry = listName === "fileUpload"
+      ? { fileName: "", fileImage: "" }
+      : null;
+    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
+  };
+  const removeEntry = (index, listName) => {
+    const updatedList = notification[listName].filter((_, i) => i !== index);
+    setnotification({ ...notification, [listName]: updatedList });
+  };
+ 
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -299,17 +342,26 @@ export const AddPromotions = () => {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Host Name <span className="text-danger">*</span>
+                              Host Name<span className="text-danger">*</span>
                             </label>
-                            <select
-                              class="form-select form-select-lg rounded-1 text-capitalize "
-                              aria-label="Default select example"
-                            >
-                              <option selected>Select User</option>
-                              <option value="1">One</option>
-                              <option value="2">Two</option>
-                              <option value="3">Three</option>
-                            </select>
+                            <Select
+                              placeholder={notification?.hostName}
+                              onChange={(selectedOption) =>
+                                setnotification({
+                                  ...notification,
+                                  hostName: selectedOption.value,
+                                })
+                              }
+                              options={staffOptions}
+                              name="hostName"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
+                            {errors.hostName.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -478,7 +530,106 @@ export const AddPromotions = () => {
                               ) : null}
                             </div>
                           </div>
-                          <div className="row gy-2 "></div>
+                          <div className="row gy-2 ">
+                          {notification.fileUpload.map((fileUpload, index) => (
+                          <div key={index} className="mb-3">
+                            <div className="row gy-2">
+                              <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  File Name
+                                </label>
+                                <input
+                                  type="text"
+                                  name="fileName"
+                                  value={fileUpload.fileName}
+                                  onChange={(e) =>
+                                    handleListInputChange(
+                                      e,
+                                      index,
+                                      "fileUpload"
+                                    )
+                                  }
+                                  className="form-control rounded-1 text-capitalize"
+                                  style={{ fontSize: "12px" }}
+                                  placeholder="Example Demo File"
+                                  onKeyDown={(e) => {
+                                    // Prevent non-letter characters
+                                    if (/[^a-zA-Z\s]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                />
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  Upload Image
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <img
+                                  className="img-fluid img-thumbnail mx-auto d-block"
+                                  src={
+                                    fileUpload?.fileImage
+                                      ? fileUpload?.fileImage
+                                      : "https://via.placeholder.com/128"
+                                  }
+                                  alt="uploaded-file"
+                                  style={{ width: "12rem", height: "6rem" }}
+                                />
+                                <label
+                                  htmlFor={`fileInputImage-${index}`}
+                                  className="position-absolute fs-6"
+                                  style={{
+                                    cursor: "pointer",
+                                    bottom: "5%",
+                                    left: "53.5%",
+                                    transform: "translate(25%, 25%)",
+                                    color: "#0f2239",
+                                  }}
+                                >
+                                  <i className="fas fa-camera"></i>
+                                </label>
+                                <input
+                                  id={`fileInputImage-${index}`}
+                                  accept="image/*"
+                                  className="form-control border-0 text-dark bg-transparent"
+                                  style={{
+                                    display: "none",
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  type="file"
+                                  name="fileImage"
+                                  onChange={(e) =>
+                                    handleListInputChange(
+                                      e,
+                                      index,
+                                      "fileUpload"
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              style={{ color: "#7267ef" }}
+                              onClick={() => removeEntry(index, "fileUpload")}
+                              className="btn mt-2"
+                            >
+                              <i className="far fa-trash-alt text-danger me-1"></i>
+                            </button>
+                          </div>
+                        ))}
+                          
+                            <button
+                              type="button"
+                              onClick={() => addEntry("fileUpload")}
+                              className="btn text-white mt-2 col-sm-1 col-md-2 col-lg-2 col-xl-2"
+                              style={{ backgroundColor: "#7267ef" }}
+                            >
+                              <i className="fas fa-plus-circle"></i>
+                              &nbsp;&nbsp;Add
+                            </button>
+                          </div>
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>

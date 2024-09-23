@@ -1401,34 +1401,8 @@ const getallClientCount = ()=>{
                               {data?.businessMailID || "Not Available"}
                             </td>
                             <td className="text-capitalize text-start ">
-    
-            <span className="form-check form-switch d-inline ms-2" >
-              {data?.clientStatus === "Active" ? (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.clientStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              ) : (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.clientStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              )}
-             <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-                {data?.clientStatus || "Not Available"}
-              </label>
-
-            </span>
+                            {data?.isActive || "Not Available"}
+            
                             </td>
                          
                             <td className="text-capitalize text-start">
@@ -1518,7 +1492,7 @@ const getallClientCount = ()=>{
                 />
               )}
              <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-                {data?.clientStatus || "Not Available"}
+             {data?.isActive || "Not Available"}
               </label>
 
             </span></span>

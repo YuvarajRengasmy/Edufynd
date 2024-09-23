@@ -15,6 +15,7 @@ export const AddTestimonials = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const initialState = {
+    
     hostName:"",
     typeOfUser: "",
     userName: "",

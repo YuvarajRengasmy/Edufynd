@@ -4,6 +4,7 @@ import {
   isValidPassword,
   isValidPhone,
 } from "../../Utils/Validation";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { saveNotifications } from "../../api/Notification/Notification";
@@ -21,20 +22,22 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddNotifications = () => {
   const initialState = {
+    hostName:"",
     typeOfUser: "",
     userName: "",
     subject: "",
     content: "",
-    uploadImage: "",
+    uploadFile: [{ fileName: "", uploadImage: "" }],
   
   };
 
   const initialStateErrors = {
+    hostName: { required: false },
     typeOfUser: { required: false },
     userName: { required: false },
     subject: { required: false },
     content: { required: false },
-    uploadImage: { required: false },
+    uploadFile: [{ fileName: "", uploadImage: "" }],
   };
 
   const [notification, setnotification] = useState(initialState);
@@ -95,6 +98,10 @@ export const AddNotifications = () => {
     if (data.typeOfUser === "") {
       error.typeOfUser.required = true;
     }
+    if (data.hostName === "") {
+      error.hostName.required = true;
+    }
+   
 
     if (data.userName === "") {
       error.userName.required = true;
@@ -113,19 +120,38 @@ export const AddNotifications = () => {
     return error;
   };
 
-  const convertToBase64 = (e, name) => {
+  const convertToBase64 = (e, name, index, listName) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+     reader.readAsDataURL(file);
     reader.onload = () => {
-      setnotification((notification) => ({
-        ...notification,
-        [name]: reader.result,
-      }));
+      const updatedList = [...notification[listName]];
+      updatedList[index][name] = reader.result;
+      setnotification({ ...notification, [listName]: updatedList });
     };
     reader.onerror = (error) => {
       console.log("Error: ", error);
     };
+  };
+ 
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...notification[listName]];
+    if (files && files[0]) {
+      convertToBase64(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setnotification({ ...notification, [listName]: updatedList });
+    }
+  };
+  const addEntry = (listName) => {
+    const newEntry =
+      listName === "uploadFile" ? { fileName: "", uploadImage: "" } : null;
+    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
+  };
+  const removeEntry = (index, listName) => {
+    const updatedList = notification[listName].filter((_, i) => i !== index);
+    setnotification({ ...notification, [listName]: updatedList });
   };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
@@ -264,15 +290,27 @@ export const AddNotifications = () => {
                         <div className="row g-3">
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
-                           HostName <span className="text-danger">*</span>
+                            Host Name<span className="text-danger">*</span>
                           </label>
-                          <select className="form-select form-select-lg rounded-1 text-capitalize" aria-label="Default select example">
-  <option selected>Select User</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
-</div>
+                          <Select
+                            placeholder="Select Staff"
+                            onChange={(selectedOption) =>
+                              setnotification({
+                                ...notification,
+                                hostName: selectedOption.value,
+                              })
+                            }
+                            options={staffOptions}
+                            name="hostName"
+                            styles={customStyles}
+                            className="submain-one-form-body-subsection-select"
+                          />
+                          {errors.hostName.required && (
+                            <div className="text-danger form-text">
+                              This field is required.
+                            </div>
+                          )}
+                        </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Type of Users
@@ -406,6 +444,70 @@ export const AddNotifications = () => {
                                 </div>
                               ) : null}
                             </div>
+                            {notification.uploadFile.map((uploadImage, index) => (
+                              <div key={index} className="mb-3">
+                                <div className="d-flex gy-2 ">
+                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>
+                                      File Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="fileName"
+                                      value={uploadImage.fileName}
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
+                                      className="form-control rounded-1"
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="File Upload Title"
+                                    />
+                                  </div>
+                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>
+                                      File Document
+                                    </label>
+                                    <input
+                                      type="file"
+                                      name="uploadImage"
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
+                                      className="form-control rounded-1 "
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="Upload File"
+                                    />
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeEntry(index, "uploadFile")
+                                  }
+                                  className="btn mt-2"
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+                                </button>
+                              </div>
+                            ))}
+                          
+                            <button
+                              type="button"
+                              onClick={() => addEntry("uploadFile")}
+                              className="btn text-white mt-2 col-sm-6"
+                              style={{ backgroundColor: "#7267ef" }}
+                            >
+                              <i className="fas fa-plus-circle"></i>
+                              &nbsp;&nbsp;Add
+                            </button>
                           
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -471,40 +573,7 @@ export const AddNotifications = () => {
                             </div>
                           </div>
 
-                          <div className="row gy-2 ">
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Image upload
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="file"
-                                className={`form-control rounded-1 text-capitalize ${errors.uploadImage.required ? 'is-invalid' : ''}`}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                  zIndex: "0",
-                                }}
-                                placeholder="Enter  Image upload"
-                                name="uploadImage"
-                                onChange={handleInputs}
-                              />
-                              {errors.uploadImage.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
-                            <div className="text-start">
-                            <button
-                        type="button"
-                        
-                        className="btn btn-dark px-4 py-2 text-uppercase fw-semibold col-sm-1 rounded-1 border-0"
-                      >
-                        <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
-                      </button>
-                          </div>
-                          </div>
+                          
 
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
