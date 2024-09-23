@@ -465,65 +465,124 @@ export const ListStudentForm = () => {
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm border-0">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
-                      </p>
-                    </div>
+  <div className="d-flex align-items-center justify-content-between">
+    <div className="d-flex gap-3">
+      <div className="d-flex mb-0">
+        <p className="me-auto">
+          Change
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{
+              width: "auto",
+              display: "inline-block",
+              fontSize: "12px",
+            }}
+          >
+            <option value="5">Active</option>
+            <option value="10">InActive</option>
+            <option value="20">Delete</option>
+          </select>
+        </p>
+      </div>
+      <button
+        type="button"
+        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
+      </button>
+    </div>
 
-                    <div>
-                    
-                       
-                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-                          <li>
-                            {" "}
-                            <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
+    {/* Modal */}
+    <div
+      className="modal fade"
+      id="exampleModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="exampleModalLabel">
+              Assign to
+            </h1>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form>
+              <div className="mb-3">
+                <label htmlFor="exampleFormControlInput1" className="form-label">
+                  Staff List
+                </label>
+                <input
+                  type="text"
+                  className="form-control rounded-1 text-capitalize"
+                  id="exampleFormControlInput1"
+                  placeholder="Example JohnDoe"
+                />
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
+              data-bs-dismiss="modal"
             >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
-                            </a>
-                          </li>
-                          <li>
-                            
-                              <a
-                              className="nav-link "
-                              id="profile-tab"
-                              data-bs-toggle="tab"
-                              href="#tab-profile"
-                              role="tab"
-                              aria-controls="tab-profile"
-                              aria-selected="false"
-                            >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
-                            </a>
-                          </li>
-                        </ul>
-                      
-                     
-                    </div>
-                  </div>
-                </div>
+              Close
+            </button>
+            <button
+              type="button"
+              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <ul className="nav nav-underline" id="myTab" role="tablist">
+        <li className="nav-item" role="presentation">
+          <a
+            className="nav-link active"
+            id="home-tab"
+            data-bs-toggle="tab"
+            href="#tab-home"
+            role="tab"
+            aria-controls="tab-home"
+            aria-selected="true"
+          >
+            <i className="fa fa-list" aria-hidden="true"></i> List View
+          </a>
+        </li>
+        <li className="nav-item" role="presentation">
+          <a
+            className="nav-link"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            href="#tab-profile"
+            role="tab"
+            aria-controls="tab-profile"
+            aria-selected="false"
+          >
+            <i className="fa fa-th" aria-hidden="true"></i> Grid View
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
                   <div className="card-body">
                   <div className="tab-content ">
                     {/* List View */}
@@ -635,7 +694,7 @@ export const ListStudentForm = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.primaryNumber|| "Not Available"}
                                   </td>
-                                  <td className=" text-start text-truncate">
+                                  <td className=" text-start text-truncate text-lowercase">
                                     {data?.email || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
