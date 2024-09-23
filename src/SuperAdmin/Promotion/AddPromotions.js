@@ -22,6 +22,7 @@ export const AddPromotions = () => {
     createdBy: "",
     fileUpload: [{ fileName: "", fileImage: "" }],
   };
+  
   const initialStateErrors = {
     typeOfUser: { required: false },
     hostName: { required: false },
