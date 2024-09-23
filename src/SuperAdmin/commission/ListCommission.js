@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallCommission, deleteCommission,getFilterCommission,updatedCommission } from "../../api/commission";
+import { getallCommission, deactivateClient,activeClient, deleteCommission,getFilterCommission } from "../../api/commission";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +9,7 @@ import {
   Pagination,
   radioClasses,
 } from "@mui/material";
+
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -376,7 +377,9 @@ export default function Masterproductlist() {
       setOpenDelete(true);
       // deleteSelectedcommission();
     } else if (action === "Activate") {
-      activateSelectedcommission();
+      activateSelectedCommission();
+    }else if (action === "DeActivate") {
+      deactivateSelectedCommission();
     }
   };
  
@@ -399,23 +402,45 @@ export default function Masterproductlist() {
     }
   };
 
-  const activateSelectedcommission = () => {
+ 
+
+  const activateSelectedCommission = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updatedCommission(id,{ active: true })))
-        .then((responses) => {
-          toast.success("commission activated successfully!");
-          setSelectedIds([]);
-          getCommissionList();
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ commissionIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Commission activated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getCommissionList(); // Refresh the client list
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate commission.");
+          console.error(err);
+          toast.error("Already activate Commission.");
         });
     } else {
-      toast.warning("No commission selected.");
+      toast.warning("No selected Commission.");
     }
   };
-
+  
+  const deactivateSelectedCommission = () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ commissionIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Commission deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getCommissionList(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Aready to deactivate Commission.");
+        });
+    } else {
+      toast.warning("No selected Commission.");
+    }
+  };
   
 
   return (
@@ -619,6 +644,7 @@ export default function Masterproductlist() {
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
                               <option value="Delete">Delete</option>
                             </select>
                           </p>
@@ -821,16 +847,7 @@ export default function Masterproductlist() {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.paymentType || "Not Available"}
                       </td>
-                      <td className="text-capitalize text-start ">
-           
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                
-              />
-            </span>
+                      <td className="text-capitalize text-start ">{data?.isActive ||"Not Available"}
           </td>
                       <td>
                         <div className="d-flex">
@@ -951,15 +968,7 @@ export default function Masterproductlist() {
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 ">
-                 
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-               
-              />
-            </span>
+                  {data?.isActive ||"Not Available"}
                   </div>
                 </div>
               </div>

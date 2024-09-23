@@ -4,10 +4,9 @@ import { getSuperAdminForSearch } from "../../api/superAdmin";
 import {
   getallUniversity,
   deleteUniversity,
-  saveUniversity,
   getAllUniversit,
   getFilterUniversity,
-  updateUniversity,
+  deactivateClient,activeClient,
   
 } from "../../api/university";
 import { getAllApplicantCard } from "../../api/applicatin";
@@ -504,6 +503,8 @@ const chartRef = useRef(null);
       // deleteSelectedUniversity();
     } else if (action === "Activate") {
       activateSelectedUniversity();
+    }else if (action === "Deactivate") {
+      deactivateSelectedUniversity(); 
     }
   };
 
@@ -529,20 +530,41 @@ const chartRef = useRef(null);
   
   const activateSelectedUniversity = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updateUniversity(id,{ active: true })))
-        .then((responses) => {
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ universityIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
           toast.success("University activated successfully!");
-          setSelectedIds([]);
-          getAllUniversityDetails();
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getAllUniversityDetails(); // Refresh the client list
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate University.");
+          console.error(err);
+          toast.error("Already activate university.");
         });
     } else {
-      toast.warning("No university selected.");
+      toast.warning("No selected University.");
     }
-  }
+  };
+  
+  const deactivateSelectedUniversity = () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ universityIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("University deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getAllUniversityDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Aready to deactivate university.");
+        });
+    } else {
+      toast.warning("No selected University.");
+    }
+  };
 
 
   return (
@@ -811,10 +833,10 @@ const chartRef = useRef(null);
                               }}
                               onChange={handleActionChange}
                             >
-                             <option value="">Select Action</option>
-      <option value="Activate">Activate</option>
-      <option value="Deactivate">Deactivate</option>
-      <option value="Delete">Delete</option>
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Deactivate">Deactivate</option>
+                              <option value="Delete">Delete</option>
                             </select>
                           </p>
                           <button
@@ -1051,37 +1073,9 @@ const chartRef = useRef(null);
                         {data?.noofApplications||"Not Available"}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
+                        {data?.isActive || "Not Available"}
                         </td>
-                      {/* <td className="text-capitalize text-start ">
-    
-    <span className="form-check form-switch d-inline ms-2" >
-      {data?.universityStatus === "Active" ? (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      ) : (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      )}
-     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-        {data?.universityStatus || "Not Available"}
-      </label>
-
-    </span>
-                      </td> */}
+                     
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
                          
@@ -1206,37 +1200,9 @@ const chartRef = useRef(null);
               <div className="col-md-12 mb-2">
                 <div className="row">
                   <div className="col-md-5">
-                    <strong>Status</strong>
+                    <strong> {data?.isActive || "Not Available"}</strong>
                   </div>
-                  {/* <div className="col-md-7 d-flex align-items-center">
-                  <span className="form-check form-switch d-inline ms-2" >
-      {data?.universityStatus === "Active" ? (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      ) : (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      )}
-     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-        {data?.universityStatus || "Not Available"}
-      </label>
-
-    </span>
-                  </div> */}
+                
                 </div>
               </div>
             </div>
