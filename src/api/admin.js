@@ -32,3 +32,9 @@ export const editStaff = (data) => {
 export const editAdminBySuperAdmin = (data) => {
     return API.put(`${Admin}/editAdminBySuperAdmin`, data)
 }
+
+
+
+export const getFilterAdmins = (data) => {
+    return API.put(`${Admin}/getFilterAdmin`, data)
+}

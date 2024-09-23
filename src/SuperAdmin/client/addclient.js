@@ -10,12 +10,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { saveClient } from "../../api/client";
 import { getallClientModule } from "../../api/universityModule/clientModule";
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import CountryRegion from "countryregionjs";
-import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
 
 

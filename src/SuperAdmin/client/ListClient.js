@@ -10,7 +10,6 @@ import {
   Pagination,
   radioClasses,
 } from "@mui/material";
-import Masterheader from "../../compoents/header";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
@@ -53,6 +52,7 @@ export default function Masterproductlist() {
     from: 0,
     to: pageSize,
   });
+
 
   useEffect(() => {
     getClientList();
