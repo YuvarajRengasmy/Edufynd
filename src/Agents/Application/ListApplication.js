@@ -18,7 +18,8 @@ import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-
+import {getAgentId } from "../../Utils/storage";
+import {  getSingleAgent } from "../../api/agent";
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
@@ -37,7 +38,7 @@ export default function Masterproductlist() {
   };
 
   const [application, setApplication] = useState([]);
-
+  const [agent, setAgent] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
   const [file, setFile] = useState(null);
@@ -56,7 +57,30 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getApplicationList();
+    getAgentDetails();
   }, []);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   const getApplicationList = () => {
     getallApplication()
@@ -461,6 +485,7 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
+          {agentPrivileges?.add && (
             <Link to="/agent_add_application">
               <button
                 className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
@@ -473,6 +498,7 @@ export default function Masterproductlist() {
                 Add Application
               </button>
             </Link>
+          )}
           </li>
         </ol>
       </div>
@@ -583,7 +609,7 @@ export default function Masterproductlist() {
                       >
                         <option value="5">Active</option>
                         <option value="10">InActive</option>
-                        <option value="20">Delete</option>
+                        {agentPrivileges?.delete && (     <option value="20">Delete</option> )}
                       </select>{" "}
 
                     </p>
@@ -684,6 +710,7 @@ export default function Masterproductlist() {
 
                                 <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
+                                  {agentPrivileges?.view && (
                                     <Link
                                       className="dropdown-item"
                                       to={{
@@ -693,6 +720,8 @@ export default function Masterproductlist() {
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
                                     </Link>
+                                  )}
+                                  {agentPrivileges?.edit && (
                                     <Link
                                       className="dropdown-item"
                                       to={{
@@ -702,6 +731,8 @@ export default function Masterproductlist() {
                                     >
                                       <i className="far fa-edit text-warning me-1"></i>
                                     </Link>
+                                  )}
+                                  {agentPrivileges?.delete && (
                                     <button
                                       className="dropdown-item"
                                       onClick={() => {
@@ -710,6 +741,7 @@ export default function Masterproductlist() {
                                     >
                                       <i className="far fa-trash-alt text-danger me-1"></i>
                                     </button>
+                                  )}
                                   </div>
                                 </td>
                               </tr>

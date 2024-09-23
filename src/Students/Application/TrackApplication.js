@@ -20,6 +20,7 @@ import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 
+import {  getSingleStudent } from "../../api/student";
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
@@ -49,6 +50,8 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
+  const [student, setStudent] = useState(null);
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -56,8 +59,32 @@ export default function Masterproductlist() {
   });
 
   useEffect(() => {
+    getStudentDetails();
     getApplicationList();
   }, []);
+
+
+  const getStudentDetails = () => {
+    const id = getStudentId();
+    getSingleStudent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStudent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!student || !student.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = student?.privileges?.find(privilege => privilege.module === 'application');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   const getApplicationList = () => {
     const data ={
@@ -452,7 +479,8 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
-            <Link to="/add_application">
+          {studentPrivileges?.add && (
+            <Link to="/student_add_application">
               <button
                 className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
                 style={{
@@ -464,6 +492,7 @@ export default function Masterproductlist() {
                 Add Application
               </button>
             </Link>
+          )}
           </li>
         </ol>
       </div>
@@ -574,7 +603,7 @@ export default function Masterproductlist() {
                       >
                         <option value="5">Active</option>
                         <option value="10">InActive</option>
-                        <option value="20">Delete</option>
+                        {studentPrivileges?.delete && (      <option value="20">Delete</option> )}
                       </select>{" "}
 
                     </p>
@@ -663,6 +692,7 @@ export default function Masterproductlist() {
 
                                 <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
+                                  {studentPrivileges?.view && (
                                     <Link
                                       className="dropdown-item"
                                       to={{
@@ -672,6 +702,7 @@ export default function Masterproductlist() {
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
                                     </Link>
+                                  )}
                                   
                                   </div>
                                 </td>

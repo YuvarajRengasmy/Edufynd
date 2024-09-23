@@ -13,6 +13,8 @@ import { getStudentId, } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
 import { getAllApplicantCard } from "../../api/applicatin";
+import {getAgentId } from "../../Utils/storage";
+import {  getSingleAgent } from "../../api/agent";
 
 export default function Masterproductlist() {
 
@@ -37,6 +39,7 @@ primaryNumber:""
   const [deleteId, setDeleteId] = useState();
   const [pageSize, setPageSize] = useState(10); 
   const search = useRef(null);
+  const [agent, setAgent] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -47,7 +50,30 @@ primaryNumber:""
   const [details, setDetails] = useState();
   useEffect(() => {
     getAllStudentDetails();
+    getAgentDetails();
   }, [pagination.from, pagination.to,pageSize]);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   useEffect(() => {
     if (search.current) {
@@ -607,6 +633,7 @@ primaryNumber:""
             </Link>
           </li>
           <li className="m-0">
+          {agentPrivileges?.add && (
             <Link className="btn btn-pix-primary border-0 rounded-1" to="/agent_add_student">
               <button
                 className="btn fw-semibold rounded-1 border-0 text-white"
@@ -615,6 +642,7 @@ primaryNumber:""
                 <i className="fa fa-plus-circle me-1" aria-hidden="true"></i> Add Student
               </button>
             </Link>
+          )}
           </li>
         </ol>
       </div>
@@ -729,7 +757,7 @@ primaryNumber:""
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
-                              <option value="Delete">Delete</option>
+                              {agentPrivileges?.delete && (    <option value="Delete">Delete</option> )}
                             </select>
                           </p>
                     </div>
@@ -842,6 +870,7 @@ primaryNumber:""
           </td>
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
+                         {agentPrivileges?.view && (
                            <Link
                              className="dropdown-item"
                              to={{
@@ -852,6 +881,8 @@ primaryNumber:""
                              <i className="far fa-eye text-primary me-1"></i>
 
                            </Link>
+                         )}
+                         {agentPrivileges?.edit && (
                            <Link
                              className="dropdown-item"
                              to={{
@@ -862,6 +893,8 @@ primaryNumber:""
                              <i className="far fa-edit text-warning me-1"></i>
 
                            </Link>
+                         )}
+                         {agentPrivileges?.delete && (
                            <Link
                              className="dropdown-item"
                              onClick={() => {
@@ -871,6 +904,7 @@ primaryNumber:""
                              <i className="far fa-trash-alt text-danger me-1"></i>
 
                            </Link>
+                         )}
                          </div>
                         
                        </td>
@@ -968,6 +1002,7 @@ primaryNumber:""
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {agentPrivileges?.view && (
           <Link
                              className="btn btn-sm btn-outline-primary"
                              to={{
@@ -978,6 +1013,8 @@ primaryNumber:""
                              <i className="far fa-eye text-primary me-1"></i>
 
                            </Link>
+          )}
+          {agentPrivileges?.edit && (
                            <Link
                              className="btn btn-sm btn-outline-warning"
                              to={{
@@ -988,6 +1025,8 @@ primaryNumber:""
                              <i className="far fa-edit text-warning me-1"></i>
 
                            </Link>
+          )}
+          {agentPrivileges?.delete && (
                            <Link
                              className="btn btn-sm btn-outline-danger"
                              onClick={() => {
@@ -997,6 +1036,7 @@ primaryNumber:""
                              <i className="far fa-trash-alt text-danger me-1"></i>
 
                            </Link>
+          )}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getSingleLoanEnquiry } from "../../../api/Enquiry/Loan";
 import { useLocation } from "react-router-dom";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import { Link } from "react-router-dom";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
@@ -32,24 +32,7 @@ export const ViewLoanEnquiry = () => {
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
 
-        <nav aria-label="breadcrumb">
-  <ol className="breadcrumb justify-content-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListLoanEnquiry' className="text-decoration-none">ListLoanEnquiry</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditLoanEnquiry",
-          search: `?id=${loan?._id}`,
-        }} className="text-decoration-none">EditLoanEnquiry</Link>
-      </li>
-  
-  </ol>
-</nav>
+     
          
           
         </div>

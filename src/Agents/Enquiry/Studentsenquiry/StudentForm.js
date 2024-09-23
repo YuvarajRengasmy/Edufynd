@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getSingleStudnetEnquiry } from "../../../api/Enquiry/student";
 import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
 export const StudentForm = () => {
@@ -36,24 +36,7 @@ export const StudentForm = () => {
         <div className="content-header">
 
 
-        <nav aria-label="breadcrumb">
-  <ol className="breadcrumb justify-content-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListStudentForm' className="text-decoration-none">ListStudentEnquiry</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditStudentForm",
-          search: `?id=${ student?._id}`,
-        }} className="text-decoration-none">EditStudentEnquiry</Link>
-      </li>
-  
-  </ol>
-</nav>
+     
           <div class="container">
             <div class="col-12 text-center">
               <h2>Student Enquiry Profile</h2>

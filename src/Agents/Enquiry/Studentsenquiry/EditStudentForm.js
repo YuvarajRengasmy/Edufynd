@@ -19,7 +19,7 @@ import { getallAgent } from "../../../api/agent";
 import Flags from "react-world-flags";
 import { getallCode } from "../../../api/settings/dailcode";
 
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
 export const AddStudentForm = () => {
@@ -377,7 +377,7 @@ export const AddStudentForm = () => {
       updateStudnetEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_enquiry_student");
+          navigate("/agent_list_enquiry_student");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1497,7 +1497,7 @@ export const AddStudentForm = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          to="/ListStudentForm"
+                          to="#"
                           className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white"
                         >
                           Cancel
