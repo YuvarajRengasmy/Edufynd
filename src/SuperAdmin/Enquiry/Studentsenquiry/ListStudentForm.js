@@ -6,6 +6,8 @@ import {
   deleteStudnetEnquiry,
   
 } from "../../../api/Enquiry/student";
+import { getallStaff } from "../../../api/staff";
+
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -49,6 +51,7 @@ export const ListStudentForm = () => {
   });
 
   const [student, setStudent] = useState();
+  const [staff, setStaff] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [openFilter, setOpenFilter] = useState(false);
@@ -59,7 +62,20 @@ export const ListStudentForm = () => {
 
   useEffect(() => {
     getAllStudentDetails();
+    getStaffList();
   }, [pagination.from, pagination.to]);
+
+  const getStaffList = () => {
+    getallStaff()
+      .then((res) => {
+        setStaff(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+ 
 
   const getAllStudentDetails = () => {
     const data = {
@@ -522,13 +538,17 @@ export const ListStudentForm = () => {
                 <label htmlFor="exampleFormControlInput1" className="form-label">
                   Staff List
                 </label>
-                <input
-                  type="text"
-                  className="form-control rounded-1 text-capitalize"
-                  id="exampleFormControlInput1"
-                  placeholder="Example JohnDoe"
-                />
+               <select className=" form-select-sm rounded-1" name="staffName">
+                <option value="1">Select a Staff</option>
+                {staff.map((staff,index) => (
+                   <option key={index} value={staff?.empName}>{staff?.empName}</option>
+                ))}
+               
+                
+
+               </select>
               </div>
+            
             </form>
           </div>
           <div className="modal-footer">
@@ -995,6 +1015,11 @@ export const ListStudentForm = () => {
               No
             </button>
           </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={open}>
+        <DialogContent>
+         
         </DialogContent>
       </Dialog>
     </>

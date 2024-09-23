@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {getSuperAdminForSearch} from '../../api/superAdmin';
 import { getAllApplicantCard } from "../../api/applicatin";
-import {getallProgram,getAllProgramCard,deleteProgram,getFilterProgram,updatedProgram} from "../../api/Program";
+import {getallProgram,getAllProgramCard,deleteProgram,getFilterProgram,deactivateClient,activeClient,} from "../../api/Program";
 import { Link, useLocation } from "react-router-dom";
 import {Dialog,DialogContent,DialogTitle,IconButton,Pagination,radioClasses,} from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
@@ -421,6 +421,8 @@ const getallProgramCount = ()=>{
       // deleteSelectedprogram();
     } else if (action === "Activate") {
       activateSelectedProgram();
+    }else if (action === "DeActivate") {
+      deactivateSelectedProgram();
     }
   };
   const deleteSelectedProgram = () => {
@@ -440,22 +442,46 @@ const getallProgramCount = ()=>{
       toast.warning("No program selected.");
     }
   };
+ 
+
+
   const activateSelectedProgram = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updatedProgram(id,{ active: true })))
-        .then((responses) => {
-          toast.success("program activated successfully!");
-          setSelectedIds([]);
-          getAllProgaramDetails();
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ programIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Program activated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getAllProgaramDetails(); // Refresh the client list
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate program.");
+          console.error(err);
+          toast.error("Already activate Program.");
         });
     } else {
-      toast.warning("No program selected.");
+      toast.warning("No selected Program.");
     }
-  }; 
+  };
+  
+  const deactivateSelectedProgram = () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ programIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Program deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getAllProgaramDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Aready to deactivate Program.");
+        });
+    } else {
+      toast.warning("No selected Program.");
+    }
+  };
   return (
     <>
       <div>
@@ -707,6 +733,7 @@ const getallProgramCount = ()=>{
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
                               <option value="Delete">Delete</option>
                             </select>
                           </p>
@@ -936,15 +963,7 @@ const getallProgramCount = ()=>{
                         : "Not Available"}
                     </td>
                     <td className="text-capitalize text-start ">
-           
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-              
-              />
-            </span>
+           {data?.isActive || "Not Available"}
           </td>
                     <td className="text-capitalize text-start text-truncate">
                       <div className="d-flex">
@@ -1054,13 +1073,7 @@ const getallProgramCount = ()=>{
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 ">      
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"      
-              />
-            </span>
+                  {data?.isActive || "Not Available"}
                   </div>
                 </div>
               </div>

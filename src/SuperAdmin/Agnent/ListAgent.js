@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallAgent, deleteAgent,updateAgent, getFilterAgent } from "../../api/agent";
+import { getallAgent, deleteAgent,deactivateClient,activeClient, getFilterAgent } from "../../api/agent";
 import { Link, useLocation } from "react-router-dom";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
+import { getallStaff } from "../../api/staff";
 
 import {
   Dialog,
@@ -32,6 +33,8 @@ export default function Masterproductlist() {
 
   const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
   const [openDelete, setOpenDelete] = useState(false);
+  const [openAssign, setOpenAssign] = useState(false);
+  const [staff, setStaff] = useState([]);
   const [file, setFile] = useState(null);
   const location = useLocation();
   var searchValue = location.state;
@@ -67,7 +70,20 @@ export default function Masterproductlist() {
   }, [searchValue]);
   useEffect(() => {
     getAllAgentDetails();
+    getStaffList();
   }, [pagination.from, pagination.to.pageSize]);
+
+
+
+  const getStaffList = () => {
+    getallStaff()
+      .then((res) => {
+        setStaff(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getAllAgentDetails = () => {
     const data = {
@@ -404,7 +420,12 @@ export default function Masterproductlist() {
       setOpenDelete(true);
       // deleteSelectedagent();
     } else if (action === "Activate") {
-      activateSelectedagent();
+      activateSelectedAgent();
+    }else if (action === "DeActivate") {
+      activateSelectedAgent();
+    }else if (action === "Assign") {
+      // activateSelectedAgent();
+      setOpenAssign(true);
     }
   };
  
@@ -428,24 +449,45 @@ export default function Masterproductlist() {
     }
   };
 
-  const activateSelectedagent = () => {
+  
+
+  const activateSelectedAgent = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updateAgent(id,{ active: true })))
-        .then((responses) => {
-          toast.success("agent activated successfully!");
-          setSelectedIds([]);
-          getAllAgentDetails();
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ agentIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Agent activated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getAllAgentDetails(); // Refresh the client list
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate agent.");
+          console.error(err);
+          toast.error("Already activate Agent.");
         });
     } else {
-      toast.warning("No agent selected.");
+      toast.warning("No selected Agent.");
     }
   };
-
-
+  
+  const deactivateSelectedAgent= () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ agentIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("agent deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getAllAgentDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Aready to deactivate Agent.");
+        });
+    } else {
+      toast.warning("No selected Agent.");
+    }
+  };
 
   return (
     <>
@@ -788,73 +830,11 @@ export default function Masterproductlist() {
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
+                              <option value="Assign">Assign</option>
                               <option value="Delete">Delete</option>
                             </select>
-                          </p>
-                          <button
-        type="button"
-        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
-      </button>
-   
-
-    {/* Modal */}
-    <div
-      className="modal fade"
-      id="exampleModal"
-      tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
-              Assign to
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Staff List
-                </label>
-                <input
-                  type="text"
-                  className="form-control rounded-1 text-capitalize"
-                  id="exampleFormControlInput1"
-                  placeholder="Example JohnDoe"
-                />
-              </div>
-            </form>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+                          </p>  
                     </div>
 
 
@@ -1279,6 +1259,102 @@ export default function Masterproductlist() {
                   </DialogContent>
                 </Dialog>
 
+                {/* <Dialog open={openAssign} onClose={() => setOpenAssign(false)}>
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+              Assign to Staff
+            </h5>
+
+            <form>
+              <div className="mb-3">
+                <label htmlFor="exampleFormControlInput1" className="form-label">
+                  Staff List
+                </label>
+                <select className="form-select-sm rounded-1" name="staffName">
+                  <option value="">Select a Staff</option>
+                  {staff && staff.map((staffMember, index) => (
+                    <option key={index} value={staffMember.empName}>
+                      {staffMember.empName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={deactivateSelectedAgent}
+              >
+                Yes
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={() => setOpenAssign(false)} 
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog> */}
+       <Dialog 
+        open={openAssign} 
+        onClose={() => setOpenAssign(false)}
+        PaperProps={{
+          style: {
+            width: '600px', // Set custom width
+            height: '400px', // Set custom height
+            maxWidth: 'none', // Prevents default max-width from Material-UI
+          },
+        }}
+      >
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+              Assign to Staff
+            </h5>
+
+            <form>
+              <div className="from-group mb-3">
+                <label  className="form-label">
+                  Staff List
+                </label>
+                <select className="form-select rounded-1" name="staffName">
+                  <option value="">Select a Staff</option>
+                  {staff && staff.map((staffMember, index) => (
+                    <option key={index} value={staffMember.empName}>
+                      {staffMember.empName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={deactivateSelectedAgent}
+              >
+                Yes
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={() => setOpenAssign(false)}  
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog>
       <Dialog open={openFilter} fullWidth maxWidth="sm">
         <DialogTitle>
           Filter University

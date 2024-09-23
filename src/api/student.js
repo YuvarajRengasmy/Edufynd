@@ -11,6 +11,14 @@ export const updateStudent = (data) => {
     return API.put(`${Student}`, data)
 }
 
+export const activeClient = (data) => {
+  return API.post(`${Student}/activeStudent`,data);
+};
+
+export const deactivateClient = (data) => {
+  return API.post(`${Student}/deActiveStudent`,data);
+};
+
 export const getSingleStudent = (data) => {
     return API.get(`${Student}/getSingleStudent`, { params: { _id: data } })
 }

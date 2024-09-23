@@ -29,6 +29,17 @@ export const getSingleCommission = (data) => {
   export const updatedCommission = (data) => {
     return API.put(`${CommissionPage}`, data);
   };
+  export const activeClient = (data) => {
+    return API.post(`${CommissionPage}/activeCommission`,data);
+  };
+  
+  export const deactivateClient = (data) => {
+    return API.post(`${CommissionPage}/deActiveCommission`,data);
+  };
+  
+  export const getSingleLogUniversity = (data) => {
+    return API.get(`${CommissionPage}/SingleLog`, { params: { _id: data } });
+  };
   export const getLogsCommission = () => {
     return API.get(`${CommissionPage}/logs`)
   }

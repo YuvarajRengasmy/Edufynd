@@ -222,24 +222,7 @@ const getallClientCount = ()=>{
     }
   };
 
-  // const activateSelectedNotifications = () => {
-  //   if (selectedIds.length > 0) {
-  //     Promise.all(selectedIds.map((id) => activeClient(id)))
-  //     // Promise.all(selectedIds.map((id) => updateClient(id)))
-  //       .then((responses) => {
-  //         console.log("rajaram",responses);
-  //         toast.success("Client activated successfully!");
-  //         setSelectedIds([]);
-  //         getClientList();
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         toast.error("Failed to activate Client.");
-  //       });
-  //   } else {
-  //     toast.warning("No selected Client.");
-  //   }
-  // };
+ 
   const activateSelectedNotifications = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to activate the clients

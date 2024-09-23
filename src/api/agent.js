@@ -14,6 +14,14 @@ export const saveContact = (data) => {
   export const updateAgent = (data) => {
     return API.put(`${Agent}`, data)
 }
+
+export const activeClient = (data) => {
+  return API.post(`${Agent}/activeAgent`,data);
+};
+
+export const deactivateClient = (data) => {
+  return API.post(`${Agent}/deActiveAgent`,data);
+};
 export const getSingleAgent = (data) => {
     return API.get(`${Agent}/getsingleagent`, { params: { _id: data } })
 }
