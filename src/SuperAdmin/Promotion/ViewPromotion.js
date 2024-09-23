@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getSinglePromotion } from "../../api/promotions";
-import { RichTextEditor } from "@mantine/rte";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Link, useLocation } from "react-router-dom";
 import BackButton from "../../compoents/backButton";
 import Sidebar from "../../compoents/sidebar";
@@ -145,6 +146,10 @@ export const ViewPromotion = () => {
                       }}
                     >
                       <tbody>
+                      <tr>
+                          <th>Host Name</th>
+                          <td>{notification.hostName}</td>
+                        </tr>
                         <tr>
                           <th>Type of User</th>
                           <td>{notification.typeOfUser}</td>
@@ -162,10 +167,14 @@ export const ViewPromotion = () => {
                           <th>Content</th>
                           <td>
                             {" "}
-                            <RichTextEditor
-                              value={notification?.content}
-                              readOnly
-                            />
+                            <CKEditor
+        editor={ClassicEditor}
+        data={notification?.content || ''} 
+        disabled={true}                    
+        config={{
+          toolbar: [],                   
+        }}
+      />
                           </td>
                         </tr>
                         <tr>
@@ -186,7 +195,24 @@ export const ViewPromotion = () => {
                             />
                           </td>
                         </tr>
+                        <tr>
+                        <th>Docement</th>
+                        {Array.isArray(notification?.fileUpload) && notification.fileUpload.length > 0 && (
+                          
+                            <td >
+                               {notification.fileUpload.map((data, index) => (
+                              <img
+                                className="img-fluid img-thumbnail mx-auto d-block"
+                                src={data.fileImage ? data.fileImage : "https://via.placeholder.com/128"}
+                                alt="uploaded-file"
+                                style={{ width: "10rem", height: "5rem" }}
+                              />
+                            ))}
+                            </td>
+                        )}
+                      </tr>
                       </tbody>
+
                     </table>
                   </div>
                 </div>

@@ -13,8 +13,10 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddTraining = () => {
   const initialState = {
+    hostName:"",
     requestTraining: "",
     trainingTopic: "",
+    fileUpload: [{ fileName: "", fileImage: "" }],
     date: "",
     time: "",
     typeOfUser: "",
@@ -23,10 +25,13 @@ export const AddTraining = () => {
     name: "",
     subject: "",
     content: "",
-    uploadDocument: "",
+    
   };
   const initialStateErrors = {
     requestTraining: {
+      required: false,
+    },
+    hostName: {
       required: false,
     },
     trainingTopic: {
@@ -56,9 +61,7 @@ export const AddTraining = () => {
     content: {
       required: false,
     },
-    uploadDocument: {
-      required: false,
-    },
+    
   };
   const [notification, setnotification] = useState(initialState);
   const [staff, setStaff] = useState([]);
@@ -121,6 +124,9 @@ export const AddTraining = () => {
     if (data.date === "") {
       error.date.required = true;
     }
+    if (data.hostName === "") {
+      error.hostName.required = true;
+    }
     if (data.time === "") {
       error.time.required = true;
     }
@@ -142,11 +148,34 @@ export const AddTraining = () => {
     if (data.content === "") {
       error.content.required = true;
     }
-    if (data.uploadDocument === "") {
-      error.uploadDocument.required = true;
-    }
+   
     return error;
   };
+  const convertToBase65 = (e, name, index, listName) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const updatedList = [...notification[listName]];
+      updatedList[index][name] = reader.result;
+      setnotification({ ...notification, [listName]: updatedList });
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
+
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...notification[listName]];
+    if (files && files[0]) {
+      convertToBase65(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setnotification({ ...notification, [listName]: updatedList });
+    }
+  };
+
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -160,6 +189,17 @@ export const AddTraining = () => {
     reader.onerror = (error) => {
       console.log("Error: ", error);
     };
+  };
+
+  const addEntry = (listName) => {
+    const newEntry = listName === "fileUpload"
+      ? { fileName: "", fileImage: "" }
+      : null;
+    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
+  };
+  const removeEntry = (index, listName) => {
+    const updatedList = notification[listName].filter((_, i) => i !== index);
+    setnotification({ ...notification, [listName]: updatedList });
   };
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
@@ -283,19 +323,28 @@ export const AddTraining = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Host Name<span className="text-danger">*</span>
                             </label>
-                            <select
-                              class="form-select form-select-lg rounded-1 text-capitalize"
-                              aria-label="Default select example"
-                            >
-                              <option selected>Select User</option>
-                              <option value="1">One</option>
-                              <option value="2">Two</option>
-                              <option value="3">Three</option>
-                            </select>
+                            <Select
+                              placeholder="Select Staff"
+                              onChange={(selectedOption) =>
+                                setnotification({
+                                  ...notification,
+                                  hostName: selectedOption.value,
+                                })
+                              }
+                              options={staffOptions}
+                              name="hostName"
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
+                            {errors.hostName.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -601,42 +650,56 @@ export const AddTraining = () => {
                               </div>
                             ) : null}
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Upload Document
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="file"
-                              className={`form-control rounded-1 text-capitalize ${
-                                errors.uploadDocument.required
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              placeholder="Example Demo File"
-                              name="uploadDocument"
-                              onChange={handleInputs}
-                            />
-                            {errors.uploadDocument.required ? (
-                              <div className="text-danger form-text">
-                                This field is required.
+                          {notification.fileUpload.map((fileUpload, index) => (
+                            <div key={index} className="mb-3">
+                              <div className="row gy-2 ">
+                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>File Name</label>
+                                  <input
+                                    type="text"
+                                    name="fileName"
+                                    value={fileUpload.fileName}
+                                    onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+                                    className="form-control rounded-1 text-capitalize"
+                                    style={{ fontSize: "12px" }}
+                                    placeholder="Example Demo File"
+                                    onKeyDown={(e) => {
+                                      // Prevent non-letter characters
+                                      if (/[^a-zA-Z\s]/.test(e.key)) {
+                                        e.preventDefault();
+                                      }
+                                    }}
+                                  />
+                                </div>
+                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                  <label style={{ color: "#231F20" }}>File Document</label>
+                                  <input
+                                    type="file"
+                                    name="fileImage"
+                                    onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+                                    className="form-control rounded-1 "
+                                    style={{ fontSize: "12px" }}
+                                    placeholder="Upload File"
+                                  />
+                                </div>
                               </div>
-                            ) : null}
-                          </div>
-                          <div className="text-end">
-                            <button className="btn btn-dark px-4 py-2 text-uppercase fw-semibold rounded-1 border-0">
-                              {" "}
-                              <i
-                                class="fa fa-plus-circle"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              &nbsp;&nbsp;Add
-                            </button>
-                          </div>
+                              <button
+                                type="button"
+                                onClick={() => removeEntry(index, "fileUpload")}
+                                className="btn mt-2"
+                              >
+                                <i className="far fa-trash-alt text-danger me-1"></i>
+                              </button>
+                            </div>
+                          ))}
+                          <button
+                            type="button"
+                            onClick={() => addEntry("fileUpload")}
+                            className="btn btn-dark px-4 py-2 text-uppercase fw-semibold col-sm-1 rounded-1 border-0"
+                            
+                          >
+                            <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                          </button>
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>

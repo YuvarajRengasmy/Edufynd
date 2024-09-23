@@ -23,6 +23,14 @@ export const getFilterUniversity = (data) => {
 export const getSingleUniversity = (data) => {
     return API.get(`${University}/getSingleUniversity`, { params: { _id: data } });
   };
+
+  export const activeClient = (data) => {
+    return API.post(`${University}/activeClient`,data);
+  };
+
+  export const deactivateClient = (data) => {
+    return API.post(`${University}/deActiveClient`,data);
+  };
   
   export const getSingleLogUniversity = (data) => {
     return API.get(`${University}/SingleLog`, { params: { _id: data } });
