@@ -102,7 +102,7 @@ const initialStateErrors = {
                         </div>
                         <form onSubmit={handleSubmit}>
                         <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock nav-icon"></i> </span>
+                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock "></i> </span>
                             
                             <input type="password" className="form-control  "  id="exampleInputPassword1" onChange={handleInputs} placeholder='Enter Password' name='password' style={{fontSize:'12px'}} aria-describedby="basic-addon1"
  />
@@ -120,7 +120,7 @@ const initialStateErrors = {
                             ) : null}
                         </div>
                         <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-check nav-icon"></i></span>
+                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-check "></i></span>
                            
                             <input type="password" className="form-control  " id="PasswordConfirmation" 
 aria-describedby="basic-addon1" onChange={handleInputs} placeholder='Re-Enter Password' name='confirmPassword' style={{fontSize:'12px'}} />
