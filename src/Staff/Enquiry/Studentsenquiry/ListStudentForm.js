@@ -19,8 +19,8 @@ import Mastersidebar from "../../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getStaffId } from "../../Utils/storage";
-import {  getSingleStaff } from "../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
+import {  getSingleStaff } from "../../../api/staff";
 import { FaFilter } from "react-icons/fa";
 
 export const ListStudentForm = () => {
@@ -54,7 +54,7 @@ export const ListStudentForm = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-  onst [staff, setStaff] = useState(null);
+  const [staff, setStaff] = useState(null);
 
 
   useEffect(() => {

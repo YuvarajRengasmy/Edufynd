@@ -505,7 +505,7 @@ const Sidebar = () => {
       <li className="nav-item">
         <Link 
           to="/staff_list_staff"
-          ref={el => (sidebarRefs.current['/staff_staff'] = el)}
+          ref={el => (sidebarRefs.current['/staff_list_staff'] = el)}
           className={`nav-link sidebar_link ${
             ["/staff_list_staff", "/staff_add_staff", "/staff_edit_staff", "/staff_view_staff"].includes(currentPath)
               ? "active"

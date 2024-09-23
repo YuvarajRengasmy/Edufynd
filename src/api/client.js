@@ -23,8 +23,13 @@ export const getSingleClient = (data) => {
     return API.delete(`${Client}`, { params: { _id: data } });
   };
   export const activeClient = (data) => {
-    return API.put(`${Client}/activeClient`,data);
+    return API.post(`${Client}/activeClient`,data);
   };
+
+  export const deactivateClient = (data) => {
+    return API.post(`${Client}/deActiveClient`,data);
+  };
+
   export const updateClient = (data) => {
     return API.put(`${Client}`,  data);
   };

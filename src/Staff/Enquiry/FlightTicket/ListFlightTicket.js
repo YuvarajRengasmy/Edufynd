@@ -10,8 +10,8 @@ import { Dialog, DialogContent, Pagination } from "@mui/material";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 import { toast } from "react-toastify";
-import {getStaffId } from "../../Utils/storage";
-import {  getSingleStaff } from "../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
+import {  getSingleStaff } from "../../../api/staff";
 import { FaFilter } from "react-icons/fa";
 
 export const ListFlightTicket = () => {
