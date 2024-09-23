@@ -1,24 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 
 import {
   getallFlightEnquiry,
-  getSingleFlightEnquiry,
   deleteFlightEnquiry,
 } from "../../../api/Enquiry/flight";
 import { Link } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  radioClasses,
-} from "@mui/material";
+import { Dialog, DialogContent, Pagination } from "@mui/material";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/sidebar";
-import { ExportCsvService } from "../../../Utils/Excel";
-import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
 
 import { FaFilter } from "react-icons/fa";
@@ -86,7 +76,6 @@ export const ListFlightTicket = () => {
   useEffect(() => {
     const table = tableRef.current;
 
-    // Apply SortableJS to the table headers
     const sortable = new Sortable(table.querySelector("thead tr"), {
       animation: 150,
       swapThreshold: 0.5,
@@ -95,7 +84,6 @@ export const ListFlightTicket = () => {
         const oldIndex = evt.oldIndex;
         const newIndex = evt.newIndex;
 
-        // Move the columns in the tbody
         table.querySelectorAll("tbody tr").forEach((row) => {
           const cells = Array.from(row.children);
           row.insertBefore(cells[oldIndex], cells[newIndex]);
@@ -108,12 +96,12 @@ export const ListFlightTicket = () => {
     };
   }, []);
 
-
   const [statuses, setStatuses] = useState(
-    (flight && Array.isArray(flight)) ? flight.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+    flight && Array.isArray(flight)
+      ? flight.reduce((acc, _, index) => ({ ...acc, [index]: false }), {})
+      : {}
   );
-  
-  // Toggle checkbox status
+
   const handleCheckboxChange = (index) => {
     setStatuses((prevStatuses) => ({
       ...prevStatuses,
@@ -142,9 +130,9 @@ export const ListFlightTicket = () => {
                           borderColor: "#FE5722",
                           paddingRight: "1.5rem",
                           marginLeft: "0px",
-                          fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
+                          fontSize: "12px",
+                          height: "11px",
+                          padding: "0px",
                         }}
                       />
                       <span
@@ -367,123 +355,141 @@ export const ListFlightTicket = () => {
         </div>
 
         <div className="container mt-3">
-      <div className="row">
-        {/* Card 1: Lead Converted */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#1976D2" }} // Blue
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Lead Converted
-                </h6>
-                <p className="card-text">Total: 75</p>
-              </div>
+          <div className="row">
+            {/* Card 1: Lead Converted */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#1976D2" }}
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-check-circle"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Lead Converted
+                    </h6>
+                    <p className="card-text">Total: 75</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Card 2: Drop/Withdraw */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#E64A19" }} // Deep Orange
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Drop/Withdraw
-                </h6>
-                <p className="card-text">Total: 20</p>
-              </div>
+            {/* Card 2: Drop/Withdraw */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#E64A19" }}
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-user-times"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Drop/Withdraw
+                    </h6>
+                    <p className="card-text">Total: 20</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Card 3: Delayed Followups */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#FBC02D" }} // Yellow
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Delayed Followups
-                </h6>
-                <p className="card-text">Total: 45</p>
-              </div>
+            {/* Card 3: Delayed Followups */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FBC02D" }}
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-hourglass-half"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Delayed Followups
+                    </h6>
+                    <p className="card-text">Total: 45</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Card 4: Documents Received */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#388E3C" }} // Green
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Documents Received
-                </h6>
-                <p className="card-text">Total: 90</p>
-              </div>
+            {/* Card 4: Documents Received */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#388E3C" }}
+                >
+                  <div className="card-body">
+                    <h6 className="card-title">
+                      <i
+                        className="fas fa-file-alt"
+                        style={{ color: "#ffffff" }}
+                      ></i>{" "}
+                      Documents Received
+                    </h6>
+                    <p className="card-text">Total: 90</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
-      </div>
-    </div>
         <div className="content-body">
           <div className="container">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card  rounded-1 shadow-sm border-0">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
-                      </p>
-                    </div>
+                  <div className="card-header bg-white mb-0 mt-1 pb-0">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex  mb-0">
+                        <p className="me-auto ">
+                          Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                          >
+                            <option value="5">Active</option>
+                            <option value="10">InActive</option>
+                            <option value="20">Delete</option>
+                          </select>{" "}
+                        </p>
+                      </div>
 
-                    <div>
-                    
-                       
-                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                      <div>
+                        <ul
+                          class="nav nav-underline fs-9"
+                          id="myTab"
+                          role="tablist"
+                        >
                           <li>
                             {" "}
                             <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
-            >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                              className="nav-link active "
+                              id="home-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-home"
+                              role="tab"
+                              aria-controls="tab-home"
+                              aria-selected="true"
+                            >
+                              <i class="fa fa-list" aria-hidden="true"></i> List
+                              View
                             </a>
                           </li>
                           <li>
-                            
-                              <a
+                            <a
                               className="nav-link "
                               id="profile-tab"
                               data-bs-toggle="tab"
@@ -492,376 +498,384 @@ export const ListFlightTicket = () => {
                               aria-controls="tab-profile"
                               aria-selected="false"
                             >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                              <i class="fa fa-th" aria-hidden="true"></i> Grid
+                              View
                             </a>
                           </li>
                         </ul>
-                      
-                     
-                    </div>
-                  </div>
-                </div>
-                  <div className="card-body">
-                  <div className="tab-content ">
-                    {/* List View */}
-                    <div
-                      className="tab-pane fade show active"
-                      id="tab-home"
-                      role="tabpanel"
-                      aria-labelledby="home-tab"
-                    >
-
-
-<div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className=" table  table-hover card-table dataTable text-center"
-                          style={{ color: "#9265cc", fontSize: "13px" }}
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "11px",
-                              }}
-                            >
-                                <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                <input type="checkbox" />
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                S.No.
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                ID{" "}
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Date Added{" "}
-                              </th>
-                              
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Name{" "}
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Passport No{" "}
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Date Of Travel{" "}
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                From
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                To
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Status{" "}
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Action{" "}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {flight && flight.length > 0 ? (
-                              flight.map((data, index) => (
-                                <tr
-                                  key={index}
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "10px",
-                                  }}
-                                >
-                                    <td>
-                        <input type="checkbox" />
-                      </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {pagination.from + index + 1}
-                                  </td>
-                                 
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.flightID || "Not Available"}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {formatDate(
-                                      data?.createdOn
-                                        ? data?.createdOn
-                                        : data?.modifiedOn
-                                        ? data?.modifiedOn
-                                        : "-"
-                                        || "Not Available")}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.name || "Not Available"}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.passportNo || "Not Available"}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {formatDate(
-                                      data?.dateOfTravel
-                                        ? data?.dateOfTravel
-                                        : "-"
-                                        || "Not Available")}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.from || "Not Available"}
-                                  </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.to || "Not Available"}
-                                  </td>
-                                  <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    <div className="d-flex">
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/view_flight_ticket",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>
-                                      </Link>
-                                      <Link
-                                        className="dropdown-item"
-                                        to={{
-                                          pathname: "/edit_flight_ticket",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>
-                                      </Link>
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))
-                            ) : (
-                              <tr>
-                                <td
-                                  className="form-text text-danger"
-                                  colSpan="9"
-                                >
-                                  N0 Data Found In Page
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
                       </div>
                     </div>
-</div>
+                  </div>
+                  <div className="card-body">
+                    <div className="tab-content ">
+                      {/* List View */}
+                      <div
+                        className="tab-pane fade show active"
+                        id="tab-home"
+                        role="tabpanel"
+                        aria-labelledby="home-tab"
+                      >
+                        <div className="card-table">
+                          <div className="table-responsive">
+                            <table
+                              className=" table  table-hover card-table dataTable text-center"
+                              style={{ color: "#9265cc", fontSize: "13px" }}
+                              ref={tableRef}
+                            >
+                              <thead className="table-light">
+                                <tr
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "11px",
+                                  }}
+                                >
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    <input type="checkbox" />
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    S.No.
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    ID{" "}
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Date Added{" "}
+                                  </th>
 
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Name{" "}
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Passport No{" "}
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Date Of Travel{" "}
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    From
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    To
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Status{" "}
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Action{" "}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {flight && flight.length > 0 ? (
+                                  flight.map((data, index) => (
+                                    <tr
+                                      key={index}
+                                      style={{
+                                        fontFamily: "Plus Jakarta Sans",
+                                        fontSize: "10px",
+                                      }}
+                                    >
+                                      <td>
+                                        <input type="checkbox" />
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {pagination.from + index + 1}
+                                      </td>
 
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {data?.flightID || "Not Available"}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {formatDate(
+                                          data?.createdOn
+                                            ? data?.createdOn
+                                            : data?.modifiedOn
+                                              ? data?.modifiedOn
+                                              : "-" || "Not Available"
+                                        )}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {data?.name || "Not Available"}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {data?.passportNo || "Not Available"}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {formatDate(
+                                          data?.dateOfTravel
+                                            ? data?.dateOfTravel
+                                            : "-" || "Not Available"
+                                        )}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {data?.from || "Not Available"}
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        {data?.to || "Not Available"}
+                                      </td>
+                                      <td className="text-capitalize text-start ">
+                                        {statuses[index]
+                                          ? "Active"
+                                          : "Inactive"}
+                                        <span className="form-check form-switch d-inline ms-2">
+                                          <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id={`flexSwitchCheckDefault${index}`}
+                                            checked={statuses[index] || false}
+                                            onChange={() =>
+                                              handleCheckboxChange(index)
+                                            }
+                                          />
+                                        </span>
+                                      </td>
+                                      <td className="text-capitalize text-start text-truncate">
+                                        <div className="d-flex">
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/view_flight_ticket",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-eye text-primary me-1"></i>
+                                          </Link>
+                                          <Link
+                                            className="dropdown-item"
+                                            to={{
+                                              pathname: "/edit_flight_ticket",
+                                              search: `?id=${data?._id}`,
+                                            }}
+                                          >
+                                            <i className="far fa-edit text-warning me-1"></i>
+                                          </Link>
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              openPopup(data?._id);
+                                            }}
+                                          >
+                                            <i className="far fa-trash-alt text-danger me-1"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
+                                ) : (
+                                  <tr>
+                                    <td
+                                      className="form-text text-danger"
+                                      colSpan="9"
+                                    >
+                                      N0 Data Found In Page
+                                    </td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
 
-<div
-                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
-                    >
-          
-          <div className="container">
-  <div className="row">
-  {flight?.map((data, index) => (
-      <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
-          <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0">{data?.name || "Not Available"}</h6>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>S.No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {pagination.from + index + 1}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Fligth Ticket ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.flightID || "Not Available"}
-                  </div> 
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Date Added</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {formatDate(
-                                      data?.createdOn
-                                        ? data?.createdOn
-                                        : data?.modifiedOn
-                                        ? data?.modifiedOn
-                                        : "-"
-                                        || "Not Available")}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Passport No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.passportNo || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Date Of Travel</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {formatDate(
-                                      data?.dateOfTravel
-                                        ? data?.dateOfTravel
-                                        : "-"
-                                        || "Not Available")}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>From</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.from || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>To</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.to || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Status</strong>
-                  </div>
-                  <div className="col-md-7 d-flex align-items-center">
-                  {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-          <Link
-                                        className="btn btn-sm btn-outline-primary"
-                                        to={{
-                                          pathname: "/view_flight_ticket",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>View
-                                      </Link>
-                                      <Link
-                                        className="btn btn-sm btn-outline-warning"
-                                        to={{
-                                          pathname: "/edit_flight_ticket",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>Edit
-                                      </Link>
-                                      <button
-                                        className="btn btn-sm btn-outline-danger"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
-                                      </button>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-
-
-
-
-
+                      <div
+                        class="tab-pane fade "
+                        id="tab-profile"
+                        role="tabpanel"
+                        aria-labelledby="profile-tab"
+                      >
+                        <div className="container">
+                          <div className="row">
+                            {flight?.map((data, index) => (
+                              <div className="col-md-4 mb-4" key={index}>
+                                <div
+                                  className="card shadow-sm  rounded-1 text-bg-light h-100"
+                                  style={{ fontSize: "10px" }}
+                                >
+                                  <div className="card-header   d-flex justify-content-between align-items-center">
+                                    <h6 className="mb-0">
+                                      {data?.name || "Not Available"}
+                                    </h6>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="row">
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>S.No</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {pagination.from + index + 1}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Fligth Ticket ID</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.flightID || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Date Added</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {formatDate(
+                                              data?.createdOn
+                                                ? data?.createdOn
+                                                : data?.modifiedOn
+                                                  ? data?.modifiedOn
+                                                  : "-" || "Not Available"
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Passport No</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.passportNo ||
+                                              "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Date Of Travel</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {formatDate(
+                                              data?.dateOfTravel
+                                                ? data?.dateOfTravel
+                                                : "-" || "Not Available"
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>From</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.from || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>To</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.to || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Status</strong>
+                                          </div>
+                                          <div className="col-md-7 d-flex align-items-center">
+                                            {statuses[index]
+                                              ? "Active"
+                                              : "Inactive"}
+                                            <span className="form-check form-switch d-inline ms-2">
+                                              <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                role="switch"
+                                                id={`flexSwitchCheckDefault${index}`}
+                                                checked={
+                                                  statuses[index] || false
+                                                }
+                                                onChange={() =>
+                                                  handleCheckboxChange(index)
+                                                }
+                                              />
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+                                    <Link
+                                      className="btn btn-sm btn-outline-primary"
+                                      to={{
+                                        pathname: "/view_flight_ticket",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                      View
+                                    </Link>
+                                    <Link
+                                      className="btn btn-sm btn-outline-warning"
+                                      to={{
+                                        pathname: "/edit_flight_ticket",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                      Edit
+                                    </Link>
+                                    <button
+                                      className="btn btn-sm btn-outline-danger"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                      Delete
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                </div>
-
-
-                  
-                  
                   </div>
                   <div className="d-flex justify-content-between m-2">
-                  <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                      <div>
+                    <p className="me-auto ">
+                      Show
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{
+                          width: "auto",
+                          display: "inline-block",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                      </select>{" "}
+                      Entries out of 100
+                    </p>
+                    <div>
                       <Pagination
                         count={Math.ceil(pagination.count / pageSize)}
                         onChange={handlePageChange}
@@ -869,9 +883,8 @@ export const ListFlightTicket = () => {
                         shape="rounded"
                         color="primary"
                       />
-                      </div>
-                     
                     </div>
+                  </div>
                 </div>
               </div>
             </div>

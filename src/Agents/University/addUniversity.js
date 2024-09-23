@@ -584,7 +584,7 @@ const App = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className={`form-select form-select-lg rounded-1 ${errors.businessName.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.businessName.required ? 'is-invalid':''}`}
                               name="businessName"
                               placeholder="Select Client"
                             >
@@ -610,7 +610,7 @@ const App = () => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`form-select form-select-lg rounded-1 ${errors.institutionType.required  ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.institutionType.required  ? 'is-invalid':''}`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -645,7 +645,7 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control text-capitalize rounded-1 ${
                                   errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''
     }`}
                               placeholder="Enter University Name"
@@ -799,7 +799,7 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control text-lowercase rounded-1 ${
       errors.email.required ? 'is-invalid' : errors.email.valid ? 'is-valid' : ''
     }`}
                               placeholder="Example johndoe123@gmail.com"
@@ -809,6 +809,14 @@ const App = () => {
                               }}
                               name="email"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent default behavior for disallowed keys
+                           if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                                'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                             e.preventDefault();
+                           }
+                          }}
+
                             />
                             {errors.email.required && (
                               <div className="text-danger form-text">
@@ -823,7 +831,7 @@ const App = () => {
                             </label>
                             <input
                               type="text"
-                                className={`form-control rounded-1 ${
+                                className={`form-control rounded-1 text-lowercase ${
       errors.website.required ? 'is-invalid' : errors.website.valid ? 'is-valid' : ''
     }`}
                               placeholder="Example www.edufynd.com"
@@ -991,6 +999,7 @@ const App = () => {
                                   ...base,
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
+                                  zIndex:'2'
                                 }),
                               }}
                               placeholder="Select Intake"
@@ -1007,7 +1016,7 @@ const App = () => {
                               Offer TAT<span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`form-select form-select-lg rounded-1 ${errors.offerTAT.required ? 'is-invalid':''}`}
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.offerTAT.required ? 'is-invalid':''}`}
                               name="offerTAT"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -1039,19 +1048,50 @@ const App = () => {
                                 About{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="about"
-                                onChange={handleRichAboutChange}
-                                value={university.about}
-                               type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                  
-                                  zIndex:'0'
-                                }}
-                              />
+                             
+                               <CKEditor
+  editor={ClassicEditor}
+  data={university.about} 
+  name="about" // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichAboutChange(data);
+    // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+  
+/>
                             </div>
                           </div>
                          
@@ -1071,7 +1111,29 @@ const App = () => {
   data={university.admissionRequirement}  // Use 'data' instead of 'value'
   config={{
     placeholder: 'Start writing your content here...',
-    toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]  // Adjust toolbar as needed
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
   }}
   onChange={(event, editor) => {
     const data = editor.getData();
@@ -1084,19 +1146,8 @@ const App = () => {
     zIndex: '0'
   }}
 />
-                              {/* <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="admissionRequirement"
-                                onChange={handleRichTextChange}
-                                value={university.admissionRequirement}
-                               type="text"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                 
-                                  zIndex:'0'
-                                }}
-                              /> */}
+
+                             
                             </div>
                           </div>
                           

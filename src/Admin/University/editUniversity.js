@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getallClient } from "../../api/client";
 import {
   isValidEmail,
   isValidName,
-  isValidPhone,
   isValidWebsite,
   isValidYear,
   isValidPinCode,
@@ -18,14 +17,9 @@ import Sidebar from "../../compoents/AdminSidebar";
 import Select from "react-select";
 import { getallIntake } from "../../api/intake";
 import CountryRegion from "countryregionjs";
-import {
-  getallCountryList,
-  getStatesByCountry,
-  getCitiesByState,
-} from "../../api/country"; // Adjust the imports as necessary
+import { getallCountryList } from "../../api/country"; // Adjust the imports as necessary
 import { updateUniversity, getSingleUniversity } from "../../api/university";
 import { RichTextEditor } from "@mantine/rte";
-import zIndex from "@mui/material/styles/zIndex";
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -57,7 +51,6 @@ function Profile() {
       },
     ],
   };
-
   const initialStateErrors = {
     businessName: { required: false },
     universityLogo: { required: false },
@@ -80,7 +73,6 @@ function Profile() {
     inTake: { required: false },
     campuses: { required: false },
   };
-
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
@@ -94,9 +86,7 @@ function Profile() {
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
   const [selectedCourseType, setSelectedCourseType] = useState([]);
-
   const navigate = useNavigate();
-
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
@@ -123,11 +113,9 @@ function Profile() {
     if (!isValidWebsite(data.website)) {
       error.website.valid = true;
     }
-
     if (!isValidEmail(data.email)) error.email.valid = true;
     return error;
   };
-
   useEffect(() => {
     getUniversityDetails();
     getClientList();
@@ -139,7 +127,6 @@ function Profile() {
     getAllInstitutionDetails();
     getAllIntakeDetails();
   }, []);
-
   const getAllCountryDetails = () => {
     getallCountryList()
       .then((res) => {
@@ -178,7 +165,6 @@ function Profile() {
         console.log(err);
       });
   };
-
   const getAllCatgoeryDetails = () => {
     getallCategories()
       .then((res) => {
@@ -219,7 +205,6 @@ function Profile() {
         console.log(err);
       });
   };
-
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -234,7 +219,6 @@ function Profile() {
       console.log("Error: ", error);
     };
   };
-
   const getCountries = async () => {
     try {
       const countries = await getCountryRegionInstance().getCountries();
@@ -248,11 +232,9 @@ function Profile() {
       console.error(error);
     }
   };
-
   const getCountryRegionInstance = () => {
     return new CountryRegion();
   };
-
   const fetchStates = async (countryId) => {
     try {
       const states = await getCountryRegionInstance().getStates(countryId);
@@ -273,7 +255,6 @@ function Profile() {
       console.error(error);
     }
   };
-
   const fetchLGAs = async (countryId, stateId) => {
     try {
       const lgas = await getCountryRegionInstance().getLGAs(countryId, stateId);
@@ -292,7 +273,6 @@ function Profile() {
       console.error(error);
     }
   };
-
   const handleCountryChange = (selectedCountry) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -306,7 +286,6 @@ function Profile() {
     }));
     fetchStates(selectedCountry.value);
   };
-
   const handleStateChange = (selectedState, index) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -318,7 +297,6 @@ function Profile() {
     }));
     fetchLGAs(university.country, selectedState.value);
   };
-
   const handleLGAChange = (selectedLGA, index) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -327,7 +305,6 @@ function Profile() {
       ),
     }));
   };
-
   const handlePrimaryChange = (index) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -350,14 +327,12 @@ function Profile() {
       ],
     }));
   };
-
   const removeCampus = (index) => {
     setUniversity((prevUniversity) => ({
       ...prevUniversity,
       campuses: prevUniversity.campuses.filter((_, i) => i !== index),
     }));
   };
-
   const handleInputs = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
@@ -365,7 +340,6 @@ function Profile() {
     } else {
       setUniversity((prevUniversity) => {
         const updatedUniversity = { ...prevUniversity, [name]: value };
-
         return updatedUniversity;
       });
     }
@@ -374,11 +348,9 @@ function Profile() {
       setErrors(newError);
     }
   };
-
   const handleRichTextChange = (value) => {
     setUniversity((prevUniversity) => ({
       ...prevUniversity,
-
       admissionRequirement: value,
     }));
   };
@@ -388,7 +360,6 @@ function Profile() {
       about: value,
     }));
   };
-
   const handleSelectChange = (selectedOptions, action) => {
     const { name } = action;
     const values = selectedOptions
@@ -396,7 +367,6 @@ function Profile() {
       : [];
     setUniversity((prevUniversity) => ({ ...prevUniversity, [name]: values }));
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -410,12 +380,10 @@ function Profile() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-
     // Validate the form data
     const newError = handleValidation(university);
     setErrors(newError);
     setSubmitted(true);
-
     // Check if there are no validation errors
     if (handleErrors(newError)) {
       // Prepare the data for submission
@@ -434,7 +402,6 @@ function Profile() {
         //     campus.lga,
         // })),
       };
-
       // Submit the data
       updateUniversity(updatedUniversity)
         .then((res) => {
@@ -446,7 +413,6 @@ function Profile() {
         });
     }
   };
-
   const popularCategoriesOptions = categorie.map((data) => ({
     value: data.popularCategories,
     label: data.popularCategories,
@@ -462,7 +428,6 @@ function Profile() {
       label: data.intakeName,
     };
   });
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -478,7 +443,6 @@ function Profile() {
       },
     }),
   };
-
   return (
     <>
       <div>
@@ -575,7 +539,6 @@ function Profile() {
                         onChange={handleInputs}
                       />
                     </div>
-
                     <div className="card-header rounded-0 bg-white ">
                       <h5
                         style={{
@@ -601,13 +564,13 @@ function Profile() {
                               fontSize: "12px",
                             }}
                             value={university?.businessName}
-                            className={`form-select form-select-lg rounded-1 ${
+                            className={`form-select form-select-lg rounded-1 text-capitalize ${
                               errors.businessName.required ? "is-invalid" : ""
                             }`}
                             name="businessName"
                           >
-                            <option value={""} disabled hidden>
-                              {university?.businessName}
+                            <option value={""}>
+                              {university?.businessName ?? "Select Client Name"}
                             </option>
                             {client.map((data, index) => (
                               <option key={index} value={data?.businessName}>
@@ -628,7 +591,7 @@ function Profile() {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`form-select form-select-lg rounded-1 ${
+                            className={`form-select form-select-lg rounded-1 text-capitalize ${
                               errors.institutionType.required
                                 ? "is-invalid"
                                 : ""
@@ -663,7 +626,7 @@ function Profile() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize  ${
                               errors.universityName.required
                                 ? "is-invalid"
                                 : errors.universityName.valid
@@ -691,7 +654,6 @@ function Profile() {
                             </span>
                           )}
                         </div>
-
                         <div className="row g-3 mb-3">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -735,7 +697,6 @@ function Profile() {
                               &nbsp;&nbsp; Add Campus
                             </button>
                           </div>
-
                           {university.campuses.map((campus, index) => (
                             <div className="row row-cols-3 my-3 " key={index}>
                               <div className="col">
@@ -799,7 +760,6 @@ function Profile() {
                                   </span>
                                 </label>
                               </div>
-
                               {index > 0 && (
                                 <div className="col-xl-12 my-3 ">
                                   <button
@@ -822,7 +782,7 @@ function Profile() {
                           <input
                             type="text"
                             value={university?.email}
-                            className={`form-control rounded-1 ${
+                            className={`form-control text-lowercase rounded-1 ${
                               errors.email.required
                                 ? "is-invalid"
                                 : errors.email.valid
@@ -836,6 +796,28 @@ function Profile() {
                             }}
                             name="email"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                              if (
+                                !/^[a-zA-Z0-9@._-]*$/.test(e.key) &&
+                                ![
+                                  "Backspace",
+                                  "Delete",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                  "ArrowUp",
+                                  "ArrowDown",
+                                  "Tab",
+                                  "Enter",
+                                  "Shift",
+                                  "Control",
+                                  "Alt",
+                                  "Meta",
+                                ].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.email.required && (
                             <div className="text-danger form-text">
@@ -851,7 +833,7 @@ function Profile() {
                           <input
                             type="text"
                             value={university?.website}
-                            className={`form-control rounded-1 ${
+                            className={`form-control text-lowercase rounded-1 ${
                               errors.website.required
                                 ? "is-invalid"
                                 : errors.website.valid
@@ -872,12 +854,10 @@ function Profile() {
                             </span>
                           )}
                         </div>
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Course Type<span className="text-danger">*</span>
                           </label>
-
                           <Select
                             isMulti
                             options={courseTypeOptions}
@@ -899,7 +879,6 @@ function Profile() {
                               }),
                             }}
                           />
-
                           {errors.courseType.required && (
                             <div className="text-danger form-text">
                               This field is required.
@@ -952,7 +931,7 @@ function Profile() {
                           <input
                             type="text"
                             value={university?.ranking}
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1  ${
                               errors.ranking.required
                                 ? "is-invalid"
                                 : errors.ranking.valid
@@ -993,7 +972,6 @@ function Profile() {
                             Popular Categories
                             <span className="text-danger">*</span>
                           </label>
-
                           <Select
                             isMulti
                             options={popularCategoriesOptions}
@@ -1017,14 +995,12 @@ function Profile() {
                               }),
                             }}
                           />
-
                           {errors.popularCategories.required && (
                             <div className="text-danger form-text">
                               This field is required.
                             </div>
                           )}
                         </div>
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Average Fees<span className="text-danger">*</span>
@@ -1046,6 +1022,19 @@ function Profile() {
                             }}
                             name="averageFees"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (
+                                !/^[0-9]$/i.test(e.key) &&
+                                ![
+                                  "Backspace",
+                                  "Delete",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                ].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.averageFees.required && (
                             <span className="text-danger form-text profile_error">
@@ -1053,14 +1042,13 @@ function Profile() {
                             </span>
                           )}
                         </div>
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}
                             Offer TAT<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`form-select form-select-lg rounded-1 ${
+                            className={`form-select form-select-lg rounded-1 text-capitalize ${
                               errors.offerTAT.required ? "is-invalid" : ""
                             }`}
                             name="offerTAT"
@@ -1086,7 +1074,6 @@ function Profile() {
                             </div>
                           )}
                         </div>
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             InTake<span className="text-danger">*</span>
@@ -1119,7 +1106,6 @@ function Profile() {
                             </div>
                           ) : null}
                         </div>
-
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                           <div className="form-group">
                             <label style={{ color: "#231F20" }}>
@@ -1134,13 +1120,11 @@ function Profile() {
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
-
                                 zIndex: "0",
                               }}
                             />
                           </div>
                         </div>
-
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                           <div className="form-group">
                             <label style={{ color: "#231F20" }}>
@@ -1156,13 +1140,11 @@ function Profile() {
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
-
                                 zIndex: "0",
                               }}
                             />
                           </div>
                         </div>
-
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link

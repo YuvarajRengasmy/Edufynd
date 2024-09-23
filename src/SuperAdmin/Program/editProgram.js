@@ -17,7 +17,8 @@ import { getUniversitiesByCountry } from "../../api/university";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { RichTextEditor } from "@mantine/rte";
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -87,6 +88,8 @@ function Profile() {
     getProgramDetails();
   }, []);
 
+
+  
   const getProgramDetails = () => {
     getSingleProgram(id)
       .then((res) => {
@@ -620,7 +623,7 @@ function Profile() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 ${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.programTitle.required
                                 ? "is-invalid"
                                 : errors.programTitle.valid
@@ -636,6 +639,12 @@ function Profile() {
                             value={program?.programTitle}
                             name="programTitle"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.programTitle.required ? (
                             <div className="text-danger form-text">
@@ -666,6 +675,11 @@ function Profile() {
                             placeholder="Enter Application Fee"
                             name="applicationFee"
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.applicationFee.required && (
                             <span className="text-danger form-text profile_error">
@@ -805,6 +819,11 @@ function Profile() {
           onChange={(e) => handleInputChange(index, "courseFees", e.target.value)}
           className="form-control"
           placeholder="Enter Course Fees"
+          onKeyDown={(e) => {
+            if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+              e.preventDefault();
+            }
+          }}
         />
         {errors.campuses && errors.campuses[index]?.courseFees?.required && (
           <span className="text-danger form-text profile_error">
@@ -827,6 +846,11 @@ function Profile() {
           onChange={(e) => handleInputChange(index, "duration", e.target.value)}
           className="form-control"
           placeholder="Enter Duration"
+          onKeyDown={(e) => {
+            if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+              e.preventDefault();
+            }
+          }}
         />
         {errors.campuses && errors.campuses[index]?.duration?.required && (
           <span className="text-danger form-text profile_error">
@@ -983,24 +1007,57 @@ function Profile() {
                           ) : null}
                         </div>
 
-                        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Academic requirement
-                          </label>
-                          <RichTextEditor
-                            placeholder="Start writing your content here..."
-                            name="academicRequirement"
-                            onChange={handleRichTextChange}
-                            value={program.academicRequirement}
-                            type="text"
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
+                        <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                            <div className="form-group">
+                              <label style={{ color: "#231F20" }}>
+                              Academic requirement
+                                <span className="text-danger">*</span>
+                              </label>
 
-                              zIndex: "0",
-                            }}
-                          />
-                        </div>
+                              <CKEditor
+  editor={ClassicEditor}
+  data={program.academicRequirement}  // Use 'data' instead of 'value'
+  config={{
+    placeholder: 'Start writing your content here...',
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "|",
+      "insertTable",
+      "mediaEmbed",
+      "imageUpload",
+      "|",
+      "undo",
+      "redo",
+    ],
+    image: {
+      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    },
+    table: {
+      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    },
+  }}
+  onChange={(event, editor) => {
+    const data = editor.getData();
+    console.log({ data });
+    handleRichTextChange(data);  // Call your handler here
+  }}
+  style={{
+    fontFamily: "Plus Jakarta Sans",
+    fontSize: "12px",
+    zIndex: '0'
+  }}
+/>
+
+                             
+                            </div>
+                          </div>
 
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto">

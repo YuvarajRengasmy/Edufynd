@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getSingleLoanEnquiry } from "../../../api/Enquiry/Loan";
+import { getSingleLoanEnquiry,getSingleLogUniversity } from "../../../api/Enquiry/Loan";
 import { useLocation } from "react-router-dom";
 import Mastersidebar from "../../../compoents/sidebar";
 import { Link } from "react-router-dom";
@@ -9,12 +9,25 @@ export const ViewLoanEnquiry = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [loan, setLoan] = useState(null);
+  const [logs, setLogs] = useState([]);
+
   // Reference for the hidden anchor
 
   useEffect(() => {
     getLoanDetails();
+    getUniversityLogs();
   }, []);
 
+  const getUniversityLogs = () => {
+    getSingleLogUniversity(id)
+      .then((res) => {
+        console.log("yuvi",res);
+        setLogs(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getLoanDetails = () => {
     getSingleLoanEnquiry(id)
       .then((res) => {
@@ -822,6 +835,46 @@ export const ViewLoanEnquiry = () => {
        
         
       </div>
+    </div>
+  </div>
+</div>
+<div className="container-fluid my-2">
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        {logs.map((log, index) => (
+           <li className="mb-4 position-relative" key={index}>
+           <div className="row align-items-start g-0">
+
+             <div className="col-1 d-flex justify-content-center align-items-center">
+               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                 <i className="fas fa-check" />
+               </div>
+             </div>
+             <div className="col-4 text-center">
+               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
+               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
+             </div>
+
+             <div className="col-12">
+               {log.changes.map((change, changeIndex) => (
+                 <div key={changeIndex} className="mb-3">
+                   <div className="bg-success text-white rounded-3 p-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
+                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
+                   </div>
+                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
+                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+         </li>
+        ))}
+      </ul>
     </div>
   </div>
 </div>

@@ -757,19 +757,17 @@ export default function Masterproductlist() {
                       <td className="text-capitalize text-start text-truncate">
                         {data?.paymentType || "Not Available"}
                       </td>
-                      {/* <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
+                      <td className="text-capitalize text-start ">
+           
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+                
               />
             </span>
-          </td> */}
+          </td>
                       <td>
                         <div className="d-flex">
                           <Link
@@ -1073,7 +1071,7 @@ export default function Masterproductlist() {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
                 style={{
                   backgroundColor: "#0f2239",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
@@ -9,12 +9,11 @@ import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link, useLocation } from "react-router-dom";
-import { RichTextEditor } from "@mantine/rte";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddPromotions = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-
   const initialState = {
     typeOfUser: "",
     userName: "",
@@ -23,7 +22,6 @@ export const AddPromotions = () => {
     uploadImage: "",
     createdBy: "",
   };
-
   const initialStateErrors = {
     typeOfUser: { required: false },
     userName: { required: false },
@@ -31,7 +29,6 @@ export const AddPromotions = () => {
     content: { required: false },
     uploadImage: { required: false },
   };
-
   const [notification, setnotification] = useState(initialState);
   const [staff, setStaff] = useState([]);
   const [admin, setAdmin] = useState([]);
@@ -40,7 +37,6 @@ export const AddPromotions = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     getStaffList();
     getPromotionList();
@@ -48,7 +44,6 @@ export const AddPromotions = () => {
     getAgentList();
     getStudentList();
   }, []);
-
   const getPromotionList = () => {
     getSinglePromotion(id)
       .then((res) => {
@@ -94,18 +89,14 @@ export const AddPromotions = () => {
         console.log(err);
       });
   };
-
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
     if (data.typeOfUser === "") {
       error.typeOfUser.required = true;
     }
-
     if (data.userName === "") {
       error.userName.required = true;
     }
-
     if (data.subject === "") {
       error.subject.required = true;
     }
@@ -115,10 +106,8 @@ export const AddPromotions = () => {
     if (data.uploadImage === "") {
       error.uploadImage.required = true;
     }
-
     return error;
   };
-
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -143,7 +132,6 @@ export const AddPromotions = () => {
         [event?.target?.name]: event?.target?.value,
       });
     }
-
     if (submitted) {
       const newError = handleValidation({
         ...notification,
@@ -162,7 +150,6 @@ export const AddPromotions = () => {
       [name]: values,
     }));
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -174,14 +161,12 @@ export const AddPromotions = () => {
     }
     return true;
   };
-
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(notification);
@@ -203,27 +188,22 @@ export const AddPromotions = () => {
       toast.error("Please fill mandatory fields");
     }
   };
-
   const adminOptions = admin.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const staffOptions = staff.map((data, index) => ({
     value: data.empName,
     label: data.empName,
   }));
-
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const agentOptions = agent.map((data, index) => ({
     value: data.agentName,
     label: data.agentName,
   }));
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -239,12 +219,10 @@ export const AddPromotions = () => {
       },
     }),
   };
-
   return (
     <>
       <div>
         <Sidebar />
-
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -254,14 +232,14 @@ export const AddPromotions = () => {
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
                       >
                         <h5 className="text-center text-capitalize p-1">
                           {" "}
-                          Add Promotion Details
+                          Edit Promotion Details
                         </h5>
                       </div>
                       <div className="card-body mt-5">
@@ -311,20 +289,23 @@ export const AddPromotions = () => {
                                 This field is required.
                               </div>
                             ) : null}
-
                             <div className="text-end">
-                              <button className="btn btn-primary">Add</button>
+                              <button className="btn btn-dark px-4 py-2 text-uppercase fw-semibold col-sm-1 rounded-1 border-0">
+                                {" "}
+                                <i className="fas fa-plus-circle"></i>
+                                &nbsp;&nbsp;Add
+                              </button>
                             </div>
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              UserName <span className="text-danger">*</span>
+                              Host Name <span className="text-danger">*</span>
                             </label>
                             <select
-                              class="form-select "
+                              class="form-select form-select-lg rounded-1 text-capitalize "
                               aria-label="Default select example"
                             >
-                              <option selected>Open this select menu</option>
+                              <option selected>Select User</option>
                               <option value="1">One</option>
                               <option value="2">Two</option>
                               <option value="3">Three</option>
@@ -335,9 +316,8 @@ export const AddPromotions = () => {
                               Type of Users{" "}
                               <span className="text-danger">*</span>
                             </label>
-
                             <select
-                              class="form-select form-select-lg"
+                              class="form-select form-select-lg rounded-1 text-capitalize"
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -362,11 +342,11 @@ export const AddPromotions = () => {
                           {notification.typeOfUser === "staff" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
+                                Staff List<span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select staff"
+                                placeholder="Select Staff"
                                 onChange={handleSelectChange}
                                 options={staffOptions}
                                 value={
@@ -395,7 +375,7 @@ export const AddPromotions = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Student"
                                 onChange={handleSelectChange}
                                 value={
                                   notification?.userName
@@ -419,11 +399,11 @@ export const AddPromotions = () => {
                           ) : notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
+                                Agent List<span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Agent"
                                 onChange={handleSelectChange}
                                 value={
                                   notification?.userName
@@ -451,7 +431,7 @@ export const AddPromotions = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Admin"
                                 onChange={handleSelectChange}
                                 options={adminOptions}
                                 value={notification.userName}
@@ -466,7 +446,6 @@ export const AddPromotions = () => {
                               ) : null}
                             </div>
                           ) : null}
-
                           <div className="row gy-2 ">
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
@@ -474,15 +453,23 @@ export const AddPromotions = () => {
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control rounded-1 text-capitalize ${
+                                  errors.subject.required ? "is-invalid" : ""
+                                }`}
                                 onChange={handleInputs}
                                 value={notification.subject}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Enter  Subject"
+                                placeholder="Example Meetings"
                                 name="subject"
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.subject.required ? (
                                 <div className="text-danger form-text">
@@ -491,23 +478,59 @@ export const AddPromotions = () => {
                               ) : null}
                             </div>
                           </div>
-
                           <div className="row gy-2 "></div>
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
-                                name="content"
-                                onChange={handleRichTextChange}
-                                value={notification.content}
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content} // Use 'data' instead of 'value'
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data); // Call your handler here
+                                }}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                  zIndex: "0",
                                 }}
                               />
                               {errors.content.required && (
@@ -517,17 +540,13 @@ export const AddPromotions = () => {
                               )}
                             </div>
                           </div>
-
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <div className=" d-flex justify-content-end ">
                             <Link
                               to="/admin_list_promotions"
                               style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              type="reset"
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                              className="btn btn-dark rounded-1  border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
                             </Link>
@@ -538,7 +557,7 @@ export const AddPromotions = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Submit
                             </button>

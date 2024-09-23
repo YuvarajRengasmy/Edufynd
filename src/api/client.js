@@ -16,19 +16,23 @@ export const getAllClientCard = () => {
 export const getSingleClient = (data) => {
     return API.get(`${Client}/getSingleClient`, { params: { _id: data } });
   };
+  export const getSingleClientLog = (data) => {
+    return API.get(`${Client}/SingleLog`, { params: { _id: data } });
+  };
   export const deleteClient = (data) => {
     return API.delete(`${Client}`, { params: { _id: data } });
   };
-
-  export const updateClient = (data) => {
-    console.log("hh", data)
-    return API.put(`${Client}`,  { params: { _id: data } });
-  };
-
   export const activeClient = (data) => {
-    return API.put(`${Client}/activeClient`, { params: { _id: data } });
-  }; 
+    return API.put(`${Client}/activeClient`,data);
+  };
+  export const updateClient = (data) => {
+    return API.put(`${Client}`,  data);
+  };
 
   export const getFilterClient = (data) => {
     return API.put(`${Client}/getFilterClient`, data);
   };
+
+  export const getLogsClient = () => {
+    return API.get(`${Client}/logs`)
+  }

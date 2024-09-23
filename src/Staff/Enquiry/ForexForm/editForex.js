@@ -15,7 +15,7 @@ import { getallCurrency } from "../../../api/currency";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { updateForexEnquiry, getSingleForexEnquiry, } from "../../../api/Enquiry/Forex";
-import { getallClient } from "../../../api/client";
+
 import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
@@ -26,7 +26,6 @@ export const AddForex = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    typeOfClient: "",
     source: "",
     name:"",
     studentName: "",
@@ -57,7 +56,6 @@ export const AddForex = () => {
 
   };
   const initialStateErrors = {
-    typeOfClient: { required: false },
     source: { required: false },
     name:{required: false},
     studentName: { required: false },
@@ -97,29 +95,15 @@ export const AddForex = () => {
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-  const [client, setClient] = useState([]);
 
   useEffect(() => {
     getAllUniversityList();
     getAllCurrencyDetails();
     getallCodeList();
     getForexDetails();
-    getClientList();
-    getAllSourceDetails();
-    getStudentList();
-    getAgentList();
   }, []);
 
-  const getClientList = () => {
-    
-    getallClient()
-      .then((res) => {
-        setClient(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
        const getForexDetails = () => {
         getSingleForexEnquiry(id)
           .then((res) => {
@@ -158,6 +142,14 @@ export const AddForex = () => {
       });
   };
 
+
+  useEffect(() => {
+    getAllSourceDetails();
+    getStudentList();
+    getAgentList();
+  }, []);
+
+
   const getAgentList = () => {
     getallAgent()
       .then((res) => {
@@ -189,13 +181,43 @@ export const AddForex = () => {
   };
   const handleValidation = (data) => {
     let error = initialStateErrors;
-    if (!data.typeOfClient) {
-      error.typeOfClient.required = true;
-    }
+
     if (!data.source) {
       error.source.required = true;
     }
-   
+    // if (!data.agentName) {
+    //   error.agentName.required = true;
+    // }
+    // if (!isValidName(data.agentName)) {
+    //   error.agentName.valid = true;
+    // }
+    // if (!data.businessName) {
+    //   error.businessName.required = true;
+    // }
+
+    // if (!isValidName(data.businessName)) {
+    //   error.businessName.valid = true;
+    // }
+
+    // if (!data.agentEmail) {
+    //   error.agentEmail.required = true;
+    // }
+    // if (!isValidEmail(data.agentEmail)) {
+    //   error.agentEmail.valid = true;
+    // }
+    // if (!data.agentPrimaryNumber) {
+    //   error.agentPrimaryNumber.required = true;
+    // }
+    // if (!isValidPhone(data.agentPrimaryNumber)) {
+    //   error.agentPrimaryNumber.valid = true;
+    // }
+
+    // if (!data.agentWhatsAppNumber) {
+    //   error.agentWhatsAppNumber.required = true;
+    // }
+    // if (!isValidPhone(data.agentWhatsAppNumber)) {
+    //   error.agentWhatsAppNumber.valid = true;
+    // }
     if (!data.name) {
       error.name.required = true;
     }
@@ -365,6 +387,8 @@ export const AddForex = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
+    }else {
+      toast.error("Please Fill  Mandatory Fields");
     }
   };
 
@@ -388,40 +412,6 @@ export const AddForex = () => {
                 </div>
                 <div className="card-body mt-5">
                   <div className="row g-3">
-
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            {" "}
-                            Client Name<span className="text-danger">*</span>
-                          </label>
-                          <select
-                            onChange={handleInputs}
-                            style={{
-                              backgroundColor: "#fff",
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            className={`form-select form-select-lg rounded-1 ${
-                              errors.typeOfClient.required ? "is-invalid" : ""
-                            }`}
-                            name="typeOfClient"
-                            placeholder="Select Client"
-                            value={forex?.typeOfClient}
-                          >
-                            <option value={""}>Select Client</option>
-                            {client.map((data, index) => (
-                              <option key={index} value={data?.businessName}>
-                                {" "}
-                                {data?.businessName}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.typeOfClient.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
-                  </div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label className="form-label" for="inputEmail4">
                           Source
@@ -432,9 +422,9 @@ export const AddForex = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className={`form-select form-select-lg rounded-1 text-capitalize ${errors.source.required ? 'is-invalid' : ''} `}
                           name="source"
-                          value={forex?.source}
+                          value={forex.source}
                         >
                           <option value="">Select Source</option>
                           {source.length > 0 ? (
@@ -468,9 +458,9 @@ export const AddForex = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="studentName"
-                          value={forex?.studentName}
+                          value={forex.studentName}
                         >
                           <option value="">Select students</option>
                           {students.length > 0 ? (
@@ -504,7 +494,7 @@ export const AddForex = () => {
                             fontFamily: "Plus Jakarta Sans",
                             fontSize: "12px",
                           }}
-                          className="form-select form-select-lg rounded-2 "
+                          className="form-select form-select-lg rounded-1 text-capitalize "
                           name="agentName"
                           value={forex?.agentName}
                         >
@@ -528,17 +518,23 @@ export const AddForex = () => {
                       Business Name
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-capitalize"
                       id="inputbusinessname"
                       type="text"
                       onChange={handleInputs}
                       value={forex.businessName}
                       name="businessName"
-                      placeholder="Enter Business Name"
+                      placeholder="Example Jake Doe"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
                     />
                   </div>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -572,7 +568,7 @@ export const AddForex = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.agentPrimaryNumber.required ? 'is-invalid' : errors.agentPrimaryNumber.valid ? 'is-valid' : ''
+        errors.agentPrimaryNumber.required ? 'is-invalid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -635,8 +631,8 @@ export const AddForex = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.agentWhatsAppNumber.required ? 'is-invalid' : errors.agentWhatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.agentWhatsAppNumber.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -661,17 +657,25 @@ export const AddForex = () => {
                       Agent Email ID
                     </label>
                     <input
-                      className="form-control"
+                      className="form-control rounded-1 text-lowercase"
                       name="agentEmail"
                       onChange={handleInputs}
                       id="inputEmail"
                       value={forex?.agentEmail}
                       type="text"
-                      placeholder="Enter Email ID"
+                      placeholder="Example jake123@gmail.com"
                       style={{
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "12px",
                       }}
+                      onKeyDown={(e) => {
+                        // Prevent default behavior for disallowed keys
+                   if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                        'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                     e.preventDefault();
+                   }
+                  }}
+
                     />
                   </div>
                  
@@ -683,20 +687,26 @@ export const AddForex = () => {
                    
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputstudentname">
-                        Name of the Student
+                       Student Name
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-capitalize ${errors.name.required ? 'is-invalid' : ''}`}
                         name="name"
-                        value={forex?.name}
                         onChange={handleInputs}
                         id="inputstudentname"
                         type="text"
-                        placeholder="Enter Name of the Student"
+                        placeholder="Example John Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        value={forex?.name}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.name.required ? (
@@ -705,7 +715,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.name.valid ? (
                         <div className="text-danger form-text">
-                          Enter Name Letter Only
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -714,17 +724,23 @@ export const AddForex = () => {
                         Passport No<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         onChange={handleInputs}
                         name="passportNo"
-                        value={forex?.passportNo}
                         type="text"
-                        placeholder="Enter Passport No"
+                        placeholder="Example WE345YRT"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.passportNo}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.passportNo.required ? (
                         <div className="text-danger form-text">
@@ -732,7 +748,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.passportNo.valid ? (
                         <div className="text-danger form-text">
-                          Enter Vaild Passport Number Only
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -741,10 +757,9 @@ export const AddForex = () => {
                         Expiry Date<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1  text-uppercase ${errors.expiryDate.required ? 'is-invalid' : ''}`}
                         id="inputpassportno"
                         name="expiryDate"
-                        value={forex?.expiryDate}
                         onChange={handleInputs}
                         type="date"
                         placeholder="Enter ExpiryDate"
@@ -752,6 +767,7 @@ export const AddForex = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.expiryDate}
                       />
                       {errors.expiryDate.required ? (
                         <div className="text-danger form-text">
@@ -764,17 +780,24 @@ export const AddForex = () => {
                         Email ID<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : ''}`}
                         name="email"
-                        value={forex?.email}
                         onChange={handleInputs}
                         id="inputEmail"
                         type="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example jake123@gmail.com"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                          'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
+                        value={forex?.email}
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
@@ -782,7 +805,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid Email Id.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -818,7 +841,7 @@ export const AddForex = () => {
       type="text"
        aria-label="Text input with dropdown button"
       className={`form-control  ${
-        errors.primaryNumber.required ? 'is-invalid' : errors.primaryNumber.valid ? 'is-valid' : ''
+        errors.primaryNumber.required ? 'is-invalid' : ''
       }`}
       placeholder="Example 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -881,8 +904,8 @@ export const AddForex = () => {
 
   <input
     type="text"
-    className={`form-control rounded-1 ${
-      errors.whatsAppNumber.required ? 'is-invalid' : errors.whatsAppNumber.valid ? 'is-valid' : ''
+    className={`form-control  ${
+      errors.whatsAppNumber.required ? 'is-invalid' :  ''
     }`}
     placeholder="Example 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -908,17 +931,23 @@ export const AddForex = () => {
                         University Name<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-capitalize ${errors.universityName.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="universityName"
-                        value={forex?.universityName}
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter Student ID"
+                        placeholder="Example Stanford University"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        value={forex?.universityName}
                       />
                       {errors.universityName.required ? (
                         <div className="text-danger form-text">
@@ -926,7 +955,7 @@ export const AddForex = () => {
                         </div>
                       ) : errors.universityName.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid universityName.
+                          This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -936,16 +965,22 @@ export const AddForex = () => {
                         Course<span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-capitalize ${errors.courseType.required ? 'is-invalid' : ''}`}
                         id="inputstudentid"
                         name="courseType"
-                        value={forex?.courseType}
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter Course"
+                        placeholder="Example Machine Learning"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        value={forex?.courseType}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.courseType.required ? (
@@ -960,15 +995,15 @@ export const AddForex = () => {
                         Payment Type<span className="text-danger">*</span>{" "}
                       </label>
                       <select
-                        className="form-select form-select-lg"
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.paymentType.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
-                        value={forex?.paymentType}
                         name="paymentType"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
                         id="inputpayment"
+                        value={forex?.paymentType}
                       >
                         <option>Payment Type</option>
                         <option value="Tuition_Fees"> Tuition Fees</option>
@@ -993,14 +1028,14 @@ export const AddForex = () => {
                         Country<span className="text-danger">*</span>
                       </label>
                       <select
-                        className="form-select rounded-2 p-2"
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.country.required ? 'is-invalid' : ''} `}
                         name="country"
-                        value={forex?.country}
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
                         onChange={handleInputs}
+                        
                       >
                         <option value="" disabled hidden>
                           Select Country
@@ -1035,7 +1070,7 @@ export const AddForex = () => {
       />
     )}
     <input
-      className="form-control rounded-2"
+      className={`form-control rounded-1 ${errors.currency.required ? 'is-invalid' : ''}`}
       type="text"
       name="currency"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -1043,12 +1078,13 @@ export const AddForex = () => {
       onChange={handleInputs}
       readOnly
     />
-    {errors.currency.required && (
+    
+  </div>
+  {errors.currency.required && (
       <div className="text-danger form-text">
         This field is required.
       </div>
     )}
-  </div>
                     </div>
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -1056,17 +1092,17 @@ export const AddForex = () => {
                         Assigned To <span className="text-danger">*</span>
                       </label>
                       <select
-                        className="form-select form-select-lg"
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${errors.assignedTo.required ? 'is-invalid' : ''} `}
                         onChange={handleInputs}
-                        value={forex?.assignedTo}
                         name="assignedTo"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        value={forex?.assignedTo}
                         id="inputassignedto"
                       >
-                        <option>Assigned To</option>
+                        <option>Select User</option>
                         <option>Agent</option>
                         <option>Admin</option>
                       </select>
@@ -1082,16 +1118,21 @@ export const AddForex = () => {
                         Value<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-capitalize ${errors.value.required ?  'is-invalid' : ''}`}
                         id="inputamount"
                         name="value"
-                        value={forex?.value}
                         onChange={handleInputs}
+                        value={forex?.value}
                         type="number"
-                        placeholder="Enter Mark up"
+                        placeholder="Example 20"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.value.required ? (
@@ -1106,16 +1147,21 @@ export const AddForex = () => {
                         Mark up<span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-capitalize ${errors.markUp.required ? 'is-invalid' : ''}`}
                         id="inputamount"
                         name="markUp"
-                        value={forex?.markUp}
                         onChange={handleInputs}
+                        value={forex?.markUp}
                         type="text"
-                        placeholder="Enter Mark up"
+                        placeholder="Example 10"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.markUp.required ? (
@@ -1131,16 +1177,21 @@ export const AddForex = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control rounded-2"
+                        className={`form-control rounded-1 text-capitalize ${errors.profit.required ?  'is-invalid' : ''}`}
                         id="inputamount"
-                        value={forex?.profit}
                         onChange={handleInputs}
+                        value={forex?.profit}
                         name="profit"
                         type="text"
-                        placeholder="Enter Profit"
+                        placeholder="Example 200"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.profit.required ? (

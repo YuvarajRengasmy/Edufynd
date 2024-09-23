@@ -226,6 +226,7 @@ const getallClientCount = ()=>{
       Promise.all(selectedIds.map((id) => activeClient(id)))
       // Promise.all(selectedIds.map((id) => updateClient(id)))
         .then((responses) => {
+          console.log("rajaram",responses);
           toast.success("Client activated successfully!");
           setSelectedIds([]);
           getClientList();
@@ -1541,7 +1542,7 @@ const getallClientCount = ()=>{
             </div>
             <div className="d-flex justify-content-end">
               <Link
-                to="/ListClient"
+                to="#"
                 className="btn btn-cancel border-0 rounded-1 text-uppercase  fw-semibold text-white"
                 style={{
                   backgroundColor: "#231f20",

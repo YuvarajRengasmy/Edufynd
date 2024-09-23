@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getSingleProgram, getallProgram } from "../../api/Program";
+import { getSingleProgram, getallProgram,getSingleProgramLog} from "../../api/Program";
 import {saveApplication} from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
 import { Link, useLocation,useNavigate } from "react-router-dom";
@@ -9,8 +9,8 @@ import Sidebar from "../../compoents/sidebar";
 import Flags from "react-world-flags";
 import { Pagination } from "@mui/material";
 import { toast } from 'react-toastify';
-import { University } from "../../api/endpoints";
-import { RichTextEditor } from "@mantine/rte";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import BackButton from "../../compoents/backButton";
 export const Course = () => {
   const location = useLocation();
@@ -48,11 +48,10 @@ const initialStateErrors = {
   const [errors, setErrors] = useState(initialStateErrors);
   const pageSize = 5;
   const navigate = useNavigate();
-
   const [student, setStudent] = useState([]);
   const [input, setInput] = useState([]);
   const [inputs, setInputs] = useState(initialState);
-
+  const [logs, setLogs] = useState([]);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -60,6 +59,7 @@ const initialStateErrors = {
   });
   useEffect(() => {
     getProgramDetails();
+     getUniversityLogs();
     getAllStudentDetails();
   }, []);
   useEffect(() => {
@@ -80,6 +80,18 @@ const initialStateErrors = {
           ...pagination,
           count: res?.data?.result?.programCount,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+;
+
+  const getUniversityLogs = () => {
+    getSingleProgramLog(id)
+      .then((res) => {
+        setLogs(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -497,10 +509,15 @@ const handleSubmit = (event) => {
                                 aria-labelledby="home-tab"
                               >
                                 <p style={{ textAlign: "justify" }}>
-                                  <RichTextEditor
-                                    value={program?.academicRequirement  || "Not Available"}
-                                    readOnly
-                                  />
+                                  
+                                   <CKEditor
+        editor={ClassicEditor}
+        data={program?.academicRequirement  || "Not Available"} 
+        disabled={true}                    
+        config={{
+          toolbar: [],                   
+        }}
+      />
                                 </p>
                               </div>
                               <div
@@ -1090,43 +1107,38 @@ const handleSubmit = (event) => {
   <div className="row ">
     <div className="col-12 col-lg-7 col-auto">
       <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
+        {logs.map((log, index) => (
+           <li className="mb-4 position-relative" key={index}>
+           <div className="row align-items-start g-0">
 
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
-              </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
-            </div>
-          </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
+             <div className="col-1 d-flex justify-content-center align-items-center">
+               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                 <i className="fas fa-check" />
+               </div>
+             </div>
+             <div className="col-4 text-center">
+               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
+               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
+             </div>
+
+             <div className="col-12">
+               {log.changes.map((change, changeIndex) => (
+                 <div key={changeIndex} className="mb-3">
+                   <div className="bg-success text-white rounded-3 p-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
+                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
+                   </div>
+                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
+                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+         </li>
+        ))}
       </ul>
     </div>
   </div>

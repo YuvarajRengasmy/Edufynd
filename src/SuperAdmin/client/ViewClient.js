@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { getSingleClient } from "../../api/client";
+import { getSingleClient,getSingleClientLog } from "../../api/client";
 import { Link, useLocation } from "react-router-dom";
 import { useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -11,6 +11,9 @@ const ItemTypes = {
 };
 
 const DraggableRow = ({ index, id, moveRow, label, value }) => {
+
+ 
+
   const ref = useRef(null);
 
   const [, drop] = useDrop({
@@ -59,6 +62,22 @@ const AddAgent = () => {
   const [client, setClient] = useState(null);
   const [rows, setRows] = useState([]);
 
+  const [logs, setLogs] = useState([]);
+
+
+  useEffect(() => {
+    getUniversityLogs();
+  }, [id]);
+
+  const getUniversityLogs = () => {
+    getSingleClientLog(id)
+      .then((res) => {
+        setLogs(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     getClientDetails();
   }, []);
@@ -181,47 +200,42 @@ const AddAgent = () => {
             </div>
           </div>
 
-        <div className="container-fluid my-2">
+          <div className="container-fluid my-2">
   <div className="row ">
     <div className="col-12 col-lg-7 col-auto">
       <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
+        {logs.map((log, index) => (
+           <li className="mb-4 position-relative" key={index}>
+           <div className="row align-items-start g-0">
 
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
-              </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
-            </div>
-          </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
+             <div className="col-1 d-flex justify-content-center align-items-center">
+               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                 <i className="fas fa-check" />
+               </div>
+             </div>
+             <div className="col-4 text-center">
+               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
+               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
+             </div>
+
+             <div className="col-12">
+               {log.changes.map((change, changeIndex) => (
+                 <div key={changeIndex} className="mb-3">
+                   <div className="bg-success text-white rounded-3 p-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
+                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
+                   </div>
+                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
+                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+         </li>
+        ))}
       </ul>
     </div>
   </div>

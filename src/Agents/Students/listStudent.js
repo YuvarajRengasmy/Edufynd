@@ -1,60 +1,73 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent } from "../../api/student";
-import { Link } from "react-router-dom";
+import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent,updateStudent } from "../../api/student";
+import { Link, useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
-
+import { getSuperAdminForSearch } from "../../api/superAdmin";
 import Mastersidebar from "../../compoents/AgentSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { formatDate } from "../../Utils/DateFormat";
-
 import { toast } from "react-toastify";
 import { getStudentId, } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
-
-
-
+import { getAllApplicantCard } from "../../api/applicatin";
 
 export default function Masterproductlist() {
 
-
   const initialStateInputs = {
-    name: "",
-    programTitle: "",
-    applicationFee: "",
-    courseFee: "",
-  
+    name: "",   
+email:"",
+studentCode:"",
+primaryNumber:"" 
   };
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
   const [file, setFile] = useState(null);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
+  const [filter, setFilter] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
-  // const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
+  const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
-
-  const [student, setStudent] = useState();
-
+  const [student, setStudent] = useState([]);
+  const [detail, setDetail] = useState();
+  const [details, setDetails] = useState();
   useEffect(() => {
     getAllStudentDetails();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to,pageSize]);
 
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
   const getAllStudentDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
       studentId:getStudentId,
       superAdminId:getStudentId,
     
-
     };
     getFilterStudentAdmin(data)
     
@@ -72,10 +85,23 @@ export default function Masterproductlist() {
       console.log(err);
     });
   };
+
+  useEffect(() => {
+    getallApplicantCount();
+   
+  }, []);
+  
+  const getallApplicantCount = ()=>{
+    getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+  }
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
+  };
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
   };
   const openPopup = (data) => {
     setOpen(true);
@@ -106,32 +132,36 @@ export default function Masterproductlist() {
   };
   const filterStudentList = (event) => {
     event?.preventDefault();
-    // setFilter(true);
+     setFilter(true);
     const data = {
-      universityName: inputs.universityName,
-      programTitle: inputs.programTitle,
-      applicationFee: inputs.applicationFee,
-      courseFee: inputs.courseFee,
-      limit: 10,
-      page: pagination.from,
+         name:inputs.name,
+         email:inputs.email,
+         studentCode:inputs.studentCode,
+         primaryNumber:inputs.primaryNumber,
+         limit: 10,
+        page: pagination.from,
+        studentId:getStudentId,
+        superAdminId:getStudentId,
 
     };
     getFilterStudent(data)
-      .then((res) => {
-        setStudent(res?.data?.result?.programList);
-        setPagination({
-          ...pagination,
-          count: res?.data?.result?.programCount,
-        });
-        closeFilterPopup();
-      })
-      .catch((err) => {
-        console.log(err);
+    .then((res) => {
+      const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
       });
+      setStudent(sortedStudents);
+      setPagination({
+        ...pagination,
+        count: res?.data?.result?.studentCount,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   const resetFilter = () => {
-    // setFilter(false);
+    setFilter(false);
     setInputs(initialStateInputs);
     getAllStudentDetails();
   };
@@ -147,6 +177,26 @@ export default function Masterproductlist() {
     setOpenImport(false);
   };
 
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.studentList;
+        setStudent(universityList);
+        const result = universityList.length ? "Student" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -155,7 +205,7 @@ export default function Masterproductlist() {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('program', file);
+    formData.append('student', file);
 
     try {
       const response = await axios.post('https://api.edufynd.in/api/student/import', formData, {
@@ -169,11 +219,9 @@ export default function Masterproductlist() {
     }
   };
 
-
-
   const pdfDownload = (event) => {
     event?.preventDefault();
-    getFilterStudent(student)
+    getallStudent(student)
       .then((res) => {
         var result = res?.data?.result;
         var tablebody = [];
@@ -186,35 +234,35 @@ export default function Masterproductlist() {
             bold: true,
           },
           {
-            text: "University Name",
+            text: "StudentName",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Program Title",
+            text: "Email",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Application Fees",
+            text: "MobileNumber",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Course Fees",
+            text: "Country",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Campus",
+            text: "Gender",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -232,32 +280,32 @@ export default function Masterproductlist() {
               border: [true, false, true, true],
             },
             {
-              text: element?.universityName ?? "-",
+              text: element?.name ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.programTitle ?? "-",
+              text: element?.email ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
 
             {
-              text: element?.applicationFee ?? "-",
+              text: element?.primaryNumber ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.courseFee ?? "-",
+              text: element?.citizenship?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.campus ?? "-",
+              text: element?.gender ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -273,42 +321,40 @@ export default function Masterproductlist() {
 
   const exportCsv = (event) => {
     event?.preventDefault();
-    getFilterStudent(student)
+    getallStudent(student)
       .then((res) => {
         var result = res?.data?.result;
         let list = [];
         result?.forEach((res) => {
           list.push({
-          universityName: res?.universityName ?? "-",
-          programTitle: res?.programTitle ?? "-",
-          applicationFee: res?.applicationFee ?? "-",
-          courseFee: res?.courseFee ?? "-",
-          campus: res?.campus ?? "-",
+          name: res?.name ?? "-",
+          email: res?.email ?? "-",
+          primaryNumber: res?.primaryNumber ?? "-",
+          citizenship: res?.citizenship ?? "-",
+          gender: res?.gender ?? "-",
            
-
           });
         });
         let header1 = [
-          "universityName",
-          "programTitle",
-          "applicationFee",
-          "courseFee",
-          "campus",
+          "name",
+          "email",
+          "primaryNumber",
+          "cityizenship",
+          "gender",
    
-
         ];
         let header2 = [
-          "University Name",
-          "Program Title",
-          "Application Fees",
-          "Course Fees",
-          "Campus",
+          "StudentName",
+          "email",
+          "MobileNumber",
+          "Country",
+          "Gender",
        
         ];
         ExportCsvService.downloadCsv(
           list,
-          "programList",
-          "Program List",
+          "studentList",
+          "student List",
 
           header1,
           header2
@@ -347,19 +393,67 @@ export default function Masterproductlist() {
     };
   }, []);
 
-
-  const [statuses, setStatuses] = useState(
-    (student && Array.isArray(student)) ? student.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-  );
-  
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [index]: !prevStatuses[index],
-    }));
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
   };
 
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = student.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
+      // deleteSelectedstudent();
+    } else if (action === "Activate") {
+      activateSelectedStudent();
+    }
+  };
+ 
+  const deleteSelectedStudent = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) =>deleteStudent(id)))
+        .then((responses) => {
+          toast.success("student deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllStudentDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete student.");
+        });
+    } else {
+      toast.warning("No student selected.");
+    }
+  };
+
+  const activateSelectedStudent = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updateStudent(id,{ active: true })))
+        .then((responses) => {
+          toast.success("student activated successfully!");
+          setSelectedIds([]);
+          getAllStudentDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate student.");
+        });
+    } else {
+      toast.warning("No student selected.");
+    }
+  };
 
   return (
     <>
@@ -367,37 +461,40 @@ export default function Masterproductlist() {
       
           <Mastersidebar />
         
-      
-
       <div className="content-wrapper" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '14px' }}>
       <div className="content-header bg-light shadow-sm sticky-top">
   <div className="container">
     <div className="row">
       <div className="col-xl-12">
         <ol className="d-flex justify-content-end align-items-center mb-0 list-unstyled">
-          <li className="flex-grow-1">
-            <div className="input-group" style={{ maxWidth: "600px" }}>
-              <input
-                type="search"
-                placeholder="Search"
-                aria-describedby="button-addon3"
-                className="form-control border-1 border-dark rounded-4"
-                style={{ fontSize: "12px" }} // Keep the font size if it's correct
-              />
-              <span
-                className="input-group-text bg-transparent border-0"
-                id="button-addon3"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer"
-                }}
-              >
-                <i className="fas fa-search" style={{ color: "black" }}></i>
-              </span>
-            </div>
+        <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
           </li>
           <li className="m-1">
             <button
@@ -423,7 +520,7 @@ export default function Masterproductlist() {
                   <input
                     type="text"
                     className="form-control"
-                    name="studentName"
+                    name="name"
                     onChange={handleInputs}
                     placeholder="Search...Student Name"
                     style={{ fontSize: '12px' }}
@@ -437,6 +534,15 @@ export default function Masterproductlist() {
                     placeholder="Search...Student Code"
                     style={{ fontSize: '12px' }}
                   />
+                  <label className="form-label">primaryNumber</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="primaryNumber"
+                    onChange={handleInputs}
+                    placeholder="Search...Student Code"
+                    style={{ fontSize: '12px' }}
+                  />
                   <label className="form-label">Email</label>
                   <input
                     type="text"
@@ -446,15 +552,7 @@ export default function Masterproductlist() {
                     placeholder="Search...Email"
                     style={{ fontSize: '12px' }}
                   />
-                  <label className="form-label">Status</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="status"
-                    onChange={handleInputs}
-                    placeholder="Search...Status"
-                    style={{ fontSize: '12px' }}
-                  />
+                  
                 </div>
                 <div>
                   <button
@@ -524,8 +622,6 @@ export default function Masterproductlist() {
   </div>
 </div>
 
-
-
 <div className="container mt-3 " >
       <div className="row ">
         {/* Application Submitted Card */}
@@ -535,12 +631,11 @@ export default function Masterproductlist() {
             <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#4CAF50', color: '#fff' }}>
               <div className="card-body text-center">
                 <h6><i className="fas fa-paper-plane"></i>&nbsp;&nbsp;Application Submitted</h6>
-                <p className="card-text">45</p>
+                <p className="card-text">{detail?.totalApplication}</p>
               </div>
             </div>
           </Link>
         </div>
-
         {/* Offered and Rejected Card */}
         <div className="col-md-3 ">
           <Link to="#" className="text-decoration-none">
@@ -612,33 +707,82 @@ export default function Masterproductlist() {
       </div>
     </div>
         
-        
             <div className="container">
             <div className="row">
               <div className="col-xl-12">
      
        <div className="card  rounded-1 shadow-sm border-0">
        <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                         Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                         
-                        </p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
+                          </p>
+                    </div>
+
+                    <div>
+                    
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      
-                      </div>
+                    </div>
                   </div>
+                </div>
          <div className="card-body">
-           <div className="card-table">
+
+         <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="card-table">
              <div className="table-responsive">
 
                <table className=" table table-hover card-table dataTable text-center" style={{ color: '#9265cc', fontSize: '13px' }}
@@ -646,15 +790,21 @@ export default function Masterproductlist() {
                  <thead className="table-light">
                    <tr  style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
                    <th className=" text-start">
-                            <input type="checkbox" />
+                   <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === student.length
+                                    }
+                                  />
                             </th>
                      <th className="text-capitalize text-start sortable-handle">S No</th>
-                     <th className="text-capitalize text-start sortable-handle"> Name</th>
                      <th className="text-capitalize text-start sortable-handle"> Code</th>
-                  
+                     <th className="text-capitalize text-start sortable-handle"> Name</th>
+                    
                      <th className="text-capitalize text-start sortable-handle">Email</th>
                      <th className="text-capitalize text-start  sortable-handle">Mobile Number</th>
-                     <th className="text-capitalize text-start sortable-handle">Created by</th>
+                     <th className="text-capitalize text-start sortable-handle">Created At</th>
                      <th className="text-capitalize text-start sortable-handle">Status</th>
                    
                      <th className="text-capitalize text-start sortable-handle">Action</th>
@@ -664,26 +814,29 @@ export default function Masterproductlist() {
                    {student?.map((data, index) => (
                      <tr key={index}  style={{backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}>
                       <td className=" text-start">
-                              <input type="checkbox" />
+                      <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                               </td>
                        <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
-                       <td className="text-capitalize text-start text-truncate">{data?.name?data?.name: data?.superAdminId?.studentName  || "Not Available"}</td>
+                      
                        <td className="text-capitalize text-start text-truncate">{data?.studentCode  || "Not Available"}</td>
+                       <td className="text-capitalize text-start text-truncate">{data?.name?data?.name: data?.superAdminId?.studentName  || "Not Available"}</td>
                       
                        <td className=" text-start text-truncate">{data?.email}</td>
                        <td className="text-capitalize text-start text-truncate">{data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null  || "Not Available"}</td>
                        
                        <td className="text-capitalize text-start text-truncate" >{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)  || "Not Available"}</td>
                        <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
+           
             <span className="form-check form-switch d-inline ms-2" >
               <input
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
+                
               />
             </span>
           </td>
@@ -709,7 +862,7 @@ export default function Masterproductlist() {
                              <i className="far fa-edit text-warning me-1"></i>
 
                            </Link>
-                           <button
+                           <Link
                              className="dropdown-item"
                              onClick={() => {
                                openPopup(data?._id);
@@ -717,7 +870,7 @@ export default function Masterproductlist() {
                            >
                              <i className="far fa-trash-alt text-danger me-1"></i>
 
-                           </button>
+                           </Link>
                          </div>
                         
                        </td>
@@ -728,20 +881,150 @@ export default function Masterproductlist() {
                </table>
              </div>
            </div>
-           <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+</div>
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {student?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}> 
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0">{data?.name?data?.name: data?.superAdminId?.studentName  || "Not Available"}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Student ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.studentCode  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Email</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.email}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Primary No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.mobileNumber?data?.mobileNumber:data?.whatsAppNumber?data?.whatsAppNumber:null  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Created At</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 ">
+                
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                
+              />
+            </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                             className="btn btn-sm btn-outline-primary"
+                             to={{
+                               pathname: "/agent_view_student",
+                               search: `?id=${data?._id}`,
+                             }}
+                           >
+                             <i className="far fa-eye text-primary me-1"></i>
+
+                           </Link>
+                           <Link
+                             className="btn btn-sm btn-outline-warning"
+                             to={{
+                               pathname: "/agent_edit_student",
+                               search: `?id=${data?._id}`,
+                             }}
+                           >
+                             <i className="far fa-edit text-warning me-1"></i>
+
+                           </Link>
+                           <Link
+                             className="btn btn-sm btn-outline-danger"
+                             onClick={() => {
+                               openPopup(data?._id);
+                             }}
+                           >
+                             <i className="far fa-trash-alt text-danger me-1"></i>
+
+                           </Link>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+                    </div>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}
@@ -757,11 +1040,8 @@ export default function Masterproductlist() {
               </div>
             </div>
          
-         
-       
       </div>
              
-   
          <Dialog open={open}>
    <DialogContent>
      <div className="text-center m-4">
@@ -787,6 +1067,35 @@ export default function Masterproductlist() {
      </div>
    </DialogContent>
  </Dialog>
+
+ <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedStudent}
+                     
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
+
  <Dialog open={openFilter} fullWidth maxWidth="sm">
    <DialogTitle>
      Filter Student
@@ -800,7 +1109,7 @@ export default function Masterproductlist() {
  </Dialog>
  <Dialog open={openImport} fullWidth maxWidth="sm">
    <DialogTitle>
-    Upload Program List
+    Upload student List
      <IconButton className="float-right" onClick={closeImportPopup}>
        <i className="fa fa-times fa-xs" aria-hidden="true"></i>
      </IconButton>
@@ -821,7 +1130,7 @@ export default function Masterproductlist() {
        </div>
        <div>
          <Link
-           to="/ListUniversity"
+           to="#"
            className="btn btn-cancel border-0 rounded-pill text-white  fw-semibold  px-3 py-1 float-right bg"
            style={{ backgroundColor: "#0f2239" }}
 
@@ -842,9 +1151,6 @@ export default function Masterproductlist() {
    </DialogContent>
  </Dialog>
               
-        
-   
-    
     </div>
     </>
   );

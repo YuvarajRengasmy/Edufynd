@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/StaffSidebar";
-import { getSingleStudent } from "../../api/student";
+import { getSingleStudent,getSingleStudentLog } from "../../api/student";
 import { getallCurrency } from "../../api/currency";
 import {
   getallProgram,
@@ -12,8 +12,7 @@ import { getallUniversity } from "../../api/university";
 import { saveApplication } from "../../api/applicatin";
 import { getallIntake } from "../../api/intake";
 import { formatYear } from "../../Utils/DateFormat";
-import {getStaffId } from "../../Utils/storage";
-import {  getSingleStaff } from "../../api/staff";
+
 import { toast } from "react-toastify";
 import { getMonthYear } from "../../Utils/DateFormat";
 import {
@@ -53,7 +52,7 @@ function Profile() {
     programTitle: "",
     campus: "",
     courseFees: "",
-    applicationFee:"",
+    applicationFee: "",
     courseType: "",
   };
   const initialStateErrors = {
@@ -77,7 +76,9 @@ function Profile() {
   const [inputs, setInputs] = useState(initialStateInputs);
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
-  const [staff,setStaff] = useState(null);
+  const [logs, setLogs] = useState([]);
+
+  const [staff, setStaff] = useState(null);
   const [programs, setPrograms] = useState([]);
   const [universities, setUniversities] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -95,24 +96,24 @@ function Profile() {
   const [student, setStudent] = useState({});
   const [application, setApplication] = useState([]);
 
+
   useEffect(() => {
-    getApplicationList();
-    getStaffDetails();
-  }, [pagination.from, pagination.to]);
+    getUniversityLogs();
+  }, [studentId]);
 
-
-
-  const getStaffDetails = () => {
-    const id = getStaffId();
-    getSingleStaff(id)
+  const getUniversityLogs = () => {
+    getSingleStudentLog(studentId)
       .then((res) => {
-        console.log("yuvi", res);
-        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+        setLogs(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  useEffect(() => {
+    getApplicationList();
+  }, [pagination.from, pagination.to]);
+
   const getApplicationList = () => {
     getStudentApplication(studentId)
       .then((res) => {
@@ -267,9 +268,10 @@ function Profile() {
   };
 
   const handleInputs = (event) => {
+    console.log("balan", event);
     const { name, value } = event.target;
     setInputs((prevInputs) => ({ ...prevInputs, [name]: value }));
-
+    console.log("balangfd", setInputs);
     if (submitted) {
       const newError = handleValidation({ ...inputs, [name]: value });
       setErrors(newError);
@@ -284,20 +286,20 @@ function Profile() {
     event.preventDefault();
     setSubmitted(true);
     if (handleErrors(errors)) {
-      saveApplication({...inputs,
-        staffId:staff._id,
-       adminId:staff.adminId,
-       name: student?.name,
-          dob: student?.dob,
-          passportNo: student?.passportNo,
-          studentId: student?._id,
-          email: student?.email,
-          primaryNumber: student?.primaryNumber,
-          whatsAppNumber: student?.whatsAppNumber,
+      saveApplication({
+        ...inputs,
+
+        name: student?.name,
+        dob: student?.dob,
+        passportNo: student?.passportNo,
+        studentId: student?._id,
+        email: student?.email,
+        primaryNumber: student?.primaryNumber,
+        whatsAppNumber: student?.whatsAppNumber,
       })
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/staff_list_application");
+          getStudentDetails();
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -330,74 +332,27 @@ function Profile() {
         <div className="content-header ">
           <BackButton />
 
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb float-end">
-              <li className="breadcrumb-item">
-                <Link
-                  to="/DashBoard"
-                  target="_self"
-                  className="text-decoration-none"
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link to="/list_student" className="text-decoration-none">
-                  ListSudent
-                </Link>
-              </li>
-              {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-              <li className="breadcrumb-item">
-                <Link
-                  to={{
-                    pathname: "/edit_student",
-                    search: `?studentId=${student?._id}`,
-                  }}
-                  className="text-decoration-none"
-                >
-                  EditStudent
-                </Link>
-              </li>
-            </ol>
-          </nav>
-
+          
           <div className="container-fluid">
-            <h2 className="mb-4 text-center">Student Details</h2>
+            <div className="container-fluid">
+              <h2 className="text-center mb-4">Student Details</h2>
 
-            <div className="row mb-4">
-              <div className="col-md-4 text-center">
-                <img
-                  src={
-                    student?.photo
-                      ? student?.photo
-                      : "https://via.placeholder.com/150"
-                  }
-                  alt="Profile Photo"
-                  className="img-fluid rounded-circle img-thumbnail"
-                  style={{ width: "10rem", height: "10rem" }}
-                />
-              </div>
+              <div className="row mb-4 align-items-center">
+                <div className="col-md-2 text-center">
+                  <img
+                    src={student?.photo || "https://via.placeholder.com/150"}
+                    alt="Profile Photo"
+                    className="img-fluid rounded-circle border border-primary mb-3 my-auto"
+                    style={{ width: "120px", height: "120px" }}
+                  />
+                  <h3>{student?.name || "Not Available"}</h3>
+                  <p className="text-muted">
+                    {student?.studentCode || "Not Available"}
+                  </p>
+                </div>
 
-              <div className="col-md-4">
-                <h3 className="mb-2">{student?.name || "Not Available"}</h3>
-                <p className="text-muted mb-2">
-                  Student Code: {student?.studentCode || "Not Available"}
-                </p>
-                <p className="text-muted mb-2">
-                  <i className="fas fa-envelope me-2"></i>
-                  {student?.email || "Not Available"}
-                </p>
-                <p className="text-muted mb-2">
-                  <i className="fas fa-phone-alt me-2"></i>
-                  {student?.primaryNumber || "Not Available"}
-                </p>
-              </div>
-              <div className="col-md-4">
-                <div className="card card-body border-0 p-4">
-                  <h6 className="fw-semibold text-center">
-                    Application Submission
-                  </h6>
-                  <p className="card-text text-center my-2">
+                <div className="col-md-10">
+                  <div className="text-end">
                     <Link
                       to=""
                       className="btn btn-sm px-4 py-2 text-uppercase fw-semibold"
@@ -410,724 +365,695 @@ function Profile() {
                     >
                       Apply
                     </Link>
-                  </p>
-                </div>
-                <div
-                  class="modal fade"
-                  id="ApplyStudentUniversity"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog modal-fullscreen">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1
-                          class="modal-title fs-5"
-                          studentId="exampleModalLabel"
-                        >
-                          Course Apply
-                        </h1>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
+                  </div>
+
+                  <ul
+                    className="nav nav-pills mb-3"
+                    id="studentTabs"
+                    role="tablist"
+                  >
+                    <li className="nav-item" role="presentation">
+                      <a
+                        className="nav-link active"
+                        id="basic-info-tab"
+                        data-bs-toggle="tab"
+                        href="#basic-info"
+                        role="tab"
+                        aria-controls="basic-info"
+                        aria-selected="true"
+                      >
+                        Basic Info
+                      </a>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <a
+                        className="nav-link"
+                        id="academic-info-tab"
+                        data-bs-toggle="tab"
+                        href="#academic-info"
+                        role="tab"
+                        aria-controls="academic-info"
+                        aria-selected="false"
+                      >
+                        Academic Info
+                      </a>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <a
+                        className="nav-link"
+                        id="test-info-tab"
+                        data-bs-toggle="tab"
+                        href="#test-info"
+                        role="tab"
+                        aria-controls="test-info"
+                        aria-selected="false"
+                      >
+                        Test Info
+                      </a>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <a
+                        className="nav-link"
+                        id="travel-info-tab"
+                        data-bs-toggle="tab"
+                        href="#travel-info"
+                        role="tab"
+                        aria-controls="travel-info"
+                        aria-selected="false"
+                      >
+                        Travel & Visa
+                      </a>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                      <a
+                        className="nav-link"
+                        id="finance-info-tab"
+                        data-bs-toggle="tab"
+                        href="#finance-info"
+                        role="tab"
+                        aria-controls="finance-info"
+                        aria-selected="false"
+                      >
+                        Finance & Additional Info
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div className="tab-content" id="studentTabsContent">
+                    <div
+                      className="tab-pane fade show active"
+                      id="basic-info"
+                      role="tabpanel"
+                      aria-labelledby="basic-info-tab"
+                    >
+                      <div className="card mb-3">
+                        <div className="card-body">
+                          <p>
+                            <strong>Date of Birth:</strong>{" "}
+                            {student?.dob || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Passport Number:</strong>{" "}
+                            {student?.passportNo || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Expiry Date:</strong>{" "}
+                            {student?.expiryDate || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Citizenship:</strong>{" "}
+                            {student?.citizenship || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Gender:</strong>{" "}
+                            {student?.gender || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>PrimaryNumber:</strong>{" "}
+                            {student?.dial2}-{student?.primaryNumber || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>WhatsApp Number:</strong>{" "}
+                           {student?.dial2}-{student?.whatsAppNumber || "Not Available"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className="tab-pane fade"
+                      id="academic-info"
+                      role="tabpanel"
+                      aria-labelledby="academic-info-tab"
+                    >
+                      <div className="card mb-3">
+                        <div className="card-body">
+                          <p>
+                            <strong>Highest Qualification:</strong>{" "}
+                            {student?.highestQualification || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Degree Name:</strong>{" "}
+                            {student?.degreeName || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Institution:</strong>{" "}
+                            {student?.institution || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Percentage:</strong>{" "}
+                            {student?.percentage || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Academic Year:</strong>{" "}
+                            {student?.academicYear || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Year Passed:</strong>{" "}
+                            {student?.yearPassed || "Not Available"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className="tab-pane fade"
+                      id="test-info"
+                      role="tabpanel"
+                      aria-labelledby="test-info-tab"
+                    >
+                      <div className="card mb-3">
+                        <div className="card-body">
+                          <p>
+                            <strong>Test Type:</strong>{" "}
+                            {student?.englishTestType || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Test Score:</strong>{" "}
+                            {student?.testScore || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Date of Test:</strong>{" "}
+                            {student?.dateOfTest || "Not Available"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className="tab-pane fade"
+                      id="travel-info"
+                      role="tabpanel"
+                      aria-labelledby="travel-info-tab"
+                    >
+                      <div className="card mb-3">
+                        <div className="card-body">
+                          <p>
+                            <strong>Travel History:</strong>{" "}
+                            {student?.doYouHaveTravelHistory || "Not Available"}
+                          </p>
+                          {student?.doYouHaveTravelHistory === "Yes" && (
+  <>
+    <p>
+      <strong>Travel Date:</strong> {student?.date || "Not Available"}
+    </p>
+    <p>
+      <strong>Purpose:</strong> {student?.purpose || "Not Available"}
+    </p>
+    <p>
+      <strong>Country Name:</strong> {student?.countryName || "Not Available"}
+    </p>
+  </>
+)}
+                        </div>
                       </div>
 
-                      <form onSubmit={handleSubmit}>
-                        <div className="modal-body">
-                          <div className="container">
-                            <div className="row g-4">
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Country<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select font-weight-light"
-                                  name="country"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "14px",
-                                  }}
-                                  value={inputs.country}
-                                  onChange={handleCountryChange}
-                                >
-                                  <option value="">Select Country</option>
-                                  {[
-                                    ...new Set(
-                                      universities.map((uni) => uni.country)
-                                    ),
-                                  ].map((country, index) => (
-                                    <option key={index} value={country}>
-                                      {country}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.country.required && (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                )}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  University
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select font-weight-light"
-                                  name="universityName"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "14px",
-                                  }}
-                                  value={inputs.universityName}
-                                  onChange={handleUniversityChange}
-                                >
-                                  <option value="">Select University</option>
-                                  {universities.map((uni) => (
-                                    <option
-                                      key={uni._id}
-                                      value={uni.universityName}
-                                    >
-                                      {uni.universityName}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.universityName.required && (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                )}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Program<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select font-weight-light"
-                                  name="programTitle"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "14px",
-                                  }}
-                                  value={inputs.programTitle}
-                                  onChange={handleProgramChange}
-                                >
-                                  <option value="">Select Program</option>
-                                  {programs.map((program) => (
-                                    <option
-                                      key={program._id}
-                                      value={program.programTitle}
-                                    >
-                                      {program.programTitle}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.programTitle.required && (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                )}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Campus<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select font-weight-light"
-                                  name="campus"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "14px",
-                                  }}
-                                  value={inputs.campus}
-                                  onChange={handleInputs}
-                                >
-                                  <option value="">Select Campus</option>
-                                
-                                  {[
-                                    ...new Set(
-                                      selectedProgram?.campuses?.map(
-                                        (campus) => campus.campus
-                                      )
-                                    ),
-                                  ].map((uniqueCampus, index) => (
-                                    <option key={index} value={uniqueCampus}>
-                                      {uniqueCampus}
-                                    </option>
-                                  ))}
-                                </select>
-                                {errors.campus.required && (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                )}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Intake<span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  className="form-select font-weight-light"
-                                  name="inTake"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "14px",
-                                  }}
-                                  value={inputs.inTake}
-                                  onChange={handleInputs}
-                                >
-                                  <option value="">Select Intake</option>
-
-                                  {[
-                                    ...new Set(
-                                      selectedProgram?.campuses?.map(
-                                        (campus) => campus.inTake
-                                      )
-                                    ),
-                                  ].map((uniqueCampus, index) => (
-                                    <option key={index} value={uniqueCampus}>
-                                      {uniqueCampus}
-                                    </option>
-                                  ))}
-                                 
-                                </select>
-                                {errors.inTake.required && (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                )}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
-                                <label style={{ color: "#231F20" }}>
-                                  Student Name
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  value={student?.name}
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Name"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  name="name"
-                                />
-                                {errors.name.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden  ">
-                                <label style={{ color: "#231F20" }}>
-                                  Student Id
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  value={student?._id}
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Student Id"
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  name="studentId"
-                                />
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  DOB<span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="date"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter DOB"
-                                  value={student?.dob?.slice(0, 10)}
-                                  onChange={handleInputs}
-                                  name="dob"
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.dob.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  Passport No
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Passport No"
-                                  value={student?.passportNo}
-                                  onChange={handleInputs}
-                                  name="passportNo"
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.passportNo.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  Email<span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Email"
-                                  name="email"
-                                  value={student?.email}
-
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.email.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  Primary Number
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Primary Number"
-                                  name="primaryNumber"
-                                  value={student?.primaryNumber}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.primaryNumber.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-                                <label style={{ color: "#231F20" }}>
-                                  WhatsApp Number
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter WhatsApp Number"
-                                  name="whatsAppNumber"
-                                  value={student?.whatsAppNumber}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.whatsAppNumber.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Course Type
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Course Type"
-                                  name="courseType"
-                                  value={inputs?.courseType}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.courseType.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                ApplicationFee
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 p-2"
-                                  placeholder="Enter Course Type"
-                                  name="applicationFee"
-                                  value={inputs?.applicationFee}
-                                  onChange={handleInputs}
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                />
-                                {errors.applicationFee.required ? (
-                                  <span className="text-danger form-text profile_error">
-                                    This field is required.
-                                  </span>
-                                ) : null}
-                              </div>
-                              {/* Add additional fields here */}
-                            </div>
-                          </div>
+                      <div className="card mb-3">
+                        <div className="card-body">
+                          <p>
+                            <strong>Visa Rejections:</strong>{" "}
+                            {student?.anyVisaRejections || "Not Available"}
+                          </p>
+                          {student?.anyVisaRejections === "Yes" &&
+                            <>
+                          <p>
+                            <strong>Visa Reason:</strong>{" "}
+                            {student?.visaReason || "No Visa Rejections"}
+                          </p>
+                          <p>
+                            <strong>Travel Date:</strong>{" "}
+                            {student?.dateVisa || "No Visa Rejections"}
+                          </p>
+                          <p>
+                            <strong>Purpose:</strong>{" "}
+                            {student?.purposeVisa || "No Visa Rejections"}
+                          </p>
+                          <p>
+                            <strong>Country:</strong>{" "}
+                            {student?.countryNameVisa || "No Visa Rejections"}
+                          </p>
+                          </>
+}
+                          
+                          
                         </div>
-                        <div className="modal-footer">
-                          <Link
-                            className="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            Close
-                          </Link>
-                          <button
-                            type="submit"
-                            data-bs-dismiss="modal"
-                            className="btn"
-                            style={{
-                              backgroundColor: "#fe5722",
-                              color: "#fff",
-                            }}
-                          >
-                            Submit
-                          </button>
+                      </div>
+                    </div>
+
+                    <div
+                      className="tab-pane fade"
+                      id="finance-info"
+                      role="tabpanel"
+                      aria-labelledby="finance-info-tab"
+                    >
+                      <div className="card mb-3">
+                        <div className="card-body">
+                          <p>
+                            <strong>Finance Information:</strong>{" "}
+                            {student?.finance || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Duration</strong>{" "}
+                            {student?.duration|| "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Last Employee</strong>{" "}
+                            {student?.lastEmployeer || "Not Available"}
+                          </p>
+                          <p>
+                            <strong>Last Duration</strong>{" "}
+                            {student?.lastDesignation || "Not Available"}
+                          </p>
                         </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="row mb-4">
-              <div className="col-lg-6">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-primary text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-info-circle me-2"></i> Basic
-                      Information
-                    </h5>
+            <div
+              class="modal fade"
+              id="ApplyStudentUniversity"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" studentId="exampleModalLabel">
+                      Course Apply
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      <strong>Source:</strong>{" "}
-                      {student?.source || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Date of Birth:</strong>{" "}
-                      {student?.dob || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Passport:</strong>{" "}
-                      {student?.passportNo || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Expiry Date:</strong>{" "}
-                      {student?.expiryDate || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Citizenship:</strong>{" "}
-                      {student?.citizenship || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Gender:</strong>{" "}
-                      {student?.gender || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>WhatsApp Number:</strong>{" "}
-                      {student?.whatsAppNumber || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
 
-              <div className="col-lg-6">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-success text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-graduation-cap me-2"></i> Academic
-                      Information
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      <strong>Highest Qualification:</strong>{" "}
-                      {student?.highestQualification || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Degree Name:</strong>{" "}
-                      {student?.degreeName || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Institution:</strong>{" "}
-                      {student?.institution || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Percentage:</strong>{" "}
-                      {student?.percentage || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Academic Year:</strong>{" "}
-                      {student?.academicYear || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Year Passed:</strong>{" "}
-                      {student?.yearPassed || "Not Available"}
-                    </li>
-                  </ul>
+                  <form onSubmit={handleSubmit}>
+                    <div className="modal-body">
+                      <div className="container">
+                        <div className="row g-4">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Country<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-select font-weight-light"
+                              name="country"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={inputs.country}
+                              onChange={handleCountryChange}
+                            >
+                              <option value="">Select Country</option>
+                              {[
+                                ...new Set(
+                                  universities.map((uni) => uni.country)
+                                ),
+                              ].map((country, index) => (
+                                <option key={index} value={country}>
+                                  {country}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.country.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              University
+                              <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-select font-weight-light"
+                              name="universityName"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={inputs.universityName}
+                              onChange={handleUniversityChange}
+                            >
+                              <option value="">Select University</option>
+                              {universities.map((uni) => (
+                                <option
+                                  key={uni._id}
+                                  value={uni.universityName}
+                                >
+                                  {uni.universityName}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.universityName.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Program<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-select font-weight-light"
+                              name="programTitle"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={inputs.programTitle}
+                              onChange={handleProgramChange}
+                            >
+                              <option value="">Select Program</option>
+                              {programs.map((program) => (
+                                <option
+                                  key={program._id}
+                                  value={program.programTitle}
+                                >
+                                  {program.programTitle}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.programTitle.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Campus<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-select font-weight-light"
+                              name="campus"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={inputs.campus}
+                              onChange={handleInputs}
+                            >
+                              <option value="">Select Campus</option>
+
+                              {[
+                                ...new Set(
+                                  selectedProgram?.campuses?.map(
+                                    (campus) => campus.campus
+                                  )
+                                ),
+                              ].map((uniqueCampus, index) => (
+                                <option key={index} value={uniqueCampus}>
+                                  {uniqueCampus}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.campus.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Intake<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className="form-select font-weight-light"
+                              name="inTake"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={inputs.inTake}
+                              onChange={handleInputs}
+                            >
+                              <option value="">Select Intake</option>
+
+                              {[
+                                ...new Set(
+                                  selectedProgram?.campuses?.map(
+                                    (campus) => campus.inTake
+                                  )
+                                ),
+                              ].map((uniqueCampus, index) => (
+                                <option key={index} value={uniqueCampus}>
+                                  {uniqueCampus}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.inTake.required && (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            )}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+                            <label style={{ color: "#231F20" }}>
+                              Student Name
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={student?.name}
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Name"
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="name"
+                            />
+                            {errors.name.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden  ">
+                            <label style={{ color: "#231F20" }}>
+                              Student Id
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              // type="text"
+                              value={student?._id}
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Student Id"
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="studentId"
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                            <label style={{ color: "#231F20" }}>
+                              DOB<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="date"
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter DOB"
+                              value={student?.dob?.slice(0, 10)}
+                              onChange={handleInputs}
+                              name="dob"
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.dob.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                            <label style={{ color: "#231F20" }}>
+                              Passport No
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Passport No"
+                              value={student?.passportNo}
+                              onChange={handleInputs}
+                              name="passportNo"
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.passportNo.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                            <label style={{ color: "#231F20" }}>
+                              Email<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Email"
+                              name="email"
+                              value={student?.email}
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.email.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                            <label style={{ color: "#231F20" }}>
+                              Primary Number
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Primary Number"
+                              name="primaryNumber"
+                              value={student?.primaryNumber}
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.primaryNumber.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                            <label style={{ color: "#231F20" }}>
+                              WhatsApp Number
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter WhatsApp Number"
+                              name="whatsAppNumber"
+                              value={student?.whatsAppNumber}
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.whatsAppNumber.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Course Type
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Course Type"
+                              name="courseType"
+                              value={inputs?.courseType}
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.courseType.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              ApplicationFee
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Course Type"
+                              name="applicationFee"
+                              value={inputs?.applicationFee}
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            />
+                            {errors.applicationFee.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          {/* Add additional fields here */}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <Link
+                        className="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </Link>
+                      <button
+                        type="submit"
+                        data-bs-dismiss="modal"
+                        className="btn"
+                        style={{
+                          backgroundColor: "#fe5722",
+                          color: "#fff",
+                        }}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
 
-            <div className="row mb-4">
-              <div className="col-lg-4">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-warning text-dark">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-file-alt me-2"></i> Test Type
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.englishTestType || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-4">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-warning text-dark">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-tachometer-alt me-2"></i> Test Score
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.testScore || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-4">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-warning text-dark">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-calendar-day me-2"></i> Date of Test
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.dateOfTest || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="row mb-4">
-              <div className="col-lg-4">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-info text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-globe me-2"></i> Desired Country
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.desiredCountry || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-4">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-info text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-university me-2"></i> Desired
-                      University
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.desiredUniversity || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-4">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-info text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-book me-2"></i> Desired Course
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.desiredCourse || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="row mb-4">
-              <div className="col-lg-6">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-danger text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-briefcase me-2"></i> Work Experience
-                    </h5>
-                  </div>
-
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      <strong>Total Year:</strong>{" "}
-                      {student?.duration || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Role:</strong>{" "}
-                      {student?.lastDesignation || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Company Name:</strong>{" "}
-                      {student?.lastEmployeer || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-danger text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-ban me-2"></i> Visa Rejections
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      <strong>VisaRejections:</strong>{" "}
-                      {student?.anyVisaRejections || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>VisaReason:</strong>{" "}
-                      {student?.visaReason || "No Visa Rejections"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Travel Date:</strong>{" "}
-                      {student?.dateVisa || "No Visa Rejections"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Purpose:</strong>{" "}
-                      {student?.purposeVisa || "No Visa Rejections"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-danger text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-globe-americas me-2"></i> Travel
-                      History
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      <strong>Do You Have Travel History:</strong>{" "}
-                      {student?.doYouHaveTravelHistory || "Not Available"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Travel Date:</strong>{" "}
-                      {student?.date || "No Travel History"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Purpose:</strong>{" "}
-                      {student?.purpose || "No Travel History"}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Country Name:</strong>{" "}
-                      {student?.countryName || "No Travel History"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-danger text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-dollar-sign me-2"></i> Finance
-                      Information
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.finance || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-                <div className="card mb-3 shadow-sm">
-                  <div className="card-header bg-danger text-white">
-                    <h5 className="card-title mb-0">
-                      <i className="fas fa-question-circle me-2"></i> Additional
-                      Information
-                    </h5>
-                  </div>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
-                      {student?.additionalInfo || "Not Available"}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
             <div className="container">
               <div className="row">
                 <div className="col-xl-12">
@@ -1213,8 +1139,8 @@ function Profile() {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/ApplicationView",
-                                          search: `?studentId=${data?._id}`,
+                                          pathname: "/staff_view_application",
+                                          search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-eye text-primary me-1"></i>
@@ -1222,8 +1148,8 @@ function Profile() {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: "/EditApplication",
-                                          search: `?studentId=${data?._id}`,
+                                          pathname: "/staff_edit_application",
+                                          search: `?id=${data?._id}`,
                                         }}
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
@@ -1261,56 +1187,45 @@ function Profile() {
           </div>
 
           <div className="container-fluid my-2">
-            <div className="row ">
-              <div className="col-12 col-lg-7 col-auto">
-                <ul className="list-unstyled">
-                  <li className="mb-4 position-relative">
-                    <div className="row align-items-start g-0">
-                      <div className="col-1 d-flex justify-content-center align-items-center">
-                        <div
-                          className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
-                          style={{ width: "2rem", height: "2rem" }}
-                        >
-                          <i className="fas fa-check" />
-                        </div>
-                      </div>
-                      <div className="col-4 text-center">
-                        <p className="mb-1 fw-semibold text-muted">
-                          23 August, 2023 10:30 AM
-                        </p>
-                        <p className="mb-0 text-muted">
-                          Changed by:<strong>John Doe</strong>
-                        </p>
-                      </div>
+  <div className="row ">
+    <div className="col-12 col-lg-7 col-auto">
+      <ul className="list-unstyled">
+        {logs.map((log, index) => (
+           <li className="mb-4 position-relative" key={index}>
+           <div className="row align-items-start g-0">
 
-                      <div className="col-7">
-                        <div className="mb-3">
-                          <div className="bg-success text-white rounded-3 p-2">
-                            <h6 className="mb-1">New University Name</h6>
-                            <p className="mb-0">University Y</p>
-                          </div>
-                        </div>
-                        <div className="mb-3">
-                          <div className="bg-danger text-white rounded-3 p-2">
-                            <h6 className="mb-1">Old University Name</h6>
-                            <p className="mb-0">University X</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="position-absolute top-0 start-0 translate-middle-x"
-                      style={{
-                        width: 2,
-                        height: "100%",
-                        backgroundColor: "#007bff",
-                      }}
-                    />
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+             <div className="col-1 d-flex justify-content-center align-items-center">
+               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                 <i className="fas fa-check" />
+               </div>
+             </div>
+             <div className="col-4 text-center">
+               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
+               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
+             </div>
+
+             <div className="col-12">
+               {log.changes.map((change, changeIndex) => (
+                 <div key={changeIndex} className="mb-3">
+                   <div className="bg-success text-white rounded-3 p-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
+                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
+                   </div>
+                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
+                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+         </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </>

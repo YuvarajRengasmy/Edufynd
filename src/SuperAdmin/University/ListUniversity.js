@@ -526,6 +526,7 @@ const chartRef = useRef(null);
     }
   };
 
+  
   const activateSelectedUniversity = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => updateUniversity(id,{ active: true })))
@@ -696,6 +697,16 @@ const chartRef = useRef(null);
                 className="btn text-white rounded-1 border-0"
               >
                 <i className="fa fa-file-excel" aria-hidden="true"></i>
+              </button>
+            </Link>
+          </li>
+          <li className="m-1">
+            <Link onClick={openImportPopup}>
+              <button
+                className="btn text-white rounded-1 border-0"
+                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
+              >
+                <i className="fa fa-upload" aria-hidden="true"></i>
               </button>
             </Link>
           </li>
@@ -938,7 +949,7 @@ const chartRef = useRef(null);
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/ViewUniversity",
+                            pathname: "/view_university",
                             search: `?id=${data?._id}`,
                           }}
                         >
@@ -1303,7 +1314,7 @@ const chartRef = useRef(null);
                     </button>
                   </div>
                   </DialogContent>
-                </Dialog>
+        </Dialog>
 
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>
@@ -1336,7 +1347,7 @@ const chartRef = useRef(null);
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase py-1 px-3 rounded-pill text-white float-right bg"
                   style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
                 >

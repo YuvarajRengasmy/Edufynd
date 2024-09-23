@@ -8,7 +8,7 @@ import {
   isValidGSTN,
   isValidPAN,
   isValidBankAccountNumber,
-  isValidNumberLessThanOrEqualTo95,
+  isValidNumberLessThanOrEqualTo99,
 } from "../../Utils/Validation";
 import Flags from "react-world-flags";
 import { getallCode } from "../../api/settings/dailcode";
@@ -269,7 +269,7 @@ function EditAgent() {
     if (data.agentsCommission === "") {
       error.agentsCommission.required = true;
     }
-    if (!isValidNumberLessThanOrEqualTo95(data.agentsCommission)) {
+    if (!isValidNumberLessThanOrEqualTo99(data.agentsCommission)) {
       error.agentsCommission.valid = true;
     }
     if (!isValidPAN(data.panNumberCompany)) {
@@ -438,12 +438,18 @@ function EditAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example John Doe"
-                            className={`form-control rounded-2 ${errors.agentName.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.agentName.required ? 'is-invalid' :  '' }`}
                             id="company"
                             style={{
                               backgroundColor: "#fff",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.agentName.required ? (
@@ -464,7 +470,7 @@ function EditAgent() {
                             name="businessName"
                             type="text"
                             value={agent?.businessName}
-                            className={`form-control rounded-2 ${errors.businessName.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.businessName.required ? 'is-invalid' :  '' }`}
                             onChange={handleInputs}
                             placeholder="Example Jane Doe"
                             id="Job"
@@ -473,6 +479,13 @@ function EditAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
+                        
                           />
                           {errors.businessName.required ? (
                             <div className="text-danger form-text">
@@ -494,7 +507,7 @@ function EditAgent() {
                             value={agent?.businessWebsite}
                             type="text"
                             onChange={handleInputs}
-                            className={`form-control rounded-2 ${errors.businessWebsite.required ? 'is-invalid' : '' }`}
+                            className={`form-control rounded-1 text-lowercase ${errors.businessWebsite.required ? 'is-invalid' : '' }`}
                             placeholder="Example www.edufynd.com"
                             id="Job"
                             style={{
@@ -521,7 +534,7 @@ function EditAgent() {
                           <input
                             name="email"
                             type="email"
-                            className={`form-control rounded-2 ${errors.email.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' :  '' }`}
                             onChange={handleInputs}
                             placeholder="Example john123@gmail.com"
                             id="Address"
@@ -531,6 +544,13 @@ function EditAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                              'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           {errors.email.required ? (
                             <div className="text-danger form-text">
@@ -676,7 +696,7 @@ function EditAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example 17/3A2, Gandhi St,"
-                            className={`form-control rounded-2 ${errors.addressLine1.required ? 'is-invalid' : '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine1.required ? 'is-invalid' : '' }`}
                             id="Country"
                             value={agent?.addressLine1}
                             style={{
@@ -701,7 +721,7 @@ function EditAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example Alwartirunagar, Chennai"
-                            className={`form-control rounded-2 ${errors.addressLine2.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine2.required ? 'is-invalid' :  '' }`}
                             id="Country"
                             value={agent?.addressLine2}
                             style={{
@@ -725,7 +745,7 @@ function EditAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example 600087"
-                            className={`form-control rounded-2 ${errors.addressLine3.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine3.required ? 'is-invalid' :  '' }`}
                             id="Country"
                             value={agent?.addressLine3}
                             style={{
@@ -749,7 +769,7 @@ function EditAgent() {
                             type="text"
                             value={agent?.registrationNo}
                             placeholder="Example 41151904020"
-                            className={`form-control rounded-2 ${errors.registrationNo.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.registrationNo.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             style={{
                               backgroundColor: "#fff",
@@ -757,6 +777,11 @@ function EditAgent() {
                               fontSize: "12px",
                             }}
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                           {errors.registrationNo.required ? (
                             <span className="form-text text-danger">
@@ -771,7 +796,7 @@ function EditAgent() {
                           <input
                             name="gstn"
                             type="text"
-                            className={`form-control rounded-2 ${errors.gstn.required ? 'is-invalid' : errors.gstn.valid ?  'is-valid' : '' }`}
+                            className={`form-control rounded-1 text-uppercase ${errors.gstn.required ? 'is-invalid' : errors.gstn.valid ?  'is-valid' : '' }`}
                             onChange={handleInputs}
                             placeholder="Example 29GGGGG1314R9Z6"
                             id="Email"
@@ -781,6 +806,12 @@ function EditAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           
                         </div>
@@ -794,7 +825,7 @@ function EditAgent() {
                             type="text"
                             onChange={handleInputs}
                             placeholder="Example ABCTY1234D"
-                            className={`form-control rounded-2 ${errors.panNumberCompany.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-uppercase ${errors.panNumberCompany.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             value={agent?.panNumberCompany}
                             style={{
@@ -802,6 +833,12 @@ function EditAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           {errors.panNumberCompany.required ? (
                             <div className="text-danger form-text">
@@ -821,7 +858,7 @@ function EditAgent() {
                           <input
                             name="staffName"
                             type="text"
-                            className={`form-control rounded-2 ${errors.staffName.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.staffName.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example Alice Smith"
@@ -830,6 +867,12 @@ function EditAgent() {
                               backgroundColor: "#fff",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.staffName.required ? (
@@ -968,7 +1011,7 @@ function EditAgent() {
                           <input
                             name="bankName"
                             type="text"
-                            className={`form-control rounded-2 ${errors.bankName.required ? 'is-invalid' : '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.bankName.required ? 'is-invalid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example Axis Bank"
@@ -977,6 +1020,12 @@ function EditAgent() {
                               backgroundColor: "#fff",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.bankName.required ? (
@@ -992,7 +1041,7 @@ function EditAgent() {
                           <input
                             name="accountName"
                             type="text"
-                            className={`form-control rounded-2 ${errors.accountName.required ? 'is-invalid' : '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.accountName.required ? 'is-invalid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example  John Smith"
@@ -1001,6 +1050,12 @@ function EditAgent() {
                               backgroundColor: "#fff",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.accountName.required ? (
@@ -1018,7 +1073,7 @@ function EditAgent() {
                           <input
                             name="accountNumber"
                             type="text"
-                            className={`form-control rounded-2 ${errors.accountNumber.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.accountNumber.required ? 'is-invalid' :  '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example  0112345678"
@@ -1027,6 +1082,11 @@ function EditAgent() {
                               backgroundColor: "#fff",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.accountNumber.required ? (
@@ -1049,7 +1109,7 @@ function EditAgent() {
                             name="accountType"
                             value={agent?.accountType}
                             type="text"
-                            className={`form-control rounded-2 ${errors.accountType.required ? 'is-invalid' :  '' }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.accountType.required ? 'is-invalid' :  '' }`}
                             id="text"
                             onChange={handleInputs}
                             placeholder="Example Personal"
@@ -1057,6 +1117,12 @@ function EditAgent() {
                               backgroundColor: "#fff",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.accountType.required ? (
@@ -1073,7 +1139,7 @@ function EditAgent() {
                           <input
                             name="ifsc"
                             type="text"
-                            className={`form-control rounded-2 ${errors.ifsc.required ? 'is-invalid' : '' }`}
+                            className={`form-control rounded-1 text-uppercase ${errors.ifsc.required ? 'is-invalid' : '' }`}
                             id="Email"
                             onChange={handleInputs}
                             placeholder="Example AT611904300234573201"
@@ -1083,6 +1149,12 @@ function EditAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           {errors.ifsc.required ? (
                             <span className="form-text text-danger">
@@ -1098,7 +1170,7 @@ function EditAgent() {
                             name="swift"
                             value={agent?.swift}
                             type="text"
-                            className="form-control rounded-1"
+                            className="form-control rounded-1 text-uppercase"
                             id="text"
                             onChange={handleInputs}
                             placeholder="Example AAAA-BB-CC-123"
@@ -1107,6 +1179,12 @@ function EditAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                            onKeyDown={(e) => {
+                              // Prevent default behavior for disallowed keys
+                         if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                           e.preventDefault();
+                         }
+                        }}
                           />
                           
                         </div>
@@ -1128,6 +1206,11 @@ function EditAgent() {
                               backgroundColor: "#fff",
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
+                            }}
+                            onKeyDown={(e) => {
+                              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
                             }}
                           />
                           {errors.agentsCommission.required ? (
@@ -1177,7 +1260,7 @@ function EditAgent() {
                             Do Require Visa Filing Support{" "}
                           </label>
                           <select
-                            class="form-select form-select-lg rounded-2"
+                            class="form-select form-select-lg rounded-1 text-capitalize"
                             aria-label="Default select example"
                             name="requireVisaFilingSupport"
                             onChange={handleInputs}
@@ -1194,11 +1277,7 @@ function EditAgent() {
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                           </select>
-                          <span>
-                            <small className="text-capitalize">
-                              If 'Yes' 10% on commision will be charged'
-                            </small>{" "}
-                          </span>
+                          
                         </div>
                       </div>
 

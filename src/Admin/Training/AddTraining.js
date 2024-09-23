@@ -1,9 +1,4 @@
-import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { saveTraining } from "../../api/Notification/traning";
@@ -12,12 +7,10 @@ import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Select from "react-select";
-
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link } from "react-router-dom";
-import { RichTextEditor } from "@mantine/rte";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddTraining = () => {
   const initialState = {
     requestTraining: "",
@@ -32,7 +25,6 @@ export const AddTraining = () => {
     content: "",
     uploadDocument: "",
   };
-
   const initialStateErrors = {
     requestTraining: {
       required: false,
@@ -68,7 +60,6 @@ export const AddTraining = () => {
       required: false,
     },
   };
-
   const [notification, setnotification] = useState(initialState);
   const [staff, setStaff] = useState([]);
   const [admin, setAdmin] = useState([]);
@@ -77,7 +68,6 @@ export const AddTraining = () => {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
     getStaffList();
     getAdminList();
@@ -120,10 +110,8 @@ export const AddTraining = () => {
         console.log(err);
       });
   };
-
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
     if (data.requestTraining === "") {
       error.requestTraining.required = true;
     }
@@ -157,10 +145,8 @@ export const AddTraining = () => {
     if (data.uploadDocument === "") {
       error.uploadDocument.required = true;
     }
-
     return error;
   };
-
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -185,7 +171,6 @@ export const AddTraining = () => {
         [event?.target?.name]: event?.target?.value,
       });
     }
-
     if (submitted) {
       const newError = handleValidation({
         ...notification,
@@ -204,7 +189,6 @@ export const AddTraining = () => {
       [name]: values,
     }));
   };
-
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -216,14 +200,12 @@ export const AddTraining = () => {
     }
     return true;
   };
-
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(notification);
@@ -245,27 +227,22 @@ export const AddTraining = () => {
       toast.error("Please fill mandatory fields");
     }
   };
-
   const adminOptions = admin.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const staffOptions = staff.map((data, index) => ({
     value: data.empName,
     label: data.empName,
   }));
-
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
   }));
-
   const agentOptions = agent.map((data, index) => ({
     value: data.agentName,
     label: data.agentName,
   }));
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -281,12 +258,10 @@ export const AddTraining = () => {
       },
     }),
   };
-
   return (
     <>
       <div>
         <Sidebar />
-
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
@@ -296,7 +271,7 @@ export const AddTraining = () => {
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
@@ -310,19 +285,18 @@ export const AddTraining = () => {
                         <div className="row g-3">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              UserName <span className="text-danger">*</span>
+                              Host Name<span className="text-danger">*</span>
                             </label>
                             <select
-                              class="form-select"
+                              class="form-select form-select-lg rounded-1 text-capitalize"
                               aria-label="Default select example"
                             >
-                              <option selected>Open this select menu</option>
+                              <option selected>Select User</option>
                               <option value="1">One</option>
                               <option value="2">Two</option>
                               <option value="3">Three</option>
                             </select>
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Request Training
@@ -330,18 +304,28 @@ export const AddTraining = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors?.requestTraining?.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter Request Training"
+                              placeholder="Example Study Abroad"
                               name="requestTraining"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors?.requestTraining?.required && (
                               <p className="text-danger">
-                                Please Enter Request Training
+                               This field is required.
                               </p>
                             )}
                           </div>
@@ -352,30 +336,40 @@ export const AddTraining = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors?.trainingTopic?.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter Training Topic"
+                              placeholder="Example English Class"
                               name="trainingTopic"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors?.trainingTopic?.required && (
                               <p className="text-danger">
-                                Please Enter Training Topic
+                                 This field is required.
                               </p>
                             )}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Type of Users{" "}
                               <span className="text-danger">*</span>
                             </label>
-
                             <select
-                              class="form-select form-select-lg"
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.typeOfUser.required ? "is-invalid" : ""
+                              }`}
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -399,12 +393,12 @@ export const AddTraining = () => {
                           {notification.typeOfUser === "staff" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List
+                                Staff List
                                 <span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select staff"
+                                placeholder="Select Staff"
                                 onChange={handleSelectChange}
                                 options={staffOptions}
                                 name="usersName"
@@ -425,7 +419,7 @@ export const AddTraining = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Student"
                                 onChange={handleSelectChange}
                                 options={studentOptions}
                                 name="usersName"
@@ -441,12 +435,12 @@ export const AddTraining = () => {
                           ) : notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Admin List
+                                Agent List
                                 <span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Agent"
                                 onChange={handleSelectChange}
                                 options={agentOptions}
                                 name="usersName"
@@ -467,7 +461,7 @@ export const AddTraining = () => {
                               </label>
                               <Select
                                 isMulti
-                                placeholder="Select Country"
+                                placeholder="Select Admin"
                                 onChange={handleSelectChange}
                                 options={adminOptions}
                                 name="usersName"
@@ -481,21 +475,28 @@ export const AddTraining = () => {
                               ) : null}
                             </div>
                           ) : null}
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Material<span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.material.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Material"
+                              placeholder="Example Software"
                               name="material"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.material.required ? (
                               <div className="text-danger form-text">
@@ -509,17 +510,22 @@ export const AddTraining = () => {
                             </label>
                             <input
                               type="date"
-                              className="form-control "
+                              className={`form-control text-uppercase rounded-1 ${
+                                errors?.date?.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Date"
+                              placeholder="Example 01/01/2024"
                               name="date"
                               onChange={handleInputs}
                             />
                             {errors?.date?.required && (
-                              <p className="text-danger">Please Enter Date</p>
+                              <p className="text-danger">
+                                {" "}
+                                This field is required.
+                              </p>
                             )}
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -528,7 +534,9 @@ export const AddTraining = () => {
                             </label>
                             <input
                               type="time"
-                              className="form-control "
+                              className={`form-control rounded-1  ${
+                                errors?.time?.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -538,22 +546,23 @@ export const AddTraining = () => {
                               onChange={handleInputs}
                             />
                             {errors?.time?.required && (
-                              <p className="text-danger">Please Enter Time</p>
+                              <p className="text-danger"> This field is required.</p>
                             )}
                           </div>
-
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Subject<span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.subject.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Subject"
+                              placeholder="Example Meetings"
                               name="subject"
                               onChange={handleInputs}
                             />
@@ -569,14 +578,22 @@ export const AddTraining = () => {
                             </label>
                             <input
                               type="text"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.name.required ? "is-invalid" : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Name"
+                              placeholder="Example John Doe"
                               name="name"
                               onChange={handleInputs}
+                              onKeyDown={(e) => {
+                                // Prevent non-letter characters
+                                if (/[^a-zA-Z\s]/.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {errors.name.required ? (
                               <div className="text-danger form-text">
@@ -591,12 +608,16 @@ export const AddTraining = () => {
                             </label>
                             <input
                               type="file"
-                              className="form-control "
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.uploadDocument.required
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              placeholder="Enter  Upload document"
+                              placeholder="Example Demo File"
                               name="uploadDocument"
                               onChange={handleInputs}
                             />
@@ -607,24 +628,68 @@ export const AddTraining = () => {
                             ) : null}
                           </div>
                           <div className="text-end">
-                            <button className="btn btn-primary">Add</button>
+                            <button className="btn btn-dark px-4 py-2 text-uppercase fw-semibold rounded-1 border-0">
+                              {" "}
+                              <i
+                                class="fa fa-plus-circle"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              &nbsp;&nbsp;Add
+                            </button>
                           </div>
-
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
-                                placeholder="Start writing your content here..."
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
                                 name="content"
-                                onChange={handleRichTextChange}
-                                value={notification.content}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  minHeight: "200px",
-                                  overflowY: "auto",
+                                  zIndex: "0",
                                 }}
                               />
                               {errors.content.required && (
@@ -634,17 +699,13 @@ export const AddTraining = () => {
                               )}
                             </div>
                           </div>
-
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <div className=" d-flex justify-content-end ">
                             <Link
                               to="/admin_list_training"
                               style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              type="reset"
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                              className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
                             </Link>
@@ -655,7 +716,7 @@ export const AddTraining = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Submit
                             </button>

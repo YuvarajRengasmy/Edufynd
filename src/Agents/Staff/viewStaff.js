@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Mastersidebar from "../../compoents/AgentSidebar";
 import { useLocation } from "react-router-dom";
-import { getSingleStaff } from "../../api/staff";
+import { getSingleStaff,getSingleStaffLog  } from "../../api/staff";
 import { Link } from "react-router-dom";
 import BackButton from "../../compoents/backButton";
 export const ViewStaff = () => {
@@ -9,11 +9,23 @@ export const ViewStaff = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const [staff, setStaff] = useState([]);
+  const [logs, setLogs] = useState([]);
 
   useEffect(() => {
+    getUniversityLogs();
     getStaffDetails();
-  }, []);
+  }, [id]);
 
+  const getUniversityLogs = () => {
+    getSingleStaffLog (id)
+      .then((res) => {
+        setLogs(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+ 
   const getStaffDetails = () => {
     getSingleStaff(id)
       .then((res) => {
@@ -38,7 +50,7 @@ export const ViewStaff = () => {
 
 
           <BackButton/>
-       
+        
             <div className="container-fluid ">
             <h2 className="mb-4 text-center">Staff Details</h2>
               <div className="row">
@@ -96,11 +108,11 @@ export const ViewStaff = () => {
                           </p>
                           <p>
                             <i className="fas fa-mobile-alt me-2"></i>
-                            <strong>Personal Contact No:</strong> {staff?.mobileNumber  || "Not Available"}
+                            <strong>Personal Contact No:</strong>{staff?.dial1}-{staff?.mobileNumber  || "Not Available"}
                           </p>
                           <p>
                             <i className="fas fa-phone-alt me-2"></i>
-                            <strong>Emergency Contact:</strong> {staff?.emergencyContactNo  || "Not Available"}
+                            <strong>Emergency Contact:</strong> {staff?.dial2}-{staff?.emergencyContactNo  || "Not Available"}
                           </p>
                         </div>
                         <div className="col-md-6">
@@ -172,7 +184,7 @@ export const ViewStaff = () => {
                   </div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      <strong>Country:</strong> {staff?.country || "Not Available"}
+                      <strong>CountryName:</strong> {staff?.country || "Not Available"}
                     </li>
                     <li className="list-group-item">
                       <strong>State:</strong>  {staff?.state|| "No Travel History"} 
@@ -180,9 +192,7 @@ export const ViewStaff = () => {
                     <li className="list-group-item">
                       <strong>City:</strong> {staff?.city || "No Travel History"}
                     </li>
-                    <li className="list-group-item">
-                      <strong>Country Name:</strong> {staff?.countryName|| "No Travel History"}
-                    </li>
+                   
                     
                   </ul>
 
@@ -200,8 +210,9 @@ export const ViewStaff = () => {
                         <div className="col-md-6">
                           <p>
                             <i className="fas fa-laptop me-2"></i>
-                            <strong>Company Assets:</strong> {staff?.companyAssets  || "Not Available"}
+                            <strong>Company Assets:</strong> {staff?.companyAssests  || "Not Available"}
                           </p>
+                         
                           <p>
                             <i className="fas fa-mobile-alt me-2"></i>
                             <strong>Mobile Brand Name:</strong> {staff?.brandName  || "Not Available"}
@@ -212,8 +223,9 @@ export const ViewStaff = () => {
                           </p>
                           <p>
                             <i className="fas fa-phone me-2"></i>
-                            <strong>Phone Number:</strong> {staff?.phoneNumber  || "Not Available"}
+                            <strong>Phone Number:</strong>{staff?.dial3}- {staff?.phoneNumber  || "Not Available"}
                           </p>
+                          
                         </div>
                         <div className="col-md-6">
                           <p>
@@ -248,43 +260,38 @@ export const ViewStaff = () => {
   <div className="row ">
     <div className="col-12 col-lg-7 col-auto">
       <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
+        {logs.map((log, index) => (
+           <li className="mb-4 position-relative" key={index}>
+           <div className="row align-items-start g-0">
 
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
-              </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
-            </div>
-          </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
+             <div className="col-1 d-flex justify-content-center align-items-center">
+               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                 <i className="fas fa-check" />
+               </div>
+             </div>
+             <div className="col-4 text-center">
+               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
+               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
+             </div>
+
+             <div className="col-12">
+               {log.changes.map((change, changeIndex) => (
+                 <div key={changeIndex} className="mb-3">
+                   <div className="bg-success text-white rounded-3 p-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
+                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
+                   </div>
+                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
+                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+         </li>
+        ))}
       </ul>
     </div>
   </div>

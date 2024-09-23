@@ -1,20 +1,22 @@
-import React from "react";
 import Sidebar from "../../compoents/AdminSidebar";
 import { Link } from "react-router-dom";
 import BackButton from "../../compoents/backButton";
+import React from 'react'
+
+
+
 export const ViewTestimonials = () => {
   return (
     <>
       <div>
         <Sidebar />
-
         <div
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
           <div className="content-header ">
             <BackButton />
-
+           
             <div className="container-fluid">
               <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
                 <div
@@ -73,7 +75,6 @@ export const ViewTestimonials = () => {
                 </div>
               </div>
             </div>
-
             <div className="container-fluid my-2">
               <div className="row ">
                 <div className="col-12 col-lg-7 col-auto">
@@ -96,7 +97,6 @@ export const ViewTestimonials = () => {
                             Changed by:<strong>John Doe</strong>
                           </p>
                         </div>
-
                         <div className="col-7">
                           <div className="mb-3">
                             <div className="bg-success text-white rounded-3 p-2">

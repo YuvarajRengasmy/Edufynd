@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { getallSuperAdmin } from "../../api/superAdmin";
-import { getallStudent} from "../../api/student";
-import { getSingleStaff } from "../../api/staff";
-import { postChatStaff, getMessages,postChatStudent } from "../../api/chat";
-import { timeCall} from "../../Utils/DateFormat";
+import { useEffect, useState, useRef } from "react";
+import { getSingleSuperAdmin } from "../../api/superAdmin";
+import { getSuperAdminId } from "../../Utils/storage";
+// import { getStaffId} from "../../Utils/storage";
+import { timeCall } from "../../Utils/DateFormat";
 
-import "./Chatus.css";
+import { getallStaff } from "../../api/staff";
+import { postChat, getMessages } from "../../api/chat";
+
 import {
   MDBCol,
   MDBCard,
@@ -13,29 +14,29 @@ import {
   MDBTypography,
   MDBCardFooter,
 } from "mdb-react-ui-kit";
-import { getStaffId } from "../../Utils/storage";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import io from "socket.io-client";
 import Sidebar from "../../compoents/StaffSidebar";
 
-const ChatApp = () => {
+const ListChat = () => {
   const [showChatlist, setShowChatlist] = useState(true);
   const [showChat, setShowChat] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [staff, setStaff] = useState(null);
+  const [selectedStaff, setSelectedStaff] = useState(null);
   const [superAdmin, setSuperAdmin] = useState(null);
-  const [student, setStudent] = useState(null);
+  const [staff, setStaff] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [loadingMessages, setLoadingMessages] = useState(false);
-  const [userMessage, setUserMessage] = useState("");
+  const [superAdminMessage, setsuperAdminMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const [socketmessage, setSocketMessage] = useState("");
-  const [connectedUsers, setConnectedUsers] = useState([]);
-  const messagesContainerRef = useRef(null);
-  const messagesContainerRefStudent = useRef(null);
+  const [connectedsuperAdmins, setConnectedsuperAdmins] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const messagesContainerRef = useRef(null);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
@@ -43,91 +44,77 @@ const ChatApp = () => {
         messagesContainerRef.current.scrollHeight;
     }
   };
-
-
- 
   useEffect(() => {
-    const newSocket = io("https://api.edufynd.in");
+    const newSocket = io("https://api.edufynd.in/api/");
     setSocket(newSocket);
 
-    newSocket.on("socketId", (id) => {
-      console.log("Received socketId from server:", id);
-    });
+    newSocket.on("socketId", (id) => {});
+
     newSocket.on("newMessage", (newMessage) => {
-        if (
-          (newMessage.senderType === "staff" ||
-            newMessage.senderType === "superAdmin" ||
-            newMessage.senderType === "student") &&
-          ((newMessage.superAdminId && newMessage.superAdminId._id === selectedUser?._id) ||
-            newMessage.superAdmin === selectedUser?._id) &&
-          ((newMessage.studentId && newMessage.studentId._id === selectedStudent?._id) ||
-          newMessage.student === selectedStudent?._id)&&
-          ((newMessage.staffId && newMessage.staffId._id === staff._id) ||
-            newMessage.staffId === staff._id)
-        ) {
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
-        } else {
-          setUserMessage([]);
-        }
-      });
-      newSocket.on("get-users", (superAdmin) => {
-        setConnectedUsers(superAdmin);
-      });
-      newSocket.on("get-users", (student) => {
-        setConnectedUsers(student);
-      });
+      if (
+        (newMessage.senderType === "staff" ||
+          newMessage.senderType === "superAdmin") &&
+        ((newMessage.superAdminId &&
+          newMessage.superAdminId === superAdmin._id) ||
+          newMessage.superAdminId._id === superAdmin._id) &&
+        ((newMessage.staffId && newMessage.staffId === selectedStaff?._id) ||
+          newMessage.staffId._id === selectedStaff?._id)
+      ) {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      } else {
+        setsuperAdminMessage([]);
+      }
+    });
+    newSocket.on("get-superAdmin", (superadmins) => {
+      setConnectedsuperAdmins(superadmins);
+    });
 
-      newSocket.emit("new-user-add", getStaffId());
+    newSocket.emit("new-superAdmin-add", getSuperAdminId());
 
-      return () => {
-        newSocket.disconnect();
-      };
-    }, [selectedUser, staff, selectedStudent]);
-
-  const isUserOnline = (superAdminId) => {
-    return connectedUsers.some((staff) => staff.superAdminId === superAdminId && staff.online);
-  };
-  const isStudentOnline = (studentId) => {
-    return connectedUsers.some((student) => student.studentId === studentId && student.online);
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [selectedStaff, superAdmin]);
+  const issuperAdminOnline = (superAdminId) => {
+    return connectedsuperAdmins.some(
+      (superAdmin) =>
+        superAdmin.superAdminId === superAdminId && superAdmin.online
+    );
   };
 
+  useEffect(() => {});
   useEffect(() => {
-    getUserDetails();
-    getallUser();
-   
-  }, [searchQuery]);
-  
-  useEffect(() => {
-    
-    getallStudentUsers();
+    getsuperAdminDetails();
+
+    getDoctors();
   }, [searchQuery]);
 
-  const getUserDetails = () => {
-    const id = getStaffId();
-    getSingleStaff(id)
+  const getsuperAdminDetails = () => {
+    const id = getSuperAdminId();
+    getSingleSuperAdmin(id)
       .then((res) => {
-        setStaff(res?.data?.result);
+        setSuperAdmin(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const getallUser = () => {
-    getallSuperAdmin()
+  const getDoctors = () => {
+    getallStaff()
       .then((res) => {
-        const usersData = res?.data?.result || [];
+        const staffData = res?.data?.result || [];
         if (searchQuery) {
-          const filteredUsers = usersData.filter((staff) =>
+          const filteredstaff = staffData.filter((staff) =>
             staff.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
-          setSuperAdmin(filteredUsers);
+          setStaff(filteredstaff);
         } else {
-          const usersWithStatuses = usersData.map((staff) => ({
+          const staffWithStatuses = staffData.map((staff) => ({
             ...staff,
             isActive: staff.someLogicToDetermineActiveStatus,
           }));
-          setSuperAdmin(usersWithStatuses);
+          setStaff(staffWithStatuses);
         }
       })
       .catch((err) => {
@@ -135,74 +122,53 @@ const ChatApp = () => {
       });
   };
 
-  const getallStudentUsers = () => {
-    getallStudent()
-      .then((res) => {
-        const studentData = res?.data?.result || [];
-        const filteredStudents = searchQuery
-          ? studentData.filter((student) =>
-              student.studentName.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-          : studentData;
-        setStudent(filteredStudents);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
 
   const handleSendMessage = () => {
-    if (selectedUser) {
-      const newMessage = {
-        text: inputMessage,
-        sender: 'staff',
-        timestamp: new Date(),
-        sentBy: 'staff',
-      };
-
-      postChatMessage(selectedUser._id, newMessage);
-      setInputMessage('');
-    } else if (selectedStudent) {
-      const newMessage = {
-        text: inputMessage,
-        sender: 'staff',
-        timestamp: new Date(),
-        sentBy: 'staff',
-      };
-
-      postStudentMessage(selectedStudent._id, newMessage);
-      setInputMessage('');
+    if (!selectedStaff) {
+      return;
     }
 
-    setInputMessage('');
-  };
-
-  const postChatMessage = (superAdminId, message) => {
-    const staffId = getStaffId();
-    const data = {
-      staffId: staffId,
-      superAdminId: selectedUser._id,
-      message: message.text,
-      senderType: message.sentBy,
+    const newMessage = {
+      text: inputMessage,
+      sender: superAdmin.name,
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
+      sentBy: "superAdmin",
     };
 
-    postChatStaff(data)
+    postChatMessage(selectedStaff._id, newMessage);
+    setInputMessage("");
+  };
+
+  const postChatMessage = (staffId, message) => {
+    const superAdmin = getSuperAdminId();
+    const data = {
+      staffId: staffId,
+      superAdminId: superAdmin,
+      message: message.text,
+      senderType: message.sender,
+    };
+
+    postChat(data)
       .then((res) => {
-        const userMessage = res.data.result;
-        setUserMessage(userMessage);
+        const superAdminMessage = res.data.result;
+        setsuperAdminMessage(superAdminMessage);
         const list = {
-          _id: staff._id,
-          name: staff.empName,
-          photo: staff.photo,
+          _id: superAdmin._id,
+          name: superAdmin.name,
+          profileImage: superAdmin.profileImage,
         };
         const socketdata = {
-          staffId: list,
-          superAdminId: selectedUser._id,
-          senderType: "staff",
-          message: userMessage.message,
+          staffId: selectedStaff._id,
+          superAdmin: list,
+          senderType: "superAdmin",
+          message: superAdminMessage.message,
           sentOn: new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -210,61 +176,9 @@ const ChatApp = () => {
           }),
         };
         const socketdata1 = {
-          staffId: list,
-          staffId: selectedUser._id,
-          senderType: "staff",
-          message: socketdata,
-          sentOn: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
-        };
-        setSocketMessage(socketdata1);
-        socket.emit("sendMessage", socketdata1);
-      })
-      .catch((err) => {
-        console.error("Error sending chat message:", err);
-      });
-  };
- 
-
-
-//   student chat code
-
-const postStudentMessage = (studentId, message) => {
-    const staffId = getStaffId();
-    const data = {
-      staffId: staffId,
-      studentId: selectedStudent._id,
-      message: message.text,
-      senderType: message.sentBy,
-    };
-
-    postChatStudent(data)
-      .then((res) => {
-        const userMessage = res.data.result;
-        setUserMessage(userMessage);
-        const list = {
-          _id: staff._id,
-          name: staff.name,
-          photo: staff.photo,
-        };
-        const socketdata = {
-          staffId: list,
-          superAdminId: selectedStudent._id,
-          senderType: "staff",
-          message: userMessage.message,
-          sentOn: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
-        };
-        const socketdata1 = {
-          staffId: list,
-          staffId: selectedStudent._id,
-          senderType: "staff",
+          staffId: selectedStaff._id,
+          superAdmin: list,
+          senderType: "superAdmin",
           message: socketdata,
           sentOn: new Date().toLocaleTimeString([], {
             hour: "2-digit",
@@ -282,10 +196,10 @@ const postStudentMessage = (studentId, message) => {
 
   useEffect(() => {
     getMessage();
-  }, [selectedUser]);
+  }, [selectedStaff]);
 
   const getMessage = () => {
-    if (selectedUser && selectedUser._id) {
+    if (selectedStaff && selectedStaff._id) {
       setLoadingMessages(true);
 
       getMessages()
@@ -295,47 +209,12 @@ const postStudentMessage = (studentId, message) => {
               (message) =>
                 (message.senderType === "staff" ||
                   message.senderType === "superAdmin") &&
-                message.staffId &&
-                message.staffId._id === staff._id &&
                 message.superAdminId &&
-                message.superAdminId._id === selectedUser._id
-            );
-            setMessages(filteredMessages);
-          } else {
-            console.error("Invalid message data:", res.data);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching chat messages:", err);
-        })
-        .finally(() => {
-          setLoadingMessages(false);
-        });
-    }
-  };
-
-
-//   student chat code
-useEffect(() => {
-    getStudentMessage();
-  }, [selectedStudent]);
-
-  const getStudentMessage = () => {
-    if (selectedStudent && selectedStudent._id) {
-      setLoadingMessages(true);
-
-      getMessages()
-        .then((res) => {
-          if (Array.isArray(res.data.result)) {
-            const filteredMessages = res.data.result.filter(
-              (message) =>
-                (message.senderType === "staff" ||
-                  message.senderType === "student") &&
+                message.superAdminId._id === superAdmin._id &&
                 message.staffId &&
-                message.staffId._id === staff._id &&
-                message.studentId &&
-                message.studentId._id === selectedStudent._id
+                message.staffId._id === selectedStaff._id
             );
+
             setMessages(filteredMessages);
           } else {
             console.error("Invalid message data:", res.data);
@@ -350,425 +229,280 @@ useEffect(() => {
     }
   };
 
-  const handleStudentSelect = (userchat) => {
-    setSelectedStudent(userchat);
+  const handleDoctorSelect = (staff) => {
+    setSelectedStaff(staff);
     setShowChatlist(false);
     setShowChat(true);
-    fetchMessagesForStudent(userchat._id);
-  };
-
-  const fetchMessagesForStudent = (studentId) => {
-    setMessages([]);
-    setLoadingMessages(true);
-    getMessages()
-      .then((res) => {
-        if (Array.isArray(res.data.result)) {
-          const filteredMessages = res.data.result.filter(
-            (message) =>
-              (message.senderType === "staff" ||
-                message.senderType === "student") &&
-              message.staffId &&
-              message.staffId._id === staff._id &&
-              message.studentId &&
-              message.studentId._id === studentId
-          );
-
-          setMessages(filteredMessages);
-          scrollToBottom();
-        } else {
-          console.error("Invalid message data:", res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching chat messages:", err);
-      })
-      .finally(() => {
-        setLoadingMessages(false);
-      });
-  };
-
-//   superadmin chat code
-
-  const handleUserSelect = (userchat) => {
-    setSelectedUser(userchat);
-    setShowChatlist(false);
-    setShowChat(true);
-    fetchMessagesForUser(userchat._id);
-  };
-
-  const fetchMessagesForUser = (superAdminId) => {
-    setMessages([]);
-    setLoadingMessages(true);
-    getMessages()
-      .then((res) => {
-        if (Array.isArray(res.data.result)) {
-          const filteredMessages = res.data.result.filter(
-            (message) =>
-              (message.senderType === "staff" ||
-                message.senderType === "superAdmin") &&
-              message.staffId &&
-              message.staffId._id === staff._id &&
-              message.superAdminId &&
-              message.superAdminId._id === superAdminId
-          );
-
-          setMessages(filteredMessages);
-          scrollToBottom();
-        } else {
-          console.error("Invalid message data:", res.data);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching chat messages:", err);
-      })
-      .finally(() => {
-        setLoadingMessages(false);
-      });
   };
 
   return (
     <>
-    
-    <div className="py-3 gradient-custom1" style={{ height: '100vh' }}>
-      <div className="container">
-        <div className="row">
-          <div className="list-divider col-lg-4 col-12">
-            <h5 className="font-weight-bold mb-3 text-center text-white mt-2">
-              Let's Chat With Edufynd!
-            </h5>
-            <div className="mask-custom rounded-3" style={{ backgroundColor: '#1C2E46' }}>
-              <div className="input-group mb-3 p-3">
+      <Sidebar />
+      <div
+        className="content-wrapper"
+        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      >
+        <div className="container-fluid  ">
+          <div className="row no-gutters">
+            {/* Chat Contact List */}
+            <div
+              className="col-md-4 bg-light border-right"
+              style={{
+                height: "100vh",
+                overflowY: "auto",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#007bff #e9ecef",
+              }}
+            >
+              <div className="d-flex align-items-center p-3 border-bottom bg-white">
+                <img
+                  src={
+                    selectedStaff
+                      ? selectedStaff.photo
+                      : "https://via.placeholder.com/50"
+                  }
+                  className="rounded-circle me-3"
+                  alt="User Image"
+                  style={{ width: "3rem", height: "3rem" }}
+                />
+                <div>
+                  <h5 className="mb-0" style={{ color: "#343a40" }}>
+                    {selectedStaff ? selectedStaff.empName : "User Name"}
+                  </h5>
+                  <small className="text-muted">
+                    {selectedStaff && issuperAdminOnline(selectedStaff._id)
+                      ? "Online"
+                      : "Offline"}
+                  </small>
+                </div>
+                {/* <div className="ms-auto">
+          <div className="dropdown">
+            <i className="fas fa-cog fa-lg text-muted " id="settingsDropdown" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <ul className="dropdown-menu" aria-labelledby="settingsDropdown">
+              <li><a className="dropdown-item" href="#">Account Settings</a></li>
+              <li><a className="dropdown-item" href="#">Privacy</a></li>
+              <li><a className="dropdown-item" href="#">Help</a></li>
+              <li><a className="dropdown-item" href="#">Log Out</a></li>
+            </ul>
+          </div>
+        </div> */}
+              </div>
+              <div className="input-group p-3">
                 <input
-                  className="form-control p-3"
-                  placeholder="Search for..."
+                  className="form-control form-control-sm mb-3"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  type="text"
+                  placeholder="Search for people, groups, and messages"
+                  style={{ fontSize: "12px" }}
                 />
-              </div>
-              <div className="mb-0 p-3">
-                <div
-                  className="mask-custom-scroll list-unstyled rounded-3"
-                  style={{ maxHeight: '500px', overflowY: 'auto' }}
-                >
-                  {superAdmin &&
-                    superAdmin
-                      .filter(userchat => userchat.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                      .map((userchat) => (
-                        <li
-                          className="p-2 border-bottom"
-                          style={{
-                            backgroundColor: selectedUser && selectedUser._id === userchat._id
-                              ? '#1C2E46'
-                              : 'white',
-                            color: selectedUser && selectedUser._id === userchat._id
-                              ? 'white'
-                              : 'black',
-                            border: '3px solid white',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => handleUserSelect(userchat)}
-                          key={userchat._id}
-                        >
-                          <div className="d-flex justify-content-between">
-                            <div className="d-flex flex-row hover-zoom">
-                              <div className="profile-container" style={{ position: 'relative' }}>
-                                <span
-                                  className="online-dot"
-                                  style={{
-                                    color: isUserOnline(userchat._id) ? '#10B118' : 'transparent',
-                                    position: 'absolute',
-                                    top: '39px',
-                                    left: '66%',
-                                    height: '15px',
-                                    width: '15px',
-                                    borderRadius: '50%',
-                                    backgroundColor: isUserOnline(userchat._id) ? '#10B118' : 'transparent',
-                                    border: isUserOnline(userchat._id) ? '2px solid white' : 'none',
-                                  }}
-                                ></span>
-                                <img
-                                  src={userchat.photo}
-                                  alt="avatar"
-                                  className="rounded-circle d-flex align-self-center me-3 shadow-1-strong p-1"
-                                  width="60"
-                                  height="60"
-                                  style={{
-                                    border: isUserOnline(userchat._id) ? '3px solid #10B118' : 'none',
-                                    backgroundColor: 'white',
-                                  }}
-                                />
-                              </div>
-                              <div className="pt-1">
-                                <p className="fw-bold mb-0">{userchat.name}</p>
-                                <span
-                                  className="small mb-1"
-                                  style={{
-                                    color: isUserOnline(userchat._id) ? 'green' : 'red',
-                                    fontWeight: '900',
-                                  }}
-                                >
-                                  {isUserOnline(userchat._id) ? 'Online' : 'Offline'}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
+                <div className="input-group-append">
+                  <button
+                    className="btn btn-outline-primary"
+                    type="button"
+                    style={{ borderRadius: "25px" }}
+                  >
+                    <i className="fas fa-search"></i>
+                  </button>
                 </div>
+              </div>
+              <ul className="nav nav-tabs" id="chatTab" role="tablist">
+                <li className="nav-item">
+                  <a
+                    className="nav-link active"
+                    id="all-tab"
+                    data-bs-toggle="tab"
+                    href="#all"
+                    role="tab"
+                    aria-controls="all"
+                    aria-selected="true"
+                  >
+                    All
+                  </a>
+                </li>
+              </ul>
+              <div
+                className="tab-content"
+                id="chatTabContent"
+                style={{ overflowY: "auto", height: "calc(100% - 160px)" }}
+              >
                 <div
-                  className="mask-custom-scroll list-unstyled rounded-3"
-                  style={{ maxHeight: '500px', overflowY: 'auto' }}
+                  className="tab-pane fade show active"
+                  id="all"
+                  role="tabpanel"
+                  aria-labelledby="all-tab"
                 >
-                  {student &&
-                    student
-                      .filter(userchat => userchat.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                      .map((userchat) => (
-                        <li
-                          className="p-2 border-bottom"
-                          style={{
-                            backgroundColor: selectedStudent && selectedStudent._id === userchat._id
-                              ? '#1C2E46'
-                              : 'white',
-                            color: selectedStudent && selectedStudent._id === userchat._id
-                              ? 'white'
-                              : 'black',
-                            border: '3px solid white',
-                            cursor: 'pointer',
-                          }}
-                          key={userchat._id}
-                          onClick={() => handleStudentSelect(userchat)}
+                  <div className="list-group list-group-flush">
+                    {staff &&
+                      staff.map((staff) => (
+                        <a
+                          href="#"
+                          className="list-group-item list-group-item-action"
+                          key={staff._id}
+                          onClick={() => handleDoctorSelect(staff)}
                         >
-                          <div className="d-flex flex-start">
+                          <div className="d-flex align-items-center">
                             <img
-                              className="rounded-circle d-flex align-self-center me-3"
-                              src={userchat.photo || 'https://mdbootstrap.com/img/Photos/Avatars/img%20(1).jpg'}
-                              alt="avatar"
-                              width="60"
-                              height="60"
+                              src={staff.photo}
+                              className="rounded-circle me-3"
+                              alt="Contact Image"
+                              style={{ width: "3rem", height: "3rem" }}
                             />
                             <div className="w-100">
-                              <div className="justify-content-between mb-3">
-                                <p className="fw-bold mb-0">{userchat.name}</p>
-                                <p className="text-muted mb-0">
-                                  {isStudentOnline(userchat._id) ? 'Online' : 'Offline'} &nbsp;
-                                  {timeCall(userchat?.createdOn)}
-                                </p>
+                              <div className="d-flex justify-content-between">
+                                <h6
+                                  className="mb-0"
+                                  style={{ color: "#343a40" }}
+                                >
+                                  {staff.empName}
+                                </h6>
+                                <small className="text-muted">
+                                  {timeCall(staff.createdOn)}
+                                </small>
                               </div>
+                              <p
+                                className="mb-0 text-truncate"
+                                style={{ color: "#6c757d" }}
+                              >
+                                {issuperAdminOnline(staff._id)
+                                  ? "Online"
+                                  : "Offline"}
+                              </p>
                             </div>
                           </div>
-                        </li>
+                        </a>
                       ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-              className="  col-lg-8 col-md-12 "
-              style={{ maxHeight: "590px", zIndex: "1" }}
-            >
-              <div
-                className="special-divider  mt-5 rounded-3"
-                id="message_box"
-                style={{
-                  maxHeight: "480px",
-                  overflowY: "auto",
-                  backgroundColor: "#E6EDF8",
-                }}
-                ref={messagesContainerRef}
-              >
-                <MDBCol>
-                  <MDBTypography listUnStyled className="">
-                    <div
-                      className="  position-sticky fixed-top w-100  p-2 rounded d-flex justify-content-between"
-                      style={{ zIndex: 9999, backgroundColor: "#1C2E46" }}
-                    >
-                      <div className="d-flex flex-row hover-zoom">
-                        {selectedUser && selectedUser.photo ? (
-                          <img
-                            src={selectedUser.photo}
-                            alt="avatar"
-                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
-                            width="40"
-                            height="40"
-                          />
-                        ) : (
-                          <div
-                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong bg-light text-dark"
-                            style={{
-                              width: "40px",
-                              height: "40px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <img
-                              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                              alt="avatar"
-                              className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
-                              width="40"
-                              height="40"
-                            />
-                          </div>
-                        )}
-                        <div className="pt-1">
-                          <p className="fw-bold mb-0 text-white">
-                            {selectedUser && selectedUser.name}
-                          </p>
-                          {selectedUser && selectedUser._id ? (
-                            <span
-                              className="small  mb-1"
-                              style={{
-                                color: isUserOnline(selectedUser._id)
-                                  ? "green"
-                                  : "red",
-                                fontWeight: "700",
-                              }}
-                            >
-                              {isUserOnline(selectedUser._id)
-                                ? "Online"
-                                : "Offline"}
-                            </span>
-                          ) : null}
-                        </div>
-                      </div>
-                      <div className="mt-2 text-white">
-                        <BsThreeDotsVertical />
-                      </div>
-                    </div>
-
-                    <div className="mask-custom-scroll p-5 ">
-                      {loadingMessages && <p>Loading messages...</p>}
-                      {!loadingMessages && messages.length > 0 ? (
-                        <ul className="list-unstyled">
-                          {messages.map((message, index) => (
-                            <li
-                              className={`d-flex justify-content-${
-                                message.senderType === "staff" ? "end" : "start"
-                              } mb-4`}
-                              key={index}
-                            >
-                              {message.senderType === "staff" &&
-                              message &&
-                              message.staffId.photo ? (
-                                <img
-                                  src={message.staffId.photo}
-                                  alt="avatar"
-                                  className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
-                                  width="30"
-                                  height="30"
-                                />
-                              ) : (
-                                message.senderType === "superAdmin" &&
-                                message &&
-                                message.superAdminId.photo && (
-                                  <img
-                                    src={message.superAdminId.photo}
-                                    alt="avatar"
-                                    className="rounded-circle d-flex align-self-start ms-3 shadow-1-strong mt-3"
-                                    width="30"
-                                    height="30"
-                                  />
-                                )
-                              )}
-                              <MDBCard
-                                className="mask-custom "
-                                style={{
-                                  background: "none",
-                                  backgroundColor: "none",
-                                  border: "none",
-                                  borderBottom: "none",
-                                  boxShadow: "none",
-                                }}
-                              >
-                                <MDBCardBody
-                                  style={{
-                                    backgroundColor:
-                                      message.senderType === "staff"
-                                        ? "#EB2562"
-                                        : "#1C2E46",
-                                    borderRadius: "50px 50px 0px 50px ",
-
-                                    border: "none",
-                                    borderBottom: "none",
-                                  }}
-                                >
-                                  <p className="mb-0 text-white  ">
-                                    {message.sentBy === "staff"
-                                      ? `${userMessage}`
-                                      : `${message.message}`}
-                                  </p>
-                                </MDBCardBody>
-                                <MDBCardFooter
-                                  style={{
-                                    background: "none",
-                                    borderTop: "none",
-                                  }}
-                                >
-                                  <p className="text-black ms-5 d-flex justify-content-end small mb-0 ms-2">
-                                    {" "}
-                                    {message.sentOn && `${message.sentOn}`}
-                                  </p>
-                                </MDBCardFooter>
-                              </MDBCard>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <div>No messages available.</div>
-                      )}
-                    </div>
-                  </MDBTypography>
-                </MDBCol>
-              </div>
-              <div
-                className="container p-2 rounded-2 "
-                style={{ backgroundColor: "#1C2E46" }}
-              >
-                <div className="row">
-                  <div
-                    className=" col-sm-12 col-lg-12 col-md-8"
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        const messageText = e.target.value.trim();
-                        if (messageText !== "") {
-                          handleSendMessage(messageText);
-                          e.target.value = "";
-                        }
-                      }
-                    }}
-                  >
-                    <div className="messages-box d-flex mt-2 ms-2">
-                      <input
-                        className="form-control"
-                        placeholder="Type your message"
-                        rows={2}
-                        value={inputMessage}
-                        onChange={handleInputChange}
-                      ></input>
-                      <button
-                        style={{
-                          backgroundColor: "#EB2562",
-                          color: "white",
-                          borderRadius: "5px",
-                          border: "none",
-                          padding: "2%",
-                        }}
-                        onClick={handleSendMessage}
-                      >
-                        Send
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Chat Content */}
+            <div
+              className="col-md-8 d-flex flex-column"
+              style={{
+                height: "100vh",
+                overflow: "auto",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#007bff #e9ecef",
+              }}
+            >
+              <div className="d-flex align-items-center p-3 border-bottom bg-white">
+                <img
+                  src={
+                    selectedStaff
+                      ? selectedStaff.photo
+                      : "https://via.placeholder.com/50"
+                  }
+                  className="rounded-circle me-3"
+                  alt="Contact Image"
+                  style={{ width: "3rem", height: "3rem" }}
+                />
+                <div>
+                  <h5 className="mb-0" style={{ color: "#343a40" }}>
+                    {selectedStaff ? selectedStaff.empName : "Contact Name"}
+                  </h5>
+                  <small className="text-muted">
+                    {" "}
+                    {selectedStaff && selectedStaff.designation}
+                  </small>
+                </div>
+              </div>
+              <div
+                className="flex-grow-1 overflow-auto p-3 bg-light"
+                style={{
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#007bff #e9ecef",
+                }}
+              >
+                <div className="chat-messages">
+                  {loadingMessages && <p>Loading messages...</p>}
+                  {!loadingMessages && messages.length > 0 ? (
+                    messages.map((message, index) => (
+                      <div
+                        key={index}
+                        className={`d-flex mb-3 ${
+                          message.senderType === "superAdmin"
+                            ? "justify-content-end"
+                            : "justify-content-start"
+                        }`}
+                      >
+                        {message.senderType === "superAdmin" &&
+                        message.superAdminId.profileImage ? (
+                          <img
+                            src={message.superAdminId.profileImage}
+                            alt="avatar"
+                            className="rounded-circle me-3"
+                            width="30"
+                            height="30"
+                          />
+                        ) : message.senderType === "staff" &&
+                          message.staffId.photo ? (
+                          <img
+                            src={message.staffId.photo}
+                            alt="avatar"
+                            className="rounded-circle me-3"
+                            width="30"
+                            height="30"
+                          />
+                        ) : null}
+                        <div
+                          className={`p-2 rounded text-end ${
+                            message.senderType === "superAdmin"
+                              ? "bg-success text-white"
+                              : "bg-secondary text-white"
+                          }`}
+                        >
+                          <p className="mb-1">{message.message}</p>
+                          <small className="text-muted">{message.sentOn}</small>
+                        </div>
+                        <div
+                          className={`p-2 rounded text-start ${
+                            message.senderType === "staff"
+                              ? "bg-success text-white"
+                              : "bg-secondary text-white"
+                          }`}
+                        >
+                          <p className="mb-1">{message.message}</p>
+                          <small className="text-muted">{message.sentOn}</small>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No messages found.</p>
+                  )}
+                </div>
+              </div>
+              <div className="input-group p-3 border-top bg-white gap-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Type a message"
+                  value={inputMessage}
+                  onChange={handleInputChange}
+                  style={{
+                    borderRadius: "25px",
+                    borderColor: "#ced4da",
+                    fontSize: "12px",
+                  }}
+                />
+                <div className="input-group-append">
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={handleSendMessage}
+                    style={{ borderRadius: "25px" }}
+                  >
+                    <i className="fas fa-paper-plane"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
 
-export default ChatApp;
+export default ListChat;

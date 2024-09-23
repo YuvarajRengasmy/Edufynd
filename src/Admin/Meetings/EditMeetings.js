@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidPhone,
-} from "../../Utils/Validation";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import {
-  updatedMeeting,
-  getSingleMeeting,
-} from "../../api/Notification/meeting";
-import { getallClientModule } from "../../api/universityModule/clientModule";
+import React, { useEffect, useState } from 'react';
+import { isValidEmail, isValidPassword, isValidPhone } from '../../Utils/Validation';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { updatedMeeting, getSingleMeeting } from "../../api/Notification/meeting";
+import {getallClientModule} from "../../api/universityModule/clientModule";
 import Header from "../../compoents/header";
 import Sidebar from "../../compoents/AdminSidebar";
 
@@ -19,8 +12,10 @@ import { getallAdmin } from "../../api/admin";
 import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Select from "react-select";
-import { Link, useLocation } from "react-router-dom";
-import { RichTextEditor } from "@mantine/rte";
+import { Link,useLocation } from "react-router-dom";
+import { RichTextEditor } from '@mantine/rte';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddMeetings = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -33,6 +28,7 @@ export const AddMeetings = () => {
     date: "",
     time: "",
   };
+    
 
   const initialStateErrors = {
     hostName: { required: false },
@@ -81,7 +77,7 @@ export const AddMeetings = () => {
   const getAdminList = () => {
     getallAdmin()
       .then((res) => {
-        setAdmin(res?.data?.result);
+        setAdmin(res?.data?.result );
       })
       .catch((err) => {
         console.log(err);
@@ -131,6 +127,7 @@ export const AddMeetings = () => {
     return error;
   };
 
+  
   const convertToBase64 = (e, name) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -149,18 +146,13 @@ export const AddMeetings = () => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
-    } else {
-      setnotification({
-        ...notification,
-        [event?.target?.name]: event?.target?.value,
-      });
+    } else{
+      setnotification({ ...notification, [event?.target?.name]: event?.target?.value });
     }
-
+    
     if (submitted) {
-      const newError = handleValidation({
-        ...notification,
-        [event.target.name]: event.target.value,
-      });
+      const newError = handleValidation({...notification,
+        [event.target.name]: event.target.value,});
       setErrors(newError);
     }
   };
@@ -169,10 +161,7 @@ export const AddMeetings = () => {
     const values = selectedOptions
       ? selectedOptions.map((option) => option.value)
       : [];
-    setnotification((prevNotification) => ({
-      ...prevNotification,
-      [name]: values,
-    }));
+    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
   };
 
   const handleErrors = (obj) => {
@@ -187,12 +176,14 @@ export const AddMeetings = () => {
     return true;
   };
 
+  
   const handleRichTextChange = (value) => {
     setnotification((prevnotification) => ({
       ...prevnotification,
       content: value,
     }));
   };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -225,7 +216,7 @@ export const AddMeetings = () => {
     value: data.empName,
     label: data.empName,
   }));
-
+ 
   const studentOptions = student.map((data, index) => ({
     value: data.name,
     label: data.name,
@@ -235,7 +226,7 @@ export const AddMeetings = () => {
     value: data.agentName,
     label: data.agentName,
   }));
-
+ 
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -252,9 +243,13 @@ export const AddMeetings = () => {
     }),
   };
 
+
+
+
+
   return (
     <>
-      <div>
+     <div>
         <Sidebar />
 
         <div
@@ -266,7 +261,7 @@ export const AddMeetings = () => {
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
                       <div
                         className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
                         style={{ background: "#fe5722", color: "#fff" }}
@@ -278,13 +273,28 @@ export const AddMeetings = () => {
                       </div>
                       <div className="card-body mt-5">
                         <div className="row g-3">
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Host Name<span className="text-danger">*</span>
+                            </label>
+                            <select
+                              class="form-select form-select-lg rounded-1 text-capitalize"
+                              aria-label="Default select example"
+                            >
+                              <option selected>Select User</option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
-                              Host Name <span className="text-danger">*</span>
+                          Type Of User{" "}
+                              <span className="text-danger">*</span>
                             </label>
 
                             <select
-                              class="form-select form-select-lg"
+                              class={`form-select form-select-lg rounded-1 text-capitalize ${errors.hostName.required ? 'is-invalid' : ''}`}
                               name="hostName"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -307,112 +317,115 @@ export const AddMeetings = () => {
                             ) : null}
                           </div>
                           {notification.hostName === "staff" ? (
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
-                              </label>
-                              <Select
-                                isMulti
-                                placeholder="Select staff"
-                                onChange={handleSelectChange}
-                                options={staffOptions}
-                                value={
-                                  notification?.attendees
-                                    ? notification?.attendees.map((inTake) => ({
-                                        value: inTake,
-                                        label: inTake,
-                                      }))
-                                    : null
-                                }
-                                name="attendees"
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                              {errors.attendees.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
+                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                             <label style={{ color: "#231F20" }}>
+                               Staff List<span className="text-danger">*</span>
+                             </label>
+                            <Select
+                             isMulti
+                             placeholder="Select Staff"
+                             onChange={handleSelectChange}
+                              options={staffOptions}
+                              value={
+                                notification?.attendees
+                                  ? notification?.attendees.map((inTake) => ({
+                                      value: inTake,
+                                      label: inTake,
+                                    }))
+                                  : null
+                              }
+                             name="attendees"
+                             
+                             styles={customStyles}
+                             className="submain-one-form-body-subsection-select"
+                           />
+                             {errors.attendees.required ? (
+                               <div className="text-danger form-text">
+                                 This field is required.
+                               </div>
+                             ) : null}
+                           </div>
                           ) : notification.hostName === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Student List
-                                <span className="text-danger">*</span>
+                                Student List<span className="text-danger">*</span>
                               </label>
-                              <Select
-                                isMulti
-                                placeholder="Select Country"
-                                onChange={handleSelectChange}
-                                options={studentOptions}
-                                value={
-                                  notification?.attendees
-                                    ? notification?.attendees.map((inTake) => ({
-                                        value: inTake,
-                                        label: inTake,
-                                      }))
-                                    : null
-                                }
-                                name="attendees"
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
+                             <Select
+                              isMulti
+                              placeholder="Select Student"
+                               onChange={handleSelectChange}
+                               options={studentOptions}
+                               value={
+                                notification?.attendees
+                                  ? notification?.attendees.map((inTake) => ({
+                                      value: inTake,
+                                      label: inTake,
+                                    }))
+                                  : null
+                              }
+                              name="attendees"
+                              
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
                               {errors.attendees.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
                                 </div>
                               ) : null}
                             </div>
-                          ) : notification.hostName === "agent" ? (
+                          ) :notification.hostName === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Admin List<span className="text-danger">*</span>
-                              </label>
-                              <Select
-                                isMulti
-                                placeholder="Select Country"
-                                onChange={handleSelectChange}
-                                options={agentOptions}
-                                value={
-                                  notification?.attendees
-                                    ? notification?.attendees.map((inTake) => ({
-                                        value: inTake,
-                                        label: inTake,
-                                      }))
-                                    : null
-                                }
-                                name="attendees "
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
-                              {errors.attendees.required ? (
-                                <div className="text-danger form-text">
-                                  This field is required.
-                                </div>
-                              ) : null}
-                            </div>
+                            <label style={{ color: "#231F20" }}>
+                              Agent List<span className="text-danger">*</span>
+                            </label>
+                           <Select
+                            isMulti
+                            placeholder="Select Agent"
+                             onChange={handleSelectChange}
+                             options={agentOptions}
+                             value={
+                              notification?.attendees
+                                ? notification?.attendees.map((inTake) => ({
+                                    value: inTake,
+                                    label: inTake,
+                                  }))
+                                : null
+                            }
+                            name="attendees "
+                            
+                            styles={customStyles}
+                            className="submain-one-form-body-subsection-select"
+                          />
+                            {errors.attendees.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
                           ) : notification.hostName === "admin" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Admin List<span className="text-danger">*</span>
                               </label>
-                              <Select
-                                isMulti
-                                placeholder="Select Country"
-                                onChange={handleSelectChange}
-                                options={adminOptions}
-                                value={
-                                  notification?.attendees
-                                    ? notification?.attendees.map((inTake) => ({
-                                        value: inTake,
-                                        label: inTake,
-                                      }))
-                                    : null
-                                }
-                                name="attendees "
-                                styles={customStyles}
-                                className="submain-one-form-body-subsection-select"
-                              />
+                             <Select
+                              isMulti
+                              placeholder="Select Admin"
+                               onChange={handleSelectChange}
+                               options={adminOptions}
+                               value={
+                                notification?.attendees
+                                  ? notification?.attendees.map((inTake) => ({
+                                      value: inTake,
+                                      label: inTake,
+                                    }))
+                                  : null
+                              }
+                              name="attendees "
+                              
+                              styles={customStyles}
+                              className="submain-one-form-body-subsection-select"
+                            />
                               {errors.attendees.required ? (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -421,14 +434,14 @@ export const AddMeetings = () => {
                             </div>
                           ) : null}
 
-                          <div className="row gy-2 ">
+                         
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Subject<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                className="form-control "
+                                className={`form-control rounded-1 text-capitalize  ${errors.subject.required ? 'is-invalid' : ''}`}
                                 onChange={handleInputs}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -437,6 +450,12 @@ export const AddMeetings = () => {
                                 value={notification?.subject}
                                 placeholder="Enter  Subject"
                                 name="subject"
+                                onKeyDown={(e) => {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
+                                    e.preventDefault();
+                                  }
+                                }}
                               />
                               {errors.subject.required ? (
                                 <div className="text-danger form-text">
@@ -444,21 +463,17 @@ export const AddMeetings = () => {
                                 </div>
                               ) : null}
                             </div>
-                          </div>
+                          
 
-                          <div className="row gy-2 ">
+                        
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Date<span className="text-danger">*</span>
+                              Date<span className="text-danger">*</span>
                               </label>
                               <input
                                 type="date"
-                                className="form-control "
-                                value={
-                                  notification?.date
-                                    ? notification?.date.slice(0, 10)
-                                    : ""
-                                }
+                                className={`form-control rounded-1 text-uppercase ${errors.date.required ? 'is-invalid' : ''}`}
+                                value={notification?.date?notification?.date.slice(0,10):""}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -472,17 +487,19 @@ export const AddMeetings = () => {
                                   This field is required.
                                 </div>
                               ) : null}
+                              
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Time<span className="text-danger">*</span>
+                              Time<span className="text-danger">*</span>
                               </label>
                               <input
-                                type="time"
-                                className="form-control "
+                                type='time'
+                                className={`form-control rounded-1 text-uppercase ${errors.time.required ? 'is-invalid' : ''}`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
+                                 
                                 }}
                                 value={notification?.time}
                                 placeholder="Enter  Time"
@@ -494,14 +511,65 @@ export const AddMeetings = () => {
                                   This field is required.
                                 </div>
                               ) : null}
+                              
                             </div>
-                          </div>
+                          
                           <div className="row gy-2 ">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Content<span className="text-danger">*</span>
                               </label>
-                              <RichTextEditor
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={notification.content}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
+                                name="content"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex: "0",
+                                }}
+                              />
+                              {/* <RichTextEditor
                                 placeholder="Start writing your content here..."
                                 name="content"
                                 onChange={handleRichTextChange}
@@ -512,7 +580,7 @@ export const AddMeetings = () => {
                                   minHeight: "200px",
                                   overflowY: "auto",
                                 }}
-                              />
+                              /> */}
                               {errors.content.required && (
                                 <div className="text-danger form-text">
                                   This field is required.
@@ -520,16 +588,18 @@ export const AddMeetings = () => {
                               )}
                             </div>
                           </div>
+                         
+                         
 
-                          <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
+                          <div className="d-flex justify-content-end  ">
                             <Link
-                              to="/admin_list_meetings"
+                            to="/admin_list_meetings"
                               style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
+                               
                                 fontSize: "12px",
                               }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
+                             
+                              className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
                             </Link>
@@ -540,7 +610,7 @@ export const AddMeetings = () => {
                                 fontSize: "12px",
                               }}
                               type="submit"
-                              className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
+                              className="btn btn-save rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                             >
                               Submit
                             </button>
@@ -555,7 +625,8 @@ export const AddMeetings = () => {
           </div>
         </div>
       </div>
+      
     </>
-  );
-};
-export default AddMeetings;
+  )
+}
+export default AddMeetings

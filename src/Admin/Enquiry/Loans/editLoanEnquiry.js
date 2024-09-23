@@ -221,7 +221,7 @@ export const AddLoanEnquiry = () => {
                       </label>
 
                       <input
-                        className={`form-control rounded-1 ${
+                        className={`form-control rounded-1  text-capitalize ${
                           errors.studentName.required ? "is-invalid" : ""
                         }`}
                         value={loan?.studentName}
@@ -229,10 +229,16 @@ export const AddLoanEnquiry = () => {
                         name="studentName"
                         id="inputStudentName"
                         type="text"
-                        placeholder="Enter Student Name"
+                        placeholder="Example John Doe"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.studentName.required ? (
@@ -254,10 +260,15 @@ export const AddLoanEnquiry = () => {
                         onChange={handleInputs}
                         id="inputPrimaryNo"
                         type="text"
-                        placeholder="Enter Primary Number"
+                         placeholder="Example +91 95672-89324"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.primaryNumber.required ? (
@@ -266,7 +277,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : errors.primaryNumber.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid emergencyContactNo.
+                             This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -283,10 +294,15 @@ export const AddLoanEnquiry = () => {
                         onChange={handleInputs}
                         id="inputWhatsAppNumber"
                         type="text"
-                        placeholder="Enter WhatsApp Number"
+                        placeholder="Example +91 95672-89324"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.primaryNumber.required ? (
@@ -295,7 +311,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : errors.primaryNumber.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid emergencyContactNo.
+                            This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -305,7 +321,7 @@ export const AddLoanEnquiry = () => {
                         Email ID
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
+                        className={`form-control rounded-1 text-lowercase ${
                           errors.email.required ? "is-invalid" : ""
                         }`}
                         value={loan?.email}
@@ -313,11 +329,19 @@ export const AddLoanEnquiry = () => {
                         onChange={handleInputs}
                         id="inputEmail"
                         type="text"
-                        placeholder="Enter Email ID"
+                        placeholder="Example johndoe@123gmail.com"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9@._-]*$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+                          'Tab', 'Enter', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
+
                       />
                       {errors.email.required ? (
                         <div className="text-danger form-text">
@@ -325,7 +349,7 @@ export const AddLoanEnquiry = () => {
                         </div>
                       ) : errors.email.valid ? (
                         <div className="text-danger form-text">
-                          Enter valid Email Id.
+                        This field is required.
                         </div>
                       ) : null}
                     </div>
@@ -334,16 +358,16 @@ export const AddLoanEnquiry = () => {
                         style={{ color: "#231F20" }}
                         className="class-danger"
                       >
-                        DoYouHaveAValidOfferFromAnyUniversity
+                        Do You Have A Valid Offer From Any University
                       </label>
                       <select
                         style={{
-                          backgroundColor: "#fff",
+                        
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
                         value={loan?.doYouHaveAValidOfferFromAnyUniversity}
-                        className={`form-select form-select-lg rounded-1 ${
+                        className={`form-select form-select-lg rounded-1 text-capitalize ${
                           errors.doYouHaveAValidOfferFromAnyUniversity.required
                             ? "is-invalid"
                             : ""
@@ -373,12 +397,17 @@ export const AddLoanEnquiry = () => {
                         value={loan?.loanAmountRequired}
                         id="inputloanamount"
                         type="text"
-                        placeholder="Enter Loan Amount Required"
+                        placeholder="Example 200000"
                         onChange={handleInputs}
                         name="loanAmountRequired"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.loanAmountRequired.required ? (
@@ -399,11 +428,11 @@ export const AddLoanEnquiry = () => {
                           </label>
                           <input
                             name="uploadOfferletter"
-                            className="form-control"
+                            className="form-control rounded-1"
                             type="file"
                             placeholder="Upload Offerletter"
                             style={{
-                              height: 30,
+                            
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
@@ -435,16 +464,22 @@ export const AddLoanEnquiry = () => {
 
                           <input
                             name="universityName"
-                            className="form-control"
+                            className="form-control rounded-1 text-capitalize"
                             value={loan?.universityName}
                             type="text"
-                            placeholder="Enter University Name"
+                            placeholder="Example Coventry University"
                             style={{
-                              height: 30,
+                             
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </div>
                       </div>
@@ -452,7 +487,7 @@ export const AddLoanEnquiry = () => {
 
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputmonthlyincome">
-                        What is your monthly income?
+                      What Is Your Monthly Income?
                       </label>
                       <input
                         className={`form-control rounded-1 ${
@@ -465,10 +500,15 @@ export const AddLoanEnquiry = () => {
                         name="whatIsYourMonthlyIncome"
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter What is your monthly income?"
+                        placeholder="Example 20000"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.whatIsYourMonthlyIncome.required ? (
@@ -482,7 +522,7 @@ export const AddLoanEnquiry = () => {
                         Passport Number
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
+                        className={`form-control rounded-1 text-uppercase ${
                           errors.passportNumber.required ? "is-invalid" : ""
                         }`}
                         value={loan?.passportNumber}
@@ -490,11 +530,17 @@ export const AddLoanEnquiry = () => {
                         name="passportNumber"
                         onChange={handleInputs}
                         type="text"
-                        placeholder="Enter The Passport Number"
+                        placeholder="Example WER45TYUC"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent default behavior for disallowed keys
+                     if (!/^[a-zA-Z0-9]$/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                       e.preventDefault();
+                     }
+                    }}
                       />
                       {errors.passportNumber.required ? (
                         <div className="text-danger form-text">
@@ -547,7 +593,7 @@ export const AddLoanEnquiry = () => {
                         style={{ color: "#231F20" }}
                         className="class-danger"
                       >
-                        DidYouApplyForLoanElsewhere
+                        Did You Apply For Loan Elsewhere
                       </label>
                       <select
                         value={loan?.didYouApplyForLoanElsewhere}
@@ -556,7 +602,7 @@ export const AddLoanEnquiry = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        className="form-select"
+                        className="form-select form-select-lg rounded-1 text-capitalize"
                         name="didYouApplyForLoanElsewhere"
                         onChange={handleInputs}
                       >
@@ -572,11 +618,10 @@ export const AddLoanEnquiry = () => {
                         Co-Applicant Name
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
+                        className={`form-control rounded-1 text-capitalize ${
                           errors.coApplicantName.required ? "is-invalid" : ""
                         }`}
                         id="inputCo-ApplicantName"
-                        value={loan?.coApplicantName}
                         name="coApplicantName"
                         onChange={handleInputs}
                         type="text"
@@ -585,6 +630,14 @@ export const AddLoanEnquiry = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
                         }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        value={loan?.coApplicantName}
+                       
                       />
                       {errors.coApplicantName.required ? (
                         <div className="text-danger form-text">
@@ -595,25 +648,38 @@ export const AddLoanEnquiry = () => {
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label
                         className="form-label"
-                        value={loan?.age}
+                       
                         for="inputCo-Applicantage"
                       >
                         {" "}
                         Co-Applicant Age
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
-                          errors.age.required ? "is-invalid" : ""
-                        }`}
-                        id="inputCo-Applicantage"
-                        onChange={handleInputs}
-                        name="age"
-                        type="text"
-                        placeholder="Enter  Co-Applicant Age"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                        }}
+                       className={`form-control rounded-1 ${
+                        errors.age.required ? "is-invalid" : ""
+                      }`}
+                      id="inputCo-Applicantage"
+                      onChange={handleInputs}
+                      name="age"
+                      type="text"
+                      placeholder="Enter  Co-Applicant Age"
+                      style={{
+                        fontFamily: "Plus Jakarta Sans",
+                        fontSize: "12px",
+                      }}
+                      onKeyDown={(e) => {
+                        if (
+                          !/^[0-9]$/i.test(e.key) &&
+                          ![
+                            "Backspace",
+                            "Delete",
+                            "ArrowLeft",
+                            "ArrowRight",
+                          ].includes(e.key)
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
                         value={loan?.age}
                       />
                       {errors.age.required ? (
@@ -629,21 +695,27 @@ export const AddLoanEnquiry = () => {
                             style={{ color: "#231F20" }}
                             className="class-danger"
                           >
-                            Choose TheBankYou Previously Applied
+                           Enter The Bank You Previously Applied
                           </label>
 
                           <input
                             name="chooseTheBankYouPreviouslyApplied"
-                            className="form-control"
+                         className="form-control rounded-1 text-capitalize"
                             value={loan?.chooseTheBankYouPreviouslyApplied}
                             type="text"
-                            placeholder="Enter The ChooseTheBankYouPreviouslyApplied"
+                            placeholder="Example Axis Bank"
                             style={{
-                              height: 40,
+                            
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -656,16 +728,22 @@ export const AddLoanEnquiry = () => {
 
                           <input
                             name="statusOfPreviousApplication"
-                            className="form-control"
+                              className="form-control rounded-1 text-capitalize"
                             value={loan?.statusOfPreviousApplication}
                             type="text"
-                            placeholder="Enter The statusOfPreviousApplication"
+                             placeholder="Example Active"
                             style={{
-                              height: 40,
+                             
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
                             onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              // Prevent non-letter characters
+                              if (/[^a-zA-Z\s]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </div>
                       </div>
@@ -680,7 +758,7 @@ export const AddLoanEnquiry = () => {
                         Co-Applicant Employment Status
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
+                         className={`form-control rounded-1 text-capitalize ${
                           errors.employmentStatus.required ? "is-invalid" : ""
                         }`}
                         value={loan?.employmentStatus}
@@ -688,10 +766,16 @@ export const AddLoanEnquiry = () => {
                         type="text"
                         name="employmentStatus"
                         onChange={handleInputs}
-                        placeholder="Enter  Co-Applicant Employment Status"
+                        placeholder="Example Employed"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          // Prevent non-letter characters
+                          if (/[^a-zA-Z\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.employmentStatus.required ? (
@@ -709,7 +793,7 @@ export const AddLoanEnquiry = () => {
                         Co-Applicant Income Details
                       </label>
                       <input
-                        className={`form-control rounded-1 ${
+                         className={`form-control rounded-1 ${
                           errors.incomeDetails.required ? "is-invalid" : ""
                         }`}
                         value={loan?.incomeDetails}
@@ -717,10 +801,23 @@ export const AddLoanEnquiry = () => {
                         type="text"
                         name="incomeDetails"
                         onChange={handleInputs}
-                        placeholder="Enter  Co-Applicant Income Details"
+                        placeholder="Example 20000"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "12px",
+                        }}
+                        onKeyDown={(e) => {
+                          if (
+                            !/^[0-9]$/i.test(e.key) &&
+                            ![
+                              "Backspace",
+                              "Delete",
+                              "ArrowLeft",
+                              "ArrowRight",
+                            ].includes(e.key)
+                          ) {
+                            e.preventDefault();
+                          }
                         }}
                       />
                       {errors.incomeDetails.required ? (
@@ -731,10 +828,10 @@ export const AddLoanEnquiry = () => {
                     </div>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" for="inputcollateral">
-                        Will you submit your collateral if required
+                      Will You Submit Your Collateral If Required
                       </label>
                       <select
-                        className="form-select form-select-lg rounded-1"
+                         className="form-select form-select-lg rounded-1 text-capitalize"
                         value={loan?.willyouSubmitYourCollateral}
                         name="willyouSubmitYourCollateral"
                         onChange={handleInputs}
@@ -744,7 +841,7 @@ export const AddLoanEnquiry = () => {
                         }}
                         id="inputcollateral"
                       >
-                        <option value="">Select collateral</option>
+                        <option value="">Select Collateral</option>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
                       </select>

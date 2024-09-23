@@ -1,22 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
 import {getSuperAdminForSearch} from '../../api/superAdmin';
-
-import {
-  getallProgram,
-  deleteProgram,
-  getFilterProgram,
-} from "../../api/Program";
+import { getAllApplicantCard } from "../../api/applicatin";
+import {getallProgram,getAllProgramCard,deleteProgram,getFilterProgram,updatedProgram} from "../../api/Program";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Pagination,
-  radioClasses,
-} from "@mui/material";
-import Masterheader from "../../compoents/header";
+import {Dialog,DialogContent,DialogTitle,IconButton,Pagination,radioClasses,} from "@mui/material";
 import Mastersidebar from "../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -37,6 +25,8 @@ export default function Masterproductlist() {
   const location = useLocation()
   var searchValue = location.state
   const [link ,setLink] = useState('');
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
   const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -44,22 +34,44 @@ export default function Masterproductlist() {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [staff, setStaff] = useState(null);
-
-  const pageSize = 10;
   const search = useRef(null);
+  const [pageSize, setPageSize] = useState(10); 
+  const [staff, setStaff] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
-
-  const [program, setProgaram] = useState();
+  const [program, setProgaram] = useState([]);
+  const [detail, setDetail] = useState();
+  const [details, setDetails] = useState();
 
   useEffect(() => {
     getAllProgaramDetails();
     getStaffDetails();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to,pageSize]);
+
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'program');
+  
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   useEffect(() => {
     if (search.current) {
@@ -74,31 +86,24 @@ useEffect(() => {
     }
 }, [searchValue])
 
-const getStaffDetails = () => {
-  const id = getStaffId();
-  getSingleStaff(id)
-    .then((res) => {
-      console.log("yuvi", res);
-      setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 
-if (!staff || !staff.privileges) {
-  // return null; // or a loading spinner
+useEffect(() => {
+  getallProgramCount();
+  getallApplicantCount();
+ 
+}, []);
+
+const getallApplicantCount = ()=>{
+  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
+}
+const getallProgramCount = ()=>{
+  getAllProgramCard().then((res)=>setDetails(res?.data.result))
 }
 
-const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'program');
-
-if (!studentPrivileges) {
-  // return null; // or handle the case where there's no 'Student' module privilege
-}
 
   const getAllProgaramDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
     getFilterProgram(data)
@@ -119,6 +124,10 @@ if (!studentPrivileges) {
     setPagination({ ...pagination, from: from, to: to });
   };
 
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
 
   const handleInputsearch = (event) => {
     if (event.key === 'Enter') {
@@ -160,9 +169,7 @@ if (!studentPrivileges) {
       });
   };
 
-  const openFilterPopup = () => {
-    setOpenFilter(true);
-  };
+
 
   const closeFilterPopup = () => {
     setOpenFilter(false);
@@ -238,7 +245,8 @@ if (!studentPrivileges) {
 
     try {
       const response = await axios.post(
-        "https://api.edufynd.in/api/program/import",
+         "https://api.edufynd.in/api/program/import",
+        // "http://localhost:4409/api/program/import",
         formData,
         {
           headers: {
@@ -249,12 +257,14 @@ if (!studentPrivileges) {
       console.log("File uploaded successfully:", response.data);
     } catch (error) {
       console.error("Error uploading file:", error);
+       toast.error('Unsupported file format. Please upload CSV or XLSX.');
     }
   };
 
   const pdfDownload = (event) => {
     event?.preventDefault();
-    getFilterProgram(program)
+
+    getallProgram(program)
       .then((res) => {
         var result = res?.data?.result;
         var tablebody = [];
@@ -266,36 +276,30 @@ if (!studentPrivileges) {
             margin: [5, 5],
             bold: true,
           },
+         
           {
-            text: "University Name",
+            text: "UniversityName",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Program Title",
+            text: "BusinessMailID",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Application Fees",
+            text: "Eligibility",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Course Fees",
-            fontSize: 11,
-            alignment: "center",
-            margin: [20, 5],
-            bold: true,
-          },
-          {
-            text: "Campus",
+            text: "Tax",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -311,40 +315,35 @@ if (!studentPrivileges) {
               margin: [5, 3],
               border: [true, false, true, true],
             },
+           
             {
               text: element?.universityName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
-            {
-              text: element?.programTitle ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
 
             {
-              text: element?.applicationFee ?? "-",
+              text: element?.paymentMethod ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.courseFee ?? "-",
+              text: element?.eligibility ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.campus ?? "-",
+              text: element?.tax ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
           ]);
         });
-        templatePdf("Program List", tablebody, "landscape");
+        templatePdf("commissionList", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -353,37 +352,38 @@ if (!studentPrivileges) {
 
   const exportCsv = (event) => {
     event?.preventDefault();
-    getFilterProgram(program)
+
+    getallProgram(program)
       .then((res) => {
         var result = res?.data?.result;
         let list = [];
         result?.forEach((res) => {
           list.push({
+           
             universityName: res?.universityName ?? "-",
-            programTitle: res?.programTitle ?? "-",
-            applicationFee: res?.applicationFee ?? "-",
-            courseFee: res?.courseFee ?? "-",
-            campus: res?.campus ?? "-",
+            paymentMethod: res?.paymentMethod ?? "-",
+            eligibility: res?.eligibility ?? "-",
+            tax: res?.tax ?? "-",
           });
         });
         let header1 = [
+         
           "universityName",
-          "programTitle",
-          "applicationFee",
-          "courseFee",
-          "campus",
+          "paymentMethod",
+          "eligibility",
+          "tax",
         ];
         let header2 = [
+          "Client Id",
           "University Name",
-          "Program Title",
-          "Application Fees",
-          "Course Fees",
-          "Campus",
+          "Payment Method",
+          "eligibility",
+          "Tax",
         ];
         ExportCsvService.downloadCsv(
           list,
-          "programList",
-          "Program List",
+          "commissionList",
+          "Commission List",
 
           header1,
           header2
@@ -393,27 +393,28 @@ if (!studentPrivileges) {
         console.log(err);
       });
   };
+  
 
-  const tableRef = useRef(null);
+  // const tableRef = useRef(null);
 
   // useEffect(() => {
   //   const table = tableRef.current;
 
   //   // Apply SortableJS to the table headers
-  //   const sortable = new Sortable(table.querySelector('thead tr'), {
+  //   const sortable = new Sortable(table.querySelector("thead tr"), {
   //     animation: 150,
   //     swapThreshold: 0.5,
-  //     handle: '.sortable-handle',
+  //     handle: ".sortable-handle",
   //     onEnd: (evt) => {
   //       const oldIndex = evt.oldIndex;
   //       const newIndex = evt.newIndex;
 
   //       // Move the columns in the tbody
-  //       table.querySelectorAll('tbody tr').forEach((row) => {
+  //       table.querySelectorAll("tbody tr").forEach((row) => {
   //         const cells = Array.from(row.children);
   //         row.insertBefore(cells[oldIndex], cells[newIndex]);
   //       });
-  //     }
+  //     },
   //   });
 
   //   return () => {
@@ -421,6 +422,65 @@ if (!studentPrivileges) {
   //   };
   // }, []);
 
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = program.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
+      // deleteSelectedprogram();
+    } else if (action === "Activate") {
+      activateSelectedProgram();
+    }
+  };
+  const deleteSelectedProgram = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) =>deleteProgram(id)))
+        .then((responses) => {
+          toast.success("program deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllProgaramDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete program.");
+        });
+    } else {
+      toast.warning("No program selected.");
+    }
+  };
+  const activateSelectedProgram = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updatedProgram(id,{ active: true })))
+        .then((responses) => {
+          toast.success("program activated successfully!");
+          setSelectedIds([]);
+          getAllProgaramDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate program.");
+        });
+    } else {
+      toast.warning("No program selected.");
+    }
+  }; 
   return (
     <>
       <div>
@@ -556,8 +616,8 @@ if (!studentPrivileges) {
           <li className="m-1">
             <Link onClick={pdfDownload}>
               <button
-                className="btn text-white rounded-1 border-0"
                 style={{ backgroundColor: "#E12929", fontSize: "12px" }}
+                className="btn text-white rounded-1 border-0"
               >
                 <i className="fa fa-file-pdf" aria-hidden="true"></i>
               </button>
@@ -566,8 +626,8 @@ if (!studentPrivileges) {
           <li className="m-1">
             <Link onClick={exportCsv}>
               <button
-                className="btn text-white rounded-1 border-0"
                 style={{ backgroundColor: "#22A033", fontSize: "12px" }}
+                className="btn text-white rounded-1 border-0"
               >
                 <i className="fa fa-file-excel" aria-hidden="true"></i>
               </button>
@@ -583,9 +643,9 @@ if (!studentPrivileges) {
               </button>
             </Link>
           </li>
-          {studentPrivileges?.add && (
           <li className="m-0">
-            <Link className="btn btn-pix-primary border-0" to="/add_program">
+          {studentPrivileges?.add && (
+            <Link className="btn btn-pix-primary border-0" to="/staff_add_program">
               <button
                 className="btn rounded-1 fw-semibold border-0 text-white"
                 style={{ backgroundColor: "#231f20", fontSize: "12px" }}
@@ -594,9 +654,8 @@ if (!studentPrivileges) {
                 Add Program
               </button>
             </Link>
-            
-          </li>
           )}
+          </li>
         </ol>
       </div>
     </div>
@@ -610,8 +669,8 @@ if (!studentPrivileges) {
         <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
             <div className="card-body text-center">
              
-              <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Total No Of Programs</h6>
-              <p className="card-text">250</p>
+              <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Total No of Programs</h6>
+              <p className="card-text">Count:{details?.totalProgram|| 0}</p>
             </div>
           </div>
           </Link>
@@ -622,8 +681,8 @@ if (!studentPrivileges) {
         <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
             <div className="card-body text-center">
              
-              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;Popular Categories</h6>
-              <p className="card-text">Data Science, AI, Business</p>
+              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;No of Country</h6>
+              <p className="card-text">Count:{details?.totalUniqueCountries|| 0}</p>
             </div>
           </div>
           </Link>
@@ -631,23 +690,22 @@ if (!studentPrivileges) {
 
  {/* Popular Categories Card2 */}
         <div className="col-md-3">
-        <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+        <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: "#0288D1" }}>
             <div className="card-body text-center">
              
-              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;Popular Categories</h6>
-              <p className="card-text">Data Science, AI, Business</p>
+              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;No of University</h6>
+              <p className="card-text">Count:{details?.universityName|| 0}</p>
             </div>
           </div>
           </Link>
         </div>
-
         {/* Number of Applications Card */}
         <div className="col-md-3">
         <Link to='#' className="text-decoration-none">    <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
             <div className="card-body text-center">
              
               <h6>   <i className="fas fa-chart-bar "></i>&nbsp;&nbsp;No Of Applications</h6>
-              <p className="card-text">1200</p>
+              <p className="card-text">{detail?.totalApplication}</p>
             </div>
           </div>
           </Link>
@@ -660,28 +718,82 @@ if (!studentPrivileges) {
     <div className="col-xl-12">
       <div className="card rounded-1 shadow-sm border-0 ">
       <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                         Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                         
-                        </p>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              {studentPrivileges?.delete && (      <option value="Delete">Delete</option> )}
+                            </select>
+                          </p>
+                    </div>
+
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
         <div className="card-body">
+
+        <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+
+<div className="table-responsive">
           <table
-            className="table table-hover card-table dataTable text-center"
-            style={{ color: "#9265cc", fontSize: "13px" }}
+            className="table card-table table-hover dataTable text-center"
+            style={{ color: "#9265cc", fontSize: "12px" }}
+            // ref={tableRef}
           >
             <thead className="table-light">
               <tr
@@ -691,25 +803,41 @@ if (!studentPrivileges) {
                 }}
               >
                 <th className=" text-start">
-                            <input type="checkbox" />
+                <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === program.length
+                                    }
+                                  />
                             </th>
                 <th className="text-capitalize text-start sortable-handle">
                   S No
                 </th>
+                
                 <th className="text-capitalize text-start sortable-handle">
-                  Title
+                  Code  <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Code
+                  Title   <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  University Name
+                  University Name   <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Application Fees
+                  Application Fees  <i className="fa fa-filter" aria-hidden="true"></i>
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
-                  Course Fees
+                  Course Fees 
+       
+        <i className="fa fa-filter" aria-hidden="true"></i>
+     
+                </th>
+                <th className="text-capitalize text-start sortable-handle">
+                  Status
+       
+        <i className="fa fa-filter" aria-hidden="true"></i>
+     
                 </th>
                 <th className="text-capitalize text-start sortable-handle">
                   Action
@@ -732,24 +860,29 @@ if (!studentPrivileges) {
                     }}
                   >
                     <td className=" text-start">
-                              <input type="checkbox" />
+                    <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                               </td>
                     <td className="text-capitalize text-start text-truncate" >
                       {pagination.from + index + 1}
+                    </td>
+                   
+                    <td className="text-capitalize text-start text-truncate">
+                      {data?.programCode  || "Not Available"}
                     </td>
                     <td className="text-capitalize text-start text-truncate">
                       <Link
                         className="dropdown-item"
                         to={{
-                          pathname: "/view_program",
+                          pathname: "/staff_view_program",
                           search: `?id=${data?._id}`,
                         }}
                       >
                         {getDisplayText(data?.programTitle, isExpanded)  || "Not Available"}
                       </Link>
-                    </td>
-                    <td className="text-capitalize text-start text-truncate">
-                      {data?.programCode  || "Not Available"}
                     </td>
                     <td
                       className="text-capitalize text-start text-truncate"
@@ -765,6 +898,17 @@ if (!studentPrivileges) {
                         ? data?.campuses[0]?.courseFees
                         : "Not Available"}
                     </td>
+                    <td className="text-capitalize text-start ">
+           
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+              
+              />
+            </span>
+          </td>
                     <td className="text-capitalize text-start text-truncate">
                       <div className="d-flex">
                       {studentPrivileges?.view && (
@@ -778,19 +922,18 @@ if (!studentPrivileges) {
                           <i className="far fa-eye text-primary me-1"></i>
                         </Link>
                       )}
-                      
-                       {studentPrivileges?.edit && (
+                      {studentPrivileges?.edit && (
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/edit_program",
+                            pathname: "/staff_edit_program",
                             search: `?id=${data?._id}`,
                           }}
                         >
                           <i className="far fa-edit text-warning me-1"></i>
                         </Link>
-                       )}
-                        {studentPrivileges?.delete && (
+                      )}
+                      {studentPrivileges?.delete && (
                         <Link
                           className="dropdown-item"
                           onClick={() => {
@@ -799,7 +942,7 @@ if (!studentPrivileges) {
                         >
                           <i className="far fa-trash-alt text-danger me-1"></i>
                         </Link>
-                        )}
+                      )}
                       </div>
                     </td>
                   </tr>
@@ -807,22 +950,151 @@ if (!studentPrivileges) {
               })}
             </tbody>
           </table>
-        
+          </div>   
+</div>
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >      
+          <div className="container">
+  <div className="row">
+  {program?.map((data, index) => {
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0">{data?.programTitle}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Program ID</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.programCode  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>University Name</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.universityName  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Application Fee</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.applicationFee  || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Course Fee</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.campuses?.length > 0
+                        ? data?.campuses[0]?.courseFees
+                        : "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 ">      
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"      
+              />
+            </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {studentPrivileges?.view && (
+          <Link
+                          className="btn btn-sm btn-outline-primary"
+                          to={{
+                            pathname: "/view_program",
+                            search: `?id=${data?._id}`,
+                          }}
+                        >
+                          <i className="far fa-eye text-primary me-1"></i>
+                        </Link>
+          )}
+          {studentPrivileges?.edit && (
+                        <Link
+                          className="dropdown-item"
+                          to={{
+                            pathname: "/edit_program",
+                            search: `?id=${data?._id}`,
+                          }}
+                        >
+                          <i className="btn btn-sm btn-outline-warning"></i>
+                        </Link>
+          )}
+          {studentPrivileges?.delete && (
+                        <button
+                          className="dropdown-item"
+                          onClick={() => {
+                            openPopup(data?._id);
+                          }}
+                        >
+                          <i className="btn btn-sm btn-outline-danger"></i>
+                   </button>
+          )}
+          </div>
+        </div>
+      </div>
+})}
+  </div>
+</div>
+                    </div>
+                </div>  
         </div>
         <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
           <Pagination
             count={Math.ceil(pagination.count / pageSize)}
             onChange={handlePageChange}
@@ -831,14 +1103,10 @@ if (!studentPrivileges) {
             color="primary"
           />
         </div>
-      
       </div>
     </div>
   </div>
-</div>
-
-
-          
+</div>         
         </div>
         <Dialog open={open}>
           <DialogContent>
@@ -863,6 +1131,33 @@ if (!studentPrivileges) {
             </div>
           </DialogContent>
         </Dialog>
+        <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedProgram}
+                     
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University
@@ -893,7 +1188,7 @@ if (!studentPrivileges) {
               </div>
               <div>
                 <Link
-                  to="/ListUniversity"
+                  to="#"
                   className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-3 py-1 text-white float-right bg"
                   style={{ backgroundColor: "#0f2239" }}
                 >
