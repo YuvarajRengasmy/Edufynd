@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { savePromotion } from "../../api/promotions";
 import { getallStaff } from "../../api/staff";
@@ -9,8 +9,8 @@ import { getallAgent } from "../../api/agent";
 import { getallStudent } from "../../api/student";
 import Sidebar from "../../compoents/AgentSidebar";
 import { Link } from "react-router-dom";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export const AddPromotions = () => {
   const initialState = {
     hostName: "",
@@ -144,7 +144,10 @@ export const AddPromotions = () => {
     if (files && files[0]) {
       convertToBase64(event, name);
     } else {
-      setnotification({ ...notification, [event?.target?.name]: event?.target?.value });
+      setnotification({
+        ...notification,
+        [event?.target?.name]: event?.target?.value,
+      });
     }
     if (submitted) {
       const newError = handleValidation({
@@ -155,10 +158,12 @@ export const AddPromotions = () => {
     }
   };
   const addEntry = (listName) => {
-    const newEntry = listName === "fileUpload"
-      ? { fileName: "", fileImage: "" }
-      : null;
-    setnotification({ ...notification, [listName]: [...notification[listName], newEntry] });
+    const newEntry =
+      listName === "fileUpload" ? { fileName: "", fileImage: "" } : null;
+    setnotification({
+      ...notification,
+      [listName]: [...notification[listName], newEntry],
+    });
   };
   const removeEntry = (index, listName) => {
     const updatedList = notification[listName].filter((_, i) => i !== index);
@@ -169,7 +174,10 @@ export const AddPromotions = () => {
     const values = selectedOptions
       ? selectedOptions.map((option) => option.value)
       : [];
-    setnotification((prevNotification) => ({ ...prevNotification, [name]: values }));
+    setnotification((prevNotification) => ({
+      ...prevNotification,
+      [name]: values,
+    }));
   };
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -337,7 +345,9 @@ export const AddPromotions = () => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              class={`form-select form-select-lg rounded-1 text-capitalize ${errors.typeOfUser.required ? 'is-invalid' : ''}`}
+                              class={`form-select form-select-lg rounded-1 text-capitalize ${
+                                errors.typeOfUser.required ? "is-invalid" : ""
+                              }`}
                               name="typeOfUser"
                               onChange={handleInputs}
                               aria-label="Default select example"
@@ -372,9 +382,9 @@ export const AddPromotions = () => {
                                 value={
                                   notification?.userName
                                     ? notification?.userName.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
                                     : null
                                 }
                                 name="userName"
@@ -390,7 +400,8 @@ export const AddPromotions = () => {
                           ) : notification.typeOfUser === "student" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                                Student List<span className="text-danger">*</span>
+                                Student List
+                                <span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
@@ -399,9 +410,9 @@ export const AddPromotions = () => {
                                 value={
                                   notification?.userName
                                     ? notification?.userName.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
                                     : null
                                 }
                                 options={studentOptions}
@@ -418,7 +429,7 @@ export const AddPromotions = () => {
                           ) : notification.typeOfUser === "agent" ? (
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
-                              Agent List<span className="text-danger">*</span>
+                                Agent List<span className="text-danger">*</span>
                               </label>
                               <Select
                                 isMulti
@@ -427,9 +438,9 @@ export const AddPromotions = () => {
                                 value={
                                   notification?.userName
                                     ? notification?.userName.map((inTake) => ({
-                                      value: inTake,
-                                      label: inTake,
-                                    }))
+                                        value: inTake,
+                                        label: inTake,
+                                      }))
                                     : null
                                 }
                                 options={agentOptions}
@@ -471,7 +482,9 @@ export const AddPromotions = () => {
                             </label>
                             <input
                               type="text"
-                              className={`form-control rounded-1 text-capitalize ${errors.subject.required ? 'is-invalid' : ''}`}
+                              className={`form-control rounded-1 text-capitalize ${
+                                errors.subject.required ? "is-invalid" : ""
+                              }`}
                               onChange={handleInputs}
                               value={notification.subject}
                               style={{
@@ -497,9 +510,10 @@ export const AddPromotions = () => {
                             <div className="col-xl-12 col-lg-6 col-md-6 col-sm-12">
                               <CKEditor
                                 editor={ClassicEditor}
-                                data={notification.content}  // Use 'data' instead of 'value'
+                                data={notification.content} // Use 'data' instead of 'value'
                                 config={{
-                                  placeholder: 'Start writing your content here...',
+                                  placeholder:
+                                    "Start writing your content here...",
                                   toolbar: [
                                     "heading",
                                     "|",
@@ -518,21 +532,29 @@ export const AddPromotions = () => {
                                     "redo",
                                   ],
                                   image: {
-                                    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
                                   },
                                   table: {
-                                    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
                                   },
                                 }}
                                 onChange={(event, editor) => {
                                   const data = editor.getData();
                                   console.log({ data });
-                                  handleRichTextChange(data);  // Call your handler here
+                                  handleRichTextChange(data); // Call your handler here
                                 }}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
-                                  zIndex: '0'
+                                  zIndex: "0",
                                 }}
                               />
                             </div>
@@ -541,12 +563,20 @@ export const AddPromotions = () => {
                             <div key={index} className="mb-3">
                               <div className="row gy-2 ">
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>File Name</label>
+                                  <label style={{ color: "#231F20" }}>
+                                    File Name
+                                  </label>
                                   <input
                                     type="text"
                                     name="fileName"
                                     value={fileUpload.fileName}
-                                    onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+                                    onChange={(e) =>
+                                      handleListInputChange(
+                                        e,
+                                        index,
+                                        "fileUpload"
+                                      )
+                                    }
                                     className="form-control rounded-1 text-capitalize"
                                     style={{ fontSize: "12px" }}
                                     placeholder="Example Demo File"
@@ -559,11 +589,19 @@ export const AddPromotions = () => {
                                   />
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>File Document</label>
+                                  <label style={{ color: "#231F20" }}>
+                                    File Document
+                                  </label>
                                   <input
                                     type="file"
                                     name="fileImage"
-                                    onChange={(e) => handleListInputChange(e, index, "fileUpload")}
+                                    onChange={(e) =>
+                                      handleListInputChange(
+                                        e,
+                                        index,
+                                        "fileUpload"
+                                      )
+                                    }
                                     className="form-control rounded-1 "
                                     style={{ fontSize: "12px" }}
                                     placeholder="Upload File"
@@ -583,18 +621,16 @@ export const AddPromotions = () => {
                             type="button"
                             onClick={() => addEntry("fileUpload")}
                             className="btn btn-dark px-4 py-2 text-uppercase fw-semibold col-sm-1 rounded-1 border-0"
-                            
                           >
-                            <i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add
+                            <i className="fas fa-plus-circle"></i>
+                            &nbsp;&nbsp;Add
                           </button>
                           <div className="d-flex justify-content-end  ">
                             <Link
                               to="/agent_list_promotions"
                               style={{
-                                
                                 fontSize: "12px",
                               }}
-                             
                               className="btn btn-dark rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2  m-1"
                             >
                               Cancel
@@ -622,6 +658,6 @@ export const AddPromotions = () => {
         </div>
       </div>
     </>
-  )
-}
-export default AddPromotions
+  );
+};
+export default AddPromotions;

@@ -47,7 +47,7 @@ export const ListMeetings = () => {
     // return null; // or a loading spinner
   }
   
-  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'program');
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'meetings');
   
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege

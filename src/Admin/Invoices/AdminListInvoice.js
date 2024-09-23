@@ -19,7 +19,8 @@ import Mastersidebar from "../../compoents/AdminSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import { getAdminIdId } from "../../Utils/storage";
+import { getSingleAdmin } from "../../api/admin";
 import { FaFilter } from "react-icons/fa";
 
 export const AdminListInvoice = () => {
@@ -36,10 +37,37 @@ export const AdminListInvoice = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [staff, setStaff] = useState(null);
 
   useEffect(() => {
+    getStaffDetails();
     getAllInvoiceDetails();
   }, [pagination.from, pagination.to]);
+
+  const getStaffDetails = () => {
+    const id = getAdminIdId();
+    getSingleAdmin(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  if (!staff || !staff.privileges) {
+    // return null; // or a loading spinner
+  }
+
+  const studentPrivileges = staff?.privileges?.find(
+    (privilege) => privilege.module === "invoice"
+  );
+
+  if (!studentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
+
 
   const getAllInvoiceDetails = () => {
     const data = {
@@ -344,6 +372,7 @@ export const AdminListInvoice = () => {
                       </Link>
                     </li>
                     <li class="m-1">
+                    {studentPrivileges?.add && (
                       <Link
                         class="btn btn-pix-primary"
                         to="/admin_add_sender_invoice"
@@ -363,8 +392,10 @@ export const AdminListInvoice = () => {
                           Add Sender Invoice
                         </button>
                       </Link>
+                    )}
                     </li>
                     <li class="">
+                    {studentPrivileges?.add && (
                       <Link
                         class="btn btn-pix-primary"
                         to="/admin_add_reciever_invoice"
@@ -384,6 +415,7 @@ export const AdminListInvoice = () => {
                           Add Receiver Invoice
                         </button>
                       </Link>
+                    )}
                     </li>
                   </ol>
                 </div>
@@ -470,6 +502,7 @@ export const AdminListInvoice = () => {
                                     </td>
                                     <td className="text-capitalize text-start">
                                       <div className="d-flex flex-row ">
+                                      {studentPrivileges?.view && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
@@ -480,6 +513,8 @@ export const AdminListInvoice = () => {
                                         >
                                           <i className="far fa-eye text-primary me-1"></i>
                                         </Link>
+                                      )}
+                                      {studentPrivileges?.edit && (
                                         <Link
                                           className="dropdown-item"
                                           to={{
@@ -489,6 +524,8 @@ export const AdminListInvoice = () => {
                                         >
                                           <i className="far fa-edit text-warning me-1"></i>
                                         </Link>
+                                      )}
+                                      {studentPrivileges?.delete && (
                                         <button
                                           className="dropdown-item"
                                           onClick={() => {
@@ -497,6 +534,7 @@ export const AdminListInvoice = () => {
                                         >
                                           <i className="far fa-trash-alt text-danger me-1"></i>
                                         </button>
+                                      )}
                                       </div>
                                     </td>
                                   </tr>

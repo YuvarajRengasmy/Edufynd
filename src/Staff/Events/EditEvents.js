@@ -788,7 +788,7 @@ export const EditEvents = () => {
                           type="submit"
                           className="btn rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                         >
-                          Submit
+                         Update
                         </button>
                       </div>
                     </div>

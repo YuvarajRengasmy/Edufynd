@@ -107,7 +107,7 @@ const handleSubmit = (event) => {
                          
                           </div>
                           <button type="submit" className="btn btn-sm border-0  fw-semibold px-4 py-2 btn-user btn-block" style={{color:'#fff',backgroundColor:'#231f20',fontSize:'12px'}}>
-                          <i class="fa fa-sync-alt  text-white"></i> Send Reset email
+                          <i class="fa fa-sync-alt  "></i> Send Reset email
                           </button>
                        
                         <hr />

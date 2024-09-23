@@ -645,7 +645,7 @@ export default function Masterproductlist() {
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
-                              <option value="Delete">Delete</option>
+                              {agentPrivileges?.delete && (    <option value="Delete">Delete</option> )}
                             </select>
                           </p>
                     </div>
@@ -766,7 +766,7 @@ export default function Masterproductlist() {
                         <Link
                           className="dropdown-item"
                           to={{
-                            pathname: "/ agent_view_commission",
+                            pathname: "/agent_view_commission",
                             search: `?id=${data?._id}`,
                           }}
                         >

@@ -436,55 +436,54 @@ export const AddMeetings = () => {
                             Content<span className="text-danger">*</span>
                           </label>
                           <CKEditor
-                                editor={ClassicEditor}
-                                data={notification.content}
-                                config={{
-                                  placeholder:
-                                    "Start writing your content here...",
-                                  toolbar: [
-                                    "heading",
-                                    "|",
-                                    "bold",
-                                    "italic",
-                                    "link",
-                                    "bulletedList",
-                                    "numberedList",
-                                    "blockQuote",
-                                    "|",
-                                    "insertTable",
-                                    "mediaEmbed",
-                                    "imageUpload",
-                                    "|",
-                                    "undo",
-                                    "redo",
-                                  ],
-                                  image: {
-                                    toolbar: [
-                                      "imageTextAlternative",
-                                      "imageStyle:full",
-                                      "imageStyle:side",
-                                    ],
-                                  },
-                                  table: {
-                                    contentToolbar: [
-                                      "tableColumn",
-                                      "tableRow",
-                                      "mergeTableCells",
-                                    ],
-                                  },
-                                }}
-                                onChange={(event, editor) => {
-                                  const data = editor.getData();
-                                  console.log({ data });
-                                  handleRichTextChange(data);
-                                }}
-                                name="content"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                  zIndex: "0",
-                                }}
-                              />
+                            editor={ClassicEditor}
+                            data={notification.content}
+                            config={{
+                              placeholder: "Start writing your content here...",
+                              toolbar: [
+                                "heading",
+                                "|",
+                                "bold",
+                                "italic",
+                                "link",
+                                "bulletedList",
+                                "numberedList",
+                                "blockQuote",
+                                "|",
+                                "insertTable",
+                                "mediaEmbed",
+                                "imageUpload",
+                                "|",
+                                "undo",
+                                "redo",
+                              ],
+                              image: {
+                                toolbar: [
+                                  "imageTextAlternative",
+                                  "imageStyle:full",
+                                  "imageStyle:side",
+                                ],
+                              },
+                              table: {
+                                contentToolbar: [
+                                  "tableColumn",
+                                  "tableRow",
+                                  "mergeTableCells",
+                                ],
+                              },
+                            }}
+                            onChange={(event, editor) => {
+                              const data = editor.getData();
+                              console.log({ data });
+                              handleRichTextChange(data);
+                            }}
+                            name="content"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                              zIndex: "0",
+                            }}
+                          />
                           {/* <RichTextEditor
                             value={notification.content}
                             onChange={handleRichTextChange}

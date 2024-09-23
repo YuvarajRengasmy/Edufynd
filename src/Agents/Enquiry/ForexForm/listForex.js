@@ -61,7 +61,7 @@ export const ListForex = () => {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'forex');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'forexEnquiry');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
