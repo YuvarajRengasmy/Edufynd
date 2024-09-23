@@ -9,9 +9,9 @@ import { toast } from "react-toastify";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
-import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
 import {getStaffId } from "../../Utils/storage";
 import {  getSingleStaff } from "../../api/staff";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, backdropClasses, radioClasses, } from "@mui/material";
 function ListStaff() {
 
   const initialStateInputs = {
@@ -22,6 +22,7 @@ function ListStaff() {
     reportingManager: "",
     employeeID:""
   };
+
   const [file, setFile] = useState(null);
   const location = useLocation();
   var searchValue = location.state;
@@ -36,42 +37,41 @@ function ListStaff() {
   const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
   const [openDelete, setOpenDelete] = useState(false);
   const [pageSize, setPageSize] = useState(10); 
-  const [staff, setStaff] = useState(null);
-  const [staffp, setStaffp] = useState(null);
+const [student, setStudent] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
- 
 
+  const [staff, setStaff] = useState([]);
   useEffect(() => {
-    getStaffDetails();
     getAllStaffDetails();
+    getStudentDetails();
   }, [pagination.from, pagination.to,pageSize]);
 
-  const getStaffDetails = () => {
+  const getStudentDetails = () => {
     const id = getStaffId();
     getSingleStaff(id)
       .then((res) => {
         console.log("yuvi", res);
-        setStaffp(res?.data?.result); // Assuming the staff data is inside res.data.result
+        setStudent(res?.data?.result); // Assuming the staff data is inside res.data.result
       })
       .catch((err) => {
         console.log(err);
       });
   };
   
-  if (!staff || !staff.privileges) {
+  if (!student || !student.privileges) {
     // return null; // or a loading spinner
   }
   
-  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'staff');
+  const studentPrivileges = student?.privileges?.find(privilege => privilege.module === 'staff');
   
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
-
+  
   useEffect(() => {
     if (search.current) {
       search.current.focus();
@@ -667,7 +667,7 @@ function ListStaff() {
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
-                              {studentPrivileges?.delete && (       <option value="Delete">Delete</option> )}
+                              {studentPrivileges?.delete && (     <option value="Delete">Delete</option> )}
                             </select>
                           </p> 
                     </div>

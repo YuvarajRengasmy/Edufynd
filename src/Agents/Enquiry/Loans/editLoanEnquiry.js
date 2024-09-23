@@ -7,7 +7,7 @@ import {
   updateLoanEnquiry,
   getSingleLoanEnquiry,
 } from "../../../api/Enquiry/Loan";
-import Mastersidebar from "../../../compoents/sidebar";
+import Mastersidebar from "../../../compoents/AgentSidebar";
 import Select from "react-select";
 export const AddLoanEnquiry = () => {
   const location = useLocation();
@@ -185,7 +185,7 @@ export const AddLoanEnquiry = () => {
       updateLoanEnquiry(loan)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_loan_enquiry");
+          navigate("/agent_list_loan_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -850,7 +850,7 @@ export const AddLoanEnquiry = () => {
                   <div className="row g-3">
                     <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                       <Link
-                        to="/list_loan_enquiry"
+                        to="/agent_list_loan_enquiry"
                         style={{
                           backgroundColor: "#0f2239",
                           fontFamily: "Plus Jakarta Sans",

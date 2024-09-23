@@ -562,7 +562,7 @@ export const AddTestimonials = () => {
                         {notification.uploadFile.map((uploadImage, index) => (
                               <div key={index} className="mb-3">
                                 <div className="d-flex gy-2 ">
-                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                     <label style={{ color: "#231F20" }}>File Name</label>
                                     <input
                                       type="text"
@@ -574,6 +574,7 @@ export const AddTestimonials = () => {
                                       placeholder="File Upload Title"
                                     />
                                   </div>
+                                  
                                   <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                   <label
                         htmlFor="fileInputImage"
@@ -584,7 +585,7 @@ export const AddTestimonials = () => {
                                       className="img-fluid img-thumbnail mx-auto d-block"
                                       src={uploadImage.uploadImage ? uploadImage.uploadImage : "https://via.placeholder.com/128"}
                                       alt="uploaded-file"
-                                      style={{ width: "12rem", height: "6rem" }}
+                                      style={{ width: "14rem", height: "8rem" }}
                                     />
                                     <label
                           htmlFor="fileInputImage"
@@ -629,7 +630,7 @@ export const AddTestimonials = () => {
                             <button
                               type="button"
                               onClick={() => addEntry("uploadFile")}
-                              className="btn text-white mt-2 col-sm-6"
+                              className="btn text-white mt-2 col-sm-1 col-md-2 col-lg-2 col-xl-2"
                               style={{ backgroundColor: "#7267ef" }}
                             >
                               <i className="fas fa-plus-circle"></i>
@@ -716,7 +717,7 @@ export const AddTestimonials = () => {
                             type="submit"
                             className="btn  rounded-1 border-0 fw-semibold text-uppercase text-white px-4 py-2 m-1"
                           >
-                            Submit
+                        Update
                           </button>
                         </div>
                       </div>

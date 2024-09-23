@@ -9,7 +9,8 @@ import Mastersidebar from "../../compoents/AgentSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
-
+import {getAgentId } from "../../Utils/storage";
+import {  getSingleAgent } from "../../api/agent";
 import { FaFilter } from "react-icons/fa";
 import axios from "axios";
 
@@ -43,10 +44,34 @@ export default function Masterproductlist() {
   const [program, setProgaram] = useState([]);
   const [detail, setDetail] = useState();
   const [details, setDetails] = useState();
+  const [agent, setAgent] = useState(null);
 
   useEffect(() => {
     getAllProgaramDetails();
+    getAgentDetails();
   }, [pagination.from, pagination.to,pageSize]);
+
+  const getAgentDetails = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
 
   useEffect(() => {
     if (search.current) {
@@ -619,6 +644,7 @@ const getallProgramCount = ()=>{
             </Link>
           </li>
           <li className="m-0">
+          {agentPrivileges?.add && (
             <Link className="btn btn-pix-primary border-0" to="/agent_add_program">
               <button
                 className="btn rounded-1 fw-semibold border-0 text-white"
@@ -628,6 +654,7 @@ const getallProgramCount = ()=>{
                 Add Program
               </button>
             </Link>
+          )}
           </li>
         </ol>
       </div>
@@ -707,7 +734,7 @@ const getallProgramCount = ()=>{
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
-                              <option value="Delete">Delete</option>
+                              {agentPrivileges?.delete && (       <option value="Delete">Delete</option> )}
                             </select>
                           </p>
                     </div>
@@ -884,6 +911,7 @@ const getallProgramCount = ()=>{
           </td>
                     <td className="text-capitalize text-start text-truncate">
                       <div className="d-flex">
+                      {agentPrivileges?.view && (
                         <Link
                           className="dropdown-item"
                           to={{
@@ -893,6 +921,8 @@ const getallProgramCount = ()=>{
                         >
                           <i className="far fa-eye text-primary me-1"></i>
                         </Link>
+                      )}
+                      {agentPrivileges?.edit && (
                         <Link
                           className="dropdown-item"
                           to={{
@@ -902,6 +932,8 @@ const getallProgramCount = ()=>{
                         >
                           <i className="far fa-edit text-warning me-1"></i>
                         </Link>
+                      )}
+                      {agentPrivileges?.delete && (
                         <Link
                           className="dropdown-item"
                           onClick={() => {
@@ -910,6 +942,7 @@ const getallProgramCount = ()=>{
                         >
                           <i className="far fa-trash-alt text-danger me-1"></i>
                         </Link>
+                      )}
                       </div>
                     </td>
                   </tr>
@@ -1003,6 +1036,7 @@ const getallProgramCount = ()=>{
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          {agentPrivileges?.view && (
           <Link
                           className="btn btn-sm btn-outline-primary"
                           to={{
@@ -1012,6 +1046,8 @@ const getallProgramCount = ()=>{
                         >
                           <i className="far fa-eye text-primary me-1"></i>
                         </Link>
+          )}
+          {agentPrivileges?.edit && (
                         <Link
                           className="dropdown-item"
                           to={{
@@ -1021,6 +1057,8 @@ const getallProgramCount = ()=>{
                         >
                           <i className="btn btn-sm btn-outline-warning"></i>
                         </Link>
+          )}
+          {agentPrivileges?.delete && (
                         <button
                           className="dropdown-item"
                           onClick={() => {
@@ -1029,6 +1067,7 @@ const getallProgramCount = ()=>{
                         >
                           <i className="btn btn-sm btn-outline-danger"></i>
                    </button>
+          )}
           </div>
         </div>
       </div>

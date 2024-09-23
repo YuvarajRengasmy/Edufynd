@@ -63,7 +63,7 @@ export const AdminListFlightTicket = () => {
   }
 
   const studentPrivileges = staffs?.privileges?.find(
-    (privilege) => privilege.module === "studentEnquiry"
+    (privilege) => privilege.module === "flighEnquiry"
   );
 
   if (!studentPrivileges) {

@@ -1512,7 +1512,7 @@ export const AddStudentForm = () => {
                           type="submit"
                           className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  "
                         >
-                          Submit
+                         Update
                         </button>
                       </div>
                     </div>

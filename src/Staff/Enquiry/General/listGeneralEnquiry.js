@@ -50,6 +50,21 @@ export const ListGeneralEnquiry = () => {
     to: pageSize,
   });
 
+
+  const [staff, setStaff] = useState(null);
+  const [student, setStudent] = useState();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
+  const [filter, setFilter] = useState(false);
+
+  useEffect(() => {
+    getStaffDetails();
+    getAllStudentDetails();
+  }, [pagination.from, pagination.to]);
+
+
   const getStaffDetails = () => {
     const id = getStaffId();
     getSingleStaff(id)
@@ -71,19 +86,7 @@ export const ListGeneralEnquiry = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
-  const [staff, setStaff] = useState(null);
-  const [student, setStudent] = useState();
-  const [open, setOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState();
-  const [openFilter, setOpenFilter] = useState(false);
-  const [openImport, setOpenImport] = useState(false);
-  const [filter, setFilter] = useState(false);
-
-  useEffect(() => {
-    getStaffDetails();
-    getAllStudentDetails();
-  }, [pagination.from, pagination.to]);
-
+  
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,
