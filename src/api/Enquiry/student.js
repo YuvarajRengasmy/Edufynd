@@ -8,6 +8,16 @@ export const saveStudnetEnquiry = (data) => {
 export const updateStudnetEnquiry= (data) => {
     return API.put(`${StudnetEnquiry}`, data)
 }
+export const activeClient = (data) => {
+  return API.post(`${StudnetEnquiry}/active`,data);
+};
+
+export const deactivateClient = (data) => {
+  return API.post(`${StudnetEnquiry}/deActive`,data);
+};
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${StudnetEnquiry}/assign`,data);
+};
 
 export const getSingleStudnetEnquiry = (data) => {
     return API.get(`${StudnetEnquiry}/getSingleStudentEnquiry`, { params: { _id: data } })
