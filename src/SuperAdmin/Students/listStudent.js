@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent,updateStudent } from "../../api/student";
+import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent, deactivateClient,activeClient, } from "../../api/student";
 import { Link, useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
@@ -417,6 +417,8 @@ primaryNumber:""
       // deleteSelectedstudent();
     } else if (action === "Activate") {
       activateSelectedStudent();
+    } else if (action === "DeActivate") {
+      deactivateSelectedStudent();
     }
   };
  
@@ -438,23 +440,46 @@ primaryNumber:""
     }
   };
 
+  
+
+
   const activateSelectedStudent = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updateStudent(id,{ active: true })))
-        .then((responses) => {
-          toast.success("student activated successfully!");
-          setSelectedIds([]);
-          getAllStudentDetails();
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ studentIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Student activated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getAllStudentDetails(); // Refresh the client list
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate student.");
+          console.error(err);
+          toast.error("Already activate Student.");
         });
     } else {
-      toast.warning("No student selected.");
+      toast.warning("No selected Student.");
     }
   };
-
+  
+  const deactivateSelectedStudent= () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ studentIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Student deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getAllStudentDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Aready to deactivate Commission.");
+        });
+    } else {
+      toast.warning("No selected Student.");
+    }
+  };
   return (
     <>
       <div >
@@ -729,6 +754,7 @@ primaryNumber:""
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
                               <option value="Delete">Delete</option>
                             </select>
                           </p>
@@ -830,15 +856,7 @@ primaryNumber:""
                        
                        <td className="text-capitalize text-start text-truncate" >{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)  || "Not Available"}</td>
                        <td className="text-capitalize text-start ">
-           
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                
-              />
-            </span>
+           {data?.isActive || "Not Data"}
           </td>
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
@@ -953,15 +971,7 @@ primaryNumber:""
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 ">
-                
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                
-              />
-            </span>
+                  {data?.isActive || "Not Data"}
                   </div>
                 </div>
               </div>

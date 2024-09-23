@@ -25,11 +25,11 @@ export const getSingleUniversity = (data) => {
   };
 
   export const activeClient = (data) => {
-    return API.post(`${University}/activeClient`,data);
+    return API.post(`${University}/activeUniversity`,data);
   };
 
   export const deactivateClient = (data) => {
-    return API.post(`${University}/deActiveClient`,data);
+    return API.post(`${University}/deActiveUniversity`,data);
   };
   
   export const getSingleLogUniversity = (data) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import {getallStaff,deleteStaff,getFilterStaffSuperAdmin,updateStaff} from "../../api/staff";
+import {getallStaff,deleteStaff,getFilterStaffSuperAdmin, deactivateClient,activeClient,} from "../../api/staff";
 import Mastersidebar from "../../compoents/sidebar";
 import { formatDate } from "../../Utils/DateFormat";
 import { Link, useLocation } from "react-router-dom";
@@ -350,7 +350,9 @@ function ListStaff() {
       setOpenDelete(true);
       // deleteSelectedstaff();
     } else if (action === "Activate") {
-      activateSelectedstaff();
+      activateSelectedStaff();
+    }else if (action === "DeActivate") {
+      deactivateSelectedStaff();
     }
   };
   const deleteSelectedstaff = () => {
@@ -370,23 +372,45 @@ function ListStaff() {
       toast.warning("No staff selected.");
     }
   };
-  const activateSelectedstaff = () => {
+   
+
+  const activateSelectedStaff = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updateStaff(id,{ active: true })))
-        .then((responses) => {
-          toast.success("staff activated successfully!");
-          setSelectedIds([]);
-          getAllStaffDetails();
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ staffIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Staff activated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getAllStaffDetails(); // Refresh the client list
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate staff.");
+          console.error(err);
+          toast.error("Already activate Staff.");
         });
     } else {
-      toast.warning("No staff selected.");
+      toast.warning("No selected Staff.");
     }
-  }; 
-
+  };
+  
+  const deactivateSelectedStaff= () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ staffIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("Staff deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getAllStaffDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Aready to deactivate Staff.");
+        });
+    } else {
+      toast.warning("No selected Staff.");
+    }
+  };
   return (
     <>
         
@@ -637,6 +661,7 @@ function ListStaff() {
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
                               <option value="Delete">Delete</option>
                             </select>
                           </p> 
@@ -735,7 +760,7 @@ function ListStaff() {
                           <td className="text-capitalize text-start text-truncate">{data?.reportingManager  || "Not Available"}</td>
                           <td className="text-capitalize text-start text-truncate">{data?.mobileNumber  || "Not Available"}</td>
                           
-                          <td className="text-capitalize text-start text-truncate">{data?.active  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.isActive  || "Not Available"}</td>
                           
                           <td  className="text-capitalize text-start text-truncate">
                           <div className="d-flex">
@@ -871,7 +896,7 @@ function ListStaff() {
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7 ">
-                  {data?.active  || "Not Available"}
+                  {data?.isActive  || "Not Available"}
                   </div>
                 </div>
               </div>

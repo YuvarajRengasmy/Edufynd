@@ -5,6 +5,7 @@ export const saveProgram = (data) => {
     return API.post(`${Program}`, data)
 }
 
+
 export const getallProgram = () => {
     return API.get(`${Program}`)
 }
@@ -17,6 +18,15 @@ export const getAllProgramCard = () => {
 export const getFilterProgram = (data) => {
   return API.put(`${Program}/getUniversityFilterProgram`, data);
 };
+
+export const activeClient = (data) => {
+  return API.post(`${Program}/activeProgram`,data);
+};
+
+export const deactivateClient = (data) => {
+  return API.post(`${Program}/deActiveProgram`,data);
+};
+
 export const getSingleProgram = (data) => {
     return API.get(`${Program}/getSingleProgram`, { params: { _id: data } });
   };
