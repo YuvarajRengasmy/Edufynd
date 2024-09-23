@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { isValidEmail, isValidPhone } from "../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -6,21 +6,27 @@ import { getSuperAdminId } from "../../Utils/storage";
 import { createAdminBySuperAdmin } from "../../api/admin";
 import Sidebar from "../../compoents/sidebar";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+import { getallCode } from "../../api/settings/dailcode";
 function AddAgent() {
   const initialState = {
     name: "",
     mobileNumber: "",
     email: "",
     role: "",
+    dial1:""
   };
   const initialStateErrors = {
     name: { required: false },
     email: { required: false, valid: false },
     mobileNumber: { required: false, valid: false },
     role: { required: false },
+    dial1: { required: false },
   };
   const [inputs, setInputs] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
+  const [dial, setDial] = useState([]);
+  const [dail1, setDail1] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   // const [type, setType] = useState('admin');
   const navigate = useNavigate();
@@ -46,6 +52,22 @@ function AddAgent() {
     }
     return error;
   };
+
+  
+  useEffect(() => {
+    getallCodeList();
+  }, []);
+
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleInputs = (event) => {
     setInputs({ ...inputs, [event?.target?.name]: event?.target?.value });
     if (submitted) {
@@ -55,6 +77,9 @@ function AddAgent() {
       });
       setErrors(newError);
     }
+  };
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
   };
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -67,34 +92,7 @@ function AddAgent() {
     }
     return true;
   };
-  //   event.preventDefault();
-  //   const newError = handleValidation(inputs);
-  //   setErrors(newError);
-  //   setSubmitted(true);
-  //   if (handleErrors(newError)) {
-  //     if (inputs) {
-  //       createAdminBySuperAdmin(inputs)
-  //         .then((res) => {
-  //           let token = res?.data?.result?.token;
-  //           let loginType = res?.data?.result?.loginType;
-  //           let adminId = res?.data?.result?.adminDetails?._id;
-  //           let data = {
-  //             token: token,
-  //             loginType: loginType,
-  //             adminId: adminId,
-  //           };
-  //           saveToken(data);
-  //           if (isAuthenticated()) {
-  //             navigate("/list_admin");
-  //           }
-  //           toast.success(res?.data?.message);
-  //         })
-  //         .catch((err) => {
-  //           toast.error(err?.response?.data?.message);
-  //         });
-  //     }
-  //   }
-  // };
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
@@ -104,6 +102,7 @@ function AddAgent() {
       createAdminBySuperAdmin({
         ...inputs,
         role: "admin",
+        dial1:dail1.dial1,
         superAdminId: getSuperAdminId(),
       })
         .then((res) => {
@@ -117,6 +116,11 @@ function AddAgent() {
       toast.error("Please Fill Staff Mandatory Fields");
     }
   };
+
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
   return (
     <>
       <Sidebar />
@@ -253,37 +257,50 @@ function AddAgent() {
                               Contact number
                               <span className="text-danger">*</span>
                             </label>
-                            <input
-                              type="number"
-                              className={`form-control rounded-1 ${
-                                errors.mobileNumber.required ? "is-invalid" : ""
-                              }`}
-                              placeholder="Example +91 98201-10409"
-                              name="mobileNumber"
-                              onChange={handleInputs}
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              onKeyDown={(e) => {
-                                if (
-                                  !/^[0-9]$/i.test(e.key) &&
-                                  ![
-                                    "Backspace",
-                                    "Delete",
-                                    "ArrowLeft",
-                                    "ArrowRight",
-                                  ].includes(e.key)
-                                ) {
-                                  e.preventDefault();
-                                }
+                            <div className="d-flex align-items-end">
+
+
+<div className="input-group mb-3">
+                            <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder="code"
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
                               }}
                             />
+                             <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px",maxHeight: '100px' }}
+      name="mobileNumber"
+      value={inputs.mobileNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+                          
                             {errors.mobileNumber.required ? (
                               <span className="text-danger form-text profile_error">
                                 This field is required.
                               </span>
                             ) : null}
+                          </div>
+                          </div>
                           </div>
                         </div>
                       </div>

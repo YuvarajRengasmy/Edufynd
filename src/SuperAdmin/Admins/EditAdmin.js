@@ -5,6 +5,10 @@ import CheckBox from "./privileges";
 import { editAdminBySuperAdmin, getSingleAdmin } from "../../api/admin";
 import Sidebar from "../../compoents/sidebar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { getallCode } from "../../api/settings/dailcode";
+import Select from "react-select";
+import { getSuperAdminId } from "../../Utils/storage";
+
 function EditAgent() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -13,19 +17,34 @@ function EditAgent() {
     mobileNumber: "",
     email: "",
     role: "",
+    dial1: "",
   };
   const initialStateErrors = {
     name: { required: false },
     email: { required: false, valid: false },
     mobileNumber: { required: false, valid: false },
     role: { required: false },
+    dial1: { required: false },
   };
   const [inputs, setInputs] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
+  const [dial, setDial] = useState([]);
+  const [dail1, setDail1] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   useEffect(() => {
     getAllClientDetails();
+    getallCodeList();
   }, []);
+
+  const getallCodeList = () => {
+    getallCode()
+      .then((res) => {
+        setDial(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllClientDetails = () => {
     getSingleAdmin(id)
       .then((res) => {
@@ -80,13 +99,22 @@ function EditAgent() {
     }
     return true;
   };
+  const handleDail1 = (selectedOptions) => {
+    setDail1(selectedOptions);
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(inputs);
     setErrors(newError);
     setSubmitted(true);
+    const updatedData = {
+      ...inputs,
+        role: "admin",
+        dial1:dail1.dial1,
+        superAdminId: getSuperAdminId(),
+    }
     if (handleErrors(newError)) {
-      editAdminBySuperAdmin(inputs)
+      editAdminBySuperAdmin(updatedData)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_admin");
@@ -98,6 +126,11 @@ function EditAgent() {
       toast.error("Please Fill Staff Mandatory Fields");
     }
   };
+
+  const dialOptions = dial.map((data) => ({
+    value: data.dialCode,
+    label: `${data.dialCode} - ${data.name}`,
+  }));
   return (
     <>
       <Sidebar />
@@ -230,45 +263,57 @@ function EditAgent() {
                         </div>
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
-                        <div className="form-group">
-                          <label style={{ color: "#231F20" }}>
-                            Contact number
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="number"
-                            className={`form-control rounded-1 ${
-                              errors.mobileNumber.required ? "is-invalid" : ""
-                            }`}
-                            placeholder="Example +91 98201-10409"
-                            name="mobileNumber"
-                            value={inputs.mobileNumber}
-                            onChange={handleInputs}
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            onKeyDown={(e) => {
-                              if (
-                                !/^[0-9]$/i.test(e.key) &&
-                                ![
-                                  "Backspace",
-                                  "Delete",
-                                  "ArrowLeft",
-                                  "ArrowRight",
-                                ].includes(e.key)
-                              ) {
-                                e.preventDefault();
-                              }
-                            }}
-                          />
-                          {errors.mobileNumber.required ? (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          ) : null}
+                          <div className="form-group">
+                            <label style={{ color: "#231F20" }}>
+                              Contact number
+                              <span className="text-danger">*</span>
+                            </label>
+                            <div className="d-flex align-items-end">
+
+
+<div className="input-group mb-3">
+                            <Select
+                              value={dail1}
+                              options={dialOptions}
+                              placeholder={inputs?.dial1}
+                              name="dial1"
+                              onChange={handleDail1}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  maxWidth: '140px'
+                                }),
+                              }}
+                            />
+                             <input
+      type="text"
+       aria-label="Text input with dropdown button"
+      className={`form-control  ${
+        errors.mobileNumber.required ? 'is-invalid' : errors.mobileNumber.valid ? 'is-valid' : ''
+      }`}
+      placeholder="Example 123-456-7890"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px",maxHeight: '100px' }}
+      name="mobileNumber"
+      value={inputs.mobileNumber}
+      onChange={handleInputs}
+      onKeyDown={(e) => {
+        if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+        }
+      }}
+    />
+                          
+                            {errors.mobileNumber.required ? (
+                              <span className="text-danger form-text profile_error">
+                                This field is required.
+                              </span>
+                            ) : null}
+                          </div>
+                          </div>
+                          </div>
                         </div>
-                      </div>
                     </div>
                     <div className=" d-flex justify-content-end  ">
                       <Link

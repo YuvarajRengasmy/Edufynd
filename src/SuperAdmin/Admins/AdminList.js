@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallAdmin, deleteAdmin } from "../../api/admin";
-import { Link } from "react-router-dom";
+import { getallAdmin,updateAdmin,getFilterAdmins, deleteAdmin } from "../../api/admin";
+import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -9,37 +9,106 @@ import {
   IconButton,
   Pagination,
 } from "@mui/material";
-import Header from "../../compoents/header";
 import Sidebar from "../../compoents/sidebar";
 import { toast } from "react-toastify";
-
+import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { FaFilter } from "react-icons/fa";
+import { ExportCsvService } from "../../Utils/Excel";
+import { templatePdf } from "../../Utils/PdfMake";
+
+
 export default function ListAgent() {
-  const pageSize = 10;
+
+  const initialState = {
+    name:"",
+    email:"",
+    mobileNumber:"",
+    role:"",
+    adminCode:"",
+    dial1: "",
+    
+  };
+  const [pageSize, setPageSize] = useState(10); // Default page size
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+ 
+  const [data, setData] = useState(false);
 
-  const [admin, setAdmin] = useState();
+  const [admin, setAdmin] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [searchClear, setSearchClear] = useState("");
+  const [filter, setFilter] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [inputs, setInputs] = useState(false);
+  const search = useRef(null);
+
+
 
   useEffect(() => {
     getAllAdminDetails();
-  }, [pagination.from, pagination.to]);
+   
+  }, [pagination.from, pagination.to,pageSize]);
 
+
+
+ 
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
+  
+
+
+const handleInputsearch = (event) => {
+  if (event.key === "Enter") {
+    search.current.blur();
+    handleSearch();
+  }
+};
+
+const handleClear = () => {
+  setSearchClear([]); // Clear the state value
+  if (search.current) {
+    search.current.value = ""; // Clear the input field using ref
+  }
+};
+
+const handleSearch = (event) => {
+  const data = search.current.value;
+  event?.preventDefault();
+  getSuperAdminForSearch(data)
+    .then((res) => {
+      const AdminList = res?.data?.result?.adminList;
+      setAdmin(AdminList);
+      const result = AdminList.length ? "admin" : "";
+      setLink(result);
+      setData(result === "" ? true : false);
+    })
+    .catch((err) => console.log(err));
+};
   const getAllAdminDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
 
-    getallAdmin(data)
+    getFilterAdmins(data)
       .then((res) => {
         console.log("yuvi", res);
-        setAdmin(res?.data?.result);
+        setAdmin(res?.data?.result?.adminList);
         setPagination({ ...pagination, count: res?.data?.result?.adminCount });
       })
       .catch((err) => {
@@ -47,6 +116,257 @@ export default function ListAgent() {
       });
   };
 
+
+  const filterUniversityList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+    name:inputs?.name,
+    adminCode:inputs?.adminCode,
+    role:inputs?.role,
+    mobileNumber:inputs?.mobileNumber,
+    email:inputs?.email,
+      limit: 10,
+      page: pagination.from,
+    };
+
+    getFilterAdmins(data)
+      .then((res) => {
+        setAdmin(res?.data?.result?.adminList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.adminCount,
+          
+        });
+        closeFilterPopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const resetFilter = () => {
+    // setFilter(false);
+    setInputs(initialState);
+    getAllAdminDetails();
+   
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+    
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
+  const pdfDownload = (event) => {
+    event?.preventDefault();
+
+    getallAdmin(admin)
+      .then((res) => {
+        var result = res?.data?.result;
+        var tablebody = [];
+        tablebody.push([
+          {
+            text: "S.NO",
+            fontSize: 11,
+            alignment: "center",
+            margin: [5, 5],
+            bold: true,
+          },
+          {
+            text: "AdminCode",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Admin Name",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Email",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "ContactNo",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Role",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+        ]);
+        result.forEach((element, index) => {
+          tablebody.push([
+            {
+              text: index + 1,
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+              border: [true, false, true, true],
+            },
+            {
+              text: element?.adminCode?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.name ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+
+            {
+              text: element?.email ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.mobileNumber ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.role ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+          ]);
+        });
+        templatePdf("adminList", tablebody, "landscape");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const exportCsv = (event) => {
+    event?.preventDefault();
+
+    getallAdmin(admin)
+      .then((res) => {
+        var result = res?.data?.result;
+        let list = [];
+        result?.forEach((res) => {
+          list.push({
+            adminCode: res?.adminCode ?? "-",
+            name: res?.name ?? "-",
+            email: res?.email ?? "-",
+           mobileNumber: res?.mobileNumber ?? "-",
+            role: res?.role ?? "-",
+          });
+        });
+        let header1 = [
+          "adminCode",
+          "name",
+          "email",
+          "mobileNumber",
+          "role",
+        ];
+        let header2 = [
+          "Admin Code",
+          "Admin Name",
+          "Admin MailID",
+          " ContactNo",
+          "Role",
+        ];
+        ExportCsvService.downloadCsv(
+          list,
+          "adminList",
+          "Admin List",
+
+          header1,
+          header2
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleCheckboxChanges = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = admin.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+ 
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === "Delete") {
+      setOpenDelete(true);
+      // deleteSelectedAdmin();
+    } else if (action === "Activate") {
+      activateSelectedAdmin();
+    }
+  };
+
+  const deleteSelectedAdmin = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => deleteAdmin(id)))
+        .then((responses) => {
+          toast.success("Admin deleted successfully!");
+          setSelectedIds([]);
+          getAllAdminDetails ();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete Admin.");
+        });
+    } else {
+      toast.warning("No Admin selected.");
+    }
+  };
+
+  const activateSelectedAdmin = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) => updateAdmin(id)))
+        .then((responses) => {
+          console.log("rajaram",responses);
+          toast.success("Admin activated successfully!");
+          setSelectedIds([]);
+          getAllAdminDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to activate Admin.");
+        });
+    } else {
+      toast.warning("No notifications selected.");
+    }
+  };
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -54,6 +374,14 @@ export default function ListAgent() {
 
   const closePopup = () => {
     setOpen(false);
+  };
+
+  const closeFilterPopup = () => {
+    setOpenFilter(false);
+  };
+
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
 
   const deleteAdminData = () => {
@@ -108,36 +436,27 @@ export default function ListAgent() {
             <div className="row">
               <div className="col-xl-12">
                 <ol className=" d-flex justify-content-end align-items-center mb-0 list-unstyled">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search...."
-                        aria-describedby="button-addon3"
-                        className="form-control border-1  rounded-4 "
-                        style={{
-                         
-                          fontSize: "12px", // Keep the font size if it's correct
-                          
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
+                <li className="flex-grow-1">
+                    <form onSubmit={handleSearch}>
+                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                        <input
+                          className="form-control form-control-sm border-1 border-dark rounded-4"
+                          placeholder="Search..."
+                          type="search"
+                          aria-describedby="button-addon3"
+                          ref={search}
+                          onChange={handleInputsearch}
+                        />
+                        <button
+                          className="input-group-text bg-transparent border-0"
+                          id="button-addon3"
+                          type="submit"
+                          style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)" }}
+                        >
+                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                        </button>
+                      </div>
+                    </form>
                   </li>
                   <li class="m-1">
                     <div
@@ -151,8 +470,8 @@ export default function ListAgent() {
                         type="button"
                         style={{ fontSize: "12px" }}
                         data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
+                        data-bs-target="#offcanvasRight12"
+                        aria-controls="offcanvasRight12"
                       >
                         {" "}
                         <FaFilter />
@@ -160,11 +479,11 @@ export default function ListAgent() {
                       <div
                         className="offcanvas offcanvas-end"
                         tabIndex={-1}
-                        id="offcanvasRight"
-                        aria-labelledby="offcanvasRightLabel"
+                        id="offcanvasRight12"
+                        aria-labelledby="offcanvasRightLabel12"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Admin</h5>
+                          <h5 id="offcanvasRightLabel12">Filter Admin</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -173,148 +492,102 @@ export default function ListAgent() {
                           />
                         </div>
                         <div className="offcanvas-body ">
-                          <form>
-                            <div className="from-group mb-3">
-                              <label className="form-label">Admin Id</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="universityName"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Admin Id"
-                              />
-                              <label className="form-label">E-Mail</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="state"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...E-Mail"
-                              />
-                              <label className="form-label">Role</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="averageFees"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Role"
-                              />
-                              <label className="form-label">
-                                Contact Number
-                              </label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="country"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Contact Number"
-                              />
-
-                              <label className="form-label">Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="popularCategories"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Name"
-                              />
-                            </div>
-                            <div>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
-                                style={{
-                                  backgroundColor: "#0f2239",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Reset
-                              </button>
-                              <button
-                                data-bs-dismiss="offcanvas"
-                                type="submit"
-                                className="btn btn-save border-0  fw-semibold   text-white float-right mx-2"
-                                style={{
-                                  backgroundColor: "#fe5722",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Apply
-                              </button>
-                            </div>
-                          </form>
+                        <form>
+                        <div className="row gy-3 mb-3">
+                        <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-id-card"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="name"
+                              onChange={handleInputs}
+                              placeholder="Search... Admin Name"
+                            />
+                          </div>
+                          <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-user"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="adminCode"
+                              onChange={handleInputs}
+                              placeholder="Search... AdminCode"
+                            />
+                          </div>
+                          <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-phone"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="mobileNumber"
+                              onChange={handleInputs}
+                              placeholder="Search... Admin Contact No"
+                            />
+                          </div>
+                          <div className="input-group">
+                            <span className="input-group-text">
+                              <i className="fas fa-tag"></i>
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="role"
+                              onChange={handleInputs}
+                              placeholder="Search... Admin Role"
+                            />
+                          </div>
+                        
+                        </div>
+                        <div className="d-flex justify-content-end gap-3">
+                          <button
+                             onClick={resetFilter}
+                            className="btn text-uppercase rounded-1 border-0 fw-semibold"
+                            style={{ backgroundColor: "#0f2239", color: "#fff" }} // Dark color for reset
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            data-bs-dismiss="offcanvas"
+                            type="submit"
+                            onClick={filterUniversityList}
+                            className="btn text-uppercase rounded-1 border-0 fw-semibold"
+                            style={{ backgroundColor: "#fe5722", color: "#fff" }} // Primary color for apply
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </form>
                         </div>
                       </div>
                     </div>
                   </li>
-                  <li class="m-2">
-                    <Link>
+                   {/* Export PDF Button */}
+                   <li className="m-1">
+                    <Link onClick={pdfDownload}>
                       <button
-                        style={{ backgroundColor: "#E12929", fontSize: "11px" }}
-                        className="btn text-white "
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#E12929" }} // Red for PDF
                       >
-                        <span>
-                          <i class="fa fa-file-pdf" aria-hidden="true"></i>
-                        </span>
+                        <i className="fa fa-file-pdf" aria-hidden="true"></i>
                       </button>
                     </Link>
                   </li>
-                  <li class="m-1">
-                    <Link class="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#22A033",
-                            fontSize: "12px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
 
-                  <li class="m-1">
-                    <Link class="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#9265cc",
-                            fontSize: "12px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
-                        </button>
-                      </span>
+                  {/* Export CSV Button */}
+                  <li className="m-1">
+                    <Link onClick={exportCsv}>
+                      <button
+                        className="btn text-white border-0 rounded-1"
+                        style={{ backgroundColor: "#22A033", fontSize: "12px" }} // Green for CSV
+                      >
+                        <i className="fa fa-file-excel" aria-hidden="true"></i>
+                      </button>
                     </Link>
                   </li>
                   <li class="m-1">
@@ -418,21 +691,22 @@ export default function ListAgent() {
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
-                      <p className="me-auto ">
+                    <p className="me-auto ">
                         Change
                         <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
-                        </select>{" "}
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="Delete">Delete</option>
+                            </select>
                       </p>
                     </div>
 
@@ -501,7 +775,13 @@ export default function ListAgent() {
                               }}
                             >
  <th className=" text-start">
-                            <input type="checkbox" />
+ <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === admin.length
+                                    }
+                                  />
                             </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
@@ -543,7 +823,11 @@ export default function ListAgent() {
                                 }}
                               >
                                  <td className=" text-start">
-                              <input type="checkbox" />
+                                 <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChanges(data._id)}
+                                    />
                               </td>
                                 <td className="text-capitalize text-start text-truncate ">
                                   {pagination.from + index + 1}
@@ -724,26 +1008,32 @@ export default function ListAgent() {
                     </div>
                 </div>
                    
-                    <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto ">
-                          Show
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                          >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                          </select>{" "}
-                          Entries    out of 100
-                        </p> 
-                        <Pagination
+                <div className="d-flex justify-content-between align-items-center p-3">
+  <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
+        <Pagination
+                        count={Math.ceil(pagination.count / pageSize)} // Adjust pagination based on dynamic page size
+                        onChange={handlePageChange}
                         variant="outlined"
                         shape="rounded"
                         color="primary"
                       />
-        </div>
+                </div>
                    
                   </div>
                 </div>
@@ -780,6 +1070,32 @@ export default function ListAgent() {
           </div>
         </DialogContent>
       </Dialog>
+      <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DialogContent>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedAdmin}
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+        </Dialog>
       <Dialog fullWidth maxWidth="sm">
         <DialogTitle>
           Filter Products
