@@ -37,12 +37,13 @@ function ListStaff() {
   const [openDelete, setOpenDelete] = useState(false);
   const [pageSize, setPageSize] = useState(10); 
   const [staff, setStaff] = useState(null);
+  const [staffp, setStaffp] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
     to: pageSize,
   });
-  const [staff1, setStaff1] = useState([]);
+ 
 
   useEffect(() => {
     getStaffDetails();
@@ -54,18 +55,18 @@ function ListStaff() {
     getSingleStaff(id)
       .then((res) => {
         console.log("yuvi", res);
-        setStaff1(res?.data?.result); // Assuming the staff data is inside res.data.result
+        setStaffp(res?.data?.result); // Assuming the staff data is inside res.data.result
       })
       .catch((err) => {
         console.log(err);
       });
   };
   
-  if (!staff1 || !staff1.privileges) {
+  if (!staff || !staff.privileges) {
     // return null; // or a loading spinner
   }
   
-  const studentPrivileges = staff1?.privileges?.find(privilege => privilege.module === 'staff');
+  const studentPrivileges = staff?.privileges?.find(privilege => privilege.module === 'staff');
   
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
