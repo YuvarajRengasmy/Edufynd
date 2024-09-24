@@ -71,7 +71,7 @@ export default function Masterproductlist() {
   useEffect(() => {
     getAllAgentDetails();
     getStaffList();
-  }, [pagination.from, pagination.to.pageSize]);
+  }, [pagination.from, pagination.to,pageSize]);
 
 
 
@@ -422,7 +422,7 @@ export default function Masterproductlist() {
     } else if (action === "Activate") {
       activateSelectedAgent();
     }else if (action === "DeActivate") {
-      activateSelectedAgent();
+      deactivateSelectedAgent();
     }else if (action === "Assign") {
       // activateSelectedAgent();
       setOpenAssign(true);
@@ -985,17 +985,8 @@ export default function Masterproductlist() {
                                       || "Not Available" )}
                                 </td>
                                 <td className="text-capitalize text-start ">
-           
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                
-              />
-            </span>
-          </td>
-
+                                  {data?.isActive || "Not Available"}
+                                </td>
                                 <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
                                     <Link
@@ -1113,14 +1104,7 @@ export default function Masterproductlist() {
                   </div>
                   <div className="col-md-7 ">
                   
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-               
-              />
-            </span>
+          {data?.isActive ||"Not Availble"}
                   </div>
                 </div>
               </div>

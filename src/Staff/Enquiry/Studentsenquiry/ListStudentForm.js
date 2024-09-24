@@ -90,9 +90,11 @@ export const ListStudentForm = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      staffId:getStaffId(),
     };
     getallStudnetEnquiry(data)
       .then((res) => {
+        console.log("yuvi",res);
         setStudent(res?.data?.result);
       })
       .catch((err) => {
