@@ -4,6 +4,7 @@ import {
   getallStudnetEnquiry,
   getSingleStudnetEnquiry,
   deleteStudnetEnquiry,
+  getFilterStudnetEnquiry
 } from "../../../api/Enquiry/student";
 import { Link } from "react-router-dom";
 import {
@@ -90,12 +91,12 @@ export const ListStudentForm = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-      staffId:getStaffId(),
+      staffId: getStaffId(),
     };
-    getallStudnetEnquiry(data)
+    getFilterStudnetEnquiry(data)
       .then((res) => {
-        console.log("yuvi",res);
-        setStudent(res?.data?.result);
+        setStudent(res?.data?.result?.studentList);
+        setPagination({ ...pagination, count: res?.data?.result?.studentCount });
       })
       .catch((err) => {
         console.log(err);
