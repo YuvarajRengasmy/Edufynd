@@ -78,7 +78,7 @@ export const ListGeneralEnquiry = () => {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'general');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'generalEnquiry');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege

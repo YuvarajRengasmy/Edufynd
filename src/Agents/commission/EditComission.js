@@ -1187,7 +1187,7 @@ const removeCourseType = async (yearIndex, courseTypeIndex) => {
                             type="submit"
                             className="btn rounded-1 btn-save border-0 fw-semibold text-uppercase  px-4 py-2 text-white m-2"
                           >
-                            Submit
+                          Update
                           </button>
                         </div>
                       </div>

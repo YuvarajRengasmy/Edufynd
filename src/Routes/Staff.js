@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
 import Country from "../Staff/University/Country";
@@ -12,7 +12,7 @@ import ListStudent from "../Staff/Students/listStudent";
 import AddStudentSA from "../Staff/Students/addStudent";
 import ViewStudent from "../Staff/Students/viewStudent";
 import Editstudent from "../Staff/Students/editStudent";
-
+import Loading from "../compoents/Loading";
 import EnquiryStudent from "../Staff/Students/enquiryStudent";
 import AddAgent from "../Staff/Agnent/addAgent";
 import ListAgent from "../Staff/Agnent/ListAgent";
@@ -250,6 +250,24 @@ import GlobalSearch from "../Staff/Search/GlobalSearch";
 import Countrys from '../Staff/Settings/GlobalSetting/country'
 
 function SuperAdmin() {
+
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Simulate a delay for data fetching or any initialization logic
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(false); // Set loading to false after the delay
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loading />; // Show loading component while loading
+  }
+
   return (
     <div>
 

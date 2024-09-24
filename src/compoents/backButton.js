@@ -9,31 +9,24 @@ const BackButton = () => {
     navigate(-1); // Go back to the previous page
   };
 
-  // Extract the previous page name from the URL or define it based on your routes
-  const getPageName = () => {
-    const path = location.pathname.split('/').filter(Boolean); // Get the path segments
-    return path[path.length - 1] || "Previous Page"; // Use the last segment as the name or a default value
-  };
+ 
 
   return (
     <>
     <div className='   text-end m-1' >
-    <button className='btn btn-sm fw-semibold rounded-1 border-0   '
+    <button className='btn btn-sm  btn-dark position-fixed  fw-semibold rounded-circle border-0   '
       onClick={handleBack}
       style={{
      
-        top: '10px',
-        right: '10px',
+      bottom:'20px',
+        right: '15px',
         
-        backgroundColor: '#007bff',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
+       
         cursor: 'pointer',
         zIndex: 1000,
       }}
     >
-      Back to Previous Page
+    <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
     </button>
     </div>
     </>
