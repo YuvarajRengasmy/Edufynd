@@ -3,6 +3,7 @@ import Sortable from "sortablejs";
 import {
   getallStudnetEnquiry,
   getSingleStudnetEnquiry,
+  getFilterStudnetEnquiry,
   deleteStudnetEnquiry,
   getFilterStudnetEnquiry
 } from "../../../api/Enquiry/student";
@@ -20,8 +21,8 @@ import Mastersidebar from "../../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getStaffId } from "../../../Utils/storage";
 import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 
 export const ListStudentForm = () => {
@@ -52,16 +53,16 @@ export const ListStudentForm = () => {
   const [student, setStudent] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [staff, setStaff] = useState(null);
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [staff, setStaff] = useState(null);
-
 
   useEffect(() => {
     getAllStudentDetails();
     getStaffDetails();
   }, [pagination.from, pagination.to]);
+
 
   const getStaffDetails = () => {
     const id = getStaffId();
@@ -84,9 +85,6 @@ export const ListStudentForm = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
-  
-  
-
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,
@@ -154,18 +152,6 @@ export const ListStudentForm = () => {
       sortable.destroy();
     };
   }, []);
-
-  const [statuses, setStatuses] = useState(
-    (student && Array.isArray(student)) ? student.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-  );
-  
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [index]: !prevStatuses[index],
-    }));
-  };
 
   return (
     <>
@@ -392,8 +378,8 @@ export const ListStudentForm = () => {
                       </span>
                     </Link>
                   </li>
-                  <li class="m-1">
                   {studentPrivileges?.add && (
+                  <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/staff_add_enquiry_student">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
@@ -410,8 +396,9 @@ export const ListStudentForm = () => {
                         Add Student Form
                       </button>
                     </Link>
-                  )}
+                  
                   </li>
+                    )}
                 </ol>
               </div>
             </div>
@@ -494,77 +481,38 @@ export const ListStudentForm = () => {
             <div className="row">
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm border-0">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          {studentPrivileges?.delete && (     <option value="20">Delete</option> )}
-                        </select>{" "}
-                      </p>
-                    </div>
+                  <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex  mb-0">
+                  <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
 
-                    <div>
-                    
-                       
-                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-                          <li>
-                            {" "}
-                            <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
-            >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
-                            </a>
-                          </li>
-                          <li>
-                            
-                              <a
-                              className="nav-link "
-                              id="profile-tab"
-                              data-bs-toggle="tab"
-                              href="#tab-profile"
-                              role="tab"
-                              aria-controls="tab-profile"
-                              aria-selected="false"
-                            >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
-                            </a>
-                          </li>
-                        </ul>
+                    </p>
+                       <div className="p-0 m-0">
+                       <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
+                       </div>
+                        <div className="m-0 p-0">
+                        <select class="form-select form-select-sm rounded-1 d-inline mx-2" aria-label="Default select example2"    style={{ width: "auto", display: "inline-block", fontSize: "12px" }}>
+  <option selected>Select Staff</option>
+  <option value="1">Staff 1</option>
+  <option value="2">Staff 2</option>
+ 
+</select>
+                        </div>
                       
-                     
-                    </div>
+                      </div>
                   </div>
-                </div>
                   <div className="card-body">
-                  <div className="tab-content ">
-                    {/* List View */}
-                    <div
-                      className="tab-pane fade show active"
-                      id="tab-home"
-                      role="tabpanel"
-                      aria-labelledby="home-tab"
-                    >
-
-<div className="table-responsive">
+                   
+                      <div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable text-center"
                           style={{ color: "#9265cc", fontSize: "11px" }}
@@ -585,14 +533,13 @@ export const ListStudentForm = () => {
                                 {" "}
                                 S.No.
                               </th>
-                             
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Student Code{" "}
-                              </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 Date{" "}
+                              </th>
+                              <th className="text-capitalize text-start sortable-handle">
+                                {" "}
+                                Student Code{" "}
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
@@ -617,10 +564,6 @@ export const ListStudentForm = () => {
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 Assigned To
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Status
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
@@ -655,12 +598,11 @@ export const ListStudentForm = () => {
                                         || "Not Available" )}
                                   </td>
 
-                                 
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.name || "Not Available"}
-                                  </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.studentCode || "Not Available"}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.primaryNumber|| "Not Available"}
@@ -677,19 +619,6 @@ export const ListStudentForm = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.assignedTo || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                     {studentPrivileges?.view && (
@@ -703,7 +632,7 @@ export const ListStudentForm = () => {
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
                                     )}
-                                     {studentPrivileges?.edit && (
+                                      {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -713,7 +642,7 @@ export const ListStudentForm = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                     )}
+                                      )}
                                       {studentPrivileges?.delete && (
                                       <Link
                                         className="dropdown-item"
@@ -741,183 +670,6 @@ export const ListStudentForm = () => {
                           </tbody>
                         </table>
                       </div>
-</div>
-
-
-
-<div
-                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
-                    >
-          
-          <div className="container">
-  <div className="row">
-  { student?.map((data, index) => (
-      <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
-          <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0">{data?.name || "Not Available"}</h6>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>S.No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {pagination.from + index + 1}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Student ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.studentCode || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Date</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {formatDate(
-                                      data?.createdOn
-                                        ? data?.createdOn
-                                        : data?.modifiedOn
-                                        ? data?.modifiedOn
-                                        : "-"
-                                        || "Not Available" )}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Primary No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.primaryNumber|| "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Email ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.email || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Desired Country</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.desiredCountry || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Source</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.source || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Assigned To</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.assignedTo || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Status</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-          {studentPrivileges?.view && (
-          <Link
-                                        className="btn btn-sm btn-outline-primary"
-                                        to={{
-                                          pathname: "/staff_view_enquiry_student",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>View
-                                      </Link>
-          )}
-           {studentPrivileges?.edit && (
-                                      <Link
-                                        className="btn btn-sm btn-outline-warning"
-                                        to={{
-                                          pathname: "/staff_edit_enquiry_student",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>Edit
-                                      </Link>
-           )}
-            {studentPrivileges?.view && (
-                                      <button
-                                        className="btn btn-sm btn-outline-danger"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
-                                      </button>
-            )}
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-
-
-
-
-
-                    </div>
-                </div>
-
-
-                    
                     </div>
                     <div className="d-flex justify-content-between m-2">
                     <p className="me-auto ">
