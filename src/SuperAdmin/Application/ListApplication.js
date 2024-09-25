@@ -4,7 +4,6 @@ import { getallApplication, getFilterApplican,deleteApplication, getAllApplicant
 import { Link, useLocation } from "react-router-dom";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { getallStaff } from "../../api/staff";
-
 import {
   Dialog,
   DialogContent,
@@ -95,8 +94,6 @@ const [details, setDetails] = useState()
     const data = {
       limit: pageSize, // Use dynamic page size here
       page: pagination.from,
-      
-    
     };
     getFilterApplican(data)
       .then((res) => {
@@ -370,12 +367,10 @@ const [details, setDetails] = useState()
         });
       },
     });
-
     return () => {
       sortable.destroy();
     };
   }, []);
-
 
   const handleCheckboxChange = (id) => {
     setSelectedIds((prevSelected) =>
@@ -406,11 +401,6 @@ const [details, setDetails] = useState()
     }
   };
  
- 
-
-  
-
-
   const activateSelectedAgent = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to activate the clients
@@ -429,7 +419,7 @@ const [details, setDetails] = useState()
       toast.warning("No selected application.");
     }
   };
-  
+
   const deactivateSelectedAgent= () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to deactivate the clients
@@ -453,10 +443,8 @@ const [details, setDetails] = useState()
     const selectedIndex = event.target.selectedIndex;
     const selectedStaffId = event.target.value;
     const selectedStaffName = event.target.options[selectedIndex].text;
-
     setSelectedStaffId(selectedStaffId);
-    setSelectedStaffName(selectedStaffName);   // Store staff ID
-    
+    setSelectedStaffName(selectedStaffName);   // Store staff ID   
   }
   const handleSubmitStaffAssign = () => {
     if (selectedIds.length > 0 && selectedStaffId) {

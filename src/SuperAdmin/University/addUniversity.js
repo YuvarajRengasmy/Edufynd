@@ -74,6 +74,7 @@ const App = () => {
 
   };
 
+  
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);

@@ -13,7 +13,6 @@ import { getallCategories } from "../../api/universityModule/categories";
 import { getallOfferTatModule } from "../../api/universityModule/offerTat";
 import { getallInstitutionModule } from "../../api/universityModule/institutation";
 import { getallModule } from "../../api/allmodule";
-import { getallCountryList } from "../../api/country";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import { getallIntake } from "../../api/intake";
@@ -83,10 +82,11 @@ function Profile() {
   const [categorie, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institutation, setInstitution] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [lgas, setLGAs] = useState([]);
-  const [type, setType] = useState([]);
+  const [countriesData, setCountriesData] = useState([]); // Holds country data
+  const [states, setStates] = useState([]);               // Holds state data
+  const [cities, setCities] = useState([]);               // Holds city data for the currently selected state
+  const [selectedCountry, setSelectedCountry] = useState('');
+ const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
   const [selectedCourseType, setSelectedCourseType] = useState([]);
   const navigate = useNavigate();
@@ -121,24 +121,26 @@ function Profile() {
   };
   useEffect(() => {
     getUniversityDetails();
+    getAllCountryDetail();
     getClientList();
-    getCountries();
-    getAllCountryDetails();
     getAllCatgoeryDetails();
     getAllCourseDetails();
     getOfferTatList();
     getAllInstitutionDetails();
     getAllIntakeDetails();
   }, []);
-  const getAllCountryDetails = () => {
+
+  const getAllCountryDetail = () => {
     getallCountryList()
       .then((res) => {
-        setCountries(res?.data?.result || []);
+        setCountriesData(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+ 
   const getUniversityDetails = () => {
     getSingleUniversity(id)
       .then((res) => {
@@ -222,92 +224,48 @@ function Profile() {
       console.log("Error: ", error);
     };
   };
-  const getCountries = async () => {
-    try {
-      const countries = await getCountryRegionInstance().getCountries();
-      setCountries(
-        countries.map((country) => ({
-          value: country.id,
-          label: country.name,
-        }))
-      );
-    } catch (error) {
-      console.error(error);
+
+  const handleCountryChange = (e) => {
+    const countryId = e.target.value;
+    setSelectedCountry(countryId);
+
+    // Find the selected country in the countriesData
+    const selectedCountryData = countriesData.find(country => country._id === countryId);
+    
+    if (selectedCountryData) {
+      setStates(selectedCountryData.state); // Set the states for selected country
+      setUniversity({ campuses: [] }); // Reset campuses when country changes
     }
   };
-  const getCountryRegionInstance = () => {
-    return new CountryRegion();
+
+
+  const handleStateChange = (index, e) => {
+    const stateName = e.target.value;
+
+    setUniversity(prev => {
+      const newCampuses = [...prev.campuses];
+      newCampuses[index].state = stateName; // Set the selected state
+
+      // Find cities for the selected state
+      const selectedStateData = states.find(state => state.name === stateName);
+      if (selectedStateData) {
+        setCities(selectedStateData.cities); // Set cities for the selected state
+      }
+
+      return { ...prev, campuses: newCampuses };
+    });
   };
-  const fetchStates = async (countryId) => {
-    try {
-      const states = await getCountryRegionInstance().getStates(countryId);
-      const updatedStates = states.map((state) => ({
-        value: state.id,
-        label: state.name,
-      }));
-      setStates(updatedStates);
-      setUniversity((prevState) => ({
-        ...prevState,
-        campuses: prevState.campuses.map((campus) => ({
-          ...campus,
-          states: updatedStates,
-          lgas: [], // Clear LGAs when the state changes
-        })),
-      }));
-    } catch (error) {
-      console.error(error);
-    }
+
+  // Handle city selection for a specific campus
+  const handleCityChange = (index, e) => {
+    const cityName = e.target.value;
+    setUniversity(prev => {
+      const newCampuses = [...prev.campuses];
+      newCampuses[index].city = cityName; // Set the selected city
+      return { ...prev, campuses: newCampuses };
+    });
   };
-  const fetchLGAs = async (countryId, stateId) => {
-    try {
-      const lgas = await getCountryRegionInstance().getLGAs(countryId, stateId);
-      const updatedLGAs = lgas.map((lga) => ({
-        value: lga.id,
-        label: lga.name,
-      }));
-      setLGAs(updatedLGAs);
-      setUniversity((prevState) => ({
-        ...prevState,
-        campuses: prevState.campuses.map((campus) =>
-          campus.state === stateId ? { ...campus, lgas: updatedLGAs } : campus
-        ),
-      }));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const handleCountryChange = (selectedCountry) => {
-    setUniversity((prevState) => ({
-      ...prevState,
-      country: selectedCountry.value,
-      campuses: prevState.campuses.map((campus) => ({
-        ...campus,
-        state: "",
-        lga: "",
-        lgas: [],
-      })),
-    }));
-    fetchStates(selectedCountry.value);
-  };
-  const handleStateChange = (selectedState, index) => {
-    setUniversity((prevState) => ({
-      ...prevState,
-      campuses: prevState.campuses.map((campus, i) =>
-        i === index
-          ? { ...campus, state: selectedState.value, lga: "", lgas: [] }
-          : campus
-      ),
-    }));
-    fetchLGAs(university.country, selectedState.value);
-  };
-  const handleLGAChange = (selectedLGA, index) => {
-    setUniversity((prevState) => ({
-      ...prevState,
-      campuses: prevState.campuses.map((campus, i) =>
-        i === index ? { ...campus, lga: selectedLGA.value } : campus
-      ),
-    }));
-  };
+
   const handlePrimaryChange = (index) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -317,23 +275,16 @@ function Profile() {
     }));
   };
   const addCampus = () => {
-    setUniversity((prevState) => ({
-      ...prevState,
-      campuses: [
-        ...prevState.campuses,
-        {
-          state: "",
-          lga: "",
-          states: states, // Add states to new campus
-          lgas: [],
-        },
-      ],
+    setUniversity(prev => ({
+      ...prev,
+      campuses: [...prev.campuses, { state: '', lga: '', primary: false }] // Initialize with empty state and city
     }));
   };
+
   const removeCampus = (index) => {
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      campuses: prevUniversity.campuses.filter((_, i) => i !== index),
+    setUniversity(prev => ({
+      ...prev,
+      campuses: prev.campuses.filter((_, i) => i !== index)
     }));
   };
   const handleInputs = (event) => {
@@ -351,16 +302,17 @@ function Profile() {
       setErrors(newError);
     }
   };
-  const handleRichTextChange = (value) => {
+  const handleAboutTextChange = (data) => {
     setUniversity((prevUniversity) => ({
       ...prevUniversity,
-      admissionRequirement: value,
+      about: data,
+    
     }));
   };
-  const handleRichAboutChange = (value) => {
-    setUniversity((prevUniversity) => ({
-      ...prevUniversity,
-      about: value,
+  const handleRichTextChange = (data) => {
+    setUniversity((prevState) => ({
+      ...prevState,
+      admissionRequirement: data,
     }));
   };
   const handleSelectChange = (selectedOptions, action) => {
@@ -392,18 +344,14 @@ function Profile() {
       // Prepare the data for submission
       const updatedUniversity = {
         ...university,
-        // country:
-        //   countries.find((option) => option.value === university.country)
-        //     ?.label || university.country,
-        // campuses: university.campuses.map((campus) => ({
-        //   ...campus,
-        //   state:
-        //     states.find((option) => option.value === campus.state)?.label ||
-        //     campus.state,
-        //   lga:
-        //     lgas.find((option) => option.value === campus.lga)?.label ||
-        //     campus.lga,
-        // })),
+        country:
+        countriesData.find(option => option._id === selectedCountry)?.name || selectedCountry,
+      campuses: university.campuses.map(campus => ({
+        ...campus,
+        state:
+          states.find(option => option.name === campus.state)?.name || campus.state,
+          lga: campus.city
+        })),
       };
       // Submit the data
       updateUniversity(updatedUniversity)
@@ -658,29 +606,27 @@ function Profile() {
                           )}
                         </div>
                         <div className="row g-3 mb-3">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label style={{ color: "#231F20" }}>
-                              Country<span className="text-danger">*</span>
-                            </label>
-                            <Select
-                              placeholder={
-                                university?.country || "Select Country"
-                              }
-                              onChange={handleCountryChange}
-                              options={countries}
-                              name="label"
-                              value={countries.find(
-                                (c) => c.value === university.country
-                              )}
-                              styles={customStyles}
-                              className="submain-one-form-body-subsection-select"
-                            />
-                            {errors.country.required && (
-                              <div className="text-danger form-text">
-                                This field is required.
-                              </div>
-                            )}
-                          </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+          Country<span className="text-danger">*</span>
+        </label>
+        <select
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          className={`form-select form-select-lg rounded-1`}
+          value={selectedCountry}
+          onChange={handleCountryChange}
+        >
+          <option value="">{university?.country}</option>
+          {countriesData.map((country) => (
+            <option key={country._id} value={country._id}>
+              {country.name}
+            </option>
+          ))}
+        </select>
+      </div>
                           <div className="col text-end">
                             <br />
                             <button
@@ -701,81 +647,76 @@ function Profile() {
                             </button>
                           </div>
                           {university.campuses.map((campus, index) => (
-                            <div className="row row-cols-3 my-3 " key={index}>
-                              <div className="col">
-                                <label style={{ color: "#231F20" }}>
-                                  State<span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                  placeholder={campus.state}
-                                  onChange={(option) =>
-                                    handleStateChange(option, index)
-                                  }
-                                  options={campus.states}
-                                  value={campus.states ? campus.states : []}
-                                  styles={customStyles}
-                                  name="state"
-                                  className="submain-one-form-body-subsection-select"
-                                />
-                                {errors.campuses[index]?.state?.required && (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                )}
-                              </div>
-                              <div className="col">
-                                <label style={{ color: "#231F20" }}>
-                                  City<span className="text-danger">*</span>
-                                </label>
-                                <Select
-                                  placeholder={campus.lga}
-                                  onChange={(option) =>
-                                    handleLGAChange(option, index)
-                                  }
-                                  options={campus.lgas}
-                                  value={campus.lgas ? campus.lgas : []}
-                                  styles={customStyles}
-                                  name="lga"
-                                  className="submain-one-form-body-subsection-select"
-                                />
-                                {errors.campuses[index]?.lga?.required && (
-                                  <div className="text-danger form-text">
-                                    This field is required.
-                                  </div>
-                                )}
-                              </div>
-                              <div className="col mt-5">
-                                <label>
-                                  <input
-                                    type="checkbox"
-                                    value={campus?.primary}
-                                    checked={campus.primary}
-                                    onChange={() => handlePrimaryChange(index)}
-                                    // onChange={(e) => handlePrimaryChange(e, index)}
-                                    disabled={
-                                      university.campuses.filter(
-                                        (c) => c.primary
-                                      ).length > 0 && !campus.primary
-                                    }
-                                  />
-                                  <span className="ms-2 text-success">
-                                    Primary Campus
-                                  </span>
-                                </label>
-                              </div>
-                              {index > 0 && (
-                                <div className="col-xl-12 my-3 ">
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-danger"
-                                    onClick={() => removeCampus(index)}
-                                  >
-                                    <i className="far fa-trash-alt text-white "></i>
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          ))}
+        <div className="row row-cols-3 my-3" key={index}>
+          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label style={{ color: "#231F20" }}>
+              State<span className="text-danger">*</span>
+            </label>
+            <select
+              style={{
+                fontFamily: "Plus Jakarta Sans",
+                fontSize: "12px",
+              }}
+              className={`form-select form-select-lg rounded-1`}
+              value={campus.state}
+              onChange={(e) => handleStateChange(index, e)}
+              disabled={!selectedCountry}
+            >
+              <option value="">{campus?.state}</option>
+              {states.map((state) => (
+                <option key={state.name} value={state.name}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+            <label style={{ color: "#231F20" }}>
+              City<span className="text-danger">*</span>
+            </label>
+            <select
+              style={{
+                fontFamily: "Plus Jakarta Sans",
+                fontSize: "12px",
+              }}
+              className={`form-select form-select-lg rounded-1`}
+              value={campus.city}
+              onChange={(e) => handleCityChange(index, e)}
+              disabled={!campus.state} // Disable if no state is selected
+            >
+              <option value="">{campus?.lga}</option>
+              {cities.map((city, cityIndex) => (
+                <option key={cityIndex} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col mt-5">
+            <label>
+              <input
+                type="checkbox"
+                checked={campus.primary}
+                onChange={() => handlePrimaryChange(index)}
+                disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
+              />
+              <span className="ms-2 text-success">Primary Campus</span>
+            </label>
+          </div>
+
+          {index > 0 && (
+            <div className="col-xl-12 my-3 ">
+              <button
+                type="button"
+                className="btn btn-sm btn-danger"
+                onClick={() => removeCampus(index)}
+              >
+                <i className="far fa-trash-alt text-white "></i>
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -1110,113 +1051,101 @@ function Profile() {
                           ) : null}
                         </div>
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label style={{ color: "#231F20" }}>
-                                About{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                             
-                               <CKEditor
-  editor={ClassicEditor}
-  data={university.about} 
-  name="about" // Use 'data' instead of 'value'
-  config={{
-    placeholder: 'Start writing your content here...',
-    toolbar: [
-      "heading",
-      "|",
-      "bold",
-      "italic",
-      "link",
-      "bulletedList",
-      "numberedList",
-      "blockQuote",
-      "|",
-      "insertTable",
-      "mediaEmbed",
-      "imageUpload",
-      "|",
-      "undo",
-      "redo",
-    ],
-    image: {
-      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
-    },
-    table: {
-      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
-    },
-  }}
-  onChange={(event, editor) => {
-    const data = editor.getData();
-    console.log({ data });
-    handleRichAboutChange(data);
-    // Call your handler here
-  }}
-  style={{
-    fontFamily: "Plus Jakarta Sans",
-    fontSize: "12px",
-    zIndex: '0'
-  }}
-  
-/>
-                            </div>
-                          </div>
-                         
+    <div className="form-group">
+        <label style={{ color: "#231F20" }}>
+            About{" "}
+            <span className="text-danger">*</span>
+        </label>
 
+        <CKEditor
+        editor={ClassicEditor}
+        data={university.about || ''} // Use empty string if no data
+        config={{
+          placeholder: 'Start writing your content here...',
+          toolbar: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+            "|",
+            "insertTable",
+            "mediaEmbed",
+            "imageUpload",
+            "|",
+            "undo",
+            "redo",
+          ],
+          image: {
+            toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+          },
+          table: {
+            contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+          },
+        }}
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          handleAboutTextChange(data); // Call the handler when the content changes
+        }}
+        style={{
+          fontFamily: "Plus Jakarta Sans",
+          fontSize: "12px",
+          zIndex: '0'
+        }}
+      />
+    </div>
+</div>
 
-
-                          
-                          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label style={{ color: "#231F20" }}>
-                                Admission Requirements{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-
-                              <CKEditor
-  editor={ClassicEditor}
-  data={university.admissionRequirement}  // Use 'data' instead of 'value'
-  config={{
-    placeholder: 'Start writing your content here...',
-    toolbar: [
-      "heading",
-      "|",
-      "bold",
-      "italic",
-      "link",
-      "bulletedList",
-      "numberedList",
-      "blockQuote",
-      "|",
-      "insertTable",
-      "mediaEmbed",
-      "imageUpload",
-      "|",
-      "undo",
-      "redo",
-    ],
-    image: {
-      toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
-    },
-    table: {
-      contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
-    },
-  }}
-  onChange={(event, editor) => {
-    const data = editor.getData();
-    console.log({ data });
-    handleRichTextChange(data);  // Call your handler here
-  }}
-  style={{
-    fontFamily: "Plus Jakarta Sans",
-    fontSize: "12px",
-    zIndex: '0'
-  }}
-/>
-
-                             
-                            </div>
-                          </div>
+<div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <div className="form-group">
+        <label style={{ color: "#231F20" }}>
+            Admission Requirements{" "}
+            <span className="text-danger">*</span>
+        </label>
+        <CKEditor
+        editor={ClassicEditor}
+        data={university.admissionRequirement || ''} // Use empty string if no data
+        config={{
+          placeholder: 'Start writing your content here...',
+          toolbar: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+            "|",
+            "insertTable",
+            "mediaEmbed",
+            "imageUpload",
+            "|",
+            "undo",
+            "redo",
+          ],
+          image: {
+            toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+          },
+          table: {
+            contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+          },
+        }}
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          handleRichTextChange(data); // Call the handler when the content changes
+        }}
+        style={{
+          fontFamily: "Plus Jakarta Sans",
+          fontSize: "12px",
+          zIndex: '0'
+        }}
+      />
+    </div>
+</div>
                           
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

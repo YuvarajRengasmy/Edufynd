@@ -10,6 +10,16 @@ export const getallNotifications = () => {
     return API.get(`${Notifications}`)
 }
 
+export const activeClient = (data) => {
+  return API.post(`${Notifications}/active`,data);
+};
+
+export const deactivateClient = (data) => {
+  return API.post(`${Notifications}/deActive`,data);
+};
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Notifications}/assign`,data);
+};
 
 export const getSingleNotifications = (data) => {
     return API.get(`${Notifications}/getSingleNotification`, { params: { _id: data } });
