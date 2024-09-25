@@ -13,6 +13,7 @@ import { getallCategories } from "../../api/universityModule/categories";
 import { getallOfferTatModule } from "../../api/universityModule/offerTat";
 import { getallInstitutionModule } from "../../api/universityModule/institutation";
 import { getallModule } from "../../api/allmodule";
+import { getallCountryList } from "../../api/country";
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import { getallIntake } from "../../api/intake";
