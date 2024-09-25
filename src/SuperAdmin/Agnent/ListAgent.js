@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallAgent, deleteAgent,deactivateClient,activeClient, getFilterAgent } from "../../api/agent";
+import { getallAgent, deleteAgent,deactivateClient,activeClient,assignStaffToEnquiries, getFilterAgent } from "../../api/agent";
 import { Link, useLocation } from "react-router-dom";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { getallStaff } from "../../api/staff";
@@ -36,6 +36,8 @@ export default function Masterproductlist() {
   const [openAssign, setOpenAssign] = useState(false);
   const [staff, setStaff] = useState([]);
   const [file, setFile] = useState(null);
+  const [selectedStaffId, setSelectedStaffId] = useState('');
+  const [selectedStaffName, setSelectedStaffName] = useState(''); // To store the staff name
   const location = useLocation();
   var searchValue = location.state;
   const [link, setLink] = useState("");
@@ -486,6 +488,32 @@ export default function Masterproductlist() {
         });
     } else {
       toast.warning("No selected Agent.");
+    }
+  };
+
+  const handleStaffSelect = (event) => {
+    const selectedIndex = event.target.selectedIndex;
+    const selectedStaffId = event.target.value;
+    const selectedStaffName = event.target.options[selectedIndex].text;
+
+    setSelectedStaffId(selectedStaffId);
+    setSelectedStaffName(selectedStaffName);   // Store staff ID
+    
+  }
+  const handleSubmitStaffAssign = () => {
+    if (selectedIds.length > 0 && selectedStaffId) {
+      assignStaffToEnquiries({ Ids: selectedIds, staffId: selectedStaffId , staffName: selectedStaffName  })
+        .then(() => {
+          toast.success('accmmodation assigned successfully!');
+          setSelectedIds([]); // Clear selected enquiries
+          getAllAgentDetails(); // Refresh student enquiries
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Failed to assign genreal.');
+        });
+    } else {
+      toast.warning('Please select enquiries and genreal.');
     }
   };
 
@@ -1243,49 +1271,7 @@ export default function Masterproductlist() {
                   </DialogContent>
                 </Dialog>
 
-                {/* <Dialog open={openAssign} onClose={() => setOpenAssign(false)}>
-        <DialogContent>
-          <div className="text-center m-4">
-            <h5 className="mb-4" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-              Assign to Staff
-            </h5>
-
-            <form>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Staff List
-                </label>
-                <select className="form-select-sm rounded-1" name="staffName">
-                  <option value="">Select a Staff</option>
-                  {staff && staff.map((staffMember, index) => (
-                    <option key={index} value={staffMember.empName}>
-                      {staffMember.empName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <button
-                type="button"
-                className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
-                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={deactivateSelectedAgent}
-              >
-                Yes
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
-                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={() => setOpenAssign(false)} 
-              >
-                Cancel
-              </button>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog> */}
+                
        <Dialog 
         open={openAssign} 
         onClose={() => setOpenAssign(false)}
@@ -1308,21 +1294,23 @@ export default function Masterproductlist() {
                 <label  className="form-label">
                   Staff List
                 </label>
-                <select className="form-select rounded-1" name="staffName">
-                  <option value="">Select a Staff</option>
-                  {staff && staff.map((staffMember, index) => (
-                    <option key={index} value={staffMember.empName}>
-                      {staffMember.empName}
-                    </option>
-                  ))}
-                </select>
+                <select
+                        className="form-select rounded-1"
+                        name="staffName"
+                        onChange={handleStaffSelect}  // Capture selected staffId
+                    >
+                        <option value="1">Select a Staff</option>
+                        {staff.map((staff, index) => (
+                            <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
+                        ))}
+                    </select>
               </div>
 
               <button
                 type="button"
                 className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={deactivateSelectedAgent}
+                onClick={handleSubmitStaffAssign}
               >
                 Yes
               </button>

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
-import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent, deactivateClient,activeClient, } from "../../api/student";
+import { getallStudent, deleteStudent , getFilterStudentAdmin,getFilterStudent,assignStaffToEnquiries, deactivateClient,activeClient, } from "../../api/student";
 import { Link, useLocation } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination,  } from "@mui/material";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
@@ -13,6 +13,7 @@ import { getStudentId, } from "../../Utils/storage";
 import { FaFilter } from "react-icons/fa";
 import axios from 'axios';
 import { getAllApplicantCard } from "../../api/applicatin";
+import { getallStaff } from "../../api/staff";
 
 export default function Masterproductlist() {
 
@@ -26,8 +27,12 @@ primaryNumber:""
   const [openDelete, setOpenDelete] = useState(false);
   const [file, setFile] = useState(null);
   const location = useLocation();
+  const [selectedStaffId, setSelectedStaffId] = useState('');
+  const [selectedStaffName, setSelectedStaffName] = useState(''); // To store the staff name
   var searchValue = location.state;
   const [link, setLink] = useState("");
+  const [openAssign, setOpenAssign] = useState(false);
+  const [staff, setStaff] = useState([]);
   const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
   const [inputs, setInputs] = useState(false);
@@ -47,8 +52,19 @@ primaryNumber:""
   const [details, setDetails] = useState();
   useEffect(() => {
     getAllStudentDetails();
+    getStaffList();
   }, [pagination.from, pagination.to,pageSize]);
 
+
+  const getStaffList = () => {
+    getallStaff()
+      .then((res) => {
+        setStaff(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     if (search.current) {
       search.current.focus();
@@ -414,11 +430,14 @@ primaryNumber:""
     const action = event.target.value;
     if (action === "Delete") {
       setOpenDelete(true);
-      // deleteSelectedstudent();
+      // deleteSelectedagent();
     } else if (action === "Activate") {
-      activateSelectedStudent();
-    } else if (action === "DeActivate") {
-      deactivateSelectedStudent();
+      activateSelectedAgent();
+    }else if (action === "DeActivate") {
+      deactivateSelectedAgent();
+    }else if (action === "Assign") {
+      // activateSelectedAgent();
+      setOpenAssign(true);
     }
   };
  
@@ -443,7 +462,7 @@ primaryNumber:""
   
 
 
-  const activateSelectedStudent = () => {
+  const activateSelectedAgent = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to activate the clients
       activeClient({ studentIds: selectedIds })
@@ -462,7 +481,7 @@ primaryNumber:""
     }
   };
   
-  const deactivateSelectedStudent= () => {
+  const deactivateSelectedAgent= () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to deactivate the clients
       deactivateClient({ studentIds: selectedIds })
@@ -478,6 +497,32 @@ primaryNumber:""
         });
     } else {
       toast.warning("No selected Student.");
+    }
+  };
+
+  const handleStaffSelect = (event) => {
+    const selectedIndex = event.target.selectedIndex;
+    const selectedStaffId = event.target.value;
+    const selectedStaffName = event.target.options[selectedIndex].text;
+
+    setSelectedStaffId(selectedStaffId);
+    setSelectedStaffName(selectedStaffName);   // Store staff ID
+    
+  }
+  const handleSubmitStaffAssign = () => {
+    if (selectedIds.length > 0 && selectedStaffId) {
+      assignStaffToEnquiries({ Ids: selectedIds, staffId: selectedStaffId , staffName: selectedStaffName  })
+        .then(() => {
+          toast.success('Student assigned successfully!');
+          setSelectedIds([]); // Clear selected enquiries
+          getAllStudentDetails(); // Refresh student enquiries
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Failed to assign student.');
+        });
+    } else {
+      toast.warning('Please select enquiries and student.');
     }
   };
   return (
@@ -755,73 +800,11 @@ primaryNumber:""
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
                               <option value="DeActivate">DeActivate</option>
+                              <option value="Assign">Assign</option>
                               <option value="Delete">Delete</option>
                             </select>
                           </p>
-                          <button
-        type="button"
-        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
-      </button>
-   
-
-    {/* Modal */}
-    <div
-      className="modal fade"
-      id="exampleModal"
-      tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
-              Assign to
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Staff List
-                </label>
-                <input
-                  type="text"
-                  className="form-control rounded-1 text-capitalize"
-                  id="exampleFormControlInput1"
-                  placeholder="Example JohnDoe"
-                />
-              </div>
-            </form>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+                          
                     </div>
 
                     <div>
@@ -1169,7 +1152,61 @@ primaryNumber:""
                   </div>
                   </DialogContent>
                 </Dialog>
+                <Dialog 
+        open={openAssign} 
+        onClose={() => setOpenAssign(false)}
+        PaperProps={{
+          style: {
+            width: '600px', // Set custom width
+            height: '400px', // Set custom height
+            maxWidth: 'none', // Prevents default max-width from Material-UI
+          },
+        }}
+      >
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+              Assign to Staff
+            </h5>
 
+            <form>
+              <div className="from-group mb-3">
+                <label  className="form-label">
+                  Staff List
+                </label>
+                <select
+                        className="form-select rounded-1"
+                        name="staffName"
+                        onChange={handleStaffSelect}  // Capture selected staffId
+                    >
+                        <option value="1">Select a Staff</option>
+                        {staff.map((staff, index) => (
+                            <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
+                        ))}
+                    </select>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={handleSubmitStaffAssign}
+              >
+                Yes
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={() => setOpenAssign(false)}  
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog>
  <Dialog open={openFilter} fullWidth maxWidth="sm">
    <DialogTitle>
      Filter Student

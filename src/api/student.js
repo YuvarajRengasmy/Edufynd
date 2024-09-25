@@ -18,7 +18,9 @@ export const activeClient = (data) => {
 export const deactivateClient = (data) => {
   return API.post(`${Student}/deActiveStudent`,data);
 };
-
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Student}/assign`,data);
+};
 export const getSingleStudent = (data) => {
     return API.get(`${Student}/getSingleStudent`, { params: { _id: data } })
 }

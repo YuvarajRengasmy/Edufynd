@@ -8,7 +8,16 @@ export const saveLoanEnquiry = (data) => {
 export const updateLoanEnquiry= (data) => {
     return API.put(`${Loan}`, data)
 }
+export const activeClient = (data) => {
+  return API.post(`${Loan}/active`,data);
+};
 
+export const deactivateClient = (data) => {
+  return API.post(`${Loan}/deActive`,data);
+};
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Loan}/assign`,data);
+};
 export const getSingleLogUniversity = (data) => {
     return API.get(`${Loan}/SingleLog`, { params: { _id: data } });
   };
