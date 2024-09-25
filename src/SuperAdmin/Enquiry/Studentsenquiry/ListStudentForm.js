@@ -3,13 +3,15 @@ import Sortable from "sortablejs";
 import {
   getallStudnetEnquiry,
   getSingleStudnetEnquiry,
+  getFilterStudnetEnquiry,
   deleteStudnetEnquiry,
+  deactivateClient,activeClient,
   assignStaffToEnquiries
-  
 } from "../../../api/Enquiry/student";
 import { getallStaff } from "../../../api/staff";
+import { Link, useLocation } from "react-router-dom";
+import { getSuperAdminForSearch } from "../../../api/superAdmin";
 
-import { Link } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -44,14 +46,20 @@ export const ListStudentForm = () => {
     assignedTo: "",
   };
 
-  const pageSize = 10;
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
 
-  const [student, setStudent] = useState();
+  const [pageSize, setPageSize] = useState(10); 
+  const search = useRef(null);
+  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [selectedStaffId, setSelectedStaffId] = useState('');
+  const [selectedStaffName, setSelectedStaffName] = useState(''); // To store the staff name
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openAssign, setOpenAssign] = useState(false);
+  const location = useLocation();
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [data, setData] = useState(false);
+  const [inputs, setInputs] = useState("");
+  const [student, setStudent] = useState([]);
   const [staff, setStaff] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -59,16 +67,28 @@ export const ListStudentForm = () => {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
 
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [selectedStaffId, setSelectedStaffId] = useState('');
-
-
+  const [pagination, setPagination] = useState({
+    count: 0,
+    from: 0,
+    to: pageSize,
+  });
 
   useEffect(() => {
     getAllStudentDetails();
     getStaffList();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to,pageSize]);
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
 
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
   const getStaffList = () => {
     getallStaff()
       .then((res) => {
@@ -83,12 +103,13 @@ export const ListStudentForm = () => {
 
   const getAllStudentDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
-    getallStudnetEnquiry(data)
+    getFilterStudnetEnquiry(data)
       .then((res) => {
-        setStudent(res?.data?.result);
+        setStudent(res?.data?.result?.studentList);
+        setPagination({ ...pagination, count: res?.data?.result?.studentCount });
       })
       .catch((err) => {
         console.log(err);
@@ -99,6 +120,31 @@ export const ListStudentForm = () => {
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getSuperAdminForSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.studentList;
+        setStudent(universityList);
+        const result = universityList.length ? "studentEnquiry" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
   const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
@@ -107,13 +153,187 @@ export const ListStudentForm = () => {
   const closePopup = () => {
     setOpen(false);
   };
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+  };
+  const filterAgentList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+      agentName: inputs.agentName,
+      agentCode: inputs.agentCode,
+      mobileNumber: inputs.mobileNumber,
+      businessName: inputs.businessName,
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterStudnetEnquiry(data)
+    .then((res) => {
+      setStudent(res?.data?.result?.studentList);
+      setPagination({
+        ...pagination,
+        count: res?.data?.result?.studentCount,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
 
+  const resetFilter = () => {
+    setFilter(false);
+    setInputs(initialState);
+    getAllStudentDetails();
+  };
   const deletStudentData = () => {
     deleteStudnetEnquiry(deleteId)
       .then((res) => {
         toast.success(res?.data?.message);
         closePopup();
         getAllStudentDetails();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  const pdfDownload = (event) => {
+    event?.preventDefault();
+    getallStudnetEnquiry(student)
+      .then((res) => {
+        var result = res?.data?.result;
+        var tablebody = [];
+        tablebody.push([
+          {
+            text: "S.NO",
+            fontSize: 11,
+            alignment: "center",
+            margin: [5, 5],
+            bold: true,
+          },
+          {
+            text: "Agent Name",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Business Name",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Agent Code",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Mobile Number",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Staff Name",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+        ]);
+        result.forEach((element, index) => {
+          tablebody.push([
+            {
+              text: index + 1,
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+              border: [true, false, true, true],
+            },
+            {
+              text: element?.agentName ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.businessName ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+
+            {
+              text: element?.agentCode?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.staffName ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.mobileNumber ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+          ]);
+        });
+        templatePdf("agent List", tablebody, "landscape");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const exportCsv = (event) => {
+    event?.preventDefault();
+    getallStudnetEnquiry(student)
+      .then((res) => {
+        var result = res?.data?.result;
+        let list = [];
+        result?.forEach((res) => {
+          list.push({
+            agentName: res?.agentName ?? "-",
+            businessName: res?.businessName ?? "-",
+            agentCode: res?.agentCode ?? "-",
+            staffName: res?.staffName ?? "-",
+            mobileNumber: res?.mobileNumber ?? "-",
+          });
+        });
+        let header1 = [
+          "agentName",
+          "businessName",
+          "agentCode",
+          "staffName",
+          "mobileNumber",
+        ];
+        let header2 = [
+          "Agent Name",
+          "Business Name",
+          "Agent Code",
+          "Staff Name",
+          "Mobile Number",
+        ];
+        ExportCsvService.downloadCsv(
+          list,
+          "agentList",
+          "Agent List",
+
+          header1,
+          header2
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -147,52 +367,122 @@ export const ListStudentForm = () => {
     };
   }, []);
 
-  const [statuses, setStatuses] = useState(
-    (student && Array.isArray(student)) ? student.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-  );
-  
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [index]: !prevStatuses[index],
-    }));
+
+
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
   };
 
+ 
 
-  const handleSelectStudent = (event, studentId) => {
+  const handleSelectAll = (event) => {
     if (event.target.checked) {
-      // Add the student ID to the selectedIds array
-      setSelectedIds([...selectedIds, studentId]);
+      const allIds = student.map((data) => data._id); // Map all student IDs
+      setSelectedIds(allIds); // Select all IDs
     } else {
-      // Remove the student ID from the selectedIds array
-      setSelectedIds(selectedIds.filter(id => id !== studentId));
+      setSelectedIds([]); // Deselect all
     }
   };
-  
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === 'Delete') {
+      setOpenDelete(true);
+    } else if (action === 'Activate') {
+      activateSelectedStudent();
+    } else if (action === 'DeActivate') {
+      deactivateSelectedStudent();
+    } else if (action === 'Assign') {
+      setOpenAssign(true);
+    }
+  };
+
+  const deleteSelectedstudent = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) =>deleteStudnetEnquiry(id)))
+        .then(() => {
+          toast.success('Student(s) deleted successfully!');
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllStudentDetails(); // Refresh student list
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Failed to delete student.');
+        });
+    } else {
+      toast.warning('No student selected.');
+    }
+  };
+
+  const activateSelectedStudent = () => {
+    if (selectedIds.length > 0) {
+      activeClient({ studentEnquiryIds: selectedIds })
+        .then(() => {
+          toast.success('Student(s) activated successfully!');
+          setSelectedIds([]); // Clear selected IDs after success
+          getAllStudentDetails(); // Refresh student list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error('Failed to activate student(s).');
+        });
+    } else {
+      toast.warning('No student selected.');
+    }
+  };
+
+  const deactivateSelectedStudent = () => {
+    if (selectedIds.length > 0) {
+      deactivateClient({ studentEnquiryIds: selectedIds })
+        .then(() => {
+          toast.success('Student deactivated successfully!');
+          setSelectedIds([]); // Clear selected IDs after success
+          getAllStudentDetails(); // Refresh student list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error('Failed to deactivate student(s).');
+        });
+    } else {
+      toast.warning('No student selected.');
+    }
+  };
+
 
 
   const handleStaffSelect = (event) => {
- 
-    setSelectedStaffId(event.target.value);  // Capture selected staff ID
-  };
-  
+    const selectedIndex = event.target.selectedIndex;
+    const selectedStaffId = event.target.value;
+    const selectedStaffName = event.target.options[selectedIndex].text;
+
+    setSelectedStaffId(selectedStaffId);
+    setSelectedStaffName(selectedStaffName);   // Store staff ID
+    
+  }
   const handleSubmitStaffAssign = () => {
     if (selectedIds.length > 0 && selectedStaffId) {
-      // Send the selected enquiry IDs and staffId to the backend
-      assignStaffToEnquiries({ studentEnquiryIds: selectedIds, staffId: selectedStaffId })
-        .then((response) => {
+      assignStaffToEnquiries({ studentEnquiryIds: selectedIds, staffId: selectedStaffId , staffName: selectedStaffName  })
+        .then(() => {
           toast.success('Staff assigned successfully!');
-          setSelectedIds([]);  // Clear selected enquiries
-          getallStudnetEnquiry();  // Refresh the list of student enquiries
+          setSelectedIds([]); // Clear selected enquiries
+          getAllStudentDetails(); // Refresh student enquiries
         })
         .catch((err) => {
+          console.log(err);
           toast.error('Failed to assign staff.');
         });
     } else {
       toast.warning('Please select enquiries and staff.');
     }
   };
+
+
+
 
   return (
     <>
@@ -204,52 +494,41 @@ export const ListStudentForm = () => {
             <div className="row">
               <div className="col-xl-12">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
-                        style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
-                          fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li class="m-1">
-                    <div
-                      style={{
-                        backgroundColor: "#fff",
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "14px",
-                      }}
-                    >
+                <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
+          </li>
+          <li class="m-1">
+                    <div>
                       <button
                         className="btn btn-primary"
-                        type="button"
                         style={{ fontSize: "11px" }}
+                        type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight"
@@ -264,9 +543,7 @@ export const ListStudentForm = () => {
                         aria-labelledby="offcanvasRightLabel"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">
-                            Filter Student Enquiry
-                          </h5>
+                          <h5 id="offcanvasRightLabel">Filter Agent</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -277,79 +554,67 @@ export const ListStudentForm = () => {
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">Student Code</label>
+                              <label className="form-label">Agent Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="universityName"
+                                name="agentName"
+                                onChange={handleInputs}
+                                placeholder="Search...Agent Name"
                                 style={{
-                                  backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search...Student Code"
                               />
-                              <label className="form-label">Name</label>
+                               <label className="form-label">Agent Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="state"
+                                name="businessName"
+                                onChange={handleInputs}
+                                placeholder="Search...Business Name"
                                 style={{
-                                  backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search...Name"
+                              />
+                              <label className="form-label">Agent Code</label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="agentCode"
+                                onChange={handleInputs}
+                                placeholder="Search...Agent Code"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
                               />
                               <label className="form-label">
-                                Desired Country
+                                Mobile Number
                               </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="averageFees"
+                                name="mobileNumber"
+                                onChange={handleInputs}
+                                placeholder="Search...MobileNumber"
                                 style={{
-                                  backgroundColor: "#fff",
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search...Desired Country"
                               />
-                              <label className="form-label">Source</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="country"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Source"
-                              />
-
-                              <label className="form-label">Assigned To</label>
-                              <br />
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="popularCategories"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Search...Assigned To"
-                              />
+                             
                             </div>
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right bg"
+                                className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right bg"
+                                onClick={resetFilter}
                                 style={{
                                   backgroundColor: "#0f2239",
                                   fontFamily: "Plus Jakarta Sans",
@@ -361,7 +626,8 @@ export const ListStudentForm = () => {
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
-                                className="btn btn-save border-0 fw-semibold text-uppercase rounded-pill px-4 py-2 text-white float-right mx-2"
+                                onClick={filterAgentList}
+                                className="btn btn-save border-0 rounded-1 fw-semibold text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
                                   fontFamily: "Plus Jakarta Sans",
@@ -376,8 +642,8 @@ export const ListStudentForm = () => {
                       </div>
                     </div>
                   </li>
-                  <li class="m-2">
-                    <Link>
+                  <li class="m-1">
+                    <Link onClick={pdfDownload}>
                       <button
                         style={{ backgroundColor: "#E12929", fontSize: "11px" }}
                         className="btn text-white "
@@ -389,7 +655,7 @@ export const ListStudentForm = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn-filters">
+                    <Link onClick={exportCsv} class="btn-filters">
                       <span>
                         <button
                           style={{
@@ -523,144 +789,30 @@ export const ListStudentForm = () => {
   <div className="d-flex align-items-center justify-content-between">
     <div className="d-flex gap-3">
       <div className="d-flex mb-0">
-        <p className="me-auto">
-          Change
-          <select
-            className="form-select form-select-sm rounded-1 d-inline mx-2"
-            aria-label="Default select example1"
-            style={{
-              width: "auto",
-              display: "inline-block",
-              fontSize: "12px",
-            }}
-          >
-            <option value="5">Active</option>
-            <option value="10">InActive</option>
-            <option value="20">Delete</option>
-          </select>
-        </p>
+      <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
+                              <option value="Assign">Assign</option>
+                              <option value="Delete">Delete</option>
+                            </select>
+                          </p>  
       </div>
-      <button
-        type="button"
-        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
-      </button>
+      
     </div>
 
-    {/* Modal */}
-    <div
-      className="modal fade"
-      id="exampleModal"
-      tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-
-
-
-{/* 
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
-              Assign to
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Staff List
-                </label>
-               <select className=" form-select-sm rounded-1" name="staffName">
-                <option value="1">Select a Staff</option>
-                {staff.map((staff,index) => (
-                   <option key={index} value={staff?.empName}>{staff?.empName}</option>
-                ))}
-               
     
-               </select>
-              </div>
-  
-            </form>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div> */}
-
-<div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-        <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">Assign to</h1>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div className="modal-body">
-            <form>
-                <div className="mb-3">
-                    <label htmlFor="exampleFormControlInput1" className="form-label">Staff List</label>
-                    <select
-                        className="form-select-sm rounded-1"
-                        name="staffName"
-                        onChange={handleStaffSelect}  // Capture selected staffId
-                    >
-                        <option value="1">Select a Staff</option>
-                        {staff.map((staff, index) => (
-                            <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
-                        ))}
-                    </select>
-                </div>
-            </form>
-        </div>
-        <div className="modal-footer">
-            <button
-                type="button"
-                className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
-                data-bs-dismiss="modal"
-            >
-                Close
-            </button>
-            <button
-                type="button"
-                className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
-                onClick={handleSubmitStaffAssign}  // Call the function to assign the staff
-            >
-                Submit
-            </button>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-    </div>
-
     <div>
       <ul className="nav nav-underline" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">
@@ -719,19 +871,13 @@ export const ListStudentForm = () => {
                             >
                                <th className="text-capitalize text-start sortable-handle">
                                 {" "}
-                                <input type="checkbox" />
-                              </th>
-
-{/* <th className="text-capitalize text-start sortable-handle">
-    <input
+                              
+                                   <input
         type="checkbox"
-        onChange={handleSelectEnquiry}
-        checked={selectedIds.includes(enquiry._id)}  // Check if the enquiry is selected
-    />
-</th> */}
-
-
-
+        checked={selectedIds.length === student.length} // Check if all students are selected
+        onChange={handleSelectAll}
+      />
+                              </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 S.No.
@@ -783,21 +929,26 @@ export const ListStudentForm = () => {
                             {student && student.length > 0 ? (
                               student.map((data, index) => (
                                 <tr
-                                key={data._id}
+                                  key={index}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
                                     fontSize: "10px",
                                   }}
                                 >
-                            <td>
-          <input
-            type="checkbox"
-            checked={selectedIds.includes(data._id)} // Check if the student is selected
-            onChange={(e) => handleSelectStudent(e, data._id)} // Handle checkbox toggle
-          />
-        </td>
+                                   <td>
+            
+                                   <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
+           
+                      </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
+                                  </td>
+                                  <td className="text-capitalize text-start text-truncate">
+                                    {data?.studentCode || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {" "}
@@ -814,9 +965,7 @@ export const ListStudentForm = () => {
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.name || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentCode || "Not Available"}
-                                  </td>
+                                  
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.primaryNumber|| "Not Available"}
                                   </td>
@@ -830,20 +979,11 @@ export const ListStudentForm = () => {
                                     {data?.source || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.assignedTo || "Not Available"}
+                                    {data?.staffName || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
+           {data?.isActive || "Not Avaialble"}
+           
           </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
@@ -990,7 +1130,7 @@ export const ListStudentForm = () => {
                     <strong>Assigned To</strong>
                   </div>
                   <div className="col-md-7">
-                  {data?.assignedTo || "Not Available"}
+                  {data?.staffName || "Not Available"}
                   </div>
                 </div>
               </div>
@@ -1000,17 +1140,7 @@ export const ListStudentForm = () => {
                     <strong>Status</strong>
                   </div>
                   <div className="col-md-7">
-                  {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
+                 {data?.isActive || "NOT Available"}
                   </div>
                 </div>
               </div>
@@ -1062,31 +1192,32 @@ export const ListStudentForm = () => {
 
                     
                     </div>
-                    <div className="d-flex justify-content-between m-2">
-                    <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                      <div>
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                      </div>
-                     
-                    </div>
+                    <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div> 
                   
                 </div>
               </div>
@@ -1123,9 +1254,87 @@ export const ListStudentForm = () => {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog open={open}>
+      <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
         <DialogContent>
-         
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedstudent}
+                     
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
+
+      <Dialog 
+        open={openAssign} 
+        onClose={() => setOpenAssign(false)}
+        PaperProps={{
+          style: {
+            width: '600px', // Set custom width
+            height: '400px', // Set custom height
+            maxWidth: 'none', // Prevents default max-width from Material-UI
+          },
+        }}
+      >
+        <DialogContent>
+          <div className="text-center m-4">
+            <h5 className="mb-4" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+              Assign to Staff
+            </h5>
+
+            <form>
+              <div className="from-group mb-3">
+                <label  className="form-label">
+                  Staff List
+                </label>
+                <select
+                        className="form-select rounded-1"
+                        name="staffName"
+                        onChange={handleStaffSelect}  // Capture selected staffId
+                    >
+                        <option value="1">Select a Staff</option>
+                        {staff.map((staff, index) => (
+                            <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
+                        ))}
+                    </select>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={handleSubmitStaffAssign}
+              >
+                Yes
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={() => setOpenAssign(false)}  
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
         </DialogContent>
       </Dialog>
     </>

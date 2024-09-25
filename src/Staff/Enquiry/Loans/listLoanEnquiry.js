@@ -3,6 +3,7 @@ import Sortable from "sortablejs";
 import {
   getallLoanEnquiry,
   getSingleLoanEnquiry,
+  getFilterLoanEnquiry,
   deleteLoanEnquiry,
 } from "../../../api/Enquiry/Loan";
 import { Link } from "react-router-dom";
@@ -16,11 +17,11 @@ import {
 } from "@mui/material";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/StaffSidebar";
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
-import {getStaffId } from "../../../Utils/storage";
-import {  getSingleStaff } from "../../../api/staff";
 import { FaFilter } from "react-icons/fa";
 
 export const ListLoanEnquiry = () => {
@@ -39,10 +40,12 @@ export const ListLoanEnquiry = () => {
   const [filter, setFilter] = useState(false);
   const [staff, setStaff] = useState(null);
 
+
   useEffect(() => {
     getAllLoanDetails();
     getStaffDetails();
   }, [pagination.from, pagination.to]);
+
 
   const getStaffDetails = () => {
     const id = getStaffId();
@@ -65,16 +68,19 @@ export const ListLoanEnquiry = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
-
   const getAllLoanDetails = () => {
     const data = {
       limit: 10,
       page: pagination.from,
+      staffId:getStaffId()
     };
-    getallLoanEnquiry(data)
+    getFilterLoanEnquiry(data)
       .then((res) => {
-        setPagination({ ...pagination, count: res?.data?.count });
-        setLoan(res?.data?.result);
+        setLoan(res?.data?.result?.loanList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.loanCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -132,18 +138,6 @@ export const ListLoanEnquiry = () => {
       sortable.destroy();
     };
   }, []);
-  const [statuses, setStatuses] = useState(
-    (loan && Array.isArray(loan)) ? loan.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
-  );
-  
-  // Toggle checkbox status
-  const handleCheckboxChange = (index) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [index]: !prevStatuses[index],
-    }));
-  };
-
 
   return (
     <>
@@ -369,8 +363,8 @@ export const ListLoanEnquiry = () => {
                       </span>
                     </Link>
                   </li>
-                  <li class="m-1">
                   {studentPrivileges?.add && (
+                  <li class="m-1">
                     <Link class="btn btn-pix-primary" to="/staff_add_loan_enquiry">
                       <button
                         className="btn btn-outline px-4 py-2  fw-semibold text-uppercase border-0 text-white  "
@@ -387,8 +381,8 @@ export const ListLoanEnquiry = () => {
                         Add Loan Enquiry
                       </button>
                     </Link>
-                  )}
                   </li>
+                  )}
                 </ol>
               </div>
             </div>
@@ -471,75 +465,36 @@ export const ListLoanEnquiry = () => {
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm  border-0">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          {studentPrivileges?.delete && (        <option value="20">Delete</option> )}
-                        </select>{" "}
-                      </p>
-                    </div>
+                  <div className="d-flex  mb-0">
+                  <p className="me-auto ">
+                      Change
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      >
+                        <option value="5">Active</option>
+                        <option value="10">InActive</option>
+                        <option value="20">Delete</option>
+                      </select>{" "}
 
-                    <div>
-                    
-                       
-                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-                          <li>
-                            {" "}
-                            <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
-            >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
-                            </a>
-                          </li>
-                          <li>
-                            
-                              <a
-                              className="nav-link "
-                              id="profile-tab"
-                              data-bs-toggle="tab"
-                              href="#tab-profile"
-                              role="tab"
-                              aria-controls="tab-profile"
-                              aria-selected="false"
-                            >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
-                            </a>
-                          </li>
-                        </ul>
+                    </p>
+                       <div className="p-0 m-0">
+                       <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
+                       </div>
+                        <div className="m-0 p-0">
+                        <select class="form-select form-select-sm rounded-1 d-inline mx-2" aria-label="Default select example2"    style={{ width: "auto", display: "inline-block", fontSize: "12px" }}>
+  <option selected>Select Staff</option>
+  <option value="1">Staff 1</option>
+  <option value="2">Staff 2</option>
+ 
+</select>
+                        </div>
                       
-                     
-                    </div>
+                      </div>
                   </div>
-                </div>
                   <div className="card-body">
-                  <div className="tab-content ">
-                    {/* List View */}
-                    <div
-                      className="tab-pane fade show active"
-                      id="tab-home"
-                      role="tabpanel"
-                      aria-labelledby="home-tab"
-                    >
-                         <div className="card-table">
+                    <div className="card-table">
                       <div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable text-center"
@@ -621,7 +576,7 @@ export const ListLoanEnquiry = () => {
                                     )}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.studentName }
+                                    {data?.studentName}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.passportNumber}
@@ -633,27 +588,14 @@ export const ListLoanEnquiry = () => {
                                     {data?.email}
                                   </td> 
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.platform}
+                                    {data?.typeOfClient}
                                   </td>
-                                  {/* <td className="text-capitalize text-start text-truncate">
+                                  <td className="text-capitalize text-start text-truncate">
                                     {data?.source}
-                                  </td> */}
+                                  </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.assignedTo}
                                   </td>
-                                  <td className="text-capitalize text-start ">
-            {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-          </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                     {studentPrivileges?.view && (
@@ -669,7 +611,7 @@ export const ListLoanEnquiry = () => {
                                         <i className="far fa-eye text-primary me-1"></i>
                                       </Link>
                                     )}
-                                     {studentPrivileges?.edit && (
+                                    {studentPrivileges?.edit && (
                                       <Link
                                         className="dropdown-item"
                                         to={{
@@ -681,8 +623,8 @@ export const ListLoanEnquiry = () => {
                                       >
                                         <i className="far fa-edit text-warning me-1"></i>
                                       </Link>
-                                     )}
-                                      {studentPrivileges?.delete && (
+                                    )}
+                                    {studentPrivileges?.delete && (
                                       <button
                                         className="dropdown-item"
                                         onClick={() => {
@@ -693,7 +635,7 @@ export const ListLoanEnquiry = () => {
                                       >
                                         <i className="far fa-trash-alt text-danger me-1"></i>
                                       </button>
-                                      )}
+                                    )}
                                     </div>
                                   </td>
                                 </tr>
@@ -712,173 +654,6 @@ export const ListLoanEnquiry = () => {
                         </table>
                       </div>
                     </div>
-</div>
-
-
-
-<div
-                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
-                    >
-          
-          <div className="container">
-  <div className="row">
-  {loan?.map((data, index) => (
-      <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
-          <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0">  {data?.studentName }</h6>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>S.No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {pagination.from + index + 1}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Date</strong>
-                  </div>
-                  <div className="col-md-7">
-                     
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Passport No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.passportNumber}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Primary No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.primaryNumber}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Email ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.email}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Assigned Platform</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.platform  || 'Not Available'}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Assigned User</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.assignedTo || 'Not Available'}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Status</strong>
-                  </div>
-                  <div className="col-md-7 ">
-                  {statuses[index] ? 'Active' : 'Inactive'}
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id={`flexSwitchCheckDefault${index}`}
-                checked={statuses[index] || false}
-                onChange={() => handleCheckboxChange(index)}
-              />
-            </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-          {studentPrivileges?.view && (
-          <Link
-                                        className="btn btn-sm btn-outline-primary"
-                                        to={{
-                                          pathname: "/staff_view_loan_enquiry",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="View"
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>View
-                                      </Link>
-          )}
-           {studentPrivileges?.edit && (
-                                      <Link
-                                        className="btn btn-sm btn-outline-warning"
-                                        to={{
-                                          pathname: "/staff_edit_loan_enquiry",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Edit"
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>Edit
-                                      </Link>
-           )}
-            {studentPrivileges?.delete && (
-                                      <button
-                                        className="btn btn-sm btn-outline-danger"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                        data-bs-toggle="tooltip"
-                                        title="Delete"
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
-                                      </button>
-            )}
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-
-
-
-
-
-                    </div>
-                </div>
-
-
-                 
                   
                   </div>
                   <div className="d-flex justify-content-between m-2">
