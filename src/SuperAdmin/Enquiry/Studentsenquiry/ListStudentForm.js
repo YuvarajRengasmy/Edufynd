@@ -10,7 +10,7 @@ import {
 } from "../../../api/Enquiry/student";
 import { getallStaff } from "../../../api/staff";
 import { Link, useLocation } from "react-router-dom";
-import { getSuperAdminForSearch } from "../../../api/superAdmin";
+import { getCommonSearch } from "../../../api/superAdmin";
 
 import {
   Dialog,
@@ -32,18 +32,10 @@ export const ListStudentForm = () => {
   const initialState = {
     source: "",
     name: "",
-    dob: "",
-    passportNo: "",
-    qualification: "",
-    whatsAppNumber: "",
     primaryNumber: "",
     email: "",
-    cgpa: "",
-    yearPassed: "",
     desiredCountry: "",
-    desiredCourse: "",
-    doYouNeedSupportForLoan: "",
-    assignedTo: "",
+    staffName: "",
   };
 
 
@@ -135,11 +127,11 @@ export const ListStudentForm = () => {
   const handleSearch = (event) => {
     const data = search.current.value;
     event?.preventDefault();
-    getSuperAdminForSearch(data)
+    getCommonSearch(data)
       .then((res) => {
-        const universityList = res?.data?.result?.studentList;
+        const universityList = res?.data?.result?.studentEnquiryList;
         setStudent(universityList);
-        const result = universityList.length ? "studentEnquiry" : "";
+        const result = universityList.length ? "student" : "";
         setLink(result);
         setData(result === "" ? true : false);
       })
@@ -160,10 +152,12 @@ export const ListStudentForm = () => {
     event?.preventDefault();
     setFilter(true);
     const data = {
-      agentName: inputs.agentName,
-      agentCode: inputs.agentCode,
-      mobileNumber: inputs.mobileNumber,
-      businessName: inputs.businessName,
+      source:inputs.source,
+      name: inputs.name,
+      primaryNumber:inputs.primaryNumber,
+      email:inputs.email,
+      desiredCountry:inputs.desiredCountry,
+      staffName:inputs.staffName,
       limit: 10,
       page: pagination.from,
     };
@@ -213,21 +207,21 @@ export const ListStudentForm = () => {
             bold: true,
           },
           {
-            text: "Agent Name",
+            text: "Source",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Business Name",
+            text: "Student Name",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Agent Code",
+            text: "Email",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -241,7 +235,14 @@ export const ListStudentForm = () => {
             bold: true,
           },
           {
-            text: "Staff Name",
+            text: "Desired Country",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Assign Staff",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -258,39 +259,45 @@ export const ListStudentForm = () => {
               border: [true, false, true, true],
             },
             {
-              text: element?.agentName ?? "-",
+              text: element?.source?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.businessName ?? "-",
+              text: element?.name ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
 
             {
-              text: element?.agentCode?? "-",
+              text: element?.email?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.staffName ?? "-",
+              text: element?.primaryNumber ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.mobileNumber ?? "-",
+              text: element?.desiredCountry ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.staffName?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
           ]);
         });
-        templatePdf("agent List", tablebody, "landscape");
+        templatePdf("Student EnquiryList", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -305,31 +312,35 @@ export const ListStudentForm = () => {
         let list = [];
         result?.forEach((res) => {
           list.push({
-            agentName: res?.agentName ?? "-",
-            businessName: res?.businessName ?? "-",
-            agentCode: res?.agentCode ?? "-",
-            staffName: res?.staffName ?? "-",
-            mobileNumber: res?.mobileNumber ?? "-",
+            source: res?.source ?? "-",
+            name: res?.name ?? "-",
+            email: res?.email ?? "-",
+            desiredCountry: res?.desiredCountry ?? "-",
+            primaryNumber: res?.primaryNumber ?? "-",
+            staffName:res?.staffName ?? "-",
           });
         });
         let header1 = [
-          "agentName",
-          "businessName",
-          "agentCode",
+          "source",
+          "name",
+          "email",
           "staffName",
           "mobileNumber",
+          "desiredCountry",
+          "staffName",
         ];
         let header2 = [
-          "Agent Name",
-          "Business Name",
-          "Agent Code",
-          "Staff Name",
+          "source ",
+          "Student Name",
+          "Email",
+          "Desired Country",
           "Mobile Number",
+          "Assign Staff",
         ];
         ExportCsvService.downloadCsv(
           list,
-          "agentList",
-          "Agent List",
+          "studentEnuqiryList",
+          "StudentEnuqiry List",
 
           header1,
           header2
@@ -543,7 +554,7 @@ export const ListStudentForm = () => {
                         aria-labelledby="offcanvasRightLabel"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Agent</h5>
+                          <h5 id="offcanvasRightLabel">Filter StudentEnuqiry</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -554,40 +565,40 @@ export const ListStudentForm = () => {
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">Agent Name</label>
+                              <label className="form-label">Source Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="agentName"
+                                name="source"
                                 onChange={handleInputs}
-                                placeholder="Search...Agent Name"
+                                placeholder="Search...Source Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
                                 }}
                               />
-                               <label className="form-label">Agent Name</label>
+                               <label className="form-label">Student Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="businessName"
+                                name="name"
                                 onChange={handleInputs}
-                                placeholder="Search...Business Name"
+                                placeholder="Search...student Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
                                 }}
                               />
-                              <label className="form-label">Agent Code</label>
+                              <label className="form-label">email</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="agentCode"
+                                name="email"
                                 onChange={handleInputs}
-                                placeholder="Search...Agent Code"
+                                placeholder="Search...Email"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -600,9 +611,39 @@ export const ListStudentForm = () => {
                               <input
                                 type="text"
                                 className="form-control"
-                                name="mobileNumber"
+                                name="primaryNumber"
                                 onChange={handleInputs}
-                                placeholder="Search...MobileNumber"
+                                placeholder="Search...primary Number"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              />
+                              <label className="form-label">
+                                Desired Country
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="desiredCountry"
+                                onChange={handleInputs}
+                                placeholder="Search...Desired Country"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              />
+                              <label className="form-label">
+                                 Assign Staff
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="staffName"
+                                onChange={handleInputs}
+                                placeholder="Search...staffName"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",

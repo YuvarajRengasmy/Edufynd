@@ -23,7 +23,9 @@ export const deleteStaff = (data) => {
 export const activeClient = (data) => {
     return API.post(`${Staff}/activeStaff`,data);
   };
-  
+  export const assignStaffToEnquiries = (data) => {
+    return API.post(`${Staff}/assign`,data);
+  };
   export const deactivateClient = (data) => {
     return API.post(`${Staff}/deActiveStaff`,data);
   };

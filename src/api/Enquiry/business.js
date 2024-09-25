@@ -8,6 +8,16 @@ export const saveBusinessEnquiry = (data) => {
 export const updateBusinessEnquiry= (data) => {
     return API.put(`${BusinessEnquiry}`, data)
 }
+export const activeClient = (data) => {
+    return API.post(`${BusinessEnquiry}/active`,data);
+  };
+  
+  export const deactivateClient = (data) => {
+    return API.post(`${BusinessEnquiry}/deActive`,data);
+  };
+  export const assignStaffToEnquiries = (data) => {
+    return API.post(`${BusinessEnquiry}/assign`,data);
+  };
 
 export const getSingleBusinessEnquiry = (data) => {
     return API.get(`${BusinessEnquiry}/getSingleBusinessEnquiry`, { params: { _id: data } })

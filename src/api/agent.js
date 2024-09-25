@@ -18,7 +18,9 @@ export const saveContact = (data) => {
 export const activeClient = (data) => {
   return API.post(`${Agent}/activeAgent`,data);
 };
-
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Agent}/assign`,data);
+};
 export const deactivateClient = (data) => {
   return API.post(`${Agent}/deActiveAgent`,data);
 };

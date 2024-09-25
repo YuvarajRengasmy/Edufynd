@@ -8,6 +8,16 @@ export const saveAccommodationEnquiry = (data) => {
 export const updateAccommodationEnquiry= (data) => {
     return API.put(`${Accommodation}`, data)
 }
+export const activeClient = (data) => {
+    return API.post(`${Accommodation}/active`,data);
+  };
+  
+  export const deactivateClient = (data) => {
+    return API.post(`${Accommodation}/deActive`,data);
+  };
+  export const assignStaffToEnquiries = (data) => {
+    return API.post(`${Accommodation}/assign`,data);
+  };
 export const getSingleLogUniversity = (data) => {
     return API.get(`${Accommodation}/SingleLog`, { params: { _id: data } });
 };
