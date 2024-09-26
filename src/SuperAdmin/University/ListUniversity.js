@@ -74,7 +74,7 @@ export default function Masterproductlist() {
     getAllUniversityDetails();
     getallUniversityCount();
     getallApplicantCount();
-  }, [pagination.from, pagination.to,pageSize]);
+  }, [pagination.from, pagination.to,pageSize, details]);
 
   useEffect(() => {
     if (search.current) {

@@ -45,7 +45,8 @@ export default function Masterproductlist() {
   const search = useRef(null);
 
   const [pageSize, setPageSize] = useState(10); // Default page size
-  const [details, setDetails] = useState();
+  const [details, setDetails] = useState(null);
+  const [loadin, setLoadin] = useState(true); // Add a loading state
 
   const [pagination, setPagination] = useState({
     count: 0,
@@ -75,12 +76,17 @@ export default function Masterproductlist() {
 useEffect(() => {
   getallClientCount();
   filterUniversityList();
- 
+
 }, []);
 
-const getallClientCount = ()=>{
-  getAllClientCard().then((res)=>setDetails(res?.data.result))
-}
+
+
+// const getallClientCount = async ()=>{
+//   await getAllClientCard().then((res)=>
+//     console.log("balan", res)
+// //   setDetails(res?.data.result))
+// // }
+
 
   const handleInputsearch = (event) => {
     if (event.key === "Enter") {
