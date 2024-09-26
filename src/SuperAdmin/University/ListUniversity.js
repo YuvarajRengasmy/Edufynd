@@ -74,7 +74,7 @@ export default function Masterproductlist() {
     getAllUniversityDetails();
     getallUniversityCount();
     getallApplicantCount();
-  }, [pagination.from, pagination.to,pageSize, details]);
+  }, [pagination.from, pagination.to,pageSize]);
 
   useEffect(() => {
     if (search.current) {
@@ -503,8 +503,10 @@ const chartRef = useRef(null);
       // deleteSelectedUniversity();
     } else if (action === "Activate") {
       activateSelectedUniversity();
+      getallUniversityCount();
     }else if (action === "Deactivate") {
       deactivateSelectedUniversity(); 
+      getallUniversityCount();
     }
   };
 

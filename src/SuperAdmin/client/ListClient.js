@@ -80,15 +80,13 @@ useEffect(() => {
 }, []);
 
 
-
-// const getallClientCount = async ()=>{
-//   await getAllClientCard().then((res)=>
-//     console.log("balan", res)
-// //   setDetails(res?.data.result))
-// // }
+const getallClientCount = async ()=>{
+  await getAllClientCard().then((res)=>
+  setDetails(res?.data.result))
+ }
 
 
-  const handleInputsearch = (event) => {
+const handleInputsearch = (event) => {
     if (event.key === "Enter") {
       search.current.blur();
       handleSearch();
@@ -205,8 +203,10 @@ useEffect(() => {
       deleteSelectedUsers();
     } else if (action === "Activate") {
       activateSelectedUsers();
+      getallClientCount();
     } else if (action === "Deactivate") {
-      deactivateSelectedUsers(); 
+      deactivateSelectedUsers();
+      getallClientCount(); 
     }
   };
 
