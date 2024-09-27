@@ -7,10 +7,10 @@ import {
   deleteTestimonial,
   getFilterTestimonial,
   getallTestimonial,
-  updatedTestimonial,
+  deactivateClient,activeClient
   
 } from "../../api/Notification/Testimonial";
-import {getSuperAdminForSearch} from "../../api/superAdmin";
+import {getNotificationSearch} from "../../api/superAdmin";
 
 import { formatDate } from "../../Utils/DateFormat";
 import {
@@ -99,15 +99,14 @@ export const ListTestimonials = () => {
   const handleSearch = (event) => {
     const data = search.current.value;
     event?.preventDefault();
-    getSuperAdminForSearch(data)
+    getNotificationSearch(data)
       .then((res) => {
-        const testimonialLists = res?.data?.result?.testimonialList;
-        setnotification(testimonialLists);
-        const result = testimonialLists.length ? "notification" : "";
+        const universityList = res?.data?.result?.testimonialList;
+        setnotification(universityList);
+        const result = universityList.length ? "notification" : "";
         setLink(result);
         setData(result === "" ? true : false);
       })
-
       .catch((err) => console.log(err));
   };
   const handlePageChange = (event, page) => {
@@ -330,60 +329,81 @@ export const ListTestimonials = () => {
 
   const handleSelectAll = (event) => {
     if (event.target.checked) {
-      const allIds = notification.map((item) => item._id);
+      const allIds = notification.map((data) => data._id);
       setSelectedIds(allIds);
     } else {
       setSelectedIds([]);
     }
   };
 
+
+
   const handleActionChange = (event) => {
     const action = event.target.value;
-    if (action === "Delete") {
+     if (action === "Activate") {
+      activateSelectedAgent();
+    }else if (action === "DeActivate") {
+      deactivateSelectedAgent();
+    }
+    else if (action === "Delete") {
       setOpenDelete(true);
-
-      // deleteSelectedUniversity();
-    } else if (action === "Activate") {
-      activateSelectedUniversity();
     }
   };
 
-  const deleteSelectedUniversity = () => {
+  const deleteSelectedStudent = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => deleteTestimonial(id)))
+      Promise.all(selectedIds.map((id) =>deleteTestimonial(id)))
         .then((responses) => {
-          toast.success("testimonial deleted successfully!");
+          toast.success("meeting deleted successfully!");
           setSelectedIds([]);
           setOpenDelete(false);
           getAllClientDetails();
-        
         })
         .catch((err) => {
           console.log(err);
-          toast.error("Failed to delete testimonial.");
+          toast.error("Failed to delete meeting.");
         });
     } else {
-      toast.warning("No testimonial selected.");
+      toast.warning("No meeting selected.");
+    }
+  };
+  const activateSelectedAgent = () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ testimonialIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("meeting activated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getAllClientDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Already activate meeting.");
+        });
+    } else {
+      toast.warning("No selected meeting.");
     }
   };
 
-  const activateSelectedUniversity = () => {
+  const deactivateSelectedAgent= () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updatedTestimonial(id)))
-        .then((responses) => {
-          toast.success("testimonial activated successfully!");
-          setSelectedIds([]);
-          getAllClientDetails();
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ testimonialIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("meeting deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getAllClientDetails(); // Refresh the client list
         })
-
         .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate testimonial.");
+          console.error(err);
+          toast.error("Aready to deactivate meeting.");
         });
     } else {
-      toast.warning("No testimonial selected.");
+      toast.warning("No selected meeting.");
     }
-  }
+  };
 
 
   useEffect(() => {
@@ -686,7 +706,7 @@ export const ListTestimonials = () => {
                             >
                               <option value="">Select Action</option>
                               <option value="Activate">Activate</option>
-                              <option value="Assign">Assign</option>
+                              <option value="DeActivate">DeActivate</option>
                               <option value="Delete">Delete</option>
                             </select>
                           </p>
@@ -1049,7 +1069,7 @@ export const ListTestimonials = () => {
                      type="button"
                      className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
                      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
-                     onClick={deleteSelectedUniversity}
+                     onClick={deleteSelectedStudent}
                     >
                       Yes
                     </button>
