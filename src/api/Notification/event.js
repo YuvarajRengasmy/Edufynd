@@ -10,7 +10,13 @@ export const getallEvent = () => {
     return API.get(`${Event}`)
 }
 
+export const activeClient = (data) => {
+  return API.post(`${Event}/active`,data);
+};
 
+export const deactivateClient = (data) => {
+  return API.post(`${Event}/deActive`,data);
+};
 export const getSingleEvent = (data) => {
     return API.get(`${Event}/getSingleEvent`, { params: { _id: data } });
   };

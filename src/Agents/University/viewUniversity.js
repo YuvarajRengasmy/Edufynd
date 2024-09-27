@@ -6,7 +6,7 @@ import BackButton from "../../compoents/backButton";
 import { Pagination} from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
 import { getFilterProgram, getProgramUniversity, } from "../../api/Program";
-import Sidebar from "../../compoents/sidebar";
+import Sidebar from "../../compoents/AdminSidebar";
 import { RichTextEditor } from "@mantine/rte";
 
 const UserProfile = () => {

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -10,25 +10,70 @@ import {
 } from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
 import { toast } from "react-toastify";
-import { deleteEvent, getFilterEvent } from "../../api/Notification/event";
+import { deleteEvent,getallEvent, getFilterEvent,deactivateClient,activeClient } from "../../api/Notification/event";
 import { formatDate } from "../../Utils/DateFormat";
+import { getNotificationSearch } from "../../api/superAdmin";
 import { FaFilter } from "react-icons/fa";
+import { ExportCsvService } from "../../Utils/Excel";
+import { templatePdf } from "../../Utils/PdfMake";
 export const ListEvents = () => {
-  const [notification, setnotification] = useState([]);
+
+
+  const initialStateInputs = {
+    hostName: "",   
+    eventTopic:"",
+universityName:"",
+isActive:"" 
+  };
+
+ const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+  const [openDelete, setOpenDelete] = useState(false);
+  const [file, setFile] = useState(null);
+  const location = useLocation();
+  const [selectedStaffId, setSelectedStaffId] = useState('');
+  const [selectedStaffName, setSelectedStaffName] = useState(''); // To store the staff name
+  var searchValue = location.state;
+  const [link, setLink] = useState("");
+  const [openAssign, setOpenAssign] = useState(false);
+  const [staff, setStaff] = useState([]);
+  const [data, setData] = useState(false);
   const [open, setOpen] = useState(false);
+  const [inputs, setInputs] = useState(false);
+  const [filter, setFilter] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10); 
+  const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
-    to: 0,
+    to: pageSize,
   });
+
+  const [notification, setnotification] = useState([]);
+ 
   useEffect(() => {
     getAllClientDetails();
-  }, [pagination.from, pagination.to]);
+  }, [pagination.from, pagination.to,pageSize]);
+
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
+
   const getAllClientDetails = () => {
     const data = {
-      limit: 10,
+      limit: pageSize, // Use dynamic page size here
       page: pagination.from,
     };
     getFilterEvent(data)
@@ -44,6 +89,73 @@ export const ListEvents = () => {
         console.log(err);
       });
   };
+
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+  };
+  const handlePageChange = (event, page) => {
+    const from = (page - 1) * pageSize;
+    const to = (page - 1) * pageSize + pageSize;
+    setPagination({ ...pagination, from: from, to: to });
+  };
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getNotificationSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.eventList;
+        setnotification(universityList);
+        const result = universityList.length ? "notification" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
+  const filterAgentList = (event) => {
+    event?.preventDefault();
+     setFilter(true);
+    const data = {
+        hostName: inputs.hostName,
+        eventTopic:inputs.eventTopic,
+        universityName: inputs.universityName,
+        isActive: inputs.isActive
+    };
+    getFilterEvent(data)
+    .then((res) => {
+      const sortedStudents = res?.data?.result?.eventList.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
+      });
+      setnotification(sortedStudents);
+      setPagination({
+        ...pagination,
+        count: res?.data?.result?.eventCount,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const resetFilter = () => {
+    setFilter(false);
+    setInputs(initialStateInputs);
+    getAllClientDetails();
+  };
+
+
+
   const deleteProgramData = () => {
     deleteEvent(deleteId)
       .then((res) => {
@@ -62,11 +174,9 @@ export const ListEvents = () => {
   const closePopup = () => {
     setOpen(false);
   };
-  const handlePageChange = (event, page) => {
-    const from = (page - 1) * pageSize;
-    const to = (page - 1) * pageSize + pageSize;
-    setPagination({ ...pagination, from: from, to: to });
-  };
+
+
+  
   const tableRef = useRef(null);
   useEffect(() => {
     const table = tableRef.current;
@@ -89,6 +199,226 @@ export const ListEvents = () => {
       sortable.destroy();
     };
   }, []);
+
+  const pdfDownload = (event) => {
+    event?.preventDefault();
+
+    getallEvent(notification)
+      .then((res) => {
+        var result = res?.data?.result;
+        var tablebody = [];
+        tablebody.push([
+          {
+            text: "S.NO",
+            fontSize: 11,
+            alignment: "center",
+            margin: [5, 5],
+            bold: true,
+          },
+          
+          {
+            text: "Host Name",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "events Topic",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "universityName",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Status",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+         
+        ]);
+        result.forEach((element, index) => {
+          tablebody.push([
+            {
+              text: index + 1,
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+              border: [true, false, true, true],
+            },
+           
+            {
+              text: element?.hostName ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.eventTopic ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+
+            {
+              text: element?.universityName ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            
+            {
+              text: element?.isActive ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+          ]);
+        });
+        templatePdf("eventsList", tablebody, "landscape");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const exportCsv = (event) => {
+    event?.preventDefault();
+
+    getallEvent(notification)
+      .then((res) => {
+        var result = res?.data?.result;
+        let list = [];
+        result?.forEach((res) => {
+          list.push({
+           
+            hostName: res?.hostName ?? "-",
+            eventTopic: res?.eventTopic ?? "-",
+            universityName: res?.universityName ?? "-",
+            isActive: res?.isActive ?? "-",
+          });
+        });
+        let header1 = [
+          
+          "hostName",
+          "eventTopic",
+          "universityName",
+          "isActive",
+        ];
+        let header2 = [
+          
+          "Host Name",
+          "Event Topic",
+          "universityName Name",
+         
+          "Status",
+        ];
+        ExportCsvService.downloadCsv(
+          list,
+          "eventsList",
+          "events List",
+
+          header1,
+          header2
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = notification.map((data) => data._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+     if (action === "Activate") {
+      activateSelectedAgent();
+    }else if (action === "DeActivate") {
+      deactivateSelectedAgent();
+    }
+    else if (action === "Delete") {
+      setOpenDelete(true);
+    }
+  };
+ 
+  const deleteSelectedStudent = () => {
+    if (selectedIds.length > 0) {
+      Promise.all(selectedIds.map((id) =>deleteEvent(id)))
+        .then((responses) => {
+          toast.success("events deleted successfully!");
+          setSelectedIds([]);
+          setOpenDelete(false);
+          getAllClientDetails();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Failed to delete events.");
+        });
+    } else {
+      toast.warning("No events selected.");
+    }
+  };
+  const activateSelectedAgent = () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to activate the clients
+      activeClient({ eventIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("events activated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful activation
+          getAllClientDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Already activate events.");
+        });
+    } else {
+      toast.warning("No selected events.");
+    }
+  };
+
+  const deactivateSelectedAgent= () => {
+    if (selectedIds.length > 0) {
+      // Send the selected IDs to the backend to deactivate the clients
+      deactivateClient({ eventIds: selectedIds })
+        .then((response) => {
+          console.log("Response:", response);
+          toast.success("events deactivated successfully!");
+          setSelectedIds([]); // Clear selected IDs after successful deactivation
+          getAllClientDetails(); // Refresh the client list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Aready to deactivate events.");
+        });
+    } else {
+      toast.warning("No selected events.");
+    }
+  };
   return (
     <>
       <Mastersidebar />
@@ -101,36 +431,36 @@ export const ListEvents = () => {
             <div className="row ">
               <div className="col-xl-12">
                 <ol className=" d-flex flex-row justify-content-end align-items-center w-100 mb-0 list-unstyled">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control bg-white border-1  rounded-4 w-100"
-                        style={{
-                          fontSize: "12px", // Keep the font size if it's correct
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li class="m-1">
+                <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
+          </li>
+          <li class="m-1">
                     <div>
                       <button
                         className="btn btn-primary"
@@ -150,7 +480,7 @@ export const ListEvents = () => {
                         aria-labelledby="offcanvasRightLabel"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Events</h5>
+                          <h5 id="offcanvasRightLabel">Filter Event</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -161,65 +491,85 @@ export const ListEvents = () => {
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">Date</label>
+                              <label className="form-label">Event Topic T</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="businessName"
-                                placeholder="Search...Date"
+                                name="eventTopic"
+                                onChange={handleInputs}
+                                placeholder="Search...TypeOfUser"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
                               />
-                              <label className="form-label">Subject</label>
+                               <label className="form-label">Host Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="businessContactNo"
-                                placeholder="Search...Subject"
+                                name="hostName"
+                                onChange={handleInputs}
+                                placeholder="Search...Host Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
                               />
-                              <label className="form-label">Users</label>
+                              <label className="form-label">University Name </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="status"
-                                placeholder="Search...Users"
+                                name="universityName"
+                                onChange={handleInputs}
+                                placeholder="Search...subject"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
                               />
+                              <label className="form-label">
+                            Status
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="isActive"
+                                onChange={handleInputs}
+                                placeholder="Search...passportNo"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              />
+                              
+                            
                             </div>
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 fw-semibold rounded-1  rounded-pill text-white float-right bg"
+                                className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right bg"
+                                onClick={resetFilter}
                                 style={{
                                   backgroundColor: "#0f2239",
-                                  color: "#fff",
-                                  fontSize: "12px",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "14px",
                                 }}
-                                // onClick={resetFilter}
                               >
                                 Reset
                               </button>
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
-                                // onClick={filterProgramList}
-                                className="btn btn-save border-0 fw-semibold rounded-1  rounded-pill text-white float-right mx-2"
+                                onClick={filterAgentList}
+                                className="btn btn-save border-0 rounded-1 fw-semibold text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
-                                  color: "#fff",
-                                  fontSize: "12px",
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "14px",
                                 }}
                               >
                                 Apply
@@ -231,7 +581,7 @@ export const ListEvents = () => {
                     </div>
                   </li>
                   <li class="m-1">
-                    <Link>
+                    <Link onClick={pdfDownload}>
                       <button
                         style={{ backgroundColor: "#E12929", fontSize: "11px" }}
                         className="btn text-white "
@@ -243,7 +593,7 @@ export const ListEvents = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn-filters">
+                    <Link onClick={exportCsv} class="btn-filters">
                       <span>
                         <button
                           style={{
@@ -253,21 +603,6 @@ export const ListEvents = () => {
                           className="btn text-white "
                         >
                           <i class="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </span>
-                    </Link>
-                  </li>
-                  <li class="m-1">
-                    <Link class="btn-filters">
-                      <span>
-                        <button
-                          style={{
-                            backgroundColor: "#9265cc",
-                            fontSize: "11px",
-                          }}
-                          className="btn text-white "
-                        >
-                          <i class="fa fa fa-upload" aria-hidden="true"></i>
                         </button>
                       </span>
                     </Link>
@@ -383,22 +718,25 @@ export const ListEvents = () => {
                   <div className="card-header bg-white mb-0 mt-1 pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="d-flex  mb-0">
-                        <p className="me-auto ">
-                          Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{
-                              width: "auto",
-                              display: "inline-block",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <option value="5">Active</option>
-                            <option value="10">InActive</option>
-                            <option value="20">Delete</option>
-                          </select>{" "}
-                        </p>
+                      <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
+                              <option value="Delete">Delete</option>
+                             
+                            </select>
+                          </p> 
                     
                       </div>
                       <div>
@@ -464,7 +802,13 @@ export const ListEvents = () => {
                                   }}
                                 >
                                   <th className=" text-start">
-                                    <input type="checkbox" />
+                                  <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={
+                                      selectedIds.length === notification.length
+                                    }
+                                  /> 
                                   </th>
                                   <th className="text-capitalize text-start sortable-handle">
                                     S No
@@ -478,6 +822,10 @@ export const ListEvents = () => {
                                   </th>
                                   <th className="text-capitalize text-start sortable-handle">
                                     {" "}
+                                    Host Name
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
                                     Topic
                                   </th>
                                   <th className="text-capitalize text-start sortable-handle">
@@ -485,6 +833,10 @@ export const ListEvents = () => {
                                   </th>
                                   <th className="text-capitalize text-start sortable-handle">
                                     Venue
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                   Status
                                   </th>
                                   <th className="text-capitalize text-start sortable-handle">
                                     Action{" "}
@@ -501,7 +853,11 @@ export const ListEvents = () => {
                                     }}
                                   >
                                     <td className=" text-start">
-                                      <input type="checkbox" />
+                                    <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
                                       {pagination.from + index + 1}
@@ -521,6 +877,9 @@ export const ListEvents = () => {
                                       ) || "Not Available"}
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
+                                      {data?.hostName || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
                                       {data?.eventTopic || "Not Available"}
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
@@ -528,6 +887,9 @@ export const ListEvents = () => {
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
                                       {data?.venue || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.isActive || "Not Available"}
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
                                       <div className="d-flex">
@@ -704,31 +1066,31 @@ export const ListEvents = () => {
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center p-3">
-                      <p className="me-auto ">
-                        Show
-                        <select
-                          className="form-select form-select-sm rounded-1 d-inline mx-2"
-                          aria-label="Default select example1"
-                          style={{
-                            width: "auto",
-                            display: "inline-block",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <option value="5">5</option>
-                          <option value="10">10</option>
-                          <option value="20">20</option>
-                        </select>{" "}
-                        Entries out of 100
-                      </p>
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                    </div>
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div>
                   </div>
                 </div>
               </div>
@@ -761,62 +1123,36 @@ export const ListEvents = () => {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog fullWidth maxWidth="sm">
-        <DialogTitle>
-          Filter University
-          <IconButton className="float-right">
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent></DialogContent>
-      </Dialog>
-      <Dialog fullWidth maxWidth="sm">
-        <DialogTitle>
-          Upload University List
-          <IconButton className="float-right">
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
+
+      <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
         <DialogContent>
-          <form>
-            <div className="from-group mb-3">
-              <div className="mb-3">
-                <input
-                  type="file"
-                  name="file"
-                  className="form-control text-dark bg-transparent"
-                  style={{ fontSize: "14px" }}
-                />
-              </div>
-            </div>
-            <div>
-              <Link
-                to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill rounded-1 px-3 py-1 fw-semibold text-white float-right bg"
-                style={{
-                  backgroundColor: "#0f2239",
-                  color: "#fff",
-                  fontSize: "12px",
-                }}
-              >
-                Cancel
-              </Link>
-              <button
-                type="submit"
-                // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill rounded-1 fw-semibold px-3 py-1 text-white float-right mx-2"
-                style={{
-                  backgroundColor: "#fe5722",
-                  color: "#fff",
-                  fontSize: "12px",
-                }}
-              >
-                Apply
-              </button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+                  <div className="text-center m-4">
+                    <h5 className="mb-4"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+                  Are you sure you want to delete?</h5>
+                    <button
+                     type="button"
+                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
+                     onClick={deleteSelectedStudent}
+                     
+                    >
+                      Yes
+                    </button>
+                    <button
+                     type="button"
+                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                    
+                      onClick={() => setOpenDelete(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  </DialogContent>
+                </Dialog>
+
+      
     </>
   );
 };

@@ -10,7 +10,13 @@ export const getallTestimonial = () => {
     return API.get(`${Testimonial}`)
 }
 
+export const activeClient = (data) => {
+  return API.post(`${Testimonial}/active`,data);
+};
 
+export const deactivateClient = (data) => {
+  return API.post(`${Testimonial}/deActive`,data);
+};
 export const getSingleLog = (data) => {
   return API.get(`${Testimonial}/getSingleLogged`, { params: { _id: data } });
 };
