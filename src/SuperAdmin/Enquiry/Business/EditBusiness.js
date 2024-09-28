@@ -3,9 +3,9 @@ import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
-  updateStudnetEnquiry,
-  getSingleStudnetEnquiry,
-} from "../../../api/Enquiry/student";
+  updateBusinessEnquiry,
+  getSingleBusinessEnquiry,
+} from "../../../api/Enquiry/business";
 import Mastersidebar from "../../../compoents/sidebar";
 import { Student } from "../../../api/endpoints";
 export const EditBusiness = () => {
@@ -51,7 +51,7 @@ export const EditBusiness = () => {
     getStudentDetails();
   }, []);
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
         setStudent(res?.data?.result);
       })
@@ -141,7 +141,7 @@ export const EditBusiness = () => {
     setErrors(newError);
     setSubmitted(true);
     if (handleErrors(newError)) {
-      updateStudnetEnquiry(student)
+      updateBusinessEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_business_enquiry");

@@ -4,10 +4,14 @@ import Sortable from "sortablejs";
 import {
   getallAccommodationEnquiry,
   getSingleAccommodationEnquiry,
-  getFilterAccommodationEnquiry,
   deleteAccommodationEnquiry,
+  getFilterAccommodationEnquiry,
+  deactivateClient,activeClient,
+  assignStaffToEnquiries,
 } from "../../../api/Enquiry/accommodation";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { getCommonSearch } from "../../../api/superAdmin";
+import { getallStaff } from "../../../api/staff";
 import {
   Dialog,
   DialogContent,
@@ -19,20 +23,42 @@ import {
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/StaffSidebar";
 import { ExportCsvService } from "../../../Utils/Excel";
-import {  getSingleStaff } from "../../../api/staff";
-import {getStaffId } from "../../../Utils/storage";
 import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 
 import { FaFilter } from "react-icons/fa";
 
 export const ListAccommodation = () => {
-  const pageSize = 10;
-  const [pagination, setPagination] = useState({
-    count: 0,
-    from: 0,
-    to: pageSize,
-  });
+
+
+  const initialState = {
+    name:"",
+     source:"",
+     passportNumber:"",
+     staffName:"",
+     source:"",
+     isActive:"",
+   };
+   const [pageSize, setPageSize] = useState(10); 
+   const search = useRef(null);
+   const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
+   const [selectedStaffId, setSelectedStaffId] = useState('');
+   const [selectedStaffName, setSelectedStaffName] = useState(''); // To store the staff name
+   const [openDelete, setOpenDelete] = useState(false);
+   const [openAssign, setOpenAssign] = useState(false);
+   const location = useLocation();
+   var searchValue = location.state;
+   const [link, setLink] = useState("");
+   const [data, setData] = useState(false);
+   const [inputs, setInputs] = useState("");
+   const [staff, setStaff] = useState([]);
+   const [pagination, setPagination] = useState({
+     count: 0,
+     from: 0,
+     to: pageSize,
+   });
 
   const [accommodation, setAccommodation] = useState([]);
   const [open, setOpen] = useState(false);
@@ -40,13 +66,25 @@ export const ListAccommodation = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
-  const [staff, setStaff] = useState(null);
-
 
   useEffect(() => {
     getAllAccommodationDetails();
-    getStaffDetails();
-  }, [pagination.from, pagination.to]);
+    getStaffDetail();
+   
+  }, [pagination.from, pagination.to,pageSize]);
+
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
 
   const getAllAccommodationDetails = () => {
     const data = {
@@ -68,7 +106,7 @@ export const ListAccommodation = () => {
       });
   };
 
-  const getStaffDetails = () => {
+  const getStaffDetail = () => {
     const id = getStaffId();
     getSingleStaff(id)
       .then((res) => {
@@ -89,12 +127,37 @@ export const ListAccommodation = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
+  const handlePageSizeChange = (event) => {
+    setPageSize(Number(event.target.value)); // Update page size when dropdown changes
+    setPagination({ ...pagination, from: 0, to: Number(event.target.value) }); // Reset pagination
+  };
+
+  const handleInputsearch = (event) => {
+    if (event.key === "Enter") {
+      search.current.blur();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = (event) => {
+    const data = search.current.value;
+    event?.preventDefault();
+    getCommonSearch(data)
+      .then((res) => {
+        const universityList = res?.data?.result?.accomdationEnquiryList;
+        setAccommodation(universityList);
+        const result = universityList.length ? "accommodation" : "";
+        setLink(result);
+        setData(result === "" ? true : false);
+      })
+      .catch((err) => console.log(err));
+  };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setPagination({ ...pagination, from: from, to: to });
   };
-  const openPopup = (data) => {
+    const openPopup = (data) => {
     setOpen(true);
     setDeleteId(data);
   };
@@ -115,6 +178,182 @@ export const ListAccommodation = () => {
       });
   };
 
+  const handleInputs = (event) => {
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+  };
+
+  const filterAgentList = (event) => {
+    event?.preventDefault();
+    setFilter(true);
+    const data = {
+      name:inputs?.name,
+      source:inputs?.source,
+      passportNumber:inputs?.passportNumber,
+      staffName:inputs?.staffName,
+      isActive:inputs?.isActive,
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterAccommodationEnquiry(data)
+    .then((res) => {
+      setAccommodation(res?.data?.result?.accommodationList);
+      setPagination({
+        ...pagination,
+        count: res?.data?.result?.accommodationCount,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const resetFilter = () => {
+    setFilter(false);
+    setInputs(initialState);
+    getAllAccommodationDetails();
+  };
+  const pdfDownload = (event) => {
+    event?.preventDefault();
+    getallAccommodationEnquiry(accommodation)
+      .then((res) => {
+        var result = res?.data?.result;
+        var tablebody = [];
+        tablebody.push([
+          {
+            text: "S.NO",
+            fontSize: 11,
+            alignment: "center",
+            margin: [5, 5],
+            bold: true,
+          },
+          {
+            text: "Student Name",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "source",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "PassPort No",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "PrimaryNumber",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Staff Name",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+        ]);
+        result.forEach((element, index) => {
+          tablebody.push([
+            {
+              text: index + 1,
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+              border: [true, false, true, true],
+            },
+            {
+              text: element?.name ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.source ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+
+            {
+              text: element?.passportNumber?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.primaryNumber ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.staffName ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+           
+          ]);
+        });
+        templatePdf("accmmodation Enquiry List", tablebody, "landscape");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const exportCsv = (event) => {
+    event?.preventDefault();
+    getallAccommodationEnquiry(accommodation)
+      .then((res) => {
+        var result = res?.data?.result;
+        let list = [];
+        result?.forEach((res) => {
+          list.push({
+           name: res?.name ?? "-",
+            source: res?.source ?? "-",
+            passportNumber: res?.passportNumber ?? "-",
+            staffName: res?.staffName ?? "-",
+            primaryNumber: res?.primaryNumber ?? "-",
+          });
+        });
+        let header1 = [
+          "name",
+          "source",
+          "passportNumber",
+          "staffName",
+          "primaryNumber",
+        ];
+        let header2 = [
+          "Student Name",
+          "Source",
+          "passportNumber",
+          "Staff Name",
+          "Primary Number",
+        ];
+        ExportCsvService.downloadCsv(
+          list,
+          "accommodation List",
+          "Accommodation List",
+
+          header1,
+          header2
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -142,6 +381,69 @@ export const ListAccommodation = () => {
     };
   }, []);
 
+  const handleCheckboxChange = (id) => {
+    setSelectedIds((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((selectedId) => selectedId !== id)
+        : [...prevSelected, id]
+    );
+  };
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allIds = accommodation.map((data) => data._id); // Map all student IDs
+      setSelectedIds(allIds); // Select all IDs
+    } else {
+      setSelectedIds([]); // Deselect all
+    }
+  };
+  const handleActionChange = (event) => {
+    const action = event.target.value;
+    if (action === 'Delete') {
+      setOpenDelete(true);
+    } else if (action === 'Activate') {
+      activateSelectedStudent();
+    } else if (action === 'DeActivate') {
+      deactivateSelectedStudent();
+    } else if (action === 'Assign') {
+      setOpenAssign(true);
+    }
+  };
+ 
+  const activateSelectedStudent = () => {
+    if (selectedIds.length > 0) {
+      activeClient({ accommodationIds: selectedIds })
+        .then(() => {
+          toast.success('accmmodation(s) activated successfully!');
+          setSelectedIds([]); // Clear selected IDs after success
+          getAllAccommodationDetails(); // Refresh student list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error('Failed to activate accmmodation(s).');
+        });
+    } else {
+      toast.warning('No accmmodation selected.');
+    }
+  };
+  const deactivateSelectedStudent = () => {
+    if (selectedIds.length > 0) {
+      deactivateClient({ accommodationIds: selectedIds })
+        .then(() => {
+          toast.success('accmmodation deactivated successfully!');
+          setSelectedIds([]); // Clear selected IDs after success
+          getAllAccommodationDetails(); // Refresh student list
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error('Failed to deactivate accmmodation(s).');
+        });
+    } else {
+      toast.warning('No accmmodation selected.');
+    }
+  };
+ 
+
+
   return (
     <>
       <Mastersidebar />
@@ -155,51 +457,41 @@ export const ListAccommodation = () => {
             <div className="row">
               <div className="col-xl-12">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                  <li className="flex-grow-1">
-                    <div className="input-group" style={{ maxWidth: "600px" }}>
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        aria-describedby="button-addon3"
-                        className="form-control-lg bg-white border-2 ps-1 rounded-4 text-capitalize  w-100"
-                        style={{
-                          borderColor: "#FE5722",
-                          paddingRight: "1.5rem",
-                          marginLeft: "0px",
-                          fontSize: "12px", // Keep the font size if it's correct
-                          height: "11px", // Set the height to 11px
-                          padding: "0px", // Adjust padding to fit the height
-                        }}
-                      />
-                      <span
-                        className="input-group-text bg-transparent border-0"
-                        id="button-addon3"
-                        style={{
-                          position: "absolute",
-                          right: "10px",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fas fa-search"
-                          style={{ color: "black" }}
-                        ></i>
-                      </span>
-                    </div>
-                  </li>
-                  <li class="m-1">
-                    <div
-                      style={{
-                        fontFamily: "Plus Jakarta Sans",
-                        fontSize: "14px",
-                      }}
-                    >
+                <li className="flex-grow-1">
+            <form onSubmit={handleSearch}>
+              <div className="input-group" style={{ maxWidth: "600px" }}>
+                <input
+                  type="search"
+                  placeholder="Search....."
+                  ref={search}
+                  onChange={handleInputsearch}
+                  aria-describedby="button-addon3"
+                  className="form-control border-1 border-dark rounded-4"
+                  style={{ fontSize: '12px' }}
+                />
+                <button
+                  className="input-group-text bg-transparent border-0"
+                  id="button-addon3"
+                  type="submit"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <i className="fas fa-search" style={{ color: "black" }}></i>
+                </button>
+              </div>
+            </form>
+          </li>
+          <li class="m-1">
+                    <div>
                       <button
                         className="btn btn-primary"
-                        type="button"
                         style={{ fontSize: "11px" }}
+                        type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight"
                         aria-controls="offcanvasRight"
@@ -214,7 +506,7 @@ export const ListAccommodation = () => {
                         aria-labelledby="offcanvasRightLabel"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Accommodation</h5>
+                          <h5 id="offcanvasRightLabel">Filter Accommodation Enquiry</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -225,74 +517,83 @@ export const ListAccommodation = () => {
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">Date</label>
+                              <label className="form-label">Student Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="universityName"
+                                name="name"
+                                onChange={handleInputs}
+                                placeholder="Search...Student Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search...Date"
                               />
-                              <label className="form-label">Passport No </label>
+                               <label className="form-label">source</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="state"
+                                name="source"
+                                onChange={handleInputs}
+                                placeholder="Search...Business Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search...Passport No "
                               />
-                              <label className="form-label">Assigned to</label>
+                              <label className="form-label">Passport Number </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="averageFees"
+                                name="passportNumber"
+                                onChange={handleInputs}
+                                placeholder="Search...passportNumber"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search...Assigned to"
                               />
                               <label className="form-label">
-                                Assigned Partner
+                             Assigned Staff
                               </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="country"
+                                name="staffName"
+                                onChange={handleInputs}
+                                placeholder="Search...passportNo"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search...Assigned Partner"
                               />
-
-                              <label className="form-label"> Status</label>
+                              
+                            
+                              <label className="form-label">
+                            IsActive
+                              </label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="popularCategories"
+                                name="isActive"
+                                onChange={handleInputs}
+                                placeholder="Search...primaryNumber"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
+                                  fontSize: "11px",
                                 }}
-                                placeholder="Search... Status"
                               />
                             </div>
                             <div>
                               <button
                                 data-bs-dismiss="offcanvas"
-                                className="btn btn-cancel border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right bg"
+                                className="btn btn-cancel border-0 rounded-1 fw-semibold text-white float-right bg"
+                                onClick={resetFilter}
                                 style={{
                                   backgroundColor: "#0f2239",
                                   fontFamily: "Plus Jakarta Sans",
@@ -304,7 +605,8 @@ export const ListAccommodation = () => {
                               <button
                                 data-bs-dismiss="offcanvas"
                                 type="submit"
-                                className="btn btn-save border-0 rounded-pill fw-semibold text-uppercase px-4 py-2 text-white float-right mx-2"
+                                onClick={filterAgentList}
+                                className="btn btn-save border-0 rounded-1 fw-semibold text-white float-right mx-2"
                                 style={{
                                   backgroundColor: "#fe5722",
                                   fontFamily: "Plus Jakarta Sans",
@@ -319,8 +621,8 @@ export const ListAccommodation = () => {
                       </div>
                     </div>
                   </li>
-                  <li class="m-2">
-                    <Link>
+                  <li class="m-1">
+                    <Link onClick={pdfDownload}>
                       <button
                         style={{ backgroundColor: "#E12929", fontSize: "11px" }}
                         className="btn text-white "
@@ -332,7 +634,7 @@ export const ListAccommodation = () => {
                     </Link>
                   </li>
                   <li class="m-1">
-                    <Link class="btn-filters">
+                    <Link onClick={exportCsv} class="btn-filters">
                       <span>
                         <button
                           style={{
@@ -466,36 +768,79 @@ export const ListAccommodation = () => {
               <div className="col-xl-12">
                 <div className="card mt-2 rounded-1 shadow-sm border-0">
                 <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex  mb-0">
-                  <p className="me-auto ">
-                      Change
-                      <select
-                        className="form-select form-select-sm rounded-1 d-inline mx-2"
-                        aria-label="Default select example1"
-                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                      >
-                        <option value="5">Active</option>
-                        <option value="10">InActive</option>
-                        <option value="20">Delete</option>
-                      </select>{" "}
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex  mb-0">
+                    <p className="me-auto">
+                            Change
+                            <select
+                              className="form-select form-select-sm rounded-1 d-inline mx-2"
+                              aria-label="Default select example1"
+                              style={{
+                                width: "auto",
+                                display: "inline-block",
+                                fontSize: "12px",
+                              }}
+                              onChange={handleActionChange}
+                            >
+                              <option value="">Select Action</option>
+                              <option value="Activate">Activate</option>
+                              <option value="DeActivate">DeActivate</option>
+                            
+                             
+                            </select>
+                          </p> 
+                    </div>
 
-                    </p>
-                       <div className="p-0 m-0">
-                       <button className="btn btn-sm fw-semibold text-capitalize text-white " style={{backgroundColor:'#7627ef'}}><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Assign To</button>
-                       </div>
-                        <div className="m-0 p-0">
-                        <select class="form-select form-select-sm rounded-1 d-inline mx-2" aria-label="Default select example2"    style={{ width: "auto", display: "inline-block", fontSize: "12px" }}>
-  <option selected>Select Staff</option>
-  <option value="1">Staff 1</option>
-  <option value="2">Staff 2</option>
- 
-</select>
-                        </div>
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
                       
-                      </div>
+                     
+                    </div>
                   </div>
+                </div>
                   <div className="card-body">
-                    <div className="card-table">
+
+                  <div className="tab-content ">
+                    {/* List View */}
+                    <div
+                      className="tab-pane fade show active"
+                      id="tab-home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+                         <div className="card-table">
                       <div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable text-center"
@@ -511,7 +856,11 @@ export const ListAccommodation = () => {
                             >
                                 <th className="text-capitalize text-start sortable-handle">
                                 {" "}
-                                <input type="checkbox" />
+                                <input
+        type="checkbox"
+        checked={selectedIds.length === accommodation.length} // Check if all students are selected
+        onChange={handleSelectAll}
+      />
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
@@ -562,7 +911,11 @@ export const ListAccommodation = () => {
                                   }}
                                 >
                                     <td>
-                        <input type="checkbox" />
+                                    <input
+                                      type="checkbox"
+                                      checked={selectedIds.includes(data._id)}
+                                      onChange={() => handleCheckboxChange(data._id)}
+                                    />
                       </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}{" "}
@@ -580,7 +933,7 @@ export const ListAccommodation = () => {
                                     {data?.name || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.passportNumber || "Not Available"}
+                                    {data?.source || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.source || "Not Available"}
@@ -589,11 +942,12 @@ export const ListAccommodation = () => {
                                     {data?.assignedTo || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.assignedPartner || "Not Available"}
+                                  {data?.staffName || "Not Available"}
                                   </td>
-                                  <td className="text-capitalize text-start text-truncate">
-                                    {data?.status || "Not Available"}
-                                  </td>
+                                  
+ <td className="text-capitalize text-start ">
+ {data?.isActive || "Not Available"}
+          </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                     {studentPrivileges?.view && (
@@ -646,33 +1000,165 @@ export const ListAccommodation = () => {
                         </table>
                       </div>
                     </div>
+</div>
+
+
+
+<div
+                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    >
+          
+          <div className="container">
+  <div className="row">
+  {accommodation?.map((data, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
+          <div className="card-header   d-flex justify-content-between align-items-center">
+            <h6 className="mb-0"> {data?.name || "Not Available"}</h6>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>S.No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {pagination.from + index + 1}{" "}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Date</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {formatDate(
+                                      data?.createdOn
+                                        ? data?.createdOn
+                                        : data?.modifiedOn
+                                        ? data?.modifiedOn
+                                        : "-"
+                                        || "Not Available" )}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Passport No</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.source || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Source</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.source || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>  Assigned Partner</strong>
+                  </div>
+                  <div className="col-md-7">
+                  {data?.staffName || "Not Available"}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mb-2">
+                <div className="row">
+                  <div className="col-md-5">
+                    <strong>Status</strong>
+                  </div>
+                  <div className="col-md-7 d-flex align-items-center">
+                  {data?.isActive || "Not Available"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+          <Link
+                                        className="btn btn-sm btn-outline-primary"
+                                        to={{
+                                          pathname: "/view_accommodation",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>View
+                                      </Link>
+                                      <Link
+                                        className="btn btn-sm btn-outline-warning"
+                                        to={{
+                                          pathname: "/edit_accommodation",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>Edit
+                                      </Link>
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={() => {
+                                          openPopup(data?._id);
+                                        }}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                      </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+                 
                   
                   </div>
-                  <div className="d-flex justify-content-between m-2">
-                  <p className="me-auto ">
-                    Show
-                    <select
-                      className="form-select form-select-sm rounded-1 d-inline mx-2"
-                      aria-label="Default select example1"
-                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="20">20</option>
-                    </select>{" "}
-                    Entries    out of 100
-                  </p>
-                      <div>
-                      <Pagination
-                        count={Math.ceil(pagination.count / pageSize)}
-                        onChange={handlePageChange}
-                        variant="outlined"
-                        shape="rounded"
-                        color="primary"
-                      />
-                      </div>
-                     
-                    </div>
+                  <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto">
+          Show
+          <select
+            className="form-select form-select-sm rounded-1 d-inline mx-2"
+            aria-label="Default select example1"
+            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+            value={pageSize}
+            onChange={handlePageSizeChange} // Handle page size change
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>{" "}
+          Entries out of {pagination.count}
+        </p>
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div> 
                 </div>
               </div>
             </div>
@@ -708,6 +1194,10 @@ export const ListAccommodation = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+   
+
+    
     </>
   );
 };

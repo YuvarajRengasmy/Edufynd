@@ -1,24 +1,29 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { getallClient } from "../../../api/client";
 import {
-  updateStudnetEnquiry,
-  getSingleStudnetEnquiry,
-} from "../../../api/Enquiry/student";
+  updateBusinessEnquiry,
+  getSingleBusinessEnquiry,
+} from "../../../api/Enquiry/business";
+
 import Mastersidebar from "../../../compoents/StaffSidebar";
 import { Student } from "../../../api/endpoints";
+
 export const EditBusiness = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
+
   const initialState = {
+    typeOfClient:"",
     source: "",
     name: "",
     dob: "",
     passportNo: "",
     qualification: "",
     whatsAppNumber: "",
-    primaryNumber: "",
+    mobileNumber: "",
     email: "",
     cgpa: "",
     yearPassed: "",
@@ -28,13 +33,14 @@ export const EditBusiness = () => {
     assignedTo: "",
   };
   const initialStateErrors = {
+    typeOfClient: { required: false },
     source: { required: false },
     name: { required: false },
     dob: { required: false },
     passportNo: { required: false },
     qualification: { required: false },
     whatsAppNumber: { required: false },
-    primaryNumber: { required: false },
+    mobileNumber: { required: false },
     email: { required: false },
     cgpa: { required: false },
     yearPassed: { required: false },
@@ -46,12 +52,25 @@ export const EditBusiness = () => {
   const [student, setStudent] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+  const [client, setClient] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     getStudentDetails();
+    getClientList();
   }, []);
+  const getClientList = () => {
+    
+    getallClient()
+      .then((res) => {
+        setClient(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
         setStudent(res?.data?.result);
       })
@@ -61,6 +80,9 @@ export const EditBusiness = () => {
   };
   const handleValidation = (data) => {
     let error = initialStateErrors;
+    if (data.typeOfClient === "") {
+      error.typeOfClient.required = true;
+    }
     if (data.source === "") {
       error.source.required = true;
     }
@@ -79,8 +101,8 @@ export const EditBusiness = () => {
     if (data.whatsAppNumber === "") {
       error.whatsAppNumber.required = true;
     }
-    if (data.primaryNumber === "") {
-      error.primaryNumber.required = true;
+    if (data.mobileNumber === "") {
+      error.mobileNumber.required = true;
     }
     if (data.email === "") {
       error.email.required = true;
@@ -106,14 +128,15 @@ export const EditBusiness = () => {
     if (!isValidEmail(data.email)) {
       error.email.valid = true;
     }
-    if (!isValidPhone(data.primaryNumber)) {
-      error.primaryNumber.valid = true;
+    if (!isValidPhone(data.mobileNumber)) {
+      error.mobileNumber.valid = true;
     }
     if (!isValidPhone(data.whatsAppNumber)) {
       error.whatsAppNumber.valid = true;
     }
     return error;
   };
+
   const handleInputs = (event) => {
     setStudent({ ...student, [event?.target?.name]: event?.target?.value });
     if (submitted) {
@@ -124,6 +147,7 @@ export const EditBusiness = () => {
       setErrors(newError);
     }
   };
+
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -135,21 +159,23 @@ export const EditBusiness = () => {
     }
     return true;
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
+
     if (handleErrors(newError)) {
-      updateStudnetEnquiry(student)
+      updateBusinessEnquiry(student)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/staff_list_business_enquiry");
+          navigate("/admin_list_business_enquiry");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    } else {
+    }else {
       toast.error("Please Fill  Mandatory Fields");
     }
   };

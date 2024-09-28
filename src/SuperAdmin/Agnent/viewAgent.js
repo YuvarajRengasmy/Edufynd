@@ -63,7 +63,7 @@ function Profile() {
    {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
       <li  className="breadcrumb-item">
         <Link to={{
-          pathname: "/EditAgent",
+          pathname: "/edit_agent",
           search: `?id=${ agent?._id}`,
         }} className="text-decoration-none">EditAgent</Link>
       </li>
@@ -87,7 +87,7 @@ function Profile() {
                   />
                   <div className="card-body">
                     <h3 className="agent-name">{agent?.agentName || "Not Available"}</h3>
-                    <p className="card-text">{agent?.source || "Not Available"}</p>
+                   
                     <button className="btn btn-primary btn-sm">
                       <i className="fas fa-envelope"></i> {agent?.email || "Not Available"}
                     </button>
@@ -108,9 +108,7 @@ function Profile() {
                       <li className="list-group-item">
                         <strong>Account Number:</strong> {agent?.accountNumber || "Not Available"}
                       </li>
-                      <li className="list-group-item">
-                        <strong>Branch:</strong> {agent?.branch || "Not Available"}
-                      </li>
+                      
                       <li className="list-group-item">
                         <strong>IFSC:</strong> {agent?.ifsc || "Not Available"}
                       </li>
@@ -182,9 +180,7 @@ function Profile() {
                           <li className="list-group-item">
                             <strong>City:</strong> {agent?.city || "Not Available"}
                           </li>
-                          <li className="list-group-item">
-                            <strong>PIN:</strong> {agent?.pin || "Not Available"}
-                          </li>
+                         
                           <li className="list-group-item">
                             <strong>Business Website:</strong>{" "}
                             {agent?.businessWebsite || "Not Available"}

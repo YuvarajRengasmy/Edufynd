@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { Link, useLocation } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
+import { getSingleAgentCommission } from "../../api/agent";
+
 import {getAgentId } from "../../Utils/storage";
 import {  getSingleAgent } from "../../api/agent";
 export default function Masterproductlist() {
@@ -46,21 +48,19 @@ export default function Masterproductlist() {
 
   const [commission, setCommission] = useState([]);
   const search = useRef(null);
-  const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
-  const [openDelete, setOpenDelete] = useState(false);
   const location = useLocation();
   var searchValue = location.state;
   const [link, setLink] = useState("");
   const [data, setData] = useState(false);
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
-  const [inputs, setInputs] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-  const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [inputs, setInputs] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [pageSize, setPageSize] = useState(10); 
   const [agent, setAgent] = useState(null);
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -68,10 +68,9 @@ export default function Masterproductlist() {
   });
 
   useEffect(() => {
-    getCommissionList();
+    getCommissionList();  
     getAgentDetails();
-  }, [pagination.from, pagination.to,pageSize]);
-
+  }, [pagination.from, pagination.to ,pageSize]);
 
   const getAgentDetails = () => {
     const id = getAgentId();
@@ -85,28 +84,7 @@ export default function Masterproductlist() {
       });
   };
   
-  if (!agent || !agent.privileges) {
-    // return null; // or a loading spinner
-  }
-  
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
-  
-  if (!agentPrivileges) {
-    // return null; // or handle the case where there's no 'Student' module privilege
-  }
 
-  useEffect(() => {
-    if (search.current) {
-      search.current.focus();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (searchValue) {
-      search.current.value = searchValue.substring(1);
-      handleSearch();
-    }
-  }, [searchValue]);
 
 
   const getCommissionList = () => {
@@ -128,6 +106,31 @@ export default function Masterproductlist() {
         console.log(err);
       });
   };
+  if (!agent || !agent.privileges) {
+    // return null; // or a loading spinner
+  }
+  
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'commission');
+  
+  if (!agentPrivileges) {
+    // return null; // or handle the case where there's no 'Student' module privilege
+  }
+
+  useEffect(() => {
+    if (search.current) {
+      search.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchValue) {
+      search.current.value = searchValue.substring(1);
+      handleSearch();
+    }
+  }, [searchValue]);
+
+
+ 
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
@@ -377,68 +380,25 @@ export default function Masterproductlist() {
     };
   }, []);
 
-  const handleCheckboxChange = (id) => {
-    setSelectedIds((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((selectedId) => selectedId !== id)
-        : [...prevSelected, id]
-    );
-  };
-
-  const handleSelectAll = (event) => {
-    if (event.target.checked) {
-      const allIds = commission.map((data) => data._id);
-      setSelectedIds(allIds);
-    } else {
-      setSelectedIds([]);
-    }
-  };
-
-  const handleActionChange = (event) => {
-    const action = event.target.value;
-    if (action === "Delete") {
-      setOpenDelete(true);
-      // deleteSelectedcommission();
-    } else if (action === "Activate") {
-      activateSelectedcommission();
-    }
-  };
  
 
-  const deleteSelectedCommission = () => {
-    if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => deleteCommission(id)))
-        .then((responses) => {
-          toast.success("commission deleted successfully!");
-          setSelectedIds([]);
-          setOpenDelete(false);
-          getCommissionList();
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("Failed to delete commission.");
-        });
-    } else {
-      toast.warning("No commission selected.");
-    }
-  };
 
-  const activateSelectedcommission = () => {
-    if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) => updatedCommission(id,{ active: true })))
-        .then((responses) => {
-          toast.success("commission activated successfully!");
-          setSelectedIds([]);
-          getCommissionList();
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("Failed to activate commission.");
-        });
+
+  
+ 
+  function customRound(value) {
+    if (value < 0.25) {
+      return 0.00;
+    } else if (value >= 0.25 && value <= 0.75) {
+      return 0.50;
     } else {
-      toast.warning("No commission selected.");
+      return 0.00;
     }
-  };
+  }
+  
+
+
+ 
 
   
 
@@ -631,23 +591,7 @@ export default function Masterproductlist() {
       <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
-                    <p className="me-auto">
-                            Change
-                            <select
-                              className="form-select form-select-sm rounded-1 d-inline mx-2"
-                              aria-label="Default select example1"
-                              style={{
-                                width: "auto",
-                                display: "inline-block",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleActionChange}
-                            >
-                              <option value="">Select Action</option>
-                              <option value="Activate">Activate</option>
-                              {agentPrivileges?.delete && (    <option value="Delete">Delete</option> )}
-                            </select>
-                          </p>
+                  
                     </div>
 
                     <div>
@@ -710,13 +654,7 @@ export default function Masterproductlist() {
                 <thead className="table-light" style={{fontSize:'12px'}}>
                   <tr>
                   <th className=" text-start">
-                  <input
-                                    type="checkbox"
-                                    onChange={handleSelectAll}
-                                    checked={
-                                      selectedIds.length === commission.length
-                                    }
-                                  />
+                
                             </th>
                     <th className="text-capitalize text-start sortable-handle">
                       S No
@@ -745,11 +683,7 @@ export default function Masterproductlist() {
                   {commission.map((data, index) => (
                     <tr key={index}>
                       <td className=" text-start">
-                      <input
-                                      type="checkbox"
-                                      checked={selectedIds.includes(data._id)}
-                                      onChange={() => handleCheckboxChange(data._id)}
-                                    />
+                   
                               </td>
                       <td className="text-capitalize text-start text-truncate">
                         {pagination.from + index + 1}
@@ -774,7 +708,7 @@ export default function Masterproductlist() {
   <div key={yearIndex}>
     {year?.year || "Not Available"} _
     {year?.courseTypes?.length > 0 && year?.courseTypes[0]?.inTake?.length > 0
-      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${year?.courseTypes[0]?.inTake[0]?.value}%`
+      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${((year?.courseTypes[0]?.inTake[0]?.value * agent?.agentsCommission) / 100).toFixed(customRound())}%`
       : "Not Available"}{" ,"}
   </div>
 ))}
@@ -898,7 +832,7 @@ export default function Masterproductlist() {
   <div key={yearIndex}>
     {year?.year || "Not Available"} _
     {year?.courseTypes?.length > 0 && year?.courseTypes[0]?.inTake?.length > 0
-      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${year?.courseTypes[0]?.inTake[0]?.value}`
+      ? `${year?.courseTypes[0]?.inTake[0]?.inTake} _ ${year?.courseTypes[0]?.courseType} _ ${((year?.courseTypes[0]?.inTake[0]?.value * agent?.agentsCommission) / 100).toFixed(2)}`
       : "Not Available"}{" ,"}
   </div>
 ))}
@@ -1055,32 +989,7 @@ export default function Masterproductlist() {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
-        <DialogContent>
-                  <div className="text-center m-4">
-                    <h5 className="mb-4"
-                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                  Are you sure you want to delete?</h5>
-                    <button
-                     type="button"
-                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
-                     onClick={deleteSelectedCommission}
-                    >
-                      Yes
-                    </button>
-                    <button
-                     type="button"
-                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    
-                      onClick={() => setOpenDelete(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                  </DialogContent>
-                </Dialog>
+      
       <Dialog fullWidth maxWidth="sm">
         <DialogTitle>
           Filter University

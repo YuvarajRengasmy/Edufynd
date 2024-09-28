@@ -27,6 +27,9 @@ export const deactivateClient = (data) => {
 export const getSingleAgent = (data) => {
     return API.get(`${Agent}/getsingleagent`, { params: { _id: data } })
 }
+export const getSingleAgentCommission = (data) => {
+  return API.get(`${Agent}/getSingleAgentView`, { params: { _id: data } })
+}
 export const getSingleAgentLog = (data) => {
   return API.get(`${Agent}/SingleLog`, { params: { _id: data } })
 }

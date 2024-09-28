@@ -96,7 +96,7 @@ export default function Masterproductlist() {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'university');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
@@ -825,23 +825,7 @@ const chartRef = useRef(null);
       <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex  mb-0">
-                    <p className="me-auto">
-                            Change
-                            <select
-                              className="form-select form-select-sm rounded-1 d-inline mx-2"
-                              aria-label="Default select example1"
-                              style={{
-                                width: "auto",
-                                display: "inline-block",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleActionChange}
-                            >
-                              <option value="">Select Action</option>
-                              <option value="Activate">Activate</option>
-                              {agentPrivileges?.delete && (    <option value="Delete">Delete</option> )}
-                            </select>
-                          </p>
+                    
                     </div>
 
                     <div>
@@ -905,15 +889,7 @@ const chartRef = useRef(null);
             >
               <thead className="table-light"  style={{ fontSize: "11px" }}>
                 <tr>
-                <th className=" text-start">
-                <input
-                                    type="checkbox"
-                                    onChange={handleSelectAll}
-                                    checked={
-                                      selectedIds.length === university.length
-                                    }
-                                  />
-                            </th>
+                
                   <th className="text-capitalize text-start sortable-handle">
                     S No
                   </th>
@@ -953,13 +929,7 @@ const chartRef = useRef(null);
 
                   return (
                     <tr key={index}>
-                      <td className=" text-start">
-                      <input
-                                      type="checkbox"
-                                      checked={selectedIds.includes(data._id)}
-                                      onChange={() => handleCheckboxChange(data._id)}
-                                    />
-                              </td>
+                     
                       <td className="text-capitalize text-start">
                         {pagination.from + index + 1}
                       </td>
@@ -1012,37 +982,9 @@ const chartRef = useRef(null);
                         {data?.noofApplications||"Not Available"}
                       </td>
                       <td className="text-capitalize text-start text-truncate">
+                        {data?.isActive || "Not Available"}
                         </td>
-                      {/* <td className="text-capitalize text-start ">
-    
-    <span className="form-check form-switch d-inline ms-2" >
-      {data?.universityStatus === "Active" ? (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      ) : (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      )}
-     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-        {data?.universityStatus || "Not Available"}
-      </label>
-
-    </span>
-                      </td> */}
+ 
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
                         {agentPrivileges?.view && (
@@ -1172,35 +1114,9 @@ const chartRef = useRef(null);
                   <div className="col-md-5">
                     <strong>Status</strong>
                   </div>
-                  {/* <div className="col-md-7 d-flex align-items-center">
-                  <span className="form-check form-switch d-inline ms-2" >
-      {data?.universityStatus === "Active" ? (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      ) : (
-        <input
-          className="form-check-input"
-          type="checkbox"
-          role="switch"
-          value={data?.universityStatus}
-          id={`flexSwitchCheckDefault${index}`}
-          checked={statuses[data._id] || false}
-          onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-        />
-      )}
-     <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-        {data?.universityStatus || "Not Available"}
-      </label>
-
-    </span>
-                  </div> */}
+                  <div className="col-md-7">
+                  {item?.isActive}  
+                  </div>
                 </div>
               </div>
             </div>

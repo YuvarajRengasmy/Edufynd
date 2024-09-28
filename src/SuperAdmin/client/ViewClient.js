@@ -96,12 +96,21 @@ const AddAgent = () => {
         {
           id: 5,
           label: "Business Contact No",
-          value: clientData?.businessContactNo || "Not Available"
+          value: clientData?.dial1 && clientData?.businessContactNo
+            ? `${clientData.dial1} - ${clientData.businessContactNo}`
+            : "Not Available",
         },
-        { id: 6, label: "whatsAppNumber", value:clientData?.whatsAppNumber || "Not Available" },
+        {
+          id: 6,
+          label: "WhatsApp Number",
+          value: clientData?.dial2 && clientData?.whatsAppNumber
+            ? `${clientData.dial2} - ${clientData.whatsAppNumber}`
+            : "Not Available",
+        },
+        
         { id: 6, label: "Website", value: clientData?.website || "Not Available" },
         { id: 7, label: "Staff Name", value: clientData?.name || "Not Available" },
-        { id: 8, label: "Staff Contact No", value: clientData?.contactNo || "Not Available" },
+        { id: 8, label: "Staff Contact No", value: `${clientData?.dial3 || ''}-${clientData?.contactNo || 'Not Available'}` },
         { id: 9, label: "Staff Email ID", value: clientData?.emailID  || "Not Available"},
         { id: 10, label: "Address Line 1", value: clientData?.addressLine1 || "Not Available" },
         { id: 10, label: "Address Line 2", value: clientData?.addressLine2 || "Not Available" },

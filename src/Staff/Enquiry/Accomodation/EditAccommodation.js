@@ -9,8 +9,10 @@ import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
-
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import Select from "react-select";
+
 import Flags from "react-world-flags";
 import { updateAccommodationEnquiry,getSingleAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
 import Mastersidebar from "../../../compoents/StaffSidebar";
@@ -80,6 +82,8 @@ export const AddAccommodation = () => {
   const [students, setForexs] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
+  const [staff, setStaff] = useState([]);
+
   const [pagination, setPagination] = useState({
     from: 0,
     to: 10,
@@ -107,6 +111,7 @@ export const AddAccommodation = () => {
     getAllSourceDetails();
     getStudentList();
     getAgentList();
+    getStaffDetails();
     getAccommodationDetails();
     getallCodeList();
   }, [pagination.from, pagination.to]);
@@ -119,6 +124,46 @@ export const AddAccommodation = () => {
           .catch((err) => {
             console.log(err);
           });
+      };
+/*************  ✨ Codeium Command 🌟  *************/
+      /**
+       * Retrieves the details of the currently logged in staff member.
+       * 
+       * This function is called once when the component is mounted.
+       * It first gets the id of the currently logged in staff member
+       * from the local storage. Then it makes a GET request to the
+       * /staffs/:id endpoint to get the details of the staff member.
+       * The response is stored in the `staff` state variable.
+       */
+
+        /**
+         * Get the id of the currently logged in staff member from local storage.
+         * The id is stored in the `staffId` key in local storage.
+         */
+      const getStaffDetails = () => {
+
+        /**
+         * Make a GET request to the /staffs/:id endpoint to get the details of the staff member.
+         * The `getSingleStaff` function makes the API call and returns a promise.
+         */
+        const id = getStaffId();
+        getSingleStaff(id)
+            /**
+             * The response from the API is stored in the `res` variable.
+             * The staff data is inside `res.data.result`.
+             * Store the staff data in the `staff` state variable.
+             */
+          .then((res) => {
+            console.log("yuvi", res);
+            setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+          })
+            /**
+             * If the API call fails, log the error to the console.
+             */
+          .catch((err) => {
+            console.log(err);
+          });
+/******  2d6fe9ca-57ef-4978-8f31-2dec6bed9a90  *******/
       };
   const getAllCountryDetails = () => {
     const data = {
@@ -401,6 +446,8 @@ export const AddAccommodation = () => {
     setSubmitted(true);
     const data = {
       ...forex,
+      staffId:staff._id,
+      adminId:staff.adminId,
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
@@ -414,8 +461,6 @@ export const AddAccommodation = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
-      toast.error("Please Fill  Mandatory Fields");
     }
   };
   const customStyles = {
@@ -1165,7 +1210,7 @@ export const AddAccommodation = () => {
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                              to="/staff_list_accommodation"
+                              to="/list_accommodation"
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",
@@ -1184,7 +1229,7 @@ export const AddAccommodation = () => {
                               type="submit"
                               className="btn btn-save border-0 fw-semibold text-uppercase px-4 py-2 text-white  m-2"
                             >
-                            Update
+                              Update
                             </button>
                           </div>
                         </div>

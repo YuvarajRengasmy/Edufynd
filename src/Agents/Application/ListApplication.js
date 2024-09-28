@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallApplication, deleteApplication } from "../../api/applicatin";
+import { getallApplication, deleteApplication,getFilterApplican } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -83,10 +83,19 @@ export default function Masterproductlist() {
   }
 
   const getApplicationList = () => {
-    getallApplication()
+    const data = {
+      limit: 10,
+      page: pagination.from,
+      agentId: getAgentId(),
+    };
+    getFilterApplican(data)
       .then((res) => {
-        const value = res?.data?.result;
-        setApplication(value);
+        console.log("yuvi", res);
+        setApplication(res?.data?.result?.applicantList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.applicantCount,
+        });
       })
       .catch((err) => {
         console.log(err);

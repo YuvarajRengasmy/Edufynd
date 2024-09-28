@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getSingleStudnetEnquiry } from "../../../api/Enquiry/student";
+import { getSingleBusinessEnquiry,getSingleLogUniversity } from "../../../api/Enquiry/business";
 import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/StaffSidebar";
@@ -9,14 +9,29 @@ export const ViewBusiness = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [student, setStudent] = useState();
+  const [logs, setLogs] = useState([]);
+
   const pageSize = 5;
 
   useEffect(() => {
     getStudentDetails();
+    getUniversityLogs();
   }, []);
 
+
+  const getUniversityLogs = () => {
+    getSingleLogUniversity(id)
+      .then((res) => {
+        setLogs(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
         setStudent(res?.data?.result);
       })
@@ -32,7 +47,24 @@ export const ViewBusiness = () => {
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
 
-      
+        <nav aria-label="breadcrumb">
+  <ol className="breadcrumb justify-content-end">
+    <li className="breadcrumb-item">
+      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
+    </li>
+    <li className="breadcrumb-item">
+      <Link to='/ListBusinessEnquiry' className="text-decoration-none">ListBusinessEnquiry</Link>
+    </li>
+   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+      <li  className="breadcrumb-item">
+        <Link to={{
+          pathname: "/EditBusinessEnquiry",
+          search: `?id=${student?._id }`,
+        }} className="text-decoration-none">EditBusinessEnquiry</Link>
+      </li>
+  
+  </ol>
+</nav>
          
         </div>
         <div className="container-fluid">
@@ -104,7 +136,51 @@ export const ViewBusiness = () => {
                 </table>
               </div>
 
-           
+              {/* <div class="card mb-3">
+                  <div class="card-header bg-primary text-white">
+                   Agent Details
+                  </div>
+                  <div class="card-body ">
+                  <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Name:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Business Name:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Primary Number:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Whatsapp Number:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Agent Email:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-6 fw-bold">
+                        <i class="fas fa-graduation-cap"></i>Student Name:
+                      </div>
+                      <div class="col-6">John doe</div>
+                    </div>
+                    
+                  </div>
+                </div> */}
             </div>
           </div>
 
@@ -721,43 +797,38 @@ export const ViewBusiness = () => {
   <div className="row ">
     <div className="col-12 col-lg-7 col-auto">
       <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
+        {logs.map((log, index) => (
+           <li className="mb-4 position-relative" key={index}>
+           <div className="row align-items-start g-0">
 
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
-              </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
-            </div>
-          </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
+             <div className="col-1 d-flex justify-content-center align-items-center">
+               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
+                 <i className="fas fa-check" />
+               </div>
+             </div>
+             <div className="col-4 text-center">
+               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
+               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
+             </div>
+
+             <div className="col-12">
+               {log.changes.map((change, changeIndex) => (
+                 <div key={changeIndex} className="mb-3">
+                   <div className="bg-success text-white rounded-3 p-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
+                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
+                   </div>
+                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
+                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
+         </li>
+        ))}
       </ul>
     </div>
   </div>

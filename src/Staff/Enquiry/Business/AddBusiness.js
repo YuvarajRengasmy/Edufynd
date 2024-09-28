@@ -3,8 +3,9 @@ import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
-
-import Mastersidebar from "../../../compoents/StaffSidebar";
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
+import Mastersidebar from "../../../compoents/sidebar";
 
 export const AddBusiness = () => {
   const initialState = {
@@ -40,10 +41,27 @@ export const AddBusiness = () => {
     assignedTo: { required: false },
   };
   const [student, setStudent] = useState(initialState);
+  const [staff, setStaff] = useState([]);
+
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    getStaffDetails();
+  
+  }, []);
 
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
 
@@ -132,7 +150,11 @@ export const AddBusiness = () => {
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveBusinessEnquiry(student)
+      saveBusinessEnquiry({
+        ...student,
+        staffId:staff._id,
+      adminId:staff.adminId,
+      })
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/staff_list_business_enquiry");
@@ -140,11 +162,8 @@ export const AddBusiness = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
-      toast.error("Please Fill  Mandatory Fields");
     }
   };
-
   return (
     <>
       <Mastersidebar />
@@ -564,7 +583,7 @@ export const AddBusiness = () => {
                           fontFamily: "Plus Jakarta Sans",
                           fontSize: "14px",
                         }}
-                        to="/staff_list_business_enquiry"
+                        to="/list_business_enquiry"
                         className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2 text-white w-10 m-2"
                       >
                         Cancel

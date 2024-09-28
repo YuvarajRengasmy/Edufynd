@@ -79,30 +79,7 @@ export const AdminListStudent = () => {
   if (!studentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
-  // const getAllStudentDetails = () => {
-  //   const data = {
-  //     limit: 10,
-  //     page: pagination.from,
-  //     studentId: getStudentId,
-  //     superAdminId: getStudentId,
-  //     adminId: getAdminIdId(),
-  //   };
-  //   getFilterStudentAdmin(data)
-  //     .then((res) => {
-  //       const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
-  //         return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
-  //       });
-  //       setStudent(sortedStudents);
-  //       setPagination({
-  //         ...pagination,
-  //         count: res?.data?.result?.studentCount,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
+  
   const getAllStudentDetails = () => {
     const data = {
       limit: 10,

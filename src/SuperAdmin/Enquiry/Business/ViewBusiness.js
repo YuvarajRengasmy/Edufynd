@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getSingleStudnetEnquiry,getSingleLogUniversity } from "../../../api/Enquiry/student";
+import { getSingleBusinessEnquiry,getSingleLogUniversity } from "../../../api/Enquiry/business";
 import { Link, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/sidebar";
@@ -31,7 +31,7 @@ export const ViewBusiness = () => {
 
 
   const getStudentDetails = () => {
-    getSingleStudnetEnquiry(id)
+    getSingleBusinessEnquiry(id)
       .then((res) => {
         setStudent(res?.data?.result);
       })
