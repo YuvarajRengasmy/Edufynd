@@ -521,7 +521,7 @@ const Sidebar = () => {
           {!isCollapsed && " Staffs"}
         </Link>
       </li>
-      <li className="nav-item">
+      {/* <li className="nav-item">
         <Link 
           to="/agent_list_agent"
           ref={el => (sidebarRefs.current['/list_agent'] = el)}
@@ -538,7 +538,7 @@ const Sidebar = () => {
           <i className="fa fa-user-secret nav-icon"></i> 
           {!isCollapsed && " Agents"}
         </Link>
-      </li>
+      </li> */}
     </ul>
   </div>
 </li>

@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { getSingleCommission,getSingleCommissionLog } from "../../api/commission";
+import { getSingleCommission } from "../../api/commission";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../compoents/AgentSidebar";
 import { Link } from "react-router-dom";
+import { getSingleAgentCommission } from "../../api/agent";
+import { getAgentId } from "../../Utils/storage";
+
 import BackButton from "../../compoents/backButton";
 export const ViewComission = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
   const [commission, setCommission] = useState();
-  const [logs, setLogs] = useState([]);
+  const [agent, setAgent] = useState([]);
+
 
   useEffect(() => {
     if (id) {
       getCommissionDetails();
-      getUniversityLogs();
+      getAgentDetails();
+
     }
   }, [id]);
 
+
+  const getAgentDetails = () => {
+
+    const id = getAgentId();
+    getSingleAgentCommission(id)
+      .then((res) => {
+        setAgent(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getCommissionDetails = () => {
     getSingleCommission(id)
       .then((res) => {
@@ -26,16 +43,16 @@ export const ViewComission = () => {
         console.log(err);
       });
   };
-  const getUniversityLogs = () => {
-    getSingleCommissionLog(id)
-      .then((res) => {
-        setLogs(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+ 
+  function customRound(value) {
+    if (value < 0.25) {
+      return 0.00;
+    } else if (value >= 0.25 && value <= 0.75) {
+      return 0.50;
+    } else {
+      return 0.00;
+    }
+  }
   return (
     <>
       <Sidebar />
@@ -142,7 +159,7 @@ export const ViewComission = () => {
                             <strong>Intake:</strong> {intakeItem.inTake || "Not Available"}
                           </div>
                           <div className="list-group-item">
-                            <strong>Value:</strong> {intakeItem.value || "Not Available"}%
+                            <strong>Value:</strong> {((intakeItem.value  * agent?.agentsCommission) / 100).toFixed(customRound())}%
                           </div>
                         </div>
                         </div>
@@ -179,46 +196,7 @@ export const ViewComission = () => {
              
             </div>
           </div>
-          <div className="container-fluid my-2">
-  <div className="row ">
-    <div className="col-12 col-lg-7 col-auto">
-      <ul className="list-unstyled">
-        {logs.map((log, index) => (
-           <li className="mb-4 position-relative" key={index}>
-           <div className="row align-items-start g-0">
-
-             <div className="col-1 d-flex justify-content-center align-items-center">
-               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                 <i className="fas fa-check" />
-               </div>
-             </div>
-             <div className="col-4 text-center">
-               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
-               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
-             </div>
-
-             <div className="col-12">
-               {log.changes.map((change, changeIndex) => (
-                 <div key={changeIndex} className="mb-3">
-                   <div className="bg-success text-white rounded-3 p-2">
-                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
-                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
-                   </div>
-                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
-                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
-                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
-                   </div>
-                 </div>
-               ))}
-             </div>
-           </div>
-           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-         </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-</div>
+         
       </div>
     </>
   );

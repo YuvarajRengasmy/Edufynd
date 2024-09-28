@@ -4,6 +4,7 @@ import {
   getallApplication,
   deleteApplication,
   getAllApplicantCard,
+  getFilterApplican 
 } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
@@ -92,15 +93,26 @@ export default function Masterproductlist() {
   };
 
   const getApplicationList = () => {
-    getallApplication()
+    const data = {
+      limit: 10,
+      page: pagination.from,
+      staffId:getStaffId()
+    };
+    getFilterApplican(data)
       .then((res) => {
-        const value = res?.data?.result;
-        setApplication(value);
+        console.log("yuvi",res)
+        setApplication(res?.data?.result?.applicantList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.applicantCount,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;

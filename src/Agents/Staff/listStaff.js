@@ -65,7 +65,7 @@ function ListStaff() {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'student');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
@@ -108,6 +108,7 @@ function ListStaff() {
     const data = {
       limit: pageSize, // Use dynamic page size here
       page: pagination.from,
+      agentId:getAgentId(),
     };
 
     getFilterStaffSuperAdmin(data)

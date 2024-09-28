@@ -811,25 +811,7 @@ export default function Masterproductlist() {
                   <div className="card-header bg-white mb-0 mt-1 pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="d-flex  mb-0">
-                        <p className="me-auto">
-                          Change
-                          <select
-                            className="form-select form-select-sm rounded-1 d-inline mx-2"
-                            aria-label="Default select example1"
-                            style={{
-                              width: "auto",
-                              display: "inline-block",
-                              fontSize: "12px",
-                            }}
-                            onChange={handleActionChange}
-                          >
-                            <option value="">Select Action</option>
-                            <option value="Activate">Activate</option>
-                            {agentPrivileges?.delete && (
-                              <option value="Delete">Delete</option>
-                            )}
-                          </select>
-                        </p>
+                       
                       </div>
 
                       <div>
@@ -893,15 +875,7 @@ export default function Masterproductlist() {
                                   fontSize: "12px",
                                 }}
                               >
-                                <th className=" text-start">
-                                  <input
-                                    type="checkbox"
-                                    onChange={handleSelectAll}
-                                    checked={
-                                      selectedIds.length === program.length
-                                    }
-                                  />
-                                </th>
+                                
                                 <th className="text-capitalize text-start sortable-handle">
                                   S No
                                 </th>
@@ -970,15 +944,7 @@ export default function Masterproductlist() {
                                       fontSize: "11px",
                                     }}
                                   >
-                                    <td className=" text-start">
-                                      <input
-                                        type="checkbox"
-                                        checked={selectedIds.includes(data._id)}
-                                        onChange={() =>
-                                          handleCheckboxChange(data._id)
-                                        }
-                                      />
-                                    </td>
+                                    
                                     <td className="text-capitalize text-start text-truncate">
                                       {pagination.from + index + 1}
                                     </td>
@@ -1020,13 +986,7 @@ export default function Masterproductlist() {
                                         : "Not Available"}
                                     </td>
                                     <td className="text-capitalize text-start ">
-                                      <span className="form-check form-switch d-inline ms-2">
-                                        <input
-                                          className="form-check-input"
-                                          type="checkbox"
-                                          role="switch"
-                                        />
-                                      </span>
+                                    {data?.isActive ||"Not Available"}
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
                                       <div className="d-flex">
@@ -1150,13 +1110,7 @@ export default function Masterproductlist() {
                                             <strong>Status</strong>
                                           </div>
                                           <div className="col-md-7 ">
-                                            <span className="form-check form-switch d-inline ms-2">
-                                              <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                role="switch"
-                                              />
-                                            </span>
+                                           {data?.isActive ||"Not Available"}
                                           </div>
                                         </div>
                                       </div>

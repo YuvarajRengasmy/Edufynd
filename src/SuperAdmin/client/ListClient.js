@@ -388,7 +388,7 @@ const getallClientCount = ()=>{
               margin: [5, 3],
             },
             {
-              text: element?.clientStatus ?? "-",
+              text: element?.isActive ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -415,7 +415,7 @@ const getallClientCount = ()=>{
             businessName: res?.businessName ?? "-",
             businessMailID: res?.businessMailID ?? "-",
             businessContactNo: res?.businessContactNo ?? "-",
-            status: res?.clientStatus ?? "-",
+            isActive: res?.isActive ?? "-",
           });
         });
         let header1 = [
@@ -423,7 +423,7 @@ const getallClientCount = ()=>{
           "businessName",
           "businessMailID",
           "businessContactNo",
-          "clientStatus",
+          "isActive",
         ];
         let header2 = [
           "Client Id",

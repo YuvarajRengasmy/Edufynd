@@ -26,7 +26,7 @@ function AddAgent() {
   const [inputs, setInputs] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [dial, setDial] = useState([]);
-  const [dail1, setDail1] = useState(null);
+  const [dail1, setDail1] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   // const [type, setType] = useState('admin');
   const navigate = useNavigate();
@@ -78,9 +78,10 @@ function AddAgent() {
       setErrors(newError);
     }
   };
-  const handleDail1 = (selectedOptions) => {
-    setDail1(selectedOptions);
+  const handleDail1 = (selectedOption) => {
+    setDail1(selectedOption);  // This will store the selected dial code object
   };
+  
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -102,7 +103,7 @@ function AddAgent() {
       createAdminBySuperAdmin({
         ...inputs,
         role: "admin",
-        dial1:dail1.dial1,
+        dial1:dail1.value,
         superAdminId: getSuperAdminId(),
       })
         .then((res) => {

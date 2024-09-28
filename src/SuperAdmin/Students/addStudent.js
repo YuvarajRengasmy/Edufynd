@@ -15,6 +15,7 @@ import Select from "react-select";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
+import { getallAgent } from "../../api/agent";
 
 
 function AddAgent() {
@@ -23,6 +24,8 @@ function AddAgent() {
 
     
   const initialState = {
+    agentName:"",
+    agentId:"",
     source: "",
     name: "",
     photo: "",
@@ -67,6 +70,8 @@ function AddAgent() {
     countryNameVisa:""
   };
   const initialStateErrors = {
+    agentName:{required: false},
+    agentId:{required: false},
     source: { required: false },
     name: { required: false },
     photo: { required: false },
@@ -114,6 +119,7 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [agent, setAgent] = useState([]);
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dail1, setDail1] = useState(null);
@@ -125,6 +131,7 @@ function AddAgent() {
   useEffect(() => {
     getStudentDetails();
     getallCodeList();
+    getAgentList();
 }, []);
 
 const getStudentDetails = () => {
@@ -137,7 +144,15 @@ const getStudentDetails = () => {
             console.log(err);
         });
 };
-
+const getAgentList = () => {
+  getallAgent()
+    .then((res) => {
+      setAgent(res?.data?.result || []);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const getallCodeList = () => {
   getallCode()
     .then((res) => {
@@ -297,9 +312,21 @@ const handleValidation = (data) => {
     } else {
       setStudent((prevStudent) => {
         const updatedStudent = { ...prevStudent, [name]: value };
+        if (name === "agentName") {
+          const selectedAgent = agent.find(
+            (u) => u.agentName === value
+          );
+          if (selectedAgent) {
+            return {
+              ...updatedStudent,
+              agentId: selectedAgent._id, 
+            };
+          }
+        }
         return updatedStudent;
       });
     }
+  
     if (submitted) {
       const newError = handleValidation({ ...student, [name]: value });
       setErrors(newError);
@@ -350,6 +377,9 @@ const handleValidation = (data) => {
     value: data.dialCode,
     label: `${data.dialCode} - ${data.name}`,
   }));
+
+  
+
   return (
     <>
     
@@ -450,6 +480,65 @@ const handleValidation = (data) => {
                                   </div>
                                 ) }
                               </div>
+                              {student.source === "agent" ? (
+                                <div className="row gx-4 gy-2">
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>
+      Agent List<span className="text-danger">*</span>
+    </label>
+    <select
+      className={`form-select form-select-lg rounded-1 ${
+        errors.agentName.required ? "is-invalid" : ""
+      }`}
+      value={student?.agentName || ""}
+      aria-label="Default select example"
+      style={{
+        fontFamily: "Plus Jakarta Sans",
+        fontSize: "12px",
+      }}
+      name="agentName"
+      onChange={handleInputs}
+    >
+      <option value="">Select Agent</option>
+      {agent?.map((data, index) => (
+        <option key={index} value={data?.agentName}>
+          {data?.agentName}
+        </option>
+      ))}
+    </select>
+    
+  </div>
+   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+   <label style={{ color: "#231F20" }}>
+     Agent Id<span className="text-danger">*</span>
+   </label>
+   <select
+     className={`form-select form-select-lg rounded-1 ${
+       errors.agentId.required ? "is-invalid" : ""
+     }`}
+     value={student?.agentId || ""}
+     aria-label="Default select example"
+     style={{
+       fontFamily: "Plus Jakarta Sans",
+       fontSize: "12px",
+     }}
+     name="agentId"
+     onChange={handleInputs}
+   
+   >
+     <option value="">Select Agent</option>
+     {agent?.map((data, index) => (
+       <option key={index} value={data?._id}>
+         {data?._id}
+       </option>
+     ))}
+   </select>
+   
+ </div>
+ </div>
+) : null}
+
+
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
