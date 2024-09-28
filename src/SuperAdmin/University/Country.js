@@ -1,206 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useState, useEffect } from 'react';
+import { getStaffId } from "../../Utils/storage"; // Make sure this is returning valid data
+import { getSingleStaff } from "../../api/staff"; // Ensure this API call works correctly
 
-const UniversityForm = () => {
-  const [university, setUniversity] = useState({
-    about: '',
-    admissionRequirement: '',
-    country: '',
-    state: '',
-  });
+const SidebarComponent = () => {
+  const [privileges, setPrivileges] = useState([]); // Start with an empty privileges array
+  const [loading, setLoading] = useState(true);     // Add loading state
+  const [error, setError] = useState(null);         // Add error state
 
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-
-  // Sample data for countries and states
-  const countryStateData = {
-    USA: ['California', 'Texas', 'Florida'],
-    Canada: ['Ontario', 'Quebec', 'British Columbia'],
-    India: ['Maharashtra', 'Karnataka', 'Delhi'],
-  };
-
+  // Fetch staff details and privileges on component mount
   useEffect(() => {
-    // Populate countries (this could be from an API)
-    setCountries(Object.keys(countryStateData));
+    getStudentDetails();
   }, []);
 
-  const handleCountryChange = (e) => {
-    const selectedCountry = e.target.value;
-    setUniversity((prev) => ({
-      ...prev,
-      country: selectedCountry,
-      state: '', // Reset state when country changes
-    }));
-    setStates(countryStateData[selectedCountry] || []);
+  const getStudentDetails = async () => {
+    const id = getStaffId(); // Assuming getStaffId is valid and returns a valid staff ID
+    if (!id) {
+      setError("Staff ID not found");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await getSingleStaff(id); // Assuming getSingleStaff is a valid API call
+      console.log("Fetched Staff Data:", res);
+
+      if (res?.data?.result?.privileges) {
+        setPrivileges(res.data.result); // Set the privileges
+      } else {
+        setPrivileges({ privileges: [] }); // If no privileges, set to an empty array
+      }
+
+      setLoading(false); // After fetching, set loading to false
+    } catch (err) {
+      console.error("Error fetching staff data:", err);
+      setError("Failed to fetch staff details");
+      setLoading(false); // Stop loading in case of error
+    }
   };
 
-  const handleStateChange = (e) => {
-    setUniversity((prev) => ({
-      ...prev,
-      state: e.target.value,
-    }));
+  // Privilege data should be in the format of: privileges.privileges = [{ module: 'client' }, { module: 'university' }, { module: 'program' }, { module: 'commission' }]
+  const privilegeArray = privileges?.privileges || [];
+
+  // Function to check if the user has a particular module access
+  const hasPrivilege = (moduleName) => {
+    return privilegeArray.find((privilege) => privilege.module === moduleName);
   };
 
-  const handleRichAboutChange = (data) => {
-    setUniversity((prev) => ({
-      ...prev,
-      about: data,
-    }));
-  };
+  // If loading, show a loading message or spinner
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  const handleRichTextChange = (data) => {
-    setUniversity((prev) => ({
-      ...prev,
-      admissionRequirement: data,
-    }));
-  };
+  // If there was an error, display the error message
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
-    <div>
-      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-        <div className="form-group">
-          <label style={{ color: "#231F20" }}>
-            About{" "}
-            <span className="text-danger">*</span>
-          </label>
-          <CKEditor
-            editor={ClassicEditor}
-            data={university.about}
-            name="about"
-            config={{
-              placeholder: 'Start writing your content here...',
-              toolbar: [
-                "heading",
-                "|",
-                "bold",
-                "italic",
-                "link",
-                "bulletedList",
-                "numberedList",
-                "blockQuote",
-                "|",
-                "insertTable",
-                "mediaEmbed",
-                "imageUpload",
-                "|",
-                "undo",
-                "redo",
-              ],
-              image: {
-                toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
-              },
-              table: {
-                contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
-              },
-            }}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              handleRichAboutChange(data);
-            }}
-            style={{
-              fontFamily: "Plus Jakarta Sans",
-              fontSize: "12px",
-              zIndex: '0'
-            }}
-          />
-        </div>
-      </div>
+    <div className="sidebar">
+      <ul>
+        {/* Example sidebar links */}
+        {hasPrivilege('client') && (
+          <li>
+            <a href="/dashboard">Dashboard</a>
+          </li>
+        )}
 
-      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-        <div className="form-group">
-          <label style={{ color: "#231F20" }}>
-            Admission Requirements{" "}
-            <span className="text-danger">*</span>
-          </label>
-          <CKEditor
-            editor={ClassicEditor}
-            data={university.admissionRequirement}
-            config={{
-              placeholder: 'Start writing your content here...',
-              toolbar: [
-                "heading",
-                "|",
-                "bold",
-                "italic",
-                "link",
-                "bulletedList",
-                "numberedList",
-                "blockQuote",
-                "|",
-                "insertTable",
-                "mediaEmbed",
-                "imageUpload",
-                "|",
-                "undo",
-                "redo",
-              ],
-              image: {
-                toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
-              },
-              table: {
-                contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
-              },
-            }}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              handleRichTextChange(data);
-            }}
-            style={{
-              fontFamily: "Plus Jakarta Sans",
-              fontSize: "12px",
-              zIndex: '0'
-            }}
-          />
-        </div>
-      </div>
+        {hasPrivilege('university') && (
+          <li>
+            <a href="/students">Students</a>
+          </li>
+        )}
 
-      {/* Country Selection */}
-      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-        <div className="form-group">
-          <label style={{ color: "#231F20" }}>
-            Country{" "}
-            <span className="text-danger">*</span>
-          </label>
-          <select
-            className="form-control"
-            value={university.country}
-            onChange={handleCountryChange}
-          >
-            <option value="">Select Country</option>
-            {countries.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+        {hasPrivilege('program') && (
+          <li>
+            <a href="/settings">Settings</a>
+          </li>
+        )}
 
-      {/* State Selection */}
-      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-        <div className="form-group">
-          <label style={{ color: "#231F20" }}>
-            State{" "}
-            <span className="text-danger">*</span>
-          </label>
-          <select
-            className="form-control"
-            value={university.state}
-            onChange={handleStateChange}
-            disabled={!university.country} // Disable if no country is selected
-          >
-            <option value="">Select State</option>
-            {states.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+        {hasPrivilege('commission') && (
+          <li>
+            <a href="/reports">Reports</a>
+          </li>
+        )}
+
+        {/* Add other sidebar modules conditionally */}
+        <h1>Country</h1>
+        {/* Continue adding items based on privileges */}
+      </ul>
     </div>
   );
 };
 
-export default UniversityForm;
+export default SidebarComponent;
