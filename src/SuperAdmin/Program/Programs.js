@@ -687,7 +687,7 @@ export default function Masterproductlist() {
                       <h6>
                         <i className="fas fa-star"></i> &nbsp;&nbsp;Total Country: {details?.totalUniqueCountries || 0}
                       </h6>
-
+<p>CountryWise Program Count</p>
                       {/* Loop through countrywise array */}
                       {details?.countrywise?.length > 0 ? (
                         details.countrywise.map((countryDetail, index) => (
