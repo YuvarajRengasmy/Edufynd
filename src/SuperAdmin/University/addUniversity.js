@@ -35,6 +35,8 @@ const App = () => {
     website: "",
     inTake: "",
     ranking: "",
+    commissionType: "",
+    commissionValue: "",
     averageFees: "",
     popularCategories: [],
     admissionRequirement: "",
@@ -61,6 +63,8 @@ const App = () => {
     universityName: { required: false },
     email: { required: false, valid: false },
     website: { required: false },
+    commissionType: {required:false},
+    commissionValue: {required:false},
     courseType: { required: false },
     country: { required: false },
     campuses: { required: false },
@@ -306,7 +310,7 @@ const App = () => {
     if (data.founded === "") error.founded.required = true;
     if (data. ranking === "") error. ranking.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-   
+    if (data.commissionType === "") error.commissionType.required = true;
     // Add your validation functions here
     if (!isValidName(data.universityName)) error.universityName.valid = true;
     if (!isValidYear(data.founded)) error.founded.valid = true;
@@ -619,6 +623,53 @@ const App = () => {
 
        
                           <div className="row g-3 mb-3">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+       Commission Type<span className="text-danger">*</span>
+        </label>
+        <select
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          className={`form-select form-select-lg rounded-1${
+            errors.commissionType.required ? 'is-invalid' : errors.commissionType.valid ? 'is-valid' : ''
+}`}
+          value={university?.commissionType}
+          onChange={handleInputs}
+          name="commissionType"
+        >
+          <option value="">Select a commissionType</option>
+          <option value="Commission-Added">Commission-Added</option>
+          <option value="Non-Commission">Non-Commission</option>
+          <option value="Various-Commission">Various-Commission</option>
+          
+        </select>
+      </div>
+
+      {university?.commissionType === "Various-Commission" ? (
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+        commissionValue<span className="text-danger">*</span>
+        </label>
+        <select
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          className={`form-select form-select-lg rounded-1`}
+          value={university?.commissionValue}
+          onChange={handleInputs}
+          name="commissionValue"
+        >
+          <option value="">Select a commissionValue</option>
+          <option value="Commission-Added">Commission-Added</option>
+          <option value="Non-Commission">Non-Commission</option>
+          <option value="Various-Commission">Various-Commission</option>
+          
+        </select>
+      </div>
+      ): null}
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
           Country<span className="text-danger">*</span>
