@@ -16,6 +16,8 @@ export const Course = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
+  const renderedIntakes = new Set(); 
+
   const initialState = {
     name: "",
     primaryNumber: "",
@@ -651,25 +653,27 @@ const handleSubmit = (event) => {
                                 <div className="row">
                                   <div className="border-0 pt-3 px-4">
                                     <div className="row">
-                                      {Array.isArray(program?.campuses) &&
-                                        program.campuses.map(
-                                          (campus, index) => (
-                                            <div
-                                              key={index}
-                                              className="col-sm-6 col-md-4 mb-3"
-                                            >
-                                              <div className="conatiner">
-                                                <div className="card  rounded-1  ">
-                                                  <div className="card-body bg-primary  border-0 ">
-                                                    <p className="text-center  text-uppercase fw-semibold">
-                                                      {campus?.inTake  || "Not Available"}
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          )
-                                        )}
+                                    {Array.isArray(program?.campuses) &&
+  program.campuses.map((campus, index) => {
+    if (!renderedIntakes.has(campus?.inTake)) {
+      renderedIntakes.add(campus?.inTake); // Add the unique inTake to the set
+      return (
+        <div key={index} className="col-sm-6 col-md-4 mb-3">
+          <div className="container">
+            <div className="card rounded-1">
+              <div className="card-body bg-primary border-0">
+                <p className="text-center text-uppercase fw-semibold">
+                  {campus?.inTake || "Not Available"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null; // Skip rendering duplicate inTake
+  })}
+
                                     </div>
                                   </div>
                                 </div>
@@ -677,147 +681,7 @@ const handleSubmit = (event) => {
                             </div>
                           </div>
 
-                          <div className="col-md-4">
-                            <div
-                              className="alert alert-primary text-center fw-semibold border-0   text-Capitalize "
-                              role="alert"
-                            >
-                              Intakes
-                            </div>
-
-                            <div className="card card-body">
-                              <h5 className="text-capitalize text-center">
-                                Program Intakes
-                              </h5>
-
-                              <div
-                                className="accordion accordion-flush border-0"
-                                id="programIntakesAccordion"
-                                style={{ fontSize: "12px" }}
-                              >
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="btn border-0 collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseOpen"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseOpen"
-                                    >
-                                      Open
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseOpen"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="btn border-0 collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseClosed"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseClosed"
-                                    >
-                                      Closed
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseClosed"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="btn border-0 collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseLikelyOpen"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseLikelyOpen"
-                                    >
-                                      Likely Open
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseLikelyOpen"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                         
 
                           <div className="col-lg-12">
                             <div className="row g-3">

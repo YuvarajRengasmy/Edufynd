@@ -31,6 +31,7 @@ export const DepartmentHead="departmentHead";
 export const Demo = "demo";
 export const ApplicationStatus= "applicationStatus";
 export const Source ="source";
+export const CommissionType ="commissionType";
 export const DialCode ="dialCode";
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";
