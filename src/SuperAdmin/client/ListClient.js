@@ -804,11 +804,23 @@ const handleInputsearch = (event) => {
                   style={{ backgroundColor: "#00796B" }} // Tropical Teal
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients</h6>
-                    <p className="card-text">Total Client: {details?.totalClient || 0}</p>
-                    {/* <p className="card-text">
-                      <i className="fas fa-users"></i> Actively Engaged
-                    </p> */}
+                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients: {details?.totalClient || 0}</h6>
+                    <div className="d-flex align-items-center justify-content-between"> 
+                      <p className="card-text mb-1">Accommodation: {details?.accommodation || 0}</p>
+                     <p className="card-text mb-1">Forex: {details?.forex || 0}</p> <br></br>
+                     </div>
+
+                     <div className="d-flex align-items-center justify-content-between"> 
+                      <p className="card-text mb-1">Financial: {details?.finance || 0}</p>
+                     <p className="card-text mb-1">Educational: {details?.education || 0}</p> 
+                     </div>
+
+                     <div className="d-flex align-items-center justify-content-between"> 
+                      <p className="card-text mb-1">Flight: {details?.flight || 0}</p>
+                   
+                     </div>
+              
+       
                   </div>
                 </div>
               </Link>
@@ -821,7 +833,7 @@ const handleInputsearch = (event) => {
                   style={{ backgroundColor: "#C62828" }} // Crimson Red
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-times"></i> Active Clients</h6>
+                    <h6 className=""><i className="fas fa-user-times"></i>Clients Status</h6>
                     <p className="card-text">
                     <i className="fas fa-users"></i> Active: {details?.activeClient || 0}    
                     </p>
@@ -841,9 +853,9 @@ const handleInputsearch = (event) => {
                 >
                   <div className="card-body">
                     <h6 className=""><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
-                    <p className="card-text">Total: 350</p>
+                    <p className="card-text">Total: Processing...</p>
                     <p className="card-text">
-                      <i className="fas fa-file-invoice"></i> Pending Payments
+                      <i className="fas fa-file-invoice"></i> Processing...
                     </p>
                   </div>
                 </div>
@@ -858,9 +870,9 @@ const handleInputsearch = (event) => {
                 >
                   <div className="card-body">
                     <h6 className=""><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
-                    <p className="card-text">Total: 290</p>
+                    <p className="card-text">Total: Processing...</p>
                     <p className="card-text">
-                      <i className="fas fa-money-bill-wave"></i> Payments Received
+                      <i className="fas fa-money-bill-wave"></i> Processing...
                     </p>
                   </div>
                 </div>
