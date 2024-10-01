@@ -324,7 +324,7 @@ const App = () => {
     if (data.founded === "") error.founded.required = true;
     if (data. ranking === "") error. ranking.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-    if (data.commissionType === "") error.commissionType.required = true;
+   
     // Add your validation functions here
     if (!isValidName(data.universityName)) error.universityName.valid = true;
     if (!isValidYear(data.founded)) error.founded.valid = true;
@@ -646,10 +646,7 @@ const App = () => {
             fontFamily: "Plus Jakarta Sans",
             fontSize: "12px",
           }}
-          className={`form-select form-select-lg rounded-1${
-            errors.commissionType.required ? 'is-invalid' : errors.commissionType.valid ? 'is-valid' : ''
-}`}
-          value={university?.commissionType}
+          className="form-select form-select-lg rounded-1 text-capitalize"
           onChange={handleInputs}
           name="commissionType"
         >
