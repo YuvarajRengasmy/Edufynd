@@ -22,6 +22,8 @@ import { updateUniversity, getSingleUniversity } from "../../api/university";
 import { RichTextEditor } from "@mantine/rte";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { getallIntakes } from "../../api/settings/commissionValue";
+
 function Profile() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -37,6 +39,8 @@ function Profile() {
     averageFees: "",
     popularCategories: [],
     admissionRequirement: "",
+    commissionType: "",
+    commissionValue: "",
     offerTAT: "",
     email: "",
     founded: "",
@@ -64,6 +68,8 @@ function Profile() {
     courseType: { required: false },
     state: { required: false },
     lga: { required: false },
+    commissionType: {required:false},
+    commissionValue: {required:false},
     ranking: { required: false },
     averageFees: { required: false },
     popularCategories: { required: false },
@@ -89,6 +95,8 @@ function Profile() {
  const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
   const [selectedCourseType, setSelectedCourseType] = useState([]);
+  const [commission, setCommission] = useState([]);
+
   const navigate = useNavigate();
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
@@ -98,8 +106,8 @@ function Profile() {
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
-    if (data.popularCategories.length === 0)
-      error.popularCategories.required = true;
+    if (data.popularCategories.length === 0)error.popularCategories.required = true;
+    if (data.commissionType === "") error.commissionType.required = true;
     if (data.offerTAT === "") error.offerTAT.required = true;
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
@@ -128,6 +136,7 @@ function Profile() {
     getOfferTatList();
     getAllInstitutionDetails();
     getAllIntakeDetails();
+    getAllIntakeDetail();
   }, []);
 
   const getAllCountryDetail = () => {
@@ -140,7 +149,16 @@ function Profile() {
       });
   };
 
- 
+  const getAllIntakeDetail = () => {
+    getallIntakes()
+      .then((res) => {
+        setCommission(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const getUniversityDetails = () => {
     getSingleUniversity(id)
       .then((res) => {
@@ -606,6 +624,53 @@ function Profile() {
                           )}
                         </div>
                         <div className="row g-3 mb-3">
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+       Commission Type<span className="text-danger">*</span>
+        </label>
+        <select
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          className={`form-select form-select-lg rounded-1${
+            errors.commissionType.required ? 'is-invalid' : errors.commissionType.valid ? 'is-valid' : ''
+}`}
+          value={university?.commissionType}
+          onChange={handleInputs}
+          name="commissionType"
+        >
+          <option value="">Select a commissionType</option>
+          <option value="commissionAdded">Commission-Added</option>
+          <option value="nonCommission">Non-Commission</option>
+          <option value="variousCommission">Various-Commission</option>
+          
+        </select>
+      </div>
+
+      {university?.commissionType === "nonCommission" ? (
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <label style={{ color: "#231F20" }}>
+        Consulting Fees<span className="text-danger">*</span>
+        </label>
+        <select
+          style={{
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          className={`form-select form-select-lg rounded-1`}
+          value={university?.commissionValue}
+          onChange={handleInputs}
+          name="commissionValue"
+        >
+          <option value="">Select a Consulting Fees</option>
+          {commission.map((data,index)=>(
+            <option key={index} value={data?.commissionValue}>{data?.commissionValue}</option>
+          ))}
+        </select>
+      </div>
+      ): null}
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
           Country<span className="text-danger">*</span>
@@ -626,7 +691,7 @@ function Profile() {
             </option>
           ))}
         </select>
-      </div>
+                        </div>
                           <div className="col text-end">
                             <br />
                             <button

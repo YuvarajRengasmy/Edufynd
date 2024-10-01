@@ -1,95 +1,212 @@
-import { useState, useEffect } from 'react';
-import { getStaffId } from "../../Utils/storage"; // Make sure this is returning valid data
-import { getSingleStaff } from "../../api/staff"; // Ensure this API call works correctly
+import React, { useState } from 'react';
 
-const SidebarComponent = () => {
-  const [privileges, setPrivileges] = useState([]); // Start with an empty privileges array
-  const [loading, setLoading] = useState(true);     // Add loading state
-  const [error, setError] = useState(null);         // Add error state
+const MyFormComponent = () => {
+  const [inputs, setInputs] = useState({
+    commissionValue: '',
+    paymentType: '',
+    paymentStatus: '',
+    paymentValue1: '',
+    paymentStatus1: '',
+    paymentValue2: '',
+    paymentStatus2: '',
+    paymentValue3: '',
+    paymentStatus3: '',
+    // Other necessary inputs
+  });
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
-  // Fetch staff details and privileges on component mount
-  useEffect(() => {
-    getStudentDetails();
-  }, []);
+  const status = [
+    { statusName: 'Paid' },
+    { statusName: 'Pending' },
+    { statusName: 'Failed' }
+  ];
 
-  const getStudentDetails = async () => {
-    const id = getStaffId(); // Assuming getStaffId is valid and returns a valid staff ID
-    if (!id) {
-      setError("Staff ID not found");
-      setLoading(false);
-      return;
+  const handleInputs = (e) => {
+    const { name, value } = e.target;
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [name]: value
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    let isValid = true;
+    const totalCommission = parseFloat(inputs.commissionValue || 0);
+    const installment1 = parseFloat(inputs.paymentValue1 || 0);
+    const installment2 = parseFloat(inputs.paymentValue2 || 0);
+    const installment3 = parseFloat(inputs.paymentValue3 || 0);
+
+    if (!inputs.commissionValue) {
+      newErrors.commissionValue = { required: true };
+      isValid = false;
     }
 
-    try {
-      const res = await getSingleStaff(id); // Assuming getSingleStaff is a valid API call
-      console.log("Fetched Staff Data:", res);
-
-      if (res?.data?.result?.privileges) {
-        setPrivileges(res.data.result); // Set the privileges
-      } else {
-        setPrivileges({ privileges: [] }); // If no privileges, set to an empty array
+    if (inputs.paymentType === 'twoTime') {
+      const totalTwoTime = installment1 + installment2;
+      if (totalTwoTime !== totalCommission) {
+        newErrors.paymentValue1 = 'Installment values must match the consulting fee';
+        newErrors.paymentValue2 = 'Installment values must match the consulting fee';
+        isValid = false;
       }
+    }
 
-      setLoading(false); // After fetching, set loading to false
-    } catch (err) {
-      console.error("Error fetching staff data:", err);
-      setError("Failed to fetch staff details");
-      setLoading(false); // Stop loading in case of error
+    if (inputs.paymentType === 'multipleTime') {
+      const totalMultipleTime = installment1 + installment2 + installment3;
+      if (totalMultipleTime !== totalCommission) {
+        newErrors.paymentValue1 = 'Installment values must match the consulting fee';
+        newErrors.paymentValue2 = 'Installment values must match the consulting fee';
+        newErrors.paymentValue3 = 'Installment values must match the consulting fee';
+        isValid = false;
+      }
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    if (validateForm()) {
+      // Submit form if valid
+      alert('Form is valid and submitted!');
     }
   };
-
-  // Privilege data should be in the format of: privileges.privileges = [{ module: 'client' }, { module: 'university' }, { module: 'program' }, { module: 'commission' }]
-  const privilegeArray = privileges?.privileges || [];
-
-  // Function to check if the user has a particular module access
-  const hasPrivilege = (moduleName) => {
-    return privilegeArray.find((privilege) => privilege.module === moduleName);
-  };
-
-  // If loading, show a loading message or spinner
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  // If there was an error, display the error message
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
-    <div className="sidebar">
-      <ul>
-        {/* Example sidebar links */}
-        {hasPrivilege('client') && (
-          <li>
-            <a href="/dashboard">Dashboard</a>
-          </li>
+    <div className="card-body">
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="mb-3">
+          <label htmlFor="intakeName" className="form-label">Consulting Fees</label>
+          <input
+            type="text"
+            className="form-control"
+            id="intakeName"
+            name="commissionValue"
+            value={inputs.commissionValue}
+            onChange={handleInputs}
+            placeholder='Enter commission value'
+          />
+          {submitted && errors.commissionValue?.required && (
+            <span className="text-danger">Consulting Fees is required</span>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="startDate" className="form-label">Payment Mode</label>
+          <select className='form-select' name='paymentType' value={inputs.paymentType} onChange={handleInputs}>
+            <option>--Select Payment Mode--</option>
+            <option value="oneTime">One Time</option>
+            <option value="twoTime">Two Time</option>
+            <option value="multipleTime">Multiple Time</option>
+          </select>
+        </div>
+
+        {inputs.paymentType === "oneTime" && (
+          <div className="mb-3">
+            <label htmlFor="startDate" className="form-label">Payment Status</label>
+            <select className='form-select' name='paymentStatus' value={inputs.paymentStatus} onChange={handleInputs}>
+              <option value={""}>Select Status</option>
+              {status.map((data, index) => (
+                <option key={index} value={data?.statusName}>{data?.statusName}</option>
+              ))}
+            </select>
+          </div>
         )}
 
-        {hasPrivilege('university') && (
-          <li>
-            <a href="/students">Students</a>
-          </li>
+        {inputs.paymentType === "twoTime" && (
+          <div>
+            <div className="mb-3">
+              <label htmlFor="startDate" className="form-label">Installment 1</label>
+              <input
+                type="text"
+                className="form-control"
+                id="startDate"
+                name="paymentValue1"
+                value={inputs.paymentValue1}
+                onChange={handleInputs}
+                placeholder='Enter payment value'
+              />
+              {submitted && errors.paymentValue1 && (
+                <span className="text-danger">{errors.paymentValue1}</span>
+              )}
+            </div>
+            <div className="mb-3">
+              <label htmlFor="startDate" className="form-label">Installment 2</label>
+              <input
+                type="text"
+                className="form-control"
+                id="startDate"
+                name="paymentValue2"
+                value={inputs.paymentValue2}
+                onChange={handleInputs}
+                placeholder='Enter payment value'
+              />
+              {submitted && errors.paymentValue2 && (
+                <span className="text-danger">{errors.paymentValue2}</span>
+              )}
+            </div>
+          </div>
         )}
 
-        {hasPrivilege('program') && (
-          <li>
-            <a href="/settings">Settings</a>
-          </li>
+        {inputs.paymentType === "multipleTime" && (
+          <div>
+            <div className="mb-3">
+              <label htmlFor="startDate" className="form-label">Installment 1</label>
+              <input
+                type="text"
+                className="form-control"
+                id="startDate"
+                name="installment1"
+                value={inputs.installment1}
+                onChange={handleInputs}
+                placeholder='Enter payment value'
+              />
+              {submitted && errors.paymentValue1 && (
+                <span className="text-danger">{errors.paymentValue1}</span>
+              )}
+            </div>
+            <div className="mb-3">
+              <label htmlFor="startDate" className="form-label">Installment 2</label>
+              <input
+                type="text"
+                className="form-control"
+                id="startDate"
+                name="installment2"
+                value={inputs.installment2}
+                onChange={handleInputs}
+                placeholder='Enter payment value'
+              />
+              {submitted && errors.paymentValue2 && (
+                <span className="text-danger">{errors.paymentValue2}</span>
+              )}
+            </div>
+            <div className="mb-3">
+              <label htmlFor="startDate" className="form-label">Installment 3</label>
+              <input
+                type="text"
+                className="form-control"
+                id="startDate"
+                name="paymentValue3"
+                value={inputs.paymentValue3}
+                onChange={handleInputs}
+                placeholder='Enter payment value'
+              />
+              {submitted && errors.paymentValue3 && (
+                <span className="text-danger">{errors.paymentValue3}</span>
+              )}
+            </div>
+          </div>
         )}
 
-        {hasPrivilege('commission') && (
-          <li>
-            <a href="/reports">Reports</a>
-          </li>
-        )}
-
-        {/* Add other sidebar modules conditionally */}
-        <h1>Country</h1>
-        {/* Continue adding items based on privileges */}
-      </ul>
+        <button type="submit" className="btn btn-primary float-end">
+          {inputs.isEdit ? "Update" : "Save"}
+        </button>
+      </form>
     </div>
   );
 };
 
-export default SidebarComponent;
+export default MyFormComponent;

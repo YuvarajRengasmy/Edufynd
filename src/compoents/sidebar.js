@@ -1557,6 +1557,18 @@ const Sidebar = () => {
             </li>
             <li className="nav-item">
               <Link 
+                to="/commission_value" 
+                className={`nav-link sidebar_link ${[
+                  "/commission_value",
+                ].includes(currentPath) ? "active" : ""}`}
+                data-path="/commission_value"
+                ref={el => (sidebarRefs.current['/commission_value'] = el)}
+              >
+                <i className="fa fa-calendar nav-icon"></i>   {!isCollapsed && "Commission"}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link 
                 to="/blog_setting" 
                 className={`nav-link sidebar_link ${[
                   "/blog_setting",

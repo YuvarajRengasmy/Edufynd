@@ -17,6 +17,8 @@ import { getallCountryList } from "../../api/country";
 import { getallInstitutionModule } from "../../api/universityModule/institutation";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
+import { getallIntakes } from "../../api/settings/commissionValue";
+
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -54,6 +56,7 @@ const App = () => {
       },
     ],
   };
+
 
   const initialStateErrors = {
     businessName: { required: false },
@@ -93,6 +96,8 @@ const App = () => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
+  const [commission, setCommission] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -103,6 +108,7 @@ const App = () => {
     getOfferTatList();
     getAllInstitutionDetails();
     getAllIntakeDetails();
+    getAllIntakeDetail();
   }, []);
 
   const getAllCountryDetail = () => {
@@ -128,6 +134,15 @@ const App = () => {
     getallIntake()
       .then((res) => {
         setInTake(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllIntakeDetail = () => {
+    getallIntakes()
+      .then((res) => {
+        setCommission(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
@@ -303,8 +318,7 @@ const App = () => {
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
-    if (data.popularCategories.length === 0)
-      error.popularCategories.required = true;
+    if (data.popularCategories.length === 0) error.popularCategories.required = true;
     if (data.offerTAT === "") error.offerTAT.required = true;
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
@@ -625,7 +639,7 @@ const App = () => {
                           <div className="row g-3 mb-3">
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
-       Commission Type<span className="text-danger">*</span>
+        Consulting Type<span className="text-danger">*</span>
         </label>
         <select
           style={{
@@ -639,18 +653,18 @@ const App = () => {
           onChange={handleInputs}
           name="commissionType"
         >
-          <option value="">Select a commissionType</option>
-          <option value="Commission-Added">Commission-Added</option>
-          <option value="Non-Commission">Non-Commission</option>
-          <option value="Various-Commission">Various-Commission</option>
+          <option value="">Select a Commission Type</option>
+          <option value="commissionAdded">Commission-Added</option>
+          <option value="nonCommission">Non-Commission</option>
+          <option value="variousCommission">Various-Commission</option>
           
         </select>
       </div>
 
-      {university?.commissionType === "Various-Commission" ? (
+      {university?.commissionType === "nonCommission" ? (
         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
-        commissionValue<span className="text-danger">*</span>
+        Consulting Fees<span className="text-danger">*</span>
         </label>
         <select
           style={{
@@ -662,15 +676,15 @@ const App = () => {
           onChange={handleInputs}
           name="commissionValue"
         >
-          <option value="">Select a commissionValue</option>
-          <option value="Commission-Added">Commission-Added</option>
-          <option value="Non-Commission">Non-Commission</option>
-          <option value="Various-Commission">Various-Commission</option>
-          
+          <option value="">Select a Consulting Fees</option>
+          {commission.map((data,index)=>(
+            <option key={index} value={data?.commissionValue}>{data?.commissionValue}</option>
+          ))}
         </select>
       </div>
       ): null}
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
           Country<span className="text-danger">*</span>
         </label>
@@ -690,7 +704,7 @@ const App = () => {
             </option>
           ))}
         </select>
-      </div>
+    </div>
                             <div className="col text-end">
 
 <br/>

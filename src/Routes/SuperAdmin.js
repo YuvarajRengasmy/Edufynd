@@ -35,6 +35,7 @@ import ViewClient from "../SuperAdmin/client/ViewClient";
 import EditClient from "../SuperAdmin/client/Edit";
 import GlobalSettings from "../SuperAdmin/Settings/GlobalSettings";
 import CurrencySettings from "../SuperAdmin/Settings/currencySetting";
+import CommissionType  from "../SuperAdmin/Settings/commissionValue";
 import UniversitySettings from "../SuperAdmin/Settings/universityModule";
 import BlogSetting from "../SuperAdmin/Settings/blogSettings";
 import SourseSettings from "../SuperAdmin/Settings/source";
@@ -257,6 +258,7 @@ function SuperAdmin() {
         <Route path="/currency_settings" element={<PrivateRoute><CurrencySettings /></PrivateRoute>} />
         <Route path="/university_settings" element={<PrivateRoute><UniversitySettings /></PrivateRoute>} />
         <Route path="/blog_setting" element={<PrivateRoute><BlogSetting/></PrivateRoute>} />
+        <Route path="/commission_value" element={<PrivateRoute><CommissionType/></PrivateRoute>} />
 
 
         <Route path="/course_type" element={<PrivateRoute><ProgramModule /></PrivateRoute>} />
