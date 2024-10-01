@@ -107,14 +107,12 @@ function Profile() {
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
     if (data.popularCategories.length === 0)error.popularCategories.required = true;
-    if (data.commissionType === "") error.commissionType.required = true;
+    
     if (data.offerTAT === "") error.offerTAT.required = true;
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
     if (data.institutionType === "") error.institutionType.required = true;
-    if (!isValidName(data.universityName)) {
-      error.universityName.valid = true;
-    }
+    if (!isValidName(data.universityName)) {error.universityName.valid = true;}
     if (!isValidYear(data.founded)) {
       error.founded.valid = true;
     }
