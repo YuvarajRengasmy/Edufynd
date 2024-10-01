@@ -85,18 +85,18 @@ const App = () => {
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+  const [commission, setCommission] = useState([]);
   const [client, setClient] = useState([]);
   const [categories, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
   const [institution, setInstitution] = useState([]);
-  const [countries, setCountries] = useState([]);
   const [countriesData, setCountriesData] = useState([]); // Holds country data
   const [states, setStates] = useState([]);               // Holds state data
   const [cities, setCities] = useState([]);               // Holds city data for the currently selected state
   const [selectedCountry, setSelectedCountry] = useState('');
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
-  const [commission, setCommission] = useState([]);
+  
 
   const navigate = useNavigate();
 
@@ -611,8 +611,7 @@ const App = () => {
                             <input
                               type="text"
                                 className={`form-control text-capitalize rounded-1 ${
-                                  errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''
-    }`}
+                                  errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''}`}
                               placeholder="Enter University Name"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
