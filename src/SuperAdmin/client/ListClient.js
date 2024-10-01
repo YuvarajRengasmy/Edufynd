@@ -45,7 +45,8 @@ export default function Masterproductlist() {
   const search = useRef(null);
 
   const [pageSize, setPageSize] = useState(10); // Default page size
-  const [details, setDetails] = useState();
+  const [details, setDetails] = useState(null);
+  const [loadin, setLoadin] = useState(true); // Add a loading state
 
   const [pagination, setPagination] = useState({
     count: 0,
@@ -75,14 +76,17 @@ export default function Masterproductlist() {
 useEffect(() => {
   getallClientCount();
   filterUniversityList();
- 
+
 }, []);
 
-const getallClientCount = ()=>{
-  getAllClientCard().then((res)=>setDetails(res?.data.result))
-}
 
-  const handleInputsearch = (event) => {
+const getallClientCount = async ()=>{
+  await getAllClientCard().then((res)=>
+  setDetails(res?.data.result))
+ }
+
+
+const handleInputsearch = (event) => {
     if (event.key === "Enter") {
       search.current.blur();
       handleSearch();
@@ -196,16 +200,18 @@ const getallClientCount = ()=>{
   const handleActionChange = (event) => {
     const action = event.target.value;
     if (action === "Delete") {
-      deleteSelectedNotifications();
+      deleteSelectedUsers();
     } else if (action === "Activate") {
-      activateSelectedNotifications();
+      activateSelectedUsers();
+      getallClientCount();
     } else if (action === "Deactivate") {
-      deactivateSelectedNotifications(); 
+      deactivateSelectedUsers();
+      getallClientCount(); 
     }
   };
 
  
-  const deleteSelectedNotifications = () => {
+  const deleteSelectedUsers = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => deleteClient(id)))
         .then((responses) => {
@@ -222,8 +228,8 @@ const getallClientCount = ()=>{
     }
   };
 
- 
-  const activateSelectedNotifications = () => {
+
+  const activateSelectedUsers = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to activate the clients
       activeClient({ clientIds: selectedIds })
@@ -235,14 +241,14 @@ const getallClientCount = ()=>{
         })
         .catch((err) => {
           console.error(err);
-          toast.error("Failed to activate client.");
+          toast.error("Already clients were Activated");
         });
     } else {
       toast.warning("No selected Client.");
     }
   };
   
-  const deactivateSelectedNotifications = () => {
+  const deactivateSelectedUsers = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to deactivate the clients
       deactivateClient({ clientIds: selectedIds })
@@ -798,11 +804,23 @@ const getallClientCount = ()=>{
                   style={{ backgroundColor: "#00796B" }} // Tropical Teal
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients</h6>
-                    <p className="card-text">Total Client: {details?.totalClient || 0}</p>
-                    {/* <p className="card-text">
-                      <i className="fas fa-users"></i> Actively Engaged
-                    </p> */}
+                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients: {details?.totalClient || 0}</h6>
+                    <div className="d-flex align-items-center justify-content-between"> 
+                      <p className="card-text mb-1">Accommodation: {details?.accommodation || 0}</p>
+                     <p className="card-text mb-1">Forex: {details?.forex || 0}</p> <br></br>
+                     </div>
+
+                     <div className="d-flex align-items-center justify-content-between"> 
+                      <p className="card-text mb-1">Financial: {details?.finance || 0}</p>
+                     <p className="card-text mb-1">Educational: {details?.education || 0}</p> 
+                     </div>
+
+                     <div className="d-flex align-items-center justify-content-between"> 
+                      <p className="card-text mb-1">Flight: {details?.flight || 0}</p>
+                   
+                     </div>
+              
+       
                   </div>
                 </div>
               </Link>
@@ -815,12 +833,12 @@ const getallClientCount = ()=>{
                   style={{ backgroundColor: "#C62828" }} // Crimson Red
                 >
                   <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-times"></i> Active Clients</h6>
+                    <h6 className=""><i className="fas fa-user-times"></i>Clients Status</h6>
                     <p className="card-text">
-                    <i className="fas fa-users"></i> Currently Active: {details?.activeClient || 0}    
+                    <i className="fas fa-users"></i> Active: {details?.activeClient || 0}    
                     </p>
                     <p className="card-text">
-                      <i className="fas fa-user-slash"></i> Currently Inactive: {details?.inactiveClient || 0}
+                      <i className="fas fa-user-slash"></i> Inactive: {details?.inactiveClient || 0}
                     </p>
                   </div>
                 </div>
@@ -835,9 +853,9 @@ const getallClientCount = ()=>{
                 >
                   <div className="card-body">
                     <h6 className=""><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
-                    <p className="card-text">Total: 350</p>
+                    <p className="card-text">Total: Processing...</p>
                     <p className="card-text">
-                      <i className="fas fa-file-invoice"></i> Pending Payments
+                      <i className="fas fa-file-invoice"></i> Processing...
                     </p>
                   </div>
                 </div>
@@ -852,9 +870,9 @@ const getallClientCount = ()=>{
                 >
                   <div className="card-body">
                     <h6 className=""><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
-                    <p className="card-text">Total: 290</p>
+                    <p className="card-text">Total: Processing...</p>
                     <p className="card-text">
-                      <i className="fas fa-money-bill-wave"></i> Payments Received
+                      <i className="fas fa-money-bill-wave"></i> Processing...
                     </p>
                   </div>
                 </div>
@@ -901,8 +919,9 @@ const getallClientCount = ()=>{
     >
       <option value="">Select Action</option>
       <option value="Activate">Activate</option>
-      <option value="Delete">Delete</option>
       <option value="Deactivate">Deactivate</option>
+      <option value="Delete">Delete</option>
+      
       
     </select>
   </p>
