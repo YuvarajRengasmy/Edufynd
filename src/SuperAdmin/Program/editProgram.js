@@ -243,38 +243,41 @@ function Profile() {
 
 
   const handleInputChange = (index, field, value) => {
-    const updatedCampuses = [...program.campuses]; // Copy the existing campuses
-    
-    // Check if the campus at this index exists, otherwise initialize it
+    // Create a copy of the program object, including campuses
+    const updatedCampuses = program.campuses ? [...program.campuses] : [];
+
+    console.log("balan", updatedCampuses)
+  
+    // Initialize the campus at this index if it doesn't exist
     if (!updatedCampuses[index]) {
-      updatedCampuses[index] = {}; // Initialize the object if it's undefined
+      updatedCampuses[index] = { campus: "", inTake: "", courseFees: "", duration: "" }; // Initialize with empty fields
     }
   
-    updatedCampuses[index][field] = value; // Update the field (e.g., "courseFees", "duration", etc.)
-    
-    setProgram({
-      ...program,
-      campuses: updatedCampuses, // Set the updated campuses back to the state
-    });
-  };
+    // Update the specific field for the campus
+    updatedCampuses[index][field] = value;
   
+    // Set the updated campuses back into the state
+    setProgram((prevProgram) => ({
+      ...prevProgram,
+      campuses: updatedCampuses, // Update the campuses in the program
+    }));
+  };
+
   const handleInputs = (event) => {
     const { name, value } = event.target;
-
+  
     setProgram((prevProgram) => {
       const updatedProgram = { ...prevProgram, [name]: value };
+  
       if (name === "universityName") {
         const selectedUniversity = university.find(
           (u) => u.universityName === value
         );
+  
         if (selectedUniversity) {
-          const states = selectedUniversity.campuses.map(
-            (campus) => campus.state
-          );
-          const lgas = selectedUniversity.campuses.flatMap(
-            (campus) => campus.lga
-          );
-
+          const states = selectedUniversity.campuses.map((campus) => campus.state);
+          const lgas = selectedUniversity.campuses.flatMap((campus) => campus.lga);
+  
           return {
             ...updatedProgram,
             universityId: selectedUniversity._id,
@@ -285,12 +288,50 @@ function Profile() {
             country: selectedUniversity.country,
             inTake: selectedUniversity.inTake,
             popularCategories: selectedUniversity.popularCategories,
+            campuses: selectedUniversity.campuses
           };
         }
       }
-
+  
       return updatedProgram;
     });
+  console.log("jo", program.campuses)
+  
+  // const handleInputs = (event) => {
+  //   const { name, value } = event.target;
+
+  //   setProgram((prevProgram) => {
+  //     const updatedProgram = { ...prevProgram, [name]: value };
+  //     if (name === "universityName") {
+  //       const selectedUniversity = university.find(
+  //         (u) => u.universityName === value
+  //       );
+  //       if (selectedUniversity) {
+  //         const states = selectedUniversity.campuses.map(
+  //           (campus) => campus.state
+  //         );
+  //         const lgas = selectedUniversity.campuses.flatMap(
+  //           (campus) => campus.lga
+  //         );
+
+  //         return {
+  //           ...updatedProgram,
+  //           universityId: selectedUniversity._id,
+  //           universityLogo: selectedUniversity.universityLogo,
+  //           state: states,
+  //           lga: lgas,
+  //           courseType: selectedUniversity.courseType,
+  //           country: selectedUniversity.country,
+  //           inTake: selectedUniversity.inTake,
+  //           popularCategories: selectedUniversity.popularCategories,
+  //         };
+  //       }
+  //     }
+
+  //     return updatedProgram;
+  //   });
+
+  
 
     if (submitted) {
       const newError = handleValidation({ ...program, [name]: value });
@@ -335,6 +376,7 @@ function Profile() {
       updatedProgram({
         ...program,
         campuses: campuses,
+      
        
       })
         .then((res) => {
