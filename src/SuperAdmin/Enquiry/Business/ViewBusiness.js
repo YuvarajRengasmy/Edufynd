@@ -1,13 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import { getSingleBusinessEnquiry,getSingleLogUniversity,updateBusinessEnquiry } from "../../../api/Enquiry/business";
+import {
+  getSingleBusinessEnquiry,
+  getSingleLogUniversity,
+  updateBusinessEnquiry,
+} from "../../../api/Enquiry/business";
 import { getFilterApplicationStatus } from "../../../api/universityModule/ApplicationStatus";
 import { getFilterStatus } from "../../../api/status";
 import { toast } from "react-toastify";
-import { Link,useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import Mastersidebar from "../../../compoents/sidebar";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
+
 export const ViewBusiness = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -21,7 +26,6 @@ export const ViewBusiness = () => {
     getUniversityLogs();
   }, []);
 
-
   const getUniversityLogs = () => {
     getSingleLogUniversity(id)
       .then((res) => {
@@ -31,7 +35,6 @@ export const ViewBusiness = () => {
         console.log(err);
       });
   };
-
 
   const getStudentDetails = () => {
     getSingleBusinessEnquiry(id)
@@ -74,12 +77,11 @@ export const ViewBusiness = () => {
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
- 
   useEffect(() => {
     if (id) {
       getAllModuleDetails();
       getApplicationDetails();
-    
+
       getUniversityLogs();
       getAllApplicationsModuleDetails();
       getAgentList();
@@ -266,97 +268,111 @@ export const ViewBusiness = () => {
 
       <div className="content-wrapper" style={{ fontSize: "14px" }}>
         <div className="content-header">
-
-        <nav aria-label="breadcrumb">
-  <ol className="breadcrumb justify-content-end">
-    <li className="breadcrumb-item">
-      <Link to='/DashBoard' target="_self" className="text-decoration-none">Dashboard</Link>
-    </li>
-    <li className="breadcrumb-item">
-      <Link to='/ListBusinessEnquiry' className="text-decoration-none">ListBusinessEnquiry</Link>
-    </li>
-   {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
-      <li  className="breadcrumb-item">
-        <Link to={{
-          pathname: "/EditBusinessEnquiry",
-          search: `?id=${student?._id }`,
-        }} className="text-decoration-none">EditBusinessEnquiry</Link>
-      </li>
-  
-  </ol>
-</nav>
-         
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb justify-content-end">
+              <li className="breadcrumb-item">
+                <Link
+                  to="/DashBoard"
+                  target="_self"
+                  className="text-decoration-none"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li className="breadcrumb-item">
+                <Link
+                  to="/ListBusinessEnquiry"
+                  className="text-decoration-none"
+                >
+                  ListBusinessEnquiry
+                </Link>
+              </li>
+              {/* if edit is clicked the page should go to the edit page of that particular uiversity */}
+              <li className="breadcrumb-item">
+                <Link
+                  to={{
+                    pathname: "/EditBusinessEnquiry",
+                    search: `?id=${student?._id}`,
+                  }}
+                  className="text-decoration-none"
+                >
+                  EditBusinessEnquiry
+                </Link>
+              </li>
+            </ol>
+          </nav>
         </div>
         <div className="container-fluid">
-            <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
-              <div
-                className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
-                style={{ background: "#fe5722", color: "#fff" }}
+          <div className="card  border-0 rounded-0 shadow-sm p-3 position-relative">
+            <div
+              className="card-header mt-3 border-0 rounded-end-pill position-absolute top-0 start-0"
+              style={{ background: "#fe5722", color: "#fff" }}
+            >
+              <h5 className="text-center text-capitalize p-1">
+                Business Enquiry Details
+              </h5>
+            </div>
+
+            <div class="card-body">
+              <table
+                className="table table-hover table-bordered table-striped-columns mt-5"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
               >
-                <h5 className="text-center text-capitalize p-1">
-                  Business Enquiry Details
-                </h5>
-              </div>
+                <tbody>
+                  <tr>
+                    <td className="fw-bold">Student Name </td>
+                    <td>{student?.name || "Not Available"}</td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Date Of Birth </td>
+                    <td>{formatDate(student?.createdOn) || "Not Available"}</td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Passport No </td>
+                    <td>{student?.passportNo || "Not Available"}</td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Contact Number </td>
+                    <td>{student?.primaryNumber || "Not Available"}</td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Email ID </td>
+                    <td>{student?.email || "Not Available"}</td>
+                  </tr>{" "}
+                  <tr>
+                    <td className="fw-bold">CGPA / Year passed </td>
+                    <td>
+                      {student?.cgpa || "Not Available"}/
+                      {student?.yearPassed || "Not Available"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Desired Country </td>
+                    <td>{student?.desiredCountry || "Not Available"}</td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Desired Course </td>
+                    <td>{student?.desiredCourse || "Not Available"}</td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Do you need support for loan? </td>
+                    <td>
+                      {student?.doYouNeedSupportForLoan || "Not Available"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Qualification </td>
+                    <td>{student?.qualification || "Not Available"}</td>
+                  </tr>
+                  <tr>
+                    <td className="fw-bold">Whatsapp Number </td>
+                    <td>{student?.whatsAppNumber || "Not Available"}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-              <div class="card-body">
-                <table
-                  className="table table-hover table-bordered table-striped-columns mt-5"
-                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
-                >
-                  <tbody>
-                    <tr>
-                      <td className="fw-bold">Student Name </td>
-                      <td>{student?.name || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Date Of Birth </td>
-                      <td>{formatDate(student?.createdOn) || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Passport No </td>
-                      <td>{student?.passportNo || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Contact Number </td>
-                      <td>{student?.primaryNumber || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Email ID </td>
-                      <td>{student?.email || "Not Available"}</td>
-                    </tr>{" "}
-                    <tr>
-                      <td className="fw-bold">CGPA / Year passed </td>
-                      <td>
-                        {student?.cgpa || "Not Available"}/{student?.yearPassed || "Not Available"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Desired Country </td>
-                      <td>{student?.desiredCountry || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Desired Course </td>
-                      <td>{student?.desiredCourse || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">
-                        Do you need support for loan?{" "}
-                      </td>
-                      <td>{student?.doYouNeedSupportForLoan || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Qualification </td>
-                      <td>{student?.qualification || "Not Available"}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Whatsapp Number </td>
-                      <td>{student?.whatsAppNumber || "Not Available"}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              {/* <div class="card mb-3">
+            {/* <div class="card mb-3">
                   <div class="card-header bg-primary text-white">
                    Agent Details
                   </div>
@@ -401,10 +417,10 @@ export const ViewBusiness = () => {
                     
                   </div>
                 </div> */}
-            </div>
           </div>
+        </div>
 
-          <div className="container-fluid">
+        <div className="container-fluid">
           <div className="row">
             <div className="col">
               <div className="card border-0 rounded-1 shadow-sm p-3">
@@ -1076,47 +1092,76 @@ export const ViewBusiness = () => {
           </div>
         </div>
 
+        <div className="container-fluid my-2">
+          <div className="row ">
+            <div className="col-12 col-lg-7 col-auto">
+              <ul className="list-unstyled">
+                {logs.map((log, index) => (
+                  <li className="mb-4 position-relative" key={index}>
+                    <div className="row align-items-start g-0">
+                      <div className="col-1 d-flex justify-content-center align-items-center">
+                        <div
+                          className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+                          style={{ width: "2rem", height: "2rem" }}
+                        >
+                          <i className="fas fa-check" />
+                        </div>
+                      </div>
+                      <div className="col-4 text-center">
+                        <p className="mb-1 fw-semibold text-muted">
+                          {new Date(log.createdOn).toLocaleString()}
+                        </p>
+                        <p className="mb-0 text-muted">
+                          Changed by:
+                          <strong>{log.userType || "Unknown User"}</strong>
+                        </p>
+                      </div>
 
-<div className="container-fluid my-2">
-  <div className="row ">
-    <div className="col-12 col-lg-7 col-auto">
-      <ul className="list-unstyled">
-        {logs.map((log, index) => (
-           <li className="mb-4 position-relative" key={index}>
-           <div className="row align-items-start g-0">
-
-             <div className="col-1 d-flex justify-content-center align-items-center">
-               <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                 <i className="fas fa-check" />
-               </div>
-             </div>
-             <div className="col-4 text-center">
-               <p className="mb-1 fw-semibold text-muted">{new Date(log.createdOn).toLocaleString()}</p>
-               <p className="mb-0 text-muted">Changed by:<strong>{log.userType || "Unknown User"}</strong></p>
-             </div>
-
-             <div className="col-12">
-               {log.changes.map((change, changeIndex) => (
-                 <div key={changeIndex} className="mb-3">
-                   <div className="bg-success text-white rounded-3 p-2">
-                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i> {change.field}</h6>
-                     <p className="mb-0"> <i className="fa fa-database "> New Data --</i>  {change.newValue}</p>
-                   </div>
-                   <div className="bg-danger text-white rounded-3 p-2 mt-2">
-                     <h6 className="mb-1"><i className="fas fa-tag "> Label Name --</i>{change.field}</h6>
-                     <p className="mb-0"><i className="fa fa-database "> Old Data --</i>{change.oldValue}</p>
-                   </div>
-                 </div>
-               ))}
-             </div>
-           </div>
-           <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-         </li>
-        ))}
-      </ul>
-    </div>
-  </div>
-</div>
+                      <div className="col-12">
+                        {log.changes.map((change, changeIndex) => (
+                          <div key={changeIndex} className="mb-3">
+                            <div className="bg-success text-white rounded-3 p-2">
+                              <h6 className="mb-1">
+                                <i className="fas fa-tag "> Label Name --</i>{" "}
+                                {change.field}
+                              </h6>
+                              <p className="mb-0">
+                                {" "}
+                                <i className="fa fa-database ">
+                                  {" "}
+                                  New Data --
+                                </i>{" "}
+                                {change.newValue}
+                              </p>
+                            </div>
+                            <div className="bg-danger text-white rounded-3 p-2 mt-2">
+                              <h6 className="mb-1">
+                                <i className="fas fa-tag "> Label Name --</i>
+                                {change.field}
+                              </h6>
+                              <p className="mb-0">
+                                <i className="fa fa-database "> Old Data --</i>
+                                {change.oldValue}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div
+                      className="position-absolute top-0 start-0 translate-middle-x"
+                      style={{
+                        width: 2,
+                        height: "100%",
+                        backgroundColor: "#007bff",
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -131,7 +131,7 @@ const [details, setDetails] = useState()
       .then((res) => {
         const universityList = res?.data?.result?.applicationList;
         setApplication(universityList);
-        const result = universityList.length ? "Application" : "";
+        const result = universityList.length ? "application" : "";
         setLink(result);
         setData(result === "" ? true : false);
       })
