@@ -235,11 +235,29 @@ function Profile() {
     }
   };
 
-  const handleInputChange = (index, fieldName, value) => {
-    const updatedCampuses = [...campuses];
-    updatedCampuses[index][fieldName] = value;
-    setCampuses(updatedCampuses);
+  // const handleInputChange = (index, fieldName, value) => {
+  //   const updatedCampuses = [...campuses];
+  //   updatedCampuses[index][fieldName] = value;
+  //   setCampuses(updatedCampuses);
+  // };
+
+
+  const handleInputChange = (index, field, value) => {
+    const updatedCampuses = [...program.campuses]; // Copy the existing campuses
+    
+    // Check if the campus at this index exists, otherwise initialize it
+    if (!updatedCampuses[index]) {
+      updatedCampuses[index] = {}; // Initialize the object if it's undefined
+    }
+  
+    updatedCampuses[index][field] = value; // Update the field (e.g., "courseFees", "duration", etc.)
+    
+    setProgram({
+      ...program,
+      campuses: updatedCampuses, // Set the updated campuses back to the state
+    });
   };
+  
   const handleInputs = (event) => {
     const { name, value } = event.target;
 
@@ -744,7 +762,10 @@ function Profile() {
                             </button>
                           </div>
                         </div>
-                        {Array.isArray(program?.campuses) &&
+
+
+
+                        {/* {Array.isArray(program?.campuses) &&
                           program?.campuses.map((campus, index) =>
                               
   <div key={index}>
@@ -829,7 +850,8 @@ function Profile() {
           <span className="text-danger form-text profile_error">
             Course Fees are required.
           </span>
-        )}
+        )} 
+        
       </div>
 
       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -865,6 +887,8 @@ function Profile() {
       </div>
     </div>
 
+
+
     <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
       <button
         type="button"
@@ -875,8 +899,92 @@ function Profile() {
       </button>
     </div>
   </div>
+                          )} */}
 
-                          )}
+{Array.isArray(program?.campuses) &&
+  program.campuses.map((campus, index) => (
+    <div key={index} className="mb-4">
+      <div className="row">
+        {/* Campus Select */}
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <label>Campus</label>
+          <select
+            value={campus?.campus || ""}
+            onChange={(e) => handleInputChange(index, "campus", e.target.value)}
+            className="form-select form-select-lg rounded-2"
+          >
+            <option value="">Select Campus</option>
+            {optionsToRender.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {errors?.campuses?.[index]?.campus?.required && (
+            <span className="text-danger form-text profile_error">
+              Campus is required.
+            </span>
+          )}
+        </div>
+
+        {/* Course Fees Input */}
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <label>Course Fees</label>
+          <input
+            type="text"
+            value={campus?.courseFees || ""}
+            onChange={(e) => handleInputChange(index, "courseFees", e.target.value)}
+            className="form-control"
+            placeholder="Enter Course Fees"
+            onKeyDown={(e) => {
+              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
+          />
+          {errors?.campuses?.[index]?.courseFees?.required && (
+            <span className="text-danger form-text profile_error">
+              Course Fees are required.
+            </span>
+          )}
+        </div>
+
+        {/* Duration Input */}
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+          <label>Duration</label>
+          <input
+            type="text"
+            value={campus?.duration || ""}
+            onChange={(e) => handleInputChange(index, "duration", e.target.value)}
+            className="form-control"
+            placeholder="Enter Duration"
+            onKeyDown={(e) => {
+              if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
+          />
+          {errors?.campuses?.[index]?.duration?.required && (
+            <span className="text-danger form-text profile_error">
+              Duration is required.
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Delete Button */}
+      <div className="d-flex justify-content-end mt-3">
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => removeCampus(index)}
+        >
+          <i className="fa fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  ))}
+
 
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">

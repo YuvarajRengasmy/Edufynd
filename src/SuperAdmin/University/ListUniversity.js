@@ -856,7 +856,6 @@ export default function Masterproductlist() {
                           <i className="fas fa-user-slash mb-1"></i> Varies By Program: 0
                         </p>
                       </div>
-
                     </div>
                   </div>
                 </Link>
