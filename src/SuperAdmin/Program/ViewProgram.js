@@ -24,7 +24,7 @@ export const Course = () => {
     country:"",
     studentCode: "",
     studentId:"",
-    applicationFee: "",
+    // applicationFee: "",
     campus: "",
     inTake: "",
     courseFees:"",
@@ -36,12 +36,12 @@ const initialStateErrors = {
     primaryNumber: { required: false },
     country: { required: false },
     studentCode: { required: false },
-    applicationFee: { required: false },
+    // applicationFee: { required: false },
     studentId: { required: false },
+    email:{required:false},
     campus: { required: false },
     inTake: { required: false },
     courseFees: { required: false },
-    email:{required:false},
 };
 
   
@@ -134,7 +134,7 @@ const initialStateErrors = {
     if (!data.studentId) error.studentId.required = true;
     if (!data.primaryNumber) error.primaryNumber.required = true;
     if (!data.country) error.country.required = true;
-    if (!data.applicationFee) error.applicationFee.required = true;
+    // if (!data.applicationFee) error.applicationFee.required = true;
     if (!data.studentCode) error.studentCode.required = true;
     if (!data.campus) error.campus.required = true;
     if (!data.inTake) error.inTake.required = true;
@@ -206,6 +206,7 @@ const handleSubmit = (event) => {
       ...inputs,
       course:program.programTitle,
       universityName:program.universityName,
+      applicationFee:program.applicationFee,
     
       // programId:program._id
 
@@ -214,7 +215,7 @@ const handleSubmit = (event) => {
       .then((res) => {
         console.log(res);
         toast.success(res?.data?.message);
-        navigate("/Programs");
+        navigate("/list_program");
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);

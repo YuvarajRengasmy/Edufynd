@@ -207,41 +207,45 @@ export const ViewApplication = () => {
     const newErrorEducation = handleValidation(track);
     setTrackErrors(newErrorEducation);
     setSubmitted(true);
+    
+    // Check for validation errors
     if (handleErrors(newErrorEducation)) {
-      if (id) {
-        const data = {
-          _id: id,
-          status: track,
-          progress: Math.min(100, track.progress + 80),
-         
-         
-        };
-        updateApplication(data)
-          .then((res) => {
-            toast.success("Successfully updated application status");
-            getAllModuleDetails();
-            if (modalRef.current) {
-              modalRef.current.click(); // Close the modal
-            }
-          })
-          .catch((err) => console.log(err));
-      }
-    }
-  };
+        if (id) {
+            const data = {
+                _id: id,
+                status: {
+                    ...track,
+                    progress: 100, // Set progress to 100% upon submission
+                },
+            };
 
-  const getProgressColor = (progress) => {
+            updateApplication(data)
+                .then((res) => {
+                    toast.success("Successfully updated application status");
+                    getAllModuleDetails();
+                    if (modalRef.current) {
+                        modalRef.current.click(); // Close the modal
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    }
+};
+
+const getProgressColor = (progress) => {
     if (progress === 0) return '#e0e0e0'; // Gray for 0 progress
     if (progress < 50) return '#ff9800'; // Orange for <50%
     if (progress < 100) return '#ffc107'; // Yellow for <100%
     return '#4caf50'; // Green for 100%
-  };
+};
+
 
   
  const makePayment = async()=>{
   const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
 
   const body = {
-    amount:  1 * 100
+    amount:tracks?.applicationFee * 100
   }
   const header = {
     'Content-Type': 'application/json'
@@ -328,15 +332,13 @@ export const ViewApplication = () => {
                             </div>
                             <span>View Profile</span>
                           </button>
-                          <div className="text-center">
-                            <small>(75%) Completed</small>
-                          </div>
+                         
                           
                       <div className="text-center mt-2">
                       <button className="btn text-white btn-sm justify-content-end"
                        style={{ marginRight: "0.5rem", backgroundColor: "#FE5722",
                                     fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px", }} onClick={makePayment}>Pay Now</button>
+                                    fontSize: "12px", }} onClick={makePayment} value={tracks?.applicationFee}>{tracks?.applicationFee} Pay Now</button>
                       </div>
                         </div>
 
