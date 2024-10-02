@@ -37,8 +37,8 @@ const App = () => {
     website: "",
     inTake: "",
     ranking: "",
-    commissionType: "",
-    commissionValue: "",
+    consultingType: "",
+    comName: "",
     averageFees: "",
     popularCategories: [],
     admissionRequirement: "",
@@ -66,8 +66,7 @@ const App = () => {
     universityName: { required: false },
     email: { required: false, valid: false },
     website: { required: false },
-    commissionType: {required:false},
-    commissionValue: {required:false},
+    comName: {required:false},
     courseType: { required: false },
     country: { required: false },
     campuses: { required: false },
@@ -85,7 +84,7 @@ const App = () => {
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const [commission, setCommission] = useState([]);
+  const [consulting, setConsulting] = useState([]);
   const [client, setClient] = useState([]);
   const [categories, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
@@ -108,7 +107,7 @@ const App = () => {
     getOfferTatList();
     getAllInstitutionDetails();
     getAllIntakeDetails();
-    getAllIntakeDetail();
+    getAllCommissionType();
   }, []);
 
   const getAllCountryDetail = () => {
@@ -139,10 +138,10 @@ const App = () => {
         console.log(err);
       });
   };
-  const getAllIntakeDetail = () => {
+  const getAllCommissionType = () => {
     getallIntakes()
       .then((res) => {
-        setCommission(res?.data?.result || []);
+        setConsulting(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
@@ -288,6 +287,7 @@ const App = () => {
     }
   };
 
+  
 
   const handleAboutTextChange = (data) => {
     setUniversity((prevUniversity) => ({
@@ -296,6 +296,7 @@ const App = () => {
     
     }));
   };
+  
   const handleRichTextChange = (data) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -314,6 +315,8 @@ const App = () => {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
     if (data.businessName === "") error.businessName.required = true;
+    if (data.comName === "") error.comName.required = true;
+
     if (data.inTake === "") error.inTake.required = true;
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
@@ -376,6 +379,7 @@ const App = () => {
       // Submit the data
       saveUniversity(updatedUniversity)
         .then((res) => {
+          console.log("poo",res)
           toast.success(res?.data?.message);
           navigate("/list_university");
         })
@@ -537,6 +541,31 @@ const App = () => {
                       </div>
                       <div className="card-body p-4">
                         <div className="row g-3">
+
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>
+      Consulting Type <span className="text-danger">*</span>
+    </label>
+    <select
+      className="form-select form-select-lg rounded-1 text-capitalize"
+      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+      name="comName"
+      value={university?.comName} // Ensure value is set from the state
+      onChange={handleInputs}
+    >
+      <option value="">Select Consulting Type</option>
+      {client.map((data, index) => (
+        <option key={index} value={data?.businessName}>
+          {data?.businessName}
+        </option>
+      ))}
+    </select>
+    {errors.comName?.required && (
+      <div className="text-danger form-text">This field is required.</div>
+    )}
+  </div>
+
+                     
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -552,6 +581,8 @@ const App = () => {
                               className={`form-select form-select-lg rounded-1 text-capitalize ${errors.businessName.required ? 'is-invalid':''}`}
                               name="businessName"
                               placeholder="Select Client"
+                              value={university?.businessName}
+
                             >
                               <option value={""} >
                                 Select Client
@@ -581,6 +612,7 @@ const App = () => {
                                 fontSize: "12px",
                               }}
                               name="institutionType"
+                              value={university?.institutionType}
                               onChange={handleInputs}
                             >
                               <option value={" "}>
@@ -610,6 +642,7 @@ const App = () => {
                             </label>
                             <input
                               type="text"
+                              value={university?.universityName}
                                 className={`form-control text-capitalize rounded-1 ${
                                   errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''}`}
                               placeholder="Enter University Name"
@@ -636,49 +669,7 @@ const App = () => {
 
        
                           <div className="row g-3 mb-3">
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label style={{ color: "#231F20" }}>
-        Consulting Type<span className="text-danger">*</span>
-        </label>
-        <select
-          style={{
-            fontFamily: "Plus Jakarta Sans",
-            fontSize: "12px",
-          }}
-          className="form-select form-select-lg rounded-1 text-capitalize"
-          onChange={handleInputs}
-          name="commissionType"
-        >
-          <option value="">Select a Commission Type</option>
-          <option value="commissionAdded">Commission-Added</option>
-          <option value="nonCommission">Non-Commission</option>
-          <option value="variousCommission">Various-Commission</option>
-          
-        </select>
-      </div>
-
-      {university?.commissionType === "nonCommission" ? (
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label style={{ color: "#231F20" }}>
-        Consulting Fees<span className="text-danger">*</span>
-        </label>
-        <select
-          style={{
-            fontFamily: "Plus Jakarta Sans",
-            fontSize: "12px",
-          }}
-          className={`form-select form-select-lg rounded-1`}
-          value={university?.commissionValue}
-          onChange={handleInputs}
-          name="commissionValue"
-        >
-          <option value="">Select a Consulting Fees</option>
-          {commission.map((data,index)=>(
-            <option key={index} value={data?.commissionValue}>{data?.commissionValue}</option>
-          ))}
-        </select>
-      </div>
-      ): null}
+                        
 
     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
@@ -793,7 +784,7 @@ const App = () => {
       ))}
                            
                           </div>
-
+                         
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               {" "}
