@@ -784,8 +784,12 @@ export default function Masterproductlist() {
                     <div className="card-body">
                       <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp; No of Countries:{details?.totalUniqueCountries || 0}</h6>
                       <div className="d-flex align-items-center justify-content-between">
-                        <p className="card-text mb-1">CountryWise</p>
-                        <p className="card-text mb-1">Procssing...</p>
+                        <div>
+                          {details?.countryCounts && Object.entries(details.countryCounts).map(([country, count]) => (
+                            <p className="card-text mb-1" key={country}>{country}: {count}</p>
+                          ))}
+                        </div>
+    
                       </div>
                     </div>
                   </div>
