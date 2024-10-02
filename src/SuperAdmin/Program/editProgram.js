@@ -288,7 +288,7 @@ function Profile() {
             country: selectedUniversity.country,
             inTake: selectedUniversity.inTake,
             popularCategories: selectedUniversity.popularCategories,
-            campuses: selectedUniversity.campuses
+       
           };
         }
       }
@@ -945,6 +945,7 @@ function Profile() {
 
 {Array.isArray(program?.campuses) &&
   program.campuses.map((campus, index) => (
+
     <div key={index} className="mb-4">
       <div className="row">
         {/* Campus Select */}
