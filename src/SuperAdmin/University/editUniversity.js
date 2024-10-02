@@ -51,8 +51,6 @@ function Profile() {
       {
         state: "",
         lga: "",
-        states: [],
-        lgas: [],
         primary: "",
       },
     ],
@@ -91,7 +89,8 @@ function Profile() {
   const [countriesData, setCountriesData] = useState([]); // Holds country data
   const [states, setStates] = useState([]);               // Holds state data
   const [cities, setCities] = useState([]);  
-               // Holds city data for the currently selected state
+  const [selectedCountryName, setSelectedCountryName] = useState('');
+  // Holds city data for the currently selected state
   const [selectedCountry, setSelectedCountry] = useState('');
  const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
@@ -242,27 +241,36 @@ function Profile() {
     };
   };
 
-  useEffect(() => {
-    if (selectedCountry) {
-      const selectedCountryData = countriesData.find((country) => country._id === selectedCountry);
-      if (selectedCountryData) {
-        setStates(selectedCountryData.state || []);
-      }
-    }
-  }, [selectedCountry, countriesData]);
+ 
 
   // Fetch cities when state changes for each campus
+  const handleCountryChange = (e) => {
+    const countryId = e.target.value;
+    setSelectedCountry(countryId);
+
+    // Find the selected country in the countriesData
+    const selectedCountryData = countriesData.find(country => country._id === countryId);
+    
+    if (selectedCountryData) {
+      setStates(selectedCountryData.state); // Set the states for selected country
+      // setCities([]); // Clear city data if country changes
+      // setSelectedState('');
+      setSelectedCountryName(selectedCountryData.name); // Reset selected state
+    }
+  };
+
+
   const handleStateChange = (index, e) => {
     const stateName = e.target.value;
 
-    setUniversity((prev) => {
+    setUniversity(prev => {
       const newCampuses = [...prev.campuses];
-      newCampuses[index].state = stateName;
+      newCampuses[index].state = stateName; // Set the selected state
 
       // Find cities for the selected state
-      const selectedStateData = states.find((state) => state.name === stateName);
+      const selectedStateData = states.find(state => state.name === stateName);
       if (selectedStateData) {
-        setCities(selectedStateData.cities || []); // Set cities for the selected state
+        setCities(selectedStateData.cities); // Set cities for the selected state
       }
 
       return { ...prev, campuses: newCampuses };
@@ -272,29 +280,15 @@ function Profile() {
   // Handle city selection for a specific campus
   const handleCityChange = (index, e) => {
     const cityName = e.target.value;
-    setUniversity((prev) => {
+    setUniversity(prev => {
       const newCampuses = [...prev.campuses];
-      newCampuses[index].city = cityName;
+      newCampuses[index].lga = cityName; // Set the selected city
       return { ...prev, campuses: newCampuses };
     });
   };
 
   // Handle country change and reset the states and cities
-  const handleCountryChange = (e) => {
-    const countryId = e.target.value;
-    setSelectedCountry(countryId);
 
-    // Find the selected country in the countriesData
-    const selectedCountryData = countriesData.find((country) => country._id === countryId);
-
-    if (selectedCountryData) {
-      setStates(selectedCountryData.state || []); // Set the states for selected country
-      setUniversity((prev) => ({
-        ...prev,
-        campuses: prev.campuses.map((campus) => ({ ...campus, state: "", city: "" })), // Reset states and cities
-      }));
-    }
-  };
 
   const handlePrimaryChange = (index) => {
     setUniversity((prevState) => ({
@@ -376,13 +370,7 @@ function Profile() {
       // Prepare the data for submission
       const updatedUniversity = {
         ...university,
-        country:
-          countriesData.find((option) => option._id === selectedCountry)?.name || selectedCountry,
-        campuses: university.campuses.map((campus) => ({
-          ...campus,
-          state: states.find((option) => option.name === campus.state)?.name || campus.state,
-          lga: campus.city, // Assuming LGA is referring to the city
-        })),
+        country: selectedCountryName,
       };
 
       // Submit the data
@@ -717,7 +705,7 @@ function Profile() {
               className="form-select form-select-lg rounded-1"
               value={campus.state}
               onChange={(e) => handleStateChange(index, e)}
-              disabled={!selectedCountry}
+              
             >
               <option value="">{campus?.state}</option>
               {states.map((state) => (

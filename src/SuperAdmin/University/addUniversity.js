@@ -13,14 +13,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { saveUniversity } from "../../api/university";
 import { getallCategories } from "../../api/universityModule/categories";
 import { getallOfferTatModule } from "../../api/universityModule/offerTat";
-import { getallCountryList } from "../../api/country";
 import { getallInstitutionModule } from "../../api/universityModule/institutation";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
-import { getallIntakes } from "../../api/settings/commissionValue";
-
+import {getYear} from '../../Utils/DateFormat';
 import Sidebar from "../../compoents/sidebar";
 import Select from "react-select";
+import { getallIntakes } from "../../api/settings/commissionValue";
+import { getallCountryList } from "../../api/country";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -36,9 +36,9 @@ const App = () => {
     courseType: "",
     website: "",
     inTake: "",
-    ranking: "",
     commissionType: "",
     commissionValue: "",
+    ranking: "",
     averageFees: "",
     popularCategories: [],
     admissionRequirement: "",
@@ -50,13 +50,10 @@ const App = () => {
       {
         state: "",
         lga: "",
-        states: [],
-        lgas: [],
         primary:""
       },
     ],
   };
-
 
   const initialStateErrors = {
     businessName: { required: false },
@@ -81,23 +78,22 @@ const App = () => {
 
   };
 
-  
   const [university, setUniversity] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const [commission, setCommission] = useState([]);
   const [client, setClient] = useState([]);
   const [categories, setCategories] = useState([]);
   const [offerTAT, setOfferTat] = useState([]);
+  const [commission, setCommission] = useState([]);
   const [institution, setInstitution] = useState([]);
   const [countriesData, setCountriesData] = useState([]); // Holds country data
   const [states, setStates] = useState([]);               // Holds state data
   const [cities, setCities] = useState([]);               // Holds city data for the currently selected state
   const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountryName, setSelectedCountryName] = useState('');
+
   const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
-  
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -111,6 +107,16 @@ const App = () => {
     getAllIntakeDetail();
   }, []);
 
+
+  const getAllIntakeDetail = () => {
+    getallIntakes()
+      .then((res) => {
+        setCommission(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllCountryDetail = () => {
     getallCountryList()
       .then((res) => {
@@ -134,15 +140,6 @@ const App = () => {
     getallIntake()
       .then((res) => {
         setInTake(res?.data?.result || []);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getAllIntakeDetail = () => {
-    getallIntakes()
-      .then((res) => {
-        setCommission(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
@@ -204,8 +201,8 @@ const App = () => {
     };
   };
 
- 
 
+ 
   const handleCountryChange = (e) => {
     const countryId = e.target.value;
     setSelectedCountry(countryId);
@@ -215,7 +212,9 @@ const App = () => {
     
     if (selectedCountryData) {
       setStates(selectedCountryData.state); // Set the states for selected country
-      setUniversity({ campuses: [] }); // Reset campuses when country changes
+      // setCities([]); // Clear city data if country changes
+      // setSelectedState('');
+      setSelectedCountryName(selectedCountryData.name); // Reset selected state
     }
   };
 
@@ -242,11 +241,10 @@ const App = () => {
     const cityName = e.target.value;
     setUniversity(prev => {
       const newCampuses = [...prev.campuses];
-      newCampuses[index].city = cityName; // Set the selected city
+      newCampuses[index].lga = cityName; // Set the selected city
       return { ...prev, campuses: newCampuses };
     });
   };
-
   const handlePrimaryChange = (index) => {
     setUniversity((prevState) => ({
       ...prevState,
@@ -258,47 +256,54 @@ const App = () => {
   };
   
   const addCampus = () => {
-    setUniversity(prev => ({
-      ...prev,
-      campuses: [...prev.campuses, { state: '', lga: '', primary: false }] // Initialize with empty state and city
+    setUniversity((prevState) => ({
+      ...prevState,
+      campuses: [
+        ...prevState.campuses,
+        {
+          state: "",
+          lga: "",
+        },
+      ],
     }));
   };
 
   const removeCampus = (index) => {
-    setUniversity(prev => ({
-      ...prev,
-      campuses: prev.campuses.filter((_, i) => i !== index)
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      campuses: prevUniversity.campuses.filter((_, i) => i !== index),
     }));
   };
 
-
-  const handleInputs = (e) => {
-    const { name, value,files } = e.target;
+  const handleInputs = (event) => {
+    const { name, value, files } = event.target;
     if (files && files[0]) {
-      convertToBase64(e, name);
+      convertToBase64(event, name);
     } else {
-    setUniversity((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
+      setUniversity((prevUniversity) => ({
+        ...prevUniversity,
+        [name]: value,
+      }));
+    }
+
     if (submitted) {
       const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);
     }
   };
 
-  const handleAboutTextChange = (data) => {
+  const handleRichTextChange = (value) => {
     setUniversity((prevUniversity) => ({
       ...prevUniversity,
-      about: data,
-    
+      admissionRequirement: value,
     }));
   };
-  const handleRichTextChange = (data) => {
-    setUniversity((prevState) => ({
-      ...prevState,
-      admissionRequirement: data,
+
+  const handleAboutTextChange = (value) => {
+    setUniversity((prevUniversity) => ({
+      ...prevUniversity,
+      about: value,
+    
     }));
   };
   const handleSelectChange = (selectedOptions, action) => {
@@ -312,13 +317,14 @@ const App = () => {
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
     if (data.universityName === "") error.universityName.required = true;
-    if (data.commissionType === "") error.commissionType.required = true;
     if (data.businessName === "") error.businessName.required = true;
+    if (data.commissionType === "") error.commissionType.required = true;
     if (data.inTake === "") error.inTake.required = true;
     if (data.website === "") error.website.required = true;
     if (data.averageFees === "") error.averageFees.required = true;
     if (data.courseType.length === 0) error.courseType.required = true;
-    if (data.popularCategories.length === 0) error.popularCategories.required = true;
+    if (data.popularCategories.length === 0)
+      error.popularCategories.required = true;
     if (data.offerTAT === "") error.offerTAT.required = true;
     if (data.email === "") error.email.required = true;
     if (data.founded === "") error.founded.required = true;
@@ -362,15 +368,8 @@ const App = () => {
       // Prepare the data for submission
       const updatedUniversity = {
         ...university,
-        country:
-        countriesData.find(option => option._id === selectedCountry)?.name || selectedCountry,
-      campuses: university.campuses.map(campus => ({
-        ...campus,
-        state:
-          states.find(option => option.name === campus.state)?.name || campus.state,
-          lga: campus.city
-
-      })),
+        country: selectedCountryName,
+       
       };
 
       // Submit the data
@@ -611,7 +610,8 @@ const App = () => {
                             <input
                               type="text"
                                 className={`form-control text-capitalize rounded-1 ${
-                                  errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''}`}
+                                  errors.universityName.required ? 'is-invalid' : errors.universityName.valid ? 'is-valid' : ''
+    }`}
                               placeholder="Enter University Name"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -636,6 +636,7 @@ const App = () => {
 
        
                           <div className="row g-3 mb-3">
+
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
         Consulting Type<span className="text-danger">*</span>
@@ -683,8 +684,7 @@ const App = () => {
         </select>
       </div>
       ): null}
-
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
           Country<span className="text-danger">*</span>
         </label>
@@ -724,77 +724,68 @@ const App = () => {
 
 
 
-{university.campuses.map((campus, index) => (
-        <div className="row row-cols-3 my-3" key={index}>
-          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label style={{ color: "#231F20" }}>
-              State<span className="text-danger">*</span>
-            </label>
-            <select
-              style={{
-                fontFamily: "Plus Jakarta Sans",
-                fontSize: "12px",
-              }}
-              className={`form-select form-select-lg rounded-1`}
-              value={campus.state}
-              onChange={(e) => handleStateChange(index, e)}
-              disabled={!selectedCountry}
-            >
-              <option value="">Select a state</option>
-              {states.map((state) => (
-                <option key={state.name} value={state.name}>
-                  {state.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-            <label style={{ color: "#231F20" }}>
-              City<span className="text-danger">*</span>
-            </label>
-            <select
-              style={{
-                fontFamily: "Plus Jakarta Sans",
-                fontSize: "12px",
-              }}
-              className={`form-select form-select-lg rounded-1`}
-              value={campus.city}
-              onChange={(e) => handleCityChange(index, e)}
-              disabled={!campus.state} // Disable if no state is selected
-            >
-              <option value="">Select a city</option>
-              {cities.map((city, cityIndex) => (
-                <option key={cityIndex} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col mt-5">
-            <label>
-              <input
-                type="checkbox"
-                checked={campus.primary}
-                onChange={() => handlePrimaryChange(index)}
-                disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
-              />
-              <span className="ms-2 text-success">Primary Campus</span>
-            </label>
-          </div>
-
-          {index > 0 && (
-            <div className="col-xl-12 my-3 ">
-              <button
-                type="button"
-                className="btn btn-sm btn-danger"
-                onClick={() => removeCampus(index)}
-              >
-                <i className="far fa-trash-alt text-white "></i>
-              </button>
-            </div>
-          )}
-        </div>
-      ))}
+                            {university.campuses.map((campus, index) => (
+                              <div className="row row-cols-3 my-3" key={index}>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  State<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  className={`form-select form-select-lg rounded-1`}
+                                  value={campus.state}
+                                  onChange={(e) => handleStateChange(index, e)}
+                                  disabled={!selectedCountry}
+                                >
+                                  <option value="">Select a state</option>
+                                  {states.map((state) => (
+                                    <option key={state.name} value={state.name}>
+                                      {state.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                                <label style={{ color: "#231F20" }}>
+                                  City<span className="text-danger">*</span>
+                                </label>
+                                <select
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                  className={`form-select form-select-lg rounded-1`}
+                                  value={campus.city}
+                                  onChange={(e) => handleCityChange(index, e)}
+                                  disabled={!campus.state} // Disable if no state is selected
+                                >
+                                  <option value="">Select a city</option>
+                                  {cities.map((city, cityIndex) => (
+                                    <option key={cityIndex} value={city}>
+                                      {city}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                             
+                    
+                              {index > 0 && (
+                                <div className="col-xl-12 my-3 ">
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-danger"
+                                    onClick={() => removeCampus(index)}
+                                  >
+                                    <i className="far fa-trash-alt text-white "></i>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                            ))}
+                         
                            
                           </div>
 
@@ -1047,7 +1038,6 @@ const App = () => {
                           </div>
 
                          
- 
                           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
     <div className="form-group">
         <label style={{ color: "#231F20" }}>
@@ -1144,7 +1134,6 @@ const App = () => {
       />
     </div>
 </div>
-
                           
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
@@ -1153,7 +1142,7 @@ const App = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              to="/list_university"
+                              to="/admin_list_university"
                               className="btn btn-cancel border-0 px-4 py-2 fw-semibold text-uppercase text-white  m-1"
                             >
                               Cancel

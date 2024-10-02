@@ -10,6 +10,7 @@ import {
 
 } from "../../api/university";
 import { getAllApplicantCard } from "../../api/applicatin";
+import { PieChart } from '@mui/x-charts/PieChart';
 
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -422,34 +423,34 @@ export default function Masterproductlist() {
 
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-
+  
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
-
-    // Clean up existing chart instance if it exists
+  
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
-
-    // Create a new Chart instance
+  
+   
+  
     chartInstance.current = new Chart(ctx, {
       type: 'doughnut',
       data: {
-
+        labels: ['active', 'inActive'],
+        color: '#fff', 
         datasets: [{
-
-          data: [10, 20, 30], // Sample data
+          data: [details?.activeUniversities || 0, details?.inactiveUniversities || 0,], // Data values
           backgroundColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)'
+           
           ],
           borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)'
+            
           ],
-          borderWidth: 1
+          borderWidth: 5
         }]
       },
       options: {
@@ -461,21 +462,22 @@ export default function Masterproductlist() {
           tooltip: {
             callbacks: {
               label: function (tooltipItem) {
-                return tooltipItem.label + ': ' + tooltipItem.raw;
+                return `${tooltipItem.label}: ${tooltipItem.raw}`;
               }
             }
           }
         }
       }
     });
-
-    // Cleanup chart instance on component unmount
+  
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
   }, []);
+  
+  
 
 
   const handleCheckboxChange = (id) => {
@@ -763,8 +765,8 @@ export default function Masterproductlist() {
                         <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No of University:{details?.totalUniversities || 0}</h6>
                       </div>
                       <div className="col-auto ">
-                        <div className="chart-container " style={{ position: 'relative', width: '4rem', height: '4rem' }}>
-                          <canvas ref={chartRef} style={{ width: '100%', height: '100%' }} />
+                        <div className="chart-container " style={{ position: 'relative', width: '14rem', height: '12rem' }}>
+                          <canvas ref={chartRef} style={{width: '8rem', height: '8rem'}} />
                         </div>
                       </div>
 
@@ -780,10 +782,32 @@ export default function Masterproductlist() {
 
               <div className="col-md-3 mb-3">
                 <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Steel Blue */}
+                  <div className="card rounded-1 border-0 text-white shadow-sm" > {/* Steel Blue */}
                     <div className="card-body">
                       <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp; No of Countries:{details?.totalUniqueCountries || 0}</h6>
                       <div className="d-flex align-items-center justify-content-between">
+                      <div className="mx-auto my-2  my-xl-4" style={{ width: '14rem', height: '12rem' }}>
+                                    <PieChart tooltip={{ trigger: 'item' }}
+                                        series={[
+                                            {
+                                                data: [
+                                                    { id: 0, value: details?.master?.coins, label: 'Total Earnings', color: '#ffff4d' },
+                                                    { id: 2, value: 0, label: 'Session Completed', color: '#66ff99' },
+                                                    { id: 1, value: details?.bookedSession, label: 'Booked Session', color: '#ff6666' },
+                                                    { id: 3, value: details?.totalPlayList, label: 'Total Playlist', color: '#ff80df' },
+                                                ], innerRadius: 50, outerRadius: 100, cx: 100
+                                            },
+                                        ]}
+                                        slotProps={{
+                                            legend: {
+                                                labelStyle: {
+                                                    fontSize: 12,
+                                                    fontWeight: 'bold'
+                                                },
+                                            },
+                                        }}
+                                    />
+                                </div>
                         <p className="card-text mb-1">CountryWise</p>
                         <p className="card-text mb-1">Procssing...</p>
                       </div>
