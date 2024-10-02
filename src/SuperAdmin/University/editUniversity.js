@@ -90,7 +90,8 @@ function Profile() {
   const [institutation, setInstitution] = useState([]);
   const [countriesData, setCountriesData] = useState([]); // Holds country data
   const [states, setStates] = useState([]);               // Holds state data
-  const [cities, setCities] = useState([]);               // Holds city data for the currently selected state
+  const [cities, setCities] = useState([]);  
+               // Holds city data for the currently selected state
   const [selectedCountry, setSelectedCountry] = useState('');
  const [type, setType] = useState([]);
   const [inTake, setInTake] = useState([]);
@@ -241,31 +242,27 @@ function Profile() {
     };
   };
 
-  const handleCountryChange = (e) => {
-    const countryId = e.target.value;
-    setSelectedCountry(countryId);
-
-    // Find the selected country in the countriesData
-    const selectedCountryData = countriesData.find(country => country._id === countryId);
-    
-    if (selectedCountryData) {
-      setStates(selectedCountryData.state); // Set the states for selected country
-      setUniversity({ campuses: [] }); // Reset campuses when country changes
+  useEffect(() => {
+    if (selectedCountry) {
+      const selectedCountryData = countriesData.find((country) => country._id === selectedCountry);
+      if (selectedCountryData) {
+        setStates(selectedCountryData.state || []);
+      }
     }
-  };
+  }, [selectedCountry, countriesData]);
 
-
+  // Fetch cities when state changes for each campus
   const handleStateChange = (index, e) => {
     const stateName = e.target.value;
 
-    setUniversity(prev => {
+    setUniversity((prev) => {
       const newCampuses = [...prev.campuses];
-      newCampuses[index].state = stateName; // Set the selected state
+      newCampuses[index].state = stateName;
 
       // Find cities for the selected state
-      const selectedStateData = states.find(state => state.name === stateName);
+      const selectedStateData = states.find((state) => state.name === stateName);
       if (selectedStateData) {
-        setCities(selectedStateData.cities); // Set cities for the selected state
+        setCities(selectedStateData.cities || []); // Set cities for the selected state
       }
 
       return { ...prev, campuses: newCampuses };
@@ -275,11 +272,28 @@ function Profile() {
   // Handle city selection for a specific campus
   const handleCityChange = (index, e) => {
     const cityName = e.target.value;
-    setUniversity(prev => {
+    setUniversity((prev) => {
       const newCampuses = [...prev.campuses];
-      newCampuses[index].city = cityName; // Set the selected city
+      newCampuses[index].city = cityName;
       return { ...prev, campuses: newCampuses };
     });
+  };
+
+  // Handle country change and reset the states and cities
+  const handleCountryChange = (e) => {
+    const countryId = e.target.value;
+    setSelectedCountry(countryId);
+
+    // Find the selected country in the countriesData
+    const selectedCountryData = countriesData.find((country) => country._id === countryId);
+
+    if (selectedCountryData) {
+      setStates(selectedCountryData.state || []); // Set the states for selected country
+      setUniversity((prev) => ({
+        ...prev,
+        campuses: prev.campuses.map((campus) => ({ ...campus, state: "", city: "" })), // Reset states and cities
+      }));
+    }
   };
 
   const handlePrimaryChange = (index) => {
@@ -303,16 +317,16 @@ function Profile() {
       campuses: prev.campuses.filter((_, i) => i !== index)
     }));
   };
-  const handleInputs = (event) => {
-    const { name, value, files } = event.target;
+  const handleInputs = (e) => {
+    const { name, value,files } = e.target;
     if (files && files[0]) {
-      convertToBase64(event, name);
+      convertToBase64(e, name);
     } else {
-      setUniversity((prevUniversity) => {
-        const updatedUniversity = { ...prevUniversity, [name]: value };
-        return updatedUniversity;
-      });
-    }
+    setUniversity((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
     if (submitted) {
       const newError = handleValidation({ ...university, [name]: value });
       setErrors(newError);
@@ -351,24 +365,26 @@ function Profile() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+
     // Validate the form data
     const newError = handleValidation(university);
     setErrors(newError);
     setSubmitted(true);
+
     // Check if there are no validation errors
     if (handleErrors(newError)) {
       // Prepare the data for submission
       const updatedUniversity = {
         ...university,
         country:
-        countriesData.find(option => option._id === selectedCountry)?.name || selectedCountry,
-      campuses: university.campuses.map(campus => ({
-        ...campus,
-        state:
-          states.find(option => option.name === campus.state)?.name || campus.state,
-          lga: campus.city
+          countriesData.find((option) => option._id === selectedCountry)?.name || selectedCountry,
+        campuses: university.campuses.map((campus) => ({
+          ...campus,
+          state: states.find((option) => option.name === campus.state)?.name || campus.state,
+          lga: campus.city, // Assuming LGA is referring to the city
         })),
       };
+
       // Submit the data
       updateUniversity(updatedUniversity)
         .then((res) => {
@@ -380,6 +396,7 @@ function Profile() {
         });
     }
   };
+
   const popularCategoriesOptions = categorie.map((data) => ({
     value: data.popularCategories,
     label: data.popularCategories,
@@ -669,16 +686,13 @@ function Profile() {
         </select>
       </div>
       ): null}
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
         <label style={{ color: "#231F20" }}>
           Country<span className="text-danger">*</span>
         </label>
         <select
-          style={{
-            fontFamily: "Plus Jakarta Sans",
-            fontSize: "12px",
-          }}
-          className={`form-select form-select-lg rounded-1`}
+          style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+          className="form-select form-select-lg rounded-1"
           value={selectedCountry}
           onChange={handleCountryChange}
         >
@@ -689,38 +703,18 @@ function Profile() {
             </option>
           ))}
         </select>
-                        </div>
-                          <div className="col text-end">
-                            <br />
-                            <button
-                              type="button"
-                              style={{
-                                backgroundColor: "#231F20",
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
-                              onClick={addCampus}
-                            >
-                              <i
-                                class="fa fa-plus-circle"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              &nbsp;&nbsp; Add Campus
-                            </button>
-                          </div>
-                          {university.campuses.map((campus, index) => (
+      </div>
+
+      {/* Loop through the campuses and display the form */}
+      {university.campuses.map((campus, index) => (
         <div className="row row-cols-3 my-3" key={index}>
           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
             <label style={{ color: "#231F20" }}>
               State<span className="text-danger">*</span>
             </label>
             <select
-              style={{
-                fontFamily: "Plus Jakarta Sans",
-                fontSize: "12px",
-              }}
-              className={`form-select form-select-lg rounded-1`}
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+              className="form-select form-select-lg rounded-1"
               value={campus.state}
               onChange={(e) => handleStateChange(index, e)}
               disabled={!selectedCountry}
@@ -733,21 +727,19 @@ function Profile() {
               ))}
             </select>
           </div>
+
           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
             <label style={{ color: "#231F20" }}>
               City<span className="text-danger">*</span>
             </label>
             <select
-              style={{
-                fontFamily: "Plus Jakarta Sans",
-                fontSize: "12px",
-              }}
-              className={`form-select form-select-lg rounded-1`}
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+              className="form-select form-select-lg rounded-1"
               value={campus.city}
               onChange={(e) => handleCityChange(index, e)}
-              disabled={!campus.state} // Disable if no state is selected
+              disabled={!campus.state}
             >
-              <option value="">{campus?.lga}</option>
+              <option value="">{campus?.city}</option>
               {cities.map((city, cityIndex) => (
                 <option key={cityIndex} value={city}>
                   {city}
@@ -755,31 +747,50 @@ function Profile() {
               ))}
             </select>
           </div>
+
+          {/* Primary Campus Checkbox */}
           <div className="col mt-5">
             <label>
               <input
                 type="checkbox"
                 checked={campus.primary}
                 onChange={() => handlePrimaryChange(index)}
-                disabled={university.campuses.filter(c => c.primary).length > 0 && !campus.primary}
+                disabled={university.campuses.filter((c) => c.primary).length > 0 && !campus.primary}
               />
               <span className="ms-2 text-success">Primary Campus</span>
             </label>
           </div>
 
           {index > 0 && (
-            <div className="col-xl-12 my-3 ">
+            <div className="col-xl-12 my-3">
               <button
                 type="button"
                 className="btn btn-sm btn-danger"
                 onClick={() => removeCampus(index)}
               >
-                <i className="far fa-trash-alt text-white "></i>
+                <i className="far fa-trash-alt text-white"></i>
               </button>
             </div>
           )}
         </div>
       ))}
+
+      <div className="col text-end">
+        <br />
+        <button
+          type="button"
+          style={{
+            backgroundColor: "#231F20",
+            fontFamily: "Plus Jakarta Sans",
+            fontSize: "12px",
+          }}
+          className="btn btn-cancel border-0 fw-semibold text-uppercase text-white px-4 py-2 m-2"
+          onClick={addCampus}
+        >
+          <i className="fa fa-plus-circle" aria-hidden="true"></i>
+          &nbsp;&nbsp; Add Campus
+        </button>
+      </div>
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
