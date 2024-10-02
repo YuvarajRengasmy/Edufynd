@@ -184,19 +184,24 @@ function Profile() {
     return error;
   };
 
-  const addCampus = () => {
-    const newCampus = {
-      campus: "",
-      inTake: "",
-      courseFees: "",
-      duration: "",
-    };
-    setCampuses([...campuses, newCampus]);
-  };
+  // const addCampus = () => {
+  //   const newCampus = {
+  //     campus: "",
+  //     inTake: "",
+  //     courseFees: "",
+  //     duration: "",
+  //   };
+  //   setCampuses([...campuses, newCampus]);
+  // };
 
-  const removeCampus = (index) => {
-    setCampuses(campuses.filter((_, i) => i !== index));
-  };
+  const addCampus = () => {
+    setProgram((prevDetails) => ({
+        ...prevDetails,
+        campuses: [...prevDetails.campuses, { campus: '', inTake: '', duration: '', courseFees: '' }],
+    }));
+};
+
+
   const handleRichTextChange = (value) => {
     setProgram((prevUniversity) => ({
       ...prevUniversity,
@@ -204,6 +209,53 @@ function Profile() {
       academicRequirement: value,
     }));
   };
+
+//   const removeCampus = (index) => {
+//     const updatedCampuses = [...program.campuses];
+//     updatedCampuses.splice(index, 1);
+//     setProgram((prevDetails) => ({
+//         ...prevDetails,
+//         campuses: updatedCampuses,
+//     }));
+// };
+
+// const removeCampus = (indexToRemove) => {
+//   setProgram((prevState) => ({
+//     ...prevState,
+//     campuses: prevState.campuses.filter((_, index) => index !== indexToRemove),
+//   }));
+// };
+
+const removeCampus = async (indexToRemove) => {
+  try {
+    const response = await fetch('http://localhost:4409/api/program/deleteCampus', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ programId: program._id }), // Send the program ID
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      // Update local state to remove the specific campus
+      setProgram((prevState) => ({
+        ...prevState,
+        campuses: prevState.campuses.filter((_, index) => index !== indexToRemove),
+      }));
+    } else {
+      console.error(data.message);
+    }
+  } catch (error) {
+    console.error('Error deleting campus:', error);
+  }
+};
+
+
+
+
+
+
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setProgram({ ...program, country: selectedCountry });
@@ -242,26 +294,38 @@ function Profile() {
   // };
 
 
-  const handleInputChange = (index, field, value) => {
-    // Create a copy of the program object, including campuses
-    const updatedCampuses = program.campuses ? [...program.campuses] : [];
-
-    console.log("balan", updatedCampuses)
-  
-    // Initialize the campus at this index if it doesn't exist
-    if (!updatedCampuses[index]) {
-      updatedCampuses[index] = { campus: "", inTake: "", courseFees: "", duration: "" }; // Initialize with empty fields
-    }
-  
-    // Update the specific field for the campus
-    updatedCampuses[index][field] = value;
-  
-    // Set the updated campuses back into the state
-    setProgram((prevProgram) => ({
-      ...prevProgram,
-      campuses: updatedCampuses, // Update the campuses in the program
+  const handleInputChange = (index, e, fieldName) => {
+    const { name, value } = e.target;
+    const updatedCampuses = [...program.campuses];
+    updatedCampuses[index][fieldName] = value;
+    setProgram((prevDetails) => ({
+        ...prevDetails,
+        campuses: updatedCampuses,
     }));
-  };
+};
+
+  // const handleInputChange = (index, field, value) => {
+  //   // Create a copy of the program object, including campuses
+  //   const updatedCampuses = program.campuses ? [...program.campuses] : [];
+
+  //   console.log("balan", updatedCampuses)
+  
+  //   // Initialize the campus at this index if it doesn't exist
+  //   if (!updatedCampuses[index]) {
+  //     updatedCampuses[index] = { campus: "", inTake: "", courseFees: "", duration: "" }; // Initialize with empty fields
+  //   }
+  
+  //   // Update the specific field for the campus
+  //   updatedCampuses[index][field] = value;
+  
+  //   // Set the updated campuses back into the state
+  //   setProgram((prevProgram) => ({
+  //     ...prevProgram,
+  //     campuses: updatedCampuses, // Update the campuses in the program
+  //   }));
+  // };
+
+
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
@@ -366,30 +430,70 @@ function Profile() {
     return true;
   };
 
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const newError = handleValidation(program);
+  //   setErrors(newError);
+  //   setSubmitted(true);
+
+  //   if (handleErrors(newError)) {
+  //     updatedProgram({
+  //       ...program,
+  //       campuses: campuses,
+      
+       
+  //     })
+  //       .then((res) => {
+  //         toast.success(res?.data?.message);
+  //         navigate("/list_program");
+  //       })
+  //       .catch((err) => {
+  //         toast.error(err?.response?.data?.message);
+  //       });
+  //   } else {
+  //     toast.error("Please Fill Program Details");
+  //   }
+  // };
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newError = handleValidation(program);
+    const newError = handleValidation(program); // Assuming handleValidation checks for required fields
     setErrors(newError);
     setSubmitted(true);
 
+    // If no validation errors, proceed with updating the program
     if (handleErrors(newError)) {
-      updatedProgram({
-        ...program,
-        campuses: campuses,
-      
-       
-      })
+        updatedProgram({
+            _id: program._id,  // Make sure the _id is passed for updating the correct program
+            universityName: program.universityName,
+            country: program.country,
+            courseType: program.courseType,
+            programTitle: program.programTitle,
+            applicationFee: program.applicationFee,
+            currency: program.currency,
+            flag: program.flag,
+            popularCategories: program.popularCategories,
+            englishlanguageTest: program.englishlanguageTest,
+            universityInterview: program.universityInterview,
+            greGmatRequirement: program.greGmatRequirement,
+            academicRequirement: program.academicRequirement,
+            commission: program.commission,
+            campuses: program.campuses,  // Ensure campuses array is passed
+          
+        })
         .then((res) => {
-          toast.success(res?.data?.message);
-          navigate("/list_program");
+            toast.success(res?.data?.message);
+            navigate("/list_program");
         })
         .catch((err) => {
-          toast.error(err?.response?.data?.message);
+            toast.error(err?.response?.data?.message);
         });
     } else {
-      toast.error("Please Fill Program Details");
+        toast.error("Please Fill Program Details");
     }
-  };
+};
+
 
   return (
     <>
@@ -807,153 +911,17 @@ function Profile() {
 
 
 
-                        {/* {Array.isArray(program?.campuses) &&
-                          program?.campuses.map((campus, index) =>
-                              
-  <div key={index}>
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-      <label>Campus</label>
-      <select
-        style={{
-          backgroundColor: "#fff",
-          fontFamily: "Plus Jakarta Sans",
-          fontSize: "12px",
-        }}
-       value={campus.campus  || "Not Available"} 
-        onChange={(e) => handleInputChange(index, "campus", e.target.value)}
-        name="campus"
-        className="form-select form-select-lg rounded-2"
-        placeholder="Enter Campus"
-      >
-        <option value="">Select Campus</option>
-        {optionsToRender.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      {errors.campuses && errors.campuses[index]?.campus?.required && (
-        <span className="text-danger form-text profile_error">
-          Campus is required.
-        </span>
-      )}
-    </div>
-
-    <div className="row mt-3">
-      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label>Intake</label>
-        <select
-          style={{
-            backgroundColor: "#fff",
-            fontFamily: "Plus Jakarta Sans",
-            fontSize: "12px",
-          }}
-          value={campus?.inTake || ""}
-          onChange={(e) => handleInputChange(index, "inTake", e.target.value)}
-          name="inTake"
-          className="form-select form-select-lg rounded-2"
-          placeholder="Enter Intake"
-        >
-          <option value="">Select Intake</option>
-          {inTakeOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        {errors.campuses && errors.campuses[index]?.inTake?.required && (
-          <span className="text-danger form-text profile_error">
-            Intake is required.
-          </span>
-        )}
-      </div>
-
-      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label>Course Fees</label>
-        <input
-          style={{
-            backgroundColor: "#fff",
-            fontFamily: "Plus Jakarta Sans",
-            fontSize: "12px",
-          }}
-          type="text"
-          value={campus?.courseFees || ""}
-          name="courseFees"
-          onChange={(e) => handleInputChange(index, "courseFees", e.target.value)}
-          className="form-control"
-          placeholder="Enter Course Fees"
-          onKeyDown={(e) => {
-            if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-              e.preventDefault();
-            }
-          }}
-        />
-        {errors.campuses && errors.campuses[index]?.courseFees?.required && (
-          <span className="text-danger form-text profile_error">
-            Course Fees are required.
-          </span>
-        )} 
-        
-      </div>
-
-      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-        <label>Duration</label>
-        <input
-          style={{
-            backgroundColor: "#fff",
-            fontFamily: "Plus Jakarta Sans",
-            fontSize: "12px",
-          }}
-          type="text"
-          value={campus?.duration || ""}
-          name="duration"
-          onChange={(e) => handleInputChange(index, "duration", e.target.value)}
-          className="form-control"
-          placeholder="Enter Duration"
-          onKeyDown={(e) => {
-            if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-              e.preventDefault();
-            }
-          }}
-        />
-        {errors.campuses && errors.campuses[index]?.duration?.required && (
-          <span className="text-danger form-text profile_error">
-            Duration is required.
-          </span>
-        )}
-        {errors.campuses && errors.campuses[index]?.duration?.valid && (
-          <span className="text-danger form-text profile_error">
-            Invalid Duration format.
-          </span>
-        )}
-      </div>
-    </div>
-
-
-
-    <div className="add-customer-btns mb-40 d-flex justify-content-end ml-auto my-3">
-      <button
-        type="button"
-        className="btn btn-danger"
-        onClick={() => removeCampus(index)}
-      >
-        <i className="fa fa-trash"></i>
-      </button>
-    </div>
-  </div>
-                          )} */}
-
+                       
 {Array.isArray(program?.campuses) &&
   program.campuses.map((campus, index) => (
-
     <div key={index} className="mb-4">
       <div className="row">
         {/* Campus Select */}
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
           <label>Campus</label>
           <select
             value={campus?.campus || ""}
-            onChange={(e) => handleInputChange(index, "campus", e.target.value)}
+            onChange={(e) => handleInputChange(index, e, "campus")}
             className="form-select form-select-lg rounded-2"
           >
             <option value="">Select Campus</option>
@@ -970,13 +938,30 @@ function Profile() {
           )}
         </div>
 
+        {/* Intake Input */}
+        <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+          <label>Intake</label>
+          <input
+            type="text"
+            value={campus?.inTake || ""}
+            onChange={(e) => handleInputChange(index, e, "inTake")}
+            className="form-control"
+            placeholder="Enter Intake"
+          />
+          {errors?.campuses?.[index]?.inTake?.required && (
+            <span className="text-danger form-text profile_error">
+              Intake is required.
+            </span>
+          )}
+        </div>
+
         {/* Course Fees Input */}
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
           <label>Course Fees</label>
           <input
             type="text"
             value={campus?.courseFees || ""}
-            onChange={(e) => handleInputChange(index, "courseFees", e.target.value)}
+            onChange={(e) => handleInputChange(index,e, "courseFees")}
             className="form-control"
             placeholder="Enter Course Fees"
             onKeyDown={(e) => {
@@ -993,12 +978,12 @@ function Profile() {
         </div>
 
         {/* Duration Input */}
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+        <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
           <label>Duration</label>
           <input
             type="text"
             value={campus?.duration || ""}
-            onChange={(e) => handleInputChange(index, "duration", e.target.value)}
+            onChange={(e) => handleInputChange(index, e, "duration")}
             className="form-control"
             placeholder="Enter Duration"
             onKeyDown={(e) => {
