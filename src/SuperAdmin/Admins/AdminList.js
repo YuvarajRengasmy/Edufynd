@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallAdmin,updateAdmin,getFilterAdmins, deleteAdmin } from "../../api/admin";
+import { getallAdmin,updateAdmin,getFilterAdmins, deleteAdmin, getAllAdminCard } from "../../api/admin";
 import { Link, useLocation } from "react-router-dom";
 import {
   Dialog,
@@ -51,6 +51,7 @@ export default function ListAgent() {
   const [inputs, setInputs] = useState(false);
   const search = useRef(null);
 
+  const [details, setDetails] = useState();
 
 
   useEffect(() => {
@@ -58,9 +59,6 @@ export default function ListAgent() {
    
   }, [pagination.from, pagination.to,pageSize]);
 
-
-
- 
 
   useEffect(() => {
     if (searchValue) {
@@ -70,6 +68,15 @@ export default function ListAgent() {
   }, [searchValue]);
 
   
+  useEffect(() => {
+    getAllAdminCount()
+
+  })
+
+  const getAllAdminCount = () => {
+    getAllAdminCard().then((res) => setDetails(res?.data.result))
+  }
+
 
 
 const handleInputsearch = (event) => {
@@ -618,20 +625,19 @@ const handleSearch = (event) => {
         <div className="container-fluid mt-3">
       <div className="row">
         {/* Card 1: Active Users */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <div
-            className="card rounded-1 border-0 text-white shadow-sm"
-            style={{ backgroundColor: "#9C27B0" }} // Purple
-          >
-            <div className="card-body">
-              <h6 className="card-title">
-                <i className="fas fa-users" style={{ color: '#ffffff' }}></i> Active Users
-              </h6>
-              <p className="card-text">Users currently active.</p>
-              <p className="card-text">Total: 150</p>
+        <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
+                <div className="card-body text-start">
+                  <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;No of Agents: {details?.totalAdmin || 0}</h6>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <p className="card-text mb-1">Active: {details?.activeData || 0}</p>
+                    <p className="card-text mb-1">InActive: {details?.inactiveData || 0}</p> <br></br>
+
+                  </div>
+                </div>
+              </div>
+              </Link>
             </div>
-          </div>
-        </div>
 
         {/* Card 2: Pending Requests */}
         <div className="col-md-3 col-sm-6 mb-3">

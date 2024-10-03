@@ -9,6 +9,10 @@ export const getallAdmin = () => {
     return API.get(`${Admin}`)
 }
 
+export const getAllAdminCard = () => {
+    return API.get(`${Admin}/card`)
+}
+
 export const deleteAdmin = (data) => {
     return API.delete(`${Admin}`, { params: { _id: data } });
   };
