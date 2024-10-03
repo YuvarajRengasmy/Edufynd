@@ -1148,6 +1148,9 @@ export default function Masterproductlist() {
                         <div className="container">
                           <div className="row">
                             {university?.map((item, index) => {
+                               const isExpanded = !!expandedRows[index];
+
+                               return (
                               <div className="col-md-4 mb-4" key={index}>
                                 <div className="card shadow-sm  rounded-1 text-bg-light h-100">
                                   <div className="card-header   d-flex justify-content-between align-items-center">
@@ -1193,15 +1196,9 @@ export default function Masterproductlist() {
                                           <div className="col-md-7">
                                             {item.campuses?.map((campus, yearIndex) => (
                                               <div key={yearIndex}>
-                                                {campus?.state?.length > 0
-                                                  ? campus.state
-                                                  : "Not Available"}
-                                                {"_"}
                                                 {campus?.lga?.length > 0
                                                   ? campus.lga
-                                                  : "Not Available"}{"_"}
-                                                {campus?.primary === "true" ? campus.primary ? <i className="fas fa-check text-primary">Primary Campus</i> : "Secondary Campus" : "Secondary Campus"}
-
+                                                  : "Not Available"}
                                               </div>
                                             ))}
                                           </div>
@@ -1260,6 +1257,7 @@ export default function Masterproductlist() {
                                   </div>
                                 </div>
                               </div>
+                               );
                             })}
                           </div>
                         </div>

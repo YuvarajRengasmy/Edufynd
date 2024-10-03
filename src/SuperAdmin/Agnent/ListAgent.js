@@ -137,7 +137,7 @@ export default function Masterproductlist() {
     event?.preventDefault();
     getSuperAdminForSearch(data)
       .then((res) => {
-        const universityList = res?.data?.result?.agentList;
+        const universityList = res?.data?.result?.agentListed;
         setAgent(universityList);
         const result = universityList.length ? "Agent" : "";
         setLink(result);
