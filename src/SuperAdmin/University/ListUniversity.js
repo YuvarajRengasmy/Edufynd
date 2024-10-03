@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef,useMemo } from "react";
 import Sortable from "sortablejs";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import {
@@ -9,6 +9,10 @@ import {
   deactivateClient, activeClient,
 
 } from "../../api/university";
+import {
+  FaTrash, FaListAlt, FaChartBar, FaUser, FaFileAlt, FaSuitcase, FaRegChartBar, FaCalendarAlt, FaChalkboardTeacher, FaClipboardList, FaLaptopCode, FaCommentsDollar, FaFileInvoice, FaBuilding, FaShieldAlt, FaGlobe, FaCogs, FaTrophy, FaEnvelopeOpenText, FaExclamationCircle,
+  FaMoneyBillWave, FaCheckCircle, FaComments, FaEnvelope, FaPhone, FaDollarSign, FaUserAlt, FaEdit, FaCog, FaSignOutAlt, FaChartPie, FaUniversity, FaUsers, FaFileInvoiceDollar, FaProjectDiagram, FaBell, FaChartLine, FaUserCog, FaBullhorn
+} from "react-icons/fa";
 import { getAllApplicantCard } from "../../api/applicatin";
 import { PieChart } from '@mui/x-charts/PieChart';
 import { Bar } from 'react-chartjs-2';
@@ -110,7 +114,6 @@ export default function Masterproductlist() {
         console.log(err);
       });
   };
-
 
 
   const getallUniversityCount = () => {
@@ -484,20 +487,41 @@ export default function Masterproductlist() {
   }, [details]);
  
   
-
-
-  const countryCounts = {
-    labels: Object.keys(details?.countryCounts || {}), // X-axis labels (country names)
+  const countryCounts = useMemo(() => ({
+    labels: Object.keys(details?.countryCounts || {}),
     datasets: [
       {
-        label: 'University Count', // Chart label
-        data: Object.values(details?.countryCounts || {}), // Data for the bar heights
-        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Bar color
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 3,
-      },
-    ],
-  }
+        label: 'Country Count', // Chart label
+        borderColor: '#16A085', // Border color (can be different from the background)
+        borderWidth: 1,
+        data: Object.values(details?.countryCounts || {}),
+        // Set a fallback background color for browsers that don't support gradients
+        backgroundColor: '#F4D03F', 
+      }
+    ]
+  }));
+
+  useEffect(() => {
+    const chartInstance = chartRef.current?.chartInstance; // Get the Chart.js instance
+    if (chartInstance) {
+      const ctx = chartInstance.ctx;
+
+      // Create a gradient
+      const gradient = ctx.createLinearGradient(0, 0, 0, chartInstance.height);
+      gradient.addColorStop(0, '#F4D03F'); // Starting color
+      gradient.addColorStop(1, '#16A085'); // Ending color
+
+      // Set the gradient as the background color for the dataset
+      chartInstance.data.datasets[0].backgroundColor = gradient;
+
+      // Update the chart
+      chartInstance.update();
+    }
+  }, [countryCounts]);
+
+
+ 
+
   const handleCheckboxChange = (id) => {
     setSelectedIds((prevSelected) =>
       prevSelected.includes(id)
@@ -588,7 +612,7 @@ export default function Masterproductlist() {
     }
   };
 
-
+  
   return (
     <>
       <div>
@@ -798,32 +822,19 @@ export default function Masterproductlist() {
                 </Link>
               </div>
 
-              <div className="col-md-3 mb-3">
-  <Link to="#" className="text-decoration-none">
-    <div className="card rounded-1 border-0 text-white shadow-sm">
-      <div className="card-body">
-        <h6>
-          <i className="fas fa-flag"></i>&nbsp;&nbsp; No of Countries: {details?.totalUniqueCountries || 0}
-        </h6>
-        {/* <div className="col-auto">
-          <div className="chart-container" style={{ position: 'relative', width: '12rem', height: '10rem' }}>
-            <Bar data={countryCounts} style={{ width: '6rem', height: '7rem' }} />
-          </div>
-        </div> */}
-        <div className="d-flex align-items-center justify-content-between">
-          <div>
-            {details?.countryCounts && Object.entries(details.countryCounts).map(([country, count]) => (
-              <p className="card-text mb-1" key={country}>
-                {country}: {count} {/* Display country name and count */}
-              </p>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </Link>
-</div>
+          
 
+<div className="col-md-5 ">
+                    <div className="card rounded-1 border-0 shadow-sm">
+                      <div className="card-header bg-warning text-white d-flex align-items-center">
+                        <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
+                      </div>
+                      <div className="card-body">
+                        <Bar data={countryCounts}   options={{ responsive: true }}/>
+                      </div>
+                    
+                    </div>
+                  </div>
               <div className="col-md-3 mb-3">
                 <Link to="#" className="text-decoration-none">
                   <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#C62828" }}> {/* Crimson Red */}
@@ -895,6 +906,8 @@ export default function Masterproductlist() {
             </div>
           </div>
 
+          background-color: #4158D0;
+background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
 
 
           <div className="container">
