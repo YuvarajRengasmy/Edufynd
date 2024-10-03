@@ -787,7 +787,7 @@ export default function Masterproductlist() {
                               id="profile-tab"
                               data-bs-toggle="tab"
                               href="#tab-profile"
-                              role="tab"
+                              role="tabpanel"
                               aria-controls="tab-profile"
                               aria-selected="false"
                             >
@@ -967,6 +967,8 @@ export default function Masterproductlist() {
                         <div className="container">
                           <div className="row">
                             {program?.map((data, index) => {
+                              const isExpanded = !!expandedRows[index];
+                                return (
                               <div className="col-md-4 mb-4" key={index}>
                                 <div className="card shadow-sm  rounded-1 text-bg-light h-100">
                                   <div className="card-header   d-flex justify-content-between align-items-center">
@@ -1038,37 +1040,45 @@ export default function Masterproductlist() {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-                                    <Link
-                                      className="btn btn-sm btn-outline-primary"
-                                      to={{
-                                        pathname: "/view_program",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="dropdown-item"
-                                      to={{
-                                        pathname: "/edit_program",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="btn btn-sm btn-outline-warning"></i>
-                                    </Link>
-                                    <button
-                                      className="dropdown-item"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="btn btn-sm btn-outline-danger"></i>
-                                    </button>
-                                  </div>
+                                  <div className="card-footer bg-light d-flex justify-content-between">
+      <Link
+                                  className="btn btn-outline-primary btn-sm"
+                                  to={{
+                                    pathname: "/view_program",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="View"
+                                >
+                                  <i className="far fa-eye text-primary "></i>View
+                                </Link>
+        
+       
+        <Link
+                                  className="btn btn-outline-warning btn-sm"
+                                  to={{
+                                    pathname: "/edit_program",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="Edit"
+                                >
+                                  <i className="far fa-edit text-warning "></i>Edit
+                                </Link>
+        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="Delete">
+          <i className="bi bi-trash"></i> Delete
+        </button>
+      </div>
                                 </div>
                               </div>
+                                );
                             })}
+
+
                           </div>
                         </div>
                       </div>
