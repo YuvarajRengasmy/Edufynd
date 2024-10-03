@@ -423,34 +423,34 @@ export default function Masterproductlist() {
 
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-  
+
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
-  
+
+    // Destroy previous chart if it exists
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
-  
-   
-  
+
+    // Create the new chart
     chartInstance.current = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['active', 'inActive'],
-        color: '#fff', 
+      
         datasets: [{
-          data: [details?.activeUniversities || 0, details?.inactiveUniversities || 0,], // Data values
+          data: [
+            details?.activeUniversities || 0,
+            details?.inactiveUniversities || 0,
+          ], // Use default 0 if no data available
           backgroundColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-           
+            '#fdc21d', // Green for "Active" (chat bubble color)
+            '#207cbb', // Blue for "Inactive" (chat bubble color)
           ],
           borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            
+            '#fdc21d',
+            '#207cbb',
           ],
-          borderWidth: 5
+          borderWidth: 5,
         }]
       },
       options: {
@@ -461,22 +461,27 @@ export default function Masterproductlist() {
           },
           tooltip: {
             callbacks: {
-              label: function (tooltipItem) {
-                return `${tooltipItem.label}: ${tooltipItem.raw}`;
+              label: function(tooltipItem) {
+                return tooltipItem.label + ': ' + tooltipItem.raw;
               }
             }
           }
-        }
-      }
+            },
+          },
+        
+        
+        
+      
     });
-  
+
+    // Clean up on component unmount
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
-  }, []);
-  
+  }, [details]);
+ 
   
 
 
@@ -759,22 +764,22 @@ export default function Masterproductlist() {
             <div className="row">
               <div className="col-md-3 mb-3">
                 <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm p-3" style={{ backgroundColor: "#00796B" }}> {/* Tropical Teal */}
+                  <div className="card rounded-1 border-0 text-dark shadow-sm p-3"> {/* Tropical Teal */}
                     <div className="row g-0">
                       <div className="col-7">
-                        <h6 className=""><i class="fas fa-university "></i>&nbsp;&nbsp;No of University:{details?.totalUniversities || 0}</h6>
+                        <h7 className=""><i class="fas fa-university ">University:{details?.totalUniversities || 0}</i></h7>
                       </div>
                       <div className="col-auto ">
-                        <div className="chart-container " style={{ position: 'relative', width: '14rem', height: '12rem' }}>
-                          <canvas ref={chartRef} style={{width: '8rem', height: '8rem'}} />
+                        <div className="chart-container " style={{ position: 'relative', width: '12rem', height: '10rem' }}>
+                          <canvas ref={chartRef} style={{width: '6rem', height: '7rem'}} />
                         </div>
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between">
-                        <p className="card-text mb-1">Active: {details?.activeUniversities || 0}</p>
-                        <p className="card-text mb-1">InActive:  {details?.inactiveUniversities || 0}</p>
+                        <p className="card-text mb-1 rounded border-0 text-white" style={{backgroundColor:'#fdc21d',}}>Active: {details?.activeUniversities || 0}</p>
+                        <p className="card-text mb-1 rounded border-0 text-white" style={{backgroundColor:'#207cbb',}}>InActive:  {details?.inactiveUniversities || 0}</p>
                       </div>
-
+                     
                     </div>
                   </div>
                 </Link>

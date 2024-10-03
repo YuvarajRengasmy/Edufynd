@@ -1,53 +1,48 @@
-import React, { useRef, useEffect } from 'react';
-import { Chart, Pie } from 'react-chartjs-2';
-import 'chart.js/auto'; // This imports all the chart types
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';  // Necessary for chart.js to work properly
 
-const PieChart = () => {
-  const chartRef = useRef(null);
+const App = () => {
+  // Sample university data
+  const universities = [
+    'Harvard University', 'Stanford University', 'MIT',
+    'Oxford University', 'Cambridge University',
+    'Yale University', 'Princeton University',
+    'Caltech', 'University of Chicago', 'Columbia University'
+  ];
 
+  // Count of universities (example: 1 each in this case)
+  const universityCount = universities.map((uni) => 1);
+
+  // Data for the chart
   const data = {
-    labels: ['India', 'USA', 'Canada'], // Country names
+    labels: universities, // X-axis labels (university names)
     datasets: [
       {
-        data: [100, 200, 150], // Corresponding values
-        backgroundColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 5,
+        label: 'University Count', // Chart label
+        data: universityCount, // Data for the bar heights
+        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Bar color
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
       },
     ],
   };
 
+  // Chart options
   const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        callbacks: {
-          label: function (tooltipItem) {
-            const label = tooltipItem.label || '';
-            const value = tooltipItem.raw || '';
-            return `${label}: ${value}`;
-          },
-        },
+    scales: {
+      y: {
+        beginAtZero: true,
       },
     },
   };
 
   return (
-    <div style={{ position: 'relative', width: '17rem', height: '17rem' }}>
-      <Pie style={{ position: 'relative', width: '8rem', height: '8rem' }}  ref={chartRef} data={data} options={options} />
+    <div style={{ width: '70%', margin: 'auto', paddingTop: '50px' }}>
+      <h2>University Count Bar Chart</h2>
+      <Bar data={data} options={options} />
     </div>
   );
 };
 
-export default PieChart;
+export default App;
