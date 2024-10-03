@@ -11,6 +11,7 @@ import {
 } from "../../api/university";
 import { getAllApplicantCard } from "../../api/applicatin";
 import { PieChart } from '@mui/x-charts/PieChart';
+import { Bar } from 'react-chartjs-2';
 
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -485,6 +486,18 @@ export default function Masterproductlist() {
   
 
 
+  const countryCounts = {
+    labels: Object.keys(details?.countryCounts || {}), // X-axis labels (country names)
+    datasets: [
+      {
+        label: 'University Count', // Chart label
+        data: Object.values(details?.countryCounts || {}), // Data for the bar heights
+        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Bar color
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 3,
+      },
+    ],
+  }
   const handleCheckboxChange = (id) => {
     setSelectedIds((prevSelected) =>
       prevSelected.includes(id)
@@ -786,22 +799,30 @@ export default function Masterproductlist() {
               </div>
 
               <div className="col-md-3 mb-3">
-                <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm" > {/* Steel Blue */}
-                    <div className="card-body">
-                      <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp; No of Countries:{details?.totalUniqueCountries || 0}</h6>
-                      <div className="d-flex align-items-center justify-content-between">
-                        <div>
-                          {details?.countryCounts && Object.entries(details.countryCounts).map(([country, count]) => (
-                            <p className="card-text mb-1" key={country}>{country}: {count}</p>
-                          ))}
-                        </div>
-    
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+  <Link to="#" className="text-decoration-none">
+    <div className="card rounded-1 border-0 text-white shadow-sm">
+      <div className="card-body">
+        <h6>
+          <i className="fas fa-flag"></i>&nbsp;&nbsp; No of Countries: {details?.totalUniqueCountries || 0}
+        </h6>
+        {/* <div className="col-auto">
+          <div className="chart-container" style={{ position: 'relative', width: '12rem', height: '10rem' }}>
+            <Bar data={countryCounts} style={{ width: '6rem', height: '7rem' }} />
+          </div>
+        </div> */}
+        <div className="d-flex align-items-center justify-content-between">
+          <div>
+            {details?.countryCounts && Object.entries(details.countryCounts).map(([country, count]) => (
+              <p className="card-text mb-1" key={country}>
+                {country}: {count} {/* Display country name and count */}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </Link>
+</div>
 
               <div className="col-md-3 mb-3">
                 <Link to="#" className="text-decoration-none">
