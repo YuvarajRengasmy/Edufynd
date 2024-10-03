@@ -492,7 +492,7 @@ export default function Masterproductlist() {
     datasets: [
       {
         label: 'Country Count', // Chart label
-        borderColor: '#16A085', // Border color (can be different from the background)
+        borderColor: '#859398', // Border color (can be different from the background)
         borderWidth: 1,
         data: Object.values(details?.countryCounts || {}),
         // Set a fallback background color for browsers that don't support gradients

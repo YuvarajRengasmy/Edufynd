@@ -192,7 +192,7 @@ import Select from 'react-select';
         .then((res) => {
           if (res && res.data && res.data.success) {
             toast.success(res.data.message);
-            navigate("/GlobalSettings");
+            navigate("/global_settings");
             closeFilterPopup();
           } else {
             toast.error();
