@@ -492,35 +492,16 @@ export default function Masterproductlist() {
     datasets: [
       {
         label: 'Country Count', // Chart label
-        borderColor: '#859398', // Border color (can be different from the background)
+        borderColor: '#ffd200', // Border color (can be different from the background)
         borderWidth: 1,
+        color: '#f8ffae',
         data: Object.values(details?.countryCounts || {}),
         // Set a fallback background color for browsers that don't support gradients
-        backgroundColor: '#F4D03F', 
+        backgroundColor: '#ffd200', 
       }
     ]
   }));
 
-  useEffect(() => {
-    const chartInstance = chartRef.current?.chartInstance; // Get the Chart.js instance
-    if (chartInstance) {
-      const ctx = chartInstance.ctx;
-
-      // Create a gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, chartInstance.height);
-      gradient.addColorStop(0, '#F4D03F'); // Starting color
-      gradient.addColorStop(1, '#16A085'); // Ending color
-
-      // Set the gradient as the background color for the dataset
-      chartInstance.data.datasets[0].backgroundColor = gradient;
-
-      // Update the chart
-      chartInstance.update();
-    }
-  }, [countryCounts]);
-
-
- 
 
   const handleCheckboxChange = (id) => {
     setSelectedIds((prevSelected) =>
@@ -829,8 +810,15 @@ export default function Masterproductlist() {
                       <div className="card-header bg-warning text-white d-flex align-items-center">
                         <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
                       </div>
-                      <div className="card-body">
-                        <Bar data={countryCounts}   options={{ responsive: true }}/>
+                      <div className="card-body text-white">
+                        <Bar data={countryCounts}  style={{
+       
+        background: '#43c6ac',  // Fallback for old browsers
+        background: '-webkit-linear-gradient(to right, #43c6ac, #f8ffae)',  // For Safari
+        background: 'linear-gradient(to right, #43c6ac, #f8ffae)', // For modern browsers
+        padding: '20px', // Optional padding for aesthetics
+        borderRadius: '8px' // Optional border radius
+      }}   options={{ responsive: true }}/>
                       </div>
                     
                     </div>
@@ -906,8 +894,7 @@ export default function Masterproductlist() {
             </div>
           </div>
 
-          background-color: #4158D0;
-background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+ 
 
 
           <div className="container">
