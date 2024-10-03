@@ -791,30 +791,12 @@ export default function Masterproductlist() {
                     <div className="card-body">
                       <h6 className=""><i class="fas fa-flag "></i>&nbsp;&nbsp; No of Countries:{details?.totalUniqueCountries || 0}</h6>
                       <div className="d-flex align-items-center justify-content-between">
-                      <div className="mx-auto my-2  my-xl-4" style={{ width: '14rem', height: '12rem' }}>
-                                    <PieChart tooltip={{ trigger: 'item' }}
-                                        series={[
-                                            {
-                                                data: [
-                                                    { id: 0, value: details?.master?.coins, label: 'Total Earnings', color: '#ffff4d' },
-                                                    { id: 2, value: 0, label: 'Session Completed', color: '#66ff99' },
-                                                    { id: 1, value: details?.bookedSession, label: 'Booked Session', color: '#ff6666' },
-                                                    { id: 3, value: details?.totalPlayList, label: 'Total Playlist', color: '#ff80df' },
-                                                ], innerRadius: 50, outerRadius: 100, cx: 100
-                                            },
-                                        ]}
-                                        slotProps={{
-                                            legend: {
-                                                labelStyle: {
-                                                    fontSize: 12,
-                                                    fontWeight: 'bold'
-                                                },
-                                            },
-                                        }}
-                                    />
-                                </div>
-                        <p className="card-text mb-1">CountryWise</p>
-                        <p className="card-text mb-1">Procssing...</p>
+                        <div>
+                          {details?.countryCounts && Object.entries(details.countryCounts).map(([country, count]) => (
+                            <p className="card-text mb-1" key={country}>{country}: {count}</p>
+                          ))}
+                        </div>
+    
                       </div>
                     </div>
                   </div>
@@ -885,7 +867,6 @@ export default function Masterproductlist() {
                           <i className="fas fa-user-slash mb-1"></i> Varies By Program: 0
                         </p>
                       </div>
-
                     </div>
                   </div>
                 </Link>
