@@ -12,6 +12,11 @@ export const getallStaffLog = () => {
     return API.get(`${Staff}/logs`)
 }
 
+
+export const getAllStaffCard = () => {
+  return API.get(`${Staff}/card`)
+}
+
 export const deleteStaff = (data) => {
     return API.delete(`${Staff}`, { params: { _id: data } });
   };

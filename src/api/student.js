@@ -37,6 +37,11 @@ export const saveContact = (data) => {
 export const getallStudentLog = () => {
   return API.get(`${Student}/logs`)
 }
+
+export const getallStudentCard = () => {
+  return API.get(`${Student}/card`)
+}
+
 export const getFilterStudent = (data) => {
   return API.put(`${Student}/getFilterStudentBySuperAdmin`, data);
 };

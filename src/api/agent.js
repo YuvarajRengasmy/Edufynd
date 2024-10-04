@@ -41,6 +41,10 @@ export const getallAgent = () => {
 export const getallAgentLog = () => {
   return API.get(`${Agent}/logs`)
 }
+
+export const getAllAgentCard = () => {
+  return API.get(`${Agent}/card`)
+}
 export const getFilterAgent = (data) => {
   return API.put(`${Agent}/getFilterStudentByAgent`, data);
 };
