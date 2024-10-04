@@ -94,9 +94,11 @@ const [details, setDetails] = useState()
     const data = {
       limit: pageSize, // Use dynamic page size here
       page: pagination.from,
+     
     };
     getFilterApplican(data)
       .then((res) => {
+        console.log('yuvi',res)
         const value = res?.data?.result?.applicantList;
         setApplication(value);
         setPagination({
@@ -129,7 +131,7 @@ const [details, setDetails] = useState()
     event?.preventDefault();
     getSuperAdminForSearch(data)
       .then((res) => {
-        const universityList = res?.data?.result?.applicationList;
+        const universityList = res?.data?.result?.applicationListed;
         setApplication(universityList);
         const result = universityList.length ? "application" : "";
         setLink(result);
