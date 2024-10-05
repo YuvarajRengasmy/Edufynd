@@ -12,7 +12,7 @@ export const getLogsUniversity = () => {
   return API.get(`${University}/logs`)
 }
 export const getAllUniversit = () => {
-  return API.get(`${University}/getAllUniversit`)
+  return API.get(`${University}/card`)
 }
 export const getUniversitiesByClients = () => {
   return API.get(`${University}/universities/:clientName`)
