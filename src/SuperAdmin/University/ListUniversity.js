@@ -829,8 +829,8 @@ export default function Masterproductlist() {
                     <div className="card-body">
                       <div className="d-flex flex-column">
                         <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Popular Categories:{details?.totalPopularCategoryCount || 0}</h6>
-                        {details?.topCategory && details.topCategory.length > 0 ? (
-                          details.topCategory.map((category, index) => (
+                        {details?.topCategory && details.topCategory.length > 0 && details.topCategory[0].uniqueCategories.length > 0 ? (
+                          details.topCategory[0].uniqueCategories.map((category, index) => (
                             <p className="card-text" key={index}>
                               {category.popularCategory}: {category.count}
                             </p>
