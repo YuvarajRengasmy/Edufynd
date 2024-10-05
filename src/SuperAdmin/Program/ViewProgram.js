@@ -207,7 +207,7 @@ const handleSubmit = (event) => {
       course:program.programTitle,
       universityName:program.universityName,
       applicationFee:program.applicationFee,
-    
+      uniCountry:program.country,
       // programId:program._id
 
     };
@@ -1141,6 +1141,8 @@ const handleSubmit = (event) => {
                                 </span>
                               ) : null}
                     </div>
+                   
+                   
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">campus</label>
                      <select 

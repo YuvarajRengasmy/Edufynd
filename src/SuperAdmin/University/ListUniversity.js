@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef,useMemo } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import Sortable from "sortablejs";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import {
@@ -440,7 +440,7 @@ export default function Masterproductlist() {
     chartInstance.current = new Chart(ctx, {
       type: 'doughnut',
       data: {
-      
+
         datasets: [{
           data: [
             details?.activeUniversities || 0,
@@ -465,17 +465,17 @@ export default function Masterproductlist() {
           },
           tooltip: {
             callbacks: {
-              label: function(tooltipItem) {
+              label: function (tooltipItem) {
                 return tooltipItem.label + ': ' + tooltipItem.raw;
               }
             }
           }
-            },
-          },
-        
-        
-        
-      
+        },
+      },
+
+
+
+
     });
 
     // Clean up on component unmount
@@ -485,8 +485,8 @@ export default function Masterproductlist() {
       }
     };
   }, [details]);
- 
-  
+
+
   const countryCounts = useMemo(() => ({
     labels: Object.keys(details?.countryCounts || {}),
     datasets: [
@@ -497,7 +497,7 @@ export default function Masterproductlist() {
         color: '#f8ffae',
         data: Object.values(details?.countryCounts || {}),
         // Set a fallback background color for browsers that don't support gradients
-        backgroundColor: '#ffd200', 
+        backgroundColor: '#ffd200',
       }
     ]
   }));
@@ -593,7 +593,7 @@ export default function Masterproductlist() {
     }
   };
 
-  
+
   return (
     <>
       <div>
@@ -785,44 +785,44 @@ export default function Masterproductlist() {
                   <div className="card rounded-1 border-0 text-dark shadow-sm p-3"> {/* Tropical Teal */}
                     <div className="row g-0">
                       <div className="col-7">
-                      
+
                         <h7 className=""><i class="fas fa-university ">University:{details?.totalUniversities || 0}</i></h7>
                       </div>
                       <div className="col-auto ">
                         <div className="chart-container " style={{ position: 'relative', width: '12rem', height: '10rem' }}>
-                          <canvas ref={chartRef} style={{width: '6rem', height: '7rem'}} />
+                          <canvas ref={chartRef} style={{ width: '6rem', height: '7rem' }} />
                         </div>
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between">
-                        <p className="card-text mb-1 rounded border-0 text-white" style={{backgroundColor:'#fdc21d',}}>Active: {details?.activeUniversities || 0}</p>
-                        <p className="card-text mb-1 rounded border-0 text-white" style={{backgroundColor:'#207cbb',}}>InActive:  {details?.inactiveUniversities || 0}</p>
+                        <p className="card-text mb-1 rounded border-0 text-white" style={{ backgroundColor: '#fdc21d', }}>Active: {details?.activeUniversities || 0}</p>
+                        <p className="card-text mb-1 rounded border-0 text-white" style={{ backgroundColor: '#207cbb', }}>InActive:  {details?.inactiveUniversities || 0}</p>
                       </div>
-                     
+
                     </div>
                   </div>
                 </Link>
               </div>
 
-          
 
-<div className="col-md-5 ">
-                    <div className="card rounded-1 border-0 shadow-sm">
-                      <div className="card-header bg-warning text-white d-flex align-items-center">
-                        <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
-                      </div>
-                      <div className="card-body">
-                        <Bar data={countryCounts}  style={{      
-        background: '#43c6ac',  // Fallback for old browsers
-        background: '-webkit-linear-gradient(to right, #43c6ac, #f8ffae)',  // For Safari
-        background: 'linear-gradient(to right, #43c6ac, #f8ffae)', // For modern browsers
-        padding: '20px', // Optional padding for aesthetics
-        borderRadius: '8px' // Optional border radius
-      }}  options={{ responsive: true }}/>
-                      </div>
-                    
-                    </div>
+
+              <div className="col-md-5 ">
+                <div className="card rounded-1 border-0 shadow-sm">
+                  <div className="card-header bg-warning text-white d-flex align-items-center">
+                    <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
                   </div>
+                  <div className="card-body">
+                    <Bar data={countryCounts} style={{
+                      background: '#43c6ac',  // Fallback for old browsers
+                      background: '-webkit-linear-gradient(to right, #43c6ac, #f8ffae)',  // For Safari
+                      background: 'linear-gradient(to right, #43c6ac, #f8ffae)', // For modern browsers
+                      padding: '20px', // Optional padding for aesthetics
+                      borderRadius: '8px' // Optional border radius
+                    }} options={{ responsive: true }} />
+                  </div>
+
+                </div>
+              </div>
               <div className="col-md-3 mb-3">
                 <Link to="#" className="text-decoration-none">
                   <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#C62828" }}> {/* Crimson Red */}
@@ -853,8 +853,21 @@ export default function Masterproductlist() {
                 <Link to="#" className="text-decoration-none">
                   <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Navy Blue */}
                     <div className="card-body">
-                      <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Highest Applied University</h6>
-                      <p className="card-text">processing...</p>
+
+                      <div className="d-flex flex-column">
+                        <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Highest Applied University</h6>
+                        {detail?.topUniversities && detail.topUniversities.length > 0 ? (
+                          detail.topUniversities.map((university, index) => (
+                            <p className="card-text" key={index}>
+                              {university.universityName}: {university.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )}
+                      </div>
+
+
                     </div>
                   </div>
                 </Link>
@@ -864,8 +877,19 @@ export default function Masterproductlist() {
                 <Link to="#" className="text-decoration-none">
                   <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
                     <div className="card-body">
+                    
+                      <div className="d-flex flex-column">
                       <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Highest Applied Country</h6>
-                      <p className="card-text">processing...</p>
+                        {detail?.topCountry && detail.topCountry.length > 0 ? (
+                          detail.topCountry.map((country, index) => (
+                            <p className="card-text" key={index}>
+                              {country.uniCountry}: {country.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No country available</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -894,7 +918,7 @@ export default function Masterproductlist() {
             </div>
           </div>
 
- 
+
 
 
           <div className="container">
@@ -1148,116 +1172,116 @@ export default function Masterproductlist() {
                         <div className="container">
                           <div className="row">
                             {university?.map((item, index) => {
-                               const isExpanded = !!expandedRows[index];
+                              const isExpanded = !!expandedRows[index];
 
-                               return (
-                              <div className="col-md-4 mb-4" key={index}>
-                                <div className="card shadow-sm  rounded-1 text-bg-light h-100">
-                                  <div className="card-header   d-flex justify-content-between align-items-center">
-                                    <h6 className="mb-0">{item?.universityName}</h6>
-                                  </div>
-                                  <div className="card-body">
-                                    <div className="row">
-                                      <div className="col-md-12 mb-2">
-                                        <div className="row">
-                                          <div className="col-md-5">
-                                            <strong>S.No</strong>
-                                          </div>
-                                          <div className="col-md-7">
-                                            {pagination.from + index + 1}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-12 mb-2">
-                                        <div className="row">
-                                          <div className="col-md-5">
-                                            <strong>University ID</strong>
-                                          </div>
-                                          <div className="col-md-7">
-                                            {item?.universityCode}
+                              return (
+                                <div className="col-md-4 mb-4" key={index}>
+                                  <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+                                    <div className="card-header   d-flex justify-content-between align-items-center">
+                                      <h6 className="mb-0">{item?.universityName}</h6>
+                                    </div>
+                                    <div className="card-body">
+                                      <div className="row">
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>S.No</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {pagination.from + index + 1}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                      <div className="col-md-12 mb-2">
-                                        <div className="row">
-                                          <div className="col-md-5">
-                                            <strong>Country</strong>
-                                          </div>
-                                          <div className="col-md-7">
-                                            {item?.country}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-12 mb-2">
-                                        <div className="row">
-                                          <div className="col-md-5">
-                                            <strong>Campus</strong>
-                                          </div>
-                                          <div className="col-md-7">
-                                            {item.campuses?.map((campus, yearIndex) => (
-                                              <div key={yearIndex}>
-                                                {campus?.lga?.length > 0
-                                                  ? campus.lga
-                                                  : "Not Available"}
-                                              </div>
-                                            ))}
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>University ID</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {item?.universityCode}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                      <div className="col-md-12 mb-2">
-                                        <div className="row">
-                                          <div className="col-md-5">
-                                            <strong>Popular Categories</strong>
-                                          </div>
-                                          <div className="col-md-7">
-                                            {item?.popularCategories}
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>Country</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {item?.country}
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                      <div className="col-md-12 mb-2">
-                                        <div className="row">
-                                          <div className="col-md-5">
-                                            <strong> {data?.isActive || "Not Available"}</strong>
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>Campus</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {item.campuses?.map((campus, yearIndex) => (
+                                                <div key={yearIndex}>
+                                                  {campus?.lga?.length > 0
+                                                    ? campus.lga
+                                                    : "Not Available"}
+                                                </div>
+                                              ))}
+                                            </div>
                                           </div>
+                                        </div>
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong>Popular Categories</strong>
+                                            </div>
+                                            <div className="col-md-7">
+                                              {item?.popularCategories}
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-12 mb-2">
+                                          <div className="row">
+                                            <div className="col-md-5">
+                                              <strong> {data?.isActive || "Not Available"}</strong>
+                                            </div>
 
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-                                    <Link
-                                      className="btn btn-sm btn-outline-primary"
-                                      to={{
-                                        pathname: "/view_university",
-                                        search: `?id=${item?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
+                                    <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+                                      <Link
+                                        className="btn btn-sm btn-outline-primary"
+                                        to={{
+                                          pathname: "/view_university",
+                                          search: `?id=${item?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-eye text-primary me-1"></i>
+                                      </Link>
 
 
 
-                                    <Link
-                                      className="btn btn-sm btn-outline-warning"
-                                      to={{
-                                        pathname: "/edit_university",
-                                        search: `?id=${item?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
+                                      <Link
+                                        className="btn btn-sm btn-outline-warning"
+                                        to={{
+                                          pathname: "/edit_university",
+                                          search: `?id=${item?._id}`,
+                                        }}
+                                      >
+                                        <i className="far fa-edit text-warning me-1"></i>
+                                      </Link>
 
 
-                                    <button
-                                      className="btn btn-sm btn-outline-danger"
-                                      onClick={() => openPopup(item?._id)}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </button>
+                                      <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={() => openPopup(item?._id)}
+                                      >
+                                        <i className="far fa-trash-alt text-danger me-1"></i>
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                               );
+                              );
                             })}
                           </div>
                         </div>
