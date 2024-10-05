@@ -785,6 +785,7 @@ export default function Masterproductlist() {
                   <div className="card rounded-1 border-0 text-dark shadow-sm p-3"> {/* Tropical Teal */}
                     <div className="row g-0">
                       <div className="col-7">
+                      
                         <h7 className=""><i class="fas fa-university ">University:{details?.totalUniversities || 0}</i></h7>
                       </div>
                       <div className="col-auto ">
