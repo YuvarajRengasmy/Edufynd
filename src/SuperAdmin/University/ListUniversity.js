@@ -827,19 +827,6 @@ export default function Masterproductlist() {
                 <Link to="#" className="text-decoration-none">
                   <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#C62828" }}> {/* Crimson Red */}
                     <div className="card-body">
-                      {/* <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; Popular Categories:{details?.totalPopularCategoryCount || 0}</h6>
-                      <div className="d-flex align-items-center justify-content-between">
-                        {details?.topCategory && details.topCategory.length > 0 ? (
-                          details.topCategory.map((category, index) => (
-                            <p className="card-text" key={index}>
-                              {category.popularCategory}: {category.count}
-                            </p>
-                          ))
-                        ) : (
-                          <p className="card-text">No categories available</p>
-                        )}
-                      </div> */}
-
                       <div className="d-flex flex-column">
                         <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Popular Categories:{details?.totalPopularCategoryCount || 0}</h6>
                         {details?.topCategory && details.topCategory.length > 0 ? (
