@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import { getAllApplicantCard } from "../../api/applicatin";
 import { PieChart } from '@mui/x-charts/PieChart';
-import { Bar } from 'react-chartjs-2';
+import { Bar,Line,PolarArea, Bubble,Scatter ,Radar,Doughnut   } from 'react-chartjs-2';
 
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -502,6 +502,20 @@ export default function Masterproductlist() {
     ]
   }));
 
+  const countryLine = useMemo(() => ({
+    labels: Object.keys(details?.countryCounts || {}),
+    datasets: [
+      {
+        label: 'Applied University', // Chart label
+        borderColor: '#ffd200', // Border color (can be different from the background)
+        borderWidth: 1,
+        color: '#f8ffae',
+        data: Object.values(details?.countryCounts || {}),
+        // Set a fallback background color for browsers that don't support gradients
+        backgroundColor: '#ffd200', 
+      }
+    ]
+  }));
 
   const handleCheckboxChange = (id) => {
     setSelectedIds((prevSelected) =>
@@ -782,7 +796,7 @@ export default function Masterproductlist() {
             <div className="row">
               <div className="col-md-3 mb-3">
                 <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-dark shadow-sm p-3"> {/* Tropical Teal */}
+                  <div className=" rounded-1 border-0 text-dark shadow-sm p-2"> {/* Tropical Teal */}
                     <div className="row g-0">
                       <div className="col-7">
                       
@@ -806,20 +820,20 @@ export default function Masterproductlist() {
 
           
 
-<div className="col-md-5 ">
+<div className="col-md-4 ">
                     <div className="card rounded-1 border-0 shadow-sm">
                       <div className="card-header bg-warning text-white d-flex align-items-center">
                         <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
                       </div>
-                      <div className="card-body">
+                     
                         <Bar data={countryCounts}  style={{      
         background: '#43c6ac',  // Fallback for old browsers
         background: '-webkit-linear-gradient(to right, #43c6ac, #f8ffae)',  // For Safari
         background: 'linear-gradient(to right, #43c6ac, #f8ffae)', // For modern browsers
         padding: '20px', // Optional padding for aesthetics
-        borderRadius: '8px' // Optional border radius
+        borderRadius: '3px' // Optional border radius
       }}  options={{ responsive: true }}/>
-                      </div>
+                      
                     
                     </div>
                   </div>
@@ -849,14 +863,21 @@ export default function Masterproductlist() {
                 </Link>
               </div>
 
-              <div className="col-md-3 mb-3">
+            
+              <div className="col-md-4 mb-3">
                 <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Navy Blue */}
-                    <div className="card-body">
+                  <div className=" rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Navy Blue */}
+                   
                       <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Highest Applied University</h6>
-                      <p className="card-text">processing...</p>
+                      <Line data={countryLine}  style={{      
+        background: '#fccb90',  // Fallback for old browsers
+        background: '-webkit-linear-gradient(to right, #fccb90, #d57eeb)',  // For Safari
+        background: 'linear-gradient(to right, #fccb90, #d57eeb)', // For modern browsers
+        padding: '5px', // Optional padding for aesthetics
+        borderRadius: '3px' // Optional border radius
+      }}  options={{ responsive: true }}/>
                     </div>
-                  </div>
+                
                 </Link>
               </div>
 

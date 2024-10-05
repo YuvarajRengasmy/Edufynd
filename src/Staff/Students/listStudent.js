@@ -91,8 +91,7 @@ primaryNumber:""
     const data = {
       limit: pageSize, // Use dynamic page size here
       page: pagination.from,
-      studentId:getStudentId,
-      superAdminId:getStudentId,
+      staffId:getStaffId(),
     
     };
     getFilterStudentAdmin(data)
@@ -212,6 +211,7 @@ primaryNumber:""
 
   const handleSearch = (event) => {
     const data = search.current.value;
+   
     event?.preventDefault();
     getSuperAdminForSearch(data)
       .then((res) => {
@@ -858,16 +858,8 @@ primaryNumber:""
                        
                        <td className="text-capitalize text-start text-truncate" >{formatDate(data?.modifiedOn?data?.modifiedOn:data?.createdOn?data?.createdOn:null)  || "Not Available"}</td>
                        <td className="text-capitalize text-start ">
-           
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                
-              />
-            </span>
-          </td>
+                                      {data?.isActive || "Not Data"}
+                                    </td>
                        <td className="text-capitalize text-start text-truncate">
                          <div className="d-flex">
                          {studentPrivileges?.view && (
@@ -982,23 +974,15 @@ primaryNumber:""
                 </div>
               </div>
               <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Status</strong>
-                  </div>
-                  <div className="col-md-7 ">
-                
-            <span className="form-check form-switch d-inline ms-2" >
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                
-              />
-            </span>
-                  </div>
-                </div>
-              </div>
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Status</strong>
+                                          </div>
+                                          <div className="col-md-7 ">
+                                            {data?.isActive || "Not Data"}
+                                          </div>
+                                        </div>
+                                      </div>
             </div>
           </div>
           <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
