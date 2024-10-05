@@ -17,6 +17,8 @@ import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 import Downshift from "downshift";
+import { Chart, registerables } from 'chart.js';
+
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
@@ -481,7 +483,142 @@ const handleInputsearch = (event) => {
 
 
 
+
+  const chartRefer = useRef(null);
+  const chartInstance = useRef(null);
+
+  useEffect(() => {
+    const ctx = chartRefer.current.getContext('2d');
+
+    // Destroy previous chart if it exists
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    // Create the new chart
+    chartInstance.current = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+      
+        datasets: [{
+          data: [
+            details?.accommodation || 0,
+            details?.flight || 0,
+            details?.loan || 0,
+            details?.forex || 0,
+            details?.education || 0,
+            details?.finance || 0,
+
+          ], // Use default 0 if no data available
+          backgroundColor: [
+            '#fdc21d', // Green for "Active" (chat bubble color)
+            '#207cbb',
+            "#097969",
+            "#00d4ff",
+            "#ba1b1b",
+            "#94bbe9" // Blue for "Inactive" (chat bubble color)
+          ],
+          borderColor: [
+           '#fdc21d', // Green for "Active" (chat bubble color)
+            '#207cbb',
+            "#097969",
+            "#00d4ff",
+            "#ba1b1b",
+            "#94bbe9" // Blue for "Inactive" (chat bubble color)
+          ],
+          borderWidth: 5,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return tooltipItem.label + ': ' + tooltipItem.raw;
+              }
+            }
+          }
+            },
+          },
+        
+        
+        
+      
+    });
+
+    // Clean up on component unmount
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [details]);
   // filter
+
+
+ 
+  const chartRef = useRef(null);
+  const chartInstanc = useRef(null);
+useEffect(() => {
+  const ctx = chartRef.current.getContext('2d');
+
+  // Destroy previous chart if it exists
+  if (chartInstanc.current) {
+    chartInstanc.current.destroy();
+  }
+
+  // Create the new chart
+  chartInstanc.current = new Chart(ctx, {
+    type: 'pie', // Change type to 'pie'
+    data: {
+      datasets: [{
+        data: [
+          details?.activeClient || 0,
+          details?.inactiveClient || 0,
+         
+        ], // Use default 0 if no data available
+        backgroundColor: [
+          '#fdc21d', // Yellow
+          '#207cbb', // Blue
+         // Light Blue
+        ],
+        borderColor: [
+          '#fdc21d', 
+          '#207cbb',
+         
+        ],
+        borderWidth: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top', // Position the legend at the top
+        },
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              return tooltipItem.label + ': ' + tooltipItem.raw;
+            }
+          }
+        }
+      }
+    },
+  });
+
+  // Clean up on component unmount
+  return () => {
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+  };
+}, [details]);
+
   const [showFilter, setShowFilter] = useState({
     typeOfClient: false,
     name: false,
@@ -796,90 +933,119 @@ const handleInputsearch = (event) => {
 
 
         <div className="container-fluid mt-3">
-          <div className="row">
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#00796B" }} // Tropical Teal
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients: {details?.totalClient || 0}</h6>
-                    <div className="d-flex align-items-center justify-content-between"> 
-                      <p className="card-text mb-1">Accommodation: {details?.accommodation || 0}</p>
-                     <p className="card-text mb-1">Forex: {details?.forex || 0}</p> <br></br>
-                     </div>
-
-                     <div className="d-flex align-items-center justify-content-between"> 
-                      <p className="card-text mb-1">Financial: {details?.finance || 0}</p>
-                     <p className="card-text mb-1">Educational: {details?.education || 0}</p> 
-                     </div>
-
-                     <div className="d-flex align-items-center justify-content-between"> 
-                      <p className="card-text mb-1">Flight: {details?.flight || 0}</p>
-                   
-                     </div>
-              
-       
-                  </div>
-                </div>
-              </Link>
+  <div className="row">
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-dark shadow-sm"
+          style={{ backgroundColor: "#fff" }} // Tropical Teal
+        >
+          <div className="card-body">
+            <h6 className="">
+              <i className="fas fa-user-check"></i> No of Clients:{" "}
+              {details?.totalClient || 0}
+            </h6>
+            <div className="col-auto">
+              <div
+                className="chart-container"
+                style={{
+                  position: "relative",
+                  width: "12rem",
+                  height: "10rem",
+                }}
+              >
+                <canvas
+                  ref={chartRefer}
+                  style={{ width: "6rem", height: "7rem" }}
+                />
+              </div>
             </div>
 
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#C62828" }} // Crimson Red
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-times"></i>Clients Status</h6>
-                    <p className="card-text">
-                    <i className="fas fa-users"></i> Active: {details?.activeClient || 0}    
-                    </p>
-                    <p className="card-text">
-                      <i className="fas fa-user-slash"></i> Inactive: {details?.inactiveClient || 0}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#0288D1" }} // Steel Blue
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
-                    <p className="card-text">Total: Processing...</p>
-                    <p className="card-text">
-                      <i className="fas fa-file-invoice"></i> Processing...
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#1A237E" }} // Navy Blue
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
-                    <p className="card-text">Total: Processing...</p>
-                    <p className="card-text">
-                      <i className="fas fa-money-bill-wave"></i> Processing...
-                    </p>
-                  </div>
-                </div>
-              </Link>
+            {/* Display values in a single row */}
+            <div className="d-flex flex-wrap align-items-center justify-content-between mt-3">
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#fdc21d'}}>Acc: {details?.accommodation || 0}</p>
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#00d4ff'}}>For: {details?.forex || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#94bbe9'}}>Fin: {details?.finance || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#ba1b1b'}}>Edu: {details?.education || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#207cbb'}}>Flight: {details?.flight || 0}</p>
             </div>
           </div>
         </div>
+      </Link>
+    </div>
+   
+
+    {/* Other cards remain unchanged */}
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-dark shadow-sm"
+          style={{ backgroundColor: "#fff" }} // Crimson Red
+        >
+          <div className="card-body" >
+          <h6 className="">
+            <i className="fas fa-user-times"></i>Clients Status
+            </h6>
+            <div
+                className="chart-container"
+                style={{
+                  position: "relative",
+                  width: "12rem",
+                  height: "10rem",
+                }}
+              >
+            <canvas ref={chartRef} style={{ width: "6rem", height: "7rem" }} />
+</div>
+            <div className="d-flex flex-wrap align-items-center justify-content-between mt-3">
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#fdc21d'}}>Active: {details?.activeClient || 0}</p>
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#207cbb'}}>InActive:{details?.activeClient || 0}</p>
+             
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#0288D1" }} // Steel Blue
+        >
+          <div className="card-body">
+            <h6 className="">
+              <i className="fas fa-file-invoice"></i> Invoices Raised
+            </h6>
+            <p className="card-text">Total: Processing...</p>
+            <p className="card-text">
+              <i className="fas fa-file-invoice"></i> Processing...
+            </p>
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#1A237E" }} // Navy Blue
+        >
+          <div className="card-body">
+            <h6 className="">
+              <i className="fas fa-money-check-alt"></i> Invoices Paid
+            </h6>
+            <p className="card-text">Total: Processing...</p>
+            <p className="card-text">
+              <i className="fas fa-money-bill-wave"></i> Processing...
+            </p>
+          </div>
+        </div>
+      </Link>
+    </div>
+  </div>
+</div>
+
 
 
         <div className="container-fluid mt-3">

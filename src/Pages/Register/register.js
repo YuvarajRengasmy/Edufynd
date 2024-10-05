@@ -193,14 +193,14 @@ const Register = () => {
                       style={{ fontSize: '10px' }} >
                       <i className="fa fa-user-graduate  text-white"></i>&nbsp; Student
                     </button>
-                    {/* <button
+                    <button
                       className={`btn rounded-1 border-0 border-0  text-white  fw-semibold ${type === 'superAdmin' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button"
                       aria-selected="false"
                       role='tab' onClick={() => handleSinUpType('superAdmin')}
                       style={{ fontSize: '10px' }}>
                       <i className="fa fa-user-shield  text-white"></i> SAdmin
-                    </button> */}
+                    </button>
                     <button
                       className={`btn rounded-1 border-0 border-0 text-white  text-white  fw-semibold ${type === 'agent' ? 'active bg-primary bg-gradient text-dark signup-button' : ''}`}
                       type="button"

@@ -810,15 +810,14 @@ export default function Masterproductlist() {
                       <div className="card-header bg-warning text-white d-flex align-items-center">
                         <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
                       </div>
-                      <div className="card-body text-white">
-                        <Bar data={countryCounts}  style={{
-       
+                      <div className="card-body">
+                        <Bar data={countryCounts}  style={{      
         background: '#43c6ac',  // Fallback for old browsers
         background: '-webkit-linear-gradient(to right, #43c6ac, #f8ffae)',  // For Safari
         background: 'linear-gradient(to right, #43c6ac, #f8ffae)', // For modern browsers
         padding: '20px', // Optional padding for aesthetics
         borderRadius: '8px' // Optional border radius
-      }}   options={{ responsive: true }}/>
+      }}  options={{ responsive: true }}/>
                       </div>
                     
                     </div>
