@@ -169,16 +169,7 @@ export const HeroContent = () => {
         <div className="container-fluid  " >
           <div className="row">
             <div className="col-md-12 ml-sm-auto col-lg-12 px-md-4">
-            {/* <BackButton/> */}
-         
-           
-              <div className="d-flex justify-content-between align-items-center">
-  {/* Container for the header and profile button */}
-
-  
-  {/* Button to open the off-canvas profile menu */}
- 
- 
+              <div className="d-flex justify-content-between align-items-center"> 
 </div>
 
 

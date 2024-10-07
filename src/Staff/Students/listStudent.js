@@ -165,8 +165,8 @@ primaryNumber:""
          primaryNumber:inputs.primaryNumber,
          limit: 10,
         page: pagination.from,
-        studentId:getStudentId,
-        superAdminId:getStudentId,
+        studentId:getStudentId(),
+        
 
     };
     getFilterStudent(data)
