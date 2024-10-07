@@ -543,7 +543,7 @@ export const HeroContent = () => {
             
                 <div className="row">
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-primary">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaUserAlt /> Total Clients & Students</h6>
                         <p className="card-text">Clients: 1,200 | Students: 500</p>
@@ -551,7 +551,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-secondary">
+                    <div className="card text-white rounded-1 border-0 shadow-sm "style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaUniversity /> Total Universities & Agents</h6>
                         <p className="card-text">Universities: 150 | Agents: 75</p>
@@ -559,7 +559,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-success">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaChartLine /> Total Commissions & Sales</h6>
                         <p className="card-text">Commissions: $50,000 | Sales: $75,000</p>
@@ -567,7 +567,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-warning">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaDollarSign /> Finance & Expenses</h6>
                         <p className="card-text">Income: $100,000 | Expenses: $20,000</p>
@@ -576,7 +576,7 @@ export const HeroContent = () => {
                   </div>
               
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-info">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaFileInvoiceDollar /> Applications & Invoices</h6>
                         <p className="card-text">Applications: 120 | Invoices: $12,000</p>
@@ -584,7 +584,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-dark">
+                    <div className="card text-white rounded-1 border-0 shadow-sm "style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaUserCog /> HRMS & Payroll</h6>
                         <p className="card-text">Staff: 150 | Payroll: $30,000</p>
