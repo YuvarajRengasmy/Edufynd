@@ -12,6 +12,11 @@ export const getFilterCommission = (data) => {
   return API.put(`${CommissionPage}/getFilterCommission`, data);
 };
 
+
+export const getAllCommissionCard = () => {
+  return API.get(`${CommissionPage}/card`)
+}
+
 export const getSingleCommission = (data) => {
     return API.get(`${CommissionPage}/getSingleCommission`, { params: { _id: data } });
   };

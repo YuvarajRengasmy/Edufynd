@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallCommission, deactivateClient,activeClient, deleteCommission,getFilterCommission } from "../../api/commission";
+import { getallCommission, deactivateClient,activeClient, deleteCommission,getFilterCommission, getAllCommissionCard} from "../../api/commission";
 import {
   Dialog,
   DialogContent,
@@ -61,6 +61,7 @@ export default function Masterproductlist() {
   const [deleteId, setDeleteId] = useState();
   const [pageSize, setPageSize] = useState(10); 
   const [detail, setDetail] = useState();
+  const [card, setCard] = useState()
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -93,8 +94,9 @@ export default function Masterproductlist() {
 
   }, []);
 
+
   const getallCommissionCount = () => {
-    // getAllApplicantCard().then((res) => setDetail(res?.data.result))
+     getAllCommissionCard().then((res) => setCard(res?.data.result))
   }
 
   const getCommissionList = () => {
@@ -640,10 +642,10 @@ export default function Masterproductlist() {
               <div className="col-md-3">
                 <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
                   <div className="card-body text-start">
-                    <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Payment Method: {detail?.totalProgram || 0}</h6>
+                    <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Status: {card?.totalData || 0}</h6>
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="card-text mb-1">Active: {detail?.activeProgram || 0}</p>
-                      <p className="card-text mb-1">InActive: {detail?.inactiveProgram || 0}</p> <br></br>
+                      <p className="card-text mb-1">Active: {card?.activeData || 0}</p>
+                      <p className="card-text mb-1">InActive: {card?.inactiveData || 0}</p> <br></br>
 
                     </div>
                   </div>
@@ -657,24 +659,20 @@ export default function Masterproductlist() {
                   <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
 
                     <div className="card-body text-start">
-                      <h6>
-                        <i className="fas fa-star"></i> &nbsp;&nbsp;CommissionPaid On: {detail?.totalUniqueCountries || 0}
-                      </h6>
-                      <p className="text-center">CountryWise Program Count</p>
-
-                      {/* Loop through countrywise array */}
-                      {detail?.countrywise?.length > 0 ? (
-                        detail.countrywise.map((countryDetail, index) => (
-                          <div key={index}>
-                            <p className="card-text">
-                              {countryDetail.country || "N/A"} : {countryDetail.programCount || 0}
-                            </p>
-
-                          </div>
-                        ))
-                      ) : (
-                        <p>No country details available</p>
-                      )}
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Payment Method</h6>
+                          {card?.paymentMethodCounts ? (
+                            Object.entries(card.paymentMethodCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
 
 
@@ -684,23 +682,47 @@ export default function Masterproductlist() {
 
               {/* Popular Categories Card2 */}
               <div className="col-md-3">
-                <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: "#0288D1" }}>
-                  <div className="card-body text-center">
-
-                    <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;Payment Type: {detail?.universityName || 0}</h6>
-                    {/* <p className="card-text">Count:{details?.universityName || 0}</p> */}
-                  </div>
+                <Link to='#' className="text-decoration-none">     
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: "#0288D1" }}>
+                <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Payment Type</h6>
+                          {card?.paymentTypeCounts ? (
+                            Object.entries(card.paymentTypeCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                 </div>
                 </Link>
               </div>
               {/* Number of Applications Card */}
               <div className="col-md-3">
-                <Link to='#' className="text-decoration-none">    <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
-                  <div className="card-body text-center">
-
-                    <h6>   <i className="fas fa-chart-bar "></i>&nbsp;&nbsp;Tax: {detail?.totalApplication}</h6>
-                    {/* <p className="card-text">{detail?.totalApplication}</p> */}
-                  </div>
+                <Link to='#' className="text-decoration-none">   
+                 <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
+                <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Tax</h6>
+                          {card?.taxCounts ? (
+                            Object.entries(card.taxCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                 </div>
                 </Link>
               </div>

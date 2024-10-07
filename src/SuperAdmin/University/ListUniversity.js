@@ -819,30 +819,11 @@ export default function Masterproductlist() {
               </div>
 
 
-<<<<<<< HEAD
-<div className="col-md-4 ">
-                    <div className="card rounded-1 border-0 shadow-sm">
-                      <div className="card-header bg-warning text-white d-flex align-items-center">
-                        <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
-                      </div>
-                     
-                        <Bar data={countryCounts}  style={{      
-        background: '#43c6ac',  // Fallback for old browsers
-        background: '-webkit-linear-gradient(to right, #43c6ac, #f8ffae)',  // For Safari
-        background: 'linear-gradient(to right, #43c6ac, #f8ffae)', // For modern browsers
-        padding: '20px', // Optional padding for aesthetics
-        borderRadius: '3px' // Optional border radius
-      }}  options={{ responsive: true }}/>
-                      
-                    
-                    </div>
-=======
 
               <div className="col-md-5 ">
                 <div className="card rounded-1 border-0 shadow-sm">
                   <div className="card-header bg-warning text-white d-flex align-items-center">
                     <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
->>>>>>> origin/balan
                   </div>
                   <div className="card-body">
                     <Bar data={countryCounts} style={{
@@ -920,8 +901,10 @@ export default function Masterproductlist() {
 
 
                     </div>
-                
+                </div>
+                </div>
                 </Link>
+                
               </div>
 
               <div className="col-md-3 mb-3">
