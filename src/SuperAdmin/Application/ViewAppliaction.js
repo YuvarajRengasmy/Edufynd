@@ -13,7 +13,7 @@ import { duration } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
 import BackButton from "../../compoents/backButton";
 import {savePaymentGetWay } from "../../api/invoice/payment";
-import { Program } from "../../api/endpoints";
+import Select from "react-select";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -25,8 +25,8 @@ export const ViewApplication = () => {
     commentBox: "",
     document: "",
     duration: "",
-    progress:"",
-   
+    progress: "",
+    subCategory: [],
   };
 
   const initialStateErrors = {
@@ -35,12 +35,13 @@ export const ViewApplication = () => {
     document: { required: false },
     duration: { required: false },
     progress: { required: false },
+    subCategory: { required: false },
   };
 
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
- 
+  const [subCategories, setSubCategories] = useState([]);
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -80,6 +81,8 @@ export const ViewApplication = () => {
             newStatus: res.data.result || "",
             commentBox: res.data.result || "",
             document: res.data.result || "",
+            subCategory: res.data.result || "",
+            subCategory: res.data.result.subCategory || [],
           });
         }
       })
@@ -181,6 +184,7 @@ export const ViewApplication = () => {
     setTrack({
       newStatus: item.statusName,
       duration: item.duration,
+      subCategory: item.subCategory || [],
       commentBox: "",
       document: "", // Initialize commentBox as empty or with a value if needed
     });
@@ -188,6 +192,7 @@ export const ViewApplication = () => {
     setEditId(item._id);
     setSubmitted(false);
     setTrackErrors(initialStateErrors);
+    setSubCategories(item.subCategory || []); // Fetch subcategories when editing
   };
 
   const handleErrors = (obj) => {
@@ -201,7 +206,13 @@ export const ViewApplication = () => {
     }
     return true;
   };
-
+  const handleSelectChange = (selectedOptions, action) => {
+    const { name } = action;
+    const values = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    setTrack((prevUniversity) => ({ ...prevUniversity, [name]: values }));
+  };
   const handleTrackSubmit = (event) => {
     event.preventDefault();
     const newErrorEducation = handleValidation(track);
@@ -265,6 +276,14 @@ const getProgressColor = (progress) => {
     console.log(result.error)
   }
 }
+
+   
+const CategoriesOptions = track?.subCategory
+? track.subCategory.map((subCategory) => ({
+    value: subCategory,
+    label: subCategory,
+  }))
+: [];
 
   return (
     <>
@@ -397,256 +416,252 @@ const getProgressColor = (progress) => {
               
       
                
-                <div className="container-fluid">
+              <div className="container-fluid">
   <div className="row">
     <div className="col">
-    <div className="card border-0 rounded-1 shadow-sm p-3">
-                  <div className="card-body">
-                    <div className="d-flex   justify-content-between align-items-center">
-                      {status.map((item, index) => (
-                        <div
-                          className="position-relative m-2"
-                          key={index}
-                          style={{ flex: "1 1 auto", maxWidth: "18%" }}
-                        >
-                          <div className="position-relative">
-                            <div
-                              className="progress"
-                              role="progressbar"
-                              aria-label="Progress"
-                              aria-valuenow={item.progress}
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                              style={{ height: "9px" }}
-                            >
-                              <div
-                                className="progress-bar progress-bar-striped progress-bar-animated"
-                                style={{
-                                  width: `${item.progress}%`,
-                                  backgroundColor: getProgressColor(item.progress),
-                                }}
-                              ></div>
-                            </div>
-                          
-                            <div
-                              className="progress-bar progress-bar-striped progress-bar-animated"
-                              style={{
-                                width: `${item.progress}%`,
-                                backgroundColor: getProgressColor(item.progress),
-                              }}
-                            ></div>
-                          </div>
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={<Tooltip>{item.duration} Days</Tooltip>}
-                          >
-                            <button
-                              type="button"
-                              className="position-absolute text-bold  top-0  start-0 translate-middle-y btn btn-sm btn-primary rounded-pill"
-                              data-bs-toggle="modal"
-                              data-bs-target={`#modal-${index}`}
-                              style={{
-                                width: "2rem",
-                                height: "2rem",
-                                left: "0",
-                               
-                                color: "#FFF",
-                              }}
-                              onClick={() => handleEditModule(item)}
-                            >
-{item.duration} 
-                             
-                            </button>
-                          </OverlayTrigger>
-                          <div className="d-flex justify-content-start align-items-center mt-3"> {item.statusName}</div>
-                         
-
-                          <div
-                            className="modal fade"
-                            id={`modal-${index}`}
-                            tabIndex="-1"
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h1
-                                    className="modal-title fs-5"
-                                    id="staticBackdropLabel"
-                                  >
-                                    Application Status
-                                  </h1>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                    ref={modalRef}
-                                  ></button>
-                                </div>
-                                <div className="modal-body">
-                                  <form onSubmit={handleTrackSubmit}>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="text"
-                                        name="newStatus"
-                                        value={track.newStatus}
-                                        onChange={handleTrack}
-                                        className="form-control"
-                                        placeholder="Enter Status...."
-                                        aria-label="Status"
-                                        aria-describedby="basic-addon1"
-                                        style={{ fontSize: "12px" }}
-                                      />
-                                      {submitted &&
-                                        trackErrors.newStatus.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="text"
-                                        name="duration"
-                                        value={track.duration}
-                                        onChange={handleTrack}
-                                        className="form-control"
-                                        placeholder="Enter Status...."
-                                        aria-label="Status"
-                                        aria-describedby="basic-addon1"
-                                        style={{ fontSize: "12px" }}
-                                      />
-                                      {submitted &&
-                                        trackErrors.duration.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3">
-                                    
-                                      <RichTextEditor
-                                        placeholder="Start writing your content here..."
-                                        name="commentBox"
-                                        onChange={handleRichTextChange}
-                                        value={track.commentBox}
-                                        type="text"
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        
-                                          zIndex: "0",
-                                        }}
-                                      />
-                                      {submitted &&
-                                        trackErrors.commentBox.required && (
-                                          <p className="text-danger">
-                                            Comment is required
-                                          </p>
-                                        )}
-                                    </div>
-
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-file nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="number"
-                                        className="form-control "
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                        value={"80"}
-                                        placeholder="Enter  Image upload"
-                                        name="progress"
-                                        onChange={handleTrack}
-                                      />
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-file nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="file"
-                                        className="form-control "
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                        placeholder="Enter  Image upload"
-                                        name="document"
-                                        onChange={handleTrack}
-                                      />
-                                    </div>
-                                    <div className="modal-footer">
-                                      <button
-                                        type="button"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        data-bs-bs-dismiss="modal"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#231f20",
-                                          color: "#fff",
-                                        }}
-                                      >
-                                        Close
-                                      </button>
-                                      <button
-                                        type="submit"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#fe5722",
-                                          color: "#fff",
-                                        }}
-                                        data-bs-dismiss="modal"
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          
-                        </div>
-                       
-                      ))}
+      <div className="card border-0 rounded-1 shadow-sm p-3">
+        <div className="card-body">
+          <div className="d-flex justify-content-between align-items-center">
+            {status
+              .sort((a, b) =>  a.position - b.position ) // Sort by position in descending order
+              .map((item, index) => (
+                <div
+                  className="position-relative m-2"
+                  key={index}
+                  style={{ flex: "1 1 auto", maxWidth: "10%" }}
+                >
+                  <div className="position-relative">
+                    <div
+                      className="progress"
+                      role="progressbar"
+                      aria-label="Progress"
+                      aria-valuenow={item.progress}
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      style={{ height: "9px" }}
+                    >
+                      <div
+                        className="progress-bar progress-bar-striped progress-bar-animated"
+                        style={{
+                          width: `${item.progress}%`,
+                          backgroundColor: getProgressColor(item.progress),
+                        }}
+                      ></div>
                     </div>
 
+                    <OverlayTrigger
+                      placement="bottom"
+                      overlay={<Tooltip>{item.position} </Tooltip>}
+                    >
+                      <button
+                        type="button"
+                        className="position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#modal-${index}`}
+                        style={{
+                          width: "2rem",
+                          height: "2rem",
+                          left: "0",
+                          color: "#FFF",
+                        }}
+                        onClick={() => handleEditModule(item)}
+                      >
+                        {item.position}
+                      </button>
+                    </OverlayTrigger>
 
+                    {/* Status Name */}
+                    <div className="d-flex justify-content-start align-items-center mt-3">
+                      {item.statusName}
+                    </div>
+                    <div className="d-flex justify-content-start align-items-center mt-3 d-none">
+                      {item.subCategory}
+                    </div>
+                   
+                   
 
+                    {/* Modal for Editing */}
+                    <div
+                      className="modal fade"
+                      id={`modal-${index}`}
+                      tabIndex="-1"
+                      aria-labelledby="exampleModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                              Application Status
+                            </h1>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                              ref={modalRef}
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            {/* Form for Editing */}
+                            <form onSubmit={handleTrackSubmit}>
+                              {/* Status Input */}
+                              <div className="input-group mb-3">
+                                <span className="input-group-text" id="basic-addon1">
+                                  <i className="fa fa-tasks nav-icon text-dark"></i>
+                                </span>
+                                <input
+                                  type="text"
+                                  name="newStatus"
+                                  value={track.newStatus}
+                                  onChange={handleTrack}
+                                  className="form-control"
+                                  placeholder="Enter Status...."
+                                  aria-label="Status"
+                                  aria-describedby="basic-addon1"
+                                  style={{ fontSize: "12px" }}
+                                />
+                                {submitted && trackErrors.newStatus.required && (
+                                  <p className="text-danger">Status is required</p>
+                                )}
+                              </div>
 
+                              {/* Sub Category Input */}
+                              <div className="input-group col-6 mb-3">
+                            <span
+                              className="input-group-text"
+                              id="basic-addon1"
+                            >
+                              <i className="fa fa-tasks nav-icon text-dark"></i>
+                            </span>
+                            <Select
+                              isMulti
+                              options={CategoriesOptions} 
+                              name="subCategory"
+                              onChange={handleSelectChange}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex: "2",
+                                }),
+                              }}
+                              placeholder="Select Sub Category"
+                            />
+                          </div>
 
+                              {/* Duration Input */}
+                              <div className="input-group mb-3">
+                                <span className="input-group-text" id="basic-addon1">
+                                  <i className="fa fa-tasks nav-icon text-dark"></i>
+                                </span>
+                                <input
+                                  type="text"
+                                  name="duration"
+                                  value={track.duration}
+                                  onChange={handleTrack}
+                                  className="form-control"
+                                  placeholder="Enter Duration...."
+                                  aria-label="Status"
+                                  aria-describedby="basic-addon1"
+                                  style={{ fontSize: "12px" }}
+                                />
+                                {submitted && trackErrors.duration.required && (
+                                  <p className="text-danger">Duration is required</p>
+                                )}
+                              </div>
 
+                              {/* Rich Text Editor */}
+                              <div className="input-group mb-3">
+                                <RichTextEditor
+                                  placeholder="Start writing your content here..."
+                                  name="commentBox"
+                                  onChange={handleRichTextChange}
+                                  value={track.commentBox}
+                                  type="text"
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                    zIndex: "0",
+                                  }}
+                                />
+                                {submitted && trackErrors.commentBox.required && (
+                                  <p className="text-danger">Comment is required</p>
+                                )}
+                              </div>
 
+                              {/* Progress and File Upload Inputs */}
+                              <div className="input-group mb-3">
+                                <span className="input-group-text" id="basic-addon1">
+                                  <i className="fa fa-file nav-icon text-dark"></i>
+                                </span>
+                                <input
+                                  type="number"
+                                  className="form-control"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                  value={"80"}
+                                  placeholder="Enter Progress"
+                                  name="progress"
+                                  onChange={handleTrack}
+                                />
+                              </div>
+                              <div className="input-group mb-3">
+                                <span className="input-group-text" id="basic-addon1">
+                                  <i className="fa fa-file nav-icon text-dark"></i>
+                                </span>
+                                <input
+                                  type="file"
+                                  className="form-control"
+                                  style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                  placeholder="Enter File Upload"
+                                  name="document"
+                                  onChange={handleTrack}
+                                />
+                              </div>
+
+                              {/* Modal Footer */}
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn px-4 py-2 text-uppercase fw-semibold"
+                                  data-bs-dismiss="modal"
+                                  style={{
+                                    fontSize: "12px",
+                                    backgroundColor: "#231f20",
+                                    color: "#fff",
+                                  }}
+                                >
+                                  Close
+                                </button>
+                                <button
+                                  type="submit"
+                                  className="btn px-4 py-2 text-uppercase fw-semibold"
+                                  style={{
+                                    fontSize: "12px",
+                                    backgroundColor: "#fe5722",
+                                    color: "#fff",
+                                  }}
+                                  data-bs-dismiss="modal"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
+              ))}
+          </div>
+        </div>
       </div>
-      </div>
-      </div>              
+    </div>
+  </div>
+</div>
+            
     
 
 <div className="container-fluid">
@@ -1055,97 +1070,9 @@ const getProgressColor = (progress) => {
                
               </div>
             </div>
-            <div className="container-fluid my-2">
-  <div className="row ">
-    <div className="col-12 col-lg-7 col-auto">
-      <ul className="list-unstyled">
-        
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
-
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
-              </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
           
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
-            </div>
           </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
-      </ul>
-    </div>
-  </div>
-</div>
-          </div>
-          <div className="container-fluid my-2">
-  <div className="row ">
-    <div className="col-12 col-lg-7 col-auto">
-      <ul className="list-unstyled">
         
-        <li className="mb-4 position-relative">
-          <div className="row align-items-start g-0">
-
-          <div className="col-1 d-flex justify-content-center align-items-center">
-              <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style={{width: '2rem', height: '2rem'}}>
-                <i className="fas fa-check" />
-              </div>
-            </div>
-            <div className="col-4 text-center">
-              <p className="mb-1 fw-semibold text-muted">23 August, 2023 10:30 AM</p>
-              <p className="mb-0 text-muted">Changed by:<strong>John Doe</strong></p>
-            </div>
-           
-          
-           
-            <div className="col-7">
-            <div className="mb-3">
-              
-              <div className="bg-success text-white rounded-3 p-2">
-                <h6 className="mb-1">New University Name</h6>
-                <p className="mb-0">University Y</p>
-              </div>
-            </div>
-              <div className="mb-3">
-             
-                <div className="bg-danger text-white rounded-3 p-2">
-                  <h6 className="mb-1">Old University Name</h6>
-                  <p className="mb-0">University X</p>
-                </div>
-              </div>
-           
-            </div>
-          </div>
-          <div className="position-absolute top-0 start-0 translate-middle-x" style={{width: 2, height: '100%', backgroundColor: '#007bff'}} />
-        </li>
-       
-      </ul>
-    </div>
-  </div>
-</div>
       </div>
     </>
   );
