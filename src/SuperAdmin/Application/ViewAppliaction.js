@@ -8,8 +8,8 @@ import {getFilterApplicationStatus} from "../../api/universityModule/Application
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
-import { RichTextEditor } from "@mantine/rte";
-import { duration } from "@mui/material";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";import { duration } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
 import BackButton from "../../compoents/backButton";
 import {savePaymentGetWay } from "../../api/invoice/payment";
@@ -37,6 +37,7 @@ export const ViewApplication = () => {
     progress: { required: false },
     subCategory: { required: false },
   };
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
@@ -206,28 +207,26 @@ export const ViewApplication = () => {
     }
     return true;
   };
-  const handleSelectChange = (selectedOptions, action) => {
-    const { name } = action;
-    const values = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    setTrack((prevUniversity) => ({ ...prevUniversity, [name]: values }));
+  const handleSelectChange = (selected) => {
+    setSelectedOptions(selected); // Update the selected options in the state
   };
   const handleTrackSubmit = (event) => {
     event.preventDefault();
     const newErrorEducation = handleValidation(track);
     setTrackErrors(newErrorEducation);
     setSubmitted(true);
-    
-    // Check for validation errors
+    const selectedValues = selectedOptions.map((option) => option.value);
+  
     if (handleErrors(newErrorEducation)) {
         if (id) {
             const data = {
                 _id: id,
                 status: {
                     ...track,
-                    progress: 100, // Set progress to 100% upon submission
+                    progress: 100,
+                    subCategory: selectedValues, // Set progress to 100% upon submission
                 },
+                
             };
 
             updateApplication(data)
@@ -510,10 +509,8 @@ const CategoriesOptions = track?.subCategory
                             {/* Form for Editing */}
                             <form onSubmit={handleTrackSubmit}>
                               {/* Status Input */}
-                              <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">
-                                  <i className="fa fa-tasks nav-icon text-dark"></i>
-                                </span>
+                              <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                               
                                 <input
                                   type="text"
                                   name="newStatus"
@@ -531,13 +528,8 @@ const CategoriesOptions = track?.subCategory
                               </div>
 
                               {/* Sub Category Input */}
-                              <div className="input-group col-6 mb-3">
-                            <span
-                              className="input-group-text"
-                              id="basic-addon1"
-                            >
-                              <i className="fa fa-tasks nav-icon text-dark"></i>
-                            </span>
+                              <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                           
                             <Select
                               isMulti
                               options={CategoriesOptions} 
@@ -556,10 +548,8 @@ const CategoriesOptions = track?.subCategory
                           </div>
 
                               {/* Duration Input */}
-                              <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">
-                                  <i className="fa fa-tasks nav-icon text-dark"></i>
-                                </span>
+                              <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                               
                                 <input
                                   type="text"
                                   name="duration"
@@ -577,29 +567,67 @@ const CategoriesOptions = track?.subCategory
                               </div>
 
                               {/* Rich Text Editor */}
-                              <div className="input-group mb-3">
-                                <RichTextEditor
-                                  placeholder="Start writing your content here..."
-                                  name="commentBox"
-                                  onChange={handleRichTextChange}
-                                  value={track.commentBox}
-                                  type="text"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                    zIndex: "0",
-                                  }}
-                                />
+                              <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                               
+
+<CKEditor
+                                editor={ClassicEditor}
+                                value={track.commentBox}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
+                                name="commentBox"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex: "0",
+                                }}
+                              />
                                 {submitted && trackErrors.commentBox.required && (
                                   <p className="text-danger">Comment is required</p>
                                 )}
                               </div>
 
                               {/* Progress and File Upload Inputs */}
-                              <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">
-                                  <i className="fa fa-file nav-icon text-dark"></i>
-                                </span>
+                              <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                                
                                 <input
                                   type="number"
                                   className="form-control"
@@ -610,10 +638,8 @@ const CategoriesOptions = track?.subCategory
                                   onChange={handleTrack}
                                 />
                               </div>
-                              <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">
-                                  <i className="fa fa-file nav-icon text-dark"></i>
-                                </span>
+                              <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                                
                                 <input
                                   type="file"
                                   className="form-control"
@@ -760,19 +786,57 @@ const CategoriesOptions = track?.subCategory
                                     </div>
                                     <div className="input-group mb-3">
                                      
-                                      <RichTextEditor
-                                        placeholder="Start writing your content here..."
-                                        name="commentBox"
-                                        onChange={handleRichTextChange}
-                                        value={track.commentBox}
-                                        type="text"
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                         
-                                          zIndex: "0",
-                                        }}
-                                      />
+                                   
+<CKEditor
+                                editor={ClassicEditor}
+                                value={track.commentBox}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
+                                name="commentBox"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex: "0",
+                                }}
+                              />
                                       {submitted &&
                                         trackErrors.commentBox.required && (
                                           <p className="text-danger">
@@ -971,25 +1035,57 @@ const CategoriesOptions = track?.subCategory
               </div>
               <div className="form-group mb-3">
                 <label for="subject">Subject</label>
-                <RichTextEditor
-                  placeholder="Start writing your content here..."
-                  name="content"
-                  style={{
-                    fontFamily: "Plus Jakarta Sans",
-                    fontSize: "12px"
-                  }}
-                  controls={[
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-                    ['unorderedList', 'orderedList'],
-                    ['indent', 'outdent'],
-                    ['link', 'image', 'video'],
-                    ['blockquote', 'codeBlock'],
-                    ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'],
-                    ['subscript', 'superscript'],
-                    ['color', 'backgroundColor']
-                  ]}
-                />
+               
+<CKEditor
+                                editor={ClassicEditor}
+                                value={track.commentBox}
+                                config={{
+                                  placeholder:
+                                    "Start writing your content here...",
+                                  toolbar: [
+                                    "heading",
+                                    "|",
+                                    "bold",
+                                    "italic",
+                                    "link",
+                                    "bulletedList",
+                                    "numberedList",
+                                    "blockQuote",
+                                    "|",
+                                    "insertTable",
+                                    "mediaEmbed",
+                                    "imageUpload",
+                                    "|",
+                                    "undo",
+                                    "redo",
+                                  ],
+                                  image: {
+                                    toolbar: [
+                                      "imageTextAlternative",
+                                      "imageStyle:full",
+                                      "imageStyle:side",
+                                    ],
+                                  },
+                                  table: {
+                                    contentToolbar: [
+                                      "tableColumn",
+                                      "tableRow",
+                                      "mergeTableCells",
+                                    ],
+                                  },
+                                }}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  console.log({ data });
+                                  handleRichTextChange(data);
+                                }}
+                                name="commentBox"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex: "0",
+                                }}
+                              />
               </div>
               <button type="submit" className="btn btn-primary float-end border-0 rounded-1 ">Send</button>
             </form>
@@ -1028,10 +1124,15 @@ const CategoriesOptions = track?.subCategory
                        
                       </div>
                       <div className="card-body">
-                      <RichTextEditor
-                                                value={item?.commentBox}
-                                                readOnly
-                                              /> <br/><br/>
+                     
+                                              <CKEditor
+        editor={ClassicEditor}
+        data={item?.commentBox} 
+        disabled={true}                    
+        config={{
+          toolbar: [],                   
+        }}
+      /><br/><br/>
                           Sincerely,<br/>
                           {item?.createdBy}<br />
                         Edufynd
