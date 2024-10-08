@@ -674,8 +674,6 @@ export default function Masterproductlist() {
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 </Link>
               </div>
