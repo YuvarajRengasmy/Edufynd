@@ -703,6 +703,7 @@ export default function Masterproductlist() {
                 </div>
                 </Link>
               </div>
+
               {/* Number of Applications Card */}
               <div className="col-md-3">
                 <Link to='#' className="text-decoration-none">   
@@ -713,6 +714,30 @@ export default function Masterproductlist() {
                           <h6><i className=""></i>&nbsp;&nbsp;Tax</h6>
                           {card?.taxCounts ? (
                             Object.entries(card.taxCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </Link>
+              </div>
+
+
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">   
+                 <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
+                <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Commission Paid On</h6>
+                          {card?.commissionCounts ? (
+                            Object.entries(card.commissionCounts).map(([source, count]) => (
                               <p className="card-text" key={source}>
                                 {source}: {count}
                               </p>
