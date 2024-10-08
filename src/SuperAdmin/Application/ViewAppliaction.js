@@ -418,9 +418,12 @@ const CategoriesOptions = track?.subCategory
                
               <div className="container-fluid">
   <div className="row">
+
     <div className="col">
       <div className="card border-0 rounded-1 shadow-sm p-3">
         <div className="card-body">
+        <p>{new Date(tracks?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</p>
+
           <div className="d-flex justify-content-between align-items-center">
             {status
               .sort((a, b) =>  a.position - b.position ) // Sort by position in descending order
@@ -440,6 +443,7 @@ const CategoriesOptions = track?.subCategory
                       aria-valuemax="100"
                       style={{ height: "9px" }}
                     >
+                    
                       <div
                         className="progress-bar progress-bar-striped progress-bar-animated"
                         style={{
