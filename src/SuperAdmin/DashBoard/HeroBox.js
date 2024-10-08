@@ -1,6 +1,8 @@
 import React, { useEffect, useState,useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar, Line } from "react-chartjs-2";
+import {getSuperAdminId } from "../../Utils/storage";
+import {getSingleSuperAdmin} from "../../api/superAdmin";
 import Sidebar from "../../compoents/sidebar";
 import 'chart.js/auto';
 // import BackButton from "../../compoents/backButton";
@@ -10,6 +12,24 @@ import {
 } from "react-icons/fa";
 
 export const HeroContent = () => {
+
+
+  
+  const [student, setStudent] = useState([]);
+  useEffect(() => {
+   
+    getStudentDetails();
+  }, []);
+  const getStudentDetails = () => {
+    const id = getSuperAdminId();
+    getSingleSuperAdmin(id)
+      .then((res) => {
+        setStudent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   // Chart data
   const salesData = useMemo(() => ({
     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -152,12 +172,6 @@ export const HeroContent = () => {
          
            
               <div className="d-flex justify-content-between align-items-center">
-  {/* Container for the header and profile button */}
-
-  
-  {/* Button to open the off-canvas profile menu */}
- 
- 
 </div>
 
 
@@ -167,13 +181,10 @@ export const HeroContent = () => {
   id="offcanvasProfile" // ID to target with Bootstrap data attributes
   aria-labelledby="offcanvasProfileLabel" // Accessibility attribute for linking to the label
 >
-  {/* Off-canvas header */}
   <div className="offcanvas-header" style={{ backgroundColor: '#0056b3', color: '#fff', fontSize: '14px' }}>
-    {/* Title with user icon */}
     <h5 className="offcanvas-title" id="offcanvasProfileLabel">
-      <FaUser /> John Doe's Profile
+      <FaUser /> {student?.name}
     </h5>
-    {/* Close button for the off-canvas menu */}
     <button
       type="button"
       className="btn-close"
@@ -188,346 +199,21 @@ export const HeroContent = () => {
   <div className="text-center">
     {/* User avatar */}
     <img
-      src="https://via.placeholder.com/100"
+      src={student?.photo?student?.photo:"https://via.placeholder.com/100"}
+      width={"100rem"}
+      height={"100rem"}
       alt="User Avatar"
       className="rounded-circle mb-3"
     />
     {/* User name and position */}
-    <h5 className="text-primary">John Doe</h5>
-    <p className="text-muted fs-6">Senior CRM Manager</p>
+    <h5 className="text-primary">{student?.name}</h5>
+    <p className="text-muted fs-6">{student?.role}</p>
     <p className="text-primary fs-6">
-      <FaEnvelope /> john.doe@example.com
+      <FaEnvelope /> {student?.email}
     </p>
     <p className="text-primary fs-6">
-      <FaPhone /> +123 456 7890
+      <FaPhone />{student?.mobileNumber}
     </p>
-    {/* Action buttons */}
-    <div className="d-flex justify-content-around mt-3">
-      <button className="btn btn-sm btn-primary">
-        <FaEdit /> Edit
-      </button>
-      <button className="btn btn-sm btn-secondary">
-        <FaCog /> Settings
-      </button>
-      <button className="btn btn-sm btn-danger">
-        <FaSignOutAlt /> Logout
-      </button>
-    </div>
-  </div>
-
-  {/* Navigation Tabs */}
-  <ul className="nav nav-pills nav-justified fs-6 mt-3">
-    <li className="nav-item">
-      <a className="nav-link active" href="#dashboard" data-bs-toggle="tab">
-        <FaChartPie /> Dashboard
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#clients" data-bs-toggle="tab">
-        <FaUsers /> Clients
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#commissions" data-bs-toggle="tab">
-        <FaFileInvoiceDollar /> Commissions
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#projects" data-bs-toggle="tab">
-        <FaProjectDiagram /> Projects
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#hrms" data-bs-toggle="tab">
-        <FaSuitcase /> HRMS
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#finance" data-bs-toggle="tab">
-        <FaDollarSign /> Finance
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#marketing" data-bs-toggle="tab">
-        <FaGlobe /> Marketing
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#reports" data-bs-toggle="tab">
-        <FaRegChartBar /> Reports
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#settings" data-bs-toggle="tab">
-        <FaCogs /> Settings
-      </a>
-    </li>
-  </ul>
-
-  {/* Tab content */}
-  <div className="tab-content mt-3">
-    {/* Dashboard Tab */}
-    <div className="tab-pane fade show active" id="dashboard">
-      <h6 className="text-primary">Dashboard Overview</h6>
-      <div className="row g-3">
-        {/* Performance Card */}
-        <div className="col-6">
-          <div className="card text-center border-primary">
-            <div className="card-body">
-              <FaChartLine size={30} className="text-primary mb-2" />
-              <h6>Performance</h6>
-              <p className="text-muted">80% Achieved</p>
-              <div className="progress">
-                <div className="progress-bar bg-success" role="progressbar" style={{ width: '80%' }}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Feedback Card */}
-        <div className="col-6">
-          <div className="card text-center border-success">
-            <div className="card-body">
-              <FaComments size={30} className="text-success mb-2" />
-              <h6>Feedback</h6>
-              <p className="text-muted">23 New Comments</p>
-              <span className="badge bg-primary"><FaCheckCircle /> Resolved</span>
-            </div>
-          </div>
-        </div>
-        {/* Notifications Card */}
-        <div className="col-12">
-          <div className="card">
-            <div className="card-body">
-              <FaBell size={30} className="text-danger mb-2" />
-              <h6 className="text-primary">Notifications</h6>
-              <p className="text-muted">5 New Alerts</p>
-              <ul className="list-group">
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                  Meeting with Client X
-                  <span className="badge bg-warning rounded-pill">1 hr</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                  Payment Due: Invoice #1234
-                  <span className="badge bg-danger rounded-pill">2 days</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                  Project Deadline: Y
-                  <span className="badge bg-primary rounded-pill">5 days</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Client Tab */}
-    <div className="tab-pane fade" id="clients">
-      <h6 className="text-primary">Clients Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaUsers /> Active Clients
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Client A
-              <span className="badge bg-success rounded-pill">Active</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Client B
-              <span className="badge bg-warning rounded-pill">Pending</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Client C
-              <span className="badge bg-danger rounded-pill">Inactive</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    {/* Commissions Tab */}
-    <div className="tab-pane fade" id="commissions">
-      <h6 className="text-primary">Commissions Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaFileInvoiceDollar /> Commission Statements
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Statement A
-              <span className="badge bg-primary rounded-pill">Paid</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Statement B
-              <span className="badge bg-warning rounded-pill">Pending</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Statement C
-              <span className="badge bg-danger rounded-pill">Overdue</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    {/* Projects Tab */}
-    <div className="tab-pane fade" id="projects">
-      <h6 className="text-primary">Projects Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaProjectDiagram /> Ongoing Projects
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Project X
-              <span className="badge bg-primary rounded-pill">In Progress</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Project Y
-              <span className="badge bg-success rounded-pill">Completed</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Project Z
-              <span className="badge bg-warning rounded-pill">Delayed</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    {/* HRMS Tab */}
-    <div className="tab-pane fade" id="hrms">
-      <h6 className="text-primary">HRMS Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaSuitcase /> Employee Records
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Employee A
-              <span className="badge bg-success rounded-pill">Active</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Employee B
-              <span className="badge bg-warning rounded-pill">On Leave</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Employee C
-              <span className="badge bg-danger rounded-pill">Resigned</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    {/* Finance Tab */}
-    <div className="tab-pane fade" id="finance">
-      <h6 className="text-primary">Finance Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaDollarSign /> Financial Reports
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Report A
-              <span className="badge bg-primary rounded-pill">Q1</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Report B
-              <span className="badge bg-secondary rounded-pill">Q2</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Report C
-              <span className="badge bg-success rounded-pill">Q3</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    {/* Marketing Tab */}
-    <div className="tab-pane fade" id="marketing">
-      <h6 className="text-primary">Marketing Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaGlobe /> Campaigns
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Campaign A
-              <span className="badge bg-primary rounded-pill">Ongoing</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Campaign B
-              <span className="badge bg-success rounded-pill">Completed</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Campaign C
-              <span className="badge bg-danger rounded-pill">Cancelled</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    {/* Reports Tab */}
-    <div className="tab-pane fade" id="reports">
-      <h6 className="text-primary">Reports Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaRegChartBar /> Summary Reports
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Report X
-              <span className="badge bg-primary rounded-pill">Monthly</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Report Y
-              <span className="badge bg-secondary rounded-pill">Quarterly</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              Report Z
-              <span className="badge bg-success rounded-pill">Yearly</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    {/* Settings Tab */}
-    <div className="tab-pane fade" id="settings">
-      <h6 className="text-primary">Settings Overview</h6>
-      <div className="card">
-        <div className="card-header bg-light">
-          <FaCogs /> System Settings
-        </div>
-        <div className="card-body">
-          <ul className="list-group">
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              General Settings
-              <span className="badge bg-primary rounded-pill">Configure</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              User Management
-              <span className="badge bg-success rounded-pill">Manage</span>
-            </li>
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              System Logs
-              <span className="badge bg-warning rounded-pill">View</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -543,7 +229,7 @@ export const HeroContent = () => {
             
                 <div className="row">
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-primary">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaUserAlt /> Total Clients & Students</h6>
                         <p className="card-text">Clients: 1,200 | Students: 500</p>
@@ -551,7 +237,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-secondary">
+                    <div className="card text-white rounded-1 border-0 shadow-sm "style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaUniversity /> Total Universities & Agents</h6>
                         <p className="card-text">Universities: 150 | Agents: 75</p>
@@ -559,7 +245,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-success">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaChartLine /> Total Commissions & Sales</h6>
                         <p className="card-text">Commissions: $50,000 | Sales: $75,000</p>
@@ -567,7 +253,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-warning">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaDollarSign /> Finance & Expenses</h6>
                         <p className="card-text">Income: $100,000 | Expenses: $20,000</p>
@@ -576,7 +262,7 @@ export const HeroContent = () => {
                   </div>
               
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-info">
+                    <div className="card text-white rounded-1 border-0 shadow-sm " style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaFileInvoiceDollar /> Applications & Invoices</h6>
                         <p className="card-text">Applications: 120 | Invoices: $12,000</p>
@@ -584,7 +270,7 @@ export const HeroContent = () => {
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-6 ">
-                    <div className="card text-white rounded-1 border-0 shadow-sm bg-dark">
+                    <div className="card text-white rounded-1 border-0 shadow-sm "style={{ backgroundColor: "#808588" }}>
                       <div className="card-body">
                         <h6><FaUserCog /> HRMS & Payroll</h6>
                         <p className="card-text">Staff: 150 | Payroll: $30,000</p>

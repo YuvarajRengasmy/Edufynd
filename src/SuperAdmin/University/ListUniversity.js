@@ -447,12 +447,13 @@ export default function Masterproductlist() {
             details?.inactiveUniversities || 0,
           ], // Use default 0 if no data available
           backgroundColor: [
-            '#fdc21d', // Green for "Active" (chat bubble color)
-            '#207cbb', // Blue for "Inactive" (chat bubble color)
+             
+            '#fa6602',
+            '#347cc8',
           ],
           borderColor: [
-            '#fdc21d',
-            '#207cbb',
+           '#fa6602',
+            '#347cc8',
           ],
           borderWidth: 5,
         }]
@@ -492,12 +493,12 @@ export default function Masterproductlist() {
     datasets: [
       {
         label: 'Country Count', // Chart label
-        borderColor: '#ffd200', // Border color (can be different from the background)
+        borderColor: '#544C4A', // Border color (can be different from the background)
         borderWidth: 1,
-        color: '#f8ffae',
+        color: '#544C4A',
         data: Object.values(details?.countryCounts || {}),
         // Set a fallback background color for browsers that don't support gradients
-        backgroundColor: '#ffd200',
+        backgroundColor: '#544C4A',
       }
     ]
   }));
@@ -507,12 +508,12 @@ export default function Masterproductlist() {
     datasets: [
       {
         label: 'Applied University', // Chart label
-        borderColor: '#ffd200', // Border color (can be different from the background)
+        borderColor: '#544C4A', // Border color (can be different from the background)
         borderWidth: 1,
-        color: '#f8ffae',
+        color: '#544C4A',
         data: Object.values(details?.countryCounts || {}),
         // Set a fallback background color for browsers that don't support gradients
-        backgroundColor: '#ffd200', 
+        backgroundColor: '#544C4A', 
       }
     ]
   }));
@@ -793,56 +794,59 @@ export default function Masterproductlist() {
 
 
           <div className="container mt-2 mb-0">
-            <div className="row">
-              <div className="col-md-3 mb-3">
-                <Link to="#" className="text-decoration-none">
-                  <div className=" rounded-1 border-0 text-dark shadow-sm p-2"> {/* Tropical Teal */}
-                    <div className="row g-0">
-                      <div className="col-7">
+  <div className="row">
+    {/* Start of each card */}
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div className="card rounded-1 border-0 text-white shadow-sm" style={{background: 'linear-gradient(to right,#7aa9dc,#b4cfeb)',height: '250px', overflowY: 'auto'}}> {/* Set fixed height */}
+          <div className="card-body d-flex flex-column justify-content-between" > {/* Add scrolling if content exceeds */}
+            <h6><i className="fas fa-university"></i>&nbsp;&nbsp;University: {details?.totalUniversities || 0}</h6>
+            <div className="chart-container" style={{ width: '12rem', height: '10rem' }}>
+              <canvas ref={chartRef} style={{ width: '6rem', height: '7rem' }} />e2ebf0
+            </div>
+            <div className="d-flex align-items-center justify-content-between">
+              <p className="card-text rounded text-white" style={{ backgroundColor: '#fdc21d' }}>Active: {details?.activeUniversities || 0}</p>
+              <p className="card-text rounded text-white" style={{ backgroundColor: '#207cbb' }}>Inactive: {details?.inactiveUniversities || 0}</p>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+    {/* End of card */}
 
-                        <h7 className=""><i class="fas fa-university ">University:{details?.totalUniversities || 0}</i></h7>
-                      </div>
-                      <div className="col-auto ">
-                        <div className="chart-container " style={{ position: 'relative', width: '12rem', height: '10rem' }}>
-                          <canvas ref={chartRef} style={{ width: '6rem', height: '7rem' }} />
-                        </div>
-                      </div>
+    <div className="col-md-5 mb-3">
+      <div className="card rounded-1 border-0 shadow-sm" style={{ height: '250px' }}> {/* Set fixed height */}
+        <div className="card-header  text-dark">
+          <FaChartBar /> No of Countries: {details?.totalUniqueCountries || 0}
+        </div>
+      
+          <Bar
+            data={countryCounts}
+            style={{
+              // background: 'linear-gradient(to right, #43c6ac, #f8ffae)',
+              padding: '20px',
+              borderRadius: '3px',
+               
+            }}
+            options={{ responsive: true }}
+          />
+       
+      </div>
+    </div>
 
-                      <div className="d-flex align-items-center justify-content-between">
-                        <p className="card-text mb-1 rounded border-0 text-white" style={{ backgroundColor: '#fdc21d', }}>Active: {details?.activeUniversities || 0}</p>
-                        <p className="card-text mb-1 rounded border-0 text-white" style={{ backgroundColor: '#207cbb', }}>InActive:  {details?.inactiveUniversities || 0}</p>
-                      </div>
-
-                    </div>
-                  </div>
-                </Link>
-              </div>
-
-
-
-              <div className="col-md-5 ">
-                <div className="card rounded-1 border-0 shadow-sm">
-                  <div className="card-header bg-warning text-white d-flex align-items-center">
-                    <FaChartBar className="me-2" /> No of Countries: {details?.totalUniqueCountries || 0}
-                  </div>
-                  <div className="card-body">
-                    <Bar data={countryCounts} style={{
-                      background: '#43c6ac',  // Fallback for old browsers
-                      background: '-webkit-linear-gradient(to right, #43c6ac, #f8ffae)',  // For Safari
-                      background: 'linear-gradient(to right, #43c6ac, #f8ffae)', // For modern browsers
-                      padding: '20px', // Optional padding for aesthetics
-                      borderRadius: '8px' // Optional border radius
-                    }} options={{ responsive: true }} />
-                  </div>
-
-                </div>
-              </div>
-              <div className="col-md-3 mb-3">
-                <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#C62828" }}> {/* Crimson Red */}
-                    <div className="card-body">
-                      <div className="d-flex flex-column">
-                        <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Popular Categories:{details?.totalPopularCategoryCount || 0}</h6>
+    {/* Additional cards go here */}
+    <div className="col-md-4 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div className="card rounded-1 border-0 text-white shadow-sm" style={{
+              background: 'linear-gradient(to right,#7aa9dc,#b4cfeb)',
+              padding: '20px',
+              borderRadius: '3px',
+              height: '250px', 
+              overflowY: 'auto' 
+            }}> {/* Set fixed height and overflow */}
+          <div className="card-body">
+            <h6><i className="fas fa-info-circle"></i>&nbsp;&nbsp; Popular Categories:    
+            :{details?.totalPopularCategoryCount || 0}</h6>
                         {details?.topCategory && details.topCategory.length > 0 && details.topCategory[0].uniqueCategories.length > 0 ? (
                           details.topCategory[0].uniqueCategories.map((category, index) => (
                             <p className="card-text" key={index}>
@@ -852,110 +856,108 @@ export default function Masterproductlist() {
                         ) : (
                           <p className="card-text">No categories available</p>
                         )}
-                      </div>
+                        
+                       
+          </div>
+        </div>
+      </Link>
+    </div>
+  
 
-                    </div>
-                  </div>
-                </Link>
-              </div>
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div className="card rounded-1 border-0 text-white shadow-sm"  style={{
+             background: 'linear-gradient(to right,#7aa9dc,#b4cfeb)',
+              padding: '20px',
+              borderRadius: '3px',
+              height: '250px', 
+              overflowY: 'auto' 
+            }}>
+          <div className="card-body">
+            <h6><i className="fas fa-clipboard-list"></i>&nbsp;&nbsp;No of Applications: {detail?.totalApplication || 0}</h6>
+          </div>
+        </div>
+      </Link>
+    </div>
 
-              <div className="col-md-3 mb-3">
-                <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
-                    <div className="card-body">
-                      <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;No of Applications:{detail?.totalApplication || 0}</h6>
-
-                    </div>
-                  </div>
-                </Link>
-              </div>
-
-            
-              <div className="col-md-4 mb-3">
-                <Link to="#" className="text-decoration-none">
-                  <div className=" rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Navy Blue */}
-                   
-                      <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Highest Applied University</h6>
-                      <Line data={countryLine}  style={{      
-        background: '#fccb90',  // Fallback for old browsers
-        background: '-webkit-linear-gradient(to right, #fccb90, #d57eeb)',  // For Safari
-        background: 'linear-gradient(to right, #fccb90, #d57eeb)', // For modern browsers
-        padding: '5px', // Optional padding for aesthetics
-        borderRadius: '3px' // Optional border radius
-      }}  options={{ responsive: true }}/>
-                  <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#0288D1" }}> {/* Navy Blue */}
-                    <div className="card-body">
-
-                      <div className="d-flex flex-column">
-                        <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Highest Applied University</h6>
-                        {detail?.topUniversities && detail.topUniversities.length > 0 ? (
-                          detail.topUniversities.map((university, index) => (
-                            <p className="card-text" key={index}>
-                              {university.universityName}: {university.count}
-                            </p>
-                          ))
-                        ) : (
-                          <p className="card-text">No sources available</p>
-                        )}
-                      </div>
-
-
-                    </div>
-                </div>
-                </div>
-                </Link>
-                
-              </div>
-
-              <div className="col-md-3 mb-3">
-                <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#1A237E" }}> {/* Navy Blue */}
-                    <div className="card-body">
-
-                      <div className="d-flex flex-column">
-                        <h6 className=""><i class="fas fa-clipboard-list "></i>&nbsp;&nbsp;Highest Applied Country</h6>
-                        {detail?.topCountry && detail.topCountry.length > 0 ? (
-                          detail.topCountry.map((country, index) => (
-                            <p className="card-text" key={index}>
-                              {country.uniCountry}: {country.count}
-                            </p>
-                          ))
-                        ) : (
-                          <p className="card-text">No country available</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-
-
-              <div className="col-md-4 mb-3">
-                <Link to="#" className="text-decoration-none">
-                  <div className="card rounded-1 border-0 text-white shadow-sm" style={{ backgroundColor: "#C62828" }}> {/* Crimson Red */}
-                    <div className="card-body">
-                      <h6 className=""><i class="fas fa-info-circle "></i>&nbsp;&nbsp; No of Commission:processing...</h6>
-                      <div className="d-flex align-items-center justify-content-between">
-
-                        <p className="card-text mb-1">
-                          <i className="fas fa-users mb-1"></i> Commissionable: 0
-                          <br />
-                          <i className="fas fa-user-slash mb-1"></i> Non-Commissionable: 0
-                          <br />
-                          <i className="fas fa-user-slash mb-1"></i> Varies By Program: 0
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div className="card rounded-1 border-0 text-white shadow-sm" style={{
+             background: 'linear-gradient(to right,#7aa9dc,#b4cfeb)',
+              padding: '20px',
+              borderRadius: '3px',
+              height: '250px', 
+              overflowY: 'auto' 
+            }}>
+          <div className="card-body">
+            <h6><i className="fas fa-clipboard-list"></i> Applied University</h6>
+            <div className="d-flex flex-column">
+              {detail?.topUniversities?.length > 0 ? (
+                detail.topUniversities.map((university, index) => (
+                  <p className="card-text" key={index}>
+                    {university.universityName}: {university.count}
+                  </p>
+                ))
+              ) : (
+                <p className="card-text">No sources available</p>
+              )}
             </div>
           </div>
+        </div>
+      </Link>
+    </div>
 
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div className="card rounded-1 border-0 text-white shadow-sm"  style={{
+             background: 'linear-gradient(to right,#7aa9dc,#b4cfeb)',
+             padding: '20px',
+              borderRadius: '3px',
+              height: '250px', 
+              overflowY: 'auto' 
+            }}>
+          <div className="card-body">
+            <h6><i className="fas fa-clipboard-list"></i>  Applied Country</h6>
+            <div className="d-flex flex-column">
+              {detail?.topCountry?.length > 0 ? (
+                detail.topCountry.map((country, index) => (
+                  <p className="card-text" key={index}>
+                    {country.uniCountry}: {country.count}
+                  </p>
+                ))
+              ) : (
+                <p className="card-text">No country available</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
 
+    <div className="col-md-3 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div className="card rounded-1 border-0 text-white shadow-sm" style={{
+             background: 'linear-gradient(to right,#7aa9dc,#b4cfeb)',
+             padding: '20px',
+              borderRadius: '3px',
+              height: '250px', 
+              overflowY: 'auto' 
+            }}>
+          <div className="card-body">
+            <h6><i className="fas fa-info-circle"></i>&nbsp;&nbsp;No of Commission: processing...</h6>
+            <p className="card-text mb-1">
+              <i className="fas fa-users mb-1"></i> Commissionable: 0 <br />
+              <i className="fas fa-user-slash mb-1"></i> Non-Commissionable: 0 <br />
+              <i className="fas fa-user-slash mb-1"></i> Varies By Program: 0
+            </p>
+          </div>
+        </div>
+      </Link>
+    </div>
 
-
-          <div className="container">
+  </div>
+</div>
+         <div className="container">
             <div className="row">
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm border-0">

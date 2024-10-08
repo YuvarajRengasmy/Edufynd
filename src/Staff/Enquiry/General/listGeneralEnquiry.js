@@ -90,7 +90,7 @@ export const ListGeneralEnquiry = () => {
     const data = {
       limit: 10,
       page: pagination.from,
-      staffId:getStaffId()
+      staffId:staff?._id,
     };
     getFilterGeneralEnquiry(data)
       .then((res) => {

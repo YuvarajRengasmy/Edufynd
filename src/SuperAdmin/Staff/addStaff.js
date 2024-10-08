@@ -596,7 +596,8 @@ export const AddStaff = () => {
                                 name="reportingManager"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
-                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
                                     e.preventDefault();
                                   }
                                 }}
@@ -627,7 +628,8 @@ export const AddStaff = () => {
                                 name="shiftTiming"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
-                                  if (!/^[0-9]$/i.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  // Prevent non-letter characters
+                                  if (/[^a-zA-Z\s]/.test(e.key)) {
                                     e.preventDefault();
                                   }
                                 }}

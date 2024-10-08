@@ -333,6 +333,7 @@ export const AddStaff = () => {
     setSubmitted(true);
     const staffData={
       ...staff,
+      staffId:staff?._id,
       dial1:dail1?.value,
       dial2:dail2?.value,
       dial3:dail3?.value,
