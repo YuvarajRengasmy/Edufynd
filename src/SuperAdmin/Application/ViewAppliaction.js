@@ -469,7 +469,7 @@ const CategoriesOptions = track?.subCategory
               type="button"
               className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
               data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-              data-bs-target={isPreviousCompleted ? `#modal-${index}` : undefined}
+              data-bs-target={isPreviousCompleted ? `#modal-${item.id}` : undefined} // Use item.id for unique modal ID
               style={{
                 width: "2rem",
                 height: "2rem",
@@ -493,7 +493,7 @@ const CategoriesOptions = track?.subCategory
           {/* Modal for Editing */}
           <div
             className="modal fade"
-            id={`modal-${index}`}
+            id={`modal-${item.id}`} // Use item.id for unique modal ID
             tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
@@ -516,7 +516,7 @@ const CategoriesOptions = track?.subCategory
                   {/* Form for Editing */}
                   <form onSubmit={handleTrackSubmit}>
                     {/* Status Input */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                       <input
                         type="text"
                         name="newStatus"
@@ -525,7 +525,6 @@ const CategoriesOptions = track?.subCategory
                         className="form-control"
                         placeholder="Enter Status...."
                         aria-label="Status"
-                        aria-describedby="basic-addon1"
                         style={{ fontSize: "12px" }}
                       />
                       {submitted && trackErrors.newStatus.required && (
@@ -534,7 +533,7 @@ const CategoriesOptions = track?.subCategory
                     </div>
 
                     {/* Sub Category Input */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                       <Select
                         isMulti
                         options={CategoriesOptions}
@@ -553,7 +552,7 @@ const CategoriesOptions = track?.subCategory
                     </div>
 
                     {/* Duration Input */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                       <input
                         type="text"
                         name="duration"
@@ -561,8 +560,7 @@ const CategoriesOptions = track?.subCategory
                         onChange={handleTrack}
                         className="form-control"
                         placeholder="Enter Duration...."
-                        aria-label="Status"
-                        aria-describedby="basic-addon1"
+                        aria-label="Duration"
                         style={{ fontSize: "12px" }}
                       />
                       {submitted && trackErrors.duration.required && (
@@ -576,8 +574,7 @@ const CategoriesOptions = track?.subCategory
                         editor={ClassicEditor}
                         value={track.commentBox}
                         config={{
-                          placeholder:
-                            "Start writing your content here...",
+                          placeholder: "Start writing your content here...",
                           toolbar: [
                             "heading",
                             "|",
@@ -595,24 +592,9 @@ const CategoriesOptions = track?.subCategory
                             "undo",
                             "redo",
                           ],
-                          image: {
-                            toolbar: [
-                              "imageTextAlternative",
-                              "imageStyle:full",
-                              "imageStyle:side",
-                            ],
-                          },
-                          table: {
-                            contentToolbar: [
-                              "tableColumn",
-                              "tableRow",
-                              "mergeTableCells",
-                            ],
-                          },
                         }}
                         onChange={(event, editor) => {
                           const data = editor.getData();
-                          console.log({ data });
                           handleRichTextChange(data);
                         }}
                         name="commentBox"
@@ -628,18 +610,18 @@ const CategoriesOptions = track?.subCategory
                     </div>
 
                     {/* Progress and File Upload Inputs */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                       <input
                         type="number"
                         className="form-control"
                         style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                        value={"80"}
+                        value={track.progress} // Assuming you have track.progress defined
                         placeholder="Enter Progress"
                         name="progress"
                         onChange={handleTrack}
                       />
                     </div>
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
+                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                       <input
                         type="file"
                         className="form-control"
@@ -672,7 +654,6 @@ const CategoriesOptions = track?.subCategory
                           backgroundColor: "#fe5722",
                           color: "#fff",
                         }}
-                        data-bs-dismiss="modal"
                       >
                         Submit
                       </button>
@@ -686,6 +667,7 @@ const CategoriesOptions = track?.subCategory
       </div>
     );
   })}
+
 
           </div>
         </div>
