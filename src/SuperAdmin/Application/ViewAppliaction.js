@@ -14,6 +14,8 @@ import { formatDate } from "../../Utils/DateFormat";
 import BackButton from "../../compoents/backButton";
 import {savePaymentGetWay } from "../../api/invoice/payment";
 import Select from "react-select";
+import { getallUniversity } from "../../api/university";
+
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -209,38 +211,6 @@ export const ViewApplication = () => {
   const handleSelectChange = (selected) => {
     setSelectedOptions(selected); // Update the selected options in the state
   };
-//   const handleTrackSubmit = (event) => {
-//     event.preventDefault();
-//     const newErrorEducation = handleValidation(track);
-//     setTrackErrors(newErrorEducation);
-//     setSubmitted(true);
-  
-//     const selectedValues = selectedOptions.map((option) => option.value);
-  
-//     if (handleErrors(newErrorEducation)) {
-//         if (id) {
-//             const data = {
-               
-//                 status: {
-//                     ...track,
-//                     progress: 100,
-//                     subCategory: selectedValues, // Set progress to 100% upon submission
-//                 },
-                
-//             };
-
-//             updateApplication(data)
-//                 .then((res) => {
-//                     toast.success("Successfully updated application status");
-//                     getAllModuleDetails();
-//                     if (modalRef.current) {
-//                         modalRef.current.click(); // Close the modal
-//                     }
-//                 })
-//                 .catch((err) => console.log(err));
-//         }
-//     }
-// };
 
 const handleTrackSubmit = (event) => {
   event.preventDefault();
@@ -319,6 +289,24 @@ const CategoriesOptions = track?.subCategory
     label: subCategory,
   }))
 : [];
+
+
+// edit Application
+useEffect(() => {
+  getAllUniversityList();
+ 
+}, []);
+
+const getAllUniversityList = () => {
+  getallUniversity()
+    .then((res) => {
+      setUniversity(res?.data?.result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const [university, setUniversity] = useState([]);
 
   return (
     <>
@@ -417,11 +405,126 @@ const CategoriesOptions = track?.subCategory
                          
                         </h5>
                         <div className="mb-3 d-flex justify-content-between">
-                          <p className="card-text">{tracks?.universityName}</p>
-                          <div className="card p-2 rounded-1 border-primary border-2">
-                            <i className="fas fa-star"></i>
-                          </div>
-                        </div>
+  <p className="card-text">{tracks?.universityName}</p>
+  <div className="card p-2 rounded-1 border-primary border-2">
+   
+      <button
+        className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
+        data-bs-toggle="modal"
+        data-bs-target="#StatusModal" // Updated target to match the modal ID
+      >
+         <i className="fas fa-edit">Application</i>
+      </button>
+ 
+  </div>
+</div>
+
+<div
+  className="modal fade" // Changed to "fade" for Bootstrap 5 compatibility
+  id="StatusModal"
+  tabIndex="-1"
+  aria-labelledby="staticBackdropLabel" // Updated aria-labelledby to match the modal title
+  aria-hidden="true"
+>
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="staticBackdropLabel">
+          Edit Application
+        </h1>
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div className="modal-body">
+        <form onSubmit={handleTrackSubmit}>
+        <div className="input-group mb-3">
+            
+            
+          </div>
+          <div className="input-group mb-3">
+            
+            <select
+              name="universityName"
+              value={track.universityName}
+              onChange={handleTrack}
+              className="form-select"
+              style={{ fontSize: "12px" }}
+              placeholder="Select University Name"
+            >
+              <option value="">Select University</option>
+              
+            </select>
+            {submitted && trackErrors.statusName.required && (
+              <p className="text-danger">Status is required</p>
+            )}
+          </div>
+          <div className="input-group mb-3 visually-hidden">
+            <span className="input-group-text" id="basic-addon1">
+              <i className="fa fa-tasks nav-icon text-dark"></i>
+            </span>
+            <input
+              type="text"
+              name="duration"
+              value="0"
+              onChange={handleTrack}
+              className="form-control"
+              placeholder="Enter Status...."
+              aria-label="Status"
+              aria-describedby="basic-addon1"
+              style={{ fontSize: "12px" }}
+            />
+          </div>
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon1">
+              <i className="fa fa-file nav-icon text-dark"></i>
+            </span>
+            <input
+              type="file"
+              className="form-control"
+              style={{
+                fontFamily: "Plus Jakarta Sans",
+                fontSize: "12px",
+              }}
+              placeholder="Enter Image upload"
+              name="document"
+              onChange={handleTrack}
+            />
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn px-4 py-2 text-uppercase fw-semibold"
+              data-bs-dismiss="modal"
+              style={{
+                fontSize: "12px",
+                backgroundColor: "#231f20",
+                color: "#fff",
+              }}
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              className="btn px-4 py-2 text-uppercase fw-semibold"
+              style={{
+                fontSize: "12px",
+                backgroundColor: "#fe5722",
+                color: "#fff",
+              }}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
                         <div className="card bg-transparent rounded-2 mt-4">
                           <div className="card-body">
                             <div className="d-flex align-items-center justify-content-between">
