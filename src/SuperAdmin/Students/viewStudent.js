@@ -265,8 +265,17 @@ function Profile() {
       courseType: program ? program.courseType : "",
       applicationFee: program ? program.applicationFee : "",
     }));
+    
+    // Reset intake when program changes
+    setAvailableIntakes([]);
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      intake: '', // Resetting intake on program change
+    }));
   };
 
+
+  const [availableIntakes, setAvailableIntakes] = useState([]);
   const handleInputs = (event) => {
     console.log("balan", event);
     const { name, value } = event.target;

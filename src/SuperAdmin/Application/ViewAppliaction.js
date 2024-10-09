@@ -15,7 +15,7 @@ import BackButton from "../../compoents/backButton";
 import {savePaymentGetWay } from "../../api/invoice/payment";
 import Select from "react-select";
 import { getallUniversity } from "../../api/university";
-
+import {getallProgram,} from "../../api/Program";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -165,6 +165,7 @@ export const ViewApplication = () => {
         ...prevState,
         [name]: value,
       }));
+      
     }
  
     if (submitted) {
@@ -294,7 +295,7 @@ const CategoriesOptions = track?.subCategory
 // edit Application
 useEffect(() => {
   getAllUniversityList();
- 
+  getAllProgramList();
 }, []);
 
 const getAllUniversityList = () => {
@@ -307,7 +308,33 @@ const getAllUniversityList = () => {
     });
 };
 const [university, setUniversity] = useState([]);
+const [programs, setPrograms] = useState([]);
+const [selectedProgram, setSelectedProgram] = useState(null);
 
+const getAllProgramList = () => {
+  getallProgram()
+    .then((res) => {
+      setPrograms(res?.data?.result?.programList || []);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const handleProgramChange = (event) => {
+  const selectedProgramTitle = event.target.value;
+  const program = programs.find(
+    (prog) => prog.programTitle === selectedProgramTitle
+  );
+  setSelectedProgram(program || null);
+  setTrack((prevInputs) => ({
+    ...prevInputs,
+    programTitle: selectedProgramTitle,
+    campus: program ? program.campuses.map((campus) => campus.campus) : [],
+    courseType: program ? program.courseType : "",
+    applicationFee: program ? program.applicationFee : "",
+  }));
+};
   return (
     <>
       <Sidebar />
@@ -456,43 +483,119 @@ const [university, setUniversity] = useState([]);
               placeholder="Select University Name"
             >
               <option value="">Select University</option>
-              
+              {university.map((uni) => (
+                                <option
+                                  key={uni._id}
+                                  value={uni.universityName}
+                                >
+                                  {uni.universityName}
+                                </option>
+                              ))}
             </select>
-            {submitted && trackErrors.statusName.required && (
-              <p className="text-danger">Status is required</p>
-            )}
-          </div>
-          <div className="input-group mb-3 visually-hidden">
-            <span className="input-group-text" id="basic-addon1">
-              <i className="fa fa-tasks nav-icon text-dark"></i>
-            </span>
-            <input
-              type="text"
-              name="duration"
-              value="0"
-              onChange={handleTrack}
-              className="form-control"
-              placeholder="Enter Status...."
-              aria-label="Status"
-              aria-describedby="basic-addon1"
-              style={{ fontSize: "12px" }}
-            />
+           
           </div>
           <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              <i className="fa fa-file nav-icon text-dark"></i>
-            </span>
-            <input
-              type="file"
-              className="form-control"
-              style={{
-                fontFamily: "Plus Jakarta Sans",
-                fontSize: "12px",
-              }}
-              placeholder="Enter Image upload"
-              name="document"
-              onChange={handleTrack}
-            />
+            
+            <select
+              name="course"
+              value={track.course}
+              onChange={handleProgramChange}
+              className="form-select"
+              style={{ fontSize: "12px" }}
+              placeholder="Select Program"
+            >
+              <option value="">Select course</option>
+              {programs.map((uni) => (
+                                <option
+                                  key={uni._id}
+                                  value={uni.programTitle}
+                                >
+                                  {uni.programTitle}
+                                </option>
+                              ))}
+            </select>
+           
+          </div>
+          <div className="input-group mb-3 ">
+           
+            <select
+                              className="form-select font-weight-light"
+                              name="campus"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={track.campus}
+                              onChange={handleTrack}
+                            >
+                              <option value="">Select Campus</option>
+
+                              {[
+                                ...new Set(
+                                  selectedProgram?.campuses?.map(
+                                    (campus) => campus.campus
+                                  )
+                                ),
+                              ].map((uniqueCampus, index) => (
+                                <option key={index} value={uniqueCampus}>
+                                  {uniqueCampus}
+                                </option>
+                              ))}
+                            </select>
+          </div>
+          <div className="input-group mb-3">
+          <select
+                              className="form-select font-weight-light"
+                              name="inTake"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={tracks.inTake}
+                              onChange={handleTrack}
+                            >
+                              <option value="">Select Intake</option>
+
+                              {[
+                                ...new Set(
+                                  selectedProgram?.campuses?.map(
+                                    (campus) => campus.inTake
+                                  )
+                                ),
+                              ].map((uniqueCampus, index) => (
+                                <option key={index} value={uniqueCampus}>
+                                  {uniqueCampus}
+                                </option>
+                              ))}
+                            </select>
+           
+          </div>
+          <div className="input-group mb-3">
+          <select
+                              className="form-select font-weight-light"
+                              name="inTake"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "14px",
+                              }}
+                              value={tracks.inTake}
+                              onChange={handleTrack}
+                            >
+                              <option value="">Select Intake</option>
+
+                              {[
+                                ...new Set(
+                                  selectedProgram?.campuses?.map(
+                                    (campus) => campus.inTake
+                                  )
+                                ),
+                              ].map((uniqueCampus, index) => (
+                                <option key={index} value={uniqueCampus}>
+                                  {uniqueCampus}
+                                </option>
+                              ))}
+                            </select>
+           
           </div>
           <div className="modal-footer">
             <button
