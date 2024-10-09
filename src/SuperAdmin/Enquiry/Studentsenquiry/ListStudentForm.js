@@ -6,7 +6,8 @@ import {
   getFilterStudnetEnquiry,
   deleteStudnetEnquiry,
   deactivateClient,activeClient,
-  assignStaffToEnquiries
+  assignStaffToEnquiries,
+  getAllStudentEnquiryCard
 } from "../../../api/Enquiry/student";
 import { getallStaff } from "../../../api/staff";
 import { Link, useLocation } from "react-router-dom";
@@ -58,6 +59,7 @@ export const ListStudentForm = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [card, setCard] = useState();
 
   const [pagination, setPagination] = useState({
     count: 0,
@@ -91,7 +93,14 @@ export const ListStudentForm = () => {
       });
   };
 
- 
+  useEffect(() => {
+    getStudentEnquiryCount();
+  }, []);
+
+
+  const getStudentEnquiryCount = () => {
+     getAllStudentEnquiryCard().then((res) => setCard(res?.data.result))
+  }
 
   const getAllStudentDetails = () => {
     const data = {
@@ -761,30 +770,42 @@ export const ListStudentForm = () => {
             >
               <div className="card-body">
                 <h6 className="">
-                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Lead Converted
+                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Total Enquiry: {card?.totalData || 0}
                 </h6>
-                <p className="card-text">Total: 75</p>
+                <div className="d-flex align-items-center justify-content-between">
+                      <p className="card-text mb-1">Active: {card?.activeData || 0}</p>
+                      <p className="card-text mb-1">InActive: {card?.inactiveData || 0}</p> <br></br>
+
+                    </div>
               </div>
             </div>
           </Link>
         </div>
 
         {/* Card 2: Drop/Withdraw */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#E64A19" }} // Deep Orange
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Drop/Withdraw
-                </h6>
-                <p className="card-text">Total: 20</p>
+        <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">
+                  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                    <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Enquiry By Source </h6>
+                          {card?.sourceCounts ? (
+                            Object.entries(card.sourceCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               </div>
-            </div>
-          </Link>
-        </div>
 
         {/* Card 3: Delayed Followups */}
         <div className="col-md-3 col-sm-6 mb-3">

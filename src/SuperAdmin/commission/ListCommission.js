@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallCommission, deactivateClient,activeClient, deleteCommission,getFilterCommission } from "../../api/commission";
+import { getallCommission, deactivateClient,activeClient, deleteCommission,getFilterCommission, getAllCommissionCard} from "../../api/commission";
 import {
   Dialog,
   DialogContent,
@@ -60,6 +60,8 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [pageSize, setPageSize] = useState(10); 
+  const [detail, setDetail] = useState();
+  const [card, setCard] = useState()
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -85,6 +87,17 @@ export default function Masterproductlist() {
     }
   }, [searchValue]);
 
+
+  useEffect(() => {
+    getallCommissionCount();
+  
+
+  }, []);
+
+
+  const getallCommissionCount = () => {
+     getAllCommissionCard().then((res) => setCard(res?.data.result))
+  }
 
   const getCommissionList = () => {
     const data = {
@@ -621,6 +634,125 @@ export default function Masterproductlist() {
     </div>
   </div>
 </div>
+
+ {/* Cards Details */}
+<div className="container-fluid mt-3">
+            <div className="row g-4">
+              {/* Total Number of Programs Card */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
+                  <div className="card-body text-start">
+                    <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Status: {card?.totalData || 0}</h6>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="card-text mb-1">Active: {card?.activeData || 0}</p>
+                      <p className="card-text mb-1">InActive: {card?.inactiveData || 0}</p> <br></br>
+
+                    </div>
+                  </div>
+                </div>
+                </Link>
+              </div>
+
+              {/* Popular Categories Card1 */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">
+                  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                    <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Payment Method</h6>
+                          {card?.paymentMethodCounts ? (
+                            Object.entries(card.paymentMethodCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+
+              {/* Popular Categories Card2 */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">     
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: "#0288D1" }}>
+                <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Payment Type</h6>
+                          {card?.paymentTypeCounts ? (
+                            Object.entries(card.paymentTypeCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </Link>
+              </div>
+
+              {/* Number of Applications Card */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">   
+                 <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
+                <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Tax</h6>
+                          {card?.taxCounts ? (
+                            Object.entries(card.taxCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </Link>
+              </div>
+
+
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">   
+                 <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
+                <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                        <div className="d-flex flex-column">
+                          <h6><i className=""></i>&nbsp;&nbsp;Commission Paid On</h6>
+                          {card?.commissionCounts ? (
+                            Object.entries(card.commissionCounts).map(([source, count]) => (
+                              <p className="card-text" key={source}>
+                                {source}: {count}
+                              </p>
+                            ))
+                          ) : (
+                            <p className="card-text">No sources available</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+
 
         
         <div className="container-fluid mt-3">

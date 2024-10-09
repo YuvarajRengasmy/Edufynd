@@ -28,6 +28,10 @@ export const getSingleLogUniversity = (data) => {
 export const getallStudnetEnquiry = () => {
     return API.get(`${StudnetEnquiry}`)
 }
+
+export const getAllStudentEnquiryCard = () => {
+  return API.get(`${StudnetEnquiry}/card`)
+}
 export const deleteStudnetEnquiry= (data) => {
     return API.delete(`${StudnetEnquiry}`, { params: { _id: data } });
   };
