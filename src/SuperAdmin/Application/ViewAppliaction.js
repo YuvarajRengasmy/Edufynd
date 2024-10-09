@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
-import { updateApplication, getSingleApplication } from "../../api/applicatin";
+import { updateApplication,statusApplication, getSingleApplication } from "../../api/applicatin";
 import {loadStripe} from '@stripe/stripe-js'; 
 import { getFilterStatus } from "../../api/status";
 import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
@@ -222,17 +222,17 @@ const handleTrackSubmit = (event) => {
 
   if (handleErrors(newErrorEducation))  {
     const data = {
-    
+       _id:id,
       status: {
         _id: editId,
         ...track,
-        progress: 100,
+        
         subCategory: selectedValues, // Set progress to 100% upon submission
     }, // If editing, include the ID in the data
     };
 
     if (isEditing) {
-      updateApplication(data)
+      statusApplication(data)
         .then((res) => {
           toast.success("Successfully updated application status");
           event.target.reset();
