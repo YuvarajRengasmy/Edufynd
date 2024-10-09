@@ -34,10 +34,9 @@ export const getSingleApplication = (data) => {
     return API.put(`${Application}`, data);
   };
 
-  export const updateStatus = (data) => {
+  export const statusApplication = (data) => {
     return API.put(`${Application}/status`, data);
   };
-
   export const getFilterApplican = (data) => {
     return API.put(`${Application}/getFilterApplicant`, data);
   };
