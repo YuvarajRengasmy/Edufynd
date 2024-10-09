@@ -21,7 +21,7 @@ export const ViewApplication = () => {
   const modalRef = useRef(null);
 
   const initialState = {
-    newStatus: "",
+    statusName: "",
     commentBox: "",
     document: "",
     duration: "",
@@ -30,7 +30,7 @@ export const ViewApplication = () => {
   };
 
   const initialStateErrors = {
-    newStatus: { required: false },
+    statusName: { required: false },
     commentBox: { required: false },
     document: { required: false },
     duration: { required: false },
@@ -39,7 +39,6 @@ export const ViewApplication = () => {
   };
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
-
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
@@ -131,8 +130,8 @@ export const ViewApplication = () => {
 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
-    if (!data.newStatus) {
-      error.newStatus.required = true;
+    if (!data.statusName) {
+      error.statusName.required = true;
     }
     if (!data.commentBox) {
       error.commentBox.required = true;
@@ -180,7 +179,7 @@ export const ViewApplication = () => {
   const handleEditModule = (item) => {
  
     setTrack({
-      newStatus: item.statusName,
+      statusName: item.statusName,
       duration: item.duration,
       progress: item.progress,
       subCategory: item.subCategory || [],
@@ -188,12 +187,14 @@ export const ViewApplication = () => {
       document: "", // Initialize commentBox as empty or with a value if needed
     });
     setIsEditing(true);
-    setEditId(item.statusId);
+    setEditId(item._id);
+    setIsEditing(true); 
     setSubmitted(false);
     setTrackErrors(initialStateErrors);
     setSubCategories(item.subCategory || []); // Fetch subcategories when editing
   };
 
+  
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -208,37 +209,74 @@ export const ViewApplication = () => {
   const handleSelectChange = (selected) => {
     setSelectedOptions(selected); // Update the selected options in the state
   };
-  const handleTrackSubmit = (event) => {
-    event.preventDefault();
+//   const handleTrackSubmit = (event) => {
+//     event.preventDefault();
+//     const newErrorEducation = handleValidation(track);
+//     setTrackErrors(newErrorEducation);
+//     setSubmitted(true);
+  
+//     const selectedValues = selectedOptions.map((option) => option.value);
+  
+//     if (handleErrors(newErrorEducation)) {
+//         if (id) {
+//             const data = {
+               
+//                 status: {
+//                     ...track,
+//                     progress: 100,
+//                     subCategory: selectedValues, // Set progress to 100% upon submission
+//                 },
+                
+//             };
+
+//             updateApplication(data)
+//                 .then((res) => {
+//                     toast.success("Successfully updated application status");
+//                     getAllModuleDetails();
+//                     if (modalRef.current) {
+//                         modalRef.current.click(); // Close the modal
+//                     }
+//                 })
+//                 .catch((err) => console.log(err));
+//         }
+//     }
+// };
+
+const handleTrackSubmit = (event) => {
+  event.preventDefault();
     const newErrorEducation = handleValidation(track);
     setTrackErrors(newErrorEducation);
     setSubmitted(true);
-  
     const selectedValues = selectedOptions.map((option) => option.value);
-  
-    if (handleErrors(newErrorEducation)) {
-        if (id) {
-            const data = {
-             
-                status: {
-                    ...track,
-                    progress: 100,
-                    subCategory: selectedValues, // Set progress to 100% upon submission
-                },
-                
-            };
 
-            updateApplication(data)
-                .then((res) => {
-                    toast.success("Successfully updated application status");
-                    getAllModuleDetails();
-                    if (modalRef.current) {
-                        modalRef.current.click(); // Close the modal
-                    }
-                })
-                .catch((err) => console.log(err));
-        }
+  if (handleErrors(newErrorEducation))  {
+    const data = {
+    
+      status: {
+        _id: editId,
+        ...track,
+        progress: 100,
+        subCategory: selectedValues, // Set progress to 100% upon submission
+    }, // If editing, include the ID in the data
+    };
+
+    if (isEditing) {
+      updateApplication(data)
+        .then((res) => {
+          toast.success("Successfully updated application status");
+          event.target.reset();
+          setTrack(initialState);
+         
+          setSubmitted(false);
+          getAllModuleDetails();
+         
+       
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message);
+        });
     }
+  }
 };
 
 const getProgressColor = (progress) => {
@@ -465,7 +503,7 @@ const CategoriesOptions = track?.subCategory
               type="button"
               className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
               data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-              data-bs-target={isPreviousCompleted ? `#modal-${item.statusId}` : undefined} // Use item.id for unique modal ID
+              data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
               style={{
                 width: "2rem",
                 height: "2rem",
@@ -490,7 +528,7 @@ const CategoriesOptions = track?.subCategory
           {/* Modal for Editing */}
           <div
             className="modal fade"
-            id={`modal-${item.id}`} // Use item.id for unique modal ID
+            id={`modal-${item._id}`} // Use item.id for unique modal ID
             tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
@@ -512,20 +550,19 @@ const CategoriesOptions = track?.subCategory
                 <div className="modal-body">
                   {/* Form for Editing */}
                   <form onSubmit={handleTrackSubmit}>
-                  <input type="hidden" name="_id" value={track._id} />
                     {/* Status Input */}
                     <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                       <input
                         type="text"
-                        name="newStatus"
-                        value={track.newStatus}
+                        name="statusName"
+                        value={track.statusName}
                         onChange={handleTrack}
                         className="form-control"
                         placeholder="Enter Status...."
                         aria-label="Status"
                         style={{ fontSize: "12px" }}
                       />
-                      {submitted && trackErrors.newStatus.required && (
+                      {submitted && trackErrors.statusName.required && (
                         <p className="text-danger">Status is required</p>
                       )}
                     </div>
@@ -726,8 +763,8 @@ const CategoriesOptions = track?.subCategory
                                         <i className="fa fa-tasks nav-icon text-dark"></i>
                                       </span>
                                       <select
-                                        name="newStatus"
-                                        value={track.newStatus}
+                                        name="statusName"
+                                        value={track.statusName}
                                         onChange={handleTrack}
                                         className="form-select"
                                         style={{ fontSize: "12px" }}
@@ -744,7 +781,7 @@ const CategoriesOptions = track?.subCategory
                                           ))}
                                       </select>
                                       {submitted &&
-                                        trackErrors.newStatus.required && (
+                                        trackErrors.statusName.required && (
                                           <p className="text-danger">
                                             Status is required
                                           </p>
@@ -1100,7 +1137,7 @@ const CategoriesOptions = track?.subCategory
                     <div className="card ">
                       <div className="card-header text-bg-danger">
                       
-                        <p className="mb-0">Application Decision:{item?.newStatus}</p>
+                        <p className="mb-0">Application Decision:{item?.statusName}</p>
                         <div className="d-flex gap-2">
                         <p className="mb-0">{formatDate(item?.createdOn)}</p>
                         <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
