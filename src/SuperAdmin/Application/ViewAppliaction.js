@@ -188,7 +188,7 @@ export const ViewApplication = () => {
       document: "", // Initialize commentBox as empty or with a value if needed
     });
     setIsEditing(true);
-    setEditId(item._id);
+    setEditId(item.statusId);
     setSubmitted(false);
     setTrackErrors(initialStateErrors);
     setSubCategories(item.subCategory || []); // Fetch subcategories when editing
@@ -465,7 +465,7 @@ const CategoriesOptions = track?.subCategory
               type="button"
               className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
               data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-              data-bs-target={isPreviousCompleted ? `#modal-${item.id}` : undefined} // Use item.id for unique modal ID
+              data-bs-target={isPreviousCompleted ? `#modal-${item.statusId}` : undefined} // Use item.id for unique modal ID
               style={{
                 width: "2rem",
                 height: "2rem",
@@ -512,6 +512,7 @@ const CategoriesOptions = track?.subCategory
                 <div className="modal-body">
                   {/* Form for Editing */}
                   <form onSubmit={handleTrackSubmit}>
+                  <input type="hidden" name="_id" value={track._id} />
                     {/* Status Input */}
                     <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                       <input
