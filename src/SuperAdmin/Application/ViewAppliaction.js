@@ -29,6 +29,12 @@ export const ViewApplication = () => {
     duration: "",
     progress: "",
     subCategory: [],
+    universityName: '',
+    courseType: '',
+    course: '',
+    campus: '',
+    inTake: '',
+    courseFees:"",
   };
 
   const initialStateErrors = {
@@ -213,42 +219,49 @@ export const ViewApplication = () => {
     setSelectedOptions(selected); // Update the selected options in the state
   };
 
-const handleTrackSubmit = (event) => {
-  event.preventDefault();
+  const handleTrackSubmit = (event) => {
+    event.preventDefault();
+
+    // Perform validation
     const newErrorEducation = handleValidation(track);
     setTrackErrors(newErrorEducation);
     setSubmitted(true);
-    const selectedValues = selectedOptions.map((option) => option.value);
 
-  if (handleErrors(newErrorEducation))  {
-    const data = {
-       _id:id,
-      status: {
-        _id: editId,
-        ...track,
-        
-        subCategory: selectedValues, // Set progress to 100% upon submission
-    }, // If editing, include the ID in the data
-    };
+    // If validation passes, proceed with submission
+    if (handleErrors(newErrorEducation)) {
+      const selectedValues = selectedOptions.map((option) => option.value); // Collect selected subcategory values
 
-    if (isEditing) {
-      statusApplication(data)
-        .then((res) => {
-          toast.success("Successfully updated application status");
-          event.target.reset();
-          setTrack(initialState);
-         
-          setSubmitted(false);
-          getAllModuleDetails();
-         
-       
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
+      // Structure the data as per backend requirements
+      const data = {
+        _id: id, // Assuming 'id' is the applicant's ID
+        statusId: editId, // The statusId of the status being edited
+        statusName: track.statusName, // From the track object (or any other input fields)
+        progress: track.progress, // Set progress to 100% if applicable
+        subCategory: selectedValues, // The selected subcategories
+        completed: track.completed, // Pass the completed status (true/false)
+        duration: track.duration, // Any other fields like duration, if needed
+        position: track.position, // Add position if applicable
+
+      };
+
+      // Check if we're editing an existing status
+      if (isEditing) {
+        statusApplication(data)
+          .then((res) => {
+            toast.success("Successfully updated application status");
+            event.target.reset();
+            setTrack(initialState); // Reset track object to initial state after submission
+            setSubmitted(false); // Reset form submission state
+            getAllModuleDetails(); // Fetch the latest module details after submission
+          })
+          .catch((err) => {
+            toast.error(err?.response?.data?.message || "Failed to update status");
+          });
+      }
     }
-  }
-};
+  };
+
+
 
 const getProgressColor = (progress) => {
   if (progress === 100) return "#4caf50"; // Green for complete
@@ -292,24 +305,36 @@ const CategoriesOptions = track?.subCategory
 : [];
 
 
-// edit Application
+const [universities, setUniversities] = useState([]);
+const [programs, setPrograms] = useState([]);
+const [selectedCourseType, setSelectedCourseType] = useState('');
+const [filteredUniversities, setFilteredUniversities] = useState([]);
+const [selectedUniversity, setSelectedUniversity] = useState('');
+const [filteredPrograms, setFilteredPrograms] = useState([]);
+const [selectedProgram, setSelectedProgram] = useState(null);
+const [selectedCampus, setSelectedCampus] = useState('');
+const [selectedIntake,setSelectedIntake] = useState('');
+
+
+
+// Fetch all universities and programs
 useEffect(() => {
   getAllUniversityList();
   getAllProgramList();
+
 }, []);
+
+
 
 const getAllUniversityList = () => {
   getallUniversity()
     .then((res) => {
-      setUniversity(res?.data?.result);
+      setUniversities(res?.data?.result);
     })
     .catch((err) => {
       console.log(err);
     });
 };
-const [university, setUniversity] = useState([]);
-const [programs, setPrograms] = useState([]);
-const [selectedProgram, setSelectedProgram] = useState(null);
 
 const getAllProgramList = () => {
   getallProgram()
@@ -321,20 +346,103 @@ const getAllProgramList = () => {
     });
 };
 
+const handleCourseTypeChange = (event) => {
+  const selectedCourseType = event.target.value;
+  setSelectedCourseType(selectedCourseType);
+
+  const filteredUniversities = universities.filter((university) =>
+    programs.some((prog) => prog.universityName === university.universityName && prog.courseType === selectedCourseType)
+  );
+  setFilteredUniversities(filteredUniversities);
+  setSelectedUniversity('');
+  setFilteredPrograms([]);
+  setSelectedProgram(null);
+  setSelectedCampus('');
+  setTrack({
+    ...track,
+    courseType: selectedCourseType,
+    universityName: '',
+    course: '',
+    campus: '',
+    inTake: '',
+  });
+};
+
+const handleUniversityChange = (event) => {
+  const selectedUniversityName = event.target.value;
+  setSelectedUniversity(selectedUniversityName);
+
+  const filteredPrograms = programs.filter(
+    (prog) =>
+      prog.universityName === selectedUniversityName && prog.courseType === selectedCourseType
+  );
+  setFilteredPrograms(filteredPrograms);
+  setSelectedProgram(null);
+  setSelectedCampus('');
+  setTrack({
+    ...track,
+    universityName: selectedUniversityName,
+    course: '',
+    campus: '',
+    inTake: '',
+    courseFees:"",
+  });
+};
+
 const handleProgramChange = (event) => {
   const selectedProgramTitle = event.target.value;
-  const program = programs.find(
-    (prog) => prog.programTitle === selectedProgramTitle
-  );
+  const program = filteredPrograms.find((prog) => prog.programTitle === selectedProgramTitle);
   setSelectedProgram(program || null);
-  setTrack((prevInputs) => ({
-    ...prevInputs,
-    programTitle: selectedProgramTitle,
-    campus: program ? program.campuses.map((campus) => campus.campus) : [],
-    courseType: program ? program.courseType : "",
-    applicationFee: program ? program.applicationFee : "",
-  }));
+  setSelectedCampus('');
+  setTrack({
+    ...track,
+    course: selectedProgramTitle,
+    campus: '',
+    inTake: '',
+  });
 };
+
+const handleCampusChange = (event) => {
+  const selectedCampus = event.target.value;
+  setSelectedCampus(selectedCampus);
+
+  const campusDetails = selectedProgram?.campuses?.find((campus) => campus.campus === selectedCampus);
+  setTrack({
+    ...track,
+    campus: selectedCampus,
+    inTake: campusDetails ? campusDetails.inTake : '',
+    courseFees: campusDetails ? campusDetails.courseFees : '',
+
+  });
+};
+
+
+const handleTrackSubmitted = (event) => {
+  event.preventDefault();
+  if (handleErrors(track)) {
+    const data = {
+      _id: id, // Assuming 'id' is the applicant's ID
+
+      courseType: track.courseType, // From the track object (or any other input fields)
+      universityName: track.universityName, // Set progress to 100% if applicable
+    
+      course: track.course, // Pass the completed status (true/false)
+      campus: track.campus, // Any other fields like duration, if needed
+      inTake: track.inTake, // Add position if applicable
+      courseFees:track.courseFees,
+      status: status,
+    };
+    updateApplication(data)
+      .then((res) => {
+        toast.success("Successfully updated application status");
+        navigate("/list_application"); // Redirect to another page after successful update
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  }
+};
+
   return (
     <>
       <Sidebar />
@@ -467,163 +575,166 @@ const handleProgramChange = (event) => {
         ></button>
       </div>
       <div className="modal-body">
-        <form onSubmit={handleTrackSubmit}>
-        <div className="input-group mb-3">
-            
-            
-          </div>
-          <div className="input-group mb-3">
-            
-            <select
-              name="universityName"
-              value={track.universityName}
-              onChange={handleTrack}
-              className="form-select"
-              style={{ fontSize: "12px" }}
-              placeholder="Select University Name"
-            >
-              <option value="">Select University</option>
-              {university.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.universityName}
-                                >
-                                  {uni.universityName}
-                                </option>
-                              ))}
-            </select>
-           
-          </div>
-          <div className="input-group mb-3">
-            
-            <select
-              name="course"
-              value={track.course}
-              onChange={handleProgramChange}
-              className="form-select"
-              style={{ fontSize: "12px" }}
-              placeholder="Select Program"
-            >
-              <option value="">Select course</option>
-              {programs.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.programTitle}
-                                >
-                                  {uni.programTitle}
-                                </option>
-                              ))}
-            </select>
-           
-          </div>
-          <div className="input-group mb-3 ">
-           
-            <select
-                              className="form-select font-weight-light"
-                              name="campus"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={track.campus}
-                              onChange={handleTrack}
-                            >
-                              <option value="">Select Campus</option>
-
-                              {[
-                                ...new Set(
-                                  selectedProgram?.campuses?.map(
-                                    (campus) => campus.campus
-                                  )
-                                ),
-                              ].map((uniqueCampus, index) => (
-                                <option key={index} value={uniqueCampus}>
-                                  {uniqueCampus}
-                                </option>
-                              ))}
-                            </select>
-          </div>
-          <div className="input-group mb-3">
+      <form onSubmit={handleTrackSubmitted}>
+      <div className="row">
+        {/* Course Type */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Course Type<span className="text-danger">*</span>
+          </label>
           <select
-                              className="form-select font-weight-light"
-                              name="inTake"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={tracks.inTake}
-                              onChange={handleTrack}
-                            >
-                              <option value="">Select Intake</option>
+            name="courseType"
+            value={track.courseType}
+            onChange={handleCourseTypeChange}
+            className="form-select"
+            style={{ fontSize: "12px" }}
+          >
+            <option value="">Select course type</option>
+            {[...new Set(programs.map((prog) => prog.courseType))].map(
+              (courseType, index) => (
+                <option key={index} value={courseType}>
+                  {courseType}
+                </option>
+              )
+            )}
+          </select>
+        </div>
 
-                              {[
-                                ...new Set(
-                                  selectedProgram?.campuses?.map(
-                                    (campus) => campus.inTake
-                                  )
-                                ),
-                              ].map((uniqueCampus, index) => (
-                                <option key={index} value={uniqueCampus}>
-                                  {uniqueCampus}
-                                </option>
-                              ))}
-                            </select>
-           
-          </div>
-          <div className="input-group mb-3">
+        {/* University Name */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            University Name<span className="text-danger">*</span>
+          </label>
           <select
-                              className="form-select font-weight-light"
-                              name="inTake"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={tracks.inTake}
-                              onChange={handleTrack}
-                            >
-                              <option value="">Select Intake</option>
+            name="universityName"
+            value={track.universityName}
+            onChange={handleUniversityChange}
+            className="form-select"
+            style={{ fontSize: "12px" }}
+            disabled={!selectedCourseType}
+          >
+            <option value="">Select University</option>
+            {filteredUniversities.map((uni) => (
+              <option key={uni._id} value={uni.universityName}>
+                {uni.universityName}
+              </option>
+            ))}
+          </select>
+        </div>
 
-                              {[
-                                ...new Set(
-                                  selectedProgram?.campuses?.map(
-                                    (campus) => campus.inTake
-                                  )
-                                ),
-                              ].map((uniqueCampus, index) => (
-                                <option key={index} value={uniqueCampus}>
-                                  {uniqueCampus}
-                                </option>
-                              ))}
-                            </select>
-           
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn px-4 py-2 text-uppercase fw-semibold"
-              data-bs-dismiss="modal"
-              style={{
-                fontSize: "12px",
-                backgroundColor: "#231f20",
-                color: "#fff",
-              }}
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              className="btn px-4 py-2 text-uppercase fw-semibold"
-              style={{
-                fontSize: "12px",
-                backgroundColor: "#fe5722",
-                color: "#fff",
-              }}
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+        {/* Program Title */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Program Title<span className="text-danger">*</span>
+          </label>
+          <select
+            name="course"
+            value={track.course}
+            onChange={handleProgramChange}
+            className="form-select"
+            style={{ fontSize: "12px" }}
+            disabled={!selectedUniversity}
+          >
+            <option value="">Select program</option>
+            {filteredPrograms.map((prog) => (
+              <option key={prog._id} value={prog.programTitle}>
+                {prog.programTitle}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Campus */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Campus<span className="text-danger">*</span>
+          </label>
+          <select
+            className="form-select font-weight-light"
+            name="campus"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            value={track.campus}
+            onChange={handleCampusChange}
+            disabled={!selectedProgram}
+          >
+            <option value="">Select Campus</option>
+            {selectedProgram?.campuses?.map((campus, index) => (
+              <option key={index} value={campus.campus}>
+                {campus.campus}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Intake */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Intake<span className="text-danger">*</span>
+          </label>
+          <select
+            className="form-select font-weight-light"
+            name="inTake"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            value={track.inTake}
+            onChange={(e) => setTrack({ ...track, inTake: e.target.value })}
+            disabled={!selectedCampus}
+          >
+            <option value="">Select Intake</option>
+            {[...new Set(
+              selectedProgram?.campuses?.filter(campus => campus.campus === selectedCampus)
+              .map(campus => campus.inTake)
+            )].map((uniqueIntake, index) => (
+              <option key={index} value={uniqueIntake}>
+                {uniqueIntake}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+          courseFees<span className="text-danger">*</span>
+          </label>
+          <select
+            className="form-select font-weight-light"
+            name="courseFees"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            value={track.courseFees}
+            onChange={(e) => setTrack({ ...track, courseFees: e.target.value })}
+            disabled={!selectedCampus}
+          >
+            <option value="">Select courseFees</option>
+            {[...new Set(
+              selectedProgram?.campuses?.filter(campus => campus.campus === selectedCampus)
+              .map(campus => campus.courseFees)
+            )].map((uniqueIntake, index) => (
+              <option key={index} value={uniqueIntake}>
+                {uniqueIntake}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn px-4 py-2 text-uppercase fw-semibold"
+            data-bs-dismiss="modal"
+            style={{ fontSize: "12px", backgroundColor: "#231f20", color: "#fff" }}
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            className="btn px-4 py-2 text-uppercase fw-semibold"
+            style={{ fontSize: "12px", backgroundColor: "#fe5722", color: "#fff" }}
+          >
+            Submit
+          </button>
+        </div>
       </div>
+    </form>
+</div>
+
+
     </div>
   </div>
 </div>
