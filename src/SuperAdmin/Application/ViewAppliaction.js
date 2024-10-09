@@ -246,9 +246,10 @@ export const ViewApplication = () => {
 };
 
 const getProgressColor = (progress) => {
+  console.log("balan", progress)
     if (progress === 0) return '#e0e0e0'; // Gray for 0 progress
     if (progress < 50) return '#ff9800'; // Orange for <50%
-    if (progress < 100) return '#ffc107'; // Yellow for <100%
+    if (progress === 100) return '#ffc107'; // Yellow for <100%
     return '#4caf50'; // Green for 100%
 };
 
