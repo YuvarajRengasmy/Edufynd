@@ -1,21 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
-import { updateApplication,statusApplication, getSingleApplication } from "../../api/applicatin";
-import {loadStripe} from '@stripe/stripe-js'; 
+import { updateApplication, statusApplication, getSingleApplication } from "../../api/applicatin";
+import { loadStripe } from '@stripe/stripe-js';
 import { getFilterStatus } from "../../api/status";
-import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
+import { getFilterApplicationStatus } from "../../api/universityModule/ApplicationStatus";
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";import { duration } from "@mui/material";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; import { duration } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
 import BackButton from "../../compoents/backButton";
-import {savePaymentGetWay } from "../../api/invoice/payment";
+import { savePaymentGetWay } from "../../api/invoice/payment";
 import Select from "react-select";
 import { getallUniversity } from "../../api/university";
-import {getallProgram,} from "../../api/Program";
+import { getallProgram, } from "../../api/Program";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -79,12 +79,12 @@ export const ViewApplication = () => {
   };
   const getApplicationDetails = () => {
     getSingleApplication(id)
-    .then((res) => {
-      setStatuses(res?.data?.result?.status || []); // Assume statuses is an array in the response
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+      .then((res) => {
+        setStatuses(res?.data?.result?.status || []); // Assume statuses is an array in the response
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const getAllApplicationsModuleDetails = () => {
@@ -138,8 +138,8 @@ export const ViewApplication = () => {
     if (!data.commentBox) {
       error.commentBox.required = true;
     }
-  
-  
+
+
     return error;
   };
   const convertToBase64 = (e, name) => {
@@ -165,9 +165,9 @@ export const ViewApplication = () => {
         ...prevState,
         [name]: value,
       }));
-      
+
     }
- 
+
     if (submitted) {
       const newError = handleValidation({
         ...track,
@@ -180,7 +180,7 @@ export const ViewApplication = () => {
 
 
   const handleEditModule = (item) => {
- 
+
     setTrack({
       statusName: item.statusName,
       duration: item.duration,
@@ -191,13 +191,13 @@ export const ViewApplication = () => {
     });
     setIsEditing(true);
     setEditId(item._id);
-    setIsEditing(true); 
+    setIsEditing(true);
     setSubmitted(false);
     setTrackErrors(initialStateErrors);
     setSubCategories(item.subCategory || []); // Fetch subcategories when editing
   };
 
-  
+
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -213,128 +213,170 @@ export const ViewApplication = () => {
     setSelectedOptions(selected); // Update the selected options in the state
   };
 
-const handleTrackSubmit = (event) => {
-  event.preventDefault();
+  // const handleTrackSubmit = (event) => {
+  //   event.preventDefault();
+  //     const newErrorEducation = handleValidation(track);
+  //     setTrackErrors(newErrorEducation);
+  //     setSubmitted(true);
+  //     const selectedValues = selectedOptions.map((option) => option.value);
+
+  //   if (handleErrors(newErrorEducation))  {
+  //     const data = {
+  //        _id:id,
+  //       status: {
+  //         _id: editId,
+  //         ...track,
+
+  //         subCategory: selectedValues, // Set progress to 100% upon submission
+  //     }, // If editing, include the ID in the data
+  //     };
+
+  //     if (isEditing) {
+  //       statusApplication(data)
+  //         .then((res) => {
+  //           toast.success("Successfully updated application status");
+  //           event.target.reset();
+  //           setTrack(initialState);
+
+  //           setSubmitted(false);
+  //           getAllModuleDetails();
+
+
+  //         })
+  //         .catch((err) => {
+  //           toast.error(err?.response?.data?.message);
+  //         });
+  //     }
+  //   }
+  // };
+
+
+  const handleTrackSubmit = (event) => {
+    event.preventDefault();
+
+    // Perform validation
     const newErrorEducation = handleValidation(track);
     setTrackErrors(newErrorEducation);
     setSubmitted(true);
-    const selectedValues = selectedOptions.map((option) => option.value);
 
-  if (handleErrors(newErrorEducation))  {
-    const data = {
-       _id:id,
-      status: {
-        _id: editId,
-        ...track,
-        
-        subCategory: selectedValues, // Set progress to 100% upon submission
-    }, // If editing, include the ID in the data
-    };
+    // If validation passes, proceed with submission
+    if (handleErrors(newErrorEducation)) {
+      const selectedValues = selectedOptions.map((option) => option.value); // Collect selected subcategory values
 
-    if (isEditing) {
-      statusApplication(data)
-        .then((res) => {
-          toast.success("Successfully updated application status");
-          event.target.reset();
-          setTrack(initialState);
-         
-          setSubmitted(false);
-          getAllModuleDetails();
-         
-       
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
+      // Structure the data as per backend requirements
+      const data = {
+        _id: id, // Assuming 'id' is the applicant's ID
+        statusId: editId, // The statusId of the status being edited
+        statusName: track.statusName, // From the track object (or any other input fields)
+        progress: track.progress, // Set progress to 100% if applicable
+        subCategory: selectedValues, // The selected subcategories
+        completed: track.completed, // Pass the completed status (true/false)
+        duration: track.duration, // Any other fields like duration, if needed
+        position: track.position, // Add position if applicable
+
+      };
+
+      // Check if we're editing an existing status
+      if (isEditing) {
+        statusApplication(data)
+          .then((res) => {
+            toast.success("Successfully updated application status");
+            event.target.reset();
+            setTrack(initialState); // Reset track object to initial state after submission
+            setSubmitted(false); // Reset form submission state
+            getAllModuleDetails(); // Fetch the latest module details after submission
+          })
+          .catch((err) => {
+            toast.error(err?.response?.data?.message || "Failed to update status");
+          });
+      }
+    }
+  };
+
+  const getProgressColor = (progress) => {
+    if (progress === 100) return "#4caf50"; // Green for complete
+    if (progress > 50) return "#ffeb3b"; // Yellow for more than 50%
+    return "#f44336"; // Red for less than or equal to 50%
+  };
+
+
+  const makePayment = async () => {
+    const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
+
+    const body = {
+      amount: tracks?.applicationFee * 100
+    }
+    const header = {
+      'Content-Type': 'application/json'
+    }
+    const response = await fetch('https://api.edufynd.in/api/payment/create-checkout-session', {
+      method: 'POST',
+      headers: header,
+      body: JSON.stringify(body)
+    })
+    const session = await response.json()
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id
+    })
+
+    if (result.error) {
+      console.log(result.error)
     }
   }
-};
-
-const getProgressColor = (progress) => {
-  if (progress === 100) return "#4caf50"; // Green for complete
-  if (progress > 50) return "#ffeb3b"; // Yellow for more than 50%
-  return "#f44336"; // Red for less than or equal to 50%
-};
 
 
-  
- const makePayment = async()=>{
-  const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
-
-  const body = {
-    amount:tracks?.applicationFee * 100
-  }
-  const header = {
-    'Content-Type': 'application/json'
-  }
-  const response = await fetch('https://api.edufynd.in/api/payment/create-checkout-session',{
-    method: 'POST',
-    headers:header,
-    body: JSON.stringify(body) 
-  })
-  const session = await response.json()
-
-  const result = stripe.redirectToCheckout({
-    sessionId: session.id
-  })
-
-  if(result.error){
-    console.log(result.error)
-  }
-}
-
-   
-const CategoriesOptions = track?.subCategory
-? track.subCategory.map((subCategory) => ({
-    value: subCategory,
-    label: subCategory,
-  }))
-: [];
+  const CategoriesOptions = track?.subCategory
+    ? track.subCategory.map((subCategory) => ({
+      value: subCategory,
+      label: subCategory,
+    }))
+    : [];
 
 
-// edit Application
-useEffect(() => {
-  getAllUniversityList();
-  getAllProgramList();
-}, []);
+  // edit Application
+  useEffect(() => {
+    getAllUniversityList();
+    getAllProgramList();
+  }, []);
 
-const getAllUniversityList = () => {
-  getallUniversity()
-    .then((res) => {
-      setUniversity(res?.data?.result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-const [university, setUniversity] = useState([]);
-const [programs, setPrograms] = useState([]);
-const [selectedProgram, setSelectedProgram] = useState(null);
+  const getAllUniversityList = () => {
+    getallUniversity()
+      .then((res) => {
+        setUniversity(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [university, setUniversity] = useState([]);
+  const [programs, setPrograms] = useState([]);
+  const [selectedProgram, setSelectedProgram] = useState(null);
 
-const getAllProgramList = () => {
-  getallProgram()
-    .then((res) => {
-      setPrograms(res?.data?.result?.programList || []);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+  const getAllProgramList = () => {
+    getallProgram()
+      .then((res) => {
+        setPrograms(res?.data?.result?.programList || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-const handleProgramChange = (event) => {
-  const selectedProgramTitle = event.target.value;
-  const program = programs.find(
-    (prog) => prog.programTitle === selectedProgramTitle
-  );
-  setSelectedProgram(program || null);
-  setTrack((prevInputs) => ({
-    ...prevInputs,
-    programTitle: selectedProgramTitle,
-    campus: program ? program.campuses.map((campus) => campus.campus) : [],
-    courseType: program ? program.courseType : "",
-    applicationFee: program ? program.applicationFee : "",
-  }));
-};
+  const handleProgramChange = (event) => {
+    const selectedProgramTitle = event.target.value;
+    const program = programs.find(
+      (prog) => prog.programTitle === selectedProgramTitle
+    );
+    setSelectedProgram(program || null);
+    setTrack((prevInputs) => ({
+      ...prevInputs,
+      programTitle: selectedProgramTitle,
+      campus: program ? program.campuses.map((campus) => campus.campus) : [],
+      courseType: program ? program.courseType : "",
+      applicationFee: program ? program.applicationFee : "",
+    }));
+  };
   return (
     <>
       <Sidebar />
@@ -344,799 +386,809 @@ const handleProgramChange = (event) => {
       >
         <div className="content-header text-end">
 
-<BackButton/>
+          <BackButton />
 
-</div>
+        </div>
         <div className="container-fluid">
-            <div className="row">
-              <div className="col-xl-12">
+          <div className="row">
+            <div className="col-xl-12">
               <div className="container-fluid">
-            <div className="row">
-              <div className="col">
-              <div className="card rounded-1 ">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-4 border-end border-5 border-primary">
-                      
-                        <h5 className="card-name fw-semibold text-center">
-                         {tracks?.name}
-                        </h5>
-                        <p className="card-text text-center fw-semibold mb-1">
-                        {tracks?.email} {/* Student Code:{tracks?.studentCode || "N/A"} */}
-                        </p>
-                        <p className="card-text text-secondary text-center fw-semibold mb-3">
-                         {tracks?.studentCode || "N/A"} || {tracks?.country} 
-                        </p>
-                        <div className="text-center">
-                          <button
-                            aria-valuenow="75"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            className="btn btn-sm text-uppercase fw-semibold rounded-pill text-white px-4 py-1 position-relative"
-                            style={{
-                              fontSize: "12px",
-                              backgroundColor: "#28A745",
-                              border: "none",
-                              overflow: "hidden",
-                            }}
-                          >
-                            <div
-                              className="position-absolute top-50 start-50 translate-middle"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                backgroundColor: "#ffffff",
-                                opacity: 0.2,
-                              }}
-                            >
-                              <div
-                                className="progress position-relative"
-                                style={{ height: "100%" }}
+                <div className="row">
+                  <div className="col">
+                    <div className="card rounded-1 ">
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="col-4 border-end border-5 border-primary">
+
+                            <h5 className="card-name fw-semibold text-center">
+                              {tracks?.name}
+                            </h5>
+                            <p className="card-text text-center fw-semibold mb-1">
+                              {tracks?.email} {/* Student Code:{tracks?.studentCode || "N/A"} */}
+                            </p>
+                            <p className="card-text text-secondary text-center fw-semibold mb-3">
+                              {tracks?.studentCode || "N/A"} || {tracks?.country}
+                            </p>
+                            <div className="text-center">
+                              <button
+                                aria-valuenow="75"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                className="btn btn-sm text-uppercase fw-semibold rounded-pill text-white px-4 py-1 position-relative"
+                                style={{
+                                  fontSize: "12px",
+                                  backgroundColor: "#28A745",
+                                  border: "none",
+                                  overflow: "hidden",
+                                }}
                               >
                                 <div
-                                  className="progress-bar progress-bar-striped progress-bar-animated"
-                                  style={{ width: "75%", height: "100%" }}
-                                ></div>
-                              </div>
-                            </div>
-                            <span>View Profile</span>
-                          </button>
-                         
-                          
-                      <div className="text-center mt-2">
-                      {tracks?.applicationFee > 0 && (
-    <button className="btn text-white btn-sm justify-content-end"
-            style={{ marginRight: "0.5rem", backgroundColor: "#FE5722",
-                     fontFamily: "Plus Jakarta Sans",
-                     fontSize: "12px", }} 
-            onClick={makePayment} 
-            value={tracks.applicationFee}>
-        {tracks.applicationFee} Pay Now
-    </button>
-)}
-                      </div>
-                        </div>
-
-
-                        
-  
-
-
-
-
-
-                      </div>
-                      <div className="col-8">
-                        <h5 className="card-program mb-2 fw-light">
-                       <span className="text-primary fw-bold">{tracks?.course}</span>
-                         
-                        </h5>
-                        <div className="mb-3 d-flex justify-content-between">
-  <p className="card-text">{tracks?.universityName}</p>
-  <div className="card p-2 rounded-1 border-primary border-2">
-   
-      <button
-        className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
-        data-bs-toggle="modal"
-        data-bs-target="#StatusModal" // Updated target to match the modal ID
-      >
-         <i className="fas fa-edit">Application</i>
-      </button>
- 
-  </div>
-</div>
-
-<div
-  className="modal fade" // Changed to "fade" for Bootstrap 5 compatibility
-  id="StatusModal"
-  tabIndex="-1"
-  aria-labelledby="staticBackdropLabel" // Updated aria-labelledby to match the modal title
-  aria-hidden="true"
->
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="staticBackdropLabel">
-          Edit Application
-        </h1>
-        <button
-          type="button"
-          className="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div className="modal-body">
-        <form onSubmit={handleTrackSubmit}>
-        <div className="input-group mb-3">
-            
-            
-          </div>
-          <div className="input-group mb-3">
-            
-            <select
-              name="universityName"
-              value={track.universityName}
-              onChange={handleTrack}
-              className="form-select"
-              style={{ fontSize: "12px" }}
-              placeholder="Select University Name"
-            >
-              <option value="">Select University</option>
-              {university.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.universityName}
+                                  className="position-absolute top-50 start-50 translate-middle"
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    backgroundColor: "#ffffff",
+                                    opacity: 0.2,
+                                  }}
                                 >
-                                  {uni.universityName}
-                                </option>
-                              ))}
-            </select>
-           
-          </div>
-          <div className="input-group mb-3">
-            
-            <select
-              name="course"
-              value={track.course}
-              onChange={handleProgramChange}
-              className="form-select"
-              style={{ fontSize: "12px" }}
-              placeholder="Select Program"
-            >
-              <option value="">Select course</option>
-              {programs.map((uni) => (
-                                <option
-                                  key={uni._id}
-                                  value={uni.programTitle}
-                                >
-                                  {uni.programTitle}
-                                </option>
-                              ))}
-            </select>
-           
-          </div>
-          <div className="input-group mb-3 ">
-           
-            <select
-                              className="form-select font-weight-light"
-                              name="campus"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={track.campus}
-                              onChange={handleTrack}
-                            >
-                              <option value="">Select Campus</option>
-
-                              {[
-                                ...new Set(
-                                  selectedProgram?.campuses?.map(
-                                    (campus) => campus.campus
-                                  )
-                                ),
-                              ].map((uniqueCampus, index) => (
-                                <option key={index} value={uniqueCampus}>
-                                  {uniqueCampus}
-                                </option>
-                              ))}
-                            </select>
-          </div>
-          <div className="input-group mb-3">
-          <select
-                              className="form-select font-weight-light"
-                              name="inTake"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={tracks.inTake}
-                              onChange={handleTrack}
-                            >
-                              <option value="">Select Intake</option>
-
-                              {[
-                                ...new Set(
-                                  selectedProgram?.campuses?.map(
-                                    (campus) => campus.inTake
-                                  )
-                                ),
-                              ].map((uniqueCampus, index) => (
-                                <option key={index} value={uniqueCampus}>
-                                  {uniqueCampus}
-                                </option>
-                              ))}
-                            </select>
-           
-          </div>
-          <div className="input-group mb-3">
-          <select
-                              className="form-select font-weight-light"
-                              name="inTake"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "14px",
-                              }}
-                              value={tracks.inTake}
-                              onChange={handleTrack}
-                            >
-                              <option value="">Select Intake</option>
-
-                              {[
-                                ...new Set(
-                                  selectedProgram?.campuses?.map(
-                                    (campus) => campus.inTake
-                                  )
-                                ),
-                              ].map((uniqueCampus, index) => (
-                                <option key={index} value={uniqueCampus}>
-                                  {uniqueCampus}
-                                </option>
-                              ))}
-                            </select>
-           
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn px-4 py-2 text-uppercase fw-semibold"
-              data-bs-dismiss="modal"
-              style={{
-                fontSize: "12px",
-                backgroundColor: "#231f20",
-                color: "#fff",
-              }}
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              className="btn px-4 py-2 text-uppercase fw-semibold"
-              style={{
-                fontSize: "12px",
-                backgroundColor: "#fe5722",
-                color: "#fff",
-              }}
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-                        <div className="card bg-transparent rounded-2 mt-4">
-                          <div className="card-body">
-                            <div className="d-flex align-items-center justify-content-between">
-                              <div className="d-flex flex-column">
-                                <p className="fw-semilight">Campus</p>
-                                <p className="fw-semibold">{tracks?.campus}</p>
-                              </div>
-                              <div className="d-flex flex-column">
-                                <p className="fw-semilight">Intake</p>
-                                <p className="fw-semibold">{tracks?.inTake}</p>
-                              </div>
-                             
-                              <div className="d-flex flex-column">
-                                <p className="fw-semilight">Tuition Fee</p>
-                                <p className="fw-semibold">{tracks?.courseFees}</p>
-                              </div>
-                              <div className="d-flex flex-column">
-                                <p className="fw-semilight">Application Code</p>
-                                <p className="fw-semibold">{tracks?.applicationCode}</p>
-                              </div>
-                              
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </div>
-                </div>
-              </div>
-
-              
-      
-               
-              <div className="container-fluid">
-  <div className="row">
-    <div className="col">
-      <div className="card border-0 rounded-1 shadow-sm p-3">
-        <div className="card-body">
-          <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex justify-content-between align-items-center">
-          {statuses
-  .sort((a, b) => a.position - b.position) // Sort by position
-  .map((item, index) => {
-    // Check if the previous status is fully completed (progress = 100)
-    const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
-
-    return (
-      <div
-        className="position-relative m-2"
-        key={item.id} // Use a unique identifier instead of index if possible
-        style={{ flex: "1 1 auto", maxWidth: "10%" }}
-      >
-        <div className="position-relative">
-          <div
-            className="progress"
-            role="progressbar"
-            aria-label="Progress"
-            aria-valuenow={item.progress} // Update here
-            aria-valuemin="0"
-            aria-valuemax="100"
-            style={{ height: "9px" }}
-          >
-            <div
-              className="progress-bar progress-bar-striped progress-bar-animated"
-              style={{
-                width: `${item.progress}%`, // Update here
-                backgroundColor: getProgressColor(item.progress), // Update here
-              }}
-            ></div>
-          </div>
-
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip>{item.position}</Tooltip>}
-          >
-            <button
-              type="button"
-              className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
-              data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-              data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
-              style={{
-                width: "2rem",
-                height: "2rem",
-                left: "0",
-                color: "#FFF",
-              }}
-              onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
-              disabled={!isPreviousCompleted} // Disable the button if previous is not completed
-            >
-              {item.position}
-            </button>
-          </OverlayTrigger>
-
-          {/* Status Name */}
-          <div className="d-flex justify-content-start align-items-center mt-3">
-            {item.statusName}
-          </div>
-          <div className="d-flex justify-content-start align-items-center mt-3 d-none">
-            {item.subCategory}
-          </div>
-
-          {/* Modal for Editing */}
-          <div
-            className="modal fade"
-            id={`modal-${item._id}`} // Use item.id for unique modal ID
-            tabIndex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                    Application Status
-                  </h1>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    ref={modalRef}
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  {/* Form for Editing */}
-                  <form onSubmit={handleTrackSubmit}>
-                    {/* Status Input */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-                      <input
-                        type="text"
-                        name="statusName"
-                        value={track.statusName}
-                        onChange={handleTrack}
-                        className="form-control"
-                        placeholder="Enter Status...."
-                        aria-label="Status"
-                        style={{ fontSize: "12px" }}
-                      />
-                      {submitted && trackErrors.statusName.required && (
-                        <p className="text-danger">Status is required</p>
-                      )}
-                    </div>
-
-                    {/* Sub Category Input */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-                      <Select
-                        isMulti
-                        options={CategoriesOptions}
-                        name="subCategory"
-                        onChange={handleSelectChange}
-                        styles={{
-                          container: (base) => ({
-                            ...base,
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                            zIndex: "2",
-                          }),
-                        }}
-                        placeholder="Select Sub Category"
-                      />
-                    </div>
-
-                    {/* Duration Input */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-                      <input
-                        type="text"
-                        name="duration"
-                        value={track.duration}
-                        onChange={handleTrack}
-                        className="form-control"
-                        placeholder="Enter Duration...."
-                        aria-label="Duration"
-                        style={{ fontSize: "12px" }}
-                      />
-                      {submitted && trackErrors.duration.required && (
-                        <p className="text-danger">Duration is required</p>
-                      )}
-                    </div>
-
-                    {/* Rich Text Editor */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-                      <CKEditor
-                        editor={ClassicEditor}
-                        value={track.commentBox}
-                        config={{
-                          placeholder: "Start writing your content here...",
-                          toolbar: [
-                            "heading",
-                            "|",
-                            "bold",
-                            "italic",
-                            "link",
-                            "bulletedList",
-                            "numberedList",
-                            "blockQuote",
-                            "|",
-                            "insertTable",
-                            "mediaEmbed",
-                            "imageUpload",
-                            "|",
-                            "undo",
-                            "redo",
-                          ],
-                        }}
-                        onChange={(event, editor) => {
-                          const data = editor.getData();
-                          handleRichTextChange(data);
-                        }}
-                        name="commentBox"
-                        style={{
-                          fontFamily: "Plus Jakarta Sans",
-                          fontSize: "12px",
-                          zIndex: "0",
-                        }}
-                      />
-                      {submitted && trackErrors.commentBox.required && (
-                        <p className="text-danger">Comment is required</p>
-                      )}
-                    </div>
-
-                    {/* Progress and File Upload Inputs */}
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-                      <input
-                        type="number"
-                        className="form-control"
-                        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                        value={track.progress} // Assuming you have track.progress defined
-                        placeholder="Enter Progress"
-                        name="progress"
-                        onChange={handleTrack}
-                      />
-                    </div>
-                    <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-                      <input
-                        type="file"
-                        className="form-control"
-                        style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                        placeholder="Enter File Upload"
-                        name="document"
-                        onChange={handleTrack}
-                      />
-                    </div>
-
-                    {/* Modal Footer */}
-                    <div className="modal-footer">
-                      <button
-                        type="button"
-                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                        data-bs-dismiss="modal"
-                        style={{
-                          fontSize: "12px",
-                          backgroundColor: "#231f20",
-                          color: "#fff",
-                        }}
-                      >
-                        Close
-                      </button>
-                      <button
-                        type="submit"
-                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                        style={{
-                          fontSize: "12px",
-                          backgroundColor: "#fe5722",
-                          color: "#fff",
-                        }}
-                      >
-                        Save changes
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  })}
-
-
-</div>
-
-
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-            
-    
-
-<div className="container-fluid">
-  <div className="row">
-    <div className="col">
-    <div className="card card-body mb-3">
-                  <h6 className="text-start">Notes</h6>
-                  <div className="text-end">
-                    <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"   data-bs-toggle="modal"
-                              data-bs-target="#StatusModal"
-                             
-                              style={{fontSize:'12px'}}>Add Status</button>
-                  </div>
-
-                  <div
-                            className="modal fade"
-                            id="StatusModal"
-                            tabIndex="-1"
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h1
-                                    className="modal-title fs-5"
-                                    id="staticBackdropLabel"
+                                  <div
+                                    className="progress position-relative"
+                                    style={{ height: "100%" }}
                                   >
-                                    Application Status
-                                  </h1>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                   
-                                  ></button>
+                                    <div
+                                      className="progress-bar progress-bar-striped progress-bar-animated"
+                                      style={{ width: "75%", height: "100%" }}
+                                    ></div>
+                                  </div>
                                 </div>
-                                <div className="modal-body">
-                                <form onSubmit={handleTrackSubmit}>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <select
-                                        name="statusName"
-                                        value={track.statusName}
-                                        onChange={handleTrack}
-                                        className="form-select"
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        <option value="">Select Status</option>
-                                        {
-                                          application.map((status) => (
+                                <span>View Profile</span>
+                              </button>
+
+
+                              <div className="text-center mt-2">
+                                {tracks?.applicationFee > 0 && (
+                                  <button className="btn text-white btn-sm justify-content-end"
+                                    style={{
+                                      marginRight: "0.5rem", backgroundColor: "#FE5722",
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    onClick={makePayment}
+                                    value={tracks.applicationFee}>
+                                    {tracks.applicationFee} Pay Now
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+                          </div>
+                          <div className="col-8">
+                            <h5 className="card-program mb-2 fw-light">
+                              <span className="text-primary fw-bold">{tracks?.course}</span>
+
+                            </h5>
+                            <div className="mb-3 d-flex justify-content-between">
+                              <p className="card-text">{tracks?.universityName}</p>
+                              <div className="card p-2 rounded-1 border-primary border-2">
+
+                                <button
+                                  className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#StatusModal" // Updated target to match the modal ID
+                                >
+                                  <i className="fas fa-edit">Application</i>
+                                </button>
+
+                              </div>
+                            </div>
+
+                            <div
+                              className="modal fade" // Changed to "fade" for Bootstrap 5 compatibility
+                              id="StatusModal"
+                              tabIndex="-1"
+                              aria-labelledby="staticBackdropLabel" // Updated aria-labelledby to match the modal title
+                              aria-hidden="true"
+                            >
+                              <div className="modal-dialog modal-dialog-centered">
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                                      Edit Application
+                                    </h1>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      data-bs-dismiss="modal"
+                                      aria-label="Close"
+                                    ></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    <form onSubmit={handleTrackSubmit}>
+                                      <div className="input-group mb-3">
+
+
+                                      </div>
+                                      <div className="input-group mb-3">
+
+                                        <select
+                                          name="universityName"
+                                          value={track.universityName}
+                                          onChange={handleTrack}
+                                          className="form-select"
+                                          style={{ fontSize: "12px" }}
+                                          placeholder="Select University Name"
+                                        >
+                                          <option value="">Select University</option>
+                                          {university.map((uni) => (
                                             <option
-                                              key={status._id}
-                                              value={status.statusName}
+                                              key={uni._id}
+                                              value={uni.universityName}
                                             >
-                                              {status.statusName}
+                                              {uni.universityName}
                                             </option>
                                           ))}
-                                      </select>
-                                      {submitted &&
-                                        trackErrors.statusName.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3 visually-hidden">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="text"
-                                        name="duration"
-                                        value="0"
-                                        onChange={handleTrack}
-                                        className="form-control"
-                                        placeholder="Enter Status...."
-                                        aria-label="Status"
-                                        aria-describedby="basic-addon1"
-                                        style={{ fontSize: "12px" }}
-                                      />
-                                    
-                                    </div>
-                                    <div className="input-group mb-3">
-                                     
-                                   
-<CKEditor
-                                editor={ClassicEditor}
-                                value={track.commentBox}
-                                config={{
-                                  placeholder:
-                                    "Start writing your content here...",
-                                  toolbar: [
-                                    "heading",
-                                    "|",
-                                    "bold",
-                                    "italic",
-                                    "link",
-                                    "bulletedList",
-                                    "numberedList",
-                                    "blockQuote",
-                                    "|",
-                                    "insertTable",
-                                    "mediaEmbed",
-                                    "imageUpload",
-                                    "|",
-                                    "undo",
-                                    "redo",
-                                  ],
-                                  image: {
-                                    toolbar: [
-                                      "imageTextAlternative",
-                                      "imageStyle:full",
-                                      "imageStyle:side",
-                                    ],
-                                  },
-                                  table: {
-                                    contentToolbar: [
-                                      "tableColumn",
-                                      "tableRow",
-                                      "mergeTableCells",
-                                    ],
-                                  },
-                                }}
-                                onChange={(event, editor) => {
-                                  const data = editor.getData();
-                                  console.log({ data });
-                                  handleRichTextChange(data);
-                                }}
-                                name="commentBox"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                  zIndex: "0",
-                                }}
-                              />
-                                      {submitted &&
-                                        trackErrors.commentBox.required && (
-                                          <p className="text-danger">
-                                            Comment is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-file nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="file"
-                                        className="form-control "
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                        placeholder="Enter  Image upload"
-                                        name="document"
-                                        onChange={handleTrack}
-                                      />
-                                    </div>
-                                    <div className="modal-footer">
-                                      <button
-                                        type="button"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        data-bs-dismiss="modal"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#231f20",
-                                          color: "#fff",
-                                        }}
-                                      >
-                                        Close
-                                      </button>
-                                      <button
-                                        type="submit"
-                                        data-bs-dismiss="modal"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#fe5722",
-                                          color: "#fff",
-                                        }}
-                                        // data-bs-bs-dismiss="modal"
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                  </form>
+                                        </select>
+
+                                      </div>
+                                      <div className="input-group mb-3">
+
+                                        <select
+                                          name="course"
+                                          value={track.course}
+                                          onChange={handleProgramChange}
+                                          className="form-select"
+                                          style={{ fontSize: "12px" }}
+                                          placeholder="Select Program"
+                                        >
+                                          <option value="">Select course</option>
+                                          {programs.map((uni) => (
+                                            <option
+                                              key={uni._id}
+                                              value={uni.programTitle}
+                                            >
+                                              {uni.programTitle}
+                                            </option>
+                                          ))}
+                                        </select>
+
+                                      </div>
+                                      <div className="input-group mb-3 ">
+
+                                        <select
+                                          className="form-select font-weight-light"
+                                          name="campus"
+                                          style={{
+                                            fontFamily: "Plus Jakarta Sans",
+                                            fontSize: "14px",
+                                          }}
+                                          value={track.campus}
+                                          onChange={handleTrack}
+                                        >
+                                          <option value="">Select Campus</option>
+
+                                          {[
+                                            ...new Set(
+                                              selectedProgram?.campuses?.map(
+                                                (campus) => campus.campus
+                                              )
+                                            ),
+                                          ].map((uniqueCampus, index) => (
+                                            <option key={index} value={uniqueCampus}>
+                                              {uniqueCampus}
+                                            </option>
+                                          ))}
+                                        </select>
+                                      </div>
+                                      <div className="input-group mb-3">
+                                        <select
+                                          className="form-select font-weight-light"
+                                          name="inTake"
+                                          style={{
+                                            fontFamily: "Plus Jakarta Sans",
+                                            fontSize: "14px",
+                                          }}
+                                          value={tracks.inTake}
+                                          onChange={handleTrack}
+                                        >
+                                          <option value="">Select Intake</option>
+
+                                          {[
+                                            ...new Set(
+                                              selectedProgram?.campuses?.map(
+                                                (campus) => campus.inTake
+                                              )
+                                            ),
+                                          ].map((uniqueCampus, index) => (
+                                            <option key={index} value={uniqueCampus}>
+                                              {uniqueCampus}
+                                            </option>
+                                          ))}
+                                        </select>
+
+                                      </div>
+                                      <div className="input-group mb-3">
+                                        <select
+                                          className="form-select font-weight-light"
+                                          name="inTake"
+                                          style={{
+                                            fontFamily: "Plus Jakarta Sans",
+                                            fontSize: "14px",
+                                          }}
+                                          value={tracks.inTake}
+                                          onChange={handleTrack}
+                                        >
+                                          <option value="">Select Intake</option>
+
+                                          {[
+                                            ...new Set(
+                                              selectedProgram?.campuses?.map(
+                                                (campus) => campus.inTake
+                                              )
+                                            ),
+                                          ].map((uniqueCampus, index) => (
+                                            <option key={index} value={uniqueCampus}>
+                                              {uniqueCampus}
+                                            </option>
+                                          ))}
+                                        </select>
+
+                                      </div>
+                                      <div className="modal-footer">
+                                        <button
+                                          type="button"
+                                          className="btn px-4 py-2 text-uppercase fw-semibold"
+                                          data-bs-dismiss="modal"
+                                          style={{
+                                            fontSize: "12px",
+                                            backgroundColor: "#231f20",
+                                            color: "#fff",
+                                          }}
+                                        >
+                                          Close
+                                        </button>
+                                        <button
+                                          type="submit"
+                                          className="btn px-4 py-2 text-uppercase fw-semibold"
+                                          style={{
+                                            fontSize: "12px",
+                                            backgroundColor: "#fe5722",
+                                            color: "#fff",
+                                          }}
+                                        >
+                                          Submit
+                                        </button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="card bg-transparent rounded-2 mt-4">
+                              <div className="card-body">
+                                <div className="d-flex align-items-center justify-content-between">
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">Campus</p>
+                                    <p className="fw-semibold">{tracks?.campus}</p>
+                                  </div>
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">Intake</p>
+                                    <p className="fw-semibold">{tracks?.inTake}</p>
+                                  </div>
+
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">Tuition Fee</p>
+                                    <p className="fw-semibold">{tracks?.courseFees}</p>
+                                  </div>
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">Application Code</p>
+                                    <p className="fw-semibold">{tracks?.applicationCode}</p>
+                                  </div>
+
                                 </div>
                               </div>
                             </div>
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-    </div>
-  </div>
-</div>
+              </div>
 
-<div className="container-fluid-fluid my-2">
-  <div className="row flex-nowrap">
-   
-    <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
-      <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-        <div className="card-header bg-white border-0">
-         
-          <div className="text-center">
+
+
+
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col">
+                    <div className="card border-0 rounded-1 shadow-sm p-3">
+                      <div className="card-body">
+                        {/* <div>{new Date(tracks?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div> */}
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="d-flex justify-content-between align-items-center">
+                            {statuses
+                              .sort((a, b) => a.position - b.position) // Sort by position
+                              .map((item, index) => {
+                                // Check if the previous status is fully completed (progress = 100)
+                                const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
+
+                                return (
+                                  <div>
+                                    <div>{new Date(item?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div>
+                                    <div
+                                      className="position-relative m-2"
+                                      key={item.id} // Use a unique identifier instead of index if possible
+                                      style={{ flex: "1 1 auto", maxWidth: "10%" }}
+                                    >
+                                      <div className="position-relative">
+
+                                        <div
+                                          className="progress"
+                                          role="progressbar"
+                                          aria-label="Progress"
+                                          aria-valuenow={item.progress} // Update here
+                                          aria-valuemin="0"
+                                          aria-valuemax="100"
+                                          style={{ height: "9px" }}
+                                        >
+
+                                          <div
+                                            className="progress-bar progress-bar-striped progress-bar-animated"
+                                            style={{
+                                              width: `${item.progress}%`, // Update here
+                                              backgroundColor: getProgressColor(item.progress), // Update here
+                                            }}
+                                          ></div>
+                                        </div>
+
+                                        <OverlayTrigger
+                                          placement="bottom"
+                                          overlay={<Tooltip>{item.position}</Tooltip>}
+                                        >
+                                          <button
+                                            type="button"
+                                            className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
+                                            data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
+                                            data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
+                                            style={{
+                                              width: "2rem",
+                                              height: "2rem",
+                                              left: "0",
+                                              color: "#FFF",
+                                            }}
+                                            onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
+                                            disabled={!isPreviousCompleted} // Disable the button if previous is not completed
+                                          >
+                                            {item.position}
+                                          </button>
+                                        </OverlayTrigger>
+
+                                        {/* Status Name */}
+                                        <div className="d-flex justify-content-start align-items-center mt-3">
+                                          {item.statusName}
+                                        </div>
+                                        <div className="d-flex justify-content-start align-items-center mt-3 ">
+                                          {new Date(
+                                            new Date(item?.createdOn).setDate(new Date(item?.createdOn).getDate() + Number(item?.duration))
+                                          ).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                                        </div>
+
+                                        {/* Modal for Editing */}
+                                        <div
+                                          className="modal fade"
+                                          id={`modal-${item._id}`} // Use item.id for unique modal ID
+                                          tabIndex="-1"
+                                          aria-labelledby="exampleModalLabel"
+                                          aria-hidden="true"
+                                        >
+                                          <div className="modal-dialog modal-dialog-centered">
+                                            <div className="modal-content">
+                                              <div className="modal-header">
+                                                <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                                                  Application Status
+                                                </h1>
+                                                <button
+                                                  type="button"
+                                                  className="btn-close"
+                                                  data-bs-dismiss="modal"
+                                                  aria-label="Close"
+                                                  ref={modalRef}
+                                                ></button>
+                                              </div>
+                                              <div className="modal-body">
+                                                {/* Form for Editing */}
+                                                <form onSubmit={handleTrackSubmit}>
+                                                  {/* Status Input */}
+                                                  <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                    <input
+                                                      type="text"
+                                                      name="statusName"
+                                                      value={track.statusName}
+                                                      onChange={handleTrack}
+                                                      className="form-control"
+                                                      placeholder="Enter Status...."
+                                                      aria-label="Status"
+                                                      style={{ fontSize: "12px" }}
+                                                    />
+                                                    {submitted && trackErrors.statusName.required && (
+                                                      <p className="text-danger">Status is required</p>
+                                                    )}
+                                                  </div>
+
+                                                  {/* Sub Category Input */}
+                                                  <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                    <Select
+                                                      isMulti
+                                                      options={CategoriesOptions}
+                                                      name="subCategory"
+                                                      onChange={handleSelectChange}
+                                                      styles={{
+                                                        container: (base) => ({
+                                                          ...base,
+                                                          fontFamily: "Plus Jakarta Sans",
+                                                          fontSize: "12px",
+                                                          zIndex: "2",
+                                                        }),
+                                                      }}
+                                                      placeholder="Select Sub Category"
+                                                    />
+                                                  </div>
+
+                                                  {/* Duration Input */}
+                                                  <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                    <input
+                                                      type="text"
+                                                      name="duration"
+                                                      value={track.duration}
+                                                      onChange={handleTrack}
+                                                      className="form-control"
+                                                      placeholder="Enter Duration...."
+                                                      aria-label="Duration"
+                                                      style={{ fontSize: "12px" }}
+                                                    />
+                                                    {submitted && trackErrors.duration.required && (
+                                                      <p className="text-danger">Duration is required</p>
+                                                    )}
+                                                  </div>
+
+                                                  {/* Rich Text Editor */}
+                                                  <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                    <CKEditor
+                                                      editor={ClassicEditor}
+                                                      value={track.commentBox}
+                                                      config={{
+                                                        placeholder: "Start writing your content here...",
+                                                        toolbar: [
+                                                          "heading",
+                                                          "|",
+                                                          "bold",
+                                                          "italic",
+                                                          "link",
+                                                          "bulletedList",
+                                                          "numberedList",
+                                                          "blockQuote",
+                                                          "|",
+                                                          "insertTable",
+                                                          "mediaEmbed",
+                                                          "imageUpload",
+                                                          "|",
+                                                          "undo",
+                                                          "redo",
+                                                        ],
+                                                      }}
+                                                      onChange={(event, editor) => {
+                                                        const data = editor.getData();
+                                                        handleRichTextChange(data);
+                                                      }}
+                                                      name="commentBox"
+                                                      style={{
+                                                        fontFamily: "Plus Jakarta Sans",
+                                                        fontSize: "12px",
+                                                        zIndex: "0",
+                                                      }}
+                                                    />
+                                                    {submitted && trackErrors.commentBox.required && (
+                                                      <p className="text-danger">Comment is required</p>
+                                                    )}
+                                                  </div>
+
+                                                  {/* Progress and File Upload Inputs */}
+                                                  <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                    <input
+                                                      type="number"
+                                                      className="form-control"
+                                                      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                                      value={track.progress} // Assuming you have track.progress defined
+                                                      placeholder="Enter Progress"
+                                                      name="progress"
+                                                      onChange={handleTrack}
+                                                    />
+                                                  </div>
+                                                  <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                    <input
+                                                      type="file"
+                                                      className="form-control"
+                                                      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                                      placeholder="Enter File Upload"
+                                                      name="document"
+                                                      onChange={handleTrack}
+                                                    />
+                                                  </div>
+
+                                                  {/* Modal Footer */}
+                                                  <div className="modal-footer">
+                                                    <button
+                                                      type="button"
+                                                      className="btn px-4 py-2 text-uppercase fw-semibold"
+                                                      data-bs-dismiss="modal"
+                                                      style={{
+                                                        fontSize: "12px",
+                                                        backgroundColor: "#231f20",
+                                                        color: "#fff",
+                                                      }}
+                                                    >
+                                                      Close
+                                                    </button>
+                                                    <button
+                                                      type="submit"
+                                                      className="btn px-4 py-2 text-uppercase fw-semibold"
+                                                      style={{
+                                                        fontSize: "12px",
+                                                        backgroundColor: "#fe5722",
+                                                        color: "#fff",
+                                                      }}
+                                                    >
+                                                      Save changes
+                                                    </button>
+                                                  </div>
+                                                </form>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+
+
+                          </div>
+
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col">
+                    <div className="card card-body mb-3">
+                      <h6 className="text-start">Notes</h6>
+                      <div className="text-end">
+                        <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1" data-bs-toggle="modal"
+                          data-bs-target="#StatusModal"
+
+                          style={{ fontSize: '12px' }}>Add Status</button>
+                      </div>
+
+                      <div
+                        className="modal fade"
+                        id="StatusModal"
+                        tabIndex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div className="modal-dialog modal-dialog-centered">
+                          <div className="modal-content">
+                            <div className="modal-header">
+                              <h1
+                                className="modal-title fs-5"
+                                id="staticBackdropLabel"
+                              >
+                                Application Status
+                              </h1>
+                              <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+
+                              ></button>
+                            </div>
+                            <div className="modal-body">
+                              <form onSubmit={handleTrackSubmit}>
+                                <div className="input-group mb-3">
+                                  <span
+                                    className="input-group-text"
+                                    id="basic-addon1"
+                                  >
+                                    <i className="fa fa-tasks nav-icon text-dark"></i>
+                                  </span>
+                                  <select
+                                    name="statusName"
+                                    value={track.statusName}
+                                    onChange={handleTrack}
+                                    className="form-select"
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    <option value="">Select Status</option>
+                                    {
+                                      application.map((status) => (
+                                        <option
+                                          key={status._id}
+                                          value={status.statusName}
+                                        >
+                                          {status.statusName}
+                                        </option>
+                                      ))}
+                                  </select>
+                                  {submitted &&
+                                    trackErrors.statusName.required && (
+                                      <p className="text-danger">
+                                        Status is required
+                                      </p>
+                                    )}
+                                </div>
+                                <div className="input-group mb-3 visually-hidden">
+                                  <span
+                                    className="input-group-text"
+                                    id="basic-addon1"
+                                  >
+                                    <i className="fa fa-tasks nav-icon text-dark"></i>
+                                  </span>
+                                  <input
+                                    type="text"
+                                    name="duration"
+                                    value="0"
+                                    onChange={handleTrack}
+                                    className="form-control"
+                                    placeholder="Enter Status...."
+                                    aria-label="Status"
+                                    aria-describedby="basic-addon1"
+                                    style={{ fontSize: "12px" }}
+                                  />
+
+                                </div>
+                                <div className="input-group mb-3">
+
+
+                                  <CKEditor
+                                    editor={ClassicEditor}
+                                    value={track.commentBox}
+                                    config={{
+                                      placeholder:
+                                        "Start writing your content here...",
+                                      toolbar: [
+                                        "heading",
+                                        "|",
+                                        "bold",
+                                        "italic",
+                                        "link",
+                                        "bulletedList",
+                                        "numberedList",
+                                        "blockQuote",
+                                        "|",
+                                        "insertTable",
+                                        "mediaEmbed",
+                                        "imageUpload",
+                                        "|",
+                                        "undo",
+                                        "redo",
+                                      ],
+                                      image: {
+                                        toolbar: [
+                                          "imageTextAlternative",
+                                          "imageStyle:full",
+                                          "imageStyle:side",
+                                        ],
+                                      },
+                                      table: {
+                                        contentToolbar: [
+                                          "tableColumn",
+                                          "tableRow",
+                                          "mergeTableCells",
+                                        ],
+                                      },
+                                    }}
+                                    onChange={(event, editor) => {
+                                      const data = editor.getData();
+                                      console.log({ data });
+                                      handleRichTextChange(data);
+                                    }}
+                                    name="commentBox"
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                      zIndex: "0",
+                                    }}
+                                  />
+                                  {submitted &&
+                                    trackErrors.commentBox.required && (
+                                      <p className="text-danger">
+                                        Comment is required
+                                      </p>
+                                    )}
+                                </div>
+                                <div className="input-group mb-3">
+                                  <span
+                                    className="input-group-text"
+                                    id="basic-addon1"
+                                  >
+                                    <i className="fa fa-file nav-icon text-dark"></i>
+                                  </span>
+                                  <input
+                                    type="file"
+                                    className="form-control "
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "12px",
+                                    }}
+                                    placeholder="Enter  Image upload"
+                                    name="document"
+                                    onChange={handleTrack}
+                                  />
+                                </div>
+                                <div className="modal-footer">
+                                  <button
+                                    type="button"
+                                    className="btn px-4 py-2 text-uppercase fw-semibold"
+                                    data-bs-dismiss="modal"
+                                    style={{
+                                      fontSize: "12px",
+                                      backgroundColor: "#231f20",
+                                      color: "#fff",
+                                    }}
+                                  >
+                                    Close
+                                  </button>
+                                  <button
+                                    type="submit"
+                                    data-bs-dismiss="modal"
+                                    className="btn px-4 py-2 text-uppercase fw-semibold"
+                                    style={{
+                                      fontSize: "12px",
+                                      backgroundColor: "#fe5722",
+                                      color: "#fff",
+                                    }}
+                                  // data-bs-bs-dismiss="modal"
+                                  >
+                                    Submit
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="container-fluid-fluid my-2">
+                <div className="row flex-nowrap">
+
+                  <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
+                    <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+                      <div className="card-header bg-white border-0">
+
+                        <div className="text-center">
                           <button
                             aria-valuenow="75"
                             aria-valuemin="0"
@@ -1174,98 +1226,98 @@ const handleProgramChange = (event) => {
                             <small>(75%) Completed</small>
                           </div>
                         </div>
-        </div>
-        <div className="card-body p-4">
-  <img
-    src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-    className="card-img-top rounded-circle border-0"
-    alt="Profile"
-    style={{ width: "3rem", height: "3rem" }}
-  />  {tracks?.createdBy}
-  <p>
-    Application Status -  {formatDate(tracks?.createdOn)}
-  </p>
-  
-  {tracks?.status && (
-    <div>
-      {tracks.status.map((item, index) => (
-        <a
-          href={item?.document || "#"}
-          target="_blank"
-          
-          key={index}
-          className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
-        >
-          <div className="me-2">
-            {item?.document ? (
-              <img
-                src={item?.document}
-                className="card-img-top border-0 me-2"
-                alt="Document"
-                style={{ width: "10rem", height: "3rem" }}
-              />
-            ) : (
-              <div
-                className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
-                style={{ width: "10rem", height: "3rem", backgroundColor: "#f0f0f0" }}
-              >
-                
-                <p className="mb-0" style={{ fontSize: "12px", color: "#888"}}>
-                  No Document
-                </p>
-              </div>
-            )}
-            <p className="card-text mb-0" style={{ fontSize: "12px" }}>
-              {item?.name}
-            </p>
-            <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+                      </div>
+                      <div className="card-body p-4">
+                        <img
+                          src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                          className="card-img-top rounded-circle border-0"
+                          alt="Profile"
+                          style={{ width: "3rem", height: "3rem" }}
+                        />  {tracks?.createdBy}
+                        <p>
+                          Application Status -  {formatDate(tracks?.createdOn)}
+                        </p>
 
-<p classname='mb-0'><small>Sent</small></p>
+                        {tracks?.status && (
+                          <div>
+                            {tracks.status.map((item, index) => (
+                              <a
+                                href={item?.document || "#"}
+                                target="_blank"
 
-<p classname='mb-0'><small>Time</small></p>
-</div>
-          </div>
-          <i className="fa fa-eye" aria-hidden="true"></i>
-        </a>
-        
-        
-      ))}
-    
-    </div>
-    
-  )}
-</div>
+                                key={index}
+                                className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
+                              >
+                                <div className="me-2">
+                                  {item?.document ? (
+                                    <img
+                                      src={item?.document}
+                                      className="card-img-top border-0 me-2"
+                                      alt="Document"
+                                      style={{ width: "10rem", height: "3rem" }}
+                                    />
+                                  ) : (
+                                    <div
+                                      className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
+                                      style={{ width: "10rem", height: "3rem", backgroundColor: "#f0f0f0" }}
+                                    >
 
-      </div>
-    </div>
-    
-    
-    <div className="col-md-8 col-sm-8">
-      <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-        <div className="card-header bg-white sticky-top">
-          <h6 className="card-title">Application Track</h6>
-        </div>
-        
-      
-        <div className="collapse" id="taggingSection">
-        <div className="btn btns-m border-0 rounded-1 btn-danger float-end m-2"  data-bs-toggle="collapse" data-bs-target="#taggingSection"><i className="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide</div>
-          <div className="card-body p-4 border rounded-1">
-           
-            <form>
-              <div className="form-group mb-3">
-                <label for="tagPerson">Tag Person</label>
-                <input
-                  type="text"
-                  className="form-control rounded-1 text-muted"
-                  id="tagPerson"
-                  placeholder="Enter person's name"
-                  style={{ fontSize: "12px" }}
-                />
-              </div>
-              <div className="form-group mb-3">
-                <label for="subject">Subject</label>
-               
-<CKEditor
+                                      <p className="mb-0" style={{ fontSize: "12px", color: "#888" }}>
+                                        No Document
+                                      </p>
+                                    </div>
+                                  )}
+                                  <p className="card-text mb-0" style={{ fontSize: "12px" }}>
+                                    {item?.name}
+                                  </p>
+                                  <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+
+                                    <p classname='mb-0'><small>Sent</small></p>
+
+                                    <p classname='mb-0'><small>Time</small></p>
+                                  </div>
+                                </div>
+                                <i className="fa fa-eye" aria-hidden="true"></i>
+                              </a>
+
+
+                            ))}
+
+                          </div>
+
+                        )}
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <div className="col-md-8 col-sm-8">
+                    <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+                      <div className="card-header bg-white sticky-top">
+                        <h6 className="card-title">Application Track</h6>
+                      </div>
+
+
+                      <div className="collapse" id="taggingSection">
+                        <div className="btn btns-m border-0 rounded-1 btn-danger float-end m-2" data-bs-toggle="collapse" data-bs-target="#taggingSection"><i className="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide</div>
+                        <div className="card-body p-4 border rounded-1">
+
+                          <form>
+                            <div className="form-group mb-3">
+                              <label for="tagPerson">Tag Person</label>
+                              <input
+                                type="text"
+                                className="form-control rounded-1 text-muted"
+                                id="tagPerson"
+                                placeholder="Enter person's name"
+                                style={{ fontSize: "12px" }}
+                              />
+                            </div>
+                            <div className="form-group mb-3">
+                              <label for="subject">Subject</label>
+
+                              <CKEditor
                                 editor={ClassicEditor}
                                 value={track.commentBox}
                                 config={{
@@ -1315,98 +1367,98 @@ const handleProgramChange = (event) => {
                                   zIndex: "0",
                                 }}
                               />
-              </div>
-              <button type="submit" className="btn btn-primary float-end border-0 rounded-1 ">Send</button>
-            </form>
-          </div>
-        </div>
-        
-       
-        <div className="card-body ">
-          <div className="chat-messages">
-            <div className="container-fluid">
-
-              <div className="row">
-              {tracks?.status &&
-                                        tracks.status.map((item, index) => (
-                <div key={index} className="d-flex justify-content-end mb-4">
-                  <div  className="profile-content">
-                  <img
-            src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-            className="card-img-top rounded-circle border-0"
-            alt="Profile"
-            style={{ width: "4.5rem", height: "4.5rem" }}
-          />
-                  </div>
-               
-                  <div  className="col-10">
-                    <div className="card ">
-                      <div className="card-header text-bg-danger">
-                      
-                        <p className="mb-0">Application Decision:{item?.statusName}</p>
-                        <div className="d-flex gap-2">
-                        <p className="mb-0">{formatDate(item?.createdOn)}</p>
-                        <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
-                        <i className="fa fa-reply" aria-hidden="true"></i>
-                        </button>
+                            </div>
+                            <button type="submit" className="btn btn-primary float-end border-0 rounded-1 ">Send</button>
+                          </form>
                         </div>
-                       
                       </div>
-                      <div className="card-body">
-                     
-                                              <CKEditor
-        editor={ClassicEditor}
-        data={item?.commentBox} 
-        disabled={true}                    
-        config={{
-          toolbar: [],                   
-        }}
-      /><br/><br/>
-                          Sincerely,<br/>
-                          {item?.createdBy}<br />
-                        Edufynd
 
-                      
-                        <div className="d-flex flex-column align-items-end justify-content-end">
-                          <p className="mb-0"><b>Duration</b>- {item?.duration}Days</p>
-                          <p className="mb-0"><b>Delayed</b>- {item?.delay}Days</p>
+
+                      <div className="card-body ">
+                        <div className="chat-messages">
+                          <div className="container-fluid">
+
+                            <div className="row">
+                              {tracks?.status &&
+                                tracks.status.map((item, index) => (
+                                  <div key={index} className="d-flex justify-content-end mb-4">
+                                    <div className="profile-content">
+                                      <img
+                                        src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                        className="card-img-top rounded-circle border-0"
+                                        alt="Profile"
+                                        style={{ width: "4.5rem", height: "4.5rem" }}
+                                      />
+                                    </div>
+
+                                    <div className="col-10">
+                                      <div className="card ">
+                                        <div className="card-header text-bg-danger">
+
+                                          <p className="mb-0">Application Decision:{item?.statusName}</p>
+                                          <div className="d-flex gap-2">
+                                            <p className="mb-0">{formatDate(item?.createdOn)}</p>
+                                            <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
+                                              <i className="fa fa-reply" aria-hidden="true"></i>
+                                            </button>
+                                          </div>
+
+                                        </div>
+                                        <div className="card-body">
+
+                                          <CKEditor
+                                            editor={ClassicEditor}
+                                            data={item?.commentBox}
+                                            disabled={true}
+                                            config={{
+                                              toolbar: [],
+                                            }}
+                                          /><br /><br />
+                                          Sincerely,<br />
+                                          {item?.createdBy}<br />
+                                          Edufynd
+
+
+                                          <div className="d-flex flex-column align-items-end justify-content-end">
+                                            <p className="mb-0"><b>Duration</b>- {item?.duration}Days</p>
+                                            <p className="mb-0"><b>Delayed</b>- {item?.delay}Days</p>
+                                          </div>
+
+                                          <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+
+                                            <p classname='mb-0'><small>Sent</small></p>
+
+                                            <p classname='mb-0'><small>Time</small></p>
+                                          </div>
+
+
+                                        </div>
+
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
                         </div>
-
-                        <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
-
-<p classname='mb-0'><small>Sent</small></p>
-
-<p classname='mb-0'><small>Time</small></p>
-</div>
-                       
-                      
                       </div>
-                     
+
+
+
                     </div>
                   </div>
-               
                 </div>
-                 ))}
               </div>
+
+
+
+
             </div>
           </div>
+
         </div>
-       
-       
-        
-      </div>
-    </div>
-  </div>
-</div>
 
-             
-
-               
-              </div>
-            </div>
-          
-          </div>
-        
       </div>
     </>
   );
