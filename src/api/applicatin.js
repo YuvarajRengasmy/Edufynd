@@ -33,6 +33,11 @@ export const getSingleApplication = (data) => {
   export const updateApplication = (data) => {
     return API.put(`${Application}`, data);
   };
+
+  export const updateStatus = (data) => {
+    return API.put(`${Application}/status`, data);
+  };
+
   export const getFilterApplican = (data) => {
     return API.put(`${Application}/getFilterApplicant`, data);
   };

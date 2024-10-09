@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
 import { useNavigate, useLocation } from "react-router-dom";
-import { updateApplication, getSingleApplication } from "../../api/applicatin";
+import { updateApplication, getSingleApplication, updateStatus} from "../../api/applicatin";
 import {loadStripe} from '@stripe/stripe-js'; 
 import { getFilterStatus } from "../../api/status";
 import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
@@ -179,15 +179,15 @@ export const ViewApplication = () => {
 
 
   const handleEditModule = (item) => {
- 
     setTrack({
+      statusId: item.statusId,
       statusName: item.statusName,
       duration: item.duration,
       progress: item.progress,
       subCategory: item.subCategory || [],
       commentBox: "",
       document: "", // Initialize commentBox as empty or with a value if needed
-    });
+    })
     setIsEditing(true);
     setEditId(item._id);
     setIsEditing(true); 
@@ -195,6 +195,8 @@ export const ViewApplication = () => {
     setTrackErrors(initialStateErrors);
     setSubCategories(item.subCategory || []); // Fetch subcategories when editing
   };
+
+
 
   
   const handleErrors = (obj) => {
@@ -212,42 +214,83 @@ export const ViewApplication = () => {
     setSelectedOptions(selected); // Update the selected options in the state
   };
 
-const handleTrackSubmit = (event) => {
-  event.preventDefault();
-    const newErrorEducation = handleValidation(track);
-    setTrackErrors(newErrorEducation);
-    setSubmitted(true);
-    const selectedValues = selectedOptions.map((option) => option.value);
+// const handleTrackSubmit = (event) => {
+//   event.preventDefault();
+//     const newErrorEducation = handleValidation(track);
+//     setTrackErrors(newErrorEducation);
+//     setSubmitted(true);
+//     const selectedValues = selectedOptions.map((option) => option.value);
 
-  if (handleErrors(newErrorEducation))  {
-    const data = {
+//   if (handleErrors(newErrorEducation))  {
+//     const data = {
     
-      status: {
-        _id: editId,
-        ...track,
-        progress: 100,
-        subCategory: selectedValues, // Set progress to 100% upon submission
-    }, // If editing, include the ID in the data
-    };
+//       status: {
+//         _id: editId,
+//         ...track,
+//         progress: 100,
+//         subCategory: selectedValues, // Set progress to 100% upon submission
+//     }, // If editing, include the ID in the data
+//     };
 
-    if (isEditing) {
-      updateApplication(data)
-        .then((res) => {
-          toast.success("Successfully updated application status");
-          event.target.reset();
-          setTrack(initialState);
+//     if (isEditing) {
+//       updateApplication(data)
+//         .then((res) => {
+//           toast.success("Successfully updated application status");
+//           event.target.reset();
+//           setTrack(initialState);
          
-          setSubmitted(false);
-          getAllModuleDetails();
+//           setSubmitted(false);
+//           getAllModuleDetails();
          
        
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.message);
-        });
-    }
+//         })
+//         .catch((err) => {
+//           toast.error(err?.response?.data?.message);
+//         });
+//     }
+//   }
+// };
+
+
+const handleTrackSubmit = (event) => {
+  event.preventDefault();
+
+  const newErrorEducation = handleValidation(track);
+  setTrackErrors(newErrorEducation);
+  setSubmitted(true);
+  const selectedValues = selectedOptions.map((option) => option.value);
+
+  if (handleErrors(newErrorEducation)) {
+      // Prepare data to be sent to the backend
+      const data = {
+          _id:  editId, // Include the applicant ID to update the correct record
+          statusId: track.statusId, // Use the editId for the status being updated
+          statusName: track.statusName, // Ensure this field exists in your track state
+          progress: 100, // Set progress to 100% upon submission
+          subCategory: selectedValues, // Include the selected subcategories
+          duration: track.duration, // Include other necessary fields from your track state
+          completed: track.completed || false, // Include completed status
+          modifiedBy: "yourUserIdentifier", // Replace with actual user identifier
+      };
+
+      // Check if we are in editing mode
+      if (isEditing) {
+          updateStatus(data)
+              .then((res) => {
+                  toast.success("Successfully updated application status");
+                  event.target.reset(); // Reset the form after successful submission
+                  setTrack(initialState); // Reset track state to initial
+                  setSubmitted(false); // Reset submitted state
+                  getAllModuleDetails(); // Refresh module details
+              })
+              .catch((err) => {
+                  toast.error(err?.response?.data?.message || "Failed to update status");
+              });
+      }
   }
 };
+
+
 
 const getProgressColor = (progress) => {
   if (progress === 100) return "#4caf50"; // Green for complete
