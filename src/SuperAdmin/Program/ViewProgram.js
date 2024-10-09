@@ -3,6 +3,8 @@ import { getSingleProgram, getallProgram,getSingleProgramLog} from "../../api/Pr
 import {saveApplication} from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
 import { Link, useLocation,useNavigate } from "react-router-dom";
+import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
+
 import "./Course.css";
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
 import Sidebar from "../../compoents/sidebar";
@@ -44,7 +46,8 @@ const initialStateErrors = {
     courseFees: { required: false },
 };
 
-  
+const [status, setStatus] = useState([]);
+
   const [program, setProgram] = useState();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
@@ -63,6 +66,7 @@ const initialStateErrors = {
     getProgramDetails();
      getUniversityLogs();
     getAllStudentDetails();
+    getAllApplicationsModuleDetails();
   }, []);
   useEffect(() => {
     getAllProgaramDetails();
@@ -88,8 +92,25 @@ const initialStateErrors = {
       });
   };
 
-;
 
+const getAllApplicationsModuleDetails = () => {
+  const data = {
+    limit: 10,
+    page: pagination.from,
+  };
+  getFilterApplicationStatus(data)
+    .then((res) => {
+      console.log("ggg", res)
+      setStatus(res?.data?.result?.statusList || []);
+      setPagination({
+        ...pagination,
+        count: res?.data?.result?.statusCount || 0,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
   const getUniversityLogs = () => {
     getSingleProgramLog(id)
       .then((res) => {
@@ -208,6 +229,7 @@ const handleSubmit = (event) => {
       universityName:program.universityName,
       applicationFee:program.applicationFee,
       uniCountry:program.country,
+      status: status,
       // programId:program._id
 
     };

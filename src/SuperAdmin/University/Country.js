@@ -1,281 +1,265 @@
-// import React, { useRef, useState } from "react";
-// import Select from "react-select";
-// import { CKEditor } from "@ckeditor/ckeditor5-react";
-// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-// import { Tooltip, OverlayTrigger } from "react-bootstrap";
+import React, { useEffect, useState, useRef } from "react";
+import Sidebar from "../../compoents/sidebar";
+import { useNavigate, useLocation } from "react-router-dom";
+import { updateApplication, getSingleApplication } from "../../api/applicatin";
+import {loadStripe} from '@stripe/stripe-js'; 
+import { getFilterStatus } from "../../api/status";
+import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
+import { toast } from "react-toastify";
+import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
+import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";import { duration } from "@mui/material";
+import { formatDate } from "../../Utils/DateFormat";
+import BackButton from "../../compoents/backButton";
+import {savePaymentGetWay } from "../../api/invoice/payment";
+import Select from "react-select";
 
-// const YourComponent = ({ status, handleEditModule, handleTrack, handleTrackSubmit, handleSelectChange, handleRichTextChange }) => {
-//   const modalRef = useRef(null);
-//   const [submitted, setSubmitted] = useState(false);
-//   const [track, setTrack] = useState({ newStatus: "", duration: "", commentBox: "", progress: "", document: "" });
-//   const [trackErrors, setTrackErrors] = useState({ newStatus: {}, duration: {}, commentBox: {} });
+const ViewApplication = () => {
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  const modalRef = useRef(null);
 
-//   const getProgressColor = (progress) => {
-//     if (progress === 100) return "#28a745"; // Green for completed
-//     if (progress > 0) return "#ffc107"; // Yellow for in-progress
-//     return "#dc3545"; // Red for not started
-//   };
+  const initialStatusState = {
+    statusName: "",
+    commentBox: "",
+    document: "",
+    duration: "",
+    progress: "",
+    subCategory: [],
+  };
 
-//   return (
-//     <div className="row">
-//       {status
-//         .sort((a, b) => a.position - b.position) // Sort by position
-//         .map((item, index) => {
-//           // Check if the previous status is completed
-//           const isPreviousCompleted = index === 0 || status[index - 1].completed;
+  const initialStatusErrors = {
+    statusName: { required: false },
+    commentBox: { required: false },
+    document: { required: false },
+    duration: { required: false },
+    progress: { required: false },
+    subCategory: { required: false },
+  };
 
-//           return (
-//             <div
-//               className="position-relative m-2"
-//               key={item.id} // Use a unique identifier instead of index if possible
-//               style={{ flex: "1 1 auto", maxWidth: "10%" }}
-//             >
-//               <div className="position-relative">
-//                 <div
-//                   className="progress"
-//                   role="progressbar"
-//                   aria-label="Progress"
-//                   aria-valuenow={item.progress}
-//                   aria-valuemin="0"
-//                   aria-valuemax="100"
-//                   style={{ height: "9px" }}
-//                 >
-//                   <div
-//                     className="progress-bar progress-bar-striped progress-bar-animated"
-//                     style={{
-//                       width: `${item.progress}%`,
-//                       backgroundColor: getProgressColor(item.progress),
-//                     }}
-//                   ></div>
-//                 </div>
+  const [statuses, setStatuses] = useState([]); // Store multiple statuses
+  const [selectedStatus, setSelectedStatus] = useState(initialStatusState);
+  const [statusErrors, setStatusErrors] = useState(initialStatusErrors);
+  const [submitted, setSubmitted] = useState(false);
+  const [subCategories, setSubCategories] = useState([]);
+  const navigate = useNavigate();
 
-//                 <OverlayTrigger
-//                   placement="bottom"
-//                   overlay={<Tooltip>{item.position}</Tooltip>}
-//                 >
-//                   <button
-//                     type="button"
-//                     className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
-//                     data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-//                     data-bs-target={isPreviousCompleted ? `#modal-${index}` : undefined}
-//                     style={{
-//                       width: "2rem",
-//                       height: "2rem",
-//                       left: "0",
-//                       color: "#FFF",
-//                     }}
-//                     onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
-//                   >
-//                     {item.position}
-//                   </button>
-//                 </OverlayTrigger>
+  useEffect(() => {
+    if (id) {
+      fetchApplicationDetails();
+      fetchStatusOptions();
+    }
+  }, [id]);
 
-//                 {/* Status Name */}
-//                 <div className="d-flex justify-content-start align-items-center mt-3">
-//                   {item.statusName}
-//                 </div>
-//                 <div className="d-flex justify-content-start align-items-center mt-3 d-none">
-//                   {item.subCategory}
-//                 </div>
+  const fetchApplicationDetails = () => {
+    getSingleApplication(id)
+      .then((res) => {
+        setStatuses(res?.data?.result?.status || []); // Assume statuses is an array in the response
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-//                 {/* Modal for Editing */}
-//                 <div
-//                   className="modal fade"
-//                   id={`modal-${index}`}
-//                   tabIndex="-1"
-//                   aria-labelledby="exampleModalLabel"
-//                   aria-hidden="true"
-//                 >
-//                   <div className="modal-dialog modal-dialog-centered">
-//                     <div className="modal-content">
-//                       <div className="modal-header">
-//                         <h1 className="modal-title fs-5" id="staticBackdropLabel">
-//                           Application Status
-//                         </h1>
-//                         <button
-//                           type="button"
-//                           className="btn-close"
-//                           data-bs-dismiss="modal"
-//                           aria-label="Close"
-//                           ref={modalRef}
-//                         ></button>
-//                       </div>
-//                       <div className="modal-body">
-//                         {/* Form for Editing */}
-//                         <form onSubmit={handleTrackSubmit}>
-//                           {/* Status Input */}
-//                           <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
-//                             <input
-//                               type="text"
-//                               name="newStatus"
-//                               value={track.newStatus}
-//                               onChange={handleTrack}
-//                               className="form-control"
-//                               placeholder="Enter Status...."
-//                               aria-label="Status"
-//                               aria-describedby="basic-addon1"
-//                               style={{ fontSize: "12px" }}
-//                             />
-//                             {submitted && trackErrors.newStatus.required && (
-//                               <p className="text-danger">Status is required</p>
-//                             )}
-//                           </div>
+  const fetchStatusOptions = () => {
+    getFilterStatus()
+      .then((res) => {
+        setSubCategories(res?.data?.result?.statusList || []);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-//                           {/* Sub Category Input */}
-//                           <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
-//                             <Select
-//                               isMulti
-//                               options={CategoriesOptions}
-//                               name="subCategory"
-//                               onChange={handleSelectChange}
-//                               styles={{
-//                                 container: (base) => ({
-//                                   ...base,
-//                                   fontFamily: "Plus Jakarta Sans",
-//                                   fontSize: "12px",
-//                                   zIndex: "2",
-//                                 }),
-//                               }}
-//                               placeholder="Select Sub Category"
-//                             />
-//                           </div>
+  const handleRichTextChange = (value) => {
+    setSelectedStatus((prev) => ({ ...prev, commentBox: value }));
+  };
 
-//                           {/* Duration Input */}
-//                           <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
-//                             <input
-//                               type="text"
-//                               name="duration"
-//                               value={track.duration}
-//                               onChange={handleTrack}
-//                               className="form-control"
-//                               placeholder="Enter Duration...."
-//                               aria-label="Status"
-//                               aria-describedby="basic-addon1"
-//                               style={{ fontSize: "12px" }}
-//                             />
-//                             {submitted && trackErrors.duration.required && (
-//                               <p className="text-danger">Duration is required</p>
-//                             )}
-//                           </div>
+  const handleValidation = (data) => {
+    let errors = { ...initialStatusErrors };
+    if (!data.statusName) errors.statusName.required = true;
+    if (!data.commentBox) errors.commentBox.required = true;
+    if (!data.duration) errors.duration.required = true;
+    if (!data.progress) errors.progress.required = true;
+    if (data.subCategory.length === 0) errors.subCategory.required = true;
+    return errors;
+  };
 
-//                           {/* Rich Text Editor */}
-//                           <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-//                             <CKEditor
-//                               editor={ClassicEditor}
-//                               value={track.commentBox}
-//                               config={{
-//                                 placeholder:
-//                                   "Start writing your content here...",
-//                                 toolbar: [
-//                                   "heading",
-//                                   "|",
-//                                   "bold",
-//                                   "italic",
-//                                   "link",
-//                                   "bulletedList",
-//                                   "numberedList",
-//                                   "blockQuote",
-//                                   "|",
-//                                   "insertTable",
-//                                   "mediaEmbed",
-//                                   "imageUpload",
-//                                   "|",
-//                                   "undo",
-//                                   "redo",
-//                                 ],
-//                                 image: {
-//                                   toolbar: [
-//                                     "imageTextAlternative",
-//                                     "imageStyle:full",
-//                                     "imageStyle:side",
-//                                   ],
-//                                 },
-//                                 table: {
-//                                   contentToolbar: [
-//                                     "tableColumn",
-//                                     "tableRow",
-//                                     "mergeTableCells",
-//                                   ],
-//                                 },
-//                               }}
-//                               onChange={(event, editor) => {
-//                                 const data = editor.getData();
-//                                 console.log({ data });
-//                                 handleRichTextChange(data);
-//                               }}
-//                               name="commentBox"
-//                               style={{
-//                                 fontFamily: "Plus Jakarta Sans",
-//                                 fontSize: "12px",
-//                                 zIndex: "0",
-//                               }}
-//                             />
-//                             {submitted && trackErrors.commentBox.required && (
-//                               <p className="text-danger">Comment is required</p>
-//                             )}
-//                           </div>
+  const convertToBase64 = (e, name) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setSelectedStatus((prev) => ({ ...prev, [name]: reader.result }));
+    };
+    reader.onerror = (error) => {
+      console.error("Error: ", error);
+    };
+  };
 
-//                           {/* Progress and File Upload Inputs */}
-//                           <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
-//                             <input
-//                               type="number"
-//                               className="form-control"
-//                               style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-//                               value={track.progress}
-//                               placeholder="Enter Progress"
-//                               name="progress"
-//                               onChange={handleTrack}
-//                             />
-//                           </div>
-//                           <div className="col-sm-6 col-lg-12 col-sm-12 mb-3 mb-3">
-//                             <input
-//                               type="file"
-//                               className="form-control"
-//                               style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-//                               placeholder="Enter File Upload"
-//                               name="document"
-//                               onChange={handleTrack}
-//                             />
-//                           </div>
+  const handleStatusChange = (event) => {
+    const { name, value, files } = event.target;
+    if (files && files[0]) {
+      convertToBase64(event, name);
+    } else {
+      setSelectedStatus((prev) => ({ ...prev, [name]: value }));
+    }
 
-//                           {/* Modal Footer */}
-//                           <div className="modal-footer">
-//                             <button
-//                               type="button"
-//                               className="btn px-4 py-2 text-uppercase fw-semibold"
-//                               data-bs-dismiss="modal"
-//                               style={{
-//                                 fontSize: "12px",
-//                                 backgroundColor: "#231f20",
-//                                 color: "#fff",
-//                               }}
-//                             >
-//                               Close
-//                             </button>
-//                             <button
-//                               type="submit"
-//                               className="btn px-4 py-2 text-uppercase fw-semibold"
-//                               style={{
-//                                 fontSize: "12px",
-//                                 backgroundColor: "#fe5722",
-//                                 color: "#fff",
-//                               }}
-//                               data-bs-dismiss="modal"
-//                             >
-//                               Submit
-//                             </button>
-//                           </div>
-//                         </form>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           );
-//         })}
-//     </div>
-//   );
-// };
+    if (submitted) {
+      const newErrors = handleValidation({ ...selectedStatus, [name]: value });
+      setStatusErrors(newErrors);
+    }
+  };
 
-// export default YourComponent;
+  const handleEditStatus = (status) => {
+    setSelectedStatus({
+      statusName: status.statusName,
+      duration: status.duration,
+      progress: status.progress,
+      subCategory: status.subCategory || [],
+      commentBox: "",
+      document: "",
+    });
+    setSubmitted(false);
+  };
+
+  const handleSelectChange = (selected) => {
+    setSelectedStatus((prev) => ({ ...prev, subCategory: selected.map(option => option.value) }));
+  };
+
+  const handleStatusSubmit = (event) => {
+    event.preventDefault();
+    const newErrors = handleValidation(selectedStatus);
+    setStatusErrors(newErrors);
+    setSubmitted(true);
+
+    if (!Object.values(newErrors).some(err => err.required)) {
+      // Update the status of the selected status
+      const updatedStatuses = statuses.map((status) => {
+        if (status.statusName === selectedStatus.statusName) {
+          return {
+            ...status,
+            ...selectedStatus,
+          };
+        }
+        return status;
+      });
+
+      const data = {
+        _id: id,
+        statuses: updatedStatuses,
+      };
+
+      updateApplication(data)
+        .then(() => {
+          toast.success("Successfully updated application status");
+          fetchApplicationDetails(); // Refresh application details
+          if (modalRef.current) {
+            modalRef.current.click(); // Close the modal
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
+  const CategoriesOptions = subCategories.map((subCategory) => ({
+    value: subCategory,
+    label: subCategory,
+  }));
+
+  return (
+    <>
+      <Sidebar />
+      <div className="content-wrapper">
+        <div className="content-header text-end">
+          <BackButton />
+        </div>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col">
+                    <div className="card border-0 rounded-1 shadow-sm p-3">
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between align-items-center">
+                          {statuses.map((status, index) => (
+                            <div key={index} className="position-relative m-2" style={{ flex: "1 1 auto", maxWidth: "10%" }}>
+                              <div className="progress" role="progressbar" aria-valuenow={status.progress} aria-valuemin="0" aria-valuemax="100" style={{ height: "9px" }}>
+                                <div className="progress-bar" style={{ width: `${status.progress}%`, backgroundColor: status.progress === 100 ? "#4caf50" : status.progress > 50 ? "#4caf50" : "#4caf50" }}></div>
+                              </div>
+                              <div className="d-flex justify-content-start align-items-center mt-3">
+              {status.statusName}
+            </div>
+            <div className="d-flex justify-content-start align-items-center mt-3 d-none">
+              {status.subCategory}
+            </div>
+                              <button
+                                type="button"
+                                className="position-absolute btn btn-primary rounded-pill"
+                                data-bs-toggle="modal"
+                                data-bs-target={`#modal-${index}`} // Use index for unique modal IDs
+                                onClick={() => handleEditStatus(status)}
+                                style={{ width: "2rem", height: "2rem", left: "0" }}
+                              >
+                                {status.position}
+                              </button>
+
+                              {/* Modal for Editing */}
+                              <div className="modal fade" id={`modal-${index}`} tabIndex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div className="modal-dialog modal-dialog-centered">
+                                  <div className="modal-content">
+                                    <div className="modal-header">
+                                      <h1 className="modal-title" id="modalLabel">Edit Application Status</h1>
+                                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ref={modalRef}></button>
+                                    </div>
+                                    <div className="modal-body">
+                                      <form onSubmit={handleStatusSubmit}>
+                                        <input type="text" name="statusName" value={selectedStatus.statusName} onChange={handleStatusChange} placeholder="Enter Status..." className="form-control mb-3" />
+                                        {submitted && statusErrors.statusName.required && <p className="text-danger">Status is required</p>}
+
+                                        <Select isMulti options={CategoriesOptions} name="subCategory" onChange={handleSelectChange} placeholder="Select Sub Category" className="mb-3" />
+                                        
+                                        <input type="text" name="duration" value={selectedStatus.duration} onChange={handleStatusChange} placeholder="Enter Duration..." className="form-control mb-3" />
+                                        {submitted && statusErrors.duration.required && <p className="text-danger">Duration is required</p>}
+
+                                        <CKEditor
+                                          editor={ClassicEditor}
+                                          value={selectedStatus.commentBox}
+                                          onChange={(event, editor) => handleRichTextChange(editor.getData())}
+                                          className="mb-3"
+                                        />
+                                        {submitted && statusErrors.commentBox.required && <p className="text-danger">Comment is required</p>}
+
+                                        <input type="number" name="progress" value={selectedStatus.progress} onChange={handleStatusChange} placeholder="Enter Progress" className="form-control mb-3" />
+                                        {submitted && statusErrors.progress.required && <p className="text-danger">Progress is required</p>}
+                                        
+                                        <input type="file" name="document" onChange={handleStatusChange} className="mb-3" />
+                                        {submitted && statusErrors.document.required && <p className="text-danger">Document is required</p>}
+                                        
+                                        <button type="submit" className="btn btn-primary">Submit</button>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default ViewApplication;
