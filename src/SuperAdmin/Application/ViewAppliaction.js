@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
+import AddApplication from "./AddApplication";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication, statusApplication, getSingleApplication } from "../../api/applicatin";
 import { loadStripe } from '@stripe/stripe-js';
@@ -443,6 +444,8 @@ export const ViewApplication = () => {
     }
   };
 
+// addApplication
+
   return (
     <>
       <Sidebar />
@@ -526,6 +529,218 @@ export const ViewApplication = () => {
                                 )}
                               </div>
                             </div>
+
+
+
+
+
+                      </div>
+                      <div className="col-8">
+                        <h5 className="card-program mb-2 fw-light">
+                       <span className="text-primary fw-bold">{tracks?.course}</span>
+                         
+                        </h5>
+                       
+                        <div className="mb-1 d-flex justify-content-between">
+  <p className="card-text">{tracks?.universityName}</p>
+  <div className="card p-2 rounded-1 border-primary border-2">
+   
+      <button
+        className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
+        data-bs-toggle="modal"
+        data-bs-target="#StatusModal" // Updated target to match the modal ID
+      >
+         <i className="fas fa-edit">Application</i>
+      </button>
+ 
+  </div>
+  <div className="card p-2 rounded-1 border-primary border-2">
+   
+<AddApplication/>
+ 
+
+</div>
+</div>
+
+<div
+  className="modal fade" // Changed to "fade" for Bootstrap 5 compatibility
+  id="StatusModal"
+  tabIndex="-1"
+  aria-labelledby="staticBackdropLabel" // Updated aria-labelledby to match the modal title
+  aria-hidden="true"
+>
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="staticBackdropLabel">
+          Edit Application
+        </h1>
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div className="modal-body">
+      <form onSubmit={handleTrackSubmitted}>
+      <div className="row">
+        {/* Course Type */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Course Type<span className="text-danger">*</span>
+          </label>
+          <select
+            name="courseType"
+            value={track.courseType}
+            onChange={handleCourseTypeChange}
+            className="form-select"
+            style={{ fontSize: "12px" }}
+          >
+            <option value="">Select course type</option>
+            {[...new Set(programs.map((prog) => prog.courseType))].map(
+              (courseType, index) => (
+                <option key={index} value={courseType}>
+                  {courseType}
+                </option>
+              )
+            )}
+          </select>
+        </div>
+
+        {/* University Name */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            University Name<span className="text-danger">*</span>
+          </label>
+          <select
+            name="universityName"
+            value={track.universityName}
+            onChange={handleUniversityChange}
+            className="form-select"
+            style={{ fontSize: "12px" }}
+            disabled={!selectedCourseType}
+          >
+            <option value="">Select University</option>
+            {filteredUniversities.map((uni) => (
+              <option key={uni._id} value={uni.universityName}>
+                {uni.universityName}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Program Title */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Program Title<span className="text-danger">*</span>
+          </label>
+          <select
+            name="course"
+            value={track.course}
+            onChange={handleProgramChange}
+            className="form-select"
+            style={{ fontSize: "12px" }}
+            disabled={!selectedUniversity}
+          >
+            <option value="">Select program</option>
+            {filteredPrograms.map((prog) => (
+              <option key={prog._id} value={prog.programTitle}>
+                {prog.programTitle}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Campus */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Campus<span className="text-danger">*</span>
+          </label>
+          <select
+            className="form-select font-weight-light"
+            name="campus"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            value={track.campus}
+            onChange={handleCampusChange}
+            disabled={!selectedProgram}
+          >
+            <option value="">Select Campus</option>
+            {selectedProgram?.campuses?.map((campus, index) => (
+              <option key={index} value={campus.campus}>
+                {campus.campus}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Intake */}
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+            Intake<span className="text-danger">*</span>
+          </label>
+          <select
+            className="form-select font-weight-light"
+            name="inTake"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            value={track.inTake}
+            onChange={(e) => setTrack({ ...track, inTake: e.target.value })}
+            disabled={!selectedCampus}
+          >
+            <option value="">Select Intake</option>
+            {[...new Set(
+              selectedProgram?.campuses?.filter(campus => campus.campus === selectedCampus)
+              .map(campus => campus.inTake)
+            )].map((uniqueIntake, index) => (
+              <option key={index} value={uniqueIntake}>
+                {uniqueIntake}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+          courseFees<span className="text-danger">*</span>
+          </label>
+          <select
+            className="form-select font-weight-light"
+            name="courseFees"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            value={track.courseFees}
+            onChange={(e) => setTrack({ ...track, courseFees: e.target.value })}
+            disabled={!selectedCampus}
+          >
+            <option value="">Select courseFees</option>
+            {[...new Set(
+              selectedProgram?.campuses?.filter(campus => campus.campus === selectedCampus)
+              .map(campus => campus.courseFees)
+            )].map((uniqueIntake, index) => (
+              <option key={index} value={uniqueIntake}>
+                {uniqueIntake}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn px-4 py-2 text-uppercase fw-semibold"
+            data-bs-dismiss="modal"
+            style={{ fontSize: "12px", backgroundColor: "#231f20", color: "#fff" }}
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            className="btn px-4 py-2 text-uppercase fw-semibold"
+            style={{ fontSize: "12px", backgroundColor: "#fe5722", color: "#fff" }}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+</div>
 
 
 
@@ -776,18 +991,18 @@ export const ViewApplication = () => {
                   <div className="col">
                     <div className="card border-0 rounded-1 shadow-sm p-3">
                       <div className="card-body">
+                        {/* <div>{new Date(tracks?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div> */}
                         <div className="d-flex justify-content-between align-items-center">
                           <div className="d-flex justify-content-between align-items-center">
                             {statuses
-                              .sort((a, b) => a.position - b.position)
+                              .sort((a, b) => a.position - b.position) // Sort by position
                               .map((item, index) => {
                                 // Check if the previous status is fully completed (progress = 100)
                                 const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
 
                                 return (
                                   <div>
-                                    <div>{item?.estimateDate ? new Date(item.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-') : 'XX-XX-XX'}</div>
-
+                                    <div>{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</div>
                                     <div
                                       className="position-relative m-2"
                                       key={item.id} // Use a unique identifier instead of index if possible
@@ -842,10 +1057,11 @@ export const ViewApplication = () => {
                                           {item.subCategory}
                                         </div>
 
-                                        <div className="d-flex justify-content-start align-items-center mt-3 ">
-
-                                          {item?.modifiedOn ? new Date(item.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : 'XX-XX-XX'}
-                                        </div>
+                                        {/* <div className="d-flex justify-content-start align-items-center mt-3 ">
+                  {new Date(
+                    new Date(item?.createdOn).setDate(new Date(item?.createdOn).getDate() + Number(item?.duration))
+                  ).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                </div> */}
 
                                         {/* Modal for Editing */}
                                         <div
@@ -1028,6 +1244,9 @@ export const ViewApplication = () => {
 
 
                           </div>
+
+
+
 
                         </div>
                       </div>
@@ -1522,6 +1741,16 @@ export const ViewApplication = () => {
 
         </div>
 
+             
+
+               
+              </div>
+            </div>
+          
+          </div>
+
+
+        
       </div>
     </>
   );
