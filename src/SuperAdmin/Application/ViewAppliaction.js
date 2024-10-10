@@ -270,7 +270,11 @@ export const ViewApplication = () => {
     return "#808080"; // Red for less than or equal to 50%
   };
 
-
+  const getProgressText = (progress) => {
+    if (progress === 100) return "#878089"; // Green for complete
+    if (progress > 50) return "#0000FF"; // Yellow for more than 50%
+    return "#878089"; // Red for less than or equal to 50%
+  };
 
   const makePayment = async () => {
     const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
@@ -445,7 +449,21 @@ export const ViewApplication = () => {
   };
 
 // addApplication
+const [expandedRows, setExpandedRows] = useState({});
 
+const toggleRow = (index) => {
+  setExpandedRows((prev) => ({
+    ...prev,
+    [index]: !prev[index],
+  }));
+};
+const getDisplayText = (text, expanded) => {
+  if (!text) return ""; // Ensure text is defined
+  const words = text.split(" ");
+  return expanded
+    ? text
+    : words.slice(0, 2).join(" ") + (words.length > 2 ? "..." : "");
+};
   return (
     <>
       <Sidebar />
@@ -997,23 +1015,24 @@ export const ViewApplication = () => {
                             {statuses
                               .sort((a, b) => a.position - b.position) // Sort by position
                               .map((item, index) => {
+                                const isExpanded = !!expandedRows[index];
                                 // Check if the previous status is fully completed (progress = 100)
                                 const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
 
                                 return (
                                   
                                   <div>
-                                  <div><p className="fw-semibold">{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</p></div>
+                                  <div><p className="fw-semibold" style={{ color: getProgressText(item.progress) }}>{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</p></div>
 
                                     <div
-                                      className="position-relative m-2"
+                                      className="position-relative m-2 mb-3"
                                       key={item.id} // Use a unique identifier instead of index if possible
                                       style={{ flex: "1 1 auto", maxWidth: "100%" }}
                                     >
                                       <div className="position-relative">
                                         <div
                                           className="progress"
-                                          role="zigzag-bar"
+                                          role="progressbar"
                                           aria-label="Progress"
                                           aria-valuenow={item.progress} // Update here
                                           aria-valuemin="0"
@@ -1029,28 +1048,7 @@ export const ViewApplication = () => {
                                           ></div>
                                         </div>
 
-                                        {/* <OverlayTrigger
-                                          placement="bottom"
-                                          overlay={<Tooltip>{item.position}</Tooltip>}
-                                        >
-                                          <button
-                                            type="button"
-                                            className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm  rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
-                                            data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-                                            data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
-                                            style={{
-                                              width: "2rem",
-                                              height: "2rem",
-                                              left: "0",
-                                              backgroundColor: "#0000FF",
-                                              color: getProgressColor(item.progress),
-                                            }}
-                                            onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
-                                            disabled={!isPreviousCompleted} // Disable the button if previous is not completed
-                                          >
-                                            {item.position}
-                                          </button>
-                                        </OverlayTrigger> */}
+                                        
 <OverlayTrigger
   placement="bottom"
   overlay={<Tooltip>{item.duration}</Tooltip>}
@@ -1074,19 +1072,15 @@ export const ViewApplication = () => {
   </button>
 </OverlayTrigger>
 
-                                        {/* Status Name */}
-                                        <div className="d-flex justify-content-start align-items-center mt-3">
-                                          {item.statusName}
+                                        
+                                       
+<div className="d-flex justify-content-start align-items-center mt-3"
+ onMouseEnter={() => toggleRow(index)}
+ onMouseLeave={() => toggleRow(index)}
+ title={item.statusName}>
+                                         
+                                          {getDisplayText(item.statusName, isExpanded)}
                                         </div>
-                                        <div className="d-flex justify-content-start align-items-center mt-3 ">
-                                          {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : new Date(item?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}
-                                        </div>
-
-                                        {/* <div className="d-flex justify-content-start align-items-center mt-3 ">
-                  {new Date(
-                    new Date(item?.createdOn).setDate(new Date(item?.createdOn).getDate() + Number(item?.duration))
-                  ).toLocaleDateString('en-GB').replace(/\//g, '-')}
-                </div> */}
 
                                         {/* Modal for Editing */}
                                         <div
@@ -1263,6 +1257,11 @@ export const ViewApplication = () => {
                                         </div>
                                       </div>
                                     </div>
+
+                                   
+                                        <div className="d-flex justify-content-start align-items-center mt-3 ">
+                                          {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : new Date(item?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                                        </div>
                                   </div>
                                 );
                               })}
