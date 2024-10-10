@@ -1002,7 +1002,8 @@ export const ViewApplication = () => {
 
                                 return (
                                   <div>
-                                    <div>{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</div>
+                                  <div>{item?.estimateDate ? new Date(item.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-') : 'xx-xx-xx'}</div>
+
                                     <div
                                       className="position-relative m-2"
                                       key={item.id} // Use a unique identifier instead of index if possible
