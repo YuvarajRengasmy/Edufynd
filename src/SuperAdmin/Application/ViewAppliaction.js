@@ -265,9 +265,9 @@ export const ViewApplication = () => {
 
 
   const getProgressColor = (progress) => {
-    if (progress === 100) return "#4caf50"; // Green for complete
-    if (progress > 50) return "#ffeb3b"; // Yellow for more than 50%
-    return "#f44336"; // Red for less than or equal to 50%
+    if (progress === 100) return "#FFFF00"; // Green for complete
+    if (progress > 50) return "#0000FF"; // Yellow for more than 50%
+    return "#808080"; // Red for less than or equal to 50%
   };
 
 
@@ -1001,17 +1001,19 @@ export const ViewApplication = () => {
                                 const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
 
                                 return (
+                                  
                                   <div>
-                                    <div>{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</div>
+                                  <div><p className="fw-semibold">{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</p></div>
+
                                     <div
                                       className="position-relative m-2"
                                       key={item.id} // Use a unique identifier instead of index if possible
-                                      style={{ flex: "1 1 auto", maxWidth: "10%" }}
+                                      style={{ flex: "1 1 auto", maxWidth: "100%" }}
                                     >
                                       <div className="position-relative">
                                         <div
                                           className="progress"
-                                          role="progressbar"
+                                          role="zigzag-bar"
                                           aria-label="Progress"
                                           aria-valuenow={item.progress} // Update here
                                           aria-valuemin="0"
@@ -1027,34 +1029,57 @@ export const ViewApplication = () => {
                                           ></div>
                                         </div>
 
-                                        <OverlayTrigger
+                                        {/* <OverlayTrigger
                                           placement="bottom"
                                           overlay={<Tooltip>{item.position}</Tooltip>}
                                         >
                                           <button
                                             type="button"
-                                            className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm btn-primary rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
+                                            className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm  rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
                                             data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
                                             data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
                                             style={{
                                               width: "2rem",
                                               height: "2rem",
                                               left: "0",
-                                              color: "#FFF",
+                                              backgroundColor: "#0000FF",
+                                              color: getProgressColor(item.progress),
                                             }}
                                             onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
                                             disabled={!isPreviousCompleted} // Disable the button if previous is not completed
                                           >
                                             {item.position}
                                           </button>
-                                        </OverlayTrigger>
+                                        </OverlayTrigger> */}
+<OverlayTrigger
+  placement="bottom"
+  overlay={<Tooltip>{item.duration}</Tooltip>}
+>
+  <button
+    type="button"
+    className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
+    data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
+    data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
+    style={{
+      width: "2rem",
+      height: "2rem",
+      left: "0",
+      backgroundColor: "#0000FF",
+      color: "#FFFFFF",
+    }}
+    onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
+    disabled={!isPreviousCompleted} // Disable the button if previous is not completed
+  >
+    {item.progress === 100 ? '✔️' : '✖️'}
+  </button>
+</OverlayTrigger>
 
                                         {/* Status Name */}
                                         <div className="d-flex justify-content-start align-items-center mt-3">
                                           {item.statusName}
                                         </div>
-                                        <div className="d-flex justify-content-start align-items-center mt-3 d-none">
-                                          {item.subCategory}
+                                        <div className="d-flex justify-content-start align-items-center mt-3 ">
+                                          {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : new Date(item?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}
                                         </div>
 
                                         {/* <div className="d-flex justify-content-start align-items-center mt-3 ">
