@@ -219,47 +219,6 @@ export const ViewApplication = () => {
     setSelectedOptions(selected); // Update the selected options in the state
   };
 
-<<<<<<< HEAD
-  // const handleTrackSubmit = (event) => {
-  //   event.preventDefault();
-  //     const newErrorEducation = handleValidation(track);
-  //     setTrackErrors(newErrorEducation);
-  //     setSubmitted(true);
-  //     const selectedValues = selectedOptions.map((option) => option.value);
-
-  //   if (handleErrors(newErrorEducation))  {
-  //     const data = {
-  //        _id:id,
-  //       status: {
-  //         _id: editId,
-  //         ...track,
-
-  //         subCategory: selectedValues, // Set progress to 100% upon submission
-  //     }, // If editing, include the ID in the data
-  //     };
-
-  //     if (isEditing) {
-  //       statusApplication(data)
-  //         .then((res) => {
-  //           toast.success("Successfully updated application status");
-  //           event.target.reset();
-  //           setTrack(initialState);
-
-  //           setSubmitted(false);
-  //           getAllModuleDetails();
-
-
-  //         })
-  //         .catch((err) => {
-  //           toast.error(err?.response?.data?.message);
-  //         });
-  //     }
-  //   }
-  // };
-
-
-=======
->>>>>>> Yuvaraj
   const handleTrackSubmit = (event) => {
     event.preventDefault();
 
@@ -299,42 +258,6 @@ export const ViewApplication = () => {
             toast.error(err?.response?.data?.message || "Failed to update status");
           });
       }
-<<<<<<< HEAD
-    }
-  };
-
-  const getProgressColor = (progress) => {
-    if (progress === 100) return "#4caf50"; // Green for complete
-    if (progress > 50) return "#ffeb3b"; // Yellow for more than 50%
-    return "#f44336"; // Red for less than or equal to 50%
-  };
-
-
-  const makePayment = async () => {
-    const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
-
-    const body = {
-      amount: tracks?.applicationFee * 100
-    }
-    const header = {
-      'Content-Type': 'application/json'
-    }
-    const response = await fetch('https://api.edufynd.in/api/payment/create-checkout-session', {
-      method: 'POST',
-      headers: header,
-      body: JSON.stringify(body)
-    })
-    const session = await response.json()
-
-    const result = stripe.redirectToCheckout({
-      sessionId: session.id
-    })
-
-    if (result.error) {
-      console.log(result.error)
-    }
-  }
-=======
     }
   };
 
@@ -345,7 +268,6 @@ const getProgressColor = (progress) => {
   if (progress > 50) return "#ffeb3b"; // Yellow for more than 50%
   return "#f44336"; // Red for less than or equal to 50%
 };
->>>>>>> Yuvaraj
 
 
   const CategoriesOptions = track?.subCategory
@@ -356,26 +278,6 @@ const getProgressColor = (progress) => {
     : [];
 
 
-<<<<<<< HEAD
-  // edit Application
-  useEffect(() => {
-    getAllUniversityList();
-    getAllProgramList();
-  }, []);
-
-  const getAllUniversityList = () => {
-    getallUniversity()
-      .then((res) => {
-        setUniversity(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const [university, setUniversity] = useState([]);
-  const [programs, setPrograms] = useState([]);
-  const [selectedProgram, setSelectedProgram] = useState(null);
-=======
 const [universities, setUniversities] = useState([]);
 const [programs, setPrograms] = useState([]);
 const [selectedCourseType, setSelectedCourseType] = useState('');
@@ -406,7 +308,6 @@ const getAllUniversityList = () => {
       console.log(err);
     });
 };
->>>>>>> Yuvaraj
 
   const getAllProgramList = () => {
     getallProgram()
@@ -418,22 +319,6 @@ const getAllUniversityList = () => {
       });
   };
 
-<<<<<<< HEAD
-  const handleProgramChange = (event) => {
-    const selectedProgramTitle = event.target.value;
-    const program = programs.find(
-      (prog) => prog.programTitle === selectedProgramTitle
-    );
-    setSelectedProgram(program || null);
-    setTrack((prevInputs) => ({
-      ...prevInputs,
-      programTitle: selectedProgramTitle,
-      campus: program ? program.campuses.map((campus) => campus.campus) : [],
-      courseType: program ? program.courseType : "",
-      applicationFee: program ? program.applicationFee : "",
-    }));
-  };
-=======
 const handleCourseTypeChange = (event) => {
   const selectedCourseType = event.target.value;
   setSelectedCourseType(selectedCourseType);
@@ -531,7 +416,6 @@ const handleTrackSubmitted = (event) => {
   }
 };
 
->>>>>>> Yuvaraj
   return (
     <>
       <Sidebar />
@@ -578,19 +462,6 @@ const handleTrackSubmitted = (event) => {
                                 }}
                               >
                                 <div
-<<<<<<< HEAD
-                                  className="position-absolute top-50 start-50 translate-middle"
-                                  style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    backgroundColor: "#ffffff",
-                                    opacity: 0.2,
-                                  }}
-                                >
-                                  <div
-                                    className="progress position-relative"
-                                    style={{ height: "100%" }}
-=======
                                   className="progress-bar progress-bar-striped progress-bar-animated"
                                   style={{ width: "75%", height: "100%" }}
                                 ></div>
@@ -1148,7 +1019,6 @@ const handleTrackSubmitted = (event) => {
                                   <h1
                                     className="modal-title fs-5"
                                     id="staticBackdropLabel"
->>>>>>> Yuvaraj
                                   >
                                     <div
                                       className="progress-bar progress-bar-striped progress-bar-animated"
