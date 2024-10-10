@@ -530,11 +530,6 @@ export const ViewApplication = () => {
 
 
 
-
-
-
-
-
                           </div>
                           <div className="col-8">
                             <h5 className="card-program mb-2 fw-light">
@@ -781,18 +776,18 @@ export const ViewApplication = () => {
                   <div className="col">
                     <div className="card border-0 rounded-1 shadow-sm p-3">
                       <div className="card-body">
-                        {/* <div>{new Date(tracks?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div> */}
                         <div className="d-flex justify-content-between align-items-center">
                           <div className="d-flex justify-content-between align-items-center">
                             {statuses
-                              .sort((a, b) => a.position - b.position) // Sort by position
+                              .sort((a, b) => a.position - b.position)
                               .map((item, index) => {
                                 // Check if the previous status is fully completed (progress = 100)
                                 const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
 
                                 return (
                                   <div>
-                                    <div>{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</div>
+                                    <div>{item?.estimateDate ? new Date(item.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-') : 'XX-XX-XX'}</div>
+
                                     <div
                                       className="position-relative m-2"
                                       key={item.id} // Use a unique identifier instead of index if possible
@@ -847,11 +842,10 @@ export const ViewApplication = () => {
                                           {item.subCategory}
                                         </div>
 
-                                        {/* <div className="d-flex justify-content-start align-items-center mt-3 ">
-                  {new Date(
-                    new Date(item?.createdOn).setDate(new Date(item?.createdOn).getDate() + Number(item?.duration))
-                  ).toLocaleDateString('en-GB').replace(/\//g, '-')}
-                </div> */}
+                                        <div className="d-flex justify-content-start align-items-center mt-3 ">
+
+                                          {item?.modifiedOn ? new Date(item.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : 'XX-XX-XX'}
+                                        </div>
 
                                         {/* Modal for Editing */}
                                         <div
@@ -1034,9 +1028,6 @@ export const ViewApplication = () => {
 
 
                           </div>
-
-
-
 
                         </div>
                       </div>
