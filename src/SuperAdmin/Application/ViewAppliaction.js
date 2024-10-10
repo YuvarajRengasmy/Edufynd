@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../../compoents/sidebar";
+import AddApplication from "./AddApplication";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateApplication,statusApplication, getSingleApplication } from "../../api/applicatin";
 import {loadStripe} from '@stripe/stripe-js'; 
@@ -443,6 +444,8 @@ const handleTrackSubmitted = (event) => {
   }
 };
 
+// addApplication
+
   return (
     <>
       <Sidebar />
@@ -539,7 +542,8 @@ const handleTrackSubmitted = (event) => {
                        <span className="text-primary fw-bold">{tracks?.course}</span>
                          
                         </h5>
-                        <div className="mb-3 d-flex justify-content-between">
+                       
+                        <div className="mb-1 d-flex justify-content-between">
   <p className="card-text">{tracks?.universityName}</p>
   <div className="card p-2 rounded-1 border-primary border-2">
    
@@ -552,6 +556,12 @@ const handleTrackSubmitted = (event) => {
       </button>
  
   </div>
+  <div className="card p-2 rounded-1 border-primary border-2">
+   
+<AddApplication/>
+ 
+
+</div>
 </div>
 
 <div
@@ -1517,6 +1527,8 @@ const handleTrackSubmitted = (event) => {
             </div>
           
           </div>
+
+
         
       </div>
     </>
