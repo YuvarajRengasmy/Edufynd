@@ -968,6 +968,7 @@ useEffect(() => {
               <p className="card-text mb-1 text-white"style={{backgroundColor: '#94bbe9'}}>Fin: {details?.finance || 0}</p>
               <p className="card-text mb-1 text-white"style={{backgroundColor: '#ba1b1b'}}>Edu: {details?.education || 0}</p>
               <p className="card-text mb-1 text-white"style={{backgroundColor: '#207cbb'}}>Flight: {details?.flight || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#207cbb'}}>Loan: {details?.loan || 0}</p>
             </div>
           </div>
         </div>

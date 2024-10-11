@@ -1003,13 +1003,8 @@ export const ViewApplication = () => {
 
                                       return (
 
-                                        // <div>
-                                        //   <div><p className="fw-semibold">{item?.estimateDate ? new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-') : "XX-XX-XX"}</p></div>
-
-                                          <div key={item.id} style={{ position: 'relative', flex: "1 1 auto", maxWidth: "100%" }}>
-          {/* Date Display */}
-          <div><p className="fw-semibold">{item?.estimateDate ? new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-') : "XX-XX-XX"}</p></div>
-
+                                        <div>
+                                          <div><p className="fw-semibold">{item?.estimateDate ? new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-') : "XX-XX-XX"}</p></div>
 
                                           <div
                                             className="position-relative m-2"
@@ -1017,7 +1012,7 @@ export const ViewApplication = () => {
                                             style={{ flex: "1 1 auto", maxWidth: "100%" }}
                                           >
                                             <div className="position-relative">
-                                              {/* <div
+                                              <div
                                                 className="progress"
                                                 role="zigzag-bar"
                                                 aria-label="Progress"
@@ -1033,30 +1028,35 @@ export const ViewApplication = () => {
                                                     backgroundColor: getProgressColor(item.progress), // Update here
                                                   }}
                                                 ></div>
-                                              </div> */}
+                                              </div>
 
-                                                  {/* SVG Curved Line */}
-          <svg width="100%" height="50" viewBox="0 0 100 50">
-            <path
-              d="M 0 25 Q 50 0 100 25" // This creates a simple S-curve. Modify the coordinates for different curves.
-              fill="transparent"
-              stroke={getProgressColor(item.progress)} // Set the stroke based on the progress
-              strokeWidth="2"
-            />
-            <circle
-              cx={(item.progress / 100) * 100} // Position circle according to progress
-              cy="25"
-              r="3"
-              fill={getProgressColor(item.progress)} // Circle color based on progress
-            />
-          </svg>
-
-                                              
+                                              {/* <OverlayTrigger
+                                          placement="bottom"
+                                          overlay={<Tooltip>{item.position}</Tooltip>}
+                                        >
+                                          <button
+                                            type="button"
+                                            className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm  rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
+                                            data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
+                                            data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
+                                            style={{
+                                              width: "2rem",
+                                              height: "2rem",
+                                              left: "0",
+                                              backgroundColor: "#0000FF",
+                                              color: getProgressColor(item.progress),
+                                            }}
+                                            onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
+                                            disabled={!isPreviousCompleted} // Disable the button if previous is not completed
+                                          >
+                                            {item.position}
+                                          </button>
+                                        </OverlayTrigger> */}
                                               <OverlayTrigger
                                                 placement="bottom"
                                                 overlay={<Tooltip>{item.duration}</Tooltip>}
                                               >
-                                                {/* <button
+                                                <button
                                                   type="button"
                                                   className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
                                                   data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
@@ -1073,40 +1073,17 @@ export const ViewApplication = () => {
                                                 >
                                                   {item.progress === 100 ? '✔️' : '✖️'}
                                                 </button>
-                                              </OverlayTrigger> */}
-
-<button
-              type="button"
-              className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
-              data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-              data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
-              style={{
-                width: "2rem",
-                height: "2rem",
-                left: "0",
-                backgroundColor: "#0000FF",
-                color: "#FFFFFF",
-              }}
-              onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
-              disabled={!isPreviousCompleted} // Disable the button if previous is not completed
-            >
-              {item.progress === 100 ? '✔️' : '✖️'}
-            </button>
-          </OverlayTrigger>
+                                              </OverlayTrigger>
 
                                               {/* Status Name */}
                                               <div className="d-flex justify-content-start align-items-center mt-3">
                                                 {item.statusName}
                                               </div>
                                               <div className="d-flex justify-content-start align-items-center mt-3 ">
-                                                {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : new Date(item?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                                                {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : "XX-XX-XX"}
                                               </div>
 
-                                              {/* <div className="d-flex justify-content-start align-items-center mt-3 ">
-                  {new Date(
-                    new Date(item?.createdOn).setDate(new Date(item?.createdOn).getDate() + Number(item?.duration))
-                  ).toLocaleDateString('en-GB').replace(/\//g, '-')}
-                </div> */}
+                         
 
                                               {/* Modal for Editing */}
                                               <div

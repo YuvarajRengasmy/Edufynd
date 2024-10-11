@@ -628,7 +628,7 @@ const handleSearch = (event) => {
         <div className="col-md-3">
               <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
                 <div className="card-body text-start">
-                  <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;No of Agents: {details?.totalAdmin || 0}</h6>
+                  <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;No of Admins: {details?.totalAdmin || 0}</h6>
                   <div className="d-flex align-items-center justify-content-between">
                     <p className="card-text mb-1">Active: {details?.activeData || 0}</p>
                     <p className="card-text mb-1">InActive: {details?.inactiveData || 0}</p> <br></br>
