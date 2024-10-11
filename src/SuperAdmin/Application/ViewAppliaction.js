@@ -270,8 +270,17 @@ export const ViewApplication = () => {
     return "#808080"; // Red for less than or equal to 50%
   };
 
+  const getProgressText = (progress) => {
+    if (progress === 100) return "#A52A2A"; // Green for complete
+    if (progress > 50) return "#0000FF"; // Yellow for more than 50%
+    return "#878089"; // Red for less than or equal to 50%
+  };
 
-
+  const getProgressButton = (progress) => {
+    if (progress === 100) return "#808000"; // Green for complete
+    if (progress > 50) return "#0000FF"; // Yellow for more than 50%
+    return "#A52A2A"; // Red for less than or equal to 50%
+  };
   const makePayment = async () => {
     const stripe = await loadStripe('pk_live_51OQ6F2A2rJSV7g6S1333dKPIqp5F7YahINaeS3w7fTFjiOcYneMtyXsE2QFiyGOkm9ruw6hNzZqiZSzUFGNdNVe10019LkXbRY')
 
@@ -445,6 +454,27 @@ export const ViewApplication = () => {
   };
 
   // addApplication
+  const [expandedRows, setExpandedRows] = useState({});
+
+  const toggleRow = (index) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+  const getDisplayText = (text, expanded) => {
+    if (!text) return ""; // Ensure text is defined
+    const words = text.split(" ");
+    return expanded
+      ? text
+      : words.slice(0, 2).join(" ") + (words.length > 2 ? "..." : "");
+  };
+
+  const getStrokeDashoffset = (progress) => {
+    const circumference = 2 * Math.PI * 45; // Circumference of the circle
+    return circumference - (progress / 100) * circumference;
+  };
+
 
   return (
     <>
@@ -991,99 +1021,93 @@ export const ViewApplication = () => {
                         <div className="col">
                           <div className="card border-0 rounded-1 shadow-sm p-3">
                             <div className="card-body">
+                              {/* <div>{new Date(tracks?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div> */}
                               <div className="d-flex justify-content-between align-items-center">
-
-
                                 <div className="d-flex justify-content-between align-items-center">
                                   {statuses
-                                    .sort((a, b) => a.position - b.position)
+                                    .sort((a, b) => a.position - b.position) // Sort by position
                                     .map((item, index) => {
+                                      const isExpanded = !!expandedRows[index];
                                       // Check if the previous status is fully completed (progress = 100)
                                       const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
 
                                       return (
 
                                         <div>
-                                          <div><p className="fw-semibold">{item?.estimateDate ? new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-') : "XX-XX-XX"}</p></div>
+                                          <div><p className="fw-semibold" style={{ color: getProgressText(item.progress) }}>{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</p></div>
 
                                           <div
-                                            className="position-relative m-2"
+                                            className="position-relative m-2 mb-3"
                                             key={item.id} // Use a unique identifier instead of index if possible
                                             style={{ flex: "1 1 auto", maxWidth: "100%" }}
                                           >
                                             <div className="position-relative">
-                                              <div
-                                                className="progress"
-                                                role="zigzag-bar"
-                                                aria-label="Progress"
-                                                aria-valuenow={item.progress} // Update here
-                                                aria-valuemin="0"
-                                                aria-valuemax="100"
-                                                style={{ height: "9px" }}
-                                              >
-                                                <div
-                                                  className="progress-bar progress-bar-striped progress-bar-animated"
-                                                  style={{
-                                                    width: `${item.progress}%`, // Update here
-                                                    backgroundColor: getProgressColor(item.progress), // Update here
-                                                  }}
-                                                ></div>
-                                              </div>
 
-                                              {/* <OverlayTrigger
-                                          placement="bottom"
-                                          overlay={<Tooltip>{item.position}</Tooltip>}
-                                        >
-                                          <button
-                                            type="button"
-                                            className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm  rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
-                                            data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-                                            data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
-                                            style={{
-                                              width: "2rem",
-                                              height: "2rem",
-                                              left: "0",
-                                              backgroundColor: "#0000FF",
-                                              color: getProgressColor(item.progress),
-                                            }}
-                                            onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
-                                            disabled={!isPreviousCompleted} // Disable the button if previous is not completed
-                                          >
-                                            {item.position}
-                                          </button>
-                                        </OverlayTrigger> */}
-                                              <OverlayTrigger
-                                                placement="bottom"
-                                                overlay={<Tooltip>{item.duration}</Tooltip>}
-                                              >
-                                                <button
-                                                  type="button"
-                                                  className={`position-absolute text-bold top-0 start-0 translate-middle-y btn btn-sm rounded-pill ${!isPreviousCompleted ? 'disabled' : ''}`}
-                                                  data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-                                                  data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
-                                                  style={{
-                                                    width: "2rem",
-                                                    height: "2rem",
-                                                    left: "0",
-                                                    backgroundColor: "#0000FF",
-                                                    color: "#FFFFFF",
-                                                  }}
-                                                  onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
-                                                  disabled={!isPreviousCompleted} // Disable the button if previous is not completed
+                                              <div style={{ width: "100%", textAlign: "center", marginBottom: "20px", position: 'relative' }}>
+                                                {/* Circular Progress Bar */}
+                                                <svg width="100" height="100">
+                                                  <circle
+                                                    cx="50"
+                                                    cy="50"
+                                                    r="45"
+                                                    stroke="#e0e0e0"
+                                                    strokeWidth="10"
+                                                    fill="none"
+                                                  />
+                                                  <circle
+                                                    cx="50"
+                                                    cy="50"
+                                                    r="45"
+                                                    stroke={getProgressColor(item.progress)}
+                                                    strokeWidth="10"
+                                                    fill="none"
+                                                    strokeDasharray="283" // 2 * Math.PI * 45
+                                                    strokeDashoffset={getStrokeDashoffset(item.progress)}
+                                                    style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                                                  />
+                                                </svg>
+
+                                                {/* Button in the center of the circle */}
+                                                <OverlayTrigger
+                                                  placement="bottom"
+                                                  overlay={<Tooltip>{item.duration}</Tooltip>}
                                                 >
-                                                  {item.progress === 100 ? '✔️' : '✖️'}
-                                                </button>
-                                              </OverlayTrigger>
+                                                  <button
+                                                    type="button"
+                                                    className={`position-absolute text-bold top-50 start-50 translate-middle-y btn btn-sm rounded-circle ${!isPreviousCompleted ? 'disabled' : ''}`}
+                                                    data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
+                                                    data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
+                                                    style={{
+                                                      width: "40px",
+                                                      height: "40px",
+                                                      backgroundColor: getProgressButton(item.progress),
+                                                      color: "#FFFFFF",
+                                                      border: 'none',
+                                                      cursor: isPreviousCompleted ? 'pointer' : 'not-allowed'
+                                                    }}
+                                                    onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
+                                                    disabled={!isPreviousCompleted} // Disable the button if previous is not completed
+                                                  >
+                                                    {item.progress === 100 ? '✔️' : '✖️'}
+                                                  </button>
+                                                </OverlayTrigger>
 
-                                              {/* Status Name */}
-                                              <div className="d-flex justify-content-start align-items-center mt-3">
-                                                {item.statusName}
-                                              </div>
-                                              <div className="d-flex justify-content-start align-items-center mt-3 ">
-                                                {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : "XX-XX-XX"}
+                                                <div style={{ fontSize: "24px", fontWeight: "bold", marginTop: "10px" }}>
+                                                  {item.progress}%
+                                                </div>
                                               </div>
 
-                         
+
+
+
+
+                                              <div className="d-flex justify-content-start align-items-center mt-3"
+                                                onMouseEnter={() => toggleRow(index)}
+                                                onMouseLeave={() => toggleRow(index)}
+                                                title={item.statusName}>
+
+                                                {getDisplayText(item.statusName, isExpanded)}
+                                              </div>
 
                                               {/* Modal for Editing */}
                                               <div
@@ -1260,9 +1284,15 @@ export const ViewApplication = () => {
                                               </div>
                                             </div>
                                           </div>
+
+
+                                          <div className="d-flex justify-content-start align-items-center mt-3 ">
+                                            {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : new Date(item?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                                          </div>
                                         </div>
                                       );
                                     })}
+
 
                                 </div>
 
