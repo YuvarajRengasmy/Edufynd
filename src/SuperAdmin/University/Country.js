@@ -18,7 +18,7 @@ const Roadmap = () => {
         </div>
 
         {/* SVG Line */}
-        <div style={{ position: 'relative', flex: "1 1 auto", maxWidth: "100%" }}>
+        {/* <div style={{ position: 'relative', flex: "1 1 auto", maxWidth: "100%" }}>
           <svg width="100%" height="100" viewBox="0 0 400 100">
             <path
               d="M 0 50 Q 100 0 200 50 T 400 50"
@@ -27,7 +27,7 @@ const Roadmap = () => {
               strokeWidth="8"
             />
           </svg>
-        </div>
+        </div> */}
 
         {/* Second Circle */}
         <div className="position-relative text-center" style={{ width: "150px" }}>
