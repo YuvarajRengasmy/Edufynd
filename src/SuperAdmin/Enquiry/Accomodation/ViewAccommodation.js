@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import {
   getSingleAccommodationEnquiry,
   getSingleLogUniversity,
-  updateAccommodationEnquiry,
+  updateAccommodationStatus,
 } from "../../../api/Enquiry/accommodation";
 import { getFilterApplicationStatus } from "../../../api/universityModule/ApplicationStatus";
 import { getFilterStatus } from "../../../api/status";
@@ -238,7 +238,7 @@ export const ViewAccommodation = () => {
           },
         };
 
-        updateAccommodationEnquiry(data)
+        updateAccommodationStatus(data)
           .then((res) => {
             toast.success("Successfully updated application status");
             getAllModuleDetails();

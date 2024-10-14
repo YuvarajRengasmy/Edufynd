@@ -8,6 +8,9 @@ export const saveAccommodationEnquiry = (data) => {
 export const updateAccommodationEnquiry= (data) => {
     return API.put(`${Accommodation}`, data)
 }
+export const updateAccommodationStatus= (data) => {
+  return API.put(`${Accommodation}/status`, data)
+}
 export const activeClient = (data) => {
     return API.post(`${Accommodation}/active`,data);
   };
@@ -26,6 +29,11 @@ export const getSingleAccommodationEnquiry = (data) => {
 }
 export const getallAccommodationEnquiry = () => {
     return API.get(`${Accommodation}`)
+}
+
+
+export const getAllAccommodationCard = () => {
+  return API.get(`${Accommodation}/card`)
 }
 export const deleteAccommodationEnquiry= (data) => {
     return API.delete(`${Accommodation}`, { params: { _id: data } });
