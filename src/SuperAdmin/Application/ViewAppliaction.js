@@ -26,7 +26,7 @@ export const ViewApplication = () => {
   const initialState = {
     statusName: "",
     commentBox: "",
-    reply:"",
+    reply: [{replyMessage: "", createdBy: ""}],
     uploadFile: [{fileName: "", uploadImage:""}],
     document: "",
     duration: "",
@@ -1571,7 +1571,7 @@ export const ViewApplication = () => {
                 <div key={index} className="col-8 p-3 me-3 border bg-body-tertiary" style={{borderRadius: 15}}>
               <CKEditor
         editor={ClassicEditor}
-        data={data}
+        data={data.replyMessage}
         disabled={true}
         config={{
           toolbar: [],
@@ -1645,7 +1645,7 @@ export const ViewApplication = () => {
         <form onSubmit={handleTrackSubmited}>
           <div className="form-group mb-3">
             <label for="subject">Subject</label>
-            <CKEditor
+            {/* <CKEditor
               editor={ClassicEditor}
               data={track.reply}
               config={{
@@ -1679,7 +1679,11 @@ export const ViewApplication = () => {
                 handleRichTextChanges(data);
               }}
               name="reply"
-            />
+            /> */}
+            <input className="form-control"
+            name="reply"
+            onChange={(e) => handleRichTextChanges(e.target.value)}
+            type="text" />
           </div>
           
           {track.uploadFile.map((uploadImage, index) => (
