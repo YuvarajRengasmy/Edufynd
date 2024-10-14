@@ -320,13 +320,25 @@ export const ViewApplication = () => {
       return;
     }
 
+    // const data = {
+    //   _id: id,
+    //   statusId: editId,
+    //   uploadFile: track.uploadFile,
+    //   reply: track.reply,
+    // };
+   
     const data = {
       _id: id,
       statusId: editId,
       uploadFile: track.uploadFile,
-      reply: track.reply,
+      reply: Array.isArray(track.reply)
+        ? track.reply.map(item => ({
+            replyMessage: item.replyMessage || "",
+            createdBy: item.createdBy || "Unknown",
+          }))
+        : [{ replyMessage: track.reply || "", createdBy: "Unknown" }],
     };
-   
+
     statusApplication(data)
       .then((res) => {
         toast.success("Successfully updated reply application status");
