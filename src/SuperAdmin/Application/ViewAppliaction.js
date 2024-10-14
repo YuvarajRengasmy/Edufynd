@@ -1681,7 +1681,7 @@ export const ViewApplication = () => {
               name="reply"
             /> */}
             <input className="form-control"
-            name="reply"
+            name="replyMessage"
             onChange={(e) => handleRichTextChanges(e.target.value)}
             type="text" />
           </div>
