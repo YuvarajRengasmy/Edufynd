@@ -53,6 +53,7 @@ export const ViewAccommodation = () => {
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [track, setTrack] = useState(null);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -1289,7 +1290,7 @@ export const ViewAccommodation = () => {
         ></button>
       </div>
       <div className="modal-body">
-        <form onSubmit={handleaccommodationubmited}>
+        <form onSubmit={handleaccommodationSubmit}>
           <div className="form-group mb-3">
             <label for="subject">Subject</label>
             {/* <CKEditor
