@@ -26,7 +26,7 @@ export const ViewApplication = () => {
   const initialState = {
     statusName: "",
     commentBox: "",
-    reply:"",
+    reply: [{replyMessage: "", createdBy: ""}],
     uploadFile: [{fileName: "", uploadImage:""}],
     document: "",
     duration: "",
@@ -114,7 +114,7 @@ export const ViewApplication = () => {
       listName === "uploadFile" ? { fileName: "", uploadImage: "" } : null;
     setTrack({ ...track, [listName]: [...track[listName], newEntry] });
   };
-  
+
   const removeEntry = (index, listName) => {
     const updatedList = track[listName].filter((_, i) => i !== index);
     setTrack({ ...track, [listName]: updatedList });
@@ -1549,33 +1549,68 @@ export const ViewApplication = () => {
                   </div>
                                               <div className="card-body">
 
-                                                <CKEditor
-                                                  editor={ClassicEditor}
-                                                  data={item?.commentBox}
-                                                  disabled={true}
-                                                  config={{
-                                                    toolbar: [],
-                                                  }}
-                                                /><br /><br />
-                                                Sincerely,<br />
-                                                {item?.createdBy}<br />
-                                                Edufynd
+  <div className="d-flex flex-row justify-content-start mb-4">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" style={{width: 45, height: '100%'}} />
+              <div className="col-8 p-3 ms-3" style={{borderRadius: 15, backgroundColor: 'rgba(57, 192, 237,.2)'}}>
+              <CKEditor
+        editor={ClassicEditor}
+        data={item?.commentBox}
+        disabled={true}
+        config={{
+          toolbar: [],
+        }}
+      /></div><br />
+   
+      {item?.createdBy}
+      
+              
+            </div>
+            <div className="d-flex flex-row justify-content-end mb-4">
+              {Array.isArray(item?.reply) &&
+              item.reply.map((data, index) => (
+                <div key={index} className="col-8 p-3 me-3 border bg-body-tertiary" style={{borderRadius: 15}}>
+              <CKEditor
+        editor={ClassicEditor}
+        data={data.replyMessage}
+        disabled={true}
+        config={{
+          toolbar: [],
+        }}
+      /><br />
+              </div>
+              ))
+              }
+      <br />
+      {item?.createdBy}
+    
+             
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" alt="avatar 1" style={{width: 45, height: '100%'}} />
+            </div>
+
+  <br />
+
+  {/* Footer with Duration and Delayed Info */}
+  <div className="d-flex flex-column align-items-end justify-content-end">
+    <p className="mb-0">
+      <b>Duration</b> - {item?.duration} Days
+    </p>
+    <p className="mb-0">
+      <b>Delayed</b> - {item?.delay} Days
+    </p>
+  </div>
+
+  {/* Sent Info and Time */}
+  <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+    <p className="mb-0">
+      <small>Sent</small>
+    </p>
+    <p className="mb-0">
+      <small>Time: {formatDate(item?.createdOn)}</small>
+    </p>
+  </div>
+</div>
 
 
-                                                <div className="d-flex flex-column align-items-end justify-content-end">
-                                                  <p className="mb-0"><b>Duration</b>- {item?.duration}Days</p>
-                                                  <p className="mb-0"><b>Delayed</b>- {item?.delay}Days</p>
-                                                </div>
-
-                                                <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
-
-                                                  <p classname='mb-0'><small>Sent</small></p>
-
-                                                  <p classname='mb-0'><small>Time:{formatDate(item?.createdOn)}</small></p>
-                                                </div>
-
-
-                                              </div>
 
                                             </div>
                                           </div>
@@ -1610,7 +1645,7 @@ export const ViewApplication = () => {
         <form onSubmit={handleTrackSubmited}>
           <div className="form-group mb-3">
             <label for="subject">Subject</label>
-            <CKEditor
+            {/* <CKEditor
               editor={ClassicEditor}
               data={track.reply}
               config={{
@@ -1644,7 +1679,11 @@ export const ViewApplication = () => {
                 handleRichTextChanges(data);
               }}
               name="reply"
-            />
+            /> */}
+            <input className="form-control"
+            name="replyMessage"
+            onChange={(e) => handleRichTextChanges(e.target.value)}
+            type="text" />
           </div>
           
           {track.uploadFile.map((uploadImage, index) => (
