@@ -10,7 +10,7 @@ import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
 import { getallCountryList } from "../../../api/country";
-
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/accomdation";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
@@ -87,6 +87,7 @@ export const AddAccommodation = () => {
 
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState([]);
   const [countriesData, setCountriesData] = useState([]); // Holds country data
   const [states, setStates] = useState([]); // Holds state data
   const [cities, setCities] = useState([]); // Holds city data
@@ -103,6 +104,7 @@ export const AddAccommodation = () => {
   useEffect(() => {
     getAllCountryDetails();
     getAllCountryDetail();
+    getAllApplicationsModuleDetails();
     getAllSourceDetails();
     getStudentList();
     getAgentList();
@@ -350,6 +352,22 @@ export const AddAccommodation = () => {
     return true;
   };
 
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(forex);
@@ -357,6 +375,7 @@ export const AddAccommodation = () => {
     setSubmitted(true);
     const data = {
       ...forex,
+      status: status,
       country: selectedCountryName,
       state: selectedState,
       lga: selectedCity,

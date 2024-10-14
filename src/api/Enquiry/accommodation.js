@@ -8,6 +8,9 @@ export const saveAccommodationEnquiry = (data) => {
 export const updateAccommodationEnquiry= (data) => {
     return API.put(`${Accommodation}`, data)
 }
+export const statusApplication = (data) => {
+  return API.put(`${Accommodation}/status`, data);
+};
 export const updateAccommodationStatus= (data) => {
   return API.put(`${Accommodation}/status`, data)
 }

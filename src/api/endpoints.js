@@ -41,6 +41,16 @@ export const Accommodation ="accommodation";
 export const Flight ="flight";
 export const GeneralEnquiry ="generalEnquiry";
 
+// status
+export const StudentStatus="studentStatus";
+export const LoanStatus="loanStatus";
+export const GeneralStatus="generalStatus";
+export const AccommodationStatus="accommodationStatus";
+export const BusinessStatus="businessStatus";
+export const ForexStatus="forexStatus";
+export const FlightStatus="flightStatus";
+
+
 // Invoice
 export const SenderInvoice ="senderInvoice";
 export const Chat ="chat";

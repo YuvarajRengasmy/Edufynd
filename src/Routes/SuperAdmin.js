@@ -51,6 +51,17 @@ import AddStaff from "../SuperAdmin/Staff/addStaff";
 import EditStaff from "../SuperAdmin/Staff/editStaff";
 import ViewStaff from "../SuperAdmin/Staff/viewStaff";
 
+// Enquiry Status
+
+import AccomodationStatus from "../SuperAdmin/Settings/EnquiryStatus/accomdation";
+import BusinessStatus from "../SuperAdmin/Settings/EnquiryStatus/business";
+import FlightStatus from "../SuperAdmin/Settings/EnquiryStatus/flight";
+import ForexStatus from "../SuperAdmin/Settings/EnquiryStatus/forex";
+import GeneralStatus from "../SuperAdmin/Settings/EnquiryStatus/general";
+import LoanStatus from "../SuperAdmin/Settings/EnquiryStatus/loanEnquiry";
+
+
+
 
 
 import ViewApplication from "../SuperAdmin/Application/ViewAppliaction";
@@ -467,9 +478,15 @@ function SuperAdmin() {
         <Route path="/edit_leave" element={<PrivateRoute><EditLeave /></PrivateRoute>} />
         <Route path="/view_leave" element={<PrivateRoute><ViewLeave /></PrivateRoute>} />
 
+          
 
-
-
+     {/* Status Enquiry */} 
+     <Route path="/accomodation_status" element={<PrivateRoute><AccomodationStatus /></PrivateRoute>} />
+     <Route path="/business_status" element={<PrivateRoute><BusinessStatus /></PrivateRoute>} />
+     <Route path="/loan_status" element={<PrivateRoute><LoanStatus /></PrivateRoute>} />
+     <Route path="/general_status" element={<PrivateRoute><GeneralStatus /></PrivateRoute>} />
+     <Route path="/forex_status" element={<PrivateRoute><ForexStatus /></PrivateRoute>} />
+     <Route path="/flight_status" element={<PrivateRoute><FlightStatus /></PrivateRoute>} />
 
         {/* Payroll */}
         <Route path="/list_payroll" element={<PrivateRoute><ListPayroll /></PrivateRoute>} />
