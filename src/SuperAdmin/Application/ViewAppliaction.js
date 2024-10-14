@@ -98,23 +98,26 @@ export const ViewApplication = () => {
       console.log("Error: ", error);
     };
   };
-  const handleListInputChange = (e, index) => {
+  const handleListInputChange = (e, index, listName) => {
     const { name, value, files } = e.target;
-    const updatedList = [...track.uploadFile];
+    const updatedList = [...track[listName]];
     if (files && files[0]) {
-      convertToBase64(e, "uploadImage", index);
+      convertToBase65(e, name, index, listName);
     } else {
       updatedList[index][name] = value;
-      setTrack({ ...track, uploadFile: updatedList });
+      setTrack({ ...track, [listName]: updatedList });
     }
   };
-  const addEntry = () => {
-    setTrack({ ...track, uploadFile: [...track.uploadFile, { fileName: "", uploadImage: "" }] });
-  };
 
-  const removeEntry = (index) => {
-    const updatedList = track.uploadFile.filter((_, i) => i !== index);
-    setTrack({ ...track, uploadFile: updatedList });
+  const addEntry = (listName) => {
+    const newEntry =
+      listName === "uploadFile" ? { fileName: "", uploadImage: "" } : null;
+    setTrack({ ...track, [listName]: [...track[listName], newEntry] });
+  };
+  
+  const removeEntry = (index, listName) => {
+    const updatedList = track[listName].filter((_, i) => i !== index);
+    setTrack({ ...track, [listName]: updatedList });
   };
   const getAgentList = () => {
     getSingleApplication(id)
@@ -234,8 +237,8 @@ export const ViewApplication = () => {
       duration: item.duration,
       progress: item.progress,
       subCategory: item.subCategory || [],
-      uploadFile: [],
-      reply: [],     
+      uploadFile:item.uploadFile || [],
+      reply: item.reply || [],     
       commentBox: "",
       document: "", // Initialize commentBox as empty or with a value if needed
     });
@@ -323,7 +326,7 @@ export const ViewApplication = () => {
       uploadFile: track.uploadFile,
       reply: track.reply,
     };
-
+   
     statusApplication(data)
       .then((res) => {
         toast.success("Successfully updated application status");
@@ -333,6 +336,7 @@ export const ViewApplication = () => {
       .catch((err) => {
         toast.error(err?.response?.data?.message || "Failed to update status");
       });
+    
   };
   const getProgressColor = (progress) => {
     if (progress === 100) return "#FFFF00"; // Green for complete
@@ -1505,7 +1509,7 @@ export const ViewApplication = () => {
     className="btn btn-sm btn-link text-white fw-semibold px-3 py-1 text-center rounded-1"
     data-bs-toggle="modal"
     data-bs-target="#StatusModal35"
-    onClick={() => handleEditModule(item?._id)} // Updated target to match the modal ID
+    onClick={() => handleEditModule(item)} // Updated target to match the modal ID
   >
      <i className="fa fa-reply" aria-hidden="true"></i>
   </button>
@@ -1632,48 +1636,69 @@ export const ViewApplication = () => {
           </div>
           
           {track.uploadFile.map((uploadImage, index) => (
-                    <div key={index} className="mb-3">
-                      <div className="d-flex gy-2">
-                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>File Name</label>
-                          <input
-                            type="text"
-                            name="fileName"
-                            value={uploadImage.fileName}
-                            onChange={(e) => handleListInputChange(e, index)}
-                            className="form-control rounded-1"
-                            placeholder="File Upload Title"
-                          />
-                        </div>
-                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>File Document</label>
-                          <input
-                            type="file"
-                            name="uploadImage"
-                            onChange={(e) => handleListInputChange(e, index)}
-                            className="form-control rounded-1"
-                          />
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeEntry(index)}
-                        className="btn mt-2"
-                      >
-                        <i className="far fa-trash-alt text-danger me-1"></i>
-                      </button>
-                    </div>
-                  ))}
+                              <div key={index} className="mb-3">
+                                <div className="d-flex gy-2 ">
+                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>
+                                      File Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="fileName"
+                                      value={uploadImage.fileName}
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
+                                      className="form-control rounded-1"
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="File Upload Title"
+                                    />
+                                  </div>
+                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <label style={{ color: "#231F20" }}>
+                                      File Document
+                                    </label>
+                                    <input
+                                      type="file"
+                                      name="uploadImage"
+                                      onChange={(e) =>
+                                        handleListInputChange(
+                                          e,
+                                          index,
+                                          "uploadFile"
+                                        )
+                                      }
+                                      className="form-control rounded-1 "
+                                      style={{ fontSize: "12px" }}
+                                      placeholder="Upload File"
+                                    />
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeEntry(index, "uploadFile")
+                                  }
+                                  className="btn mt-2"
+                                >
+                                  <i className="far fa-trash-alt text-danger me-1"></i>
+                                </button>
+                              </div>
+                            ))}
           
           <button
-            type="button"
-            onClick={addEntry}
-            className="btn text-white mt-2 col-sm-3"
-            style={{ backgroundColor: "#7267ef" }}
-          >
-            <i className="fas fa-plus-circle"></i>
-            &nbsp;&nbsp;Add
-          </button>
+                              type="button"
+                              onClick={() => addEntry("uploadFile")}
+                              className="btn text-white mt-2 col-sm-6"
+                              style={{ backgroundColor: "#7267ef" }}
+                            >
+                              <i className="fas fa-plus-circle"></i>
+                              &nbsp;&nbsp;Add
+                            </button>
           <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" className="btn btn-primary">Submit</button>
@@ -1684,31 +1709,16 @@ export const ViewApplication = () => {
   </div>
 </div>
 
-
-
                           </div>
                         </div>
                       </div>
                     </div>
-
-
-
-
                   </div>
                 </div>
-
               </div>
-
-
-
-
             </div>
           </div>
-
         </div>
-
-
-
       </div>
     </>
   );
