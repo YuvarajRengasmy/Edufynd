@@ -20,7 +20,6 @@ import { RichTextEditor } from "@mantine/rte";
 export const ViewAccommodation = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
-  const [accommodation, setAccommodation] = useState([]);
   const [logs, setLogs] = useState([]);
   const modalRef = useRef(null);
 
@@ -45,13 +44,13 @@ export const ViewAccommodation = () => {
     progress: { required: false },
   };
 
-  const [track, setTrack] = useState(initialState);
-  const [tracks, setTracks] = useState([]);
+  const [accommodation, setaccommodation] = useState(initialState);
+  const [accommodations, setaccommodations] = useState([]);
   const [application, setApplication] = useState([]);
 
-  const [trackErrors, setTrackErrors] = useState(initialStateErrors);
-  const [statuses, setStatuses] = useState([]);
-const [status, setStatus] = useState([]);
+  const [accommodationErrors, setaccommodationErrors] = useState(initialStateErrors);
+  const [statused, setStatused] = useState([]);
+  const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [pagination, setPagination] = useState({
@@ -76,7 +75,7 @@ const [status, setStatus] = useState([]);
   const getApplicationDetail = () => {
     getSingleAccommodationEnquiry(id)
       .then((res) => {
-        setStatuses(res?.data?.result?.status || []); // Assume statuses is an array in the response
+        setStatused(res?.data?.result?.status || []); // Assume statuses is an array in the response
       })
       .catch((err) => {
         console.error(err);
@@ -86,7 +85,7 @@ const [status, setStatus] = useState([]);
     getSingleAccommodationEnquiry(id)
       .then((res) => {
         console.log("res", res);
-        setAccommodation(res?.data?.result);
+        setaccommodation(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -95,7 +94,7 @@ const [status, setStatus] = useState([]);
   useEffect(() => {
     if (id) {
       getAllModuleDetails();
-      getApplicationDetails();
+     
       getApplicationDetail();
       getAccommodationDetails();
       getUniversityLogs();
@@ -105,16 +104,16 @@ const [status, setStatus] = useState([]);
   }, [id]);
 
   const handleRichTextChanges = (value) => {
-    setTrack((prevTrack) => ({ ...prevTrack, reply: value }));
+    setaccommodation((prevaccommodation) => ({ ...prevaccommodation, reply: value }));
   };
   const convertToBase65 = (e, name, index, listName) => {
     const file = e.target.files[0];
     const reader = new FileReader();
      reader.readAsDataURL(file);
     reader.onload = () => {
-      const updatedList = [...track[listName]];
+      const updatedList = [...accommodation[listName]];
       updatedList[index][name] = reader.result;
-      setTrack({ ...track, [listName]: updatedList });
+      setaccommodation({ ...accommodation, [listName]: updatedList });
     };
     reader.onerror = (error) => {
       console.log("Error: ", error);
@@ -122,49 +121,37 @@ const [status, setStatus] = useState([]);
   };
   const handleListInputChange = (e, index, listName) => {
     const { name, value, files } = e.target;
-    const updatedList = [...track[listName]];
+    const updatedList = [...accommodation[listName]];
     if (files && files[0]) {
       convertToBase65(e, name, index, listName);
     } else {
       updatedList[index][name] = value;
-      setTrack({ ...track, [listName]: updatedList });
+      setaccommodation({ ...accommodation, [listName]: updatedList });
     }
   };
 
   const addEntry = (listName) => {
     const newEntry =
       listName === "uploadFile" ? { fileName: "", uploadImage: "" } : null;
-    setTrack({ ...track, [listName]: [...track[listName], newEntry] });
+    setaccommodation({ ...accommodation, [listName]: [...accommodation[listName], newEntry] });
   };
 
   const removeEntry = (index, listName) => {
-    const updatedList = track[listName].filter((_, i) => i !== index);
-    setTrack({ ...track, [listName]: updatedList });
+    const updatedList = accommodation[listName].filter((_, i) => i !== index);
+    setaccommodation({ ...accommodation, [listName]: updatedList });
   };
 
   const getAgentList = () => {
     getSingleAccommodationEnquiry(id)
       .then((res) => {
         console.log("yuvi", res);
-        setTracks(res?.data?.result || []);
+        setaccommodations(res?.data?.result || []);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const getApplicationDetails = () => {
-    getSingleAccommodationEnquiry(id)
-      .then((res) => {
-        if (res.data.result?.status) {
-          setTrack({
-            newStatus: res.data.result || "",
-            commentBox: res.data.result || "",
-            document: res.data.result || "",
-          });
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+
 
   const getAllApplicationsModuleDetails = () => {
     const data = {
@@ -202,7 +189,7 @@ const [status, setStatus] = useState([]);
       });
   };
   const handleRichTextChange = (value) => {
-    setTrack((prevUniversity) => ({
+    setaccommodation((prevUniversity) => ({
       ...prevUniversity,
       commentBox: value,
     }));
@@ -225,7 +212,7 @@ const [status, setStatus] = useState([]);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      setTrack((prevUniversity) => ({
+      setaccommodation((prevUniversity) => ({
         ...prevUniversity,
         [name]: reader.result,
       }));
@@ -234,12 +221,12 @@ const [status, setStatus] = useState([]);
       console.log("Error: ", error);
     };
   };
-  const handleTrack = (event) => {
+  const handleaccommodation = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
     } else {
-      setTrack((prevState) => ({
+      setaccommodation((prevState) => ({
         ...prevState,
         [name]: value,
       }));
@@ -248,10 +235,10 @@ const [status, setStatus] = useState([]);
 
     if (submitted) {
       const newError = handleValidation({
-        ...track,
+        ...accommodation,
         [event.target.name]: event.target.value,
       });
-      setTrackErrors(newError);
+      setaccommodationErrors(newError);
     }
   };
 
@@ -259,7 +246,7 @@ const [status, setStatus] = useState([]);
 
   const handleEditModule = (item) => {
 
-    setTrack({
+    setaccommodation({
       statusName: item.statusName,
       duration: item.duration,
       progress: item.progress,
@@ -272,7 +259,7 @@ const [status, setStatus] = useState([]);
     setEditId(item._id);
     setIsEditing(true);
     setSubmitted(false);
-    setTrackErrors(initialStateErrors);
+    setaccommodationErrors(initialStateErrors);
   
   };
 
@@ -290,12 +277,12 @@ const [status, setStatus] = useState([]);
   };
  
 
-  const handleTrackSubmit = (event) => {
+  const handleaccommodationSubmit = (event) => {
     event.preventDefault();
 
     // Perform validation
-    const newErrorEducation = handleValidation(track);
-    setTrackErrors(newErrorEducation);
+    const newErrorEducation = handleValidation(accommodation);
+    setaccommodationErrors(newErrorEducation);
     setSubmitted(true);
 
     // If validation passes, proceed with submission
@@ -306,15 +293,15 @@ const [status, setStatus] = useState([]);
       const data = {
         _id: id, // Assuming 'id' is the applicant's ID
         statusId: editId, // The statusId of the status being edited
-        statusName: track.statusName, // From the track object (or any other input fields)
-        progress: track.progress, // Set progress to 100% if applicable
-        completed: track.completed,
-        uploadFile: track.uploadFile,
-        reply: track.reply, // Pass the completed status (true/false)
-        duration: track.duration, // Any other fields like duration, if needed
-        position: track.position, // Add position if applicable
-        commentBox: track.commentBox, // Add commentBox if applicable
-        document: track.document, // Add document if applicable
+        statusName: accommodation.statusName, // From the accommodation object (or any other input fields)
+        progress: accommodation.progress, // Set progress to 100% if applicable
+        completed: accommodation.completed,
+        uploadFile: accommodation.uploadFile,
+        reply: accommodation.reply, // Pass the completed status (true/false)
+        duration: accommodation.duration, // Any other fields like duration, if needed
+        position: accommodation.position, // Add position if applicable
+        commentBox: accommodation.commentBox, // Add commentBox if applicable
+        document: accommodation.document, // Add document if applicable
       };
 
       // Check if we're editing an existing status
@@ -334,25 +321,25 @@ const [status, setStatus] = useState([]);
   };
 
  
-  const handleTrackSubmited = (event) => {
+  const handleaccommodationSubmited = (event) => {
     event.preventDefault();
 
     // Here you could add any validation you require
-    if (!track.reply) {
-      setTrackErrors((prev) => ({ ...prev, reply: { required: true } }));
+    if (!accommodation.reply) {
+      setaccommodationErrors((prev) => ({ ...prev, reply: { required: true } }));
       return;
     }
 
     const data = {
       _id: id,
       statusId: editId,
-      uploadFile: track.uploadFile,
-      reply: Array.isArray(track.reply)
-        ? track.reply.map(item => ({
+      uploadFile: accommodation.uploadFile,
+      reply: Array.isArray(accommodation.reply)
+        ? accommodation.reply.map(item => ({
             replyMessage: item.replyMessage || "",
             createdBy: item.createdBy || "Unknown",
           }))
-        : [{ replyMessage: track.reply || "", createdBy: "Unknown" }],
+        : [{ replyMessage: accommodation.reply || "", createdBy: "Unknown" }],
     };
 
     statusApplication(data)
@@ -603,15 +590,15 @@ const [status, setStatus] = useState([]);
                         <div className="col">
                           <div className="card border-0 rounded-1 shadow-sm p-3">
                             <div className="card-body">
-                              {/* <div>{new Date(tracks?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div> */}
+                              {/* <div>{new Date(accommodations?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div> */}
                               <div className="d-flex justify-content-between align-items-center">
                                 <div className="d-flex justify-content-between align-items-center">
-                                  {statuses
+                                  {statused
                                     .sort((a, b) => a.position - b.position) // Sort by position
                                     .map((item, index) => {
                                       const isExpanded = !!expandedRows[index];
                                       // Check if the previous status is fully completed (progress = 100)
-                                      const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
+                                      const isPreviousCompleted = index === 0 || statused[index - 1].progress === 100;
 
                                       return (
 
@@ -727,20 +714,20 @@ const [status, setStatus] = useState([]);
                                                     </div>
                                                     <div className="modal-body">
                                                       {/* Form for Editing */}
-                                                      <form onSubmit={handleTrackSubmit}>
+                                                      <form onSubmit={handleaccommodationSubmit}>
                                                         {/* Status Input */}
                                                         <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                                                           <input
                                                             type="text"
                                                             name="statusName"
-                                                            value={track.statusName}
-                                                            onChange={handleTrack}
+                                                            value={accommodation.statusName}
+                                                            onChange={handleaccommodation}
                                                             className="form-control"
                                                             placeholder="Enter Status...."
                                                             aria-label="Status"
                                                             style={{ fontSize: "12px" }}
                                                           />
-                                                          {submitted && trackErrors.statusName.required && (
+                                                          {submitted && accommodationErrors.statusName.required && (
                                                             <p className="text-danger">Status is required</p>
                                                           )}
                                                         </div>
@@ -752,58 +739,59 @@ const [status, setStatus] = useState([]);
                                                           <input
                                                             type="text"
                                                             name="duration"
-                                                            value={track.duration}
-                                                            onChange={handleTrack}
+                                                            value={accommodation.duration}
+                                                            onChange={handleaccommodation}
                                                             className="form-control"
                                                             placeholder="Enter Duration...."
                                                             aria-label="Duration"
                                                             style={{ fontSize: "12px" }}
                                                           />
-                                                          {submitted && trackErrors.duration.required && (
+                                                          {submitted && accommodationErrors.duration.required && (
                                                             <p className="text-danger">Duration is required</p>
                                                           )}
                                                         </div>
 
                                                         {/* Rich Text Editor */}
-                                                        <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
-                                                          <CKEditor
-                                                            editor={ClassicEditor}
-                                                            data={track.commentBox}
-                                                            config={{
-                                                              placeholder: "Start writing your content here...",
-                                                              toolbar: [
-                                                                "heading",
-                                                                "|",
-                                                                "bold",
-                                                                "italic",
-                                                                "link",
-                                                                "bulletedList",
-                                                                "numberedList",
-                                                                "blockQuote",
-                                                                "|",
-                                                                "insertTable",
-                                                                "mediaEmbed",
-                                                                "imageUpload",
-                                                                "|",
-                                                                "undo",
-                                                                "redo",
-                                                              ],
-                                                            }}
-                                                            onChange={(event, editor) => {
-                                                              const data = editor.getData();
-                                                              handleRichTextChange(data); // Call the handler when the content changes
-                                                            }}
-                                                            name="commentBox"
-                                                            style={{
-                                                              fontFamily: "Plus Jakarta Sans",
-                                                              fontSize: "12px",
-                                                              zIndex: "0",
-                                                            }}
-                                                          />
-                                                          {submitted && trackErrors.commentBox.required && (
-                                                            <p className="text-danger">Comment is required</p>
-                                                          )}
-                                                        </div>
+                                                     <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+  <CKEditor
+    editor={ClassicEditor}
+    data={accommodation.commentBox || ""} // Ensure it has a default value if undefined or null
+    config={{
+      placeholder: "Start writing your content here...",
+      toolbar: [
+        "heading",
+        "|",
+        "bold",
+        "italic",
+        "link",
+        "bulletedList",
+        "numberedList",
+        "blockQuote",
+        "|",
+        "insertTable",
+        "mediaEmbed",
+        "imageUpload",
+        "|",
+        "undo",
+        "redo",
+      ],
+    }}
+    onChange={(event, editor) => {
+      const data = editor.getData();
+      handleRichTextChange(data); // Call the handler when the content changes
+    }}
+    name="commentBox"
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+      zIndex: "0",
+    }}
+  />
+  {submitted && accommodationErrors.commentBox?.required && (
+    <p className="text-danger">Comment is required</p>
+  )}
+</div>
+
 
                                                         {/* Progress and File Upload Inputs */}
                                                         <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
@@ -811,10 +799,10 @@ const [status, setStatus] = useState([]);
                                                             type="number"
                                                             className="form-control"
                                                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                                                            value={track.progress} // Assuming you have track.progress defined
+                                                            value={accommodation.progress} // Assuming you have accommodation.progress defined
                                                             placeholder="Enter Progress"
                                                             name="progress"
-                                                            onChange={handleTrack}
+                                                            onChange={handleaccommodation}
                                                           />
                                                         </div>
                                                         <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
@@ -824,7 +812,7 @@ const [status, setStatus] = useState([]);
                                                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                                                             placeholder="Enter File Upload"
                                                             name="document"
-                                                            onChange={handleTrack}
+                                                            onChange={handleaccommodation}
                                                           />
                                                         </div>
 
@@ -923,7 +911,7 @@ const [status, setStatus] = useState([]);
                                     ></button>
                                   </div>
                                   <div className="modal-body">
-                                    <form onSubmit={handleTrackSubmit}>
+                                    <form onSubmit={handleaccommodationSubmit}>
                                       <div className="input-group mb-3">
                                         <span
                                           className="input-group-text"
@@ -933,8 +921,8 @@ const [status, setStatus] = useState([]);
                                         </span>
                                         <select
                                           name="statusName"
-                                          value={track.statusName}
-                                          onChange={handleTrack}
+                                          value={accommodation.statusName}
+                                          onChange={handleaccommodation}
                                           className="form-select"
                                           style={{ fontSize: "12px" }}
                                         >
@@ -950,7 +938,7 @@ const [status, setStatus] = useState([]);
                                             ))}
                                         </select>
                                         {submitted &&
-                                          trackErrors.statusName.required && (
+                                          accommodationErrors.statusName.required && (
                                             <p className="text-danger">
                                               Status is required
                                             </p>
@@ -967,7 +955,7 @@ const [status, setStatus] = useState([]);
                                           type="text"
                                           name="duration"
                                           value="0"
-                                          onChange={handleTrack}
+                                          onChange={handleaccommodation}
                                           className="form-control"
                                           placeholder="Enter Status...."
                                           aria-label="Status"
@@ -981,7 +969,7 @@ const [status, setStatus] = useState([]);
 
                                         <CKEditor
                                           editor={ClassicEditor}
-                                          value={track.commentBox}
+                                          value={accommodation.commentBox}
                                           config={{
                                             placeholder:
                                               "Start writing your content here...",
@@ -1030,7 +1018,7 @@ const [status, setStatus] = useState([]);
                                           }}
                                         />
                                         {submitted &&
-                                          trackErrors.commentBox.required && (
+                                          accommodationErrors.commentBox.required && (
                                             <p className="text-danger">
                                               Comment is required
                                             </p>
@@ -1052,7 +1040,7 @@ const [status, setStatus] = useState([]);
                                           }}
                                           placeholder="Enter  Image upload"
                                           name="document"
-                                          onChange={handleTrack}
+                                          onChange={handleaccommodation}
                                         />
                                       </div>
                                       <div className="modal-footer">
@@ -1091,7 +1079,6 @@ const [status, setStatus] = useState([]);
                         </div>
                       </div>
                     </div>
-
                     <div className="container-fluid-fluid my-2">
                       <div className="row flex-nowrap">
 
@@ -1100,18 +1087,18 @@ const [status, setStatus] = useState([]);
                            
                             <div className="card-body p-4">
                               <img
-                                src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                src={accommodation?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
                                 className="card-img-top rounded-circle border-0"
                                 alt="Profile"
                                 style={{ width: "3rem", height: "3rem" }}
-                              />  {tracks?.createdBy}
+                              />  {accommodation?.createdBy}
                               <p>
-                                Application Status -  {formatDate(tracks?.createdOn)}
+                                Application Status -  {formatDate(accommodation?.createdOn)}
                               </p>
 
-                              {tracks?.status && (
+                              {accommodation?.status && (
                                 <div>
-                                  {tracks.status.map((item, index) => (
+                                  {accommodation.status.map((item, index) => (
                                     <a
                                       href={item?.document || "#"}
                                       target="_blank"
@@ -1173,11 +1160,11 @@ const [status, setStatus] = useState([]);
                                 <div className="container-fluid">
 
                                   <div className="row">
-                                    {statuses.map((item, index) => (
+                                    {accommodations.map((item, index) => (
                                         <div key={index} className="d-flex justify-content-end mb-4">
                                           <div className="profile-content">
                                             <img
-                                              src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                              src={accommodation?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
                                               className="card-img-top rounded-circle border-0"
                                               alt="Profile"
                                               style={{ width: "4.5rem", height: "4.5rem" }}
@@ -1204,21 +1191,7 @@ const [status, setStatus] = useState([]);
 
                                               </div>
                                               <div className="row">
-                    <div className="col-lg-12 col-12 mt-3 mb-lg-0">
-                      <div className="d-flex flex-row align-items-center gap-3">
-                        <h6 className="fw-bold h6">Sub Category:</h6>
-                        {Array.isArray(item?.category) &&
-                          item.category.map((data, index) => (
-                            <a
-                              key={index}
-                              href="#"
-                              className="text-decoration-none text-white bg-warning p-2 rounded-2"
-                            >
-                              {data}
-                            </a>
-                          ))}
-                      </div>
-                    </div>
+                   
                     
                   </div>
                                               <div className="card-body">
@@ -1316,7 +1289,7 @@ const [status, setStatus] = useState([]);
         ></button>
       </div>
       <div className="modal-body">
-        <form onSubmit={handleTrackSubmited}>
+        <form onSubmit={handleaccommodationubmited}>
           <div className="form-group mb-3">
             <label for="subject">Subject</label>
             {/* <CKEditor
@@ -1438,6 +1411,7 @@ const [status, setStatus] = useState([]);
                         </div>
                       </div>
                     </div>
+                   
 
         <div className="container-fluid my-2">
           <div className="row ">
