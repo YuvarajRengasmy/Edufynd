@@ -242,8 +242,8 @@ const handleapplicationSubmitted = (event) => {
     data-bs-toggle="modal"
     data-bs-target="#StatusModal34" // Updated target to match the modal ID
   >
-    <i className="fa fa-edit me-2" aria-hidden="true"></i>
-    Edit
+    <i className="fa fa-plus me-2" aria-hidden="true"></i>
+  New Application
   </button>
     <div
       className="modal fade"
@@ -256,7 +256,7 @@ const handleapplicationSubmitted = (event) => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="staticBackdropLabel21">
-              Edit Application
+              Add Application
             </h1>
             <button
               type="button"

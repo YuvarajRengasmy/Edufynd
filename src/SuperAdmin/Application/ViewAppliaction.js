@@ -26,6 +26,8 @@ export const ViewApplication = () => {
   const initialState = {
     statusName: "",
     commentBox: "",
+    reply:"",
+    uploadFile: [{fileName: "", uploadImage:""}],
     document: "",
     duration: "",
     progress: "",
@@ -36,18 +38,20 @@ export const ViewApplication = () => {
     campus: '',
     inTake: '',
     courseFees: "",
+
   };
 
   const initialStateErrors = {
     statusName: { required: false },
     commentBox: { required: false },
+    reply: { required: false },
+    uploadFile: { required: false },
     document: { required: false },
     duration: { required: false },
     progress: { required: false },
     subCategory: { required: false },
   };
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(null);
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
@@ -64,6 +68,10 @@ export const ViewApplication = () => {
   });
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
 
   useEffect(() => {
     if (id) {
@@ -74,6 +82,40 @@ export const ViewApplication = () => {
     }
   }, [id]);
 
+  const handleRichTextChanges = (value) => {
+    setTrack((prevTrack) => ({ ...prevTrack, reply: value }));
+  };
+  const convertToBase65 = (e, name, index, listName) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+     reader.readAsDataURL(file);
+    reader.onload = () => {
+      const updatedList = [...track[listName]];
+      updatedList[index][name] = reader.result;
+      setTrack({ ...track, [listName]: updatedList });
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
+  const handleListInputChange = (e, index) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...track.uploadFile];
+    if (files && files[0]) {
+      convertToBase64(e, "uploadImage", index);
+    } else {
+      updatedList[index][name] = value;
+      setTrack({ ...track, uploadFile: updatedList });
+    }
+  };
+  const addEntry = () => {
+    setTrack({ ...track, uploadFile: [...track.uploadFile, { fileName: "", uploadImage: "" }] });
+  };
+
+  const removeEntry = (index) => {
+    const updatedList = track.uploadFile.filter((_, i) => i !== index);
+    setTrack({ ...track, uploadFile: updatedList });
+  };
   const getAgentList = () => {
     getSingleApplication(id)
       .then((res) => {
@@ -132,7 +174,6 @@ export const ViewApplication = () => {
   const handleRichTextChange = (value) => {
     setTrack((prevUniversity) => ({
       ...prevUniversity,
-
       commentBox: value,
     }));
   };
@@ -193,6 +234,8 @@ export const ViewApplication = () => {
       duration: item.duration,
       progress: item.progress,
       subCategory: item.subCategory || [],
+      uploadFile: [],
+      reply: [],     
       commentBox: "",
       document: "", // Initialize commentBox as empty or with a value if needed
     });
@@ -238,11 +281,14 @@ export const ViewApplication = () => {
         statusId: editId, // The statusId of the status being edited
         statusName: track.statusName, // From the track object (or any other input fields)
         progress: track.progress, // Set progress to 100% if applicable
-        subCategory: selectedValues, // The selected subcategories
-        completed: track.completed, // Pass the completed status (true/false)
+        category: selectedValues, // The selected subcategories
+        completed: track.completed,
+        uploadFile: track.uploadFile,
+        reply: track.reply, // Pass the completed status (true/false)
         duration: track.duration, // Any other fields like duration, if needed
         position: track.position, // Add position if applicable
-
+        commentBox: track.commentBox, // Add commentBox if applicable
+        document: track.document, // Add document if applicable
       };
 
       // Check if we're editing an existing status
@@ -250,10 +296,9 @@ export const ViewApplication = () => {
         statusApplication(data)
           .then((res) => {
             toast.success("Successfully updated application status");
-            event.target.reset();
-            setTrack(initialState); // Reset track object to initial state after submission
-            setSubmitted(false); // Reset form submission state
-            getAllModuleDetails(); // Fetch the latest module details after submission
+            getAgentList();
+            getAllModuleDetails();
+            handleClose(); // Close the modal
           })
           .catch((err) => {
             toast.error(err?.response?.data?.message || "Failed to update status");
@@ -262,8 +307,69 @@ export const ViewApplication = () => {
     }
   };
 
+  // const handleTrackSubmited = (event) => {
+  //   event.preventDefault();
 
+  //   // Perform validation
+  //   const newErrorEducation = handleValidation(track);
+  //   setTrackErrors(newErrorEducation);
+  //   setSubmitted(true);
 
+  //   // If validation passes, proceed with submission
+  //   if (handleErrors(newErrorEducation)) {
+
+  //     // Structure the data as per backend requirements
+  //     const data = {
+  //       _id: id, // Assuming 'id' is the applicant's ID
+  //       statusId: editId, // The statusId of the status being edited
+       
+  //       uploadFile: track.uploadFile,
+  //       reply: track.reply, // Pass the completed status (true/false)
+       
+  //     };
+
+  //     // Check if we're editing an existing status
+  //     if (isEditing) {
+  //       statusApplication(data)
+  //         .then((res) => {
+  //           toast.success("Successfully updated application status");
+  //           getAgentList();
+  //           getAllModuleDetails();
+  //           handleClose(); // Close the modal
+  //         })
+  //         .catch((err) => {
+  //           toast.error(err?.response?.data?.message || "Failed to update status");
+  //         });
+  //     }
+  //   }
+  // };
+
+  const handleTrackSubmited = (event) => {
+    event.preventDefault();
+
+    // Here you could add any validation you require
+    if (!track.reply) {
+      setTrackErrors((prev) => ({ ...prev, reply: { required: true } }));
+      return;
+    }
+
+    const data = {
+      _id: id,
+      statusId: editId,
+      uploadFile: track.uploadFile,
+      reply: track.reply,
+    };
+
+    statusApplication(data)
+      .then((res) => {
+        toast.success("Successfully updated application status");
+        getAgentList();
+        handleClose();
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message || "Failed to update status");
+      });
+  };
   const getProgressColor = (progress) => {
     if (progress === 100) return "#FFFF00"; // Green for complete
     if (progress > 50) return "#0000FF"; // Yellow for more than 50%
@@ -428,32 +534,36 @@ export const ViewApplication = () => {
 
 
   const handleTrackSubmitted = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission behavior
+  
     if (handleErrors(track)) {
       const data = {
         _id: id, // Assuming 'id' is the applicant's ID
-
         courseType: track.courseType, // From the track object (or any other input fields)
         universityName: track.universityName, // Set progress to 100% if applicable
-
         course: track.course, // Pass the completed status (true/false)
         campus: track.campus, // Any other fields like duration, if needed
         inTake: track.inTake, // Add position if applicable
         courseFees: track.courseFees,
         status: status,
       };
+  
       updateApplication(data)
         .then((res) => {
           toast.success("Successfully updated application status");
-          navigate("/list_application"); // Redirect to another page after successful update
+          getAgentList();
+          navigate("/list_application");
+          handleClose();
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
     }
   };
+  ;
 
   // addApplication
+  
   const [expandedRows, setExpandedRows] = useState({});
 
   const toggleRow = (index) => {
@@ -571,27 +681,59 @@ export const ViewApplication = () => {
 
                             </h5>
 
-                            <div className="mb-1 d-flex justify-content-between">
-                              <p className="card-text">{tracks?.universityName}</p>
-                              <div className="card p-2 rounded-1 border-primary border-2">
+                            <div className="mb-1 d-flex justify-content-between align-items-center">
+  {/* University Name */}
+  <p className="card-text">{tracks?.universityName}</p>
 
-                                <button
-                                  className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#StatusModal" // Updated target to match the modal ID
-                                >
-                                  <i className="fas fa-edit">Application</i>
-                                </button>
+  {/* Right-aligned buttons */}
+  <div className="d-flex ms-auto gap-2"> {/* Use ms-auto to push buttons to the right, and gap-2 to add spacing */}
+    {/* Add Application Button */}
+    <AddApplication />
 
-                              </div>
-                              <div className="card p-2 rounded-1 border-primary border-2">
+    {/* Edit Button */}
+    <button
+      className="btn btn-outline-dark text-uppercase fw-semibold text-end px-2 py-1 text-center rounded-1"
+      data-bs-toggle="modal"
+      data-bs-target="#StatusModal"
+    >
+      <i className="fas fa-edit"></i> Edit
+    </button>
+  </div>
+</div>
 
-                                <AddApplication />
+                            <div className="card bg-transparent rounded-2 mt-4">
+                              <div className="card-body">
+                                <div className="d-flex align-items-center justify-content-between">
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">Campus</p>
+                                    <p className="fw-semibold">
+                                      {tracks?.campus}
+                                    </p>
+                                  </div>
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">Intake</p>
+                                    <p className="fw-semibold">
+                                      {tracks?.inTake}
+                                    </p>
+                                  </div>
 
-
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">Tuition Fee</p>
+                                    <p className="fw-semibold">
+                                      {tracks?.courseFees}
+                                    </p>
+                                  </div>
+                                  <div className="d-flex flex-column">
+                                    <p className="fw-semilight">
+                                      Application Code
+                                    </p>
+                                    <p className="fw-semibold">
+                                      {tracks?.applicationCode}
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-
                             <div
                               className="modal fade" // Changed to "fade" for Bootstrap 5 compatibility
                               id="StatusModal"
@@ -1009,6 +1151,7 @@ export const ViewApplication = () => {
                               </div>
                             </div>
                           </div>
+                        
                         </div>
                       </div>
                     </div>
@@ -1043,59 +1186,71 @@ export const ViewApplication = () => {
                                           >
                                             <div className="position-relative">
 
-                                              <div style={{ width: "100%", textAlign: "center", marginBottom: "20px", position: 'relative' }}>
-                                                {/* Circular Progress Bar */}
-                                                <svg width="100" height="100">
-                                                  <circle
-                                                    cx="50"
-                                                    cy="50"
-                                                    r="45"
-                                                    stroke="#e0e0e0"
-                                                    strokeWidth="10"
-                                                    fill="none"
-                                                  />
-                                                  <circle
-                                                    cx="50"
-                                                    cy="50"
-                                                    r="45"
-                                                    stroke={getProgressColor(item.progress)}
-                                                    strokeWidth="10"
-                                                    fill="none"
-                                                    strokeDasharray="283" // 2 * Math.PI * 45
-                                                    strokeDashoffset={getStrokeDashoffset(item.progress)}
-                                                    style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
-                                                  />
-                                                </svg>
+                                              {/* Progress Circle */}
+                                              <div style={{ width: "80%", textAlign: "center", marginBottom: "10px", position: 'relative' }}>
+  {/* Circular Progress Bar */}
+  <svg width="100" height="100" style={{ position: 'relative', zIndex: '1' }}>
+    <circle
+      cx="50"
+      cy="50"
+      r="45"
+      stroke="#e0e0e0"
+      strokeWidth="10"
+      fill="none"
+    />{item.duration}
+    <circle
+      cx="50"
+      cy="50"
+      r="45"
+      stroke={getProgressColor(item.progress)}
+      strokeWidth="10"
+      fill="none"
+      strokeDasharray="283" // 2 * Math.PI * 45
+      strokeDashoffset={getStrokeDashoffset(item.progress)}
+      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+    />
+  </svg>
 
-                                                {/* Button in the center of the circle */}
-                                                <OverlayTrigger
-                                                  placement="bottom"
-                                                  overlay={<Tooltip>{item.duration}</Tooltip>}
-                                                >
-                                                  <button
-                                                    type="button"
-                                                    className={`position-absolute text-bold top-50 start-50 translate-middle-y btn btn-sm rounded-circle ${!isPreviousCompleted ? 'disabled' : ''}`}
-                                                    data-bs-toggle={isPreviousCompleted ? "modal" : undefined} // Only enable modal if previous is complete
-                                                    data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined} // Use item.id for unique modal ID
-                                                    style={{
-                                                      width: "40px",
-                                                      height: "40px",
-                                                      backgroundColor: getProgressButton(item.progress),
-                                                      color: "#FFFFFF",
-                                                      border: 'none',
-                                                      cursor: isPreviousCompleted ? 'pointer' : 'not-allowed'
-                                                    }}
-                                                    onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined} // Only trigger edit if previous is complete
-                                                    disabled={!isPreviousCompleted} // Disable the button if previous is not completed
-                                                  >
-                                                    {item.progress === 100 ? '✔️' : '✖️'}
-                                                  </button>
-                                                </OverlayTrigger>
+  {/* Button dynamically positioned on the circumference */}
+  <OverlayTrigger
+    placement="bottom"
+    overlay={<Tooltip>{item.duration}</Tooltip>}
+  >
+    <button
+      type="button"
+      className={`position-absolute text-bold btn btn-sm rounded-circle ${!isPreviousCompleted ? 'disabled' : ''}`}
+      data-bs-toggle={isPreviousCompleted ? "modal" : undefined}
+      data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined}
+      style={{
+        width: "40px",
+        height: "40px",
+        backgroundColor: getProgressButton(item.progress),
+        color: "#FFFFFF",
+        border: 'none',
+        cursor: isPreviousCompleted ? 'pointer' : 'not-allowed',
+        // Dynamically move button along the circumference, starting from the bottom (0%) to the top (100%)
+        left: `${50 + 45 * Math.cos(2 * Math.PI * (item.progress / 100) + Math.PI)}%`, // Adjusted x position
+        top: `${50 + 45 * Math.sin(2 * Math.PI * (item.progress / 100) + Math.PI)}%`,  // Adjusted y position
+        transform: 'translate(-50%, -50%)', // Center the button relative to its position
+        zIndex: '2', // Ensure the button stays above the SVG
+      }}
+      onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined}
+      disabled={!isPreviousCompleted}
+    >
+      
+      <span style={{ color: 'white' }}>
+  { 
+    typeof item.progress === 'number' 
+      ? (item.progress === 100 ? '✔️' : `${item.progress}%`) 
+      : '❌'
+  }
+</span>
+    </button>
+  </OverlayTrigger>
 
-                                                <div style={{ fontSize: "24px", fontWeight: "bold", marginTop: "10px" }}>
-                                                  {item.progress}%
-                                                </div>
-                                              </div>
+</div>
+
+
 
 
 
@@ -1191,7 +1346,7 @@ export const ViewApplication = () => {
                                                         <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                                                           <CKEditor
                                                             editor={ClassicEditor}
-                                                            value={track.commentBox}
+                                                            data={track.commentBox}
                                                             config={{
                                                               placeholder: "Start writing your content here...",
                                                               toolbar: [
@@ -1214,7 +1369,7 @@ export const ViewApplication = () => {
                                                             }}
                                                             onChange={(event, editor) => {
                                                               const data = editor.getData();
-                                                              handleRichTextChange(data);
+                                                              handleRichTextChange(data); // Call the handler when the content changes
                                                             }}
                                                             name="commentBox"
                                                             style={{
@@ -1267,6 +1422,7 @@ export const ViewApplication = () => {
                                                           </button>
                                                           <button
                                                             type="submit"
+                                                            data-bs-dismiss="modal"
                                                             className="btn px-4 py-2 text-uppercase fw-semibold"
                                                             style={{
                                                               fontSize: "12px",
@@ -1519,47 +1675,7 @@ export const ViewApplication = () => {
 
                         <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
                           <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-                            <div className="card-header bg-white border-0">
-
-                              <div className="text-center">
-                                <button
-                                  aria-valuenow="75"
-                                  aria-valuemin="0"
-                                  aria-valuemax="100"
-                                  className="btn btn-sm text-capitalize fw-semibold rounded-pill text-white  position-relative"
-                                  style={{
-                                    fontSize: "10px",
-                                    backgroundColor: "#7627ef",
-                                    border: "none",
-                                    overflow: "hidden",
-                                  }}
-                                >
-                                  <div
-                                    className="position-absolute top-50 start-50 translate-middle"
-                                    style={{
-                                      width: "100%",
-                                      height: "100%",
-                                      backgroundColor: "#ffffff",
-                                      opacity: 0.2,
-                                    }}
-                                  >
-                                    <div
-                                      className="progress position-relative"
-                                      style={{ height: "100%" }}
-                                    >
-                                      <div
-                                        className="progress-bar progress-bar-striped progress-bar-animated"
-                                        style={{ width: "75%", height: "100%" }}
-                                      ></div>
-                                    </div>
-                                  </div>
-                                  <span>Document</span>
-                                </button>
-                                <div className="text-center">
-                                  <small>(75%) Completed</small>
-                                </div>
-                              </div>
-                            </div>
+                           
                             <div className="card-body p-4">
                               <img
                                 src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
@@ -1630,90 +1746,12 @@ export const ViewApplication = () => {
                             <div className="card-header bg-white sticky-top">
                               <h6 className="card-title">Application Track</h6>
                             </div>
-
-
-                            <div className="collapse" id="taggingSection">
-                              <div className="btn btns-m border-0 rounded-1 btn-danger float-end m-2" data-bs-toggle="collapse" data-bs-target="#taggingSection"><i className="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide</div>
-                              <div className="card-body p-4 border rounded-1">
-
-                                <form>
-                                  <div className="form-group mb-3">
-                                    <label for="tagPerson">Tag Person</label>
-                                    <input
-                                      type="text"
-                                      className="form-control rounded-1 text-muted"
-                                      id="tagPerson"
-                                      placeholder="Enter person's name"
-                                      style={{ fontSize: "12px" }}
-                                    />
-                                  </div>
-                                  <div className="form-group mb-3">
-                                    <label for="subject">Subject</label>
-
-                                    <CKEditor
-                                      editor={ClassicEditor}
-                                      value={track.commentBox}
-                                      config={{
-                                        placeholder:
-                                          "Start writing your content here...",
-                                        toolbar: [
-                                          "heading",
-                                          "|",
-                                          "bold",
-                                          "italic",
-                                          "link",
-                                          "bulletedList",
-                                          "numberedList",
-                                          "blockQuote",
-                                          "|",
-                                          "insertTable",
-                                          "mediaEmbed",
-                                          "imageUpload",
-                                          "|",
-                                          "undo",
-                                          "redo",
-                                        ],
-                                        image: {
-                                          toolbar: [
-                                            "imageTextAlternative",
-                                            "imageStyle:full",
-                                            "imageStyle:side",
-                                          ],
-                                        },
-                                        table: {
-                                          contentToolbar: [
-                                            "tableColumn",
-                                            "tableRow",
-                                            "mergeTableCells",
-                                          ],
-                                        },
-                                      }}
-                                      onChange={(event, editor) => {
-                                        const data = editor.getData();
-                                        console.log({ data });
-                                        handleRichTextChange(data);
-                                      }}
-                                      name="commentBox"
-                                      style={{
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-                                        zIndex: "0",
-                                      }}
-                                    />
-                                  </div>
-                                  <button type="submit" className="btn btn-primary float-end border-0 rounded-1 ">Send</button>
-                                </form>
-                              </div>
-                            </div>
-
-
                             <div className="card-body ">
                               <div className="chat-messages">
                                 <div className="container-fluid">
 
                                   <div className="row">
-                                    {tracks?.status &&
-                                      tracks.status.map((item, index) => (
+                                    {statuses.map((item, index) => (
                                         <div key={index} className="d-flex justify-content-end mb-4">
                                           <div className="profile-content">
                                             <img
@@ -1731,12 +1769,36 @@ export const ViewApplication = () => {
                                                 <p className="mb-0">Application Decision:{item?.statusName}</p>
                                                 <div className="d-flex gap-2">
                                                   <p className="mb-0">{formatDate(item?.createdOn)}</p>
-                                                  <button className="btn btn-sm btn-link text-white" type="button" data-bs-toggle="collapse" data-bs-target="#taggingSection">
-                                                    <i className="fa fa-reply" aria-hidden="true"></i>
-                                                  </button>
+                                                  <button
+    className="btn btn-sm btn-link text-white fw-semibold px-3 py-1 text-center rounded-1"
+    data-bs-toggle="modal"
+    data-bs-target="#StatusModal35"
+    onClick={() => handleEditModule(item?._id)} // Updated target to match the modal ID
+  >
+     <i className="fa fa-reply" aria-hidden="true"></i>
+  </button>
+                                                  
                                                 </div>
 
                                               </div>
+                                              <div className="row">
+                    <div className="col-lg-12 col-12 mt-3 mb-lg-0">
+                      <div className="d-flex flex-row align-items-center gap-3">
+                        <h6 className="fw-bold h6">Sub Category:</h6>
+                        {Array.isArray(item?.category) &&
+                          item.category.map((data, index) => (
+                            <a
+                              key={index}
+                              href="#"
+                              className="text-decoration-none text-white bg-warning p-2 rounded-2"
+                            >
+                              {data}
+                            </a>
+                          ))}
+                      </div>
+                    </div>
+                    
+                  </div>
                                               <div className="card-body">
 
                                                 <CKEditor
@@ -1761,7 +1823,7 @@ export const ViewApplication = () => {
 
                                                   <p classname='mb-0'><small>Sent</small></p>
 
-                                                  <p classname='mb-0'><small>Time</small></p>
+                                                  <p classname='mb-0'><small>Time:{formatDate(item?.createdOn)}</small></p>
                                                 </div>
 
 
@@ -1776,6 +1838,119 @@ export const ViewApplication = () => {
                                 </div>
                               </div>
                             </div>
+                            <div
+  className="modal fade"
+  id="StatusModal35"
+  tabIndex="-1"
+  aria-labelledby="staticBackdropLabel21"
+  aria-hidden="true"
+>
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="staticBackdropLabel21">
+          Reply Message
+        </h1>
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div className="modal-body">
+        <form onSubmit={handleTrackSubmited}>
+          <div className="form-group mb-3">
+            <label for="subject">Subject</label>
+            <CKEditor
+              editor={ClassicEditor}
+              data={track.reply}
+              config={{
+                placeholder: "Start writing your content here...",
+                toolbar: [
+                  "heading",
+                  "|",
+                  "bold",
+                  "italic",
+                  "link",
+                  "bulletedList",
+                  "numberedList",
+                  "blockQuote",
+                  "|",
+                  "insertTable",
+                  "mediaEmbed",
+                  "imageUpload",
+                  "|",
+                  "undo",
+                  "redo",
+                ],
+                image: {
+                  toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+                },
+                table: {
+                  contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+                },
+              }}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                handleRichTextChanges(data);
+              }}
+              name="reply"
+            />
+          </div>
+          
+          {track.uploadFile.map((uploadImage, index) => (
+                    <div key={index} className="mb-3">
+                      <div className="d-flex gy-2">
+                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>File Name</label>
+                          <input
+                            type="text"
+                            name="fileName"
+                            value={uploadImage.fileName}
+                            onChange={(e) => handleListInputChange(e, index)}
+                            className="form-control rounded-1"
+                            placeholder="File Upload Title"
+                          />
+                        </div>
+                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                          <label style={{ color: "#231F20" }}>File Document</label>
+                          <input
+                            type="file"
+                            name="uploadImage"
+                            onChange={(e) => handleListInputChange(e, index)}
+                            className="form-control rounded-1"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeEntry(index)}
+                        className="btn mt-2"
+                      >
+                        <i className="far fa-trash-alt text-danger me-1"></i>
+                      </button>
+                    </div>
+                  ))}
+          
+          <button
+            type="button"
+            onClick={addEntry}
+            className="btn text-white mt-2 col-sm-3"
+            style={{ backgroundColor: "#7267ef" }}
+          >
+            <i className="fas fa-plus-circle"></i>
+            &nbsp;&nbsp;Add
+          </button>
+          <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                  </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
