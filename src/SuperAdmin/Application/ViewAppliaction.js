@@ -307,43 +307,7 @@ export const ViewApplication = () => {
     }
   };
 
-  // const handleTrackSubmited = (event) => {
-  //   event.preventDefault();
-
-  //   // Perform validation
-  //   const newErrorEducation = handleValidation(track);
-  //   setTrackErrors(newErrorEducation);
-  //   setSubmitted(true);
-
-  //   // If validation passes, proceed with submission
-  //   if (handleErrors(newErrorEducation)) {
-
-  //     // Structure the data as per backend requirements
-  //     const data = {
-  //       _id: id, // Assuming 'id' is the applicant's ID
-  //       statusId: editId, // The statusId of the status being edited
-       
-  //       uploadFile: track.uploadFile,
-  //       reply: track.reply, // Pass the completed status (true/false)
-       
-  //     };
-
-  //     // Check if we're editing an existing status
-  //     if (isEditing) {
-  //       statusApplication(data)
-  //         .then((res) => {
-  //           toast.success("Successfully updated application status");
-  //           getAgentList();
-  //           getAllModuleDetails();
-  //           handleClose(); // Close the modal
-  //         })
-  //         .catch((err) => {
-  //           toast.error(err?.response?.data?.message || "Failed to update status");
-  //         });
-  //     }
-  //   }
-  // };
-
+ 
   const handleTrackSubmited = (event) => {
     event.preventDefault();
 
