@@ -326,7 +326,7 @@ export const ViewApplication = () => {
 
     statusApplication(data)
       .then((res) => {
-        toast.success("Successfully updated application status");
+        toast.success("Successfully updated reply application status");
         getAgentList();
         handleClose();
       })
