@@ -28,6 +28,11 @@ export const getSingleLoanEnquiry = (data) => {
 export const getallLoanEnquiry = () => {
     return API.get(`${Loan}`)
 }
+
+
+export const getAllLoanEnquiryCard = () => {
+  return API.get(`${Loan}/card`)
+}
 export const deleteLoanEnquiry= (data) => {
     return API.delete(`${Loan}`, { params: { _id: data } });
   };

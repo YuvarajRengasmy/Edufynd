@@ -27,6 +27,10 @@ export const getSingleForexEnquiry = (data) => {
 export const getallForexEnquiry = () => {
     return API.get(`${ Forex }`)
 }
+
+export const getAllForexEnquiryCard = () => {
+  return API.get(`${ Forex }/card`)
+}
 export const deleteForexEnquiry= (data) => {
     return API.delete(`${Forex}`, { params: { _id: data } });
   };

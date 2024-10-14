@@ -6,7 +6,8 @@ import {
   deleteLoanEnquiry,
   getFilterLoanEnquiry,
   deactivateClient,activeClient,
-  assignStaffToEnquiries
+  assignStaffToEnquiries,
+  getAllLoanEnquiryCard
 } from "../../../api/Enquiry/Loan";
 import { getallStaff } from "../../../api/staff";
 import { getCommonSearch } from "../../../api/superAdmin";
@@ -63,6 +64,7 @@ export const ListLoanEnquiry = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [card, setCard] = useState();
 
   useEffect(() => {
     getAllLoanDetails();
@@ -82,6 +84,17 @@ export const ListLoanEnquiry = () => {
       handleSearch();
     }
   }, [searchValue]);
+
+  useEffect(() => {
+    getLoanEnquiryCount();
+  }, []);
+
+
+  const getLoanEnquiryCount = () => {
+    getAllLoanEnquiryCard().then((res) => setCard(res?.data.result))
+  }
+
+
   const getStaffList = () => {
     getallStaff()
       .then((res) => {
@@ -718,77 +731,200 @@ export const ListLoanEnquiry = () => {
             </div>
           </div>
         </div>
-        <div className="container mt-3">
+
+
+     <div className="container mt-3">
       <div className="row">
         {/* Card 1: Lead Converted */}
         <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#1976D2" }} // Blue
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Lead Converted
-                </h6>
-                <p className="card-text">Total: 75</p>
-              </div>
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#1976D2" }} // Blue
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Total Enquiry: {card?.totalData || 0}
+                    </h6>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="card-text mb-1">Active: {card?.activeData || 0}</p>
+                      <p className="card-text mb-1">InActive: {card?.inactiveData || 0}</p> <br></br>
+
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
         {/* Card 2: Drop/Withdraw */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#E64A19" }} // Deep Orange
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Drop/Withdraw
-                </h6>
-                <p className="card-text">Total: 20</p>
-              </div>
+        <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Enquiry By Source </h6>
+                        {card?.sourceCounts ? (
+                          Object.entries(card.sourceCounts).map(([source, count]) => (
+                            <p className="card-text" key={source}>
+                              {source}: {count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
         {/* Card 3: Delayed Followups */}
         <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#FBC02D" }} // Yellow
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Delayed Followups
-                </h6>
-                <p className="card-text">Total: 45</p>
-              </div>
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FBC02D" }} // Yellow
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Enquiries Converted
+                    </h6>
+                    <p className="card-text">Processing....</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
         {/* Card 4: Documents Received */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#388E3C" }} // Green
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Documents Received
-                </h6>
-                <p className="card-text">Total: 90</p>
-              </div>
+        <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Higest Converted Source </h6>
+                        {card?.topSource?.length > 0 ? (
+                          card.topSource.map((item, index) => (
+                            <p className="card-text" key={index}>
+                              {item.source}: {item.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
-        </div>
+
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Highest Converted Staff: Processing...</h6>
+                        {/* {card?.topSource?.length > 0 ? (
+                          card.topSource.map((item, index) => (
+                            <p className="card-text" key={index}>
+                              {item.source}: {item.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )} */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Highest Converted Client: Processing...</h6>
+                        {/* {card?.topSource?.length > 0 ? (
+                          card.topSource.map((item, index) => (
+                            <p className="card-text" key={index}>
+                              {item.source}: {item.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )} */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Commissionable Enquiries: Processing...</h6>
+                        {/* {card?.topSource?.length > 0 ? (
+                          card.topSource.map((item, index) => (
+                            <p className="card-text" key={index}>
+                              {item.source}: {item.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )} */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Non-Commissionable Enquiries: Processing...</h6>
+                        {/* {card?.topSource?.length > 0 ? (
+                          card.topSource.map((item, index) => (
+                            <p className="card-text" key={index}>
+                              {item.source}: {item.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )} */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
       </div>
     </div>
+
+
         <div className="content-body">
           <div className="container">
             <div className="row">
