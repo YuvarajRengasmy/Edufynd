@@ -284,30 +284,42 @@ export const ViewLoanEnquiry = () => {
 
   const handleTrackSubmit = (event) => {
     event.preventDefault();
+
+    // Perform validation
     const newErrorEducation = handleValidation(track);
     setTrackErrors(newErrorEducation);
     setSubmitted(true);
 
-    // Check for validation errors
+    // If validation passes, proceed with submission
     if (handleErrors(newErrorEducation)) {
-      if (id) {
-        const data = {
-          _id: id,
-          status: {
-            ...track,
-            progress: 100, // Set progress to 100% upon submission
-          },
-        };
 
+      // Structure the data as per backend requirements
+      const data = {
+        _id: id, // Assuming 'id' is the applicant's ID
+        statusId: editId, // The statusId of the status being edited
+        statusName: track.statusName, // From the track object (or any other input fields)
+        progress: track.progress, // Set progress to 100% if applicable
+        completed: track.completed,
+        uploadFile: track.uploadFile,
+        reply: track.reply, // Pass the completed status (true/false)
+        duration: track.duration, // Any other fields like duration, if needed
+        position: track.position, // Add position if applicable
+        commentBox: track.commentBox, // Add commentBox if applicable
+        document: track.document, // Add document if applicable
+      };
+
+      // Check if we're editing an existing status
+      if (isEditing) {
         statusApplication(data)
           .then((res) => {
             toast.success("Successfully updated application status");
+            getAgentList();
             getAllModuleDetails();
-            if (modalRef.current) {
-              modalRef.current.click(); // Close the modal
-            }
+           
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            toast.error(err?.response?.data?.message || "Failed to update status");
+          });
       }
     }
   };
