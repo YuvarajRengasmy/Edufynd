@@ -15,6 +15,7 @@ import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import Flags from "react-world-flags";
 import { getallCode } from "../../../api/settings/dailcode";
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/student";
 
 import Mastersidebar from "../../../compoents/sidebar";
 
@@ -99,6 +100,7 @@ export const AddStudentForm = () => {
     registerForIELTSClass: { required: false },
   };
   const [student, setStudent] = useState(initialState);
+  const [status, setStatus] = useState([]);
   const [source ,setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setStudents] = useState([]);
@@ -108,6 +110,7 @@ export const AddStudentForm = () => {
   const [dial, setDial] = useState([]);
 
   const navigate = useNavigate();
+
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
@@ -231,8 +234,24 @@ export const AddStudentForm = () => {
     getStudentList();
     getAgentList();
     getallCodeList();
+    getAllApplicationsModuleDetails();
   }, []);
 
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getallCodeList = () => {
     getallCode()
       .then((res) => {
@@ -358,8 +377,12 @@ export const AddStudentForm = () => {
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
+    const data ={
+      ...student,
+      status: status,
+    }
     if (handleErrors(newError)) {
-      saveStudnetEnquiry(student)
+      saveStudnetEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_enquiry_student");

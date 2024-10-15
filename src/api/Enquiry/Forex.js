@@ -11,7 +11,9 @@ export const updateForexEnquiry= (data) => {
 export const activeClient = (data) => {
   return API.post(`${Forex}/active`,data);
 };
-
+export const statusApplication = (data) => {
+  return API.put(`${Forex}/status`, data);
+};
 export const deactivateClient = (data) => {
   return API.post(`${Forex}/deActive`,data);
 };

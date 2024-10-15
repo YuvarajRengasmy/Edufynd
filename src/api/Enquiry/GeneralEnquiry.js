@@ -11,7 +11,9 @@ export const updateGeneralEnquiry= (data) => {
 export const activeClient = (data) => {
   return API.post(`${GeneralEnquiry}/active`,data);
 };
-
+export const statusApplication = (data) => {
+  return API.put(`${GeneralEnquiry}/status`, data);
+};
 export const deactivateClient = (data) => {
   return API.post(`${GeneralEnquiry}/deActive`,data);
 };

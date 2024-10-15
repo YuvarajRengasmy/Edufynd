@@ -8,6 +8,9 @@ export const saveFlightEnquiry = (data) => {
 export const updateFlightEnquiry= (data) => {
     return API.put(`${Flight}`, data)
 }
+export const statusApplication = (data) => {
+  return API.put(`${Flight}/status`, data);
+};
 export const activeClient = (data) => {
   return API.post(`${Flight}/active`,data);
 };

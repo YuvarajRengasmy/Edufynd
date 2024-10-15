@@ -4,7 +4,9 @@ import { BusinessEnquiry } from "../endpoints"
 export const saveBusinessEnquiry = (data) => {
     return API.post(`${BusinessEnquiry}`, data)
 }
-
+export const statusApplication = (data) => {
+  return API.put(`${BusinessEnquiry}/status`, data);
+};
 export const updateBusinessEnquiry= (data) => {
     return API.put(`${BusinessEnquiry}`, data)
 }

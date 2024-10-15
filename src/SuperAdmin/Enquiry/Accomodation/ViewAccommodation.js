@@ -10,10 +10,9 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { getFilterApplicationStatus } from "../../../api/StatusEnquiry/accomdation";
 import { getFilterStatus } from "../../../api/status";
 import { toast } from "react-toastify";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link,useNavigate, useLocation } from "react-router-dom";
 import Flags from "react-world-flags";
 import Mastersidebar from "../../../compoents/sidebar";
-import { Link } from "react-router-dom";
 import { formatDate } from "../../../Utils/DateFormat";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
@@ -1161,114 +1160,109 @@ export const ViewAccommodation = () => {
 
                                   <div className="row">
                                   {accommodation?.status && (
-                                <div>
-                                  {accommodation.status.map((item, index) => (
-                                        <div key={index} className="d-flex justify-content-end mb-4">
-                                          <div className="profile-content">
-                                            <img
-                                              src={accommodation?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
-                                              className="card-img-top rounded-circle border-0"
-                                              alt="Profile"
-                                              style={{ width: "4.5rem", height: "4.5rem" }}
-                                            />
-                                          </div>
+                      <div>
+                        {accommodation.status.map((item, index) => (
+                          <div key={index} className="d-flex justify-content-end mb-4">
+                            <div className="profile-content">
+                              <img
+                                src={accommodation?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                className="card-img-top rounded-circle border-0"
+                                alt="Profile"
+                                style={{ width: "4.5rem", height: "4.5rem" }}
+                              />
+                            </div>
+                            <div className="col-10">
+                              <div className="card">
+                                <div className="card-header text-bg-danger">
+                                  <p className="mb-0">Application Decision: {item?.statusName}</p>
+                                  <div className="d-flex gap-2">
+                                    <p className="mb-0">{formatDate(item?.createdOn)}</p>
+                                    <button
+                                      className="btn btn-sm btn-link text-white fw-semibold px-3 py-1 text-center rounded-1"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#StatusModal35"
+                                      onClick={() => handleEditModule(item)}
+                                    >
+                                      <i className="fa fa-reply" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <div className="card-body">
+                                  <div className="d-flex flex-row justify-content-start mb-4">
+                                    <img
+                                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                      alt="avatar 1"
+                                      style={{ width: 45, height: "100%" }}
+                                    />
+                                    <div
+                                      className="col-8 p-3 ms-3"
+                                      style={{ borderRadius: 15, backgroundColor: "rgba(57, 192, 237,.2)" }}
+                                    >
+                                      <CKEditor
+                                        editor={ClassicEditor}
+                                        data={item?.commentBox}
+                                        disabled={true}
+                                        config={{
+                                          toolbar: [],
+                                        }}
+                                      />
+                                    </div>
+                                    <br />
+                                    {item?.createdBy}
+                                  </div>
 
-                                          <div className="col-10">
-                                            <div className="card ">
-                                              <div className="card-header text-bg-danger">
-
-                                                <p className="mb-0">Application Decision:{item?.statusName}</p>
-                                                <div className="d-flex gap-2">
-                                                  <p className="mb-0">{formatDate(item?.createdOn)}</p>
-                                                  <button
-    className="btn btn-sm btn-link text-white fw-semibold px-3 py-1 text-center rounded-1"
-    data-bs-toggle="modal"
-    data-bs-target="#StatusModal35"
-    onClick={() => handleEditModule(item)} // Updated target to match the modal ID
-  >
-     <i className="fa fa-reply" aria-hidden="true"></i>
-  </button>
-                                                  
-                                                </div>
-
-                                              </div>
-                                              <div className="row">
-                   
-                    
-                  </div>
-                                              <div className="card-body">
-
-  <div className="d-flex flex-row justify-content-start mb-4">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" style={{width: 45, height: '100%'}} />
-              <div className="col-8 p-3 ms-3" style={{borderRadius: 15, backgroundColor: 'rgba(57, 192, 237,.2)'}}>
-              <CKEditor
-        editor={ClassicEditor}
-        data={item?.commentBox}
-        disabled={true}
-        config={{
-          toolbar: [],
-        }}
-      /></div><br />
-   
-      {item?.createdBy}
-      
-              
-            </div>
-            <div className="d-flex flex-row justify-content-end mb-4">
-              {Array.isArray(item?.reply) &&
-              item.reply.map((data, index) => (
-                <div key={index} className="col-8 p-3 me-3 border bg-body-tertiary" style={{borderRadius: 15}}>
-              <CKEditor
-        editor={ClassicEditor}
-        data={data.replyMessage}
-        disabled={true}
-        config={{
-          toolbar: [],
-        }}
-      /><br />
-              </div>
-              ))
-              }
-      <br />
-      {item?.createdBy}
-    
-             
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" alt="avatar 1" style={{width: 45, height: '100%'}} />
-            </div>
-
-  <br />
-
-  {/* Footer with Duration and Delayed Info */}
-  <div className="d-flex flex-column align-items-end justify-content-end">
-    <p className="mb-0">
-      <b>Duration</b> - {item?.duration} Days
-    </p>
-    <p className="mb-0">
-      <b>Delayed</b> - {item?.delay} Days
-    </p>
-  </div>
-
-  {/* Sent Info and Time */}
-  <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
-    <p className="mb-0">
-      <small>Sent</small>
-    </p>
-    <p className="mb-0">
-      <small>Time: {formatDate(item?.createdOn)}</small>
-    </p>
-  </div>
-</div>
-
-
-
-                                            </div>
-                                          </div>
-
+                                  {/* <div className="d-flex flex-row justify-content-end mb-4">
+                                    {Array.isArray(item?.reply) &&
+                                      item.reply.map((data, index) => (
+                                        <div
+                                          key={index}
+                                          className="col-8 p-3 me-3 border bg-body-tertiary"
+                                          style={{ borderRadius: 15 }}
+                                        >
+                                          <CKEditor
+                                            editor={ClassicEditor}
+                                            data={data.replyMessage}
+                                            disabled={true}
+                                            config={{
+                                              toolbar: [],
+                                            }}
+                                          />
+                                          <br />
                                         </div>
                                       ))}
-                                       </div>
+                                    <br />
+                                    {item?.createdBy}
+                                    <img
+                                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
+                                      alt="avatar 1"
+                                      style={{ width: 45, height: "100%" }}
+                                    />
+                                  </div> */}
 
-)}
+                                  <div className="d-flex flex-column align-items-end justify-content-end">
+                                    <p className="mb-0">
+                                      <b>Duration</b> - {item?.duration} Days
+                                    </p>
+                                    <p className="mb-0">
+                                      <b>Delayed</b> - {item?.delay} Days
+                                    </p>
+                                  </div>
+
+                                  <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+                                    <p className="mb-0">
+                                      <small>Sent</small>
+                                    </p>
+                                    <p className="mb-0">
+                                      <small>Time: {formatDate(item?.createdOn)}</small>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                                   </div>
                                 </div>
                               </div>
@@ -1294,119 +1288,7 @@ export const ViewAccommodation = () => {
         ></button>
       </div>
       <div className="modal-body">
-        <form onSubmit={handleAccommodationSubmited}>
-          <div className="form-group mb-3">
-            <label for="subject">Subject</label>
-            {/* <CKEditor
-              editor={ClassicEditor}
-              data={track.reply}
-              config={{
-                placeholder: "Start writing your content here...",
-                toolbar: [
-                  "heading",
-                  "|",
-                  "bold",
-                  "italic",
-                  "link",
-                  "bulletedList",
-                  "numberedList",
-                  "blockQuote",
-                  "|",
-                  "insertTable",
-                  "mediaEmbed",
-                  "imageUpload",
-                  "|",
-                  "undo",
-                  "redo",
-                ],
-                image: {
-                  toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
-                },
-                table: {
-                  contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
-                },
-              }}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                handleRichTextChanges(data);
-              }}
-              name="reply"
-            /> */}
-            <input className="form-control"
-            name="replyMessage"
-            onChange={(e) => handleRichTextChanges(e.target.value)}
-            type="text" />
-          </div>
-          
-          {accommodation.uploadFile.map((uploadImage, index) => (
-                              <div key={index} className="mb-3">
-                                <div className="d-flex gy-2 ">
-                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>
-                                      File Name
-                                    </label>
-                                    <input
-                                      type="text"
-                                      name="fileName"
-                                      value={uploadImage.fileName}
-                                      onChange={(e) =>
-                                        handleListInputChange(
-                                          e,
-                                          index,
-                                          "uploadFile"
-                                        )
-                                      }
-                                      className="form-control rounded-1"
-                                      style={{ fontSize: "12px" }}
-                                      placeholder="File Upload Title"
-                                    />
-                                  </div>
-                                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <label style={{ color: "#231F20" }}>
-                                      File Document
-                                    </label>
-                                    <input
-                                      type="file"
-                                      name="uploadImage"
-                                      onChange={(e) =>
-                                        handleListInputChange(
-                                          e,
-                                          index,
-                                          "uploadFile"
-                                        )
-                                      }
-                                      className="form-control rounded-1 "
-                                      style={{ fontSize: "12px" }}
-                                      placeholder="Upload File"
-                                    />
-                                  </div>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    removeEntry(index, "uploadFile")
-                                  }
-                                  className="btn mt-2"
-                                >
-                                  <i className="far fa-trash-alt text-danger me-1"></i>
-                                </button>
-                              </div>
-                            ))}
-          
-          <button
-                              type="button"
-                              onClick={() => addEntry("uploadFile")}
-                              className="btn text-white mt-2 col-sm-6"
-                              style={{ backgroundColor: "#7267ef" }}
-                            >
-                              <i className="fas fa-plus-circle"></i>
-                              &nbsp;&nbsp;Add
-                            </button>
-          <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                  </div>
-        </form>
+       
       </div>
     </div>
   </div>
