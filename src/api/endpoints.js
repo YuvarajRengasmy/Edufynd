@@ -63,3 +63,7 @@ export const Event ="event"
 export const Training ="training"
 export const Testimonial ="testimonial"
 export const Blog ="blog"
+
+
+// income
+export const Income ="incomeReport";
