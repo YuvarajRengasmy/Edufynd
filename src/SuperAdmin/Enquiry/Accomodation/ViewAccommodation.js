@@ -53,7 +53,7 @@ export const ViewAccommodation = () => {
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [track, setTrack] = useState(null);
+
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -1334,7 +1334,7 @@ export const ViewAccommodation = () => {
             type="text" />
           </div>
           
-          {track.uploadFile.map((uploadImage, index) => (
+          {accommodations.uploadFile.map((uploadImage, index) => (
                               <div key={index} className="mb-3">
                                 <div className="d-flex gy-2 ">
                                   <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
