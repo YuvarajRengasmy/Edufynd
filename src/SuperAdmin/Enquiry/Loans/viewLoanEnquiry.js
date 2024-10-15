@@ -299,7 +299,7 @@ export const ViewLoanEnquiry = () => {
           },
         };
 
-        updateLoanEnquiry(data)
+        statusApplication(data)
           .then((res) => {
             toast.success("Successfully updated application status");
             getAllModuleDetails();
