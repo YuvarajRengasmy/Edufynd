@@ -18,6 +18,7 @@ import { saveForexEnquiry } from "../../../api/Enquiry/Forex";
 import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/student";
 import Mastersidebar from "../../../compoents/sidebar";
 
 export const AddForex = () => {
@@ -80,6 +81,7 @@ export const AddForex = () => {
     profit: {required: false},
   };
   const [forex, setForex] = useState(initialState);
+  const [status, setStatus] = useState([]);
   const [university, setUniversity] = useState();
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
@@ -95,8 +97,25 @@ export const AddForex = () => {
     getAllUniversityList();
     getAllCurrencyDetails();
     getallCodeList();
+    getAllApplicationsModuleDetails();
   }, []);
 
+
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllUniversityList = () => {
     getallUniversity()
       .then((res) => {
@@ -168,39 +187,7 @@ export const AddForex = () => {
     if (!data.source) {
       error.source.required = true;
     }
-    // if (!data.agentName) {
-    //   error.agentName.required = true;
-    // }
-    // if (!isValidName(data.agentName)) {
-    //   error.agentName.valid = true;
-    // }
-    // if (!data.businessName) {
-    //   error.businessName.required = true;
-    // }
-
-    // if (!isValidName(data.businessName)) {
-    //   error.businessName.valid = true;
-    // }
-
-    // if (!data.agentEmail) {
-    //   error.agentEmail.required = true;
-    // }
-    // if (!isValidEmail(data.agentEmail)) {
-    //   error.agentEmail.valid = true;
-    // }
-    // if (!data.agentPrimaryNumber) {
-    //   error.agentPrimaryNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentPrimaryNumber)) {
-    //   error.agentPrimaryNumber.valid = true;
-    // }
-
-    // if (!data.agentWhatsAppNumber) {
-    //   error.agentWhatsAppNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentWhatsAppNumber)) {
-    //   error.agentWhatsAppNumber.valid = true;
-    // }
+  
     if (!data.name) {
       error.name.required = true;
     }
@@ -361,9 +348,12 @@ export const AddForex = () => {
     const newError = handleValidation(forex);
     setErrors(newError);
     setSubmitted(true);
-
+const data ={
+  ...forex,
+  status:status
+}
     if (handleErrors(newError)) {
-      saveForexEnquiry(forex)
+      saveForexEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_forex_form");

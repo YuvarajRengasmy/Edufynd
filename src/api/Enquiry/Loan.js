@@ -11,7 +11,9 @@ export const updateLoanEnquiry= (data) => {
 export const activeClient = (data) => {
   return API.post(`${Loan}/active`,data);
 };
-
+export const statusApplication = (data) => {
+  return API.put(`${Loan}/status`, data);
+};
 export const deactivateClient = (data) => {
   return API.post(`${Loan}/deActive`,data);
 };

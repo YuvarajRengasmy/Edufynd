@@ -9,6 +9,7 @@ import { getFilterSource } from "../../../api/settings/source";
 import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import Flags from "react-world-flags";
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/student";
 
 export const Addflight = () => {
   const initialState = {
@@ -59,6 +60,7 @@ export const Addflight = () => {
   };
   const [flight, setFlight] = useState(initialState);
   const [university, setUniversity] = useState();
+  const [status, setStatus] = useState([]);
   const [source, setSource] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setflights] = useState([]);
@@ -77,6 +79,7 @@ export const Addflight = () => {
     getAllSourceDetails();
     getStudentList();
     getAgentList();
+    getAllApplicationsModuleDetails();
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
@@ -102,6 +105,21 @@ export const Addflight = () => {
     getallStudent()
       .then((res) => {
         setflights(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
       })
       .catch((err) => {
         console.log(err);
@@ -244,8 +262,13 @@ export const Addflight = () => {
     const newError = handleValidation(flight);
     setErrors(newError);
     setSubmitted(true);
+
+    const data ={
+      ...flight,
+      status: status
+    }
     if (handleErrors(newError)) {
-      saveFlightEnquiry(flight)
+      saveFlightEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_flight_ticket");

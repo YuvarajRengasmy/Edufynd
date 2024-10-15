@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import {
   getSingleForexEnquiry,
   getSingleLogUniversity,
+  statusApplication,
   updateForexEnquiry,
 } from "../../../api/Enquiry/Forex";
 import { getFilterApplicationStatus } from "../../../api/universityModule/ApplicationStatus";
@@ -13,6 +14,9 @@ import Flags from "react-world-flags";
 import Mastersidebar from "../../../compoents/sidebar";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 export const ViewForex = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
@@ -46,7 +50,7 @@ export const ViewForex = () => {
   };
 
   const initialState = {
-    newStatus: "",
+    statusName: "",
     commentBox: "",
     document: "",
     duration: "",
@@ -54,17 +58,17 @@ export const ViewForex = () => {
   };
 
   const initialStateErrors = {
-    newStatus: { required: false },
+    statusName: { required: false },
     commentBox: { required: false },
     document: { required: false },
     duration: { required: false },
     progress: { required: false },
-  };
+  }; 
 
   const [track, setTrack] = useState(initialState);
   const [tracks, setTracks] = useState([]);
   const [application, setApplication] = useState([]);
-
+  const [statuses, setStatuses] = useState([]);
   const [trackErrors, setTrackErrors] = useState(initialStateErrors);
   const [status, setStatus] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -81,12 +85,51 @@ export const ViewForex = () => {
     if (id) {
       getAllModuleDetails();
       getApplicationDetails();
-
+      getApplicationDetail();
       getUniversityLogs();
       getAllApplicationsModuleDetails();
       getAgentList();
     }
   }, [id]);
+
+
+  const handleRichTextChanges = (value) => {
+    setTrack((prevTrack) => ({ ...prevTrack, reply: value }));
+  };
+  const convertToBase65 = (e, name, index, listName) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+     reader.readAsDataURL(file);
+    reader.onload = () => {
+      const updatedList = [...track[listName]];
+      updatedList[index][name] = reader.result;
+      setTrack({ ...track, [listName]: updatedList });
+    };
+    reader.onerror = (error) => {
+      console.log("Error: ", error);
+    };
+  };
+  const handleListInputChange = (e, index, listName) => {
+    const { name, value, files } = e.target;
+    const updatedList = [...track[listName]];
+    if (files && files[0]) {
+      convertToBase65(e, name, index, listName);
+    } else {
+      updatedList[index][name] = value;
+      setTrack({ ...track, [listName]: updatedList });
+    }
+  };
+
+  const addEntry = (listName) => {
+    const newEntry =
+      listName === "uploadFile" ? { fileName: "", uploadImage: "" } : null;
+    setTrack({ ...track, [listName]: [...track[listName], newEntry] });
+  };
+
+  const removeEntry = (index, listName) => {
+    const updatedList = track[listName].filter((_, i) => i !== index);
+    setTrack({ ...track, [listName]: updatedList });
+  };
 
   const getAgentList = () => {
     getSingleForexEnquiry(id)
@@ -98,12 +141,24 @@ export const ViewForex = () => {
         console.log(err);
       });
   };
+
+  const getApplicationDetail = () => {
+    getSingleForexEnquiry(id)
+      .then((res) => {
+        setStatuses(res?.data?.result?.status || []); // Assume statuses is an array in the response
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+ 
   const getApplicationDetails = () => {
     getSingleForexEnquiry(id)
       .then((res) => {
         if (res.data.result?.status) {
           setTrack({
-            newStatus: res.data.result || "",
+            statusName: res.data.result || "",
             commentBox: res.data.result || "",
             document: res.data.result || "",
           });
@@ -157,8 +212,8 @@ export const ViewForex = () => {
 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
-    if (!data.newStatus) {
-      error.newStatus.required = true;
+    if (!data.statusName) {
+      error.statusName.required = true;
     }
     if (!data.commentBox) {
       error.commentBox.required = true;
@@ -202,10 +257,14 @@ export const ViewForex = () => {
 
   const handleEditModule = (item) => {
     setTrack({
-      newStatus: item.statusName,
+      statusName: item.statusName,
       duration: item.duration,
+      progress: item.progress,
+    
+      uploadFile:item.uploadFile || [],
+      reply: item.reply || [],     
       commentBox: "",
-      document: "", // Initialize commentBox as empty or with a value if needed
+      document: "",
     });
     setIsEditing(true);
     setEditId(item._id);
@@ -227,39 +286,118 @@ export const ViewForex = () => {
 
   const handleTrackSubmit = (event) => {
     event.preventDefault();
+
+    // Perform validation
     const newErrorEducation = handleValidation(track);
     setTrackErrors(newErrorEducation);
     setSubmitted(true);
 
-    // Check for validation errors
+    // If validation passes, proceed with submission
     if (handleErrors(newErrorEducation)) {
-      if (id) {
-        const data = {
-          _id: id,
-          status: {
-            ...track,
-            progress: 100, // Set progress to 100% upon submission
-          },
-        };
 
-        updateForexEnquiry(data)
+      // Structure the data as per backend requirements
+      const data = {
+        _id: id, // Assuming 'id' is the applicant's ID
+        statusId: editId, // The statusId of the status being edited
+        statusName: track.statusName, // From the track object (or any other input fields)
+        progress: track.progress, // Set progress to 100% if applicable
+        completed: track.completed,
+        uploadFile: track.uploadFile,
+        reply: track.reply, // Pass the completed status (true/false)
+        duration: track.duration, // Any other fields like duration, if needed
+        position: track.position, // Add position if applicable
+        commentBox: track.commentBox, // Add commentBox if applicable
+        document: track.document, // Add document if applicable
+      };
+
+      // Check if we're editing an existing status
+      if (isEditing) {
+        statusApplication(data)
           .then((res) => {
             toast.success("Successfully updated application status");
+            getAgentList();
             getAllModuleDetails();
-            if (modalRef.current) {
-              modalRef.current.click(); // Close the modal
-            }
+           
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            toast.error(err?.response?.data?.message || "Failed to update status");
+          });
       }
     }
   };
 
+  const handleTrackSubmited = (event) => {
+    event.preventDefault();
+
+    // Here you could add any validation you require
+    if (!track.reply) {
+      setTrackErrors((prev) => ({ ...prev, reply: { required: true } }));
+      return;
+    }
+
+    
+   
+    const data = {
+      _id: id,
+      statusId: editId,
+      uploadFile: track.uploadFile,
+      reply: Array.isArray(track.reply)
+        ? track.reply.map(item => ({
+            replyMessage: item.replyMessage || "",
+            createdBy: item.createdBy || "Unknown",
+          }))
+        : [{ replyMessage: track.reply || "", createdBy: "Unknown" }],
+    };
+
+    statusApplication(data)
+      .then((res) => {
+        toast.success("Successfully updated reply application status");
+        getAgentList();
+       
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message || "Failed to update status");
+      });
+    
+  };
   const getProgressColor = (progress) => {
-    if (progress === 0) return "#e0e0e0"; // Gray for 0 progress
-    if (progress < 50) return "#ff9800"; // Orange for <50%
-    if (progress < 100) return "#ffc107"; // Yellow for <100%
-    return "#4caf50"; // Green for 100%
+    if (progress === 100) return "#FFFF00"; // Green for complete
+    if (progress > 50) return "#0000FF"; // Yellow for more than 50%
+    return "#808080"; // Red for less than or equal to 50%
+  };
+
+  const getProgressText = (progress) => {
+    if (progress === 100) return "#A52A2A"; // Green for complete
+    if (progress > 50) return "#0000FF"; // Yellow for more than 50%
+    return "#878089"; // Red for less than or equal to 50%
+  };
+
+  const getProgressButton = (progress) => {
+    if (progress === 100) return "#808000"; // Green for complete
+    if (progress > 50) return "#0000FF"; // Yellow for more than 50%
+    return "#A52A2A"; // Red for less than or equal to 50%
+  };
+
+
+  const [expandedRows, setExpandedRows] = useState({});
+
+  const toggleRow = (index) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+  const getDisplayText = (text, expanded) => {
+    if (!text) return ""; // Ensure text is defined
+    const words = text.split(" ");
+    return expanded
+      ? text
+      : words.slice(0, 2).join(" ") + (words.length > 2 ? "..." : "");
+  };
+
+  const getStrokeDashoffset = (progress) => {
+    const circumference = 2 * Math.PI * 45; // Circumference of the circle
+    return circumference - (progress / 100) * circumference;
   };
   return (
     <>
@@ -573,676 +711,506 @@ export const ViewForex = () => {
         </div>
 
         <div className="container-fluid">
-          <div className="row">
-            <div className="col">
-              <div className="card border-0 rounded-1 shadow-sm p-3">
-                <div className="card-body">
-                  <div className="d-flex   justify-content-between align-items-center">
-                    {status.map((item, index) => (
-                      <div
-                        className="position-relative m-2"
-                        key={index}
-                        style={{ flex: "1 1 auto", maxWidth: "18%" }}
-                      >
-                        <div className="position-relative">
-                          <div
-                            className="progress"
-                            role="progressbar"
-                            aria-label="Progress"
-                            aria-valuenow={item.progress}
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            style={{ height: "9px" }}
-                          >
-                            <div
-                              className="progress-bar progress-bar-striped progress-bar-animated"
-                              style={{
-                                width: `${item.progress}%`,
-                                backgroundColor: getProgressColor(
-                                  item.progress
-                                ),
-                              }}
-                            ></div>
-                          </div>
-
-                          <div
-                            className="progress-bar progress-bar-striped progress-bar-animated"
-                            style={{
-                              width: `${item.progress}%`,
-                              backgroundColor: getProgressColor(item.progress),
-                            }}
-                          ></div>
-                        </div>
-                        <OverlayTrigger
-                          placement="bottom"
-                          overlay={<Tooltip>{item.duration} Days</Tooltip>}
-                        >
-                          <button
-                            type="button"
-                            className="position-absolute text-bold  top-0  start-0 translate-middle-y btn btn-sm btn-primary rounded-pill"
-                            data-bs-toggle="modal"
-                            data-bs-target={`#modal-${index}`}
-                            style={{
-                              width: "2rem",
-                              height: "2rem",
-                              left: "0",
-
-                              color: "#FFF",
-                            }}
-                            onClick={() => handleEditModule(item)}
-                          >
-                            {item.duration}
-                          </button>
-                        </OverlayTrigger>
-                        <div className="d-flex justify-content-start align-items-center mt-3">
-                          {" "}
-                          {item.statusName}
-                        </div>
-
-                        <div
-                          className="modal fade"
-                          id={`modal-${index}`}
-                          tabIndex="-1"
-                          aria-labelledby="exampleModalLabel"
-                          aria-hidden="true"
-                        >
-                          <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                              <div className="modal-header">
-                                <h1
-                                  className="modal-title fs-5"
-                                  id="staticBackdropLabel"
-                                >
-                                  Application Status
-                                </h1>
-                                <button
-                                  type="button"
-                                  className="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                  ref={modalRef}
-                                ></button>
-                              </div>
-                              <div className="modal-body">
-                                <form onSubmit={handleTrackSubmit}>
-                                  <div className="input-group mb-3">
-                                    <span
-                                      className="input-group-text"
-                                      id="basic-addon1"
-                                    >
-                                      <i className="fa fa-tasks nav-icon text-dark"></i>
-                                    </span>
-                                    <input
-                                      type="text"
-                                      name="newStatus"
-                                      value={track.newStatus}
-                                      onChange={handleTrack}
-                                      className="form-control"
-                                      placeholder="Enter Status...."
-                                      aria-label="Status"
-                                      aria-describedby="basic-addon1"
-                                      style={{ fontSize: "12px" }}
-                                    />
-                                    {submitted &&
-                                      trackErrors.newStatus.required && (
-                                        <p className="text-danger">
-                                          Status is required
-                                        </p>
-                                      )}
-                                  </div>
-                                  <div className="input-group mb-3">
-                                    <span
-                                      className="input-group-text"
-                                      id="basic-addon1"
-                                    >
-                                      <i className="fa fa-tasks nav-icon text-dark"></i>
-                                    </span>
-                                    <input
-                                      type="text"
-                                      name="duration"
-                                      value={track.duration}
-                                      onChange={handleTrack}
-                                      className="form-control"
-                                      placeholder="Enter Status...."
-                                      aria-label="Status"
-                                      aria-describedby="basic-addon1"
-                                      style={{ fontSize: "12px" }}
-                                    />
-                                    {submitted &&
-                                      trackErrors.duration.required && (
-                                        <p className="text-danger">
-                                          Status is required
-                                        </p>
-                                      )}
-                                  </div>
-                                  <div className="input-group mb-3">
-                                    <RichTextEditor
-                                      placeholder="Start writing your content here..."
-                                      name="commentBox"
-                                      onChange={handleRichTextChange}
-                                      value={track.commentBox}
-                                      type="text"
-                                      style={{
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-
-                                        zIndex: "0",
-                                      }}
-                                    />
-                                    {submitted &&
-                                      trackErrors.commentBox.required && (
-                                        <p className="text-danger">
-                                          Comment is required
-                                        </p>
-                                      )}
-                                  </div>
-
-                                  <div className="input-group mb-3">
-                                    <span
-                                      className="input-group-text"
-                                      id="basic-addon1"
-                                    >
-                                      <i className="fa fa-file nav-icon text-dark"></i>
-                                    </span>
-                                    <input
-                                      type="number"
-                                      className="form-control "
-                                      style={{
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-                                      }}
-                                      value={"80"}
-                                      placeholder="Enter  Image upload"
-                                      name="progress"
-                                      onChange={handleTrack}
-                                    />
-                                  </div>
-                                  <div className="input-group mb-3">
-                                    <span
-                                      className="input-group-text"
-                                      id="basic-addon1"
-                                    >
-                                      <i className="fa fa-file nav-icon text-dark"></i>
-                                    </span>
-                                    <input
-                                      type="file"
-                                      className="form-control "
-                                      style={{
-                                        fontFamily: "Plus Jakarta Sans",
-                                        fontSize: "12px",
-                                      }}
-                                      placeholder="Enter  Image upload"
-                                      name="document"
-                                      onChange={handleTrack}
-                                    />
-                                  </div>
-                                  <div className="modal-footer">
-                                    <button
-                                      type="button"
-                                      className="btn px-4 py-2 text-uppercase fw-semibold"
-                                      data-bs-bs-dismiss="modal"
-                                      style={{
-                                        fontSize: "12px",
-                                        backgroundColor: "#231f20",
-                                        color: "#fff",
-                                      }}
-                                    >
-                                      Close
-                                    </button>
-                                    <button
-                                      type="submit"
-                                      className="btn px-4 py-2 text-uppercase fw-semibold"
-                                      style={{
-                                        fontSize: "12px",
-                                        backgroundColor: "#fe5722",
-                                        color: "#fff",
-                                      }}
-                                      data-bs-dismiss="modal"
-                                    >
-                                      Submit
-                                    </button>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col">
-              <div className="card card-body mb-3">
-                <h6 className="text-start">Notes</h6>
-                <div className="text-end">
-                  <button
-                    className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#StatusModal"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Add Status
-                  </button>
-                </div>
-
-                <div
-                  className="modal fade"
-                  id="StatusModal"
-                  tabIndex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h1
-                          className="modal-title fs-5"
-                          id="staticBackdropLabel"
-                        >
-                          Application Status
-                        </h1>
-                        <button
-                          type="button"
-                          className="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div className="modal-body">
-                        <form onSubmit={handleTrackSubmit}>
-                          <div className="input-group mb-3">
-                            <span
-                              className="input-group-text"
-                              id="basic-addon1"
-                            >
-                              <i className="fa fa-tasks nav-icon text-dark"></i>
-                            </span>
-                            <select
-                              name="newStatus"
-                              value={track.newStatus}
-                              onChange={handleTrack}
-                              className="form-select"
-                              style={{ fontSize: "12px" }}
-                            >
-                              <option value="">Select Status</option>
-                              {application.map((status) => (
-                                <option
-                                  key={status._id}
-                                  value={status.statusName}
-                                >
-                                  {status.statusName}
-                                </option>
-                              ))}
-                            </select>
-                            {submitted && trackErrors.newStatus.required && (
-                              <p className="text-danger">Status is required</p>
-                            )}
-                          </div>
-                          <div className="input-group mb-3 visually-hidden">
-                            <span
-                              className="input-group-text"
-                              id="basic-addon1"
-                            >
-                              <i className="fa fa-tasks nav-icon text-dark"></i>
-                            </span>
-                            <input
-                              type="text"
-                              name="duration"
-                              value="0"
-                              onChange={handleTrack}
-                              className="form-control"
-                              placeholder="Enter Status...."
-                              aria-label="Status"
-                              aria-describedby="basic-addon1"
-                              style={{ fontSize: "12px" }}
-                            />
-                          </div>
-                          <div className="input-group mb-3">
-                            <RichTextEditor
-                              placeholder="Start writing your content here..."
-                              name="commentBox"
-                              onChange={handleRichTextChange}
-                              value={track.commentBox}
-                              type="text"
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-
-                                zIndex: "0",
-                              }}
-                            />
-                            {submitted && trackErrors.commentBox.required && (
-                              <p className="text-danger">Comment is required</p>
-                            )}
-                          </div>
-                          <div className="input-group mb-3">
-                            <span
-                              className="input-group-text"
-                              id="basic-addon1"
-                            >
-                              <i className="fa fa-file nav-icon text-dark"></i>
-                            </span>
-                            <input
-                              type="file"
-                              className="form-control "
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                              placeholder="Enter  Image upload"
-                              name="document"
-                              onChange={handleTrack}
-                            />
-                          </div>
-                          <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn px-4 py-2 text-uppercase fw-semibold"
-                              data-bs-dismiss="modal"
-                              style={{
-                                fontSize: "12px",
-                                backgroundColor: "#231f20",
-                                color: "#fff",
-                              }}
-                            >
-                              Close
-                            </button>
-                            <button
-                              type="submit"
-                              data-bs-dismiss="modal"
-                              className="btn px-4 py-2 text-uppercase fw-semibold"
-                              style={{
-                                fontSize: "12px",
-                                backgroundColor: "#fe5722",
-                                color: "#fff",
-                              }}
-                              // data-bs-bs-dismiss="modal"
-                            >
-                              Submit
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container-fluid-fluid my-2">
-          <div className="row flex-nowrap">
-            <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
-              <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-                <div className="card-header bg-white border-0">
-                  <div className="text-center">
-                    <button
-                      aria-valuenow="75"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      className="btn btn-sm text-capitalize fw-semibold rounded-pill text-white  position-relative"
-                      style={{
-                        fontSize: "10px",
-                        backgroundColor: "#7627ef",
-                        border: "none",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <div
-                        className="position-absolute top-50 start-50 translate-middle"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          backgroundColor: "#ffffff",
-                          opacity: 0.2,
-                        }}
-                      >
-                        <div
-                          className="progress position-relative"
-                          style={{ height: "100%" }}
-                        >
-                          <div
-                            className="progress-bar progress-bar-striped progress-bar-animated"
-                            style={{ width: "75%", height: "100%" }}
-                          ></div>
-                        </div>
-                      </div>
-                      <span>Document</span>
-                    </button>
-                    <div className="text-center">
-                      <small>(75%) Completed</small>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-body p-4">
-                  <img
-                    src={
-                      tracks?.photo ||
-                      "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                    }
-                    className="card-img-top rounded-circle border-0"
-                    alt="Profile"
-                    style={{ width: "3rem", height: "3rem" }}
-                  />{" "}
-                  {tracks?.createdBy}
-                  <p>Application Status - {formatDate(tracks?.createdOn)}</p>
-                  {tracks?.status && (
-                    <div>
-                      {tracks.status.map((item, index) => (
-                        <a
-                          href={item?.document || "#"}
-                          target="_blank"
-                          key={index}
-                          className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
-                        >
-                          <div className="me-2">
-                            {item?.document ? (
-                              <img
-                                src={item?.document}
-                                className="card-img-top border-0 me-2"
-                                alt="Document"
-                                style={{ width: "10rem", height: "3rem" }}
-                              />
-                            ) : (
-                              <div
-                                className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
-                                style={{
-                                  width: "10rem",
-                                  height: "3rem",
-                                  backgroundColor: "#f0f0f0",
-                                }}
-                              >
-                                <p
-                                  className="mb-0"
-                                  style={{ fontSize: "12px", color: "#888" }}
-                                >
-                                  No Document
-                                </p>
-                              </div>
-                            )}
-                            <p
-                              className="card-text mb-0"
-                              style={{ fontSize: "12px" }}
-                            >
-                              {item?.name}
-                            </p>
-                            <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
-                              <p classname="mb-0">
-                                <small>Sent</small>
-                              </p>
-
-                              <p classname="mb-0">
-                                <small>Time</small>
-                              </p>
-                            </div>
-                          </div>
-                          <i className="fa fa-eye" aria-hidden="true"></i>
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-8 col-sm-8">
-              <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
-                <div className="card-header bg-white sticky-top">
-                  <h6 className="card-title">Application Track</h6>
-                </div>
-
-                <div className="collapse" id="taggingSection">
-                  <div
-                    className="btn btns-m border-0 rounded-1 btn-danger float-end m-2"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#taggingSection"
-                  >
-                    <i className="fa fa-minus" aria-hidden="true"></i>&nbsp;Hide
-                  </div>
-                  <div className="card-body p-4 border rounded-1">
-                    <form>
-                      <div className="form-group mb-3">
-                        <label for="tagPerson">Tag Person</label>
-                        <input
-                          type="text"
-                          className="form-control rounded-1 text-muted"
-                          id="tagPerson"
-                          placeholder="Enter person's name"
-                          style={{ fontSize: "12px" }}
-                        />
-                      </div>
-                      <div className="form-group mb-3">
-                        <label for="subject">Subject</label>
-                        <RichTextEditor
-                          placeholder="Start writing your content here..."
-                          name="content"
-                          style={{
-                            fontFamily: "Plus Jakarta Sans",
-                            fontSize: "12px",
-                          }}
-                          controls={[
-                            ["bold", "italic", "underline", "strike"],
-                            ["h1", "h2", "h3", "h4", "h5", "h6"],
-                            ["unorderedList", "orderedList"],
-                            ["indent", "outdent"],
-                            ["link", "image", "video"],
-                            ["blockquote", "codeBlock"],
-                            [
-                              "alignLeft",
-                              "alignCenter",
-                              "alignRight",
-                              "alignJustify",
-                            ],
-                            ["subscript", "superscript"],
-                            ["color", "backgroundColor"],
-                          ]}
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="btn btn-primary float-end border-0 rounded-1 "
-                      >
-                        Send
-                      </button>
-                    </form>
-                  </div>
-                </div>
-
-                <div className="card-body ">
-                  <div className="chat-messages">
-                    <div className="container-fluid">
                       <div className="row">
-                        {tracks?.status &&
-                          tracks.status.map((item, index) => (
-                            <div
-                              key={index}
-                              className="d-flex justify-content-end mb-4"
-                            >
-                              <div className="profile-content">
-                                <img
-                                  src={
-                                    tracks?.photo ||
-                                    "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
-                                  }
-                                  className="card-img-top rounded-circle border-0"
-                                  alt="Profile"
-                                  style={{ width: "4.5rem", height: "4.5rem" }}
-                                />
+                        <div className="col">
+                          <div className="card border-0 rounded-1 shadow-sm p-3">
+                            <div className="card-body">
+                              {/* <div>{new Date(tracks?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}</div> */}
+                              <div className="d-flex justify-content-between align-items-center">
+                                <div className="d-flex justify-content-between align-items-center">
+                                  {statuses
+                                    .sort((a, b) => a.position - b.position) // Sort by position
+                                    .map((item, index) => {
+                                      const isExpanded = !!expandedRows[index];
+                                      // Check if the previous status is fully completed (progress = 100)
+                                      const isPreviousCompleted = index === 0 || statuses[index - 1].progress === 100;
+
+                                      return (
+
+                                        <div>
+                                          <div><p className="fw-semibold" style={{ color: getProgressText(item.progress) }}>{new Date(item?.estimateDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</p></div>
+
+                                          <div
+                                            className="position-relative m-2 mb-3"
+                                            key={item.id} // Use a unique identifier instead of index if possible
+                                            style={{ flex: "1 1 auto", maxWidth: "100%" }}
+                                          >
+                                            <div className="position-relative">
+
+                                              {/* Progress Circle */}
+                                              <div style={{ width: "80%", textAlign: "center", marginBottom: "10px", position: 'relative' }}>
+  {/* Circular Progress Bar */}
+  <svg width="100" height="100" style={{ position: 'relative', zIndex: '1' }}>
+    <circle
+      cx="50"
+      cy="50"
+      r="45"
+      stroke="#e0e0e0"
+      strokeWidth="10"
+      fill="none"
+    />{item.duration}
+    <circle
+      cx="50"
+      cy="50"
+      r="45"
+      stroke={getProgressColor(item.progress)}
+      strokeWidth="10"
+      fill="none"
+      strokeDasharray="283" // 2 * Math.PI * 45
+      strokeDashoffset={getStrokeDashoffset(item.progress)}
+      style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+    />
+  </svg>
+
+  {/* Button dynamically positioned on the circumference */}
+  <OverlayTrigger
+    placement="bottom"
+    overlay={<Tooltip>{item.duration}</Tooltip>}
+  >
+    <button
+      type="button"
+      className={`position-absolute text-bold btn btn-sm rounded-circle ${!isPreviousCompleted ? 'disabled' : ''}`}
+      data-bs-toggle={isPreviousCompleted ? "modal" : undefined}
+      data-bs-target={isPreviousCompleted ? `#modal-${item._id}` : undefined}
+      style={{
+        width: "40px",
+        height: "40px",
+        backgroundColor: getProgressButton(item.progress),
+        color: "#FFFFFF",
+        border: 'none',
+        cursor: isPreviousCompleted ? 'pointer' : 'not-allowed',
+        // Dynamically move button along the circumference, starting from the bottom (0%) to the top (100%)
+        left: `${50 + 45 * Math.cos(2 * Math.PI * (item.progress / 100) + Math.PI)}%`, // Adjusted x position
+        top: `${50 + 45 * Math.sin(2 * Math.PI * (item.progress / 100) + Math.PI)}%`,  // Adjusted y position
+        transform: 'translate(-50%, -50%)', // Center the button relative to its position
+        zIndex: '2', // Ensure the button stays above the SVG
+      }}
+      onClick={isPreviousCompleted ? () => handleEditModule(item) : undefined}
+      disabled={!isPreviousCompleted}
+    >
+      
+      <span style={{ color: 'white' }}>
+  { 
+    typeof item.progress === 'number' 
+      ? (item.progress === 100 ? '✔️' : `${item.progress}%`) 
+      : '❌'
+  }
+</span>
+    </button>
+  </OverlayTrigger>
+
+</div>
+
+
+
+
+
+
+
+                                              <div className="d-flex justify-content-start align-items-center mt-3"
+                                                onMouseEnter={() => toggleRow(index)}
+                                                onMouseLeave={() => toggleRow(index)}
+                                                title={item.statusName}>
+
+                                                {getDisplayText(item.statusName, isExpanded)}
+                                              </div>
+
+                                              {/* Modal for Editing */}
+                                              <div
+                                                className="modal fade"
+                                                id={`modal-${item._id}`} // Use item.id for unique modal ID
+                                                tabIndex="-1"
+                                                aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true"
+                                              >
+                                                <div className="modal-dialog modal-dialog-centered">
+                                                  <div className="modal-content">
+                                                    <div className="modal-header">
+                                                      <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                                                        Application Status
+                                                      </h1>
+                                                      <button
+                                                        type="button"
+                                                        className="btn-close"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close"
+                                                        ref={modalRef}
+                                                      ></button>
+                                                    </div>
+                                                    <div className="modal-body">
+                                                      {/* Form for Editing */}
+                                                      <form onSubmit={handleTrackSubmit}>
+                                                        {/* Status Input */}
+                                                        <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                          <input
+                                                            type="text"
+                                                            name="statusName"
+                                                            value={track.statusName}
+                                                            onChange={handleTrack}
+                                                            className="form-control"
+                                                            placeholder="Enter Status...."
+                                                            aria-label="Status"
+                                                            style={{ fontSize: "12px" }}
+                                                          />
+                                                          {submitted && trackErrors.statusName.required && (
+                                                            <p className="text-danger">Status is required</p>
+                                                          )}
+                                                        </div>
+
+                                                       
+
+                                                        {/* Duration Input */}
+                                                        <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                          <input
+                                                            type="text"
+                                                            name="duration"
+                                                            value={track.duration}
+                                                            onChange={handleTrack}
+                                                            className="form-control"
+                                                            placeholder="Enter Duration...."
+                                                            aria-label="Duration"
+                                                            style={{ fontSize: "12px" }}
+                                                          />
+                                                          {submitted && trackErrors.duration.required && (
+                                                            <p className="text-danger">Duration is required</p>
+                                                          )}
+                                                        </div>
+
+                                                   {/* Rich Text Editor */}
+                                                   <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+  <CKEditor
+    editor={ClassicEditor}
+    value={track.commentBox || ""} // Ensure it has a default value if undefined or null
+    config={{
+      placeholder: "Start writing your content here...",
+      toolbar: [
+        "heading",
+        "|",
+        "bold",
+        "italic",
+        "link",
+        "bulletedList",
+        "numberedList",
+        "blockQuote",
+        "|",
+        "insertTable",
+        "mediaEmbed",
+        "imageUpload",
+        "|",
+        "undo",
+        "redo",
+      ],
+    }}
+    onChange={(event, editor) => {
+      const data = editor.getData();
+      handleRichTextChange(data); // Call the handler when the content changes
+    }}
+    name="commentBox"
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+      zIndex: "0",
+    }}
+  />
+  {submitted && trackErrors.commentBox?.required && (
+    <p className="text-danger">Comment is required</p>
+  )}
+</div>
+
+                                                        {/* Progress and File Upload Inputs */}
+                                                        <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                          <input
+                                                            type="number"
+                                                            className="form-control"
+                                                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                                            value={track.progress} // Assuming you have track.progress defined
+                                                            placeholder="Enter Progress"
+                                                            name="progress"
+                                                            onChange={handleTrack}
+                                                          />
+                                                        </div>
+                                                        <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
+                                                          <input
+                                                            type="file"
+                                                            className="form-control"
+                                                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                                                            placeholder="Enter File Upload"
+                                                            name="document"
+                                                            onChange={handleTrack}
+                                                          />
+                                                        </div>
+
+                                                        {/* Modal Footer */}
+                                                        <div className="modal-footer">
+                                                          <button
+                                                            type="button"
+                                                            className="btn px-4 py-2 text-uppercase fw-semibold"
+                                                            data-bs-dismiss="modal"
+                                                            style={{
+                                                              fontSize: "12px",
+                                                              backgroundColor: "#231f20",
+                                                              color: "#fff",
+                                                            }}
+                                                          >
+                                                            Close
+                                                          </button>
+                                                          <button
+                                                            type="submit"
+                                                            data-bs-dismiss="modal"
+                                                            className="btn px-4 py-2 text-uppercase fw-semibold"
+                                                            style={{
+                                                              fontSize: "12px",
+                                                              backgroundColor: "#fe5722",
+                                                              color: "#fff",
+                                                            }}
+                                                          >
+                                                            Save changes
+                                                          </button>
+                                                        </div>
+                                                      </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+
+                                          <div className="d-flex justify-content-start align-items-center mt-3 ">
+                                            {item.modifiedOn ? new Date(item?.modifiedOn).toLocaleDateString('en-GB').replace(/\//g, '-') : new Date(item?.createdOn).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+
+
+                                </div>
+
+
+
+
                               </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="container-fluid-fluid my-2">
+                      <div className="row flex-nowrap">
 
-                              <div className="col-10">
-                                <div className="card ">
-                                  <div className="card-header text-bg-danger">
-                                    <p className="mb-0">
-                                      Application Decision:{item?.newStatus}
-                                    </p>
-                                    <div className="d-flex gap-2">
-                                      <p className="mb-0">
-                                        {formatDate(item?.createdOn)}
-                                      </p>
-                                      <button
-                                        className="btn btn-sm btn-link text-white"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#taggingSection"
-                                      >
-                                        <i
-                                          className="fa fa-reply"
-                                          aria-hidden="true"
-                                        ></i>
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className="card-body">
-                                    <RichTextEditor
-                                      value={item?.commentBox}
-                                      readOnly
-                                    />{" "}
-                                    <br />
-                                    <br />
-                                    Sincerely,
-                                    <br />
-                                    {item?.createdBy}
-                                    <br />
-                                    Edufynd
-                                    <div className="d-flex flex-column align-items-end justify-content-end">
-                                      <p className="mb-0">
-                                        <b>Duration</b>- {item?.duration}Days
-                                      </p>
-                                      <p className="mb-0">
-                                        <b>Delayed</b>- {item?.delay}Days
-                                      </p>
-                                    </div>
-                                    <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
-                                      <p classname="mb-0">
-                                        <small>Sent</small>
-                                      </p>
+                        <div className="col-md-4 col-sm-4 d-flex flex-column justify-content-between overflow-auto border-end">
+                          <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+                           
+                            <div className="card-body p-4">
+                              <img
+                                src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                className="card-img-top rounded-circle border-0"
+                                alt="Profile"
+                                style={{ width: "3rem", height: "3rem" }}
+                              />  {tracks?.createdBy}
+                              <p>
+                                Application Status -  {formatDate(tracks?.createdOn)}
+                              </p>
 
-                                      <p classname="mb-0">
-                                        <small>Time</small>
-                                      </p>
-                                    </div>
+                              {tracks?.status && (
+                                <div>
+                                  {tracks.status.map((item, index) => (
+                                    <a
+                                      href={item?.document || "#"}
+                                      target="_blank"
+
+                                      key={index}
+                                      className="d-flex gap-2 align-items-center mb-2 text-decoration-none"
+                                    >
+                                      <div className="me-2">
+                                        {item?.document ? (
+                                          <img
+                                            src={item?.document}
+                                            className="card-img-top border-0 me-2"
+                                            alt="Document"
+                                            style={{ width: "10rem", height: "3rem" }}
+                                          />
+                                        ) : (
+                                          <div
+                                            className="card-img-top border-0 me-2 d-flex justify-content-center align-items-center"
+                                            style={{ width: "10rem", height: "3rem", backgroundColor: "#f0f0f0" }}
+                                          >
+
+                                            <p className="mb-0" style={{ fontSize: "12px", color: "#888" }}>
+                                              No Document
+                                            </p>
+                                          </div>
+                                        )}
+                                        <p className="card-text mb-0" style={{ fontSize: "12px" }}>
+                                          {item?.name}
+                                        </p>
+                                        <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+
+                                          <p classname='mb-0'><small>Sent</small></p>
+
+                                          <p classname='mb-0'><small>Time</small></p>
+                                        </div>
+                                      </div>
+                                      <i className="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+
+
+                                  ))}
+
+                                </div>
+
+                              )}
+                            </div>
+
+                          </div>
+                        </div>
+
+
+                        <div className="col-md-8 col-sm-8">
+                          <div className="card border-0 rounded-1 shadow-sm vh-100 min-vh-100 overflow-auto">
+                            <div className="card-header bg-white sticky-top">
+                              <h6 className="card-title">Application Track</h6>
+                            </div>
+                            <div className="card-body ">
+                              <div className="chat-messages">
+                                <div className="container-fluid">
+
+                                  <div className="row">
+                                    {statuses.map((item, index) => (
+                                        <div key={index} className="d-flex justify-content-end mb-4">
+                                          <div className="profile-content">
+                                            <img
+                                              src={tracks?.photo || "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"}
+                                              className="card-img-top rounded-circle border-0"
+                                              alt="Profile"
+                                              style={{ width: "4.5rem", height: "4.5rem" }}
+                                            />
+                                          </div>
+
+                                          <div className="col-10">
+                                            <div className="card ">
+                                              <div className="card-header text-bg-danger">
+
+                                                <p className="mb-0">Application Decision:{item?.statusName}</p>
+                                                <div className="d-flex gap-2">
+                                                  <p className="mb-0">{formatDate(item?.createdOn)}</p>
+                                                  <button
+    className="btn btn-sm btn-link text-white fw-semibold px-3 py-1 text-center rounded-1"
+    data-bs-toggle="modal"
+    data-bs-target="#StatusModal35"
+    onClick={() => handleEditModule(item)} // Updated target to match the modal ID
+  >
+     <i className="fa fa-reply" aria-hidden="true"></i>
+  </button>
+                                                  
+                                                </div>
+
+                                              </div>
+                                           
+                                              <div className="card-body">
+
+  <div className="d-flex flex-row justify-content-start mb-4">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" style={{width: 45, height: '100%'}} />
+              <div className="col-8 p-3 ms-3" style={{borderRadius: 15, backgroundColor: 'rgba(57, 192, 237,.2)'}}>
+              <CKEditor
+        editor={ClassicEditor}
+        data={item?.commentBox}
+        disabled={true}
+        config={{
+          toolbar: [],
+        }}
+      /></div><br />
+   
+      {item?.createdBy}
+      
+              
+            </div>
+            <div className="d-flex flex-row justify-content-end mb-4">
+              {Array.isArray(item?.reply) &&
+              item.reply.map((data, index) => (
+                <div key={index} className="col-8 p-3 me-3 border bg-body-tertiary" style={{borderRadius: 15}}>
+              <CKEditor
+        editor={ClassicEditor}
+        data={data.replyMessage}
+        disabled={true}
+        config={{
+          toolbar: [],
+        }}
+      /><br />
+              </div>
+              ))
+              }
+      <br />
+      {item?.createdBy}
+    
+             
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp" alt="avatar 1" style={{width: 45, height: '100%'}} />
+            </div>
+
+  <br />
+
+  {/* Footer with Duration and Delayed Info */}
+  <div className="d-flex flex-column align-items-end justify-content-end">
+    <p className="mb-0">
+      <b>Duration</b> - {item?.duration} Days
+    </p>
+    <p className="mb-0">
+      <b>Delayed</b> - {item?.delay} Days
+    </p>
+  </div>
+
+  {/* Sent Info and Time */}
+  <div className="d-flex flex-wrap justify-content-between align-items-center mb-0 p-0">
+    <p className="mb-0">
+      <small>Sent</small>
+    </p>
+    <p className="mb-0">
+      <small>Time: {formatDate(item?.createdOn)}</small>
+    </p>
+  </div>
+</div>
+
+
+
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                      ))}
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          ))}
+                            <div
+  className="modal fade"
+  id="StatusModal35"
+  tabIndex="-1"
+  aria-labelledby="staticBackdropLabel21"
+  aria-hidden="true"
+>
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="staticBackdropLabel21">
+          Reply Message
+        </h1>
+
+        <button
+          type="button"
+          className="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div className="container-fluid my-2">
           <div className="row ">

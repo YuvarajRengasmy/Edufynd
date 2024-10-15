@@ -11,7 +11,9 @@ export const updateStudnetEnquiry= (data) => {
 export const activeClient = (data) => {
   return API.post(`${StudnetEnquiry}/active`,data);
 };
-
+export const statusApplication = (data) => {
+  return API.put(`${StudnetEnquiry}/status`, data);
+};
 export const deactivateClient = (data) => {
   return API.post(`${StudnetEnquiry}/deActive`,data);
 };
