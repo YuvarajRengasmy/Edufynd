@@ -17,7 +17,6 @@ import { templatePdf } from "../../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 import Downshift from "downshift";
-import { Chart, registerables } from 'chart.js';
 
 
 
@@ -487,140 +486,12 @@ const handleInputsearch = (event) => {
 
 
 
-  const chartRefer = useRef(null);
-  const chartInstance = useRef(null);
 
-  useEffect(() => {
-    const ctx = chartRefer.current.getContext('2d');
-
-    // Destroy previous chart if it exists
-    if (chartInstance.current) {
-      chartInstance.current.destroy();
-    }
-
-    // Create the new chart
-    chartInstance.current = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-      
-        datasets: [{
-          data: [
-            details?.accommodation || 0,
-            details?.flight || 0,
-            details?.loan || 0,
-            details?.forex || 0,
-            details?.education || 0,
-            details?.finance || 0,
-
-          ], // Use default 0 if no data available
-          backgroundColor: [
-            '#fdc21d', // Green for "Active" (chat bubble color)
-            '#207cbb',
-            "#097969",
-            "#00d4ff",
-            "#ba1b1b",
-            "#94bbe9" // Blue for "Inactive" (chat bubble color)
-          ],
-          borderColor: [
-           '#fdc21d', // Green for "Active" (chat bubble color)
-            '#207cbb',
-            "#097969",
-            "#00d4ff",
-            "#ba1b1b",
-            "#94bbe9" // Blue for "Inactive" (chat bubble color)
-          ],
-          borderWidth: 5,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          tooltip: {
-            callbacks: {
-              label: function(tooltipItem) {
-                return tooltipItem.label + ': ' + tooltipItem.raw;
-              }
-            }
-          }
-            },
-          },
-        
-        
-        
-      
-    });
-
-    // Clean up on component unmount
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
-    };
-  }, [details]);
   // filter
 
 
  
-  const chartRef = useRef(null);
-  const chartInstanc = useRef(null);
-useEffect(() => {
-  const ctx = chartRef.current.getContext('2d');
 
-  // Destroy previous chart if it exists
-  if (chartInstanc.current) {
-    chartInstanc.current.destroy();
-  }
-
-  // Create the new chart
-  chartInstanc.current = new Chart(ctx, {
-    type: 'pie', // Change type to 'pie'
-    data: {
-      datasets: [{
-        data: [
-          details?.activeIncome || 0,
-          details?.inactiveIncome || 0,
-         
-        ], // Use default 0 if no data available
-        backgroundColor: [
-          '#fdc21d', // Yellow
-          '#207cbb', // Blue
-         // Light Blue
-        ],
-        borderColor: [
-          '#fdc21d', 
-          '#207cbb',
-         
-        ],
-        borderWidth: 5,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top', // Position the legend at the top
-        },
-        tooltip: {
-          callbacks: {
-            label: function(tooltipItem) {
-              return tooltipItem.label + ': ' + tooltipItem.raw;
-            }
-          }
-        }
-      }
-    },
-  });
-
-  // Clean up on component unmount
-  return () => {
-    if (chartInstance.current) {
-      chartInstance.current.destroy();
-    }
-  };
-}, [details]);
 
   const [showFilter, setShowFilter] = useState({
     typeOfIncome: false,
