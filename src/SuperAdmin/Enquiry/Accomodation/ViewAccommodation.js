@@ -221,7 +221,7 @@ export const ViewAccommodation = () => {
       console.log("Error: ", error);
     };
   };
-  const handleaccommodation = (event) => {
+  const handleAccommodation = (event) => {
     const { name, value, files } = event.target;
     if (files && files[0]) {
       convertToBase64(event, name);
@@ -277,7 +277,7 @@ export const ViewAccommodation = () => {
   };
  
 
-  const handleaccommodationSubmit = (event) => {
+  const handleAccommodationSubmit = (event) => {
     event.preventDefault();
 
     // Perform validation
@@ -321,7 +321,7 @@ export const ViewAccommodation = () => {
   };
 
  
-  const handleaccommodationSubmited = (event) => {
+  const handleAccommodationSubmited = (event) => {
     event.preventDefault();
 
     // Here you could add any validation you require
@@ -714,14 +714,14 @@ export const ViewAccommodation = () => {
                                                     </div>
                                                     <div className="modal-body">
                                                       {/* Form for Editing */}
-                                                      <form onSubmit={handleaccommodationSubmit}>
+                                                      <form onSubmit={handleAccommodationSubmit}>
                                                         {/* Status Input */}
                                                         <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
                                                           <input
                                                             type="text"
                                                             name="statusName"
                                                             value={accommodation.statusName}
-                                                            onChange={handleaccommodation}
+                                                            onChange={handleAccommodation}
                                                             className="form-control"
                                                             placeholder="Enter Status...."
                                                             aria-label="Status"
@@ -740,7 +740,7 @@ export const ViewAccommodation = () => {
                                                             type="text"
                                                             name="duration"
                                                             value={accommodation.duration}
-                                                            onChange={handleaccommodation}
+                                                            onChange={handleAccommodation}
                                                             className="form-control"
                                                             placeholder="Enter Duration...."
                                                             aria-label="Duration"
@@ -802,7 +802,7 @@ export const ViewAccommodation = () => {
                                                             value={accommodation.progress} // Assuming you have accommodation.progress defined
                                                             placeholder="Enter Progress"
                                                             name="progress"
-                                                            onChange={handleaccommodation}
+                                                            onChange={handleAccommodation}
                                                           />
                                                         </div>
                                                         <div className="col-sm-6 col-lg-12 col-sm-12 mb-3">
@@ -812,7 +812,7 @@ export const ViewAccommodation = () => {
                                                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                                                             placeholder="Enter File Upload"
                                                             name="document"
-                                                            onChange={handleaccommodation}
+                                                            onChange={handleAccommodation}
                                                           />
                                                         </div>
 
@@ -911,7 +911,7 @@ export const ViewAccommodation = () => {
                                     ></button>
                                   </div>
                                   <div className="modal-body">
-                                    <form onSubmit={handleaccommodationSubmit}>
+                                    <form onSubmit={handleAccommodationSubmit}>
                                       <div className="input-group mb-3">
                                         <span
                                           className="input-group-text"
@@ -922,7 +922,7 @@ export const ViewAccommodation = () => {
                                         <select
                                           name="statusName"
                                           value={accommodation.statusName}
-                                          onChange={handleaccommodation}
+                                          onChange={handleAccommodation}
                                           className="form-select"
                                           style={{ fontSize: "12px" }}
                                         >
@@ -955,7 +955,7 @@ export const ViewAccommodation = () => {
                                           type="text"
                                           name="duration"
                                           value="0"
-                                          onChange={handleaccommodation}
+                                          onChange={handleAccommodation}
                                           className="form-control"
                                           placeholder="Enter Status...."
                                           aria-label="Status"
@@ -1040,7 +1040,7 @@ export const ViewAccommodation = () => {
                                           }}
                                           placeholder="Enter  Image upload"
                                           name="document"
-                                          onChange={handleaccommodation}
+                                          onChange={handleAccommodation}
                                         />
                                       </div>
                                       <div className="modal-footer">
@@ -1160,7 +1160,9 @@ export const ViewAccommodation = () => {
                                 <div className="container-fluid">
 
                                   <div className="row">
-                                    {accommodations.map((item, index) => (
+                                  {accommodation?.status && (
+                                <div>
+                                  {accommodation.status.map((item, index) => (
                                         <div key={index} className="d-flex justify-content-end mb-4">
                                           <div className="profile-content">
                                             <img
@@ -1264,6 +1266,9 @@ export const ViewAccommodation = () => {
 
                                         </div>
                                       ))}
+                                       </div>
+
+)}
                                   </div>
                                 </div>
                               </div>
@@ -1289,7 +1294,7 @@ export const ViewAccommodation = () => {
         ></button>
       </div>
       <div className="modal-body">
-        <form onSubmit={handleaccommodationubmited}>
+        <form onSubmit={handleAccommodationSubmited}>
           <div className="form-group mb-3">
             <label for="subject">Subject</label>
             {/* <CKEditor
@@ -1333,7 +1338,7 @@ export const ViewAccommodation = () => {
             type="text" />
           </div>
           
-          {track.uploadFile.map((uploadImage, index) => (
+          {accommodation.uploadFile.map((uploadImage, index) => (
                               <div key={index} className="mb-3">
                                 <div className="d-flex gy-2 ">
                                   <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
