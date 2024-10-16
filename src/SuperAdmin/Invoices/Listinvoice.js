@@ -395,9 +395,11 @@ export const Listinvoice = () => {
             <div className="card rounded-0  border-0">
             <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
+                 
                     <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
+                  
+                      <p className="me-auto fw-bold ">
+                      Sender Invoice
                         <select
                           className="form-select form-select-sm rounded-1 d-inline mx-2"
                           aria-label="Default select example1"
@@ -407,21 +409,10 @@ export const Listinvoice = () => {
                             fontSize: "12px",
                           }}
                         >
-                          <option value="5">Active</option>
-                          <option value="10">InActive</option>
-                          <option value="20">Delete</option>
+                        
+                          <option value="Delete">Delete</option>
                         </select>{" "}
                       </p>
-                      <button
-        type="button"
-        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
-      </button>
-   
-
     {/* Modal */}
     <div
       className="modal fade"
@@ -621,7 +612,230 @@ export const Listinvoice = () => {
             </div>
           </div>
        
+          <div className="content-body">
+            <div className="container-fluid">
+            <div className="row">
+          
+          <div className="col-xl-12">
+            <div className="card rounded-0  border-0">
+            <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex align-items-center justify-content-between">
+                   
+                    <div className="d-flex  mb-0">
+                  
+                      <p className="me-auto fw-bold ">
+                      Receiver Invoice
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{
+                            width: "auto",
+                            display: "inline-block",
+                            fontSize: "12px",
+                          }}
+                        >
+                        
+                          <option value="Delete">Delete</option>
+                        </select>{" "}
+                      </p>
+    {/* Modal */}
+    <div
+      className="modal fade"
+      id="exampleModal"
+      tabIndex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="exampleModalLabel">
+              Assign to
+            </h1>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form>
+              <div className="mb-3">
+                <label htmlFor="exampleFormControlInput1" className="form-label">
+                  Staff List
+                </label>
+                <input
+                  type="text"
+                  className="form-control rounded-1 text-capitalize"
+                  id="exampleFormControlInput1"
+                  placeholder="Example JohnDoe"
+                />
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+                    </div>
+
+                    <div>
+                    
+                       
+                        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
+                          <li>
+                            {" "}
+                            <a
+              className="nav-link active "
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#tab-home"
+              role="tab"
+              aria-controls="tab-home"
+              aria-selected="true"
+            >
+                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                            </a>
+                          </li>
+                          <li>
+                            
+                              <a
+                              className="nav-link "
+                              id="profile-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-profile"
+                              role="tab"
+                              aria-controls="tab-profile"
+                              aria-selected="false"
+                            >
+                            
+                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+                            </a>
+                          </li>
+                        </ul>
+                      
+                     
+                    </div>
+                  </div>
+                </div>
+              <div className="card-body">
+                <div className="card-table">
+                  <div className="table-responsive">
+                    <table className=" table table-hover card-table dataTable text-center"  style={{ color: '#9265cc', fontSize: '13px' }}
+              ref={tableRef}>
+                      <thead className="table-light">
+                        <tr  style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+                          <th className="text-capitalize text-start sortable-handle"> S.No.</th>
+                          <th className="text-capitalize text-start sortable-handle"> Date</th>
+                          <th className="text-capitalize text-start sortable-handle">Invoice Number</th>
+                          <th className="text-capitalize text-start sortable-handle"> clientName  </th>
+                          <th className="text-capitalize text-start sortable-handle"> Sender Name  </th>
+                        
+                        
+                          <th className="text-capitalize text-start sortable-handle"> Action </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {invoice && invoice.length > 0 ? (
+                                invoice.map((data, index) => (
+                        <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}  >
+                          <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
+                          <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.senderInvoiceNumber  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.businessName  || "Not Available"}</td>
+                         
+                          <td className="text-capitalize text-start text-truncate">{data?.universityName  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">
+                                  <div className="d-flex  ">
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/view_invoice",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-eye text-primary me-1"></i>
+                                    </Link>
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/edit_invoice",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </button>
+                                  </div>
+                                </td>
+                        </tr>
+                      
+                      
+                    ))
+                  ) : (
+                    <tr>
+                      <td className="form-text text-danger" colSpan="9">
+                        No Data Found In Page
+                      </td>
+                    </tr>
+                  )}
+                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center p-3">
+        <p className="me-auto ">
+                          Show
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                          </select>{" "}
+                          Entries    out of 100
+                        </p> 
+          <Pagination
+            count={Math.ceil(pagination.count / pageSize)}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </div>
                 
+              </div>
+            </div>
+          </div>
+         
+        </div>
+            </div>
+          </div>              
        
 
 

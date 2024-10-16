@@ -60,12 +60,7 @@ export const AddRecieverInvoice = () => {
                        
                         <h4 className='card-title  fw-bold mt-5'>Receiver Name  </h4>
                         <hr/>
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label className="form-label" for="inputreceivername">Receiver Name</label>
-                          <input className="form-control" id="inputreceivername" name='recievername' type="text" placeholder="Enter Reciever Name " style={{fontFamily: 'Plus Jakarta Sans', fontSize:'12px' }}/>
                        
-                     
-                        </div>
    
                          <div className='col-xl-4 col-lg-6 col-md-6 col-sm-12'>
                       <label className="form-label" for="inputAgentName">Agent Name</label>

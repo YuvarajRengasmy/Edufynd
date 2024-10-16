@@ -217,6 +217,13 @@ const AddSenderInvoice = () => {
                     <h4 className='card-title fw-bold mt-5'>Sender Name</h4>
                     <hr />
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                      <label className="form-label" htmlFor="inputClientName">Client Name</label>
+                      <input className="form-control" id="inputClientName" type="text" name='businessName' value={invoice.businessName} placeholder='Enter Client Name' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
+                      {errors.businessName.required && (
+                        <div className="text-danger form-text">This field is required.</div>
+                      )}
+                    </div>
+                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" htmlFor="inputUniversity">University Name</label>
                       <select onChange={handleInputs} value={invoice.universityName} name='universityName' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">
                         <option>Select University</option>
@@ -230,13 +237,7 @@ const AddSenderInvoice = () => {
                         <div className="text-danger form-text">This field is required.</div>
                       )}
                     </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputClientName">Client Name</label>
-                      <input className="form-control" id="inputClientName" type="text" name='businessName' value={invoice.businessName} placeholder='Enter Client Name' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.businessName.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
+                   
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" htmlFor="inputApplicationID">Application ID</label>
                       <select onChange={handleInputs} value={invoice.applicationID} name='applicationID' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">

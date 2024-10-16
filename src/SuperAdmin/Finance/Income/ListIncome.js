@@ -24,7 +24,7 @@ export const ListIncome = () => {
 
   const initialState = {
     incomeDate: "",
-    typeOfIncome: "",
+    typeOfClient: "",
     incomeName: "",
     value: "",
     branch: "",
@@ -60,7 +60,7 @@ export const ListIncome = () => {
     to: pageSize,
   });
 
-
+  
   useEffect(() => {
     getIncomeList();
   }, [pageSize]);
@@ -125,6 +125,7 @@ const handleInputsearch = (event) => {
     };
     getFilterIncome(params)
       .then((res) => {
+        console.log("uvi", res);
         const value = res?.data?.result?.statusList;
         setIncome(value);
         setPagination({
@@ -143,12 +144,12 @@ const handleInputsearch = (event) => {
     const data = {
 
       incomeDate:inputs?.incomeDate,
-    typeOfIncome:inputs?.typeOfIncome,
-    IncomeName: "",
-    value: "",
-    branch: "",
-    acceptType: "",
-    attachment: "",
+    typeOfClient:inputs?.typeOfInclient,
+   clientName:inputs?.clientName,
+    value: inputs?.value,
+    branch: inputs?.branch,
+    acceptType:inputs?.acceptType,
+    attachment:inputs?.attachment,
       limit: 10,
       page: pagination.from,
     };
@@ -205,13 +206,7 @@ const handleInputsearch = (event) => {
     const action = event.target.value;
     if (action === "Delete") {
       deleteSelectedUsers();
-    } else if (action === "Activate") {
-      activateSelectedUsers();
-      getIncomeList();
-    } else if (action === "Deactivate") {
-      deactivateSelectedUsers();
-      getIncomeList(); 
-    }
+    } 
   };
 
  
@@ -233,43 +228,6 @@ const handleInputsearch = (event) => {
   };
 
 
-  const activateSelectedUsers = () => {
-    if (selectedIds.length > 0) {
-      // Send the selected IDs to the backend to activate the Incomes
-      activeIncome({ IncomeIds: selectedIds })
-        .then((response) => {
-          console.log("Response:", response);
-          toast.success("Income activated successfully!");
-          setSelectedIds([]); // Clear selected IDs after successful activation
-          getIncomeList(); // Refresh the Income list
-        })
-        .catch((err) => {
-          console.error(err);
-          toast.error("Already Incomes were Activated");
-        });
-    } else {
-      toast.warning("No selected Income.");
-    }
-  };
-  
-  const deactivateSelectedUsers = () => {
-    if (selectedIds.length > 0) {
-      // Send the selected IDs to the backend to deactivate the Incomes
-      deactivateIncome({ IncomeIds: selectedIds })
-        .then((response) => {
-          console.log("Response:", response);
-          toast.success("Income deactivated successfully!");
-          setSelectedIds([]); // Clear selected IDs after successful deactivation
-          getIncomeList(); // Refresh the Income list
-        })
-        .catch((err) => {
-          console.error(err);
-          toast.error("Failed to deactivate Income.");
-        });
-    } else {
-      toast.warning("No selected Income.");
-    }
-  };
   
   
  
@@ -335,28 +293,28 @@ const handleInputsearch = (event) => {
             bold: true,
           },
           {
-            text: "BusinessName",
+            text: "IncomeDate",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "BusinessMailID",
+            text: "TypeOfClient",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "BusinessContactNo",
+            text: "ClientName",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Status",
+            text: "Value",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -373,32 +331,32 @@ const handleInputsearch = (event) => {
               border: [true, false, true, true],
             },
             {
-              text: element?.incomeID ?? "-",
+              text: element?.incomeId ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.businessName ?? "-",
+              text: element?.incomeDate ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
 
             {
-              text: element?.businessMailID ?? "-",
+              text: element?.typeOfClient ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.businessContactNo ?? "-",
+              text: element?.clientName ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.isActive ?? "-",
+              text: element?.value ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -421,26 +379,26 @@ const handleInputsearch = (event) => {
         let list = [];
         result?.forEach((res) => {
           list.push({
-            IncomeID: res?.IncomeID ?? "-",
-            businessName: res?.businessName ?? "-",
-            businessMailID: res?.businessMailID ?? "-",
-            businessContactNo: res?.businessContactNo ?? "-",
-            isActive: res?.isActive ?? "-",
+            incomeId: res?.incomeId ?? "-",
+            incomeDate: res?.incomeDate ?? "-",
+            typeOfClient: res?.typeOfClient ?? "-",
+            clientName: res?.clientName ?? "-",
+            value: res?.value ?? "-",
           });
         });
         let header1 = [
-          "IncomeID",
-          "businessName",
-          "businessMailID",
-          "businessContactNo",
-          "isActive",
+          "incomeId",
+          "incomeDate",
+          "typeOfClient",
+          "clientName",
+          "value",
         ];
         let header2 = [
           "income Id",
-          "Business Name",
-          "Business MailID",
-          "Business ContactNo",
-          "Status",
+          "Income Date",
+          "Type Of Client",
+          "Client Name",
+          "Value",
         ];
         ExportCsvService.downloadCsv(
           list,
@@ -494,14 +452,14 @@ const handleInputsearch = (event) => {
 
 
   const [showFilter, setShowFilter] = useState({
-    typeOfIncome: false,
+    typeOfClient: false,
     name: false,
     primaryNo: false,
     email: false,
     status: false,
   });
   const [inputValues, setInputValues] = useState({
-    typeOfIncome: '',
+    typeOfClient: '',
     name: '',
     primaryNo: '',
     email: '',
@@ -691,9 +649,9 @@ const handleInputsearch = (event) => {
                             <input
                               type="text"
                               className="form-control"
-                              name="typeOfincome"
+                              name="typeOfClient"
                               onChange={handleInputs}
-                              placeholder="Search... TypeOfincome"
+                              placeholder="Search... typeOfClient"
                             />
                           </div>
                           <div className="input-group">
@@ -703,7 +661,7 @@ const handleInputsearch = (event) => {
                             <input
                               type="text"
                               className="form-control"
-                              name="businessName"
+                              name="clientName"
                               onChange={handleInputs}
                               placeholder="Search... income Name"
                             />
@@ -715,7 +673,7 @@ const handleInputsearch = (event) => {
                             <input
                               type="text"
                               className="form-control"
-                              name="businessContactNo"
+                              name="branch"
                               onChange={handleInputs}
                               placeholder="Search... income Contact No"
                             />
@@ -727,7 +685,7 @@ const handleInputsearch = (event) => {
                             <input
                               type="text"
                               className="form-control"
-                              name="incomeStatus"
+                              name="value"
                               onChange={handleInputs}
                               placeholder="Search... Status"
                             />
@@ -884,26 +842,6 @@ const handleInputsearch = (event) => {
               <div className="card border-0 rounded-1 shadow-sm">
               <div className="card-header bg-white mb-0 mt-1 pb-0">
                   <div className="d-flex align-items-center justify-content-between">
-                    {/* <div className="d-flex  mb-0">
-                      <p className="me-auto ">
-                        Change
-                        <select
-                              className="form-select form-select-sm rounded-1 d-inline mx-2"
-                              aria-label="Default select example1"
-                              style={{
-                                width: "auto",
-                                display: "inline-block",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleActionChange}
-                            >
-                              <option value="">Select Action</option>
-                              <option value="Activate">Activate</option>
-                              <option value="Delete">Delete</option>
-                            </select>
-                      </p>
-                    </div> */}
-
 <div className="d-flex mb-0">
   <p className="me-auto ">
     Change
@@ -914,8 +852,7 @@ const handleInputsearch = (event) => {
       onChange={handleActionChange}
     >
       <option value="">Select Action</option>
-      <option value="Activate">Activate</option>
-      <option value="Deactivate">Deactivate</option>
+
       <option value="Delete">Delete</option>
       
       
@@ -977,15 +914,7 @@ const handleInputsearch = (event) => {
                     >
                <thead className="table-light" style={{ fontSize: '12px' }}>
           <tr>
-            {/* <th className="text-start">
-            <input
-                                    type="checkbox"
-                                    onChange={handleSelectAll}
-                                    checked={
-                                      selectedIds.length === income.length
-                                    }
-                                  />
-            </th> */}
+          
 
 
             <th className="text-start">
@@ -999,298 +928,31 @@ const handleInputsearch = (event) => {
 
 
             <th className="text-capitalize text-start">S No</th>
-            <th className="text-capitalize text-start">Code</th>
+            <th className="text-capitalize text-start">IncomeDate</th>
 
             {/* Filterable Columns */}
             <th className="text-capitalize text-start">
-              Type
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('typeOfClient')}
-              />
-              {showFilter.typeOfClient && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.typeOfClient}
-                    onInputValueChange={(value) => handleInputValueChange('typeOfClient', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Type',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions([], 'typeOfincome').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
+              Income ID
+            
             </th>
 
             <th className="text-capitalize text-start">
-              Name
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('name')}
-              />
-              {showFilter.name && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.name}
-                    onInputValueChange={(value) => handleInputValueChange('name', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Name',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions([], 'name').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
+            Type Of Client
+             
             </th>
 
             <th className="text-capitalize text-start">
-              Primary No
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('primaryNo')}
-              />
-              {showFilter.primaryNo && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.primaryNo}
-                    onInputValueChange={(value) => handleInputValueChange('primaryNo', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Primary No',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions([], 'primaryNo').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
+            Client Name
+             
             </th>
 
             <th className="text-capitalize text-start">
-              Email ID
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('email')}
-              />
-              {showFilter.email && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.email}
-                    onInputValueChange={(value) => handleInputValueChange('email', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Email ID',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-grop"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions([], 'email').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
+            Branch
+            
             </th>
-
-            <th className="text-capitalize text-start">
-              Status
-              <i
-                className="fa fa-filter ms-2"
-                aria-hidden="true"
-                onClick={() => handleFilterClick('status')}
-              />
-              {showFilter.status && (
-                <div className="position-absolute bg-white border p-2">
-                  <Downshift
-                    inputValue={inputValues.status}
-                    onInputValueChange={(value) => handleInputValueChange('status', value)}
-                    itemToString={(item) => (item ? item : '')}
-                  >
-                    {({
-                      getInputProps,
-                      getItemProps,
-                      getMenuProps,
-                      isOpen,
-                      highlightedIndex,
-                    }) => (
-                      <div className="d-inline-block position-relative">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Search Status',
-                            className: 'form-control form-control-sm mb-2',
-                          })}
-                        />
-                        <ul
-                          {...getMenuProps()}
-                          className="list-group"
-                          style={{ listStyle: 'none', padding: 0 }}
-                        >
-                          {isOpen &&
-                            filteredOptions(['Active', 'Inactive'], 'status').map((item, index) => (
-                              <li
-                                key={item}
-                                {...getItemProps({
-                                  index,
-                                  item,
-                                  className: `list-group-item ${
-                                    highlightedIndex === index
-                                      ? 'bg-primary text-white'
-                                      : ''
-                                  }`,
-                                })}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    )}
-                  </Downshift>
-                </div>
-              )}
-            </th>
+            <th className="text-capitalize text-start"> AcceptType</th>
+           
+            
             <th>Action</th>
           </tr>
         </thead>
@@ -1313,10 +975,10 @@ const handleInputsearch = (event) => {
                               {pagination.from + index + 1}
                             </td>
                             <td className="text-capitalize text-start">
-                              {data?.incomeID || "Not Available"}
+                              {data?.incomeDate || "Not Available"}
                             </td>
                             <td className="text-capitalize text-start">
-                              {data?.typeOfincome || "Not Available"}
+                              {data?.incomeId || "Not Available"}
                             </td>
                             <td className="text-capitalize text-start">
                               <Link
@@ -1326,19 +988,19 @@ const handleInputsearch = (event) => {
                                   search: `?id=${data?._id}`,
                                 }}
                               >
-                                {data?.businessName || "Not Available"}
+                                {data?.typeOfClient || "Not Available"}
                               </Link>
                             </td>
                             <td className="text-capitalize text-start">
-                              {data?.businessContactNo || "Not Available"}
+                              {data?.clientName || "Not Available"}
                             </td>
                             <td className="text-start">
-                              {data?.businessMailID || "Not Available"}
+                              {data?.branch || "Not Available"}
                             </td>
-                            <td className="text-capitalize text-start ">
-                            {data?.isActive || "Not Available"}
-            
+                            <td className="text-start">
+                              {data?.acceptType || "Not Available"}
                             </td>
+                           
                          
                             <td className="text-capitalize text-start">
                               <div className="d-flex justify-content-between align-items-start">
@@ -1390,7 +1052,7 @@ const handleInputsearch = (event) => {
         <div className="col-4">
         <div className="card shadow-sm" style={{fontSize:'10px'}}>
       <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <h5 className="card-title mb-0">{data?.businessName || "Not Available"}</h5>
+        <h5 className="card-title mb-0">{data?.clientName || "Not Available"}</h5>
        
       </div>
       <div className="card-body">
@@ -1401,45 +1063,18 @@ const handleInputsearch = (event) => {
             <p className="text-muted">income ID:</p>
             <p className="card-text">{data?.incomeID || "Not Available"}</p>
             <p className="text-muted">Type of income:</p>
-            <p className="card-text">{data?.typeOfincome || "Not Available"}</p>
-            <p className="text-muted">Status:</p>
-            <p className="card-text">
-              <span className="badge bg-success"> <span className="form-check form-switch d-inline ms-2" >
-              {data?.incomeStatus === "Active" ? (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.incomeStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              ) : (
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  value={data?.incomeStatus}
-                  id={`flexSwitchCheckDefault${index}`}
-                  checked={statuses[data._id] || false}
-                  onChange={() => handleCheckboxChange(data._id, statuses[data._id])}
-                />
-              )}
-             <label className="form-check-label" htmlFor={`flexSwitchCheckDefault${index}`}>
-             {data?.isActive || "Not Available"}
-              </label>
-
-            </span></span>
-            </p>
+            <p className="card-text">{data?.typeOfClient || "Not Available"}</p>
+           
+            
           </div>
           <div className="col-md-6">
-            <p className="text-muted">Name:</p>
-            <p className="card-text">{data?.businessName || "Not Available"}</p>
-            <p className="text-muted">Primary Number:</p>
-            <p className="card-text"> {data?.businessContactNo || "Not Available"}</p>
-            <p className="text-muted">Email ID:</p>
-            <p className="card-text"> {data?.businessMailID || "Not Available"}</p>
+            <p className="text-muted">IncomeData</p>
+            <p className="card-text">{data?.incomeDate || "Not Available"}</p>
+          
+            <p className="text-muted">clientName:</p>
+            <p className="card-text"> {data?.clientName || "Not Available"}</p>
+            <p className="text-muted">Branch</p>
+            <p className="card-text">{data?.branch || "Not Available"}</p>
           </div>
         </div>
       </div>
@@ -1497,11 +1132,11 @@ const handleInputsearch = (event) => {
             value={pageSize}
             onChange={handlePageSizeChange} // Handle page size change
           >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            
+            <option value="15">15</option>
             <option value="25">25</option>
-            <option value="50">50</option>
+            <option value="50">25</option>
+            <option value="100">100</option>
           </select>{" "}
           Entries out of {pagination.count}
         </p>
@@ -1548,61 +1183,8 @@ const handleInputsearch = (event) => {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog  fullWidth maxWidth="sm">
-        <DialogTitle>
-          Filter University
-          <IconButton className="float-right" >
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-
-        </DialogContent>
-      </Dialog>
-      <Dialog fullWidth maxWidth="sm">
-        <DialogTitle>
-          Upload University List
-          <IconButton className="float-right" >
-            <i className="fa fa-times fa-xs" aria-hidden="true"></i>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <form>
-            <div className="from-group mb-3">
-
-              <div className="mb-3">
-                <input
-                  type="file"
-                  name="file"
-                  className="form-control text-dark bg-transparent"
-                 
-                  style={{fontSize:'14px'}}
-                />
-              </div>
-
-            </div>
-            <div>
-              <Link
-                to="/ListUniversity"
-                className="btn btn-cancel border-0 rounded-pill text-uppercase px-3 py-1 fw-semibold text-white float-right bg"
-                style={{ backgroundColor: "#0f2239", color: '#fff', fontSize: '12px' }}
-
-              >
-                Cancel
-              </Link>
-              <button
-                type="submit"
-                // onClick={handleFileUpload}
-                className="btn btn-save border-0 rounded-pill text-uppercase fw-semibold px-3 py-1 text-white float-right mx-2"
-                style={{ backgroundColor: "#fe5722", color: '#fff', fontSize: '12px' }}
-              >
-                Apply
-              </button>
-
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+    
+   
     </div>
   </>
   )
