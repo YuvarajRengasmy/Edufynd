@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../../compoents/sidebar';
 import { Link } from 'react-router-dom';
-import { getallClient } from "../../../api/client";
+
 import { getallStaff } from "../../../api/staff";
 import { getallAgent } from "../../../api/agent";
 import { getallStudent } from "../../../api/student";
@@ -14,17 +14,19 @@ import Select from "react-select";
 export const AddExpenses = () => {
 
   const initialStateInputs = {
-    incomeDate: "",
+    expenseDate: "",
     typeOfUser: "",
     paidName: "",
     value: "",
     branch: "",
     acceptType: "",
     attachment: "",
+    typeOfExpenses: "",
   };
 
   const initialStateErrors = {
-    incomeDate: { required: false },
+    expenseDate: { required: false },
+    typeOfExpenses: { required: false },
     typeOfUser: { required: false },
     paidName: { required: false },
     value: { required: false },
@@ -33,7 +35,7 @@ export const AddExpenses = () => {
     attachment: { required: false },
   };
 
-  const [client, setClient] = useState([]);
+
   const [staff, setStaff] = useState([]);
   const [admin, setAdmin] = useState([]);
   const [agent, setAgent] = useState([]);
@@ -45,8 +47,11 @@ export const AddExpenses = () => {
 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors }; // Create a copy of initialStateErrors
-    if (data.incomeDate === "") {
-      error.incomeDate.required = true;
+    if (data.expenseDate === "") {
+      error.expenseDate.required = true;
+    }
+    if (data.typeOfExpenses === "") {
+      error.typeOfExpenses.required = true;
     }
     if (data.typeOfUser === "") {
       error.typeOfUser.required = true;
@@ -68,7 +73,7 @@ export const AddExpenses = () => {
   };
 
   useEffect(() => {
-    getAllClients();
+  
     getStaffList();
     getAdminList();
     getAgentList();
@@ -110,16 +115,7 @@ export const AddExpenses = () => {
         console.log(err);
       });
   };
-  const getAllClients = () => {
-    getallClient()
-      .then((res) => {
-        setClient(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+ 
 
 
   const convertToBase64 = (e, name) => {
@@ -144,14 +140,9 @@ export const AddExpenses = () => {
     } else {
       setInputs((prevInputs) => {
         const updatedInputs = { ...prevInputs, [name]: value };
-        if (name === "typeOfClient") {
-          const selectedClient = client.find((u) => u.typeOfClient === value);
-          if (selectedClient) {
-            return {
-              ...updatedInputs,
-              paidName: selectedClient.businessName,
-            };
-          }
+
+        if (name === "typeOfUser") {
+          updatedInputs["paidName"] = "";
         }
         return updatedInputs;
       });
@@ -164,16 +155,7 @@ export const AddExpenses = () => {
   };
 
 
-  const handleSelectChange = (selectedOptions, action) => {
-    const { name } = action;
-    const values = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    setInputs((prevNotification) => ({
-      ...prevNotification,
-      [name]: values,
-    }));
-  };
+ 
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj[key].required === true) {
@@ -193,7 +175,7 @@ export const AddExpenses = () => {
       saveExpense(inputs)
         .then((res) => {
           toast.success(res?.data?.message);
-          navigate("/list_income");
+          navigate("/list_expenses");
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -258,16 +240,43 @@ export const AddExpenses = () => {
                           <input
                             type="date"
                             className="form-control text-uppercase"
-                            name="incomeDate"
-                            value={inputs.incomeDate}
+                            name="expenseDate"
+                            value={inputs.expenseDate}
                             onChange={handleInputs}
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                           />
-                          {errors.incomeDate.required && (
+                          {errors.expenseDate.required && (
                             <span className="text-danger form-text profile_error">This field is required.</span>
                           )}
                         </div>
+                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label style={{ color: "#231F20" }}>
+                              Type of Expenses
+                              <span className="text-danger">*</span>
+                            </label>
 
+                            <select
+                              className={`form-select form-select-lg rounded-1 text-capitalize ${errors.typeOfExpenses.required ? 'is-invalid' : ''}`}
+                              name="typeOfExpenses"
+                              onChange={handleInputs}
+                              aria-label="Default select example"
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                            >
+                              <option selected>Select Of Expenses</option>
+                              <option value="agent">commission</option>
+                              <option value="student">Salary</option>
+                              <option value="miscellaneous">Miscellaneous</option>
+                              <option value="others">Others</option>
+                            </select>
+                            {errors.typeOfExpenses.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
                               Type of Users
@@ -302,9 +311,14 @@ export const AddExpenses = () => {
                                 Staff List<span className="text-danger">*</span>
                               </label>
                               <Select
-                                isMulti
+                               
                                 placeholder="Select Staff"
-                                onChange={handleSelectChange}
+                                onChange={(selectedOption) =>
+                                  setInputs({
+                                    ...inputs,
+                                    paidName: selectedOption.value,
+                                  })
+                                }
                                 options={staffOptions}
                                 name="paidName"
                                 styles={customStyles}
@@ -323,9 +337,14 @@ export const AddExpenses = () => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Select
-                                isMulti
+                               
                                 placeholder="Select Student"
-                                onChange={handleSelectChange}
+                                onChange={(selectedOption) =>
+                                  setInputs({
+                                    ...inputs,
+                                    paidName: selectedOption.value,
+                                  })
+                                }
                                 options={studentOptions}
                                 name="paidName"
                                 styles={customStyles}
@@ -343,9 +362,14 @@ export const AddExpenses = () => {
                                 Agent List<span className="text-danger">*</span>
                               </label>
                               <Select
-                                isMulti
+                               
                                 placeholder="Select Agent"
-                                onChange={handleSelectChange}
+                                onChange={(selectedOption) =>
+                                  setInputs({
+                                    ...inputs,
+                                    paidName: selectedOption.value,
+                                  })
+                                }
                                 options={agentOptions}
                                 name="paidName"
                                 styles={customStyles}
@@ -363,9 +387,14 @@ export const AddExpenses = () => {
                                 Admin List<span className="text-danger">*</span>
                               </label>
                               <Select
-                                isMulti
+                               
                                 placeholder="Select Admin"
-                                onChange={handleSelectChange}
+                                onChange={(selectedOption) =>
+                                  setInputs({
+                                    ...inputs,
+                                    paidName: selectedOption.value,
+                                  })
+                                }
                                 options={adminOptions}
                                 name="paidName"
                                 styles={customStyles}
@@ -378,26 +407,7 @@ export const AddExpenses = () => {
                               ) : null}
                             </div>
                           ) : null}
-                        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>Client Name<span className="text-danger">*</span></label>
-                          <select
-                            className="form-select"
-                            name="paidName"
-                            value={inputs.paidName}
-                            onChange={handleInputs}
-                            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                          >
-                            <option value="">Open this select menu</option>
-                            {client?.map((item) => (
-                              <option key={item?.businessName} value={item?.businessName}>
-                                {item?.businessName}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.paidName.required && (
-                            <span className="text-danger form-text profile_error">This field is required.</span>
-                          )}
-                        </div>
+                       
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>Branch<span className="text-danger">*</span></label>

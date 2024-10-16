@@ -23,6 +23,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 function Profile() {
   const initialState = {
     universityName: "",
+    clientName: "",
     universityId: "",
     programTitle: "",
     country: "",
@@ -44,6 +45,7 @@ function Profile() {
 
   const initialStateErrors = {
     universityName: { required: false },
+    clientName:{ required: false },
     universityId: { required: false },
     country: { required: false },
     programTitle: { required: false },
@@ -116,6 +118,9 @@ function Profile() {
       error.universityName.required = true;
     }
 
+    if (data.clientName === "") {
+      error.clientName.required = true;
+    }
     if (data.country === "") {
       error.country.required = true;
     }
@@ -223,6 +228,7 @@ function Profile() {
           return {
             ...updatedProgram,
             universityId: selectedUniversity._id,
+            clientName: selectedUniversity.businessName,
             universityLogo: selectedUniversity.universityLogo,
             state: states,
             lga: lgas,
@@ -424,8 +430,49 @@ function Profile() {
                               </span>
                             ) : null}
                           </div>
-
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visual-hidden ">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              client Name
+                              <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              onChange={handleInputs}
+                              value={program.clientName}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              className="form-select rounded-2 p-2 "
+                              name="clientName"
+                            >
+                              <option
+                                value={""}
+                                disabled
+                                hidden
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                Select businessName
+                              </option>
+                              {university.map((data, index) => (
+                                <option
+                                  key={index}
+                                  value={data?.businessName}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  {" "}
+                                  {data?.businessName}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visual-hidden">
                             <label style={{ color: "#231F20" }}>
                               {" "}
                               University Id
