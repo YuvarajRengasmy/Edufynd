@@ -10,7 +10,7 @@ export const updateIncome= (data) => {
 }
 
 export const getSingleIncome = (data) => {
-    return API.get(`${Income}/getSingleIncomeReport`, { params: { _id: data } })
+    return API.get(`${Income}/getSingleIncome`, { params: { _id: data } })
 }
 export const getallIncome = () => {
     return API.get(`${Income}`)
@@ -20,7 +20,7 @@ export const deleteIncome= (data) => {
   };
 
   export const getFilterIncome= (data) => {
-    return API.put(`${Income}/getFilterIncomeReport`, data);
+    return API.put(`${Income}/getFilterIncome`, data);
   };
   export const activeIncome = (data) => {
     return API.post(`${Income}/active`,data);
