@@ -9,6 +9,8 @@ import {
   isValidDuration,
 } from "../../Utils/Validation";
 import { saveProgram } from "../../api/Program";
+import { getFilterCommission} from "../../api/commission";
+
 import { getallUniversity } from "../../api/university";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
@@ -85,11 +87,13 @@ function Profile() {
 
   const [type, setType] = useState([]);
   const [intake, setIntake] = useState([]);
+  const [commission, setCommission] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllUniversityList();
     getAllCurrencyDetails();
+    getCommissionList();
   }, []);
 
   const getAllUniversityList = () => {
@@ -214,17 +218,18 @@ function Profile() {
   };
   const handleInputs = (event) => {
     const { name, value } = event.target;
-
+  
     setProgram((prevProgram) => {
       const updatedProgram = { ...prevProgram, [name]: value };
+  
       if (name === "universityName") {
-        const selectedUniversity = university.find(
-          (u) => u.universityName === value
-        );
+        const selectedUniversity = university.find((u) => u.universityName === value);
         if (selectedUniversity) {
+          // Extract the states and LGAs
           const states = selectedUniversity.campuses.map((campus) => campus.state);
           const lgas = selectedUniversity.campuses.flatMap((campus) => campus.lga);
   
+          // Return updated program details based on selected university
           return {
             ...updatedProgram,
             universityId: selectedUniversity._id,
@@ -235,20 +240,37 @@ function Profile() {
             courseType: selectedUniversity.courseType,
             country: selectedUniversity.country,
             inTake: selectedUniversity.inTake,
-            popularCategories:selectedUniversity.popularCategories
+            popularCategories: selectedUniversity.popularCategories,
           };
         }
       }
-
+  
+    
+  
       return updatedProgram;
     });
-
+  
+    // Handle form validation on inputs
     if (submitted) {
       const newError = handleValidation({ ...program, [name]: value });
       setErrors(newError);
     }
   };
+  
 
+  const getCommissionList = () => {
+    
+    getFilterCommission()
+      .then((res) => {
+        console.log("yuvaraj",res)
+        const value = res?.data?.result?.dropDownList;
+        setCommission(value);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleSelectCourseChange = (selectedOptions) => {
     setSelectedCourseType(selectedOptions);
   };
@@ -430,7 +452,7 @@ function Profile() {
                               </span>
                             ) : null}
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visual-hidden ">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
                             <label style={{ color: "#231F20" }}>
                               {" "}
                               client Name
@@ -472,7 +494,7 @@ function Profile() {
                               ))}
                             </select>
                           </div>
-                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visual-hidden">
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                             <label style={{ color: "#231F20" }}>
                               {" "}
                               University Id
@@ -838,6 +860,17 @@ function Profile() {
                                       )}
                                   </div>
                                 </div>
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label className="form-label">Commission</label>
+  <input 
+    type="text" 
+    value={program.commissionValue || "No commission available"} 
+    className="form-control" 
+    readOnly 
+    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+  />
+</div>
+
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <div>
                                     <label>Duration</label>

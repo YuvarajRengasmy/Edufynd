@@ -11,7 +11,7 @@ const AddSenderInvoice = () => {
     tax: "",
     gst: "",
     tds: "",
-    businessName: "",
+    clientName: "",
     universityName: "",
     applicationID: "",
     currency: "",
@@ -27,7 +27,7 @@ const AddSenderInvoice = () => {
     tax: { required: false },
     gst: { required: false },
     tds: { required: false },
-    businessName: { required: false },
+    clientName: { required: false },
     universityName: { required: false },
     applicationID: { required: false },
     currency: { required: false },
@@ -42,23 +42,17 @@ const AddSenderInvoice = () => {
 
   const [invoice, setInvoice] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
-  const [universityList, setUniversityList] = useState([]);
+
   const [applicationList, setApplicationList] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllUniversityList();
+   
     getAllApplicationList();
   }, []);
 
-  const getAllUniversityList = () => {
-    getallUniversity().then(res => {
-      setUniversityList(res?.data?.result);
-    }).catch(err => {
-      console.log(err);
-    });
-  };
+ 
 
   const getAllApplicationList = () => {
     getallApplication().then(res => {
@@ -73,8 +67,8 @@ const AddSenderInvoice = () => {
     if (data.tax === "") {
       error.tax.required = true;
     }
-    if (data.businessName === "") {
-      error.businessName.required = true;
+    if (data.clientName === "") {
+      error.clientName.required = true;
     }
     if (data.universityName === "") {
       error.universityName.required = true;
@@ -96,32 +90,24 @@ const AddSenderInvoice = () => {
     setInvoice((prevInvoice) => {
       const updatedInvoice = { ...prevInvoice, [name]: value };
 
-      if (name === "universityName") {
-        const selectedUniversity = universityList.find(u => u.universityName === value);
+      if (name === "clientName") {
+        const selectedUniversity = applicationList.find(u => u.clientName === value);
         if (selectedUniversity) {
           return {
             ...updatedInvoice,
+            clientName: selectedUniversity.clientName,
             universityName: selectedUniversity.universityName,
-            businessName: selectedUniversity.businessName,
-            currency: selectedUniversity.currency,
-            paymentMethod: selectedUniversity.paymentMethod,
-            fixedAmount: selectedUniversity.amount,
-            courseFeesPercentage: selectedUniversity.courseFeesPercentage,
-            paidFeesPercentage: selectedUniversity.paidFeesPercentage,
+            applicationID: selectedUniversity.applicationCode,
+            courseFeesAmount: selectedUniversity.courseFees,
+            tax: selectedUniversity.tax,
+            gst: selectedUniversity.gst,
+            tds: selectedUniversity.tds,
+
           };
         }
       }
 
-      if (name === "applicationID") {
-        const selectedApplication = applicationList.find(a => a.applicationCode === value);
-        if (selectedApplication) {
-          return {
-            ...updatedInvoice,
-            applicationID: selectedApplication.applicationCode,
-            courseFeesAmount: selectedApplication.courseFees,
-          };
-        }
-      }
+
 
       return updatedInvoice;
     });
@@ -217,41 +203,80 @@ const AddSenderInvoice = () => {
                     <h4 className='card-title fw-bold mt-5'>Sender Name</h4>
                     <hr />
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputClientName">Client Name</label>
-                      <input className="form-control" id="inputClientName" type="text" name='businessName' value={invoice.businessName} placeholder='Enter Client Name' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.businessName.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputUniversity">University Name</label>
-                      <select onChange={handleInputs} value={invoice.universityName} name='universityName' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">
-                        <option>Select University</option>
-                        {universityList.map((university) => (
-                          <option key={university.universityName} value={university.universityName} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            {university.universityName}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.universityName.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                   
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputApplicationID">Application ID</label>
-                      <select onChange={handleInputs} value={invoice.applicationID} name='applicationID' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">
-                        <option>Select Application ID</option>
-                        {applicationList.map((application) => (
-                          <option key={application.applicationCode} value={application.applicationCode} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            {application.applicationCode}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.applicationID.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
+  <label className="form-label" htmlFor="inputClientName">Client Name</label>
+  <select 
+    onChange={handleInputs} 
+    value={invoice.clientName} 
+    name="clientName" 
+    className="form-select form-select-lg rounded-2" 
+    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+    aria-label="Default select example4"
+  >
+    <option value="">Select Client Name</option>
+    {[...new Set(applicationList.map(uni => uni.clientName))].map((clientName, index) => (
+      <option key={index} value={clientName} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+        {clientName}
+      </option>
+    ))}
+  </select>
+  {errors?.clientName?.required && (
+    <div className="text-danger form-text">This field is required.</div>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label className="form-label" htmlFor="inputUniversity">University Name</label>
+  <select 
+    onChange={handleInputs} 
+    value={invoice.universityName} 
+    name="universityName" 
+    className="form-select form-select-lg rounded-2" 
+    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+    aria-label="Default select example4"
+    disabled={!invoice.clientName}  // Disable until client is selected
+  >
+    <option value="">Select University</option>
+    {applicationList
+      .filter(uni => uni.clientName === invoice.clientName)  // Filter by selected clientName
+      .map((university, index) => (
+        <option key={index} value={university.universityName} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+          {university.universityName}
+        </option>
+    ))}
+  </select>
+  {errors?.universityName?.required && (
+    <div className="text-danger form-text">This field is required.</div>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label className="form-label" htmlFor="inputApplicationID">Application ID</label>
+  <select 
+    onChange={handleInputs} 
+    value={invoice.applicationID} 
+    name="applicationID" 
+    className="form-select form-select-lg rounded-2" 
+    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+    aria-label="Default select example4"
+    disabled={!invoice.universityName}  // Disable until university is selected
+  >
+    <option>Select Application ID</option>
+    {applicationList
+      .filter(application => 
+        application.clientName === invoice.clientName && 
+        application.universityName === invoice.universityName  // Filter by both clientName and universityName
+      )
+      .map((application) => (
+        <option key={application.applicationCode} value={application.applicationCode} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+          {application.applicationCode}
+        </option>
+    ))}
+  </select>
+  {errors?.applicationID?.required && (
+    <div className="text-danger form-text">This field is required.</div>
+  )}
+</div>
+
                     <h4 className='card-title fw-bold mt-5'>Currency Details</h4>
                     <hr />
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
