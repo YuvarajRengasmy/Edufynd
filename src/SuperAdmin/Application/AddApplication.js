@@ -11,6 +11,7 @@ function ApplicationForm() {
    
     uniCountry: "",
     inTake: "",
+
     universityName: "",
     programTitle: "",
     campus: "",

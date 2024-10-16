@@ -227,6 +227,7 @@ export const Course = () => {
         ...inputs,
         course: program.programTitle,
         universityName: program.universityName,
+        clientName: program.clientName,
         applicationFee: program.applicationFee,
         uniCountry: program.country,
         status: status,
