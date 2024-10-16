@@ -335,9 +335,9 @@ export const ViewApplication = () => {
       reply: Array.isArray(track.reply)
         ? track.reply.map(item => ({
             replyMessage: item.replyMessage || "",
-            createdBy: item.createdBy || "Unknown",
+          
           }))
-        : [{ replyMessage: track.reply || "", createdBy: "Unknown" }],
+        : [{ replyMessage: track.reply || ""}],
     };
 
     statusApplication(data)
