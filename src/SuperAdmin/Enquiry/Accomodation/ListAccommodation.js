@@ -765,7 +765,7 @@ export const ListAccommodation = () => {
                 <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
                 <div className="card-body">
                     <h6 className="">
-                    <i className=""></i> Enquiries Converted
+                    <i className=""></i>Enquiries Converted
                     </h6>
                         <div className="d-flex align-items-center justify-content-between">
                         <p className="card-text">Processing....</p>
@@ -793,55 +793,33 @@ export const ListAccommodation = () => {
                 </div>
             </div>
 
-            <div className="col-md-3">
-              <Link to='#' className="text-decoration-none">
-                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
-
-                  <div className="card-body text-start">
-                    <div className="d-flex align-items-start justify-content-between">
-                      <div className="d-flex flex-column">
-                        <h6><i className=""></i>&nbsp;&nbsp;Highest Converted Staff: Processing...</h6>
-                        {/* {card?.topSource?.length > 0 ? (
-                          card.topSource.map((item, index) => (
-                            <p className="card-text" key={index}>
-                              {item.source}: {item.count}
-                            </p>
-                          ))
-                        ) : (
-                          <p className="card-text">No sources available</p>
-                        )} */}
-                      </div>
+            
+            <div class="col-md-3">
+                <div class="alert alert-dark d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
+                    <h6 className="">
+                    <i className=""></i>&nbsp;&nbsp;Highest Converted Staff
+                    </h6>
+                        <div className="d-flex align-items-center justify-content-between">
+                        <p className="card-text">Processing....</p>
                     </div>
-                  </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
 
 
-            <div className="col-md-3">
-              <Link to='#' className="text-decoration-none">
-                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
-
-                  <div className="card-body text-start">
-                    <div className="d-flex align-items-start justify-content-between">
-                      <div className="d-flex flex-column">
-                        <h6><i className=""></i>&nbsp;&nbsp;Highest Converted Client: Processing...</h6>
-                        {/* {card?.topSource?.length > 0 ? (
-                          card.topSource.map((item, index) => (
-                            <p className="card-text" key={index}>
-                              {item.source}: {item.count}
-                            </p>
-                          ))
-                        ) : (
-                          <p className="card-text">No sources available</p>
-                        )} */}
-                      </div>
+            <div class="col-md-3">
+                <div class="alert alert-primary d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
+                    <h6 className="">
+                    <i className=""></i>&nbsp;&nbsp;Highest Converted Client
+                    </h6>
+                        <div className="d-flex align-items-center justify-content-between">
+                        <p className="card-text">Processing....</p>
                     </div>
-                  </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
-
 
             <div className="col-md-3">
               <Link to='#' className="text-decoration-none">
