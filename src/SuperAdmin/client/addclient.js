@@ -139,7 +139,9 @@ function AddAgent() {
     return error;
   };
 
- 
+
+
+
 
   const getallCodeList = () => {
     getallCode()
@@ -168,13 +170,16 @@ function AddAgent() {
       setErrors(newError);
     }
   };
+
+
+
   const handleCountryChange = (e) => {
     const countryId = e.target.value;
     setSelectedCountry(countryId);
 
     // Find the selected country in the countriesData
     const selectedCountryData = countriesData.find(country => country._id === countryId);
-    
+
     if (selectedCountryData) {
       setStates(selectedCountryData.state); // Set the states for selected country
       setCities([]); // Clear city data if country changes
@@ -190,16 +195,16 @@ function AddAgent() {
 
     // Find the selected state in the states data
     const selectedStateData = states.find(state => state.name === stateName);
-    
+
     if (selectedStateData) {
-      setCities(selectedStateData.cities); 
+      setCities(selectedStateData.cities);
       setSelectedCity(''); // Set cities for selected state
     }
   };
 
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
-    
+
   };
 
   const handleCheckboxChange = (e) => {
@@ -358,13 +363,8 @@ function AddAgent() {
                             }}
                             name="businessName"
                             onChange={handleInputs}
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.businessName.required
-                                ? "is-invalid"
-                                : errors.businessName.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.businessName.required ? "is-invalid" : errors.businessName.valid ? "is-valid" : ""
+                              }`}
                             placeholder="Example John Doe"
                             onKeyDown={(e) => {
                               // Prevent default behavior for disallowed keys
@@ -388,6 +388,8 @@ function AddAgent() {
                           )}
                         </div>
 
+
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             Business Website
@@ -396,11 +398,7 @@ function AddAgent() {
                           <input
                             type="text"
                             className={`form-control rounded-1 text-lowercase ${
-                              errors.website.required
-                                ? "is-invalid"
-                                : errors.website.valid
-                                ? "is-valid"
-                                : ""
+                              errors.website.required? "is-invalid": errors.website.valid? "is-valid" : ""
                             }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -417,6 +415,11 @@ function AddAgent() {
                           )}
                         </div>
 
+                   
+
+
+
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             {" "}
@@ -425,13 +428,12 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-lowercase ${
-                              errors.businessMailID.required
+                            className={`form-control rounded-1 text-lowercase ${errors.businessMailID.required
                                 ? "is-invalid"
                                 : errors.businessMailID.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
+                                  ? "is-valid"
+                                  : ""
+                              }`}
                             placeholder="Example john123@gmail.com"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -495,13 +497,12 @@ function AddAgent() {
                               <input
                                 type="text"
                                 aria-label="Text input with dropdown button"
-                                className={`form-control  ${
-                                  errors.businessContactNo.required
+                                className={`form-control  ${errors.businessContactNo.required
                                     ? "is-invalid"
                                     : errors.businessContactNo.valid
-                                    ? "is-valid"
-                                    : ""
-                                }`}
+                                      ? "is-valid"
+                                      : ""
+                                  }`}
                                 placeholder="Example 123-456-7890"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -568,13 +569,12 @@ function AddAgent() {
 
                             <input
                               type="text"
-                              className={`form-control rounded-1 ${
-                                errors.whatsAppNumber.required
+                              className={`form-control rounded-1 ${errors.whatsAppNumber.required
                                   ? "is-invalid"
                                   : errors.whatsAppNumber.valid
-                                  ? "is-valid"
-                                  : ""
-                              }`}
+                                    ? "is-valid"
+                                    : ""
+                                }`}
                               placeholder="Example 123-456-7890"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -611,13 +611,12 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.name.required
+                            className={`form-control rounded-1 text-capitalize ${errors.name.required
                                 ? "is-invalid"
                                 : errors.name.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
+                                  ? "is-valid"
+                                  : ""
+                              }`}
                             placeholder="Example Jane Doe"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
@@ -645,13 +644,12 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-lowercase  ${
-                              errors.emailID.required
+                            className={`form-control rounded-1 text-lowercase  ${errors.emailID.required
                                 ? "is-invalid"
                                 : errors.emailID.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
+                                  ? "is-valid"
+                                  : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -712,13 +710,12 @@ function AddAgent() {
 
                             <input
                               type="text"
-                              className={`form-control rounded-1 ${
-                                errors.contactNo.required
+                              className={`form-control rounded-1 ${errors.contactNo.required
                                   ? "is-invalid"
                                   : errors.contactNo.valid
-                                  ? "is-valid"
-                                  : ""
-                              }`}
+                                    ? "is-valid"
+                                    : ""
+                                }`}
                               placeholder="Example 123-456-7890"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
@@ -756,9 +753,8 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.addressLine1.required ? "is-invalid" : ""
-                            }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine1.required ? "is-invalid" : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -780,9 +776,8 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize${
-                              errors.addressLine2.required ? "is-invalid" : ""
-                            }`}
+                            className={`form-control rounded-1 text-capitalize${errors.addressLine2.required ? "is-invalid" : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -803,13 +798,12 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.addressLine3.required
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine3.required
                                 ? "is-invalid"
                                 : errors.addressLine3.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
+                                  ? "is-valid"
+                                  : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -830,7 +824,7 @@ function AddAgent() {
                             Country<span className="text-danger">*</span>
                           </label>
                           <select
-                             style={{
+                            style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
@@ -879,7 +873,7 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                             className={`form-select form-select-lg rounded-1`}
-                          value={selectedCity} onChange={handleCityChange}   disabled={!selectedState} 
+                            value={selectedCity} onChange={handleCityChange} disabled={!selectedState}
                           >
                             <option value="">Select a city</option>
                             {cities.map((city, index) => (
