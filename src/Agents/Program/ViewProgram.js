@@ -5,19 +5,21 @@ import {
   getSingleProgramLog,
 } from "../../api/Program";
 import { saveApplication } from "../../api/applicatin";
-import { getallStudent } from "../../api/student";
+import { getFilterStudentAdmin } from "../../api/student";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
 import Sidebar from "../../compoents/AgentSidebar";
-import Flags from "react-world-flags";
+import { getFilterApplicationStatus } from "../../api/universityModule/ApplicationStatus";
 import { Pagination } from "@mui/material";
 import { toast } from "react-toastify";
-import { University } from "../../api/endpoints";
 import { RichTextEditor } from "@mantine/rte";
 import BackButton from "../../compoents/backButton";
+import {  getSingleAgent } from "../../api/agent";
+import {getAgentId } from "../../Utils/storage";
 export const Course = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
+
+  const renderedIntakes = new Set(); 
 
   const initialState = {
     name: "",
@@ -25,7 +27,7 @@ export const Course = () => {
     country: "",
     studentCode: "",
     studentId: "",
-    applicationFee: "",
+  
     campus: "",
     inTake: "",
     courseFees: "",
@@ -37,19 +39,20 @@ export const Course = () => {
     primaryNumber: { required: false },
     country: { required: false },
     studentCode: { required: false },
-    applicationFee: { required: false },
     studentId: { required: false },
+    email: { required: false },
     campus: { required: false },
     inTake: { required: false },
     courseFees: { required: false },
-    email: { required: false },
   };
 
   const [program, setProgram] = useState();
+  const [status, setStatus] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState(initialStateErrors);
   const pageSize = 5;
   const navigate = useNavigate();
+  const [staff ,setStaff] = useState([]);
   const [student, setStudent] = useState([]);
   const [input, setInput] = useState([]);
   const [inputs, setInputs] = useState(initialState);
@@ -63,11 +66,41 @@ export const Course = () => {
     getProgramDetails();
     getUniversityLogs();
     getAllStudentDetails();
+    getStaffDetail();
+    getAllApplicationsModuleDetails();
   }, []);
   useEffect(() => {
     getAllProgaramDetails();
   }, [pagination.from, pagination.to]);
 
+  const getStaffDetail = () => {
+    const id = getAgentId();
+    getSingleAgent(id)
+      .then((res) => {
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+        console.log("ggg", res)
+        setStatus(res?.data?.result?.statusList || []);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.statusCount || 0,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllProgaramDetails = () => {
     const data = {
       limit: pageSize,
@@ -99,13 +132,21 @@ export const Course = () => {
   };
 
   const getAllStudentDetails = () => {
-    getallStudent()
-      .then((res) => {
-        setStudent(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
+    const data = {
+      agentId:getAgentId(),
+    };
+    getFilterStudentAdmin(data)
+    
+    .then((res) => {
+      const sortedStudents = res?.data?.result?.studentList.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt); // Sort by createdAt in descending order
       });
+      setStudent(sortedStudents);
+      
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
   const handlePageChange = (event, page) => {
     const from = (page - 1) * pageSize;
@@ -130,11 +171,12 @@ export const Course = () => {
     if (!data.studentId) error.studentId.required = true;
     if (!data.primaryNumber) error.primaryNumber.required = true;
     if (!data.country) error.country.required = true;
-    if (!data.applicationFee) error.applicationFee.required = true;
+    // if (!data.applicationFee) error.applicationFee.required = true;
     if (!data.studentCode) error.studentCode.required = true;
     if (!data.campus) error.campus.required = true;
     if (!data.inTake) error.inTake.required = true;
     if (!data.courseFees) error.courseFees.required = true;
+
 
     return error;
   };
@@ -165,6 +207,7 @@ export const Course = () => {
             ...updatedProgram,
             courseFees: selectedCampus.courseFees,
             inTake: selectedCampus.inTake,
+
           };
         }
       }
@@ -198,16 +241,22 @@ export const Course = () => {
     if (handleErrors(newError)) {
       const data = {
         ...inputs,
+        agentId:staff._id,
+        agentName:staff.agentName,
         course: program.programTitle,
         universityName: program.universityName,
-
+        clientName: program.clientName,
+        applicationFee: program.applicationFee,
+        uniCountry: program.country,
+        status: status,
         // programId:program._id
+
       };
       saveApplication(data)
         .then((res) => {
           console.log(res);
           toast.success(res?.data?.message);
-          navigate("/agent_list_program");
+          getAllProgaramDetails();
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -641,30 +690,33 @@ export const Course = () => {
                                 aria-labelledby="contact-tab"
                               >
                                 <div className="row">
+                                
                                   <div className="border-0 pt-3 px-4">
                                     <div className="row">
                                       {Array.isArray(program?.campuses) &&
-                                        program.campuses.map(
-                                          (campus, index) => (
-                                            <div
-                                              key={index}
-                                              className="col-sm-6 col-md-4 mb-3"
-                                            >
-                                              <div className="conatiner">
-                                                <div className="card  rounded-1  ">
-                                                  <div className="card-body bg-primary  border-0 ">
-                                                    <p className="text-center  text-uppercase fw-semibold">
-                                                      {campus?.inTake ||
-                                                        "Not Available"}
-                                                    </p>
+                                        program.campuses.map((campus, index) => {
+                                          if (!renderedIntakes.has(campus?.inTake)) {
+                                            renderedIntakes.add(campus?.inTake); // Add the unique inTake to the set
+                                            return (
+                                              <div key={index} className="col-sm-6 col-md-4 mb-3">
+                                                <div className="container">
+                                                  <div className="card rounded-1">
+                                                    <div className="card-body bg-primary border-0">
+                                                      <p className="text-center text-uppercase fw-semibold">
+                                                        {campus?.inTake || "Not Available"}
+                                                      </p>
+                                                    </div>
                                                   </div>
                                                 </div>
                                               </div>
-                                            </div>
-                                          )
-                                        )}
+                                            );
+                                          }
+                                          return null; // Skip rendering duplicate inTake
+                                        })}
+
                                     </div>
                                   </div>
+                               
                                 </div>
                               </div>
                             </div>
@@ -678,138 +730,7 @@ export const Course = () => {
                               Intakes
                             </div>
 
-                            <div className="card card-body">
-                              <h5 className="text-capitalize text-center">
-                                Program Intakes
-                              </h5>
-
-                              <div
-                                className="accordion accordion-flush border-0"
-                                id="programIntakesAccordion"
-                                style={{ fontSize: "12px" }}
-                              >
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="btn border-0 collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseOpen"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseOpen"
-                                    >
-                                      Open
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseOpen"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="btn border-0 collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseClosed"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseClosed"
-                                    >
-                                      Closed
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseClosed"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="accordion-item">
-                                  <h2 className="accordion-header">
-                                    <button
-                                      className="btn border-0 collapsed btn-sm"
-                                      type="button"
-                                      data-bs-toggle="collapse"
-                                      data-bs-target="#flush-collapseLikelyOpen"
-                                      aria-expanded="false"
-                                      aria-controls="flush-collapseLikelyOpen"
-                                    >
-                                      Likely Open
-                                    </button>
-                                  </h2>
-                                  <div
-                                    id="flush-collapseLikelyOpen"
-                                    className="accordion-collapse collapse"
-                                    data-bs-parent="#programIntakesAccordion"
-                                  >
-                                    <div className="accordion-body">
-                                      <div className="row row-cols-2">
-                                        <div className="col">
-                                          <p className="fw-bold">Open Time</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2024
-                                          </p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-bold">Deadline</p>
-                                        </div>
-                                        <div className="col">
-                                          <p className="fw-normal">
-                                            27/07/2025
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            
                           </div>
 
                           <div className="col-lg-12">
@@ -1174,7 +1095,7 @@ export const Course = () => {
                 ></button>
               </div>
               <div class="modal-body">
-                <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}>
                   <div className="row gy-3 gx-4 mb-3">
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">Student Name</label>
@@ -1187,9 +1108,7 @@ export const Course = () => {
                       >
                         <option selected>Open this select menu</option>
                         {student?.map((data, index) => (
-                          <option id={index} value={data.name}>
-                            {data.name}
-                          </option>
+                          <option id={index} value={data.name}>{data.name}</option>
                         ))}
                       </select>
                       {errors.name.required ? (
@@ -1204,7 +1123,7 @@ export const Course = () => {
                       <input
                         type="text"
                         name="country"
-                        value={inputs.country || ""}
+                        value={inputs.country || ''}
                         onChange={handleInputs}
                         class="form-control text-uppercase rounded-1"
                         placeholder="Example John Doe"
@@ -1221,7 +1140,7 @@ export const Course = () => {
                       <input
                         type="type"
                         name="email"
-                        value={inputs.email || ""}
+                        value={inputs.email || ''}
                         onChange={handleInputs}
                         class="form-control text-uppercase rounded-1"
                         placeholder="Example John Doe"
@@ -1286,6 +1205,8 @@ export const Course = () => {
                         </span>
                       ) : null}
                     </div>
+
+
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">campus</label>
                       <select
@@ -1297,11 +1218,10 @@ export const Course = () => {
                       >
                         <option selected>Open this select menu</option>
                         {Array.isArray(program?.campuses) &&
-                          program.campuses.map((campus, index) => (
-                            <option id={index} value={campus.campus}>
-                              {campus.campus}
-                            </option>
-                          ))}
+                          program.campuses.map(
+                            (campus, index) => (
+                              <option id={index} value={campus.campus}>{campus.campus}</option>
+                            ))}
                       </select>
                       {errors.campus.required ? (
                         <span className="text-danger form-text profile_error">
@@ -1322,11 +1242,10 @@ export const Course = () => {
                       >
                         <option selected>Open this select menu</option>
                         {Array.isArray(program?.campuses) &&
-                          program.campuses.map((intake, index) => (
-                            <option id={index} value={intake.inTake}>
-                              {intake.inTake}
-                            </option>
-                          ))}
+                          program.campuses.map(
+                            (intake, index) => (
+                              <option id={index} value={intake.inTake}>{intake.inTake}</option>
+                            ))}
                       </select>
                       {errors.inTake.required ? (
                         <span className="text-danger form-text profile_error">
@@ -1347,11 +1266,10 @@ export const Course = () => {
                       >
                         <option selected>Open this select menu</option>
                         {Array.isArray(program?.campuses) &&
-                          program.campuses.map((intake, index) => (
-                            <option id={index} value={intake.courseFees}>
-                              {intake.courseFees}
-                            </option>
-                          ))}
+                          program.campuses.map(
+                            (intake, index) => (
+                              <option id={index} value={intake.courseFees}>{intake.courseFees}</option>
+                            ))}
                       </select>
                       {errors.courseFees.required ? (
                         <span className="text-danger form-text profile_error">
@@ -1381,13 +1299,16 @@ export const Course = () => {
                           backgroundColor: "#fe5722",
                           color: "#fff",
                         }}
+                        data-bs-dismiss="modal"
                       >
                         Submit
                       </button>
                     </div>
+
                   </div>
                 </form>
               </div>
+
             </div>
           </div>
         </div>

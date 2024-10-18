@@ -14,14 +14,12 @@ const AddSenderInvoice = () => {
     tds: "",
     clientName: "",
     universityName: "",
-    applicationID: "",
-    currency: "",
-    paidFeesAmount: null,
-    fixedAmount: null,
-    courseFeesAmount: null,
-    scholarshipAmount: null,
-    paidFeesPercentage: null,
-    courseFeesPercentage: null,
+    applicationID:[],
+    application:[{applicationCode: "",courseFeesAmount:"",course:"", agentName: "",}],
+    totalCourseFees: "",
+    finalValue: "",
+    commission: "",
+    paymentMethod: "",
   };
 
   const initialStateErrors = {
@@ -31,14 +29,9 @@ const AddSenderInvoice = () => {
     clientName: { required: false },
     universityName: { required: false },
     applicationID: { required: false },
-    currency: { required: false },
-    paidFeesAmount: { required: false },
-
-    fixedAmount: { required: false },
-    courseFeesAmount: { required: false },
-    scholarshipAmount: { required: false },
-    paidFeesPercentage: { required: false },
-    courseFeesPercentage: { required: false }
+    application: { required: false },
+    totalCourseFees: { required: false },
+    finalValue: { required: false },
   };
 
   const [invoice, setInvoice] = useState(initialState);
@@ -85,12 +78,7 @@ const AddSenderInvoice = () => {
     if (data.applicationID === "") {
       error.applicationID.required = true;
     }
-    if (data.currency === "") {
-      error.currency.required = true;
-    }
-    if (data.courseFeesAmount === "") {
-      error.courseFeesAmount.required = true;
-    }
+   
     return error;
   };
 
@@ -130,7 +118,7 @@ const AddSenderInvoice = () => {
                     ...updatedInvoice,
                     paymentMethod: selectedUniversity.paymentMethod, // Get payment method
                     courseType: firstCourseType?.courseType || "", // Get the course type if available
-                    inTakeValue: firstInTake?.value || 0, // Get intake value if available
+                    commission: firstInTake?.value || 0, // Get intake value if available
                 };
             }
         }
@@ -145,24 +133,27 @@ const AddSenderInvoice = () => {
     }
 };
 
-  const handleChange = (selectedOptions) => {
-    // Map selected options to selectedApplications array format
-    const newApplications = selectedOptions.map(option => {
-      const selectedApplication = applicationList.find(app => app.applicationCode === option.value);
-      return {
-        applicationCode: selectedApplication.applicationCode,
-        course: selectedApplication.course,
-        courseFeesAmount: selectedApplication.courseFees,
-      };
-    });
+const handleChange = (selectedOptions) => {
+  // Map selected options to selectedApplications array format
+  const newApplications = selectedOptions.map(option => {
+    const selectedApplication = applicationList.find(app => app.applicationCode === option.value);
+    return {
+      applicationCode: selectedApplication.applicationCode,
+      course: selectedApplication.course,
+      courseFeesAmount: selectedApplication.courseFees,
+      agentName: selectedApplication.agentName || '', // Ensure agentName is fetched properly or set to empty string if not present
+     
+    };
+  });
 
-    // Update state, ensuring no duplicates are added
-    setSelectedApplications(prevApps => {
-      const existingCodes = prevApps.map(app => app.applicationCode);
-      const filteredNewApps = newApplications.filter(app => !existingCodes.includes(app.applicationCode));
-      return [...prevApps, ...filteredNewApps];
-    });
-  };
+  // Update state, ensuring no duplicates are added
+  setSelectedApplications(prevApps => {
+    const existingCodes = prevApps.map(app => app.applicationCode);
+    const filteredNewApps = newApplications.filter(app => !existingCodes.includes(app.applicationCode));
+    return [...prevApps, ...filteredNewApps];
+  });
+};
+
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -181,10 +172,17 @@ const AddSenderInvoice = () => {
     const newError = handleValidation(invoice);
     setErrors(newError);
     setSubmitted(true);
+    const finalInvoiceData = {
+      ...invoice,
+      application: selectedApplications,  
+      totalCourseFees: selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0),
+      finalValue: selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0) * (invoice.commission || 0) / 100
+
+    };
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveFSenderInvoice(invoice)
+      saveFSenderInvoice(finalInvoiceData)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_invoice");
@@ -322,6 +320,7 @@ const AddSenderInvoice = () => {
         value={selectedApplications.map(app => ({ value: app.applicationCode, label: app.applicationCode }))}
         className="basic-multi-select"
         classNamePrefix="select"
+        name="applicationID"
         isDisabled={!invoice.universityName} // Disable if universityName is not selected
       />
   {errors?.applicationID?.required && (
@@ -339,13 +338,12 @@ const AddSenderInvoice = () => {
         type="text" 
         name="applicationCode"
         placeholder="Enter applicationCode" 
-        value={app.applicationCode} 
+        value={app.applicationCode}
+        onChange={handleInputs} 
         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
         readOnly
       />
-      {errors?.applicationID?.required && (
-        <div className="text-danger form-text">This field is required.</div>
-      )}
+      
     </div>
     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
       <label className="form-label" >Course Name</label>
@@ -355,19 +353,18 @@ const AddSenderInvoice = () => {
         name="course"
         placeholder="Enter Course Name" 
         value={app.course} 
+        onChange={handleInputs}
         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
         readOnly
       />
-      {errors?.course?.required && (
-        <div className="text-danger form-text">This field is required.</div>
-      )}
+      
     </div>
 
     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
       <label className="form-label" >Course Fees Amount</label>
       <input 
         className="form-control" 
-     
+        onChange={handleInputs}
         type="number" 
         name="courseFeesAmount" 
         placeholder="Enter Course Fees Amount" 
@@ -375,10 +372,26 @@ const AddSenderInvoice = () => {
         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
         readOnly
       />
-      {errors?.courseFeesAmount?.required && (
-        <div className="text-danger form-text">This field is required.</div>
-      )}
+      
     </div>
+    {  app.agentName  ? (
+      <>
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+          <label className="form-label">Agent Name</label>
+          <input
+            className="form-control"
+            type="text"  // This should be text instead of number since agent names are usually strings
+            name="agentName"
+            placeholder="Enter Agent Name"
+            value={app.agentName}
+            onChange={handleInputs}
+            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            readOnly
+          />
+        </div>
+
+      </>
+    ) : null}
   </div>
 ))}
 
@@ -391,10 +404,12 @@ const AddSenderInvoice = () => {
       type="number" 
       name="totalCourseFees" 
       placeholder="Total Course Fees" 
+      onChange={handleInputs}
       value={selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0)} 
       style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
       readOnly
     />
+     
   </div>
   {/* Calculate Final Value */}
   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -404,13 +419,16 @@ const AddSenderInvoice = () => {
         type="number" 
         name="finalValue" 
         placeholder="Final Value" 
+        onChange={handleInputs}
+        readOnly
         value={
           
-          (selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0) * (invoice.inTakeValue || 0)) / 100 
+          (selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0) * (invoice.commission || 0)) / 100 
         }
         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
        
       />
+       
     </div>
 </div>
 
@@ -421,7 +439,9 @@ const AddSenderInvoice = () => {
     <input 
       className="form-control" 
       type="text" 
+      name='paymentMethod'
       value={invoice.paymentMethod} 
+     onChange={handleInputs}
       readOnly 
       style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
     />
@@ -431,7 +451,9 @@ const AddSenderInvoice = () => {
    <input 
      className="form-control" 
      type="text" 
-     value={invoice.inTakeValue} 
+     name='commission'
+     value={invoice.commission} 
+    onChange={handleInputs}
      readOnly 
      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
    />

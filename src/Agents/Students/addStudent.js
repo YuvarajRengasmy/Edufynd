@@ -15,7 +15,8 @@ import Select from "react-select";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
-
+import {  getSingleAgent } from "../../api/agent";
+import {getAgentId } from "../../Utils/storage";
 
 function AddAgent() {
     const location = useLocation();
@@ -120,13 +121,25 @@ function AddAgent() {
   const [dail2, setDail2] = useState(null);
   const [dail3, setDail3] = useState(null);
   const [dail4, setDail4] = useState(null);
-
+const [staff ,setStaff] = useState([])
 
   useEffect(() => {
     getStudentDetails();
     getallCodeList();
+    getStaffDetail();
 }, []);
 
+
+const getStaffDetail = () => {
+  const id = getAgentId();
+  getSingleAgent(id)
+    .then((res) => {
+      setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const getStudentDetails = () => {
   getallStudent(id)
         .then((res) => {
@@ -331,6 +344,7 @@ const handleValidation = (data) => {
     setSubmitted(true);
     const studentData={
       ...student,
+      agentId:staff._id,
       dial1:dail1?.value,
       dial2:dail2?.value,
      

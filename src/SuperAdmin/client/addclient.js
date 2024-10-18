@@ -326,7 +326,8 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className={`form-select form-select-lg rounded-1`}
+                              class={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid' : ''}`}
+
                               name="typeOfClient"
                             >
                               <option value={""}>Select Client Type</option>
@@ -389,33 +390,39 @@ function AddAgent() {
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
-                            Business Website
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            className={`form-control rounded-1 text-lowercase ${
-                              errors.website.required
-                                ? "is-invalid"
-                                : errors.website.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
-                            style={{
-                              fontFamily: "Plus Jakarta Sans",
-                              fontSize: "12px",
-                            }}
-                            placeholder="Example www.edufynd.com"
-                            name="website"
-                            onChange={handleInputs}
-                          />
-                          {errors.website.required && (
-                            <span className="text-danger form-text profile_error">
-                              This field is required.
-                            </span>
-                          )}
-                        </div>
+  <label style={{ color: "#231F20" }}>
+    Business Website
+    <span className="text-danger">*</span>
+  </label>
+  <input
+    type="text"
+    className={`form-control rounded-1 text-lowercase ${
+      errors.website.required
+        ? "is-invalid"
+        : errors.website.valid && !errors.website.invalid
+        ? "is-valid"
+        : ""
+    }`}
+    style={{
+      fontFamily: "Plus Jakarta Sans",
+      fontSize: "12px",
+    }}
+    placeholder="Example www.edufynd.com"
+    name="website"
+    onChange={handleInputs}
+  />
+  {errors.website.required && (
+    <span className="text-danger form-text profile_error">
+      This field is required.
+    </span>
+  )}
+  {errors.website.invalid && (
+    <span className="text-danger form-text profile_error">
+      Invalid website URL.
+    </span>
+  )}
+</div>
+
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -780,7 +787,7 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize${
+                            className={`form-control rounded-1 text-capitalize ${
                               errors.addressLine2.required ? "is-invalid" : ""
                             }`}
                             style={{

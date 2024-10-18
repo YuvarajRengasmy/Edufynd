@@ -987,7 +987,7 @@ const chartRef = useRef(null);
  
                       <td className="text-capitalize text-start text-truncate">
                         <div className="d-flex">
-                        {agentPrivileges?.view && (
+                     
                             <Link
                               className="dropdown-item"
                               to={{
@@ -997,7 +997,7 @@ const chartRef = useRef(null);
                             >
                               <i className="far fa-eye text-primary me-1"></i>
                             </Link>
-                        )}
+                       
                         {agentPrivileges?.edit && (
 
                          
