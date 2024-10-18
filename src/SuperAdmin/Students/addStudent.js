@@ -137,7 +137,6 @@ function AddAgent() {
 const getStudentDetails = () => {
   getallStudent(id)
         .then((res) => {
-          console.log("balan", res)
             setStudent(res?.data?.result);
         })
         .catch((err) => {
@@ -329,8 +328,11 @@ const handleValidation = (data) => {
   
     if (submitted) {
       const newError = handleValidation({ ...student, [name]: value });
+      // const newError = handleValidation(updatedStudent);
       setErrors(newError);
     }
+
+
   };
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -451,13 +453,16 @@ const handleValidation = (data) => {
                               />
                             </div>
                             <div className="row">
+
+
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   {" "}
                                   Source<span className="text-danger">*</span>
                                 </label>
                                 <select
-                                  class={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''}`}
+                               
+                                  className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid':''}`}
                                   value={student?.source}
                                   aria-label="Default select example"
                                   style={{
@@ -549,6 +554,7 @@ const handleValidation = (data) => {
                               <div className="">
                                 <input
                                   type="text"
+                              
                                   value={student?.name}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -576,6 +582,8 @@ const handleValidation = (data) => {
                                 ) : null}
                               </div>
                             </div>
+
+                            
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Citizenship
@@ -1625,7 +1633,7 @@ const handleValidation = (data) => {
                                   type="submit"
                                   className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                                 >
-                                save
+                                Submit
                                 </button>
                               </div>
                             </div>

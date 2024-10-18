@@ -120,6 +120,9 @@ function AddAgent() {
     if (data.website === "") error.website.required = true;
     if (data.addressLine1 === "") error.addressLine1.required = true;
     if (data.name === "") error.name.required = true;
+    if (data.dial1 === "") error.dial1.required = true;
+    if (data.dial2 === "") error.dial2.required = true;
+    if (data.dial3 === "") error.dial3.required = true;
     if (data.contactNo === "") error.contactNo.required = true;
     if (data.emailID === "") error.emailID.required = true;
     if (data.addressLine2 === "") error.addressLine2.required = true;
@@ -331,7 +334,7 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              className={`form-select form-select-lg rounded-1`}
+                              className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
                               name="typeOfClient"
                             >
                               <option value={""}>Select Client Type</option>
@@ -482,6 +485,8 @@ function AddAgent() {
                               <Select
                                 value={dail1}
                                 options={dialOptions}
+                                classNamePrefix="react-select"
+                              className={`react-select-container ${errors.dial1.required ? 'is-invalid' : ''}`}
                                 placeholder="code"
                                 name="dial1"
                                 onChange={handleDail1}
@@ -555,6 +560,8 @@ function AddAgent() {
                               value={dail2}
                               options={dialOptions}
                               placeholder="code"
+                              classNamePrefix="react-select"
+                              className={`react-select-container ${errors.dial2.required ? 'is-invalid' : ''}`}
                               name="dial2"
                               onChange={handleDail2}
                               styles={{
@@ -696,6 +703,8 @@ function AddAgent() {
                               value={dail3}
                               options={dialOptions}
                               placeholder="code"
+                              classNamePrefix="react-select"
+                              className={`react-select-container ${errors.dial3.required ? 'is-invalid' : ''}`}
                               name="dial3"
                               onChange={handleDail3}
                               styles={{
@@ -760,6 +769,7 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                             placeholder="Example 17/3A2, Gandhi St,"
+                             
                             name="addressLine1"
                             onChange={handleInputs}
                           />
@@ -776,13 +786,14 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize${errors.addressLine2.required ? "is-invalid" : ""
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine2.required ? "is-invalid" : ""
                               }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example Alwartirunagar, Chennai "
+                           
+                               placeholder="Example Alwartirunagar, Chennai "
                             name="addressLine2"
                             onChange={handleInputs}
                           />
@@ -828,17 +839,25 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                        
                             className={`form-select form-select-lg rounded-1`}
                             value={selectedCountry}
+                         
                             onChange={handleCountryChange}
                           >
-                            <option value="">Select a country</option>
+                            <option value={""}>Select a country</option>
                             {countriesData.map((country) => (
                               <option key={country._id} value={country._id}>
+                                 {" "}
                                 {country.name}
                               </option>
                             ))}
                           </select>
+                          {/* {errors.name.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) } */}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -849,7 +868,8 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className={`form-select form-select-lg rounded-1`}
+                         
+                            className={`form-select form-select-lg rounded-1 `}
                             value={selectedState}
                             onChange={handleStateChange}
                             disabled={!selectedCountry}
@@ -861,6 +881,11 @@ function AddAgent() {
                               </option>
                             ))}
                           </select>
+                          {/* {errors.state.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) } */}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -872,7 +897,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className={`form-select form-select-lg rounded-1`}
+                            className={`form-select form-select-lg rounded-1 `}
                             value={selectedCity} onChange={handleCityChange} disabled={!selectedState}
                           >
                             <option value="">Select a city</option>
@@ -882,6 +907,11 @@ function AddAgent() {
                               </option>
                             ))}
                           </select>
+                          {/* {errors.lga.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) } */}
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

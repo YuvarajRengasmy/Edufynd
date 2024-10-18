@@ -195,3 +195,27 @@ a {
   font-size: 20px; /* Adjust icon size */
 }
 
+
+/* ////// Balan color set*/
+.react-select-container.is-invalid .react-select__control {
+  border-color: red;
+
+}
+
+.react-select__control {
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+
+.ckeditor-container {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 5px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.ckeditor-container.is-invalid {
+  border-color: red;
+
+}

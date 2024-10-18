@@ -128,9 +128,19 @@ function Profile() {
     if (data.country === "") {
       error.country.required = true;
     }
-
+    
+    if (data.greGmatRequirement === "") {
+      error.greGmatRequirement.required = true;
+    }
     if (data.programTitle === "") {
       error.programTitle.required = true;
+    }
+    if (data.popularCategories === "") {
+      error.popularCategories.required = true;
+    }
+    
+    if (data.courseType === "") {
+      error.courseType.required = true;
     }
 
     if (data.applicationFee === "") {
@@ -140,8 +150,10 @@ function Profile() {
     if (data.universityInterview === "") {
       error.universityInterview.required = true;
     }
-   
-
+    
+    if (data.englishlanguageTest === "") {
+      error.englishlanguageTest.required = true;
+    }
     if (!isValidNumber(data.applicationFee)) {
       error.applicationFee.valid = true;
     }
@@ -584,6 +596,8 @@ function Profile() {
                             </label>
                             <Select
                               value={selectedPopularType}
+                              classNamePrefix="react-select" 
+                              className={`react-select-container ${errors.popularCategories.required ? 'is-invalid' : ''}`}
                               options={CategoriesOptions}
                               placeholder="Select Popular Categories"
                               name="popularCategories"
@@ -596,7 +610,14 @@ function Profile() {
                                 }),
                               }}
                             />
+                             {errors.popularCategories.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                           </div>
+
+
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -604,6 +625,8 @@ function Profile() {
                             </label>
                             <Select
                               value={selectedCourseType}
+                              classNamePrefix="react-select" 
+                              className={`react-select-container ${errors.courseType.required ? 'is-invalid' : ''}`}
                               options={courseTypeOptions}
                               placeholder="Select courseType"
                               name="courseType"
@@ -935,7 +958,8 @@ function Profile() {
                               English language Test (ELT) Requirement
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-2"
+                          
+                              className={`form-select form-select-lg rounded-2 ${errors.englishlanguageTest.required ? 'is-invalid':''}`}
                               name="englishlanguageTest"
                               onChange={handleInputs}
                               style={{
@@ -949,6 +973,11 @@ function Profile() {
                               <option value="englishlanguageTest">Yes</option>
                               <option value="no">No</option>
                             </select>
+                            {errors.englishlanguageTest.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                             <br />
                             <br />
                             {program.englishlanguageTest ===
@@ -984,7 +1013,8 @@ function Profile() {
                               GRE/GMAT Requirement
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-2"
+                           
+                              className={`form-select form-select-lg rounded-2 ${errors.greGmatRequirement.required ? 'is-invalid':''}`}
                               name="greGmatRequirement"
                               style={{
                                 backgroundColor: "#fff",
@@ -997,6 +1027,12 @@ function Profile() {
                               <option value="categories">Yes</option>
                               <option value="no">No</option>
                             </select>
+
+                            {errors.greGmatRequirement.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                             <br />
                             <br />
                             {program.greGmatRequirement === "categories" && (
