@@ -18,7 +18,7 @@ const AddSenderInvoice = () => {
     clientName: "",
     universityName: "",
     applicationID:[],
-    application:[{applicationCode: "",courseFeesAmount:"",course:"", agentName: "",}],
+    application:[{applicationCode: "",courseFeesAmount:"",course:"", agentName: "",amountReceivedInINR:""}],
     totalCourseFees: "",
     finalValue: "",
     commission: "",
@@ -153,6 +153,7 @@ const handleChange = (selectedOptions) => {
       applicationCode: selectedApplication.applicationCode,
       course: selectedApplication.course,
       courseFeesAmount: selectedApplication.courseFees,
+      amountReceivedInINR: selectedApplication.amountReceivedInINR,
       agentName: selectedApplication.agentName || '', // Ensure agentName is fetched properly or set to empty string if not present
      
     };
@@ -415,7 +416,7 @@ const handleChange = (selectedOptions) => {
       
     </div>
     <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-      <label className="form-label" >amountReceivedInINR</label>
+      <label className="form-label" >Commission In INR</label>
       <input 
         className="form-control" 
         onChange={handleInputs}

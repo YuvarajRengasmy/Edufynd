@@ -68,3 +68,4 @@ export const Blog ="blog"
 // income
 export const Income ="incomeReport";
 export const Expense ="expenseReport";
+export const Receiver ="receiverInvoice";
