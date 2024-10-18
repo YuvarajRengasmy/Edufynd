@@ -226,27 +226,27 @@ export const AddStudentForm = () => {
     if (data.dial2 === "") {
       error.dial2.required = true;
     }
-    if (data.dial3 === "") {
-      error.dial3.required = true;
-    }
+    // if (data.dial3 === "") {
+    //   error.dial3.required = true;
+    // }
     if (data.dial4 === "") {
       error.dial4.required = true;
     }
-    if (data.agentName === "") {
-      error.agentName.required = true;
-    }
-    if (data.businessName === "") {
-      error.businessName.required = true;
-    }
-    if (data.agentWhatsAppNumber === "") {
-      error.agentWhatsAppNumber.required = true;
-    }
-    if (data.agentPrimaryNumber === "") {
-      error.agentPrimaryNumber.required = true;
-    }
-    if (data.agentEmail === "") {
-      error.agentEmail.required = true;
-    }
+    // if (data.agentName === "") {
+    //   error.agentName.required = true;
+    // }
+    // if (data.businessName === "") {
+    //   error.businessName.required = true;
+    // }
+    // if (data.agentWhatsAppNumber === "") {
+    //   error.agentWhatsAppNumber.required = true;
+    // }
+    // if (data.agentPrimaryNumber === "") {
+    //   error.agentPrimaryNumber.required = true;
+    // }
+    // if (data.agentEmail === "") {
+    //   error.agentEmail.required = true;
+    // }
 
     if (!isValidPhone(data.refereeContactNo)) {
       error.refereeContactNo.valid = true;

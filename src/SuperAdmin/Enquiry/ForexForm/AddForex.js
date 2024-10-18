@@ -251,9 +251,22 @@ export const AddForex = () => {
     if (!data.markUp) {
       error.markUp.required = true;
     }
+    if (!data.dial1) {
+      error.dial1.required = true;
+    }
+    if (!data.dial2) {
+      error.dial2.required = true;
+    }
+    if (!data.dial3) {
+      error.dial3.required = true;
+    }
+    if (!data.dial4) {
+      error.dial4.required = true;
+    }
     if (!data.profit) {
       error.profit.required = true;
     }
+
     return error;
   };
 
@@ -517,7 +530,9 @@ const data ={
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm ${errors.dial3.required ? 'is-invalid' : ''}`}
+  name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial3} >
     <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
@@ -580,7 +595,9 @@ const data ={
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm ${errors.dial4.required ? 'is-invalid' : ''}`}
+  name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial4}
   onChange={handleInputs}>
       <option value="+91">+91-India-in</option>
@@ -785,7 +802,10 @@ const data ={
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+
+  className={`form-select form-select-sm ${errors.dial1.required ? 'is-invalid' : ''}`}
+   name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial1} >
   <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
@@ -848,7 +868,9 @@ const data ={
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm ${errors.dial2.required ? 'is-invalid' : ''}`}
+  name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial2}
   onChange={handleInputs}>
     <option value="+91">+91-India-in</option>
