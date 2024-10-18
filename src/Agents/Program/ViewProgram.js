@@ -243,6 +243,7 @@ export const Course = () => {
         ...inputs,
         agentId:staff._id,
         agentName:staff.agentName,
+        agentsCommission:staff.agentsCommission,
         course: program.programTitle,
         universityName: program.universityName,
         clientName: program.clientName,

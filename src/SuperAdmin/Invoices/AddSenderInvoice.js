@@ -15,7 +15,7 @@ const AddSenderInvoice = () => {
     clientName: "",
     universityName: "",
     applicationID:[],
-    application:[{applicationCode: "",courseFeesAmount:"",course:"", agentName: "",}],
+    application:[{applicationCode: "",courseFeesAmount:"",course:"", agentName: "",agentsCommission:"",universityName:""}],
     totalCourseFees: "",
     finalValue: "",
     commission: "",
@@ -141,7 +141,9 @@ const handleChange = (selectedOptions) => {
       applicationCode: selectedApplication.applicationCode,
       course: selectedApplication.course,
       courseFeesAmount: selectedApplication.courseFees,
-      agentName: selectedApplication.agentName || '', // Ensure agentName is fetched properly or set to empty string if not present
+      agentName: selectedApplication.agentName || '',
+      agentsCommission: selectedApplication.agentsCommission || 0 ,
+      universityName: selectedApplication.universityName || '', // Ensure agentName is fetched properly or set to empty string if not present
      
     };
   });
@@ -374,7 +376,7 @@ const handleChange = (selectedOptions) => {
       />
       
     </div>
-    {  app.agentName  ? (
+    {  app.agentName && app.agentsCommission && app.universityName  ? (
       <>
         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
           <label className="form-label">Agent Name</label>
@@ -389,7 +391,32 @@ const handleChange = (selectedOptions) => {
             readOnly
           />
         </div>
-
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+          <label className="form-label">agents Commission</label>
+          <input
+            className="form-control"
+            type="text"  // This should be text instead of number since agent names are usually strings
+            name="agentsCommission"
+            placeholder="Enter Agent Name"
+            value={app.agentsCommission}
+            onChange={handleInputs}
+            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            readOnly
+          />
+        </div>
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+          <label className="form-label">University Name</label>
+          <input
+            className="form-control"
+            type="text"  // This should be text instead of number since agent names are usually strings
+            name="universityName"
+            placeholder="Enter University Name"
+            value={app.universityName}
+            onChange={handleInputs}
+            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            readOnly
+          />
+        </div>
       </>
     ) : null}
   </div>

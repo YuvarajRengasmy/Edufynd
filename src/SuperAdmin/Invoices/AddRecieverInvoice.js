@@ -1,49 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import Mastersidebar from '../../compoents/sidebar';
+import Mastersidebar from '../../compoents/sidebar'; // Ensure correct path
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { saveReceiver } from "../../api/invoice/reciver";
-import { getallAgent } from '../../api/agent';
-import { getallSenderInvoice } from "../../api/invoice/sender";
+import { Link, useNavigate } from 'react-router-dom';
+import { saveReceiver } from "../../api/invoice/reciver"; // Ensure correct API path
+import { getallAgent } from '../../api/agent'; // Ensure correct API path
+import { getallSenderInvoice } from "../../api/invoice/sender"; // Ensure correct API path
 
 export const AddRecieverInvoice = () => {
 
   const initialState = {
     agentName: "",
-    UniversityName: "",
-    totalCourseFees: "",
-    paymentType: "",
-    application: [{ courseName: "", applicationCode: "", courseFees: "", commission: "" }],
-    totalCommission: "",
-    tax: "",
-    gst: "",
-    tds: "",
+    agentCommissionValue: "",
+    application: [], // Initially empty, will hold application details
+  
   };
 
   const initialStateErrors = {
     agentName: { required: false },
-    UniversityName: { required: false },
-    totalCourseFees: { required: false },
-    paymentType: { required: false },
+    agentCommissionValue: { required: false },
     application: { required: false },
-    totalCommission: { required: false },
-    tax: { required: false },
-    gst: { required: false },
-    tds: { required: false },
+
   };
 
   const [invoice, setInvoice] = useState(initialState);
   const [commission, setCommission] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
-  const [selectedApplications, setSelectedApplications] = useState([]);
-  const [senderList, setSenderList] = useState([]);  // Updated sender list state to fetch correct data
+  const [senderList, setSenderList] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-  const [filteredApplications, setFilteredApplications] = useState([]); // Filtered applications for selected agent
+  const [filteredApplications, setFilteredApplications] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllApplicationList();  // Fetch the application list on component mount
-    getAllCommissionList();   // Fetch the commission list
+    getAllApplicationList();
+    getAllCommissionList();
   }, []);
 
   const getAllCommissionList = () => {
@@ -59,7 +48,7 @@ export const AddRecieverInvoice = () => {
   const getAllApplicationList = () => {
     getallSenderInvoice()
       .then(res => {
-        setSenderList(res?.data?.result);  // Make sure to access the correct field from the response
+        setSenderList(res?.data?.result);
       })
       .catch(err => {
         console.log(err);
@@ -73,16 +62,9 @@ export const AddRecieverInvoice = () => {
       errors.agentName.required = "Agent Name is required";
       isValid = false;
     }
-    if (!data.UniversityName) {
-      errors.UniversityName.required = "University Name is required";
-      isValid = false;
-    }
-    if (!data.totalCourseFees) {
-      errors.totalCourseFees.required = "Total Course Fees is required";
-      isValid = false;
-    }
-    if (!data.paymentType) {
-      errors.paymentType.required = "Payment Type is required";
+
+    if (!data.agentCommissionValue) {
+      errors.agentCommissionValue.required = "Agent Commission Value is required";
       isValid = false;
     }
     return errors;
@@ -91,17 +73,35 @@ export const AddRecieverInvoice = () => {
   const handleInputs = (event) => {
     const { name, value } = event.target;
 
+    // Update the invoice state
     setInvoice((prevInvoice) => {
       const updatedInvoice = { ...prevInvoice, [name]: value };
       return updatedInvoice;
     });
 
+    // Validate inputs if the form has been submitted
     if (submitted) {
       const newError = handleValidation({ ...invoice, [name]: value });
       setErrors(newError);
     }
 
+    // Handle agent name selection
     if (name === "agentName") {
+      const selectedSender = senderList.find(sender =>
+        sender.application.some(application => application.agentName === value)
+      );
+
+      if (selectedSender) {
+        const selectedApplication = selectedSender.application.find(application => application.agentName === value);
+        if (selectedApplication) {
+          setInvoice(prev => ({
+            ...prev,
+            agentCommissionValue: selectedApplication.agentsCommission || 0
+          }));
+        }
+      }
+
+      // Filter applications for the selected agent
       const filtered = senderList.filter(sender =>
         sender.application.some(application => application.agentName === value)
       );
@@ -109,13 +109,38 @@ export const AddRecieverInvoice = () => {
     }
   };
 
-  const handleSubmited = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(invoice);
     setErrors(newError);
     setSubmitted(true);
 
-    const finalInvoiceData = { ...invoice };
+    // Collect application details
+    const applications = [];
+    filteredApplications.forEach(sender => {
+      sender.application.forEach(application => {
+        if (application.agentName === invoice.agentName) {
+          applications.push({
+            applicationCode: application.applicationCode,
+            universityName: application.universityName,
+            course: application.course,
+            courseFeesAmount: application.courseFeesAmount,
+            amountReceived: application.amountReceived,
+            dayInInr: application.dayInInr,
+            totalAmount: (application.amountReceivedInINR && application.agentsCommission)
+              ? (application.amountReceivedInINR * application.agentsCommission) / 100
+              : 0
+          });
+        }
+      });
+    });
+
+    // Prepare final data
+    const finalInvoiceData = {
+      ...invoice,
+      application: applications, // Attach the collected application details
+    };
+
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
 
@@ -140,54 +165,54 @@ export const AddRecieverInvoice = () => {
             <div className='container-fluid card card-body p-4 border-0'>
               <h4 className='card-title fw-bold'>Add Receiver Invoice Details</h4>
               <hr />
-              <form className="p-1" onSubmit={handleSubmited}>
+              <form className="p-1" onSubmit={handleSubmit}>
                 <div className='row g-3'>
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputAgentName">Agent Name</label>
+                    <label className="form-label" htmlFor="inputAgentName">Agent Name</label>
                     <select
-  className='form-select'
-  aria-label='Default select example'
-  name="agentName"
-  onChange={handleInputs}
-  value={invoice.agentName}
->
-  <option>Select Agent Name</option>
-  {
-    // Create a Set to store unique agent names
-    Array.from(new Set(
-      senderList
-        .flatMap(sender => sender.application) // Flatten all applications from each sender
-        .map(application => application.agentName) // Get only agent names
-        .filter(agentName => agentName) // Filter out any empty or undefined agent names
-    )).map((uniqueAgentName, index) => ( // Map over unique agent names
-      <option
-        key={index}
-        value={uniqueAgentName}
-        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-      >
-        {uniqueAgentName}
-      </option>
-    ))
-  }
-</select>
-
-                  </div>
-
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                    <label className="form-label" for="inputAgentName">university Name</label>
-                 <input
-                      className="form-control"
-                      type="text"
-                      name="universityName"
-                      placeholder="Enter Agent Name"
-                      value={invoice.universityName}
+                      className='form-select'
+                      aria-label='Default select example'
+                      name="agentName"
                       onChange={handleInputs}
-                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                      readOnly
-                    />
-
+                      value={invoice.agentName}
+                    >
+                      <option>Select Agent Name</option>
+                      {
+                        Array.from(new Set(
+                          senderList
+                            .flatMap(sender => sender.application)
+                            .map(application => application.agentName)
+                            .filter(agentName => agentName)
+                        )).map((uniqueAgentName, index) => (
+                          <option
+                            key={index}
+                            value={uniqueAgentName}
+                            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                          >
+                            {uniqueAgentName}
+                          </option>
+                        ))
+                      }
+                    </select>
+                    {errors.agentName?.required && (
+                      <div className='text-danger'>{errors.agentName.required}</div>
+                    )}
                   </div>
-
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label">Agent Commission</label>
+                    <input
+                      className="form-control"
+                      type="number"
+                      name="agentCommissionValue"
+                      placeholder="Agent Commission Value"
+                      value={invoice.agentCommissionValue || 0}
+                      readOnly
+                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                    />
+                    {errors.agentCommissionValue?.required && (
+                      <div className='text-danger'>{errors.agentCommissionValue.required}</div>
+                    )}
+                  </div>
                   {/* Application Details based on selected Agent */}
                   {filteredApplications.map((app, index) => (
                     app.application.map((application, appIndex) => (
@@ -207,6 +232,19 @@ export const AddRecieverInvoice = () => {
                             />
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label className="form-label">University Name</label>
+                            <input
+                              className="form-control"
+                              type="text"
+                              name="universityName"
+                              placeholder="Enter university Name"
+                              value={application.universityName}
+                              onChange={handleInputs}
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              readOnly
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label className="form-label">Course Name</label>
                             <input
                               className="form-control"
@@ -219,15 +257,57 @@ export const AddRecieverInvoice = () => {
                               readOnly
                             />
                           </div>
+
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label className="form-label">Amount Received</label>
+                            <label className="form-label">Course Fees Amount</label>
                             <input
                               className="form-control"
                               onChange={handleInputs}
                               type="number"
-                              name="amountReceivedInINR"
+                              name="courseFeesAmount"
                               placeholder="Enter Course Fees Amount"
-                              value={application.amountReceivedInINR}
+                              value={application.courseFeesAmount}
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              readOnly
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label className="form-label">Receive Amount</label>
+                            <input
+                              className="form-control"
+                              onChange={handleInputs}
+                              type="number"
+                              name="amountReceived"
+                              placeholder="Enter Amount Received"
+                              value={application.amountReceived || 0}
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              readOnly
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label className="form-label">Day In INR</label>
+                            <input
+                              className="form-control"
+                              onChange={handleInputs}
+                              type="number"
+                              name="dayInInr"
+                              placeholder="Enter Day In INR Amount"
+                              value={application.dayInInr}
+                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                              readOnly
+                            />
+                          </div>
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                            <label className="form-label">Agent Commission Value</label>
+                            <input
+                              className="form-control"
+                              type="number"
+                              name="totalAmount"
+                              placeholder="Enter Total Amount"
+                              value={application.amountReceivedInINR && application.agentsCommission
+                                ? (application.amountReceivedInINR * application.agentsCommission) / 100
+                                : 0
+                              }
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               readOnly
                             />
@@ -238,8 +318,8 @@ export const AddRecieverInvoice = () => {
                   ))}
 
                   <div className='d-flex flex-row align-item-center justify-content-end gap-4'>
+                    <Link className="btn w-25 text-white" style={{ backgroundColor: '#0f2239', color: '#fff' }} to="/list_invoice">Cancel</Link>
                     <button className="btn w-25" type="submit" style={{ backgroundColor: '#fe5722', color: '#fff' }}>Save</button>
-                    <button className="btn w-25" style={{ backgroundColor: '#0f2239', color: '#fff' }} type="reset">Cancel</button>
                   </div>
                 </div>
               </form>

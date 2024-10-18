@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from 'sortablejs';
 import { getallSenderInvoice, getSingleSenderInvoice, deleteSenderInvoice } from "../../api/invoice/sender";
+import { getallReceiver} from "../../api/invoice/reciver";
+
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
@@ -24,6 +26,7 @@ export const Listinvoice = () => {
   });
 
   const [invoice, setInvoice] = useState();
+  const [reciver , setReciver] = useState();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [openFilter, setOpenFilter] = useState(false);
@@ -32,6 +35,7 @@ export const Listinvoice = () => {
 
   useEffect(() => {
     getAllInvoiceDetails();
+    getAllInvoiceDetail();
   }, [pagination.from, pagination.to]);
 
   const getAllInvoiceDetails = () => {
@@ -42,6 +46,19 @@ export const Listinvoice = () => {
     getallSenderInvoice(data)
       .then((res) => {
         setInvoice(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAllInvoiceDetail = () => {
+    const data = {
+      limit: 10,
+      page: pagination.from,
+    };
+    getallReceiver(data)
+      .then((res) => {
+        setReciver(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -743,23 +760,23 @@ export const Listinvoice = () => {
                           <th className="text-capitalize text-start sortable-handle"> S.No.</th>
                           <th className="text-capitalize text-start sortable-handle"> Date</th>
                           <th className="text-capitalize text-start sortable-handle">Invoice Number</th>
-                          <th className="text-capitalize text-start sortable-handle"> clientName  </th>
-                          <th className="text-capitalize text-start sortable-handle"> Sender Name  </th>
+                          <th className="text-capitalize text-start sortable-handle"> Agent Name  </th>
+                          <th className="text-capitalize text-start sortable-handle"> Amount  </th>
                         
                         
                           <th className="text-capitalize text-start sortable-handle"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
-                      {invoice && invoice.length > 0 ? (
-                                invoice.map((data, index) => (
+                      {reciver && reciver.length > 0 ? (
+                                reciver.map((data, index) => (
                         <tr key={index} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '11px' }}  >
                           <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
                           <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")  || "Not Available"}</td>
                           <td className="text-capitalize text-start text-truncate">{data?.senderInvoiceNumber  || "Not Available"}</td>
-                          <td className="text-capitalize text-start text-truncate">{data?.businessName  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.agentName  || "Not Available"}</td>
                          
-                          <td className="text-capitalize text-start text-truncate">{data?.universityName  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.totalamount  || "Not Available"}</td>
                           <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex  ">
                                     <Link

@@ -227,6 +227,7 @@ const handleapplicationSubmitted = (event) => {
       ...application,
       agentId:staff._id,
       agentName:staff.agentName,
+      agentsCommission:staff.agentsCommission,
       status: status,
       name: inputs.name,
       dob: inputs.dob,
