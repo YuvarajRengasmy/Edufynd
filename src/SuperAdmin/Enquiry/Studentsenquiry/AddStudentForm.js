@@ -1314,11 +1314,8 @@ export const AddStudentForm = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <div className="d-flex align-items-end">
-
-
                           <div className="input-group mb-3">
                             <select
-                       
                              className={`form-select form-select-sm ${errors.dial3.required ? 'is-invalid' : ''}`}
                             name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans", fontSize: "12px", }}
                               onChange={handleInputs} value={student?.dial} >
@@ -1355,8 +1352,6 @@ export const AddStudentForm = () => {
                               }}
                             />
                           </div>
-
-
 
 
                         </div>
