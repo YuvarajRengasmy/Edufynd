@@ -990,7 +990,7 @@ export default function Masterproductlist() {
                                     </td>
                                     <td className="text-capitalize text-start text-truncate">
                                       <div className="d-flex">
-                                        {agentPrivileges?.view && (
+                                        
                                           <Link
                                             className="dropdown-item"
                                             to={{
@@ -1000,7 +1000,7 @@ export default function Masterproductlist() {
                                           >
                                             <i className="far fa-eye text-primary me-1"></i>
                                           </Link>
-                                        )}
+                                       
                                         {agentPrivileges?.edit && (
                                           <Link
                                             className="dropdown-item"

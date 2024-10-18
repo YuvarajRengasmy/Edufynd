@@ -532,7 +532,7 @@ export const Listinvoice = () => {
                           <td className="text-capitalize text-start text-truncate">{pagination.from + index + 1}</td>
                           <td className="text-capitalize text-start text-truncate">{formatDate(data?.createdOn?data?.createdOn:data?.modifiedOn?data?.modifiedOn:"-")  || "Not Available"}</td>
                           <td className="text-capitalize text-start text-truncate">{data?.senderInvoiceNumber  || "Not Available"}</td>
-                          <td className="text-capitalize text-start text-truncate">{data?.businessName  || "Not Available"}</td>
+                          <td className="text-capitalize text-start text-truncate">{data?.clientName  || "Not Available"}</td>
                          
                           <td className="text-capitalize text-start text-truncate">{data?.universityName  || "Not Available"}</td>
                           <td className="text-capitalize text-start text-truncate">
