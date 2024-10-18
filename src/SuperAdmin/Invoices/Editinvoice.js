@@ -372,7 +372,7 @@ const handleChange = (selectedOptions) => {
 {/* Render dynamic fields for each selected application */}
 {invoice.application.map((app, index) => (
   <div key={index} className="row mt-3" >
-     <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
       <label className="form-label" >applicationCode</label>
       <input 
         className="form-control" 
@@ -386,7 +386,7 @@ const handleChange = (selectedOptions) => {
       />
       
     </div>
-    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
       <label className="form-label" >Course Name</label>
       <input 
         className="form-control" 
@@ -401,7 +401,7 @@ const handleChange = (selectedOptions) => {
       
     </div>
 
-    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-2">
       <label className="form-label" >Course Fees Amount</label>
       <input 
         className="form-control" 
@@ -415,7 +415,35 @@ const handleChange = (selectedOptions) => {
       />
       
     </div>
-    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <label className="form-label" >Commission Value</label>
+      <input 
+        className="form-control" 
+        onChange={handleInputs}
+        type="number" 
+        name="commissionValue" 
+        placeholder="Enter commission Value" 
+        value={app.commissionValue} 
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+       
+      />
+      
+    </div>
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-2">
+      <label className="form-label" >Present Value in INR</label>
+      <input 
+        className="form-control" 
+        onChange={handleInputs}
+        type="number" 
+        name="presentValueInINR" 
+        placeholder="Enter Present Value InINR" 
+        value={app.presentValueInINR} 
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+       
+      />
+      
+    </div>
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-2">
       <label className="form-label" >Commission In INR</label>
       <input 
         className="form-control" 
@@ -429,6 +457,7 @@ const handleChange = (selectedOptions) => {
       />
       
     </div>
+
     {  app.agentName  ? (
       <>
         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
@@ -452,7 +481,7 @@ const handleChange = (selectedOptions) => {
 
 
 <div className="row mt-3">
-  <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
     <label className="form-label">Total Course Fees Amount</label>
     <input 
       className="form-control" 
@@ -466,7 +495,7 @@ value={invoice.totalCourseFees}
     />
      
   </div>
-  <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
     <label className="form-label">Course Fees Inr</label>
     <input 
       className="form-control" 
@@ -480,7 +509,7 @@ value={invoice.totalCourseFees}
      
   </div>
   {/* Calculate Final Value */}
-  <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
       <label className="form-label">Final Value</label>
       <input 
         className="form-control" 
@@ -494,7 +523,7 @@ value={invoice.totalCourseFees}
       />
        
     </div>
-    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
       <label className="form-label">Final Value Inr</label>
       <input 
         className="form-control" 
