@@ -145,27 +145,47 @@ export const AddRecieverInvoice = () => {
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                     <label className="form-label" for="inputAgentName">Agent Name</label>
                     <select
-                      className='form-select'
-                      aria-label='Default select example'
-                      name="agentName"
+  className='form-select'
+  aria-label='Default select example'
+  name="agentName"
+  onChange={handleInputs}
+  value={invoice.agentName}
+>
+  <option>Select Agent Name</option>
+  {
+    // Create a Set to store unique agent names
+    Array.from(new Set(
+      senderList
+        .flatMap(sender => sender.application) // Flatten all applications from each sender
+        .map(application => application.agentName) // Get only agent names
+        .filter(agentName => agentName) // Filter out any empty or undefined agent names
+    )).map((uniqueAgentName, index) => ( // Map over unique agent names
+      <option
+        key={index}
+        value={uniqueAgentName}
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+      >
+        {uniqueAgentName}
+      </option>
+    ))
+  }
+</select>
+
+                  </div>
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                    <label className="form-label" for="inputAgentName">university Name</label>
+                 <input
+                      className="form-control"
+                      type="text"
+                      name="universityName"
+                      placeholder="Enter Agent Name"
+                      value={invoice.universityName}
                       onChange={handleInputs}
-                      value={invoice.agentName}
-                    >
-                      <option>Select Agent Name</option>
-                      {senderList.map((sender, senderIndex) => (
-                        sender.application.map((application, appIndex) => (
-                          application.agentName ? ( // Check if agentName is not empty or undefined
-                            <option
-                              key={`${senderIndex}-${appIndex}`}
-                              value={application.agentName}
-                              style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                            >
-                              {application.agentName}
-                            </option>
-                          ) : null // Skip the option if agentName is empty
-                        ))
-                      ))}
-                    </select>
+                      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+                      readOnly
+                    />
+
                   </div>
 
                   {/* Application Details based on selected Agent */}
@@ -200,14 +220,14 @@ export const AddRecieverInvoice = () => {
                             />
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <label className="form-label">Course Fees Amount</label>
+                            <label className="form-label">Amount Received</label>
                             <input
                               className="form-control"
                               onChange={handleInputs}
                               type="number"
-                              name="courseFeesAmount"
+                              name="amountReceivedInINR"
                               placeholder="Enter Course Fees Amount"
-                              value={application.courseFeesAmount}
+                              value={application.amountReceivedInINR}
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               readOnly
                             />
