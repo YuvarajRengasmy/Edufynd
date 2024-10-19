@@ -43,7 +43,7 @@ const AddSenderInvoice = () => {
     course:"", 
     universityName:"",
     commissionValue:"",
-    presentValueInINR:"",
+
     amountReceivedInINR:"",
   };
   const initialStateError = {
@@ -52,7 +52,7 @@ const AddSenderInvoice = () => {
     course:{ required: false }, 
     universityName:{ required: false },
     commissionValue:{ required: false },
-    presentValueInINR:{ required: false },
+   
     amountReceivedInINR:{ required: false },
   };
   const [invoice, setInvoice] = useState(initialState);
@@ -140,9 +140,7 @@ const AddSenderInvoice = () => {
     if (data.commissionValue === "") {
       error.commissionValue.required = true;
     }
-    if (data.presentValueInINR === "") {
-      error.presentValueInINR.required = true;
-    }
+    
     if (data.amountReceivedInINR === "") {
       error.amountReceivedInINR.required = true;
     }
@@ -478,8 +476,7 @@ const handleChange = (selectedOptions) => {
              <p className='fw-bold '>Course Name - <span className='fw-lighter'> {data?.course}</span></p>
              <p className='fw-bold '>courseFees - <span className='fw-lighter'> {data?.courseFeesAmount}</span></p>
              <p className='fw-bold '> Commission Value- <span className='fw-lighter'> {data?.commissionValue}</span></p>
-             <p className='fw-bold '>Day In INR - <span className='fw-lighter'> {data?.presentValueInINR}</span></p> 
-             <p className='fw-bold col-md-12'>AmountReceivedInINR - <span className='fw-lighter'> {data?.amountReceivedInINR}</span></p>
+             <p className='fw-bold '>AmountReceivedInINR - <span className='fw-lighter'> {data?.amountReceivedInINR}</span></p>
          </div>
      </div>
       ))}
@@ -609,13 +606,7 @@ value={invoice.totalCourseFees}
                                                                     This field is required.
                                                                 </span> : null}
                                                             </div>
-                                                            <div className="mb-2 col">
-                                                                <label htmlFor="skills" className="form-label text-secondary">Present ValueIn INR<span className="text-danger">*</span></label>
-                                                                <input type="text" name='presentValueInINR' value={invoices?.presentValueInINR} onChange={handleExperienceinvoice} placeholder='Ex:React,Node,Python etc..' className="form-control w-100" id="skills" />
-                                                                {error.presentValueInINR.required ? <span className="form-text text-danger">
-                                                                    This field is required.
-                                                                </span> : null}
-                                                            </div>
+                                                           
                                                             <div className="mb-2 col">
                                                                 <label htmlFor="skills" className="form-label text-secondary">Amount Received In INR<span className="text-danger">*</span></label>
                                                                 <input type="text" name='amountReceivedInINR' value={invoices?.amountReceivedInINR} onChange={handleExperienceinvoice} placeholder='Ex:React,Node,Python etc..' className="form-control w-100" id="skills" />
