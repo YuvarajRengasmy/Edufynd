@@ -265,7 +265,7 @@ function AddAgent() {
                             <Select
                               value={dail1}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
                               name="dial1"
                               onChange={handleDail1}
                               styles={{

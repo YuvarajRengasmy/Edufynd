@@ -549,7 +549,7 @@ function AddAgent() {
 
 
     
-    <div className="form-check ms-3 ">
+    {/* <div className="form-check ms-3 ">
       <input
         className="form-check-input"
         type="checkbox"
@@ -558,7 +558,7 @@ function AddAgent() {
         onChange={handleCheckboxChange}
       />
      
-    </div>
+    </div> */}
   </div>
   {errors.businessContactNo.required && (
     <span className="text-danger form-text profile_error">
@@ -568,10 +568,22 @@ function AddAgent() {
 </div>
 
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
+  {/* <label style={{ color: "#231F20" }}>
     Business WhatsApp Number
     <span className="text-danger">*</span>
-  </label>
+  </label> */}
+     <label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary No for Business WhatsApp No <span className="text-danger">*</span>
+                        </label>
+                      </label>
   <div className="input-group mb-3">
   <Select
                               value={dail2}

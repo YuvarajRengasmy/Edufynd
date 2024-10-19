@@ -257,18 +257,18 @@ function AddAgent() {
     if (data.gstn === "") {
       error.gstn.required = true;
     }
-    if (data.dial1 === "") {
-      error.dial1.required = true;
-    }
-    if (data.dial2 === "") {
-      error.dial2.required = true;
-    }
-    if (data.dial3 === "") {
-      error.dial3.required = true;
-    }
-    if (data.dial4 === "") {
-      error.dial4.required = true;
-    }
+    // if (data.dial1 === "") {
+    //   error.dial1.required = true;
+    // }
+    // if (data.dial2 === "") {
+    //   error.dial2.required = true;
+    // }
+    // if (data.dial3 === "") {
+    //   error.dial3.required = true;
+    // }
+    // if (data.dial4 === "") {
+    //   error.dial4.required = true;
+    // }
     
     if (data.requireVisaFilingSupport === "") {
       error.requireVisaFilingSupport.required = true;
@@ -443,7 +443,7 @@ function AddAgent() {
                           name="agentName"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Example John Doe"
+                          placeholder="Ex. John Doe"
                           className={`form-control rounded-1 text-capitalize ${errors.agentName.required ? 'is-invalid' : ''}`}
                           id="company"
                           style={{
@@ -473,7 +473,7 @@ function AddAgent() {
                           type="text"
                           className={`form-control rounded-1 text-capitalize ${errors.businessName.required ? 'is-invalid' : ''}`}
                           onChange={handleInputs}
-                          placeholder="Example Jane Doe"
+                          placeholder="Ex. Jane Doe"
                           id="Job"
                           style={{
                             backgroundColor: "#fff",
@@ -503,7 +503,7 @@ function AddAgent() {
                           type="text"
                           onChange={handleInputs}
                           className={`form-control rounded-1 text-lowercase ${errors.businessWebsite.required ? 'is-invalid' : ''}`}
-                          placeholder="Example www.edufynd.com"
+                          placeholder="Ex. www.edufynd.com"
                           id="Job"
                           style={{
                             backgroundColor: "#fff",
@@ -528,7 +528,7 @@ function AddAgent() {
                           type="text"
                           className={`form-control rounded-1 text-lowercase ${errors.email.required ? 'is-invalid' : ''}`}
                           onChange={handleInputs}
-                          placeholder="Example john123@gmail.com"
+                          placeholder="Ex. john123@gmail.com"
                           id="Address"
                           value={agent?.email}
                           style={{
@@ -587,7 +587,7 @@ function AddAgent() {
                               aria-label="Text input with dropdown button"
                               className={`form-control  ${errors.mobileNumber.required ? 'is-invalid' : ''
                                 }`}
-                              placeholder="Example 123-456-7890"
+                              placeholder="Ex. 123-456-7890"
                               style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                               name="mobileNumber"
                               value={agent.mobileNumber}
@@ -657,7 +657,7 @@ function AddAgent() {
                             type="text"
                             className={`form-control ${errors.whatsAppNumber.required ? 'is-invalid' : ''
                               }`}
-                            placeholder="Example 123-456-7890"
+                            placeholder="Ex. 123-456-7890"
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                             name="whatsAppNumber"
                             value={agent.whatsAppNumber}
@@ -688,7 +688,7 @@ function AddAgent() {
                           name="addressLine1"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Example 17/3A2, Gandhi St,"
+                          placeholder="Ex. 17/3A2, Gandhi St,"
                           className={`form-control rounded-1 text-capitalize ${errors.addressLine1.required ? 'is-invalid' : ''}`}
                           id="Country"
                           value={agent?.addressLine1}
@@ -713,7 +713,7 @@ function AddAgent() {
                           name="addressLine2"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Example Alwartirunagar, Chennai"
+                          placeholder="Ex. Alwartirunagar, Chennai"
                           className={`form-control rounded-1 text-capitalize ${errors.addressLine2.required ? 'is-invalid' : ''}`}
                           id="Country"
                           value={agent?.addressLine2}
@@ -737,7 +737,7 @@ function AddAgent() {
                           name="addressLine3"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Example 632001"
+                          placeholder="Ex. 632001"
                           className={`form-control rounded-1 text-capitalize ${errors.addressLine3.required ? 'is-invalid' : ''}`}
                           id="Country"
                           value={agent?.addressLine3}
@@ -790,7 +790,7 @@ function AddAgent() {
                           type="text"
                           className={`form-control rounded-1 text-uppercase ${errors.gstn.required ? 'is-invalid' : ''}`}
                           onChange={handleInputs}
-                          placeholder="Example 29GGGGG1314R9Z6 "
+                          placeholder="Ex. 29xxxxx1314R9Z6 "
                           id="Email"
                           value={agent?.gstn}
                           style={{
@@ -821,7 +821,7 @@ function AddAgent() {
                           name="panNumberCompany"
                           type="text"
                           onChange={handleInputs}
-                          placeholder="Example ABCTY1234D"
+                          placeholder="Ex. ABCTY1234D"
                           className={`form-control rounded-1 text-uppercase ${errors.panNumberCompany.required ? 'is-invalid' : ''}`}
                           id="Email"
                           value={agent?.panNumberCompany}
@@ -854,7 +854,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-capitalize ${errors.staffName.required ? 'is-invalid' : ''}`}
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Example Alice Smith"
+                          placeholder="Ex. Alice Smith"
                           value={agent?.staffName}
                           style={{
                             backgroundColor: "#fff",
@@ -911,7 +911,7 @@ function AddAgent() {
                               aria-label="Text input with dropdown button"
                               className={`form-control  ${errors.staffContactNo.required ? 'is-invalid' : ''
                                 }`}
-                              placeholder="Example 123-456-7890"
+                              placeholder="Ex. 123-456-7890"
                               style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                               name="staffContactNo"
                               value={agent.staffContactNo}
@@ -977,7 +977,7 @@ function AddAgent() {
                             type="text"
                             className={`form-control ${errors.whatsApp.required ? 'is-invalid' : ''
                               }`}
-                            placeholder="Example 123-456-7890"
+                            placeholder="Ex. 123-456-7890"
                             style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
                             name="whatsApp"
                             value={agent.whatsApp}
@@ -1006,7 +1006,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-capitalize ${errors.bankName.required ? 'is-invalid' : ''}`}
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Example Axis Bank"
+                          placeholder="Ex. Axis Bank"
                           value={agent?.bankName}
                           style={{
                             backgroundColor: "#fff",
@@ -1037,7 +1037,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-capitalize ${errors.accountName.required ? 'is-invalid' : ''}`}
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Example  John Smith"
+                          placeholder="Ex. John Smith"
                           value={agent?.accountName}
                           style={{
                             backgroundColor: "#fff",
@@ -1068,7 +1068,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-capitalize ${errors.accountNumber.required ? 'is-invalid' : ''}`}
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Example  0112345678"
+                          placeholder="Ex. 0112345678"
                           value={agent?.accountNumber}
                           style={{
                             backgroundColor: "#fff",
@@ -1098,7 +1098,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-capitalize ${errors.accountType.required ? 'is-invalid' : ''}`}
                           id="text"
                           onChange={handleInputs}
-                          placeholder="Example  Personal"
+                          placeholder="Ex. Saving Account"
                           value={agent?.branch}
                           style={{
                             backgroundColor: "#fff",
@@ -1129,7 +1129,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-uppercase ${errors.ifsc.required ? 'is-invalid' : ''}`}
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Example AT611904300234573201"
+                          placeholder="Ex. AT611904300234573201"
                           value={agent?.ifsc}
                           style={{
                             backgroundColor: "#fff",
@@ -1160,7 +1160,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-uppercase ${errors.swift.required ? 'is-invalid' : ''}`}
                           id="text"
                           onChange={handleInputs}
-                          placeholder="Example AAAA-BB-CC-123"
+                          placeholder="Ex. AAAA-BB-CC-123"
                           value={agent?.branch}
                           style={{
                             backgroundColor: "#fff",
@@ -1193,7 +1193,7 @@ function AddAgent() {
                           className={`form-control rounded-1 text-capitalize ${errors.agentsCommission.required ? 'is-invalid' : ''}`}
                           id="Email"
                           onChange={handleInputs}
-                          placeholder="Example 50"
+                          placeholder="Ex. 50"
                           value={agent?.agentsCommission}
                           style={{
                             backgroundColor: "#fff",

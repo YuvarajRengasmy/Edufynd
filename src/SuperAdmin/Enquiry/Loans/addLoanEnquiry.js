@@ -88,6 +88,13 @@ export const AddLoanEnquiry = () => {
     }
     if (data.age === "") {
       error.age.required = true;
+    }  
+    if (data.willyouSubmitYourCollateral === "") {
+      error.willyouSubmitYourCollateral.required = true;
+    }
+    
+    if (data.didYouApplyForLoanElsewhere === "") {
+      error.didYouApplyForLoanElsewhere.required = true;
     }
     if (data.employmentStatus === "") {
       error.employmentStatus.required = true;
@@ -592,7 +599,10 @@ export const AddLoanEnquiry = () => {
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "14px",
                       }}
-                      className="form-select form-select-lg rounded-1 text-capitalize"
+                      // className="form-select form-select-lg rounded-1 text-capitalize"
+                      className={`form-select form-select-lg rounded-1 text-capitalize ${
+                        errors.didYouApplyForLoanElsewhere.required ? "is-invalid" : ""
+                      }`}
                       name="didYouApplyForLoanElsewhere"
                       onChange={handleInputs}
                     >
@@ -807,7 +817,10 @@ export const AddLoanEnquiry = () => {
                       Will You Submit Your Collateral If Required
                     </label>
                     <select
-                      className="form-select form-select-lg rounded-1 text-capitalize"
+                      // className="form-select form-select-lg rounded-1 text-capitalize"
+                      className={`form-select form-select-lg rounded-1 text-capitalize ${
+                        errors.willyouSubmitYourCollateral.required ? "is-invalid" : ""
+                      }`}
                       name=" willyouSubmitYourCollateral"
                       onChange={handleInputs}
                       style={{

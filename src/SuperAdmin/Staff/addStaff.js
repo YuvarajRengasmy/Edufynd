@@ -243,15 +243,15 @@ export const AddStaff = () => {
     if (data.companyAssests === "") {
       error.companyAssests.required = true;
     }
-    if (data.dial1 === "") {
-      error.dial1.required = true;
-    }
-    if (data.dial2 === "") {
-      error.dial2.required = true;
-    }
-    if (data.dial3 === "") {
-      error.dial3.required = true;
-    }
+    // if (data.dial1 === "") {
+    //   error.dial1.required = true;
+    // }
+    // if (data.dial2 === "") {
+    //   error.dial2.required = true;
+    // }
+    // if (data.dial3 === "") {
+    //   error.dial3.required = true;
+    // }
 
     if (!isValidName(data.empName)) {
       error.empName.valid = true;

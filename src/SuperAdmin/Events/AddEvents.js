@@ -295,7 +295,9 @@ export const AddEvents = () => {
                           options={staffOptions}
                           name="hostName"
                           styles={customStyles}
-                          className="submain-one-form-body-subsection-select"
+                          // className="submain-one-form-body-subsection-select"
+                          classNamePrefix="react-select"
+                          className={`react-select-container submain-one-form-body-subsection-select ${errors.hostName.required ? 'is-invalid' : ''}`}
                         />
                         {errors.hostName.required && (
                           <div className="text-danger form-text">
@@ -343,7 +345,9 @@ export const AddEvents = () => {
                             options={staffOptions}
                             name="userName"
                             styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
+                            // className="submain-one-form-body-subsection-select"
+                            classNamePrefix="react-select"
+                            className={`react-select-container submain-one-form-body-subsection-select ${errors.userName.required ? 'is-invalid' : ''}`}
                           />
                           {errors.userName.required ? (
                             <div className="text-danger form-text">
@@ -480,9 +484,7 @@ export const AddEvents = () => {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize${
-                              errors.venue.required ? "is-invalid" : ""
-                            }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.venue.required ? "is-invalid" : ""}`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -511,7 +513,7 @@ export const AddEvents = () => {
                           </label>
                           <input
                             type="date"
-                            className={`form-control rounded-1 text-uppercase${
+                            className={`form-control rounded-1 text-uppercase ${
                               errors.date.required ? "is-invalid" : ""
                             }`}
                             style={{

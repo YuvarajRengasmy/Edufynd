@@ -46,9 +46,9 @@ function AddAgent() {
     businessContactNo: { required: false, valid: false },
     website: { required: false, valid: false },
     addressLine2: { required: false },
-    dial1: { required: false },
-    dial2: { required: false },
-    dial3: { required: false },
+    dial1: { required: false}, 
+    dial2: { required: false , },
+    dial3: { required: false , },
     country: { required: false },
     state: { required: false },
     lga: { required: false },
@@ -112,7 +112,7 @@ function AddAgent() {
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
+   
     if (data.typeOfClient === "") error.typeOfClient.required = true;
     if (data.businessName === "") error.businessName.required = true;
     if (data.businessMailID === "") error.businessMailID.required = true;
@@ -120,9 +120,9 @@ function AddAgent() {
     if (data.website === "") error.website.required = true;
     if (data.addressLine1 === "") error.addressLine1.required = true;
     if (data.name === "") error.name.required = true;
-    if (data.dial1 === "") error.dial1.required = true;
-    if (data.dial2 === "") error.dial2.required = true;
-    if (data.dial3 === "") error.dial3.required = true;
+    // if (data.dial1 === "") error.dial1.required = true;
+    // if (data.dial2 === "") error.dial2.required = true;
+    // if (data.dial3 === "") error.dial3.required = true;
     if (data.contactNo === "") error.contactNo.required = true;
     if (data.emailID === "") error.emailID.required = true;
     if (data.addressLine2 === "") error.addressLine2.required = true;
@@ -238,9 +238,28 @@ function AddAgent() {
     return true;
   };
 
+
+  // const validateDial1 = (value) => {
+  //   const isValid = !!value; // Valid if value exists
+  //   setErrors((prevErrors) => ({
+  //     ...prevErrors,
+  //     dial1: {
+  //       required: !isValid, // If no value, mark as required
+  //       valid: isValid, // If value present, mark as valid
+  //     },
+  //   }));
+  // };
+
+  // const handleDail1 = (selectedOption) => {
+  //   setDail1(selectedOption); // Update state
+  //   validateDial1(selectedOption); // Validate the field
+  // };
+
+
   const handleDail1 = (selectedOptions) => {
     setDail1(selectedOptions);
   };
+
   const handleDail2 = (selectedOptions) => {
     setDail2(selectedOptions);
   };
@@ -368,7 +387,7 @@ function AddAgent() {
                             onChange={handleInputs}
                             className={`form-control rounded-1 text-capitalize ${errors.businessName.required ? "is-invalid" : errors.businessName.valid ? "is-valid" : ""
                               }`}
-                            placeholder="Example John Doe"
+                            placeholder="Ex. John Doe"
                             onKeyDown={(e) => {
                               // Prevent default behavior for disallowed keys
                               if (
@@ -407,7 +426,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example www.edufynd.com"
+                            placeholder="Ex. www.edufynd.com"
                             name="website"
                             onChange={handleInputs}
                           />
@@ -437,7 +456,7 @@ function AddAgent() {
                                   ? "is-valid"
                                   : ""
                               }`}
-                            placeholder="Example john123@gmail.com"
+                            placeholder="Ex. john123@gmail.com"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -486,8 +505,11 @@ function AddAgent() {
                                 value={dail1}
                                 options={dialOptions}
                                 classNamePrefix="react-select"
-                              className={`react-select-container ${errors.dial1.required ? 'is-invalid' : ''}`}
-                                placeholder="code"
+                          
+                                className={`react-select-container ${
+                                  errors.dial1.required ? 'is-invalid' : errors.dial1.valid ? 'is-valid' : ''
+                                }`}
+                                placeholder="+91 -"
                                 name="dial1"
                                 onChange={handleDail1}
                                 styles={{
@@ -508,7 +530,7 @@ function AddAgent() {
                                       ? "is-valid"
                                       : ""
                                   }`}
-                                placeholder="Example 123-456-7890"
+                                placeholder="Ex. 123-456-7890"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -533,7 +555,7 @@ function AddAgent() {
                               />
                             </div>
 
-                            <div className="form-check ms-3 ">
+                            {/* <div className="form-check ms-3 ">
                               <input
                                 className="form-check-input"
                                 type="checkbox"
@@ -541,7 +563,7 @@ function AddAgent() {
                                 checked={copyToWhatsApp}
                                 onChange={handleCheckboxChange}
                               />
-                            </div>
+                            </div> */}
                           </div>
                           {errors.businessContactNo.required && (
                             <span className="text-danger form-text profile_error">
@@ -551,15 +573,27 @@ function AddAgent() {
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
+                          {/* <label style={{ color: "#231F20" }}>
                             Business WhatsApp Number
                             <span className="text-danger">*</span>
-                          </label>
+                          </label> */}
+                          <label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary No for Business WhatsApp No <span className="text-danger">*</span>
+                        </label>
+                      </label>
                           <div className="input-group mb-3">
                             <Select
                               value={dail2}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
                               classNamePrefix="react-select"
                               className={`react-select-container ${errors.dial2.required ? 'is-invalid' : ''}`}
                               name="dial2"
@@ -582,7 +616,7 @@ function AddAgent() {
                                     ? "is-valid"
                                     : ""
                                 }`}
-                              placeholder="Example 123-456-7890"
+                              placeholder="Ex. 123-456-7890"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -624,7 +658,7 @@ function AddAgent() {
                                   ? "is-valid"
                                   : ""
                               }`}
-                            placeholder="Example Jane Doe"
+                            placeholder="Ex. Jane Doe"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -661,7 +695,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example janedoe123@gmail.com"
+                            placeholder="Ex. janedoe123@gmail.com"
                             name="emailID"
                             onChange={handleInputs}
                             onKeyDown={(e) => {
@@ -702,7 +736,7 @@ function AddAgent() {
                             <Select
                               value={dail3}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
                               classNamePrefix="react-select"
                               className={`react-select-container ${errors.dial3.required ? 'is-invalid' : ''}`}
                               name="dial3"
@@ -725,7 +759,7 @@ function AddAgent() {
                                     ? "is-valid"
                                     : ""
                                 }`}
-                              placeholder="Example 123-456-7890"
+                              placeholder="Ex. 123-456-7890"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -768,7 +802,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example 17/3A2, Gandhi St,"
+                            placeholder="Ex. 17/3A2, Gandhi St,"
                              
                             name="addressLine1"
                             onChange={handleInputs}
@@ -793,7 +827,7 @@ function AddAgent() {
                               fontSize: "12px",
                             }}
                            
-                               placeholder="Example Alwartirunagar, Chennai "
+                               placeholder="Ex. Alwartirunagar, Chennai "
                             name="addressLine2"
                             onChange={handleInputs}
                           />
@@ -819,7 +853,7 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example 600087"
+                            placeholder="Ex. 600087"
                             name="addressLine3"
                             onChange={handleInputs}
                           />
