@@ -279,7 +279,7 @@ export const AddRecieverInvoice = () => {
                               type="number"
                               name="amountReceived"
                               placeholder="Enter Amount Received"
-                              value={application.amountReceived || 0}
+                              value={application.commissionValue || 0}
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               readOnly
                             />
@@ -292,7 +292,7 @@ export const AddRecieverInvoice = () => {
                               type="number"
                               name="dayInInr"
                               placeholder="Enter Day In INR Amount"
-                              value={application.dayInInr}
+                              value={application.presentValueInINR}
                               style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
                               readOnly
                             />

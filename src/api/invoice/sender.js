@@ -9,7 +9,9 @@ export const updateSenderInvoice = (data) => {
     return API.put(`${SenderInvoice}`, data)
 }
 
-
+export const statusSenderInvoice = (data) => {
+    return API.put(`${SenderInvoice}/updateApplication`, data);
+  };
 
 export const getSingleSenderInvoice = (data) => {
     return API.get(`${SenderInvoice}/getSingleSenderInvoice`, { params: { _id: data } })

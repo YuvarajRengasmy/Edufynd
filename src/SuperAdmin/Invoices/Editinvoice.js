@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { updateSenderInvoice,getSingleSenderInvoice } from "../../api/invoice/sender";
+import { updateSenderInvoice,getSingleSenderInvoice,statusSenderInvoice } from "../../api/invoice/sender";
 import { getallCommission } from '../../api/commission';
 import { getallApplication } from "../../api/applicatin";
 import Mastersidebar from '../../compoents/sidebar';
 import Select from "react-select";
+import { FiEdit, } from 'react-icons/fi';
 
 const AddSenderInvoice = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const AddSenderInvoice = () => {
     clientName: "",
     universityName: "",
     applicationID:[],
-    application:[{applicationCode: "",courseFeesAmount:"",course:"", agentName: "",amountReceivedInINR:""}],
+    application: [],
     totalCourseFees: "",
     finalValue: "",
     commission: "",
@@ -36,20 +37,45 @@ const AddSenderInvoice = () => {
     totalCourseFees: { required: false },
     finalValue: { required: false },
   };
-
+  const initialStates = {
+    applicationCode: "",
+    courseFeesAmount:"",
+    course:"", 
+    universityName:"",
+    commissionValue:"",
+    presentValueInINR:"",
+    amountReceivedInINR:"",
+  };
+  const initialStateError = {
+    applicationCode: { required: false },
+    courseFeesAmount:{ required: false },
+    course:{ required: false }, 
+    universityName:{ required: false },
+    commissionValue:{ required: false },
+    presentValueInINR:{ required: false },
+    amountReceivedInINR:{ required: false },
+  };
   const [invoice, setInvoice] = useState(initialState);
+  const [invoices, setInvoices] = useState(initialStates);
+  const [error, setError] = useState(initialStateError);
+
   const [commission, setCommssion] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [selectedApplications, setSelectedApplications] = useState([]); // To store selected applications
   const [applicationList, setApplicationList] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const modal = useRef(null)
+  // Function to toggle edit mode
+ 
 
   useEffect(() => {
    
     getAllApplicationList();
     getAllCommissionList();
     getAllInvoiceListed();
+    getAllInvoiceList();
   }, []);
 
  const getAllCommissionList = () => {
@@ -75,7 +101,13 @@ const AddSenderInvoice = () => {
       console.log(err);
     });
   };
-
+  const getAllInvoiceList = () => {
+    getSingleSenderInvoice(id).then(res => {
+     setInvoices(res?.data?.result?.application);
+    }).catch(err => {
+      console.log(err);
+    });
+  };
   const handleValidation = (data) => {
     let error = initialStateErrors;
     if (data.tax === "") {
@@ -87,14 +119,36 @@ const AddSenderInvoice = () => {
     if (data.universityName === "") {
       error.universityName.required = true;
     }
-    if (data.applicationID === "") {
-      error.applicationID.required = true;
-    }
+   
    
     return error;
   };
-
-  const handleInputs = (event) => {
+  const handleValidations = (data) => {
+    let error = initialStateError;
+    if (data.applicationCode === "") {
+      error.applicationCode.required = true;
+    }
+    if (data.courseFeesAmount === "") {
+      error.courseFeesAmount.required = true;
+    }
+    if (data.course === "") {
+      error.course.required = true;
+    }
+    if (data.universityName === "") {
+      error.universityName.required = true;
+    }
+    if (data.commissionValue === "") {
+      error.commissionValue.required = true;
+    }
+    if (data.presentValueInINR === "") {
+      error.presentValueInINR.required = true;
+    }
+    if (data.amountReceivedInINR === "") {
+      error.amountReceivedInINR.required = true;
+    }
+    return error;
+  };
+  const handleinvoice = (event) => {
     const { name, value } = event.target;
     
     setInvoice((prevInvoice) => {
@@ -144,7 +198,19 @@ const AddSenderInvoice = () => {
         setErrors(newError);
     }
 };
+const handleEditExperience = (data) => {
+  setInvoices(data)
+  setSubmitted(false)
+  setError(initialStateError)
+}
 
+const handleExperienceinvoice = (event) => {
+  setInvoices({ ...invoices, [event?.target?.name]: event?.target?.value })
+  if (submitted) {
+      const newError = handleValidations({ ...invoices, [event.target.name]: event.target.value })
+      setError(newError)
+  }
+}
 const handleChange = (selectedOptions) => {
   // Map selected options to selectedApplications array format
   const newApplications = selectedOptions.map(option => {
@@ -192,8 +258,8 @@ const handleChange = (selectedOptions) => {
       finalValue: selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0) * (invoice.commission || 0) / 100
 
     };
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
+    const allinvoiceValid = Object.values(newError);
+    const valid = allinvoiceValid.every((x) => x.required === false);
     if (valid) {
       updateSenderInvoice(finalInvoiceData)
         .then((res) => {
@@ -205,6 +271,31 @@ const handleChange = (selectedOptions) => {
         });
     }
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newErrorExperience = handleValidations(invoices)
+    setError(newErrorExperience)
+    setSubmitted(true)
+    if (handleErrors(newErrorExperience)) {
+        if (invoices?._id) {
+            const data = {
+                _id: invoice._id,
+                application: invoices
+            }
+            statusSenderInvoice(data)
+                .then((res) => {
+                    toast.success(" Update Application Invoice");
+                    modal.current.click();
+                    getAllInvoiceList();
+                })
+                .catch(err => console.log(err))
+
+        }
+       
+
+    }
+}
 
   const options = applicationList
   .filter(application =>
@@ -242,7 +333,7 @@ const handleChange = (selectedOptions) => {
                   <div className='row g-3'>
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label className="form-label" htmlFor="inputTax">Tax</label>
-                      <select className="form-select form-select-lg rounded-2" value={invoice.tax} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example1" onChange={handleInputs} name='tax'>
+                      <select className="form-select form-select-lg rounded-2" value={invoice.tax} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example1" onChange={handleinvoice} name='tax'>
                         <option>Select Tax</option>
                         <option value="Yes" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
                         <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
@@ -257,7 +348,7 @@ const handleChange = (selectedOptions) => {
                         <div className='row g-4'>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label className="form-label" htmlFor="inputGST">GST</label>
-                            <select className="form-select form-select-lg rounded-2" value={invoice.gst} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example2" onChange={handleInputs} name={'gst'}>
+                            <select className="form-select form-select-lg rounded-2" value={invoice.gst} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example2" onChange={handleinvoice} name={'gst'}>
                               <option>Select GST</option>
                               <option value="18" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
                               <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
@@ -266,7 +357,7 @@ const handleChange = (selectedOptions) => {
                           </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label className="form-label" htmlFor="inputTDS">TDS</label>
-                            <select className="form-select form-select-lg rounded-2" value={invoice.tds} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example3" onChange={handleInputs} name='tds'>
+                            <select className="form-select form-select-lg rounded-2" value={invoice.tds} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example3" onChange={handleinvoice} name='tds'>
                               <option>Select TDS</option>
                               <option value="5" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Yes</option>
                               <option value="No" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>No</option>
@@ -282,7 +373,7 @@ const handleChange = (selectedOptions) => {
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
   <label className="form-label" htmlFor="inputClientName">Client Name</label>
   <select 
-    onChange={handleInputs} 
+    onChange={handleinvoice} 
     value={invoice.clientName} 
     name="clientName" 
     className="form-select form-select-lg rounded-2" 
@@ -304,7 +395,7 @@ const handleChange = (selectedOptions) => {
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
   <label className="form-label" htmlFor="inputUniversity">University Name</label>
   <select 
-    onChange={handleInputs} 
+    onChange={handleinvoice} 
     value={invoice.universityName} 
     name="universityName" 
     className="form-select form-select-lg rounded-2" 
@@ -349,7 +440,7 @@ const handleChange = (selectedOptions) => {
       type="text" 
       name='paymentMethod'
       value={invoice.paymentMethod} 
-     onChange={handleInputs}
+     onChange={handleinvoice}
       readOnly 
       style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
     />
@@ -361,7 +452,7 @@ const handleChange = (selectedOptions) => {
      type="text" 
      name='commission'
      value={invoice.commission} 
-    onChange={handleInputs}
+    onChange={handleinvoice}
      readOnly 
      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
    />
@@ -369,116 +460,30 @@ const handleChange = (selectedOptions) => {
  </>
 )}
 
-{/* Render dynamic fields for each selected application */}
-{invoice.application.map((app, index) => (
-  <div key={index} className="row mt-3" >
-     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-      <label className="form-label" >applicationCode</label>
-      <input 
-        className="form-control" 
-        type="text" 
-        name="applicationCode"
-        placeholder="Enter applicationCode" 
-        value={app.applicationCode}
-        onChange={handleInputs} 
-        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
-        readOnly
-      />
+<div className="container">
       
-    </div>
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-      <label className="form-label" >Course Name</label>
-      <input 
-        className="form-control" 
-        type="text" 
-        name="course"
-        placeholder="Enter Course Name" 
-        value={app.course} 
-        onChange={handleInputs}
-        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
-        readOnly
-      />
-      
-    </div>
 
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-2">
-      <label className="form-label" >Course Fees Amount</label>
-      <input 
-        className="form-control" 
-        onChange={handleInputs}
-        type="number" 
-        name="courseFeesAmount" 
-        placeholder="Enter Course Fees Amount" 
-        value={app.courseFeesAmount} 
-        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
-        readOnly
-      />
-      
+      {invoice.application.map((data, index) => (
+         <div key={index} className='card rounded mt-2 px-3 pt-1 '>
+         <div className='container'>
+             <div className='modal-btn d-flex gap-2 align-items-center justify-content-end'>
+                 <Link onClick={() => handleEditExperience(data)} className="btn  btn-sm btn-light  border-0" data-bs-toggle="modal" data-bs-target="#modal_4" aria-controls="modal_4" type="button"><FiEdit />
+                 </Link>
+                
+             </div>
+         </div>
+         <div className='row row-cols-md-2 row-cols-1'>
+             <p className='fw-bold '>Application Code - <span className='fw-lighter'> {data?.applicationCode}</span></p>
+             <p className='fw-bold '>University Name - <span className='fw-lighter'> {data?.universityName}</span></p>
+             <p className='fw-bold '>Course Name - <span className='fw-lighter'> {data?.course}</span></p>
+             <p className='fw-bold '>courseFees - <span className='fw-lighter'> {data?.courseFeesAmount}</span></p>
+             <p className='fw-bold '> Commission Value- <span className='fw-lighter'> {data?.commissionValue}</span></p>
+             <p className='fw-bold '>Day In INR - <span className='fw-lighter'> {data?.presentValueInINR}</span></p> 
+             <p className='fw-bold col-md-12'>AmountReceivedInINR - <span className='fw-lighter'> {data?.amountReceivedInINR}</span></p>
+         </div>
+     </div>
+      ))}
     </div>
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-      <label className="form-label" >Commission Value</label>
-      <input 
-        className="form-control" 
-        onChange={handleInputs}
-        type="number" 
-        name="commissionValue" 
-        placeholder="Enter commission Value" 
-        value={app.commissionValue} 
-        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
-       
-      />
-      
-    </div>
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-2">
-      <label className="form-label" >Present Value in INR</label>
-      <input 
-        className="form-control" 
-        onChange={handleInputs}
-        type="number" 
-        name="presentValueInINR" 
-        placeholder="Enter Present Value InINR" 
-        value={app.presentValueInINR} 
-        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
-       
-      />
-      
-    </div>
-    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 mt-2">
-      <label className="form-label" >Commission In INR</label>
-      <input 
-        className="form-control" 
-        onChange={handleInputs}
-        type="number" 
-        name="amountReceivedInINR" 
-        placeholder="Enter Course Fees Amount" 
-        value={app.amountReceivedInINR} 
-        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
-       
-      />
-      
-    </div>
-
-    {  app.agentName  ? (
-      <>
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
-          <label className="form-label">Agent Name</label>
-          <input
-            className="form-control"
-            type="text"  // This should be text instead of number since agent names are usually strings
-            name="agentName"
-            placeholder="Enter Agent Name"
-            value={app.agentName}
-            onChange={handleInputs}
-            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-            readOnly
-          />
-        </div>
-
-      </>
-    ) : null}
-  </div>
-))}
-
 
 <div className="row mt-3">
   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -488,7 +493,7 @@ const handleChange = (selectedOptions) => {
       type="number" 
       name="totalCourseFees" 
       placeholder="Total Course Fees" 
-      onChange={handleInputs}
+      onChange={handleinvoice}
 value={invoice.totalCourseFees}
       style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
       readOnly
@@ -496,13 +501,14 @@ value={invoice.totalCourseFees}
      
   </div>
   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-    <label className="form-label">Course Fees Inr</label>
+    <label className="form-label">Total Course Fees Inr</label>
     <input 
       className="form-control" 
       type="number" 
-      name="CourseFeesInr" 
+      name="courseFeeInINR" 
       placeholder="Total Course Fees" 
-      onChange={handleInputs}
+      onChange={handleinvoice}
+      value={invoice.courseFeeInINR}
       style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
      
     />
@@ -517,7 +523,7 @@ value={invoice.totalCourseFees}
         name="finalValue" 
         value={invoice.finalValue}
         placeholder="Final Value" 
-        onChange={handleInputs}   
+        onChange={handleinvoice}   
         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
         readOnly
       />
@@ -528,12 +534,12 @@ value={invoice.totalCourseFees}
       <input 
         className="form-control" 
         type="number" 
-        name="finalValueInr" 
-       
+        name="finalValueInINR" 
+        value={invoice.finalValueInINR}
         placeholder="Final Value Inr" 
-        onChange={handleInputs}   
+        onChange={handleinvoice}   
         style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
-        readOnly
+      
       />
        
     </div>
@@ -547,6 +553,98 @@ value={invoice.totalCourseFees}
               </div>
             </form>
           </div>
+          <div className='d-flex justify-content-between align-items-start'>
+                            <p className='fw-bold'>Edit Application</p>
+                            
+                            <div className="modal fade " id="modal_4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabIndex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                <div className="modal-dialog modal-lg modal-dialog-centered  modal-dialog-scrollable" >
+                                    <div className="modal-content border-0 shadow-lg rounded m-3">
+                                        <div className="card w-100  border-0  shadow" style={{ height: '600px' }} >
+                                            <div className="modal-header d-flex justify-content-between align-items-center">
+                                                <p className="modal-title fs-4 fw-bolder mb-3" id="exampleModalToggleLabel">Edit Application Invoice</p>
+                                                <button type="button" ref={modal} className="btn-close bg-white border rounded-5 m-0 mb-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body  ">
+                                                <div className='container-fluid'>
+                                                    <form className='fw-bolder' onSubmit={handleSubmit}>
+                                                        <div className=' row row-cols-lg-2 row-cols-1'>
+
+                                                            <div className="mb-3 col">
+                                                                <label htmlFor="title" className="form-label text-secondary" >Application Code<span className="text-danger">*</span></label>
+                                                                <input type="text" name="applicationCode" value={invoices?.applicationCode} onChange={handleExperienceinvoice} placeholder='State University' className="form-control" id="title" />
+                                                                {error.applicationCode.required ? <span className="form-text text-danger">
+                                                                    This field is required.
+                                                                </span> : null}
+                                                            </div>
+                                                            <div className="mb-3 col">
+                                                                <label htmlFor="universityName" className="form-label text-secondary">University Name<span className="text-danger">*</span></label>
+                                                                <input type="text" name="universityName" value={invoices?.universityName} onChange={handleExperienceinvoice} placeholder='Bachelor' className="form-control" id="universityName" />
+                                                                {error.universityName.required ? <span className="form-text text-danger">
+                                                                    This field is required.
+                                                                </span> : null}
+                                                            </div>
+
+                                                           
+                                                            
+
+                                                            <div className='mb-3 col'>
+                                                                <label className="form-label text-secondary">Course Name<span className="text-danger">*</span></label>
+                                                                <input type="text" name="course" value={invoices?.course} onChange={handleExperienceinvoice} className="form-control" id="course" />
+                                                                {error.course.required ? <span className="form-text text-danger">
+                                                                    This field is required.
+                                                                </span> : null}
+                                                            </div>
+                                                            <div className='mb-3 col'>
+                                                                <label className="form-label text-secondary">course Fee<span className="text-danger">*</span></label>
+                                                                <input type="text" name="courseFeesAmount" value={invoices?.courseFeesAmount} onChange={handleExperienceinvoice} className="form-control" id="courseFeesAmount" />
+
+                                                                {error.courseFeesAmount.required ? <span className="form-text text-danger">
+                                                                    This field is required.
+                                                                </span> : null}
+                                                            </div>
+                                                            <div className="mb-3 col">
+                                                                <label htmlFor="location" className="form-label text-secondary">Commission Value<span className="text-danger">*</span></label>
+                                                                <input type="text" name="commissionValue" value={invoices?.commissionValue} onChange={handleExperienceinvoice} placeholder='Ex: 100%' className="form-control w-100" id="location" />
+                                                                {error.commissionValue.required ? <span className="form-text text-danger">
+                                                                    This field is required.
+                                                                </span> : null}
+                                                            </div>
+                                                            <div className="mb-2 col">
+                                                                <label htmlFor="skills" className="form-label text-secondary">Present ValueIn INR<span className="text-danger">*</span></label>
+                                                                <input type="text" name='presentValueInINR' value={invoices?.presentValueInINR} onChange={handleExperienceinvoice} placeholder='Ex:React,Node,Python etc..' className="form-control w-100" id="skills" />
+                                                                {error.presentValueInINR.required ? <span className="form-text text-danger">
+                                                                    This field is required.
+                                                                </span> : null}
+                                                            </div>
+                                                            <div className="mb-2 col">
+                                                                <label htmlFor="skills" className="form-label text-secondary">Amount Received In INR<span className="text-danger">*</span></label>
+                                                                <input type="text" name='amountReceivedInINR' value={invoices?.amountReceivedInINR} onChange={handleExperienceinvoice} placeholder='Ex:React,Node,Python etc..' className="form-control w-100" id="skills" />
+                                                                {error.amountReceivedInINR.required ? <span className="form-text text-danger">
+                                                                    This field is required.
+                                                                </span> : null}
+                                                            </div>
+                                                            
+                                                            <div className=" justify-content-end d-flex gap-3 mt-5" >
+                                                            <button type="submit" className="btn btn-primary" >{invoices?._id ? 'Update' : 'Save'}</button>
+                                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                        </div>
+                                                        
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
         </div>
       
     </>

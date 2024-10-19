@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { saveApplication, getSingleApplication } from "../../api/applicatin";
 import { toast } from "react-toastify";
@@ -30,6 +30,7 @@ function ApplicationForm() {
   const [filteredPrograms, setFilteredPrograms] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [selectedCampus, setSelectedCampus] = useState("");
+  const modal = useRef(null)
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -228,6 +229,7 @@ const handleapplicationSubmitted = (event) => {
       .then((res) => {
         toast.success("Successfully updated application status");
         closePopup();
+        modal.current.click();
         navigate("/list_application"); // Redirect to another page after successful update
       })
       .catch((err) => {

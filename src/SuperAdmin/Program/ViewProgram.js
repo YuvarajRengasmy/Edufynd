@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import { getSingleProgram, getallProgram, getSingleProgramLog } from "../../api/Program";
 import { saveApplication } from "../../api/applicatin";
 import { getallStudent } from "../../api/student";
@@ -19,6 +19,7 @@ export const Course = () => {
   const id = new URLSearchParams(location.search).get("id");
 
   const renderedIntakes = new Set();
+  const modal = useRef(null)
 
   const initialState = {
     name: "",
@@ -237,8 +238,9 @@ export const Course = () => {
       saveApplication(data)
         .then((res) => {
           console.log(res);
-          toast.success(res?.data?.message);
-          navigate("/list_program");
+          toast.success(res?.data?.message); 
+          getProgramDetails()
+          modal.current.click()
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message);
@@ -1253,6 +1255,7 @@ export const Course = () => {
                       <button
                         type="submit"
                         class="btn px-4 py-2 text-uppercase border-0 rounded-1 fw-semibold "
+                        data-bs-dismiss="modal"
                         style={{
                           fontSize: "12px",
                           backgroundColor: "#fe5722",
