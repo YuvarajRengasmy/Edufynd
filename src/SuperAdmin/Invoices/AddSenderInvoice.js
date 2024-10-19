@@ -391,7 +391,7 @@ const handleChange = (selectedOptions) => {
             readOnly
           />
         </div>
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
           <label className="form-label">agents Commission</label>
           <input
             className="form-control"
@@ -404,7 +404,7 @@ const handleChange = (selectedOptions) => {
             readOnly
           />
         </div>
-        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 ">
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
           <label className="form-label">University Name</label>
           <input
             className="form-control"
