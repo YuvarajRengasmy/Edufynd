@@ -21,11 +21,19 @@ export const isValidEmail = (email) => {
 
 export const isValidPhone = (phone) => {
   // const phoneRegex = /^[0-9]{15}$/;
-  const  phoneRegex= /^\d{10,18}$/;
+  const phoneRegex = /^[5-9]\d{9,14}$/;
   return phoneRegex.test(phone);
 }
 
-
+export const isValidPhones = (phone) => {
+  // Regex explanation:
+  // ^                - Start of the string
+  // [5-9]           - First digit must be between 5 and 9
+  // \d{9,14}        - Followed by 9 to 14 more digits (total 10 to 15 digits)
+  // $                - End of the string
+  const phoneRegex = /^[5-9]\d{9,14}$/;
+  return phoneRegex.test(phone);
+};
 
 export const isValidWebsite = (website) => {
   const websiteRegex = /^(https?:\/\/)?([^\s@]+@[^\s@]+\.)?([^\s@]+\.)?([^\s@]+\.[^\s@]{2,})(\/[^\s@]*)*$/;

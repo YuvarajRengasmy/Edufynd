@@ -726,7 +726,8 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.email}
-                                className={`form-control text-lowercase rounded-1 ${errors.email.required ? 'is-invalid' : '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.email.required ? "is-invalid" : errors.email.valid 
+                                }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
