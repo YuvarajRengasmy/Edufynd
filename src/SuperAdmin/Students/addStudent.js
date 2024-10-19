@@ -563,7 +563,7 @@ const handleValidation = (data) => {
                                   name="name"
                                   onChange={handleInputs}
                                   className={`form-control text-capitalize rounded-1 ${errors.name.required ? 'is-invalid' : '' }`}
-                                  placeholder="Example John Doe"
+                                  placeholder="Ex. John Doe"
                                   onKeyDown={(e) => {
                                     // Prevent non-letter characters
                                     if (/[^a-zA-Z\s]/.test(e.key)) {
@@ -597,7 +597,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example Indian"
+                                placeholder="Ex. Indian"
                                 name="citizenship"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -620,7 +620,7 @@ const handleValidation = (data) => {
                               <input
                                 type="date"
                                 className={`form-control text-uppercase rounded-1 ${errors.dob.required ? 'is-invalid' :  '' }`}
-                                placeholder="Enter Name"
+                                placeholder="Enter your DOB"
                                 value={student?.dob}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -644,7 +644,7 @@ const handleValidation = (data) => {
                                 type="text"
                                 className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ? 'is-invalid' :  '' }`}
                                 value={student?.passportNo}
-                                placeholder="Example  M12345678"
+                                placeholder="Ex. M12345678"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -731,7 +731,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example johndoe123@gmail.com"
+                                placeholder="Ex. johndoe123@gmail.com"
                                 name="email"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -765,7 +765,7 @@ const handleValidation = (data) => {
   <Select
                               value={dail1}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
                               name="dial1"
                               onChange={handleDail1}
                               styles={{
@@ -783,7 +783,7 @@ const handleValidation = (data) => {
       className={`form-control  ${
         errors.primaryNumber.required ? 'is-invalid' :  ''
       }`}
-      placeholder="Example 123-456-7890"
+      placeholder="Ex. 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       name="primaryNumber"
       value={student.primaryNumber}
@@ -799,7 +799,7 @@ const handleValidation = (data) => {
 
 
     
-    <div className="form-check ms-3 ">
+    {/* <div className="form-check ms-3 ">
       <input
         className="form-check-input"
         type="checkbox"
@@ -808,7 +808,7 @@ const handleValidation = (data) => {
         onChange={handleCheckboxChange}
       />
      
-    </div>
+    </div> */}
   </div>
   {errors.primaryNumber.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -822,15 +822,27 @@ const handleValidation = (data) => {
 </div>
 
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
+  {/* <label style={{ color: "#231F20" }}>
     Business WhatsApp Number
     <span className="text-danger">*</span>
-  </label>
+  </label> */}
+   <label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary No for Business WhatsApp No <span className="text-danger">*</span>
+                        </label>
+                      </label>
   <div className="input-group mb-3">
   <Select
                               value={dail2}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
                               name="dial2"
                               onChange={handleDail2}
                               styles={{
@@ -848,7 +860,7 @@ const handleValidation = (data) => {
     className={`form-control  ${
       errors.whatsAppNumber.required ? 'is-invalid' :  ''
     }`}
-    placeholder="Example 123-456-7890"
+    placeholder="Ex. 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
     name="whatsAppNumber"
     value={student.whatsAppNumber}
@@ -883,7 +895,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example B.A. in English"
+                                placeholder="Ex. M.Sc"
                                 name="highestQualification"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -916,7 +928,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example  B.Sc. IT"
+                                placeholder="Ex. B.Sc. IT"
                                 name="degreeName"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -948,7 +960,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example 85"
+                                placeholder="Ex.85"
                                 name="percentage"
                                 onChange={handleInputs}
                               />
