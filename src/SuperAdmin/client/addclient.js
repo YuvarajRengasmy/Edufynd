@@ -46,9 +46,9 @@ function AddAgent() {
     businessContactNo: { required: false, valid: false },
     website: { required: false, valid: false },
     addressLine2: { required: false },
-    dial1: { required: false },
-    dial2: { required: false },
-    dial3: { required: false },
+    dial1: { required: false}, 
+    dial2: { required: false , },
+    dial3: { required: false , },
     country: { required: false },
     state: { required: false },
     lga: { required: false },
@@ -112,7 +112,7 @@ function AddAgent() {
 
   const handleValidation = (data) => {
     let error = initialStateErrors;
-
+   
     if (data.typeOfClient === "") error.typeOfClient.required = true;
     if (data.businessName === "") error.businessName.required = true;
     if (data.businessMailID === "") error.businessMailID.required = true;
@@ -120,6 +120,9 @@ function AddAgent() {
     if (data.website === "") error.website.required = true;
     if (data.addressLine1 === "") error.addressLine1.required = true;
     if (data.name === "") error.name.required = true;
+    // if (data.dial1 === "") error.dial1.required = true;
+    // if (data.dial2 === "") error.dial2.required = true;
+    // if (data.dial3 === "") error.dial3.required = true;
     if (data.contactNo === "") error.contactNo.required = true;
     if (data.emailID === "") error.emailID.required = true;
     if (data.addressLine2 === "") error.addressLine2.required = true;
@@ -139,7 +142,9 @@ function AddAgent() {
     return error;
   };
 
- 
+
+
+
 
   const getallCodeList = () => {
     getallCode()
@@ -168,13 +173,16 @@ function AddAgent() {
       setErrors(newError);
     }
   };
+
+
+
   const handleCountryChange = (e) => {
     const countryId = e.target.value;
     setSelectedCountry(countryId);
 
     // Find the selected country in the countriesData
     const selectedCountryData = countriesData.find(country => country._id === countryId);
-    
+
     if (selectedCountryData) {
       setStates(selectedCountryData.state); // Set the states for selected country
       setCities([]); // Clear city data if country changes
@@ -190,16 +198,16 @@ function AddAgent() {
 
     // Find the selected state in the states data
     const selectedStateData = states.find(state => state.name === stateName);
-    
+
     if (selectedStateData) {
-      setCities(selectedStateData.cities); 
+      setCities(selectedStateData.cities);
       setSelectedCity(''); // Set cities for selected state
     }
   };
 
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
-    
+
   };
 
   const handleCheckboxChange = (e) => {
@@ -230,9 +238,28 @@ function AddAgent() {
     return true;
   };
 
+
+  // const validateDial1 = (value) => {
+  //   const isValid = !!value; // Valid if value exists
+  //   setErrors((prevErrors) => ({
+  //     ...prevErrors,
+  //     dial1: {
+  //       required: !isValid, // If no value, mark as required
+  //       valid: isValid, // If value present, mark as valid
+  //     },
+  //   }));
+  // };
+
+  // const handleDail1 = (selectedOption) => {
+  //   setDail1(selectedOption); // Update state
+  //   validateDial1(selectedOption); // Validate the field
+  // };
+
+
   const handleDail1 = (selectedOptions) => {
     setDail1(selectedOptions);
   };
+
   const handleDail2 = (selectedOptions) => {
     setDail2(selectedOptions);
   };
@@ -326,8 +353,7 @@ function AddAgent() {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              class={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid' : ''}`}
-
+                              className={`form-select form-select-lg rounded-1 ${errors.typeOfClient.required ? 'is-invalid':''}`}
                               name="typeOfClient"
                             >
                               <option value={""}>Select Client Type</option>
@@ -359,14 +385,9 @@ function AddAgent() {
                             }}
                             name="businessName"
                             onChange={handleInputs}
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.businessName.required
-                                ? "is-invalid"
-                                : errors.businessName.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
-                            placeholder="Example John Doe"
+                            className={`form-control rounded-1 text-capitalize ${errors.businessName.required ? "is-invalid" : errors.businessName.valid ? "is-valid" : ""
+                              }`}
+                            placeholder="Ex. John Doe"
                             onKeyDown={(e) => {
                               // Prevent default behavior for disallowed keys
                               if (
@@ -389,39 +410,36 @@ function AddAgent() {
                           )}
                         </div>
 
+
+
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-    Business Website
-    <span className="text-danger">*</span>
-  </label>
-  <input
-    type="text"
-    className={`form-control rounded-1 text-lowercase ${
-      errors.website.required
-        ? "is-invalid"
-        : errors.website.valid && !errors.website.invalid
-        ? "is-valid"
-        : ""
-    }`}
-    style={{
-      fontFamily: "Plus Jakarta Sans",
-      fontSize: "12px",
-    }}
-    placeholder="Example www.edufynd.com"
-    name="website"
-    onChange={handleInputs}
-  />
-  {errors.website.required && (
-    <span className="text-danger form-text profile_error">
-      This field is required.
-    </span>
-  )}
-  {errors.website.invalid && (
-    <span className="text-danger form-text profile_error">
-      Invalid website URL.
-    </span>
-  )}
-</div>
+                          <label style={{ color: "#231F20" }}>
+                            Business Website
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className={`form-control rounded-1 text-lowercase ${
+                              errors.website.required? "is-invalid": errors.website.valid? "is-valid" : ""
+                            }`}
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            placeholder="Ex. www.edufynd.com"
+                            name="website"
+                            onChange={handleInputs}
+                          />
+                          {errors.website.required && (
+                            <span className="text-danger form-text profile_error">
+                              This field is required.
+                            </span>
+                          )}
+                        </div>
+
+                   
+
+
 
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -432,14 +450,13 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-lowercase ${
-                              errors.businessMailID.required
+                            className={`form-control rounded-1 text-lowercase ${errors.businessMailID.required
                                 ? "is-invalid"
                                 : errors.businessMailID.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
-                            placeholder="Example john123@gmail.com"
+                                  ? "is-valid"
+                                  : ""
+                              }`}
+                            placeholder="Ex. john123@gmail.com"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -487,7 +504,12 @@ function AddAgent() {
                               <Select
                                 value={dail1}
                                 options={dialOptions}
-                                placeholder="code"
+                                classNamePrefix="react-select"
+                          
+                                className={`react-select-container ${
+                                  errors.dial1.required ? 'is-invalid' : errors.dial1.valid ? 'is-valid' : ''
+                                }`}
+                                placeholder="+91 -"
                                 name="dial1"
                                 onChange={handleDail1}
                                 styles={{
@@ -502,14 +524,13 @@ function AddAgent() {
                               <input
                                 type="text"
                                 aria-label="Text input with dropdown button"
-                                className={`form-control  ${
-                                  errors.businessContactNo.required
+                                className={`form-control  ${errors.businessContactNo.required
                                     ? "is-invalid"
                                     : errors.businessContactNo.valid
-                                    ? "is-valid"
-                                    : ""
-                                }`}
-                                placeholder="Example 123-456-7890"
+                                      ? "is-valid"
+                                      : ""
+                                  }`}
+                                placeholder="Ex. 123-456-7890"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -534,7 +555,7 @@ function AddAgent() {
                               />
                             </div>
 
-                            <div className="form-check ms-3 ">
+                            {/* <div className="form-check ms-3 ">
                               <input
                                 className="form-check-input"
                                 type="checkbox"
@@ -542,7 +563,7 @@ function AddAgent() {
                                 checked={copyToWhatsApp}
                                 onChange={handleCheckboxChange}
                               />
-                            </div>
+                            </div> */}
                           </div>
                           {errors.businessContactNo.required && (
                             <span className="text-danger form-text profile_error">
@@ -552,15 +573,29 @@ function AddAgent() {
                         </div>
 
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                          <label style={{ color: "#231F20" }}>
+                          {/* <label style={{ color: "#231F20" }}>
                             Business WhatsApp Number
                             <span className="text-danger">*</span>
-                          </label>
+                          </label> */}
+                          <label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary No for Business WhatsApp No <span className="text-danger">*</span>
+                        </label>
+                      </label>
                           <div className="input-group mb-3">
                             <Select
                               value={dail2}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
+                              classNamePrefix="react-select"
+                              className={`react-select-container ${errors.dial2.required ? 'is-invalid' : ''}`}
                               name="dial2"
                               onChange={handleDail2}
                               styles={{
@@ -575,14 +610,13 @@ function AddAgent() {
 
                             <input
                               type="text"
-                              className={`form-control rounded-1 ${
-                                errors.whatsAppNumber.required
+                              className={`form-control rounded-1 ${errors.whatsAppNumber.required
                                   ? "is-invalid"
                                   : errors.whatsAppNumber.valid
-                                  ? "is-valid"
-                                  : ""
-                              }`}
-                              placeholder="Example 123-456-7890"
+                                    ? "is-valid"
+                                    : ""
+                                }`}
+                              placeholder="Ex. 123-456-7890"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -618,14 +652,13 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.name.required
+                            className={`form-control rounded-1 text-capitalize ${errors.name.required
                                 ? "is-invalid"
                                 : errors.name.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
-                            placeholder="Example Jane Doe"
+                                  ? "is-valid"
+                                  : ""
+                              }`}
+                            placeholder="Ex. Jane Doe"
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
@@ -652,18 +685,17 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-lowercase  ${
-                              errors.emailID.required
+                            className={`form-control rounded-1 text-lowercase  ${errors.emailID.required
                                 ? "is-invalid"
                                 : errors.emailID.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
+                                  ? "is-valid"
+                                  : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example janedoe123@gmail.com"
+                            placeholder="Ex. janedoe123@gmail.com"
                             name="emailID"
                             onChange={handleInputs}
                             onKeyDown={(e) => {
@@ -704,7 +736,9 @@ function AddAgent() {
                             <Select
                               value={dail3}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
+                              classNamePrefix="react-select"
+                              className={`react-select-container ${errors.dial3.required ? 'is-invalid' : ''}`}
                               name="dial3"
                               onChange={handleDail3}
                               styles={{
@@ -719,14 +753,13 @@ function AddAgent() {
 
                             <input
                               type="text"
-                              className={`form-control rounded-1 ${
-                                errors.contactNo.required
+                              className={`form-control rounded-1 ${errors.contactNo.required
                                   ? "is-invalid"
                                   : errors.contactNo.valid
-                                  ? "is-valid"
-                                  : ""
-                              }`}
-                              placeholder="Example 123-456-7890"
+                                    ? "is-valid"
+                                    : ""
+                                }`}
+                              placeholder="Ex. 123-456-7890"
                               style={{
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
@@ -763,14 +796,14 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.addressLine1.required ? "is-invalid" : ""
-                            }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine1.required ? "is-invalid" : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example 17/3A2, Gandhi St,"
+                            placeholder="Ex. 17/3A2, Gandhi St,"
+                             
                             name="addressLine1"
                             onChange={handleInputs}
                           />
@@ -787,14 +820,14 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.addressLine2.required ? "is-invalid" : ""
-                            }`}
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine2.required ? "is-invalid" : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example Alwartirunagar, Chennai "
+                           
+                               placeholder="Ex. Alwartirunagar, Chennai "
                             name="addressLine2"
                             onChange={handleInputs}
                           />
@@ -810,18 +843,17 @@ function AddAgent() {
                           </label>
                           <input
                             type="text"
-                            className={`form-control rounded-1 text-capitalize ${
-                              errors.addressLine3.required
+                            className={`form-control rounded-1 text-capitalize ${errors.addressLine3.required
                                 ? "is-invalid"
                                 : errors.addressLine3.valid
-                                ? "is-valid"
-                                : ""
-                            }`}
+                                  ? "is-valid"
+                                  : ""
+                              }`}
                             style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            placeholder="Example 600087"
+                            placeholder="Ex. 600087"
                             name="addressLine3"
                             onChange={handleInputs}
                           />
@@ -837,21 +869,29 @@ function AddAgent() {
                             Country<span className="text-danger">*</span>
                           </label>
                           <select
-                             style={{
+                            style={{
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
+                        
                             className={`form-select form-select-lg rounded-1`}
                             value={selectedCountry}
+                         
                             onChange={handleCountryChange}
                           >
-                            <option value="">Select a country</option>
+                            <option value={""}>Select a country</option>
                             {countriesData.map((country) => (
                               <option key={country._id} value={country._id}>
+                                 {" "}
                                 {country.name}
                               </option>
                             ))}
                           </select>
+                          {/* {errors.name.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) } */}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -862,7 +902,8 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className={`form-select form-select-lg rounded-1`}
+                         
+                            className={`form-select form-select-lg rounded-1 `}
                             value={selectedState}
                             onChange={handleStateChange}
                             disabled={!selectedCountry}
@@ -874,6 +915,11 @@ function AddAgent() {
                               </option>
                             ))}
                           </select>
+                          {/* {errors.state.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) } */}
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
@@ -885,8 +931,8 @@ function AddAgent() {
                               fontFamily: "Plus Jakarta Sans",
                               fontSize: "12px",
                             }}
-                            className={`form-select form-select-lg rounded-1`}
-                          value={selectedCity} onChange={handleCityChange}   disabled={!selectedState} 
+                            className={`form-select form-select-lg rounded-1 `}
+                            value={selectedCity} onChange={handleCityChange} disabled={!selectedState}
                           >
                             <option value="">Select a city</option>
                             {cities.map((city, index) => (
@@ -895,6 +941,11 @@ function AddAgent() {
                               </option>
                             ))}
                           </select>
+                          {/* {errors.lga.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) } */}
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

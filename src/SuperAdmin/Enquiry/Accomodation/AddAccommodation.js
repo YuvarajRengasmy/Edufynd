@@ -229,10 +229,9 @@ export const AddAccommodation = () => {
     if (!data.name) {
       error.name.required = true;
     }
-    
    
     if (!data.passportNumber) {
-      error.passportNo.required = true;
+      error.passportNumber.required = true;
     }
     if (!data.expiryDate) {
       error.expiryDate.required = true;

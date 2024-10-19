@@ -768,21 +768,15 @@ const handleInputsearch = (event) => {
         <div className="container-fluid mt-3">
       <div className="row">
         {/* Card 1: Total Income */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-3 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#4CAF50" }} // Green
-            >
-              <div className="card-body">
-                <h6 className="card-title">
-                  <i className="fas fa-dollar-sign" style={{ color: '#ffffff' }}></i> Total Income
-                </h6>
-                <p className="card-text">Total: $75,000</p>
-              </div>
+        <div class="col-md-3">
+                <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+                    <div>
+                        <h6>Total Income</h6>
+                        <p>$10,000</p>
+                    </div>
+                   
+                </div>
             </div>
-          </Link>
-        </div>
 
         {/* Card 2: Monthly Income */}
         <div className="col-md-3 col-sm-6 mb-3">

@@ -254,6 +254,20 @@ export const AddForex = () => {
     if (!data.profit) {
       error.profit.required = true;
     }
+    // if (!data.dial1) {
+    //   error.dial1.required = true;
+    // }
+    // if (!data.dial2) {
+    //   error.dial2.required = true;
+    // }
+    // if (!data.dial3) {
+    //   error.dial3.required = true;
+    // }
+    // if (!data.dial4) {
+    //   error.dial4.required = true;
+    // }
+ 
+
     return error;
   };
 
@@ -517,7 +531,9 @@ const data ={
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm `}
+  name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial3} >
     <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
@@ -580,7 +596,9 @@ const data ={
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm `}
+  name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial4}
   onChange={handleInputs}>
       <option value="+91">+91-India-in</option>
@@ -785,7 +803,10 @@ const data ={
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+
+  className={`form-select form-select-sm ${errors.dial1.required ? 'is-invalid' : ''}`}
+   name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial1} >
   <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
@@ -824,7 +845,7 @@ const data ={
 
 
     
-    <div className="form-check ms-3 ">
+    {/* <div className="form-check ms-3 ">
       <input
         className="form-check-input"
         type="checkbox"
@@ -833,7 +854,7 @@ const data ={
         onChange={handleCheckboxChange}
       />
      
-    </div>
+    </div> */}
   </div>
   {errors.primaryNumber.required && (
     <span className="text-danger form-text profile_error">
@@ -843,12 +864,22 @@ const data ={
 </div>
 
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     WhatsApp Number
-    <span className="text-danger">*</span>
-  </label>
+<label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary Number for WhatsApp Number <span className="text-danger">*</span>
+                        </label>
+                      </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm ${errors.dial2.required ? 'is-invalid' : ''}`}
+  name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial2}
   onChange={handleInputs}>
     <option value="+91">+91-India-in</option>

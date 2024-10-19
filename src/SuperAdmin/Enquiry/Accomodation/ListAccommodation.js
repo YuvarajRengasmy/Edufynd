@@ -727,35 +727,26 @@ export const ListAccommodation = () => {
         <div className="container mt-3">
       <div className="row">
         {/* Card 1: Lead Converted */}
-        <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#1976D2" }} // Blue
-                >
-                  <div className="card-body">
+                  <div class="col-md-3">
+                <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
                     <h6 className="">
-                      <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Total Enquiry: {card?.totalData || 0}
+                    <i className=""></i> Total Enquiry: {card?.totalData || 0}
                     </h6>
-                    <div className="d-flex align-items-center justify-content-between">
+                        <div className="d-flex align-items-center justify-content-between">
                       <p className="card-text mb-1">Active: {card?.activeData || 0}</p>
                       <p className="card-text mb-1">InActive: {card?.inactiveData || 0}</p> <br></br>
 
                     </div>
-                  </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
 
         {/* Card 2: Drop/Withdraw */}
-        <div className="col-md-3">
-              <Link to='#' className="text-decoration-none">
-                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
-
-                  <div className="card-body text-start">
-                    <div className="d-flex align-items-start justify-content-between">
-                      <div className="d-flex flex-column">
-                        <h6><i className=""></i>&nbsp;&nbsp;Enquiry By Source </h6>
+            <div class="col-md-3">
+                <div class="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
+                <h6><i className=""></i>&nbsp;&nbsp;Enquiry By Source </h6>
                         {card?.sourceCounts ? (
                           Object.entries(card.sourceCounts).map(([source, count]) => (
                             <p className="card-text" key={source}>
@@ -765,40 +756,31 @@ export const ListAccommodation = () => {
                         ) : (
                           <p className="card-text">No sources available</p>
                         )}
-                      </div>
-                    </div>
-                  </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
 
         {/* Card 3: Delayed Followups */}
-        <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#FBC02D" }} // Yellow
-                >
-                  <div className="card-body">
+            <div class="col-md-3">
+                <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
                     <h6 className="">
-                      <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Enquiries Converted
+                    <i className=""></i>Enquiries Converted
                     </h6>
-                    <p className="card-text">Processing....</p>
-                  </div>
+                        <div className="d-flex align-items-center justify-content-between">
+                        <p className="card-text">Processing....</p>
+
+                    </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
 
         {/* Card 4: Documents Received */}
-        <div className="col-md-3">
-              <Link to='#' className="text-decoration-none">
-                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
-
-                  <div className="card-body text-start">
-                    <div className="d-flex align-items-start justify-content-between">
-                      <div className="d-flex flex-column">
-                        <h6><i className=""></i>&nbsp;&nbsp;Higest Converted Source </h6>
-                        {card?.topSource?.length > 0 ? (
+            <div class="col-md-3">
+                <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
+                <h6><i className=""></i>&nbsp;&nbsp;Highest Converted Source </h6>
+                {card?.topSource?.length > 0 ? (
                           card.topSource.map((item, index) => (
                             <p className="card-text" key={index}>
                               {item.source}: {item.count}
@@ -807,62 +789,37 @@ export const ListAccommodation = () => {
                         ) : (
                           <p className="card-text">No sources available</p>
                         )}
-                      </div>
-                    </div>
-                  </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
 
-            <div className="col-md-3">
-              <Link to='#' className="text-decoration-none">
-                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
-
-                  <div className="card-body text-start">
-                    <div className="d-flex align-items-start justify-content-between">
-                      <div className="d-flex flex-column">
-                        <h6><i className=""></i>&nbsp;&nbsp;Highest Converted Staff: Processing...</h6>
-                        {/* {card?.topSource?.length > 0 ? (
-                          card.topSource.map((item, index) => (
-                            <p className="card-text" key={index}>
-                              {item.source}: {item.count}
-                            </p>
-                          ))
-                        ) : (
-                          <p className="card-text">No sources available</p>
-                        )} */}
-                      </div>
+            
+            <div class="col-md-3">
+                <div class="alert alert-dark d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
+                    <h6 className="">
+                    <i className=""></i>&nbsp;&nbsp;Highest Converted Staff
+                    </h6>
+                        <div className="d-flex align-items-center justify-content-between">
+                        <p className="card-text">Processing....</p>
                     </div>
-                  </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
 
 
-            <div className="col-md-3">
-              <Link to='#' className="text-decoration-none">
-                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
-
-                  <div className="card-body text-start">
-                    <div className="d-flex align-items-start justify-content-between">
-                      <div className="d-flex flex-column">
-                        <h6><i className=""></i>&nbsp;&nbsp;Highest Converted Client: Processing...</h6>
-                        {/* {card?.topSource?.length > 0 ? (
-                          card.topSource.map((item, index) => (
-                            <p className="card-text" key={index}>
-                              {item.source}: {item.count}
-                            </p>
-                          ))
-                        ) : (
-                          <p className="card-text">No sources available</p>
-                        )} */}
-                      </div>
+            <div class="col-md-3">
+                <div class="alert alert-primary d-flex justify-content-between align-items-center" role="alert">
+                <div className="card-body">
+                    <h6 className="">
+                    <i className=""></i>&nbsp;&nbsp;Highest Converted Client
+                    </h6>
+                        <div className="d-flex align-items-center justify-content-between">
+                        <p className="card-text">Processing....</p>
                     </div>
-                  </div>
+                    </div> 
                 </div>
-              </Link>
             </div>
-
 
             <div className="col-md-3">
               <Link to='#' className="text-decoration-none">

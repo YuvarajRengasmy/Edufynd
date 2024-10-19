@@ -373,6 +373,8 @@ export const StudentForm = () => {
       });
     
   };
+
+  
   const getProgressColor = (progress) => {
     if (progress === 100) return "#FFFF00"; // Green for complete
     if (progress > 50) return "#0000FF"; // Yellow for more than 50%
