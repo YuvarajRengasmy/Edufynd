@@ -6,6 +6,8 @@ import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import Edufynd from "../Assests/EduFynd.png";
 import Edufynd_logo from "../Assests/3.png";
+import {getStaffId } from "../Utils/storage";
+import {  getSingleStaff } from "../api/staff";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as bootstrap from "bootstrap"; 
 
@@ -54,6 +56,30 @@ const Sidebar = () => {
       return newCollapsedState;
     });
   };
+
+  const [student, setStudent] = useState(null);
+  useEffect(() => {
+    getStudentDetails();
+    // Check if privileges are properly fetched
+  }, []);
+  
+
+  const getStudentDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvrtyu", res);
+        console.log("yuvi", res);
+        setStudent(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
 
   const logout = () => {
     clearStorage(); // Assuming clearStorage is defined elsewhere
@@ -361,8 +387,8 @@ const Sidebar = () => {
     {!isCollapsed && "Dashboard"}
   </Link>
 </li>
-
-<li className="nav-item">
+{student?.privileges?.some(privilege => privilege.module === "client") && (
+  <li className="nav-item">
   <Link 
     to="/staff_list_client"
     ref={el => (sidebarRefs.current['/staff_client'] = el)}
@@ -381,6 +407,8 @@ const Sidebar = () => {
     {!isCollapsed && " Client"}
   </Link>
 </li>
+)}
+
 
 <li className="nav-item">
   <Link 
@@ -403,6 +431,8 @@ const Sidebar = () => {
   </Link>
 </li>
 
+{student?.privileges?.some(privilege => privilege.module === "commission") && (
+
 <li className="nav-item">
   <Link 
     to="/staff_list_commission"
@@ -422,6 +452,9 @@ const Sidebar = () => {
     {!isCollapsed && "Commission"}
   </Link>
 </li>
+)}
+
+
 
 <li className="nav-item">
   <Link 
@@ -442,6 +475,8 @@ const Sidebar = () => {
     {!isCollapsed && "Program"}
   </Link>
 </li>
+
+
 
 <li className="nav-item" style={{ position: "relative" }}>
   <Link 
@@ -483,6 +518,8 @@ const Sidebar = () => {
     id="collapse3"
   >
     <ul className="nav d-flex flex-column border-0 ps-4">
+    {student?.privileges?.some(privilege => privilege.module === "student") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_student"
@@ -502,6 +539,9 @@ const Sidebar = () => {
           {!isCollapsed && " Students"} 
         </Link>
       </li>
+    )}
+    {student?.privileges?.some(privilege => privilege.module === "staff") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_staff"
@@ -520,6 +560,9 @@ const Sidebar = () => {
           {!isCollapsed && " Staffs"}
         </Link>
       </li>
+    )}
+     {student?.privileges?.some(privilege => privilege.module === "agent") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_agent"
@@ -538,12 +581,13 @@ const Sidebar = () => {
           {!isCollapsed && " Agents"}
         </Link>
       </li>
+     )}
     </ul>
   </div>
 </li>
 
 
-
+{student?.privileges?.some(privilege => privilege.module === "application") && (
 
 <li className="nav-item">
   <Link 
@@ -563,6 +607,7 @@ const Sidebar = () => {
     {!isCollapsed && " Application"}
   </Link>
 </li>
+)}
 
 <li className="nav-item" style={{ position: "relative" }}>
   <Link 
@@ -606,6 +651,8 @@ const Sidebar = () => {
     id="collapse1"
   >
     <ul className="nav d-flex flex-column border-0 ps-4">
+    {student?.privileges?.some(privilege => privilege.module === "studentEnquiry") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_enquiry_student"
@@ -624,6 +671,9 @@ const Sidebar = () => {
           {!isCollapsed && " Student "}
         </Link>
       </li>
+    )}
+    {student?.privileges?.some(privilege => privilege.module === "forexEnquiry") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_forex_form"
@@ -642,6 +692,9 @@ const Sidebar = () => {
           {!isCollapsed && " FOREX "}
         </Link>
       </li>
+    )}
+    {student?.privileges?.some(privilege => privilege.module === "accommodationEnquiry") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_accommodation"
@@ -660,6 +713,9 @@ const Sidebar = () => {
           {!isCollapsed && " Accommodation  "}
         </Link>
       </li>
+    )}
+    {student?.privileges?.some(privilege => privilege.module === "flightEnquiry") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_flight_ticket"
@@ -678,6 +734,9 @@ const Sidebar = () => {
           {!isCollapsed && " Flight Ticket "}
         </Link>
       </li>
+    )}
+    {student?.privileges?.some(privilege => privilege.module === "loanEnquiry") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_loan_enquiry"
@@ -696,6 +755,9 @@ const Sidebar = () => {
           {!isCollapsed && " Loan "}
         </Link>
       </li>
+    )}
+    {student?.privileges?.some(privilege => privilege.module === "businessEnquiry") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_business_enquiry"
@@ -714,6 +776,9 @@ const Sidebar = () => {
           {!isCollapsed && "  Business "}
         </Link>
       </li>
+    )}
+    {student?.privileges?.some(privilege => privilege.module === "generalEnquiry") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_general_enquiry"
@@ -732,9 +797,11 @@ const Sidebar = () => {
           {!isCollapsed && "General "}
         </Link>
       </li>
+    )}
     </ul>
   </div>
 </li>
+
 
 <li className="nav-item" style={{ position: "relative" }}>
   <Link 
@@ -776,6 +843,8 @@ const Sidebar = () => {
     id="collapse2"
   >
     <ul className="nav d-flex flex-column border-0 ps-4">
+    {student?.privileges?.some(privilege => privilege.module === "income") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_income"
@@ -794,6 +863,9 @@ const Sidebar = () => {
           {!isCollapsed && " Income"}
         </Link>
       </li>
+    )}
+        {student?.privileges?.some(privilege => privilege.module === "expenses") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_expenses"
@@ -812,6 +884,9 @@ const Sidebar = () => {
           {!isCollapsed && " Expense"}
         </Link>
       </li>
+        )}
+            {student?.privileges?.some(privilege => privilege.module === "raiseQuotations") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_raisequotations"
@@ -830,6 +905,9 @@ const Sidebar = () => {
           {!isCollapsed && " Raise Quotations"}
         </Link>
       </li>
+            )}
+                {student?.privileges?.some(privilege => privilege.module === "raiseInvoices") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_invoice"
@@ -848,6 +926,9 @@ const Sidebar = () => {
           {!isCollapsed && " Raise Invoice"}
         </Link>
       </li>
+                )}
+                    {student?.privileges?.some(privilege => privilege.module === "incomeReport") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_income_report"
@@ -866,6 +947,7 @@ const Sidebar = () => {
           {!isCollapsed && " Income Report"}
         </Link>
       </li>
+                    )}
     </ul>
   </div>
 </li>
@@ -906,6 +988,8 @@ const Sidebar = () => {
   </Link>
   <div className={`collapse ${isOpen.Projects ? "show" : ""}`} id="collapse12">
     <ul className="nav d-flex flex-column border-0 ps-4">
+    {student?.privileges?.some(privilege => privilege.module === "projects") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_project"
@@ -923,6 +1007,10 @@ const Sidebar = () => {
           {!isCollapsed && "  Project"}
         </Link>
       </li>
+    )}
+                    {student?.privileges?.some(privilege => privilege.module === "tasks") && (
+
+
       <li className="nav-item">
         <Link 
           to="/staff_list_task"
@@ -940,6 +1028,7 @@ const Sidebar = () => {
           {!isCollapsed && " Task"}
         </Link>
       </li>
+                    )}
     </ul>
   </div>
 </li>
@@ -979,6 +1068,8 @@ const Sidebar = () => {
   </Link>
   <div className={`collapse ${isOpen.Marketing ? "show" : ""}`} id="collapse17">
     <ul className="nav d-flex flex-column border-0 ps-4">
+
+
       <li className="nav-item" style={{ position: "relative" }}>
         <Link 
           to="#" 
@@ -1013,6 +1104,8 @@ const Sidebar = () => {
         </Link>
         <div className={`collapse ${isOpen.Socialmedia ? "show" : ""}`} id="collapse30">
           <ul className="nav d-flex flex-column border-0 ps-4">
+          {student?.privileges?.some(privilege => privilege.module === "facebook") && (
+
             <li className="nav-item">
               <Link 
                 to="/staff_list_facebook"
@@ -1030,6 +1123,9 @@ const Sidebar = () => {
                 {!isCollapsed && "  Facebook"}
               </Link>
             </li>
+          )}
+                              {student?.privileges?.some(privilege => privilege.module === "instagram") && (
+
             <li className="nav-item">
               <Link 
                 to="/staff_list_instagram"
@@ -1047,6 +1143,9 @@ const Sidebar = () => {
                 {!isCollapsed && " Instagram"}
               </Link>
             </li>
+                              )}
+                                                  {student?.privileges?.some(privilege => privilege.module === "linkedIn") && (
+
             <li className="nav-item">
               <Link 
                 to="/staff_list_linkedin"
@@ -1064,9 +1163,13 @@ const Sidebar = () => {
                 {!isCollapsed && "LinkedIn"}
               </Link>
             </li>
+                                                  )}
           </ul>
         </div>
       </li>
+  
+                        {student?.privileges?.some(privilege => privilege.module === "campaings") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_campaign"
@@ -1084,6 +1187,9 @@ const Sidebar = () => {
           {!isCollapsed && " Campaigns"}
         </Link>
       </li>
+                        )}
+ {student?.privileges?.some(privilege => privilege.module === "dailyTasks") && (
+
       <li className="nav-item">
         <Link 
           to="/staff_list_daily_task"
@@ -1101,6 +1207,7 @@ const Sidebar = () => {
           {!isCollapsed && " Daily Task"}
         </Link>
       </li>
+                                            )}
     </ul>
   </div>
 </li>
@@ -1141,6 +1248,8 @@ const Sidebar = () => {
   </Link>
 </li>
 
+{student?.privileges?.some(privilege => privilege.module === "training") && (
+
 <li className="nav-item">
   <Link 
     to="/staff_list_training"
@@ -1158,6 +1267,7 @@ const Sidebar = () => {
     {!isCollapsed && " Training Material"}
   </Link>
 </li>
+)}
 
 <li className="nav-item">
   <Link 
@@ -1235,6 +1345,8 @@ const Sidebar = () => {
   </Link>
 </li>
 
+{student?.privileges?.some(privilege => privilege.module === "blogs") && (
+
 <li className="nav-item">
   <Link to="/staff_list_blog"
     className={`nav-link sidebar_link ${[
@@ -1252,6 +1364,8 @@ const Sidebar = () => {
     {!isCollapsed && " Blogs"}
   </Link>
 </li>
+)}
+{student?.privileges?.some(privilege => privilege.module === "testimonials") && (
 
 <li className="nav-item">
   <Link to="/staff_list_testimonials"
@@ -1270,7 +1384,7 @@ const Sidebar = () => {
     {!isCollapsed && " Testimonials"}
   </Link>
 </li>
-
+)}
 {/* <li className="nav-item">
   <Link to="/staff_list_admin"
     className={`nav-link sidebar_link ${[

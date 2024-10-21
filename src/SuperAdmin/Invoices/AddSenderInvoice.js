@@ -2,59 +2,55 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { saveFSenderInvoice } from "../../api/invoice/sender";
-import { getallUniversity } from '../../api/university';
+import { getallCommission } from '../../api/commission';
 import { getallApplication } from "../../api/applicatin";
 import Mastersidebar from '../../compoents/sidebar';
+import Select from "react-select";
 
 const AddSenderInvoice = () => {
   const initialState = {
     tax: "",
     gst: "",
     tds: "",
-    businessName: "",
+    clientName: "",
     universityName: "",
-    applicationID: "",
-    currency: "",
-    paidFeesAmount: null,
-    fixedAmount: null,
-    courseFeesAmount: null,
-    scholarshipAmount: null,
-    paidFeesPercentage: null,
-    courseFeesPercentage: null,
+    applicationID:[],
+    application:[{applicationCode: "",courseFeesAmount:"",course:"", agentName: "",agentsCommission:"",universityName:""}],
+    totalCourseFees: "",
+    finalValue: "",
+    commission: "",
+    paymentMethod: "",
   };
 
   const initialStateErrors = {
     tax: { required: false },
     gst: { required: false },
     tds: { required: false },
-    businessName: { required: false },
+    clientName: { required: false },
     universityName: { required: false },
     applicationID: { required: false },
-    currency: { required: false },
-    paidFeesAmount: { required: false },
-
-    fixedAmount: { required: false },
-    courseFeesAmount: { required: false },
-    scholarshipAmount: { required: false },
-    paidFeesPercentage: { required: false },
-    courseFeesPercentage: { required: false }
+    application: { required: false },
+    totalCourseFees: { required: false },
+    finalValue: { required: false },
   };
 
   const [invoice, setInvoice] = useState(initialState);
+  const [commission, setCommssion] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
-  const [universityList, setUniversityList] = useState([]);
+  const [selectedApplications, setSelectedApplications] = useState([]); // To store selected applications
   const [applicationList, setApplicationList] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllUniversityList();
+   
     getAllApplicationList();
+    getAllCommissionList();
   }, []);
 
-  const getAllUniversityList = () => {
-    getallUniversity().then(res => {
-      setUniversityList(res?.data?.result);
+ const getAllCommissionList = () => {
+    getallCommission().then(res => {
+      setCommssion(res?.data?.result);
     }).catch(err => {
       console.log(err);
     });
@@ -73,8 +69,8 @@ const AddSenderInvoice = () => {
     if (data.tax === "") {
       error.tax.required = true;
     }
-    if (data.businessName === "") {
-      error.businessName.required = true;
+    if (data.clientName === "") {
+      error.clientName.required = true;
     }
     if (data.universityName === "") {
       error.universityName.required = true;
@@ -82,55 +78,84 @@ const AddSenderInvoice = () => {
     if (data.applicationID === "") {
       error.applicationID.required = true;
     }
-    if (data.currency === "") {
-      error.currency.required = true;
-    }
-    if (data.courseFeesAmount === "") {
-      error.courseFeesAmount.required = true;
-    }
+   
     return error;
   };
 
   const handleInputs = (event) => {
     const { name, value } = event.target;
+    
     setInvoice((prevInvoice) => {
-      const updatedInvoice = { ...prevInvoice, [name]: value };
+        const updatedInvoice = { ...prevInvoice, [name]: value };
 
-      if (name === "universityName") {
-        const selectedUniversity = universityList.find(u => u.universityName === value);
-        if (selectedUniversity) {
-          return {
-            ...updatedInvoice,
-            universityName: selectedUniversity.universityName,
-            businessName: selectedUniversity.businessName,
-            currency: selectedUniversity.currency,
-            paymentMethod: selectedUniversity.paymentMethod,
-            fixedAmount: selectedUniversity.amount,
-            courseFeesPercentage: selectedUniversity.courseFeesPercentage,
-            paidFeesPercentage: selectedUniversity.paidFeesPercentage,
-          };
+        // When client name is selected
+        if (name === "clientName") {
+            const selectedUniversity = applicationList.find(u => u.clientName === value);
+            if (selectedUniversity) {
+                return {
+                    ...updatedInvoice,
+                    clientName: selectedUniversity.clientName,
+                    universityName: selectedUniversity.universityName,
+                    applicationID: selectedUniversity.applicationCode,
+                    courseFeesAmount: selectedUniversity.courseFees,
+                    tax: selectedUniversity.tax,
+                    gst: selectedUniversity.gst,
+                    tds: selectedUniversity.tds,
+                };
+            }
         }
-      }
 
-      if (name === "applicationID") {
-        const selectedApplication = applicationList.find(a => a.applicationCode === value);
-        if (selectedApplication) {
-          return {
-            ...updatedInvoice,
-            applicationID: selectedApplication.applicationCode,
-            courseFeesAmount: selectedApplication.courseFees,
-          };
+        // When university name is selected
+        if (name === "universityName") {
+            const selectedUniversity = commission.find(u => u.universityName === value);
+            if (selectedUniversity) {
+                // Assuming selectedUniversity.years is an array and you want the first year
+                const firstYear = selectedUniversity.years?.[0]; // Access the first year
+                const firstCourseType = firstYear?.courseTypes?.[0]; // Access the first course type
+                const firstInTake = firstCourseType?.inTake?.[0]; // Access the first intake
+                
+                return {
+                    ...updatedInvoice,
+                    paymentMethod: selectedUniversity.paymentMethod, // Get payment method
+                    courseType: firstCourseType?.courseType || "", // Get the course type if available
+                    commission: firstInTake?.value || 0, // Get intake value if available
+                };
+            }
         }
-      }
 
-      return updatedInvoice;
+        return updatedInvoice; // Return the updated invoice if no conditions matched
     });
 
+    // Handle validation if form is submitted
     if (submitted) {
-      const newError = handleValidation({ ...invoice, [name]: value });
-      setErrors(newError);
+        const newError = handleValidation({ ...invoice, [name]: value });
+        setErrors(newError);
     }
-  };
+};
+
+const handleChange = (selectedOptions) => {
+  // Map selected options to selectedApplications array format
+  const newApplications = selectedOptions.map(option => {
+    const selectedApplication = applicationList.find(app => app.applicationCode === option.value);
+    return {
+      applicationCode: selectedApplication.applicationCode,
+      course: selectedApplication.course,
+      courseFeesAmount: selectedApplication.courseFees,
+      agentName: selectedApplication.agentName || '',
+      agentsCommission: selectedApplication.agentsCommission || 0 ,
+      universityName: selectedApplication.universityName || '', // Ensure agentName is fetched properly or set to empty string if not present
+     
+    };
+  });
+
+  // Update state, ensuring no duplicates are added
+  setSelectedApplications(prevApps => {
+    const existingCodes = prevApps.map(app => app.applicationCode);
+    const filteredNewApps = newApplications.filter(app => !existingCodes.includes(app.applicationCode));
+    return [...prevApps, ...filteredNewApps];
+  });
+};
+
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -149,10 +174,17 @@ const AddSenderInvoice = () => {
     const newError = handleValidation(invoice);
     setErrors(newError);
     setSubmitted(true);
+    const finalInvoiceData = {
+      ...invoice,
+      application: selectedApplications,  
+      totalCourseFees: selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0),
+      finalValue: selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0) * (invoice.commission || 0) / 100
+
+    };
     const allInputsValid = Object.values(newError);
     const valid = allInputsValid.every((x) => x.required === false);
     if (valid) {
-      saveFSenderInvoice(invoice)
+      saveFSenderInvoice(finalInvoiceData)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_invoice");
@@ -163,6 +195,26 @@ const AddSenderInvoice = () => {
     }
   };
 
+  const options = applicationList
+  .filter(application =>
+    application.clientName === invoice.clientName &&
+    application.universityName === invoice.universityName
+  )
+  .map(application => ({
+    value: application.applicationCode,
+    label: application.applicationCode,
+  }));
+
+  const uniqueUniversities = Array.from(
+    new Set(
+      applicationList
+        .filter(uni => uni.clientName === invoice.clientName) // Filter based on clientName
+        .map(uni => uni.universityName) // Get university names
+    )
+  ).map(universityName => {
+    // Return an object with value and label for the select options
+    return { value: universityName, label: universityName };
+  });
   return (
     <>
     
@@ -217,136 +269,225 @@ const AddSenderInvoice = () => {
                     <h4 className='card-title fw-bold mt-5'>Sender Name</h4>
                     <hr />
                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputUniversity">University Name</label>
-                      <select onChange={handleInputs} value={invoice.universityName} name='universityName' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">
-                        <option>Select University</option>
-                        {universityList.map((university) => (
-                          <option key={university.universityName} value={university.universityName} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            {university.universityName}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.universityName.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputClientName">Client Name</label>
-                      <input className="form-control" id="inputClientName" type="text" name='businessName' value={invoice.businessName} placeholder='Enter Client Name' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.businessName.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputApplicationID">Application ID</label>
-                      <select onChange={handleInputs} value={invoice.applicationID} name='applicationID' className="form-select form-select-lg rounded-2" style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} aria-label="Default select example4">
-                        <option>Select Application ID</option>
-                        {applicationList.map((application) => (
-                          <option key={application.applicationCode} value={application.applicationCode} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
-                            {application.applicationCode}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.applicationID.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <h4 className='card-title fw-bold mt-5'>Currency Details</h4>
-                    <hr />
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputCurrency">Currency</label>
-                      <input className="form-control" id="inputCurrency" type="text" name='currency' value={invoice.currency} placeholder='Enter Currency' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.currency.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
+  <label className="form-label" htmlFor="inputClientName">Client Name</label>
+  <select 
+    onChange={handleInputs} 
+    value={invoice.clientName} 
+    name="clientName" 
+    className="form-select form-select-lg rounded-2" 
+    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+    aria-label="Default select example4"
+  >
+    <option value="">Select Client Name</option>
+    {[...new Set(applicationList.map(uni => uni.clientName))].map((clientName, index) => (
+      <option key={index} value={clientName} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+        {clientName}
+      </option>
+    ))}
+  </select>
+  {errors?.clientName?.required && (
+    <div className="text-danger form-text">This field is required.</div>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label className="form-label" htmlFor="inputUniversity">University Name</label>
+  <select 
+    onChange={handleInputs} 
+    value={invoice.universityName} 
+    name="universityName" 
+    className="form-select form-select-lg rounded-2" 
+    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+    aria-label="Default select example4"
+    disabled={!invoice.clientName}
+  >
+    <option value="">Select University</option>
+    {uniqueUniversities.map((university, index) => (
+          <option key={index} value={university.value} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>
+            {university.label}
+          </option>
+        ))}
+  </select>
+  {errors?.universityName?.required && (
+    <div className="text-danger form-text">This field is required.</div>
+  )}
+</div>
+
+<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label className="form-label" htmlFor="inputApplicationID">Application ID</label>
+  <Select
+        isMulti
+        options={options}
+        onChange={handleChange}
+        value={selectedApplications.map(app => ({ value: app.applicationCode, label: app.applicationCode }))}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        name="applicationID"
+        isDisabled={!invoice.universityName} // Disable if universityName is not selected
+      />
+  {errors?.applicationID?.required && (
+    <div className="text-danger form-text">This field is required.</div>
+  )}
+</div>
+
+{/* Render dynamic fields for each selected application */}
+{selectedApplications.map((app, index) => (
+  <div key={index} className="row mt-3" >
+     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <label className="form-label" >applicationCode</label>
+      <input 
+        className="form-control" 
+        type="text" 
+        name="applicationCode"
+        placeholder="Enter applicationCode" 
+        value={app.applicationCode}
+        onChange={handleInputs} 
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+        readOnly
+      />
+      
+    </div>
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <label className="form-label" >Course Name</label>
+      <input 
+        className="form-control" 
+        type="text" 
+        name="course"
+        placeholder="Enter Course Name" 
+        value={app.course} 
+        onChange={handleInputs}
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+        readOnly
+      />
+      
+    </div>
+
+    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <label className="form-label" >Course Fees Amount</label>
+      <input 
+        className="form-control" 
+        onChange={handleInputs}
+        type="number" 
+        name="courseFeesAmount" 
+        placeholder="Enter Course Fees Amount" 
+        value={app.courseFeesAmount} 
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+        readOnly
+      />
+      
+    </div>
+    {  app.agentName && app.agentsCommission && app.universityName  ? (
+      <>
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+          <label className="form-label">Agent Name</label>
+          <input
+            className="form-control"
+            type="text"  // This should be text instead of number since agent names are usually strings
+            name="agentName"
+            placeholder="Enter Agent Name"
+            value={app.agentName}
+            onChange={handleInputs}
+            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            readOnly
+          />
+        </div>
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+          <label className="form-label">agents Commission</label>
+          <input
+            className="form-control"
+            type="text"  // This should be text instead of number since agent names are usually strings
+            name="agentsCommission"
+            placeholder="Enter Agent Name"
+            value={app.agentsCommission}
+            onChange={handleInputs}
+            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            readOnly
+          />
+        </div>
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+          <label className="form-label">University Name</label>
+          <input
+            className="form-control"
+            type="text"  // This should be text instead of number since agent names are usually strings
+            name="universityName"
+            placeholder="Enter University Name"
+            value={app.universityName}
+            onChange={handleInputs}
+            style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
+            readOnly
+          />
+        </div>
+      </>
+    ) : null}
+  </div>
+))}
 
 
+<div className="row mt-3">
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+    <label className="form-label">Total Course Fees Amount</label>
+    <input 
+      className="form-control" 
+      type="number" 
+      name="totalCourseFees" 
+      placeholder="Total Course Fees" 
+      onChange={handleInputs}
+      value={selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0)} 
+      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+      readOnly
+    />
+     
+  </div>
+  {/* Calculate Final Value */}
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+      <label className="form-label">Final Value</label>
+      <input 
+        className="form-control" 
+        type="number" 
+        name="finalValue" 
+        placeholder="Final Value" 
+        onChange={handleInputs}
+        readOnly
+        value={
+          
+          (selectedApplications.reduce((total, app) => total + (app.courseFeesAmount || 0), 0) * (invoice.commission || 0)) / 100 
+        }
+        style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+       
+      />
+       
+    </div>
+</div>
 
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-
-                      <label style={{ color: '#231F20' }} className="class-danger">
-                        Payment Method
-                      </label>
-                      <select value={invoice?.paymentMethod} style={{ backgroundColor: '#fff', fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} className="form-select form-select-lg rounded-2" name="paymentMethod" onChange={handleInputs}>
-                        <option value="">Select Payment Type</option>
-                        <option value="Fixed">Fixed Ammount</option>
-                        <option value="CourseFees">courseFeesPercentage</option>
-                        <option value="PaidFees">paidFeesPercentage</option>
-                      </select>
-                      <br />
-                      {invoice.paymentMethod === 'Fixed' ? (
-                        <div className="form-group">
-                          <label style={{ color: '#231F20' }} className="class-danger">Fixed Amount</label>
-
-                          <input
-                            name="fixedAmount"
-                            className="form-control"
-                            type="text"
-                            placeholder='Enter Amount'
-                            value={invoice?.fixedAmount}
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-
-                        </div>
-                      ) : invoice.paymentMethod === 'CourseFees' ? (
-                        <div className="form-group">
-                          <label style={{ color: '#231F20' }} className="class-danger"> Course Fees Percentage</label>
-
-                          <input
-                            name="courseFeesPercentage"
-                            className="form-control"
-                            value={invoice?.courseFeesPercentage}
-                            type="number"
-                            placeholder='Enter Percentage'
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-
-                        </div>
-                      ) : invoice.paymentMethod === 'PaidFees' ? (
-                        <div className="form-group">
-                          <label style={{ color: '#231F20' }} className="class-danger"> PaidFees Percentage</label>
-
-                          <input
-                            name="paidFeesPercentage"
-                            className="form-control"
-                            value={invoice?.paidFeesPercentage}
-                            type="number"
-                            placeholder='Enter Percentage'
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-                          <input
-                            name="paidFeesAmount"
-                            className="form-control"
-
-                            type="number"
-                            placeholder='Enter Ammount'
-                            style={{ height: 50 }}
-                            onChange={handleInputs}
-                          />
-
-                        </div>
-                      ) : null}
-                    </div>
-
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputCourseFeesAmount">Course Fees Amount</label>
-                      <input className="form-control" id="inputCourseFeesAmount" type="number" name='courseFeesAmount' placeholder='Enter Course Fees Amount' value={invoice.courseFeesAmount} onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.courseFeesAmount.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-                    <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label className="form-label" htmlFor="inputScholarshipAmount">Scholarship Amount</label>
-                      <input className="form-control" id="inputScholarshipAmount" type="number" name='scholarshipAmount' placeholder='Enter Scholarship Amount' onChange={handleInputs} style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} />
-                      {errors.scholarshipAmount.required && (
-                        <div className="text-danger form-text">This field is required.</div>
-                      )}
-                    </div>
-
+{invoice.paymentMethod && (
+  <div className='row mt-3' >
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
+    <label className="form-label">Payment Method</label>
+    <input 
+      className="form-control" 
+      type="text" 
+      name='paymentMethod'
+      value={invoice.paymentMethod} 
+     onChange={handleInputs}
+      readOnly 
+      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+    />
+  </div>
+   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+   <label className="form-label">Commission</label>
+   <input 
+     className="form-control" 
+     type="text" 
+     name='commission'
+     value={invoice.commission} 
+    onChange={handleInputs}
+     readOnly 
+     style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+   />
+ </div>
+ </div>
+)}
+ 
                   </div>
                   <button type="submit" className="btn btn-primary mt-4">Submit</button>
                 </div>

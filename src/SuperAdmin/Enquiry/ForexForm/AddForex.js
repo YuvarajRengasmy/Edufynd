@@ -18,6 +18,7 @@ import { saveForexEnquiry } from "../../../api/Enquiry/Forex";
 import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/student";
 import Mastersidebar from "../../../compoents/sidebar";
 
 export const AddForex = () => {
@@ -80,6 +81,7 @@ export const AddForex = () => {
     profit: {required: false},
   };
   const [forex, setForex] = useState(initialState);
+  const [status, setStatus] = useState([]);
   const [university, setUniversity] = useState();
   const [errors, setErrors] = useState(initialStateErrors);
   const [countries, setCountries] = useState([]);
@@ -95,8 +97,25 @@ export const AddForex = () => {
     getAllUniversityList();
     getAllCurrencyDetails();
     getallCodeList();
+    getAllApplicationsModuleDetails();
   }, []);
 
+
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllUniversityList = () => {
     getallUniversity()
       .then((res) => {
@@ -168,39 +187,7 @@ export const AddForex = () => {
     if (!data.source) {
       error.source.required = true;
     }
-    // if (!data.agentName) {
-    //   error.agentName.required = true;
-    // }
-    // if (!isValidName(data.agentName)) {
-    //   error.agentName.valid = true;
-    // }
-    // if (!data.businessName) {
-    //   error.businessName.required = true;
-    // }
-
-    // if (!isValidName(data.businessName)) {
-    //   error.businessName.valid = true;
-    // }
-
-    // if (!data.agentEmail) {
-    //   error.agentEmail.required = true;
-    // }
-    // if (!isValidEmail(data.agentEmail)) {
-    //   error.agentEmail.valid = true;
-    // }
-    // if (!data.agentPrimaryNumber) {
-    //   error.agentPrimaryNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentPrimaryNumber)) {
-    //   error.agentPrimaryNumber.valid = true;
-    // }
-
-    // if (!data.agentWhatsAppNumber) {
-    //   error.agentWhatsAppNumber.required = true;
-    // }
-    // if (!isValidPhone(data.agentWhatsAppNumber)) {
-    //   error.agentWhatsAppNumber.valid = true;
-    // }
+  
     if (!data.name) {
       error.name.required = true;
     }
@@ -267,6 +254,20 @@ export const AddForex = () => {
     if (!data.profit) {
       error.profit.required = true;
     }
+    // if (!data.dial1) {
+    //   error.dial1.required = true;
+    // }
+    // if (!data.dial2) {
+    //   error.dial2.required = true;
+    // }
+    // if (!data.dial3) {
+    //   error.dial3.required = true;
+    // }
+    // if (!data.dial4) {
+    //   error.dial4.required = true;
+    // }
+ 
+
     return error;
   };
 
@@ -361,9 +362,12 @@ export const AddForex = () => {
     const newError = handleValidation(forex);
     setErrors(newError);
     setSubmitted(true);
-
+const data ={
+  ...forex,
+  status:status
+}
     if (handleErrors(newError)) {
-      saveForexEnquiry(forex)
+      saveForexEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_forex_form");
@@ -527,7 +531,9 @@ export const AddForex = () => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm `}
+  name="dial3" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial3} >
     <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
@@ -590,7 +596,9 @@ export const AddForex = () => {
     <span className="text-danger">*</span>
   </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm `}
+  name="dial4" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial4}
   onChange={handleInputs}>
       <option value="+91">+91-India-in</option>
@@ -795,7 +803,10 @@ export const AddForex = () => {
 
 
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+
+  className={`form-select form-select-sm ${errors.dial1.required ? 'is-invalid' : ''}`}
+   name="dial1" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   onChange={handleInputs} value={forex?.dial1} >
   <option value="+91">+91-India-in</option>
   {dial?.map((item) => (
@@ -834,7 +845,7 @@ export const AddForex = () => {
 
 
     
-    <div className="form-check ms-3 ">
+    {/* <div className="form-check ms-3 ">
       <input
         className="form-check-input"
         type="checkbox"
@@ -843,7 +854,7 @@ export const AddForex = () => {
         onChange={handleCheckboxChange}
       />
      
-    </div>
+    </div> */}
   </div>
   {errors.primaryNumber.required && (
     <span className="text-danger form-text profile_error">
@@ -853,12 +864,22 @@ export const AddForex = () => {
 </div>
 
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
-     WhatsApp Number
-    <span className="text-danger">*</span>
-  </label>
+<label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary Number for WhatsApp Number <span className="text-danger">*</span>
+                        </label>
+                      </label>
   <div className="input-group mb-3">
-  <select className="form-select form-select-sm" name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
+  <select 
+  className={`form-select form-select-sm ${errors.dial2.required ? 'is-invalid' : ''}`}
+  name="dial2" style={{ maxWidth: '75px', fontFamily: "Plus Jakarta Sans",fontSize: "12px", }}  
   value={forex?.dial2}
   onChange={handleInputs}>
     <option value="+91">+91-India-in</option>

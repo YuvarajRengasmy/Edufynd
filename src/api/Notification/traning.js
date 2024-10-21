@@ -10,7 +10,13 @@ export const getallTraining = () => {
     return API.get(`${Training}`)
 }
 
+export const activeClient = (data) => {
+  return API.post(`${Training}/active`,data);
+};
 
+export const deactivateClient = (data) => {
+  return API.post(`${Training}/deActive`,data);
+};
 export const getSingleTraining = (data) => {
     return API.get(`${Training}/getSingleTraining`, { params: { _id: data } });
   };

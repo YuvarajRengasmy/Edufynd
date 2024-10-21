@@ -1,771 +1,439 @@
-import React from 'react'
-import Sidebar from '../../compoents/sidebar';
-import { Link } from "react-router-dom";
-import BackButton from "../../compoents/backButton";
-export const AddApplication = () => {
-  
-  return (
-    <>
-        
-        
-         
-            <Sidebar />
-          
-          <div
-            className="content-wrapper "
-            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "13px" }}
-          >
-            <div className="content-header ">
-            <BackButton/>
+import React, { useEffect, useState,useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { saveApplication, getSingleApplication } from "../../api/applicatin";
+import { toast } from "react-toastify";
+import { getallUniversity } from "../../api/university";
+import { getallProgram } from "../../api/Program";
+import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
+
+function ApplicationForm() {
+  const initialStateInputs = {
+   
+    uniCountry: "",
+    inTake: "",
+
+    universityName: "",
+    programTitle: "",
+    campus: "",
+    courseFees: "",
+    courseType: "",
+  };
+
+  const [application, setApplication] = useState(initialStateInputs);
+  const [inputs, setInputs] = useState({});
+  const [universities, setUniversities] = useState([]);
+  const [programs, setPrograms] = useState([]);
+  const [selectedCourseType, setSelectedCourseType] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState("");
+  const [status, setStatus] = useState([]);
+  const [filteredUniversities, setFilteredUniversities] = useState([]);
+  const [filteredPrograms, setFilteredPrograms] = useState([]);
+  const [selectedProgram, setSelectedProgram] = useState(null);
+  const [selectedCampus, setSelectedCampus] = useState("");
+  const modal = useRef(null)
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const id = new URLSearchParams(location.search).get("id");
+  useEffect(() => {
+    getAllUniversityList();
+    getAllProgramList();
+    getAllApplicationsModuleDetails();
+    if (id) {
+      fetchApplicationData();
+    }
+  }, [id]);
 
 
-              
-            </div>
-            <div className=" container-fluid ">
-                <div className="row ">
-                  <div className="col-xl-12 ">
-                    <div className="card  border-0 rounded-1 shadow-sm p-3 position-relative">
-                      <div
-                        className="card-header mt-3 border-0 rounded-0 position-absolute top-0 start-0"
-                        style={{ background: "#fe5722", color: "#fff" }}
-                      >
-                        <h5 className="text-center text-capitalize p-1">
-                          {" "}
-                          Add Application Details
-                        </h5>
-                      </div>
-                      <form >
-                        <div className="card-body mt-5 ">
-                          <div className="row g-3 ">
-                           
-                           
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Student Name{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <div className="">
-                                <input
-                                  type="text"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  name="name"
-                                 
-                                  className="form-control "
-                                  placeholder="Example John Doe"
-                                />
-                              
-                              </div>
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Citizenship
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example Indian"
-                                name="citizenship"
-                                
-                              />
-                            
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                DOB<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control text-uppercase "
-                                placeholder="Enter Name"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                                name="dob"
-                                
-                              />
-                             
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                {" "}
-                                Passport No<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                placeholder="Example M12345678"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="passportNo"
-                                
-                              />
-                            
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Expiry Date{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control   text-uppercase"
-                                placeholder="Enter Contact Number "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                                name="expiryDate"
-                                
-                              />
-                              
-                            </div>
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Gender<span className="text-danger">*</span>
-                              </label>
-                              <select
-                                type="text"
-                                className="form-select form-select-lg rounded-2 "
-                                placeholder="Contact Number"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                name="gender"
-                                
-                              >
-                                <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="others">Others</option>
-                              </select>
-                              
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Email ID<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example johndoe123@gmail.com"
-                                name="email"
-                                
-                              />
-                              
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Primary Number
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 123-456-789"
-                                name="primaryNumber"
-                                
-                              />
-                              
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                WhatsApp Number{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 123-456-789 "
-                                name="whatsAppNumber"
-                                
-                              />
-                             
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Highest Qualification
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example B.A. in English"
-                                name="highestQualification"
-                                
-                              />
-                            
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Degree Name
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example  B.Sc. IT"
-                                name="degreeName"
-                                
-                              />
-                             
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Percentage<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 85"
-                                name="percentage"
-                                
-                              />
-                             
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Institution Name
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example Harvard University"
-                                name="institution"
-                                
-                              />
-                              
-                            </div>
-
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                Start Date<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control text-uppercase"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                                placeholder="Enter Start date"
-                                name="academicYear"
-                                
-                              />
-                              
-                             
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                End Date<span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control text-uppercase"
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                                placeholder="Enter End Date"
-                                name="yearPassed"
-                                
-                              />
-                             
-                            </div>
-
-                            <div
-                              className="card-header border-0 rounded-0 "
-                              style={{ background: "#fe5722", color: "#fff" }}
-                            >
-                              <h6 className="text-start text-capitalize pt-1">
-                                Work Experience
-                              </h6>
-                            </div>
-
-                            <div className="row g-3">
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Duration
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control  "
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Example 2 Years"
-                                  name="duration"
-                                  
-                                />
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Last Employeer
-                                </label>
-                                <input
-                                  type="Text"
-                                  className="form-control  "
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Example Microsoft Corporation"
-                                  name="lastEmployeer"
-                                  
-                                />
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Last Designation
-                                </label>
-                                <input
-                                  type="Text"
-                                  className="form-control  "
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Example Senior Software Engineer"
-                                  name="lastDesignation"
-                                  
-                                />
-                              </div>
-
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Do You Have Any ELT{" "}
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  type="text"
-                                  className="form-select form-select-lg rounded-2 "
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Enter Do have any English Language Test "
-                                  name="doHaveAnyEnglishLanguageTest"
-                                  
-                                >
-                                  <option value="">
-                                    Select English Test Type
-                                  </option>
-                                  <option value="doHaveAnyEnglishLanguageTest">
-                                    Yes
-                                  </option>
-                                  <option value="no">No</option>
-                                </select>
-                               
-                              </div>
-
-                            
-                            
-                             
-                             
-                            </div>
-                            
-                              <div className="row g-3">
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    English Test Type
-                                  </label>
-                                  <select
-                                    type="text"
-                                    className="form-select form-select-lg rounded-2"
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Enter English Test Type"
-                                    name="englishTestType"
-                                    
-                                  >
-                                    <option value="">
-                                      Select English Test Type
-                                    </option>
-                                    <option value="IELTS">IELTS</option>
-                                    <option value="TOEFL">TOEFL</option>
-                                    <option value="PTE">PTE</option>
-                                    <option value="SAT">SAT</option>
-                                    <option value="Other">Other</option>
-                                  </select>
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Test Score
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Example 75"
-                                    name="testScore"
-                                    
-                                  />
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Date Of Test
-                                  </label>
-                                  <input
-                                    type="date"
-                                    className="form-control text-uppercase "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "11px",
-                                    }}
-                                    placeholder="Enter Date Of Test"
-                                    name="dateOfTest"
-                                    
-                                  />
-                                </div>
-                              </div>
-                           
-
-<div className="row g-3">
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Do You Have Travel History
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <select
-                                  type="text"
-                                  className="form-select form-select-lg rounded-2"
-                                  style={{
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  placeholder="Enter Do You Have  Travel History"
-                                  name="doYouHaveTravelHistory"
-                                  
-                                >
-                                  <option value="">
-                                  Select Travel History
-                                  </option>
-                                  <option value="doYouHaveTravelHistory">
-                                    Yes
-                                  </option>
-                                  <option value="No">No</option>
-                                </select>
-                               
-                              </div>
-</div>
-                           
-<div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                <label style={{ color: "#231F20" }}>
-                                  Any Visa Rejections
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Example..."
-                                    name="anyVisaRejections"
-                                    
-                                  />
-                               
-                               
-
-                             
-                              </div>
-                              <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Visa Reason
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Example Study"
-                                    name="visaReason"
-                                    
-                                  />
-                                </div>
-
-                           
-                              
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Travel History
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Example..."
-                                    name="travelHistory"
-                                    
-                                  />
-                                </div>
-                              
-                               
-
-
-                             
-                           
-                         
-                           
-                            
-                                    <div className="row g-3">
-                              
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Date
-                                  </label>
-                                  <input
-                                    type="date"
-                                    className="form-control text-uppercase"
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "11px",
-                                    }}
-                                    placeholder="Enter Date"
-                                    name="dateVisa"
-                                    
-                                  />
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Purpose
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Example Businesss"
-                                    name="purposeVisa"
-                                    
-                                  />
-                                </div>
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                                  <label style={{ color: "#231F20" }}>
-                                    Country
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control  "
-                                    style={{
-                                      fontFamily: "Plus Jakarta Sans",
-                                      fontSize: "12px",
-                                    }}
-                                    placeholder="Example United Kingdom"
-                                    name="countryNameVisa"
-                                    
-                                  />
-                                </div>
-                               
-
-                                </div>
-                                
-                             
-                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                               Country{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example New York "
-                                name="country"
-                                
-                              />
-                              
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                             Intake {" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example Summer "
-                                name="intake"
-                                
-                              />
-                              
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                                University{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example Stanford University "
-                                name="University"
-                                
-                              />
-                             
-                            </div>
-                           
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                               Program{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example Game Devlopment "
-                                name="program"
-                                
-                              />
-                             
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                               Program Fees{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 2500 "
-                                name="programfee"
-                                
-                              />
-                             
-                            </div>
-                            <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                              <label style={{ color: "#231F20" }}>
-                               Appilcation Fees{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control "
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "12px",
-                                }}
-                                placeholder="Example 4500 "
-                                name="appilcationfee"
-                                
-                              />
-                             
-                            </div>
-                         
-                          
-
-                            <div className="row g-3">
-                              <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
-                                <Link
-                                  style={{
-                                    backgroundColor: "#231F20",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  to="/list_application"
-                                  className="btn btn-cancel border-0 fw-semibold text-uppercase px-4 py-2  text-white m-2"
-                                >
-                                  Cancel
-                                </Link>
-                                <button
-                                  style={{
-                                    backgroundColor: "#FE5722",
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: "12px",
-                                  }}
-                                  type="submit"
-                                  className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+        console.log("ggg", res)
+        setStatus(res?.data?.result?.statusList || []);
        
-     
-      </>
-  )
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchApplicationData = async () => {
+    try {
+      const res = await getSingleApplication(id);
+      console.log("yyyuryuryui", res);
+      const applicationData = res.data.result;
+      setInputs(applicationData);
+      setSelectedCourseType(applicationData.courseType);
+      setSelectedProgram(applicationData.programTitle);
+      setSelectedCampus(applicationData.campus);
+    } catch (err) {
+      toast.error(err?.response?.data?.message);
+    }
+  };
+  const handleInputs = (event) => {
+  
+    const { name, value } = event.target;
+    setApplication((prevInputs) => ({ ...prevInputs, [name]: value }));
+ 
+    
+  };
+  const getAllUniversityList = async () => {
+    try {
+      const res = await getallUniversity();
+      setUniversities(res.data.result);
+    } catch (err) {
+      toast.error("Failed to fetch universities");
+    }
+  };
+
+  const getAllProgramList = async () => {
+    try {
+      const res = await getallProgram();
+      setPrograms(res.data.result.programList || []);
+    } catch (err) {
+      toast.error("Failed to fetch programs");
+    }
+  };
+
+  const handleCourseTypeChange = (event) => {
+    const selectedCountry = event.target.value;
+    setSelectedCourseType(selectedCountry);
+
+    const filteredUniversities = universities.filter((university) =>
+      programs.some(
+        (prog) =>
+          prog.universityName === university.universityName &&
+          prog.country === selectedCountry
+      )
+    );
+    setFilteredUniversities(filteredUniversities);
+    setApplication({
+      ...application,
+      uniCountry: selectedCountry,
+      universityName: "",
+      courseType: "",
+      course: "",
+      campus: "",
+      inTake: "",
+    });
+    setFilteredPrograms([]);
+    setSelectedProgram(null);
+    setSelectedCourse("");
+    setSelectedCampus("");
+  };
+
+  const handleUniversityChange = (event) => {
+    const selectedUniversityName = event.target.value;
+    const filteredPrograms = programs.filter(
+      (prog) =>
+        prog.universityName === selectedUniversityName &&
+        prog.country === selectedCourseType
+        
+    );
+    setFilteredPrograms(filteredPrograms);
+    setApplication({
+      ...application,
+      universityName: selectedUniversityName,
+      courseType: "",
+      course: "",
+      campus: "",
+      inTake: "",
+    });
+    setSelectedCourse("");
+    setSelectedProgram(null);
+    setSelectedCampus("");
+  };
+
+  const handleCourse = (event) => {
+    const selectedCourse = event.target.value;
+    const program = filteredPrograms.find(
+      (prog) => prog.courseType === selectedCourse
+    );
+    setApplication({
+      ...application,
+      courseType: selectedCourse,
+      course: "",
+      campus: "",
+      inTake: "",
+    });
+    setSelectedProgram(program);
+    setSelectedCampus("");
+  };
+  const handleProgramChange = (event) => {
+    const selectedProgramTitle = event.target.value;
+    const program = filteredPrograms.find(
+      (prog) => prog.programTitle === selectedProgramTitle
+    );
+    setApplication({
+      ...application,
+      course: selectedProgramTitle,
+      applicationFee: program ? program.applicationFee:"",
+      campus: "",
+      inTake: "",
+    });
+    setSelectedProgram(program);
+    setSelectedCampus("");
+  };
+
+  const handleCampusChange = (event) => {
+    const selectedCampus = event.target.value;
+    const campusDetails = selectedProgram?.campuses?.find(
+      (campus) => campus.campus === selectedCampus
+    );
+    setApplication({
+      ...application,
+      campus: selectedCampus,
+      inTake: campusDetails ? campusDetails.inTake : "",
+      courseFees: campusDetails ? campusDetails.courseFees : '',
+
+    });
+    setSelectedCampus(selectedCampus);
+  };
+  const [open, setOpen] = useState(false);
+
+  const closePopup = () => {
+    setOpen(false);
+  };
+  const handleErrors = (obj) => {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const prop = obj[key];
+        if (prop.required === true || prop.valid === true) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+const handleapplicationSubmitted = (event) => {
+  event.preventDefault();
+  if (handleErrors(application)) {
+    const data = {
+      ...application,
+      status: status,
+      name: inputs.name,
+      dob: inputs.dob,
+      passportNo: inputs.passportNo,
+      studentId: inputs.studentId,
+      country: inputs.country,
+      email: inputs.email,
+      primaryNumber: inputs.primaryNumber,
+      whatsAppNumber: inputs.whatsAppNumber,
+      studentCode: inputs.studentCode,
+      applicationFee: selectedProgram?.applicationFee,
+    };
+    saveApplication(data)
+      .then((res) => {
+        toast.success("Successfully updated application status");
+        closePopup();
+        modal.current.click();
+        navigate("/list_application"); // Redirect to another page after successful update
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  }
+};
+
+  return (
+<div>
+    <button
+    className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"
+    data-bs-toggle="modal"
+    data-bs-target="#StatusModal34" // Updated target to match the modal ID
+  >
+    <i className="fa fa-plus me-2" aria-hidden="true"></i>
+  New Application
+  </button>
+    <div
+      className="modal fade"
+      id="StatusModal34"
+      tabIndex="-1"
+      aria-labelledby="staticBackdropLabel21"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h1 className="modal-title fs-5" id="staticBackdropLabel21">
+              Add Application
+            </h1>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form onSubmit={handleapplicationSubmitted}>
+              <div className="row">
+                <div className="col-lg-6 mb-3">
+                  <label className="form-label">Country</label>
+                  <select
+                    className="form-select"
+                    value={application.uniCountry}
+                    name="uniCountry"
+                    onChange={handleCourseTypeChange}
+                  >
+                    <option value="">Select course type</option>
+                    {[...new Set(programs.map((prog) => prog.country))].map(
+                      (country, index) => (
+                        <option key={index} value={country}>
+                          {country}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+                <div className="col-lg-6 mb-3">
+                  <label className="form-label">University Name</label>
+                  <select
+                    className="form-select"
+                    value={application.universityName}
+                    onChange={handleUniversityChange}
+                    disabled={!selectedCourseType}
+                  >
+                    <option value="">Select university</option>
+                    {filteredUniversities.map((uni) => (
+                      <option key={uni._id} value={uni.universityName}>
+                        {uni.universityName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-lg-6 mb-3">
+                  <label className="form-label">courseType</label>
+                  <select
+                    className="form-select"
+                    value={application.courseType}
+                    onChange={handleCourse}
+                    name="courseType"
+                    disabled={!application.universityName}
+                  >
+                    <option value="">Select program</option>
+                    {[...new Set(filteredPrograms.map((prog) => prog.courseType))].map(
+                      (courseType, index) => (
+                        <option key={index} value={courseType}>
+                          {courseType}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+                <div className="col-lg-6 mb-3">
+                  <label className="form-label">Program Title</label>
+                  <select
+                    className="form-select"
+                    value={application.course}
+                    name="course"
+                    onChange={handleProgramChange}
+                    disabled={!application.universityName}
+                  >
+                    <option value="">Select program</option>
+                    {filteredPrograms.map((prog) => (
+                      <option key={prog._id} value={prog.programTitle}>
+                        {prog.programTitle}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-lg-6 mb-3">
+                  <label className="form-label">Campus</label>
+                  <select
+                    className="form-select"
+                    value={application.campus}
+                    onChange={handleCampusChange}
+                    disabled={!selectedProgram}
+                  >
+                    <option value="">Select campus</option>
+                    {selectedProgram?.campuses?.map((campus, index) => (
+                      <option key={index} value={campus.campus}>
+                        {campus.campus}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-lg-6 mb-3">
+                  <label className="form-label">Intake</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={application.inTake}
+                    onChange={(e) =>
+                      setApplication({ ...application, inTake: e.target.value })
+                    }
+                    disabled={!selectedCampus}
+                  />
+                </div>
+                <div className="col-lg-6 mb-3">
+          <label className="form-label" style={{ color: "#231F20" }}>
+          courseFees<span className="text-danger">*</span>
+          </label>
+          <select
+            className="form-select font-weight-light"
+            name="courseFees"
+            style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
+            value={application.courseFees}
+            onChange={(e) => setApplication({ ...application, courseFees: e.target.value })}
+            disabled={!selectedCampus}
+          >
+            <option value="">Select courseFees</option>
+            {[...new Set(
+              selectedProgram?.campuses?.filter(campus => campus.campus === selectedCampus)
+              .map(campus => campus.courseFees)
+            )].map((uniqueIntake, index) => (
+              <option key={index} value={uniqueIntake}>
+                {uniqueIntake}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+                            <label style={{ color: "#231F20" }}>
+                              application Name
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={application?.name}
+                              className="form-control rounded-1 p-2"
+                              placeholder="Enter Name"
+                              onChange={handleInputs}
+                              style={{
+                                backgroundColor: "#fff",
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              name="name"
+                            />
+                           
+                          </div>
+                          
+                         
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  );
 }
-export default AddApplication
+
+export default ApplicationForm;

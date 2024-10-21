@@ -8,7 +8,18 @@ export const saveGeneralEnquiry = (data) => {
 export const updateGeneralEnquiry= (data) => {
     return API.put(`${GeneralEnquiry}`, data)
 }
-
+export const activeClient = (data) => {
+  return API.post(`${GeneralEnquiry}/active`,data);
+};
+export const statusApplication = (data) => {
+  return API.put(`${GeneralEnquiry}/status`, data);
+};
+export const deactivateClient = (data) => {
+  return API.post(`${GeneralEnquiry}/deActive`,data);
+};
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${GeneralEnquiry}/assign`,data);
+};
 export const getSingleGeneralEnquiry = (data) => {
     return API.get(`${GeneralEnquiry}/getSingleGeneralEnquiry`, { params: { _id: data } })
 }

@@ -11,7 +11,7 @@
 
 /* Sidebar Background */
 .sidebar {
-  background-color: #2C3E50 !important; /* Coral background */
+  background-image: linear-gradient(to right, #cfd9df, #e2ebf0); /* Corrected gradient syntax */
   padding: 10px !important; /* Padding for a more spacious layout */
   font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
@@ -31,13 +31,13 @@
 /* Default and active styles */
 .nav-item .sidebar_link {
   margin: 0 !important; /* Remove default margin */
-  color: #FFFFFF !important; /* Default text color */
+  color: #0c0909 !important; /* Default text color */
 }
 
 /* Icon styles */
 .nav-icon {
   margin-right: 8px !important; /* Space between icon and text */
-  color: #FFFFFF !important; /* Default icon color */
+  color: #0c0808 !important; /* Default icon color */
   font-size: 12px !important;
 }
 
@@ -51,7 +51,7 @@
 /* Active styles */
 .sidebar_link.active {
   color: #FFFFFF !important; /* White text for active link */
-  background-color: #231f20 !important; /* Bright red background for active link */
+  background-color:#FF8A80 !important; /* Bright red background for active link */
 }
 
 .sidebar_link.active .nav-icon {

@@ -9,7 +9,8 @@ import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
-
+import {  getSingleStaff } from "../../../api/staff";
+import {getStaffId } from "../../../Utils/storage";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
@@ -77,6 +78,7 @@ export const AddAccommodation = () => {
   const [students, setForexs] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
+  const [staff, setStaff] = useState([]);
   const [pagination, setPagination] = useState({
     from: 0,
     to: 10,
@@ -104,9 +106,21 @@ export const AddAccommodation = () => {
     getAllSourceDetails();
     getStudentList();
     getAgentList();
+    getStaffDetails();
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
+  const getStaffDetails = () => {
+    const id = getStaffId();
+    getSingleStaff(id)
+      .then((res) => {
+        console.log("yuvi", res);
+        setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllCountryDetails = () => {
     const data = {
       limit: 10,
@@ -387,6 +401,8 @@ export const AddAccommodation = () => {
     setSubmitted(true);
     const data = {
       ...forex,
+      staffId:staff._id,
+      adminId:staff.adminId,
       country: countries.find((option) => option.value === country)?.label,
       state: states.find((option) => option.value === state)?.label,
       lga: lgas.find((option) => option.value === lga)?.label,
@@ -400,8 +416,6 @@ export const AddAccommodation = () => {
         .catch((err) => {
           toast.error(err?.response?.data?.message);
         });
-    }else {
-      toast.error("Please Fill  Mandatory Fields");
     }
   };
 
@@ -1151,7 +1165,7 @@ export const AddAccommodation = () => {
                         <div className="row g-2">
                           <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">
                             <Link
-                              to="/staff_list_accommodation"
+                              to="/list_accommodation"
                               style={{
                                 backgroundColor: "#231F20",
                                 fontFamily: "Plus Jakarta Sans",

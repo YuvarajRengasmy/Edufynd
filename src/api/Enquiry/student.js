@@ -11,7 +11,9 @@ export const updateStudnetEnquiry= (data) => {
 export const activeClient = (data) => {
   return API.post(`${StudnetEnquiry}/active`,data);
 };
-
+export const statusApplication = (data) => {
+  return API.put(`${StudnetEnquiry}/status`, data);
+};
 export const deactivateClient = (data) => {
   return API.post(`${StudnetEnquiry}/deActive`,data);
 };
@@ -28,6 +30,10 @@ export const getSingleLogUniversity = (data) => {
 export const getallStudnetEnquiry = () => {
     return API.get(`${StudnetEnquiry}`)
 }
+
+export const getAllStudentEnquiryCard = () => {
+  return API.get(`${StudnetEnquiry}/card`)
+}
 export const deleteStudnetEnquiry= (data) => {
     return API.delete(`${StudnetEnquiry}`, { params: { _id: data } });
   };
@@ -36,6 +42,10 @@ export const deleteStudnetEnquiry= (data) => {
     return API.put(`${StudnetEnquiry}/getFilterStudentEnquiry`, data);
   };
 
+
+  // export const assignStaffToEnquiries  = (data) => {
+  //   return API.post(`${StudnetEnquiry}/assign`, data);
+  // };
 
 
 

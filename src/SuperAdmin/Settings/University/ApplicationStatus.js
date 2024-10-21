@@ -8,15 +8,20 @@ import { getallStatus} from "../../../api/status";
 import React, { useEffect, useState, useRef } from "react";
 import { ExportCsvService } from "../../../Utils/Excel";
 import { templatePdf } from "../../../Utils/PdfMake";
+import Select from "react-select";
 
 export default function GlobalSettings() {
   const initialStateInputs = {
     statusName: "",
     duration: "",
+    subCategory:"",
+    position: "",
   };
   const initialStateErrors = {
     statusName: { required: false },
     duration: { required: false },
+    subCategory: { required: false },
+    position: { required: false },
   };
   const [open, setOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
@@ -48,7 +53,12 @@ export default function GlobalSettings() {
     if (!data.duration) {
       error.duration.required = true;
     }
-
+    if(!data.subCategory){
+      error.subCategory.required = true;
+    }
+    if (!data.position) {
+      error.position.required = true;
+    }
     return error;
   };
 
@@ -178,6 +188,14 @@ export default function GlobalSettings() {
     setErrors(initialStateErrors)
 
 }
+
+const handleSelectChange = (selectedOptions, action) => {
+  const { name } = action;
+  const values = selectedOptions
+    ? selectedOptions.map((option) => option.value)
+    : [];
+    setInputs((prevUniversity) => ({ ...prevUniversity, [name]: values }));
+};
   const handleEditModuleList = (data) => {
     setInputs(data); // Set the form inputs to the data of the item being edited
     setIsEditing(true); // Set editing mode to true
@@ -232,7 +250,11 @@ export default function GlobalSettings() {
   };
 
  
-
+  const intakeOptions = status.map((data) => ({
+    
+    value: data.statusName, 
+    label: data.statusName,
+  }));
 
 
 
@@ -287,194 +309,10 @@ export default function GlobalSettings() {
            
          
           <div className=" " style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px"  }}>
-          {/* <div className="content-header bg-light shadow-sm sticky-top">
-                    <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                      <li className="flex-grow-1">
-                        <div className="input-group" style={{ maxWidth: "600px", fontSize: "14px" }}>
-                          <input
-                            type="search"
-                            placeholder="Search"
-                            aria-describedby="button-addon3"
-                            className="form-control-lg bg-white border-2 ps-1 rounded-4 w-100"
-                            style={{
-                              borderColor: "#FE5722",
-                              paddingRight: "1.5rem",
-                              marginLeft: "0px",
-                              fontSize: "12px",
-                              height: "11px",
-                              padding: "0px"
-                            }}
-                          />
-                          <span
-                            className="input-group-text bg-transparent border-0"
-                            id="button-addon3"
-                            style={{
-                              position: "absolute",
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              cursor: "pointer"
-                            }}
-                          >
-                            <i className="fas fa-search" style={{ color: "black" }}></i>
-                          </span>
-                        </div>
-                      </li>
-                      <li className="m-2">
-                        <div style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '13px' }}>
-                          <button className="btn btn-primary" style={{ fontSize: '12px' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight11" aria-controls="offcanvasRight11"> <FaFilter /></button>
-                          <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight11" aria-labelledby="offcanvasRightLabel">
-                            <div className="offcanvas-header">
-                              <h5 id="offcanvasRightLabel">Filter  Status</h5>
-                              <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                            </div>
-                            <div className="offcanvas-body">
-                              <form onSubmit={filterModuleList}>
-                                <div>
-                                  <div className="mb-3">
-                                    <label htmlFor="statusName" className="form-label">Status Type</label>
-                                  <input
-                                  placeholder='Search...Status Type'
-                                    type="text"
-                                    className="form-control"
-                                    id="statusName"
-                                    name="statusName"
-                                    value={inputs.statusName}
-                                    onChange={handleInputs}
-                                    style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                  />
-                                  </div>
-                                  <div className="mb-3">
-                                    <label htmlFor="duration" className="form-label">Status Type</label>
-                                    <input
-                                    placeholder='Search...Status Type'
-                                      type="text"
-                                      className="form-control"
-                                      id="duration"
-                                      name="duration"
-                                      value={inputs.duration}
-                                      onChange={handleInputs}
-                                      style={{  fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="text-end">
-                                  <button type="submit" className="btn btn-save  border-0 text-uppercase fw-semibold px-4 rounded-pill py-2 text-white float-right mx-2" data-bs-dismiss="offcanvas" onClick={resetFilter}  style={{ backgroundColor: "#231f20", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }}>Reset </button>
-                                  <button type="button"   className="btn btn-cancel border-0 text-uppercase fw-semibold px-4 rounded-pill py-2 text-white float-right bg"  style={{ backgroundColor: "#fe5722", fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} >Apply</button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    
-                      <li >
-                        <button
-                          className="btn btn-success text-white text-center "
-                          style={{
-                            backgroundColor: "#45AA62",
-                            border: "none",
-                         
-                            fontSize: "12px",
-                            margin: "1px"
-                          }}
-                          type="button"
-                          onClick={exportCsv}
-                        >
-                        <i className="fa fa-file-excel" aria-hidden="true"></i>
-                        </button>
-                      </li>
-                      <li >
-                        <button
-                          className="btn btn-danger text-white text-center "
-                          style={{
-                            backgroundColor: "#E74C3C",
-                            border: "none",
-                         
-                            fontSize: "12px",
-                            margin: "1px"
-                          }}
-                          type="button"
-                          onClick={pdfDownload}
-                        >
-                         <i className="fa fa-file-pdf" aria-hidden="true"></i>
-                        </button>
-                      </li>
-                      <li className="breadcrumb-item">
-                        <button
-                          className="btn  text-white px-4 py-2 text-uppercase fw-semibold  text-center"
-                          style={{
-                            backgroundColor: "#fe5722",
-                            border: "none",
-                         
-                            fontSize: "12px",
-                            margin: "1px"
-                          }}
-                          type="button"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addCountryModal17"
-                          onClick={() => { handleAddModuleList () }}
-                        >
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;   Add Status
-                        </button>
-                      </li>
-                    </ol>
-                  </div> */}
+        
               <div className="container-fluid ">
                 <div className="row ">
-                  {/* <div className='col-md-4'>
-                  <div className="card rounded-1 border-0 shadow-sm" >
-                  <div className="card-header bg-white border-0">
-                    <h5 className="card-title" >{isEditing ? "Edit Status Type" : "Add Status Type"}</h5>
                 
-                  </div>
-                  <div className="card-body">
-                    <form onSubmit={handleSubmit}>
-                      <div className="mb-3">
-                        <label htmlFor="statusName" className="form-label">Status Name</label>
-                        <select
-                                        name="statusName"
-                                        value={inputs.statusName}
-                                        onChange={handleInputs}
-                                        className="form-select"
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        <option value="">Select Status</option>
-                                        {
-                                          status.map((status) => (
-                                            <option
-                                              key={status._id}
-                                              value={status.statusName}
-                                            >
-                                              {status.statusName}
-                                            </option>
-                                          ))}
-                                      </select>
-                        {submitted && errors.statusName.required && (
-                          <div className="text-danger">status is required</div>
-                        )}
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="duration" className="form-label">Duration</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="duration"
-                          name="duration"
-                          value={inputs.duration}
-                          onChange={handleInputs}
-                        />
-                        {submitted && errors.duration.required && (
-                          <div className="text-danger">duration is required</div>
-                        )}
-                      </div>
-                      <div className="text-end">
-                        <button type="submit" className="btn btn-primary float-end" >{isEditing ? "Update" : "Add"}</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                </div> */}
             
              
             <div className="col-md-12">
@@ -618,6 +456,31 @@ export default function GlobalSettings() {
                         )}
                       </div>
                       <div className="mb-3">
+                            <label style={{ color: "#231F20" }}>
+                              SubCategory<span className="text-danger">*</span>
+                            </label>
+                            <Select
+                              isMulti
+                              options={intakeOptions}
+                              name="subCategory"
+                              onChange={handleSelectChange}
+                              styles={{
+                                container: (base) => ({
+                                  ...base,
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                  zIndex:'2'
+                                }),
+                              }}
+                              placeholder="Select SubCategory"
+                            ></Select>
+                            {errors.subCategory.required ? (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            ) : null}
+                          </div>
+                      <div className="mb-3">
                         <label htmlFor="duration" className="form-label">Duration</label>
                         <input
                           type="text"
@@ -629,6 +492,20 @@ export default function GlobalSettings() {
                         />
                         {submitted && errors.duration.required && (
                           <div className="text-danger">duration is required</div>
+                        )}
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="position" className="form-label">Position</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="position"
+                          name="position"
+                          value={inputs.position}
+                          onChange={handleInputs}
+                        />
+                        {submitted && errors.position.required && (
+                          <div className="text-danger">position is required</div>
                         )}
                       </div>
                       <div className="text-end">

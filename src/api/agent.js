@@ -18,12 +18,17 @@ export const saveContact = (data) => {
 export const activeClient = (data) => {
   return API.post(`${Agent}/activeAgent`,data);
 };
-
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Agent}/assign`,data);
+};
 export const deactivateClient = (data) => {
   return API.post(`${Agent}/deActiveAgent`,data);
 };
 export const getSingleAgent = (data) => {
     return API.get(`${Agent}/getsingleagent`, { params: { _id: data } })
+}
+export const getSingleAgentCommission = (data) => {
+  return API.get(`${Agent}/getSingleAgentView`, { params: { _id: data } })
 }
 export const getSingleAgentLog = (data) => {
   return API.get(`${Agent}/SingleLog`, { params: { _id: data } })
@@ -35,6 +40,10 @@ export const getallAgent = () => {
 
 export const getallAgentLog = () => {
   return API.get(`${Agent}/logs`)
+}
+
+export const getAllAgentCard = () => {
+  return API.get(`${Agent}/card`)
 }
 export const getFilterAgent = (data) => {
   return API.put(`${Agent}/getFilterStudentByAgent`, data);

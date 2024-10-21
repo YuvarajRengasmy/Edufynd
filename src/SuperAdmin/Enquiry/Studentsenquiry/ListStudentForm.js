@@ -5,12 +5,13 @@ import {
   getSingleStudnetEnquiry,
   getFilterStudnetEnquiry,
   deleteStudnetEnquiry,
-  deactivateClient,activeClient,
-  assignStaffToEnquiries
+  deactivateClient, activeClient,
+  assignStaffToEnquiries,
+  getAllStudentEnquiryCard
 } from "../../../api/Enquiry/student";
 import { getallStaff } from "../../../api/staff";
 import { Link, useLocation } from "react-router-dom";
-import { getSuperAdminForSearch } from "../../../api/superAdmin";
+import { getCommonSearch } from "../../../api/superAdmin";
 
 import {
   Dialog,
@@ -32,22 +33,14 @@ export const ListStudentForm = () => {
   const initialState = {
     source: "",
     name: "",
-    dob: "",
-    passportNo: "",
-    qualification: "",
-    whatsAppNumber: "",
     primaryNumber: "",
     email: "",
-    cgpa: "",
-    yearPassed: "",
     desiredCountry: "",
-    desiredCourse: "",
-    doYouNeedSupportForLoan: "",
-    assignedTo: "",
+    staffName: "",
   };
 
 
-  const [pageSize, setPageSize] = useState(10); 
+  const [pageSize, setPageSize] = useState(10);
   const search = useRef(null);
   const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
   const [selectedStaffId, setSelectedStaffId] = useState('');
@@ -66,6 +59,7 @@ export const ListStudentForm = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
+  const [card, setCard] = useState();
 
   const [pagination, setPagination] = useState({
     count: 0,
@@ -76,7 +70,7 @@ export const ListStudentForm = () => {
   useEffect(() => {
     getAllStudentDetails();
     getStaffList();
-  }, [pagination.from, pagination.to,pageSize]);
+  }, [pagination.from, pagination.to, pageSize]);
   useEffect(() => {
     if (search.current) {
       search.current.focus();
@@ -99,7 +93,14 @@ export const ListStudentForm = () => {
       });
   };
 
- 
+  useEffect(() => {
+    getStudentEnquiryCount();
+  }, []);
+
+
+  const getStudentEnquiryCount = () => {
+    getAllStudentEnquiryCard().then((res) => setCard(res?.data.result))
+  }
 
   const getAllStudentDetails = () => {
     const data = {
@@ -135,11 +136,11 @@ export const ListStudentForm = () => {
   const handleSearch = (event) => {
     const data = search.current.value;
     event?.preventDefault();
-    getSuperAdminForSearch(data)
+    getCommonSearch(data)
       .then((res) => {
-        const universityList = res?.data?.result?.studentList;
+        const universityList = res?.data?.result?.studentEnquiryList;
         setStudent(universityList);
-        const result = universityList.length ? "studentEnquiry" : "";
+        const result = universityList.length ? "student" : "";
         setLink(result);
         setData(result === "" ? true : false);
       })
@@ -160,24 +161,26 @@ export const ListStudentForm = () => {
     event?.preventDefault();
     setFilter(true);
     const data = {
-      agentName: inputs.agentName,
-      agentCode: inputs.agentCode,
-      mobileNumber: inputs.mobileNumber,
-      businessName: inputs.businessName,
+      source: inputs.source,
+      name: inputs.name,
+      primaryNumber: inputs.primaryNumber,
+      email: inputs.email,
+      desiredCountry: inputs.desiredCountry,
+      staffName: inputs.staffName,
       limit: 10,
       page: pagination.from,
     };
     getFilterStudnetEnquiry(data)
-    .then((res) => {
-      setStudent(res?.data?.result?.studentList);
-      setPagination({
-        ...pagination,
-        count: res?.data?.result?.studentCount,
+      .then((res) => {
+        setStudent(res?.data?.result?.studentList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.studentCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   };
 
   const resetFilter = () => {
@@ -213,21 +216,21 @@ export const ListStudentForm = () => {
             bold: true,
           },
           {
-            text: "Agent Name",
+            text: "Source",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Business Name",
+            text: "Student Name",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
             bold: true,
           },
           {
-            text: "Agent Code",
+            text: "Email",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -241,7 +244,14 @@ export const ListStudentForm = () => {
             bold: true,
           },
           {
-            text: "Staff Name",
+            text: "Desired Country",
+            fontSize: 11,
+            alignment: "center",
+            margin: [20, 5],
+            bold: true,
+          },
+          {
+            text: "Assign Staff",
             fontSize: 11,
             alignment: "center",
             margin: [20, 5],
@@ -258,20 +268,32 @@ export const ListStudentForm = () => {
               border: [true, false, true, true],
             },
             {
-              text: element?.agentName ?? "-",
+              text: element?.source ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
             {
-              text: element?.businessName ?? "-",
+              text: element?.name ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
             },
 
             {
-              text: element?.agentCode?? "-",
+              text: element?.email ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.primaryNumber ?? "-",
+              fontSize: 10,
+              alignment: "left",
+              margin: [5, 3],
+            },
+            {
+              text: element?.desiredCountry ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -282,15 +304,9 @@ export const ListStudentForm = () => {
               alignment: "left",
               margin: [5, 3],
             },
-            {
-              text: element?.mobileNumber ?? "-",
-              fontSize: 10,
-              alignment: "left",
-              margin: [5, 3],
-            },
           ]);
         });
-        templatePdf("agent List", tablebody, "landscape");
+        templatePdf("Student EnquiryList", tablebody, "landscape");
       })
       .catch((err) => {
         console.log(err);
@@ -305,31 +321,35 @@ export const ListStudentForm = () => {
         let list = [];
         result?.forEach((res) => {
           list.push({
-            agentName: res?.agentName ?? "-",
-            businessName: res?.businessName ?? "-",
-            agentCode: res?.agentCode ?? "-",
+            source: res?.source ?? "-",
+            name: res?.name ?? "-",
+            email: res?.email ?? "-",
+            desiredCountry: res?.desiredCountry ?? "-",
+            primaryNumber: res?.primaryNumber ?? "-",
             staffName: res?.staffName ?? "-",
-            mobileNumber: res?.mobileNumber ?? "-",
           });
         });
         let header1 = [
-          "agentName",
-          "businessName",
-          "agentCode",
+          "source",
+          "name",
+          "email",
           "staffName",
           "mobileNumber",
+          "desiredCountry",
+          "staffName",
         ];
         let header2 = [
-          "Agent Name",
-          "Business Name",
-          "Agent Code",
-          "Staff Name",
+          "source ",
+          "Student Name",
+          "Email",
+          "Desired Country",
           "Mobile Number",
+          "Assign Staff",
         ];
         ExportCsvService.downloadCsv(
           list,
-          "agentList",
-          "Agent List",
+          "studentEnuqiryList",
+          "StudentEnuqiry List",
 
           header1,
           header2
@@ -377,7 +397,7 @@ export const ListStudentForm = () => {
     );
   };
 
- 
+
 
   const handleSelectAll = (event) => {
     if (event.target.checked) {
@@ -403,7 +423,7 @@ export const ListStudentForm = () => {
 
   const deleteSelectedstudent = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) =>deleteStudnetEnquiry(id)))
+      Promise.all(selectedIds.map((id) => deleteStudnetEnquiry(id)))
         .then(() => {
           toast.success('Student(s) deleted successfully!');
           setSelectedIds([]);
@@ -462,11 +482,11 @@ export const ListStudentForm = () => {
 
     setSelectedStaffId(selectedStaffId);
     setSelectedStaffName(selectedStaffName);   // Store staff ID
-    
+
   }
   const handleSubmitStaffAssign = () => {
     if (selectedIds.length > 0 && selectedStaffId) {
-      assignStaffToEnquiries({ studentEnquiryIds: selectedIds, staffId: selectedStaffId , staffName: selectedStaffName  })
+      assignStaffToEnquiries({ studentEnquiryIds: selectedIds, staffId: selectedStaffId, staffName: selectedStaffName })
         .then(() => {
           toast.success('Staff assigned successfully!');
           setSelectedIds([]); // Clear selected enquiries
@@ -494,36 +514,36 @@ export const ListStudentForm = () => {
             <div className="row">
               <div className="col-xl-12">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                <li className="flex-grow-1">
-            <form onSubmit={handleSearch}>
-              <div className="input-group" style={{ maxWidth: "600px" }}>
-                <input
-                  type="search"
-                  placeholder="Search....."
-                  ref={search}
-                  onChange={handleInputsearch}
-                  aria-describedby="button-addon3"
-                  className="form-control border-1 border-dark rounded-4"
-                  style={{ fontSize: '12px' }}
-                />
-                <button
-                  className="input-group-text bg-transparent border-0"
-                  id="button-addon3"
-                  type="submit"
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                  }}
-                >
-                  <i className="fas fa-search" style={{ color: "black" }}></i>
-                </button>
-              </div>
-            </form>
-          </li>
-          <li class="m-1">
+                  <li className="flex-grow-1">
+                    <form onSubmit={handleSearch}>
+                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                        <input
+                          type="search"
+                          placeholder="Search....."
+                          ref={search}
+                          onChange={handleInputsearch}
+                          aria-describedby="button-addon3"
+                          className="form-control border-1 border-dark rounded-4"
+                          style={{ fontSize: '12px' }}
+                        />
+                        <button
+                          className="input-group-text bg-transparent border-0"
+                          id="button-addon3"
+                          type="submit"
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                        </button>
+                      </div>
+                    </form>
+                  </li>
+                  <li class="m-1">
                     <div>
                       <button
                         className="btn btn-primary"
@@ -543,7 +563,7 @@ export const ListStudentForm = () => {
                         aria-labelledby="offcanvasRightLabel"
                       >
                         <div className="offcanvas-header">
-                          <h5 id="offcanvasRightLabel">Filter Agent</h5>
+                          <h5 id="offcanvasRightLabel">Filter StudentEnuqiry</h5>
                           <button
                             type="button"
                             className="btn-close text-reset"
@@ -554,40 +574,40 @@ export const ListStudentForm = () => {
                         <div className="offcanvas-body ">
                           <form>
                             <div className="from-group mb-3">
-                              <label className="form-label">Agent Name</label>
+                              <label className="form-label">Source Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="agentName"
+                                name="source"
                                 onChange={handleInputs}
-                                placeholder="Search...Agent Name"
+                                placeholder="Search...Source Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
                                 }}
                               />
-                               <label className="form-label">Agent Name</label>
+                              <label className="form-label">Student Name</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="businessName"
+                                name="name"
                                 onChange={handleInputs}
-                                placeholder="Search...Business Name"
+                                placeholder="Search...student Name"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
                                 }}
                               />
-                              <label className="form-label">Agent Code</label>
+                              <label className="form-label">email</label>
                               <br />
                               <input
                                 type="text"
                                 className="form-control"
-                                name="agentCode"
+                                name="email"
                                 onChange={handleInputs}
-                                placeholder="Search...Agent Code"
+                                placeholder="Search...Email"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
@@ -600,15 +620,45 @@ export const ListStudentForm = () => {
                               <input
                                 type="text"
                                 className="form-control"
-                                name="mobileNumber"
+                                name="primaryNumber"
                                 onChange={handleInputs}
-                                placeholder="Search...MobileNumber"
+                                placeholder="Search...primary Number"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "11px",
                                 }}
                               />
-                             
+                              <label className="form-label">
+                                Desired Country
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="desiredCountry"
+                                onChange={handleInputs}
+                                placeholder="Search...Desired Country"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              />
+                              <label className="form-label">
+                                Assign Staff
+                              </label>
+                              <br />
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="staffName"
+                                onChange={handleInputs}
+                                placeholder="Search...staffName"
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "11px",
+                                }}
+                              />
+
                             </div>
                             <div>
                               <button
@@ -710,143 +760,189 @@ export const ListStudentForm = () => {
         </div>
 
         <div className="container mt-3">
-      <div className="row">
-        {/* Card 1: Lead Converted */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#1976D2" }} // Blue
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Lead Converted
-                </h6>
-                <p className="card-text">Total: 75</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Card 2: Drop/Withdraw */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#E64A19" }} // Deep Orange
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Drop/Withdraw
-                </h6>
-                <p className="card-text">Total: 20</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Card 3: Delayed Followups */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#FBC02D" }} // Yellow
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Delayed Followups
-                </h6>
-                <p className="card-text">Total: 45</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Card 4: Documents Received */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#388E3C" }} // Green
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-file-alt" style={{ color: '#ffffff' }}></i> Documents Received
-                </h6>
-                <p className="card-text">Total: 90</p>
-              </div>
-            </div>
-          </Link>
-        </div>
-      </div>
-    </div>
-    
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-12">
-                <div className="card rounded-1 shadow-sm border-0">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
-  <div className="d-flex align-items-center justify-content-between">
-    <div className="d-flex gap-3">
-      <div className="d-flex mb-0">
-      <p className="me-auto">
-                            Change
-                            <select
-                              className="form-select form-select-sm rounded-1 d-inline mx-2"
-                              aria-label="Default select example1"
-                              style={{
-                                width: "auto",
-                                display: "inline-block",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleActionChange}
-                            >
-                              <option value="">Select Action</option>
-                              <option value="Activate">Activate</option>
-                              <option value="DeActivate">DeActivate</option>
-                              <option value="Assign">Assign</option>
-                              <option value="Delete">Delete</option>
-                            </select>
-                          </p>  
-      </div>
-      
-    </div>
-
-    
-    <div>
-      <ul className="nav nav-underline" id="myTab" role="tablist">
-        <li className="nav-item" role="presentation">
-          <a
-            className="nav-link active"
-            id="home-tab"
-            data-bs-toggle="tab"
-            href="#tab-home"
-            role="tab"
-            aria-controls="tab-home"
-            aria-selected="true"
-          >
-            <i className="fa fa-list" aria-hidden="true"></i> List View
-          </a>
-        </li>
-        <li className="nav-item" role="presentation">
-          <a
-            className="nav-link"
-            id="profile-tab"
-            data-bs-toggle="tab"
-            href="#tab-profile"
-            role="tab"
-            aria-controls="tab-profile"
-            aria-selected="false"
-          >
-            <i className="fa fa-th" aria-hidden="true"></i> Grid View
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
+          <div className="row">
+            {/* Card 1: Lead Converted */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#1976D2" }} // Blue
+                >
                   <div className="card-body">
+                    <h6 className="">
+                      <i className="fas fa-check-circle" style={{ color: '#ffffff' }}></i> Total Enquiry: {card?.totalData || 0}
+                    </h6>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="card-text mb-1">Active: {card?.activeData || 0}</p>
+                      <p className="card-text mb-1">InActive: {card?.inactiveData || 0}</p> <br></br>
+
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Card 2: Drop/Withdraw */}
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Enquiry By Source </h6>
+                        {card?.sourceCounts ? (
+                          Object.entries(card.sourceCounts).map(([source, count]) => (
+                            <p className="card-text" key={source}>
+                              {source}: {count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Card 3: Delayed Followups */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FBC02D" }} // Yellow
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i className="fas fa-hourglass-half" style={{ color: '#ffffff' }}></i> Enquiries Converted
+                    </h6>
+                    <p className="card-text">Processing....</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* Card 4: Documents Received */}
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Higest Converted Source </h6>
+                        {card?.topSource?.length > 0 ? (
+                          card.topSource.map((item, index) => (
+                            <p className="card-text" key={index}>
+                              {item.source}: {item.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">
+                <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                  <div className="card-body text-start">
+                    <div className="d-flex align-items-start justify-content-between">
+                      <div className="d-flex flex-column">
+                        <h6><i className=""></i>&nbsp;&nbsp;Higest Converted Staff: Processing...</h6>
+                        {/* {card?.topSource?.length > 0 ? (
+                          card.topSource.map((item, index) => (
+                            <p className="card-text" key={index}>
+                              {item.source}: {item.count}
+                            </p>
+                          ))
+                        ) : (
+                          <p className="card-text">No sources available</p>
+                        )} */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+          </div>
+        </div>
+
+        <div className="container">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="card rounded-1 shadow-sm border-0">
+                <div className="card-header bg-white mb-0 mt-1 pb-0">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex gap-3">
+                      <div className="d-flex mb-0">
+                        <p className="me-auto">
+                          Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                            onChange={handleActionChange}
+                          >
+                            <option value="">Select Action</option>
+                            <option value="Activate">Activate</option>
+                            <option value="DeActivate">DeActivate</option>
+                            <option value="Assign">Assign</option>
+                            <option value="Delete">Delete</option>
+                          </select>
+                        </p>
+                      </div>
+
+                    </div>
+
+
+                    <div>
+                      <ul className="nav nav-underline" id="myTab" role="tablist">
+                        <li className="nav-item" role="presentation">
+                          <a
+                            className="nav-link active"
+                            id="home-tab"
+                            data-bs-toggle="tab"
+                            href="#tab-home"
+                            role="tab"
+                            aria-controls="tab-home"
+                            aria-selected="true"
+                          >
+                            <i className="fa fa-list" aria-hidden="true"></i> List View
+                          </a>
+                        </li>
+                        <li className="nav-item" role="presentation">
+                          <a
+                            className="nav-link"
+                            id="profile-tab"
+                            data-bs-toggle="tab"
+                            href="#tab-profile"
+                            role="tab"
+                            aria-controls="tab-profile"
+                            aria-selected="false"
+                          >
+                            <i className="fa fa-th" aria-hidden="true"></i> Grid View
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card-body">
                   <div className="tab-content ">
                     {/* List View */}
                     <div
@@ -856,7 +952,7 @@ export const ListStudentForm = () => {
                       aria-labelledby="home-tab"
                     >
 
-<div className="table-responsive">
+                      <div className="table-responsive">
                         <table
                           className=" table table-hover card-table dataTable text-center"
                           style={{ color: "#9265cc", fontSize: "11px" }}
@@ -869,20 +965,20 @@ export const ListStudentForm = () => {
                                 fontSize: "11px",
                               }}
                             >
-                               <th className="text-capitalize text-start sortable-handle">
+                              <th className="text-capitalize text-start sortable-handle">
                                 {" "}
-                              
-                                   <input
-        type="checkbox"
-        checked={selectedIds.length === student.length} // Check if all students are selected
-        onChange={handleSelectAll}
-      />
+
+                                <input
+                                  type="checkbox"
+                                  checked={selectedIds.length === student.length} // Check if all students are selected
+                                  onChange={handleSelectAll}
+                                />
                               </th>
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 S.No.
                               </th>
-                             
+
                               <th className="text-capitalize text-start sortable-handle">
                                 {" "}
                                 Student Code{" "}
@@ -935,15 +1031,15 @@ export const ListStudentForm = () => {
                                     fontSize: "10px",
                                   }}
                                 >
-                                   <td>
-            
-                                   <input
+                                  <td>
+
+                                    <input
                                       type="checkbox"
                                       checked={selectedIds.includes(data._id)}
                                       onChange={() => handleCheckboxChange(data._id)}
                                     />
-           
-                      </td>
+
+                                  </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     {pagination.from + index + 1}
                                   </td>
@@ -956,18 +1052,18 @@ export const ListStudentForm = () => {
                                       data?.createdOn
                                         ? data?.createdOn
                                         : data?.modifiedOn
-                                        ? data?.modifiedOn
-                                        : "-"
-                                        || "Not Available" )}
+                                          ? data?.modifiedOn
+                                          : "-"
+                                          || "Not Available")}
                                   </td>
 
-                                 
+
                                   <td className="text-capitalize text-start text-truncate">
                                     {data?.name || "Not Available"}
                                   </td>
-                                  
+
                                   <td className="text-capitalize text-start text-truncate">
-                                    {data?.primaryNumber|| "Not Available"}
+                                    {data?.primaryNumber || "Not Available"}
                                   </td>
                                   <td className=" text-start text-truncate text-lowercase">
                                     {data?.email || "Not Available"}
@@ -982,9 +1078,9 @@ export const ListStudentForm = () => {
                                     {data?.staffName || "Not Available"}
                                   </td>
                                   <td className="text-capitalize text-start ">
-           {data?.isActive || "Not Avaialble"}
-           
-          </td>
+                                    {data?.isActive || "Not Avaialble"}
+
+                                  </td>
                                   <td className="text-capitalize text-start text-truncate">
                                     <div className="d-flex">
                                       <Link
@@ -1030,200 +1126,200 @@ export const ListStudentForm = () => {
                           </tbody>
                         </table>
                       </div>
-</div>
+                    </div>
 
 
 
-<div
-                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                    <div
+                      class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
                     >
-          
-          <div className="container">
-  <div className="row">
-  { student?.map((data, index) => (
-      <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
-          <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0">{data?.name || "Not Available"}</h6>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>S.No</strong>
+
+                      <div className="container">
+                        <div className="row">
+                          {student?.map((data, index) => (
+                            <div className="col-md-4 mb-4" key={index}>
+                              <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{ fontSize: '10px' }}>
+                                <div className="card-header   d-flex justify-content-between align-items-center">
+                                  <h6 className="mb-0">{data?.name || "Not Available"}</h6>
+                                </div>
+                                <div className="card-body">
+                                  <div className="row">
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>S.No</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {pagination.from + index + 1}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Student ID</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.studentCode || "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Date</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {formatDate(
+                                            data?.createdOn
+                                              ? data?.createdOn
+                                              : data?.modifiedOn
+                                                ? data?.modifiedOn
+                                                : "-"
+                                                || "Not Available")}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Primary No</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.primaryNumber || "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Email ID</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.email || "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Desired Country</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.desiredCountry || "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Source</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.source || "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Assigned To</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.staffName || "Not Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-12 mb-2">
+                                      <div className="row">
+                                        <div className="col-md-5">
+                                          <strong>Status</strong>
+                                        </div>
+                                        <div className="col-md-7">
+                                          {data?.isActive || "NOT Available"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+                                  <Link
+                                    className="btn btn-sm btn-outline-primary"
+                                    to={{
+                                      pathname: "/view_enquiry_student",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    <i className="far fa-eye text-primary me-1"></i>View
+                                  </Link>
+                                  <Link
+                                    className="btn btn-sm btn-outline-warning"
+                                    to={{
+                                      pathname: "/edit_enquiry_student",
+                                      search: `?id=${data?._id}`,
+                                    }}
+                                  >
+                                    <i className="far fa-edit text-warning me-1"></i>Edit
+                                  </Link>
+                                  <button
+                                    className="btn btn-sm btn-outline-danger"
+                                    onClick={() => {
+                                      openPopup(data?._id);
+                                    }}
+                                  >
+                                    <i className="far fa-trash-alt text-danger me-1"></i>Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+
+
+
+
+
+
+                    </div>
                   </div>
-                  <div className="col-md-7">
-                  {pagination.from + index + 1}
-                  </div>
+
+
+
                 </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Student ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.studentCode || "Not Available"}
-                  </div>
+                <div className="d-flex justify-content-between align-items-center p-3">
+                  <p className="me-auto">
+                    Show
+                    <select
+                      className="form-select form-select-sm rounded-1 d-inline mx-2"
+                      aria-label="Default select example1"
+                      style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                      value={pageSize}
+                      onChange={handlePageSizeChange} // Handle page size change
+                    >
+                      <option value="5">5</option>
+                      <option value="15">15</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>{" "}
+                    Entries out of {pagination.count}
+                  </p>
+                  <Pagination
+                    count={Math.ceil(pagination.count / pageSize)}
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
                 </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Date</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {formatDate(
-                                      data?.createdOn
-                                        ? data?.createdOn
-                                        : data?.modifiedOn
-                                        ? data?.modifiedOn
-                                        : "-"
-                                        || "Not Available" )}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Primary No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.primaryNumber|| "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Email ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.email || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Desired Country</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.desiredCountry || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Source</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.source || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Assigned To</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.staffName || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Status</strong>
-                  </div>
-                  <div className="col-md-7">
-                 {data?.isActive || "NOT Available"}
-                  </div>
-                </div>
+
               </div>
             </div>
-          </div>
-          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-          <Link
-                                        className="btn btn-sm btn-outline-primary"
-                                        to={{
-                                          pathname: "/view_enquiry_student",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-eye text-primary me-1"></i>View
-                                      </Link>
-                                      <Link
-                                        className="btn btn-sm btn-outline-warning"
-                                        to={{
-                                          pathname: "/edit_enquiry_student",
-                                          search: `?id=${data?._id}`,
-                                        }}
-                                      >
-                                        <i className="far fa-edit text-warning me-1"></i>Edit
-                                      </Link>
-                                      <button
-                                        className="btn btn-sm btn-outline-danger"
-                                        onClick={() => {
-                                          openPopup(data?._id);
-                                        }}
-                                      >
-                                        <i className="far fa-trash-alt text-danger me-1"></i>Delete
-                                      </button>
           </div>
         </div>
-      </div>
-    ))}
-  </div>
-</div>
 
-
-
-
-
-
-
-                    </div>
-                </div>
-
-
-                    
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto">
-          Show
-          <select
-            className="form-select form-select-sm rounded-1 d-inline mx-2"
-            aria-label="Default select example1"
-            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-            value={pageSize}
-            onChange={handlePageSizeChange} // Handle page size change
-          >
-            <option value="5">5</option>
-            <option value="15">15</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>{" "}
-          Entries out of {pagination.count}
-        </p>
-          <Pagination
-            count={Math.ceil(pagination.count / pageSize)}
-            onChange={handlePageChange}
-            variant="outlined"
-            shape="rounded"
-            color="primary"
-          />
-        </div> 
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        
       </div>
       <Dialog open={open}>
         <DialogContent>
@@ -1256,34 +1352,34 @@ export const ListStudentForm = () => {
       </Dialog>
       <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
         <DialogContent>
-                  <div className="text-center m-4">
-                    <h5 className="mb-4"
-                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                  Are you sure you want to delete?</h5>
-                    <button
-                     type="button"
-                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
-                     onClick={deleteSelectedstudent}
-                     
-                    >
-                      Yes
-                    </button>
-                    <button
-                     type="button"
-                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    
-                      onClick={() => setOpenDelete(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                  </DialogContent>
-                </Dialog>
+          <div className="text-center m-4">
+            <h5 className="mb-4"
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+              Are you sure you want to delete?</h5>
+            <button
+              type="button"
+              className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+              onClick={deleteSelectedstudent}
 
-      <Dialog 
-        open={openAssign} 
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+
+              onClick={() => setOpenDelete(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openAssign}
         onClose={() => setOpenAssign(false)}
         PaperProps={{
           style: {
@@ -1301,19 +1397,19 @@ export const ListStudentForm = () => {
 
             <form>
               <div className="from-group mb-3">
-                <label  className="form-label">
+                <label className="form-label">
                   Staff List
                 </label>
                 <select
-                        className="form-select rounded-1"
-                        name="staffName"
-                        onChange={handleStaffSelect}  // Capture selected staffId
-                    >
-                        <option value="1">Select a Staff</option>
-                        {staff.map((staff, index) => (
-                            <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
-                        ))}
-                    </select>
+                  className="form-select rounded-1"
+                  name="staffName"
+                  onChange={handleStaffSelect}  // Capture selected staffId
+                >
+                  <option value="1">Select a Staff</option>
+                  {staff.map((staff, index) => (
+                    <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
+                  ))}
+                </select>
               </div>
 
               <button
@@ -1329,7 +1425,7 @@ export const ListStudentForm = () => {
                 type="button"
                 className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={() => setOpenAssign(false)}  
+                onClick={() => setOpenAssign(false)}
               >
                 Cancel
               </button>

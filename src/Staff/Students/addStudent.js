@@ -15,8 +15,9 @@ import Select from "react-select";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
-import { getSingleSource } from "../../api/settings/dailcode";
-import { getStaffId } from "../../Utils/storage";
+import {  getSingleStaff } from "../../api/staff";
+import {getStaffId } from "../../Utils/storage";
+
 
 function AddAgent() {
     const location = useLocation();
@@ -42,8 +43,7 @@ function AddAgent() {
     englishTestType: "",
     testScore: "",
     dial1: "",
-    dial2: "",
-    
+    dial2: "", 
     dateOfTest: "",
     desiredCountry: "",
     desiredUniversity: "",
@@ -111,6 +111,7 @@ function AddAgent() {
     purposeVisa:{required:false},
     countryNameVisa:{required:false}
   };
+  const [staff,setStaff] = useState(null);
   const [student, setStudent] = useState(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
@@ -121,12 +122,12 @@ function AddAgent() {
   const [dail2, setDail2] = useState(null);
   const [dail3, setDail3] = useState(null);
   const [dail4, setDail4] = useState(null);
-  const [staff,setStaff] = useState
 
 
   useEffect(() => {
     getStudentDetails();
     getallCodeList();
+    getStaffDetail();
 }, []);
 
 const getStudentDetails = () => {
@@ -139,7 +140,16 @@ const getStudentDetails = () => {
             console.log(err);
         });
 };
-
+const getStaffDetail = () => {
+  const id = getStaffId();
+  getSingleStaff(id)
+    .then((res) => {
+      setStaff(res?.data?.result); // Assuming the staff data is inside res.data.result
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const getallCodeList = () => {
   getallCode()
     .then((res) => {
@@ -335,12 +345,13 @@ const handleValidation = (data) => {
       ...student,
       dial1:dail1?.value,
       dial2:dail2?.value,
-     
+      staffId:staff._id,
+      adminId:staff.adminId
     }
     if (handleErrors(newError)) {
       StudentSuperAdmin(studentData)
         .then((res) => {
-          toast.success(res?.data?.message);
+          toast.success("Create_Student_Profile_Successfully");
           navigate("/staff_list_student");
         })
         .catch((err) => {

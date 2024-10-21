@@ -299,7 +299,9 @@ export const AddTestimonials = () => {
                             options={staffOptions}
                             name="hostName"
                             styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
+                            // className="submain-one-form-body-subsection-select"
+                            classNamePrefix="react-select"
+                            className={`react-select-container submain-one-form-body-subsection-select ${errors.hostName.required ? 'is-invalid' : ''}`}
                           />
                           {errors.hostName.required && (
                             <div className="text-danger form-text">

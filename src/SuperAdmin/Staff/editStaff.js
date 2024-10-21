@@ -1336,7 +1336,7 @@ export const AddStaff = () => {
                                     </div>
                                     <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                       <label style={{ color: "#231F20" }}>
-                                        UserName
+                                        userName
                                        
                                       </label>
                                       <input

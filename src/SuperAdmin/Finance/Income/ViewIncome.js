@@ -10,13 +10,13 @@ export const ViewIncome = () => {
         <h2 class="mb-4">Income Report</h2>
  
         <div class="row mb-4">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="alert alert-success d-flex justify-content-between align-items-center" role="alert">
                     <div>
                         <h5>Total Income</h5>
                         <p>$10,000</p>
                     </div>
-                    <i class="fas fa-dollar-sign fa-2x"></i>
+                   
                 </div>
             </div>
             <div class="col-md-4">

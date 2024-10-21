@@ -16,11 +16,16 @@ import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import Flags from "react-world-flags";
 import BackButton from "../../compoents/backButton";
-import Privilages from './privilagesStudent'
+import Privilages from './privilagesStudent';
+import { getallAgent } from "../../api/agent";
+
+
 function AddAgent() {
     const location = useLocation();
     const id = new URLSearchParams(location.search).get("id");
   const initialState = {
+    agentName:"",
+    agentId:"",
     source: "",
     name: "",
     photo: "",
@@ -64,6 +69,8 @@ function AddAgent() {
     countryNameVisa:""
   };
   const initialStateErrors = {
+    agentName:{required: false},
+    agentId:{required: false},
     source: { required: false },
     name: { required: false },
     photo: { required: false },
@@ -112,6 +119,7 @@ function AddAgent() {
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
   const [dial, setDial] = useState([]);
+  const [agent, setAgent] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false);
   const [dail1, setDail1] = useState(null);
   const [dail2, setDail2] = useState(null);
@@ -119,6 +127,7 @@ function AddAgent() {
   useEffect(() => {
     getStudentDetails();
     getallCodeList();
+    getAgentList();
 }, []);
 
 const getStudentDetails = () => {
@@ -129,6 +138,15 @@ const getStudentDetails = () => {
         .catch((err) => {
             console.log(err);
         });
+};
+const getAgentList = () => {
+  getallAgent()
+    .then((res) => {
+      setAgent(res?.data?.result || []);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 const getallCodeList = () => {
   getallCode()
@@ -285,6 +303,17 @@ const getallCodeList = () => {
     } else {
       setStudent((prevStudent) => {
         const updatedStudent = { ...prevStudent, [name]: value };
+        if (name === "agentName") {
+          const selectedAgent = agent.find(
+            (u) => u.agentName === value
+          );
+          if (selectedAgent) {
+            return {
+              ...updatedStudent,
+              agentId: selectedAgent._id, 
+            };
+          }
+        }
         return updatedStudent;
       });
     }
@@ -438,6 +467,63 @@ const getallCodeList = () => {
                                   </div>
                                 ) : null}
                               </div>
+                              {student.source === "agent" ? (
+                                <div className="row gx-4 gy-2">
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>
+      Agent List<span className="text-danger">*</span>
+    </label>
+    <select
+      className={`form-select form-select-lg rounded-1 ${
+        errors.agentName.required ? "is-invalid" : ""
+      }`}
+      value={student?.agentName || ""}
+      aria-label="Default select example"
+      style={{
+        fontFamily: "Plus Jakarta Sans",
+        fontSize: "12px",
+      }}
+      name="agentName"
+      onChange={handleInputs}
+    >
+      <option value="">Select Agent</option>
+      {agent?.map((data, index) => (
+        <option key={index} value={data?.agentName}>
+          {data?.agentName}
+        </option>
+      ))}
+    </select>
+    
+  </div>
+   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+   <label style={{ color: "#231F20" }}>
+     Agent Id<span className="text-danger">*</span>
+   </label>
+   <select
+     className={`form-select form-select-lg rounded-1 ${
+       errors.agentId.required ? "is-invalid" : ""
+     }`}
+     value={student?.agentId || ""}
+     aria-label="Default select example"
+     style={{
+       fontFamily: "Plus Jakarta Sans",
+       fontSize: "12px",
+     }}
+     name="agentId"
+     onChange={handleInputs}
+   
+   >
+     <option value="">Select Agent</option>
+     {agent?.map((data, index) => (
+       <option key={index} value={data?._id}>
+         {data?._id}
+       </option>
+     ))}
+   </select>
+   
+ </div>
+ </div>
+) : null}
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">

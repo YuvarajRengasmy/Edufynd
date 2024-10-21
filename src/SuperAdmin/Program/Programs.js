@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import {getSuperAdminForSearch} from '../../api/superAdmin';
+import { getSuperAdminForSearch } from '../../api/superAdmin';
 import { getAllApplicantCard } from "../../api/applicatin";
-import {getallProgram,getAllProgramCard,deleteProgram,getFilterProgram,deactivateClient,activeClient,} from "../../api/Program";
+import { getallProgram, getAllProgramCard, deleteProgram, getFilterProgram, deactivateClient, activeClient, } from "../../api/Program";
 import { Link, useLocation } from "react-router-dom";
-import {Dialog,DialogContent,DialogTitle,IconButton,Pagination,radioClasses,} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, Pagination, radioClasses, } from "@mui/material";
 import Mastersidebar from "../../compoents/sidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
@@ -23,7 +23,7 @@ export default function Masterproductlist() {
   const [file, setFile] = useState(null);
   const location = useLocation()
   var searchValue = location.state
-  const [link ,setLink] = useState('');
+  const [link, setLink] = useState('');
   const [selectedIds, setSelectedIds] = useState([]); // To track selected checkboxes
   const [openDelete, setOpenDelete] = useState(false);
   const [data, setData] = useState(false);
@@ -34,7 +34,7 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const search = useRef(null);
-  const [pageSize, setPageSize] = useState(10); 
+  const [pageSize, setPageSize] = useState(10);
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -46,34 +46,34 @@ export default function Masterproductlist() {
 
   useEffect(() => {
     getAllProgaramDetails();
-  }, [pagination.from, pagination.to,pageSize]);
+  }, [pagination.from, pagination.to, pageSize]);
 
   useEffect(() => {
     if (search.current) {
-        search.current.focus()
+      search.current.focus()
     }
-}, [])
+  }, [])
 
-useEffect(() => {
+  useEffect(() => {
     if (searchValue) {
-        search.current.value = searchValue.substring(1)
-        handleSearch()
+      search.current.value = searchValue.substring(1)
+      handleSearch()
     }
-}, [searchValue])
+  }, [searchValue])
 
 
-useEffect(() => {
-  getallProgramCount();
-  getallApplicantCount();
- 
-}, []);
+  useEffect(() => {
+    getallProgramCount();
+    getallApplicantCount();
 
-const getallApplicantCount = ()=>{
-  getAllApplicantCard().then((res)=>setDetail(res?.data.result))
-}
-const getallProgramCount = ()=>{
-  getAllProgramCard().then((res)=>setDetails(res?.data.result))
-}
+  }, []);
+
+  const getallApplicantCount = () => {
+    getAllApplicantCard().then((res) => setDetail(res?.data.result))
+  }
+  const getallProgramCount = () => {
+    getAllProgramCard().then((res) => setDetails(res?.data.result))
+  }
 
 
   const getAllProgaramDetails = () => {
@@ -106,8 +106,8 @@ const getallProgramCount = ()=>{
 
   const handleInputsearch = (event) => {
     if (event.key === 'Enter') {
-        search.current.blur();
-        handleSearch()
+      search.current.blur();
+      handleSearch()
     }
   }
 
@@ -220,8 +220,8 @@ const getallProgramCount = ()=>{
 
     try {
       const response = await axios.post(
-         "https://api.edufynd.in/api/program/import",
-        // "http://localhost:4409/api/program/import",
+        //  "https://api.edufynd.in/api/program/import",
+        "http://localhost:4409/api/program/import",
         formData,
         {
           headers: {
@@ -232,7 +232,7 @@ const getallProgramCount = ()=>{
       console.log("File uploaded successfully:", response.data);
     } catch (error) {
       console.error("Error uploading file:", error);
-       toast.error('Unsupported file format. Please upload CSV or XLSX.');
+      toast.error('Unsupported file format. Please upload CSV or XLSX.');
     }
   };
 
@@ -251,7 +251,7 @@ const getallProgramCount = ()=>{
             margin: [5, 5],
             bold: true,
           },
-         
+
           {
             text: "UniversityName",
             fontSize: 11,
@@ -290,7 +290,7 @@ const getallProgramCount = ()=>{
               margin: [5, 3],
               border: [true, false, true, true],
             },
-           
+
             {
               text: element?.universityName ?? "-",
               fontSize: 10,
@@ -334,7 +334,7 @@ const getallProgramCount = ()=>{
         let list = [];
         result?.forEach((res) => {
           list.push({
-           
+
             universityName: res?.universityName ?? "-",
             paymentMethod: res?.paymentMethod ?? "-",
             eligibility: res?.eligibility ?? "-",
@@ -342,7 +342,7 @@ const getallProgramCount = ()=>{
           });
         });
         let header1 = [
-         
+
           "universityName",
           "paymentMethod",
           "eligibility",
@@ -368,7 +368,7 @@ const getallProgramCount = ()=>{
         console.log(err);
       });
   };
-  
+
 
   // const tableRef = useRef(null);
 
@@ -421,13 +421,13 @@ const getallProgramCount = ()=>{
       // deleteSelectedprogram();
     } else if (action === "Activate") {
       activateSelectedProgram();
-    }else if (action === "DeActivate") {
+    } else if (action === "DeActivate") {
       deactivateSelectedProgram();
     }
   };
   const deleteSelectedProgram = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) =>deleteProgram(id)))
+      Promise.all(selectedIds.map((id) => deleteProgram(id)))
         .then((responses) => {
           toast.success("program deleted successfully!");
           setSelectedIds([]);
@@ -442,7 +442,7 @@ const getallProgramCount = ()=>{
       toast.warning("No program selected.");
     }
   };
- 
+
 
 
   const activateSelectedProgram = () => {
@@ -463,7 +463,7 @@ const getallProgramCount = ()=>{
       toast.warning("No selected Program.");
     }
   };
-  
+
   const deactivateSelectedProgram = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to deactivate the clients
@@ -491,660 +491,629 @@ const getallProgramCount = ()=>{
           className="content-wrapper "
           style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}
         >
-       <div className="content-header bg-light shadow-sm sticky-top">
-  <div className="container-fluid">
-    <div className="row">
-      <div className="col-xl-12">
-        <ol className="d-flex justify-content-end align-items-center list-unstyled mb-0">
-          <li className="flex-grow-1">
-            <form onSubmit={handleSearch}>
-              <div className="input-group" style={{ maxWidth: "600px" }}>
-                <input
-                  type="search"
-                  ref={search}
-                  onChange={handleInputsearch}
-                  placeholder="Search...."
-                  aria-describedby="button-addon3"
-                  className="form-control border-1 border-dark rounded-4"
-                  style={{ fontSize: "12px" }} // Keep the font size if it's correct
-                />
-                <button
-                  className="input-group-text bg-transparent border-0"
-                  id="button-addon3"
-                  type="submit"
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                  }}
-                >
-                  <i className="fas fa-search" style={{ color: "black" }}></i>
-                </button>
-              </div>
-            </form>
-          </li>
-          <li className="m-1">
-            <button
-              className="btn btn-primary rounded-1 border-0"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight"
-              style={{ fontSize: "12px" }}
-            >
-              <FaFilter />
-            </button>
-            <div
-              className="offcanvas offcanvas-end"
-              tabIndex={-1}
-              id="offcanvasRight"
-              aria-labelledby="offcanvasRightLabel"
-            >
-              <div className="offcanvas-header">
-                <h6 id="offcanvasRightLabel">Filter Program</h6>
-                <button
-                  type="button"
-                  className="btn-close text-reset"
-                  data-bs-dismiss="offcanvas"
-                  aria-label="Close"
-                />
-              </div>
-              <div className="offcanvas-body">
-                <form>
-                  <div className="form-group mb-3">
-                    <label className="form-label">University Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="universityName"
-                      onChange={handleInputs}
-                      placeholder="Search...University Name"
-                      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    />
-                    <label className="form-label">Program Title</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="programTitle"
-                      onChange={handleInputs}
-                      placeholder="Search...Program Title"
-                      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    />
-                    <label className="form-label">Application Fee</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="applicationFee"
-                      onChange={handleInputs}
-                      placeholder="Search...Application Fee"
-                      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    />
-                    <label className="form-label">Course Fee</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="courseFee"
-                      onChange={handleInputs}
-                      placeholder="Search...Course Fee"
-                      style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    />
-                  </div>
-                  <div>
-                    <button
-                      data-bs-dismiss="offcanvas"
-                      className="btn btn-cancel border-0 fw-semibold text-white float-right"
-                      style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
-                      onClick={resetFilter}
-                    >
-                      Reset
-                    </button>
-                    <button
-                      data-bs-dismiss="offcanvas"
-                      type="submit"
-                      onClick={filterProgramList}
-                      className="btn btn-save border-0 text-white fw-semibold float-right mx-2"
-                      style={{ backgroundColor: "#fe5722", fontSize: "14px" }}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </li>
-          <li className="m-1">
-            <Link onClick={pdfDownload}>
-              <button
-                style={{ backgroundColor: "#E12929", fontSize: "12px" }}
-                className="btn text-white rounded-1 border-0"
-              >
-                <i className="fa fa-file-pdf" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link onClick={exportCsv}>
-              <button
-                style={{ backgroundColor: "#22A033", fontSize: "12px" }}
-                className="btn text-white rounded-1 border-0"
-              >
-                <i className="fa fa-file-excel" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link onClick={openImportPopup}>
-              <button
-                className="btn text-white rounded-1 border-0"
-                style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
-              >
-                <i className="fa fa-upload" aria-hidden="true"></i>
-              </button>
-            </Link>
-          </li>
-          <li className="m-0">
-            <Link className="btn btn-pix-primary border-0" to="/add_program">
-              <button
-                className="btn rounded-1 fw-semibold border-0 text-white"
-                style={{ backgroundColor: "#231f20", fontSize: "12px" }}
-              >
-                <i className="fa fa-plus-circle me-2" aria-hidden="true"></i>
-                Add Program
-              </button>
-            </Link>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div className="container-fluid mt-3">
-      <div className="row g-4">
-        {/* Total Number of Programs Card */}
-        <div className="col-md-3">
-        <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
-            <div className="card-body text-center">
-             
-              <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Total No of Programs</h6>
-              <p className="card-text">Count:{details?.totalProgram|| 0}</p>
-            </div>
-          </div>
-          </Link>
-        </div>
-
-        {/* Popular Categories Card1 */}
-        <div className="col-md-3">
-        <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
-            <div className="card-body text-center">
-             
-              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;No of Country</h6>
-              <p className="card-text">Count:{details?.totalUniqueCountries|| 0}</p>
-            </div>
-          </div>
-          </Link>
-        </div>
-
- {/* Popular Categories Card2 */}
-        <div className="col-md-3">
-        <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: "#0288D1" }}>
-            <div className="card-body text-center">
-             
-              <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;No of University</h6>
-              <p className="card-text">Count:{details?.universityName|| 0}</p>
-            </div>
-          </div>
-          </Link>
-        </div>
-        {/* Number of Applications Card */}
-        <div className="col-md-3">
-        <Link to='#' className="text-decoration-none">    <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
-            <div className="card-body text-center">
-             
-              <h6>   <i className="fas fa-chart-bar "></i>&nbsp;&nbsp;No Of Applications</h6>
-              <p className="card-text">{detail?.totalApplication}</p>
-            </div>
-          </div>
-          </Link>
-        </div>
-      </div>
-    </div>
-
-          <div className="container-fluid">
-  <div className="row">
-    <div className="col-xl-12">
-      <div className="card rounded-1 shadow-sm border-0 ">
-      <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
-                    <p className="me-auto">
-                            Change
-                            <select
-                              className="form-select form-select-sm rounded-1 d-inline mx-2"
-                              aria-label="Default select example1"
-                              style={{
-                                width: "auto",
-                                display: "inline-block",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleActionChange}
-                            >
-                              <option value="">Select Action</option>
-                              <option value="Activate">Activate</option>
-                              <option value="DeActivate">DeActivate</option>
-                              <option value="Delete">Delete</option>
-                            </select>
-                          </p>
+          <div className="content-header bg-light shadow-sm sticky-top">
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-xl-12">
+                  <ol className="d-flex justify-content-end align-items-center list-unstyled mb-0">
+                    <li className="flex-grow-1">
+                      <form onSubmit={handleSearch}>
+                        <div className="input-group" style={{ maxWidth: "600px" }}>
+                          <input
+                            type="search"
+                            ref={search}
+                            onChange={handleInputsearch}
+                            placeholder="Search...."
+                            aria-describedby="button-addon3"
+                            className="form-control border-1 border-dark rounded-4"
+                            style={{ fontSize: "12px" }} // Keep the font size if it's correct
+                          />
                           <button
-        type="button"
-        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
-      </button>
-   
-
-    {/* Modal */}
-    <div
-      className="modal fade"
-      id="exampleModal"
-      tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
-              Assign to
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Staff List
-                </label>
-                <input
-                  type="text"
-                  className="form-control rounded-1 text-capitalize"
-                  id="exampleFormControlInput1"
-                  placeholder="Example JohnDoe"
-                />
+                            className="input-group-text bg-transparent border-0"
+                            id="button-addon3"
+                            type="submit"
+                            style={{
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <i className="fas fa-search" style={{ color: "black" }}></i>
+                          </button>
+                        </div>
+                      </form>
+                    </li>
+                    <li className="m-1">
+                      <button
+                        className="btn btn-primary rounded-1 border-0"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight"
+                        style={{ fontSize: "12px" }}
+                      >
+                        <FaFilter />
+                      </button>
+                      <div
+                        className="offcanvas offcanvas-end"
+                        tabIndex={-1}
+                        id="offcanvasRight"
+                        aria-labelledby="offcanvasRightLabel"
+                      >
+                        <div className="offcanvas-header">
+                          <h6 id="offcanvasRightLabel">Filter Program</h6>
+                          <button
+                            type="button"
+                            className="btn-close text-reset"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                          />
+                        </div>
+                        <div className="offcanvas-body">
+                          <form>
+                            <div className="form-group mb-3">
+                              <label className="form-label">University Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="universityName"
+                                onChange={handleInputs}
+                                placeholder="Search...University Name"
+                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                              />
+                              <label className="form-label">Program Title</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="programTitle"
+                                onChange={handleInputs}
+                                placeholder="Search...Program Title"
+                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                              />
+                              <label className="form-label">Application Fee</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="applicationFee"
+                                onChange={handleInputs}
+                                placeholder="Search...Application Fee"
+                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                              />
+                              <label className="form-label">Course Fee</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="courseFee"
+                                onChange={handleInputs}
+                                placeholder="Search...Course Fee"
+                                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                              />
+                            </div>
+                            <div>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                className="btn btn-cancel border-0 fw-semibold text-white float-right"
+                                style={{ backgroundColor: "#0f2239", fontSize: "14px" }}
+                                onClick={resetFilter}
+                              >
+                                Reset
+                              </button>
+                              <button
+                                data-bs-dismiss="offcanvas"
+                                type="submit"
+                                onClick={filterProgramList}
+                                className="btn btn-save border-0 text-white fw-semibold float-right mx-2"
+                                style={{ backgroundColor: "#fe5722", fontSize: "14px" }}
+                              >
+                                Apply
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="m-1">
+                      <Link onClick={pdfDownload}>
+                        <button
+                          style={{ backgroundColor: "#E12929", fontSize: "12px" }}
+                          className="btn text-white rounded-1 border-0"
+                        >
+                          <i className="fa fa-file-pdf" aria-hidden="true"></i>
+                        </button>
+                      </Link>
+                    </li>
+                    <li className="m-1">
+                      <Link onClick={exportCsv}>
+                        <button
+                          style={{ backgroundColor: "#22A033", fontSize: "12px" }}
+                          className="btn text-white rounded-1 border-0"
+                        >
+                          <i className="fa fa-file-excel" aria-hidden="true"></i>
+                        </button>
+                      </Link>
+                    </li>
+                    <li className="m-1">
+                      <Link onClick={openImportPopup}>
+                        <button
+                          className="btn text-white rounded-1 border-0"
+                          style={{ backgroundColor: "#9265cc", fontSize: "12px" }}
+                        >
+                          <i className="fa fa-upload" aria-hidden="true"></i>
+                        </button>
+                      </Link>
+                    </li>
+                    <li className="m-0">
+                      <Link className="btn btn-pix-primary border-0" to="/add_program">
+                        <button
+                          className="btn rounded-1 fw-semibold border-0 text-white"
+                          style={{ backgroundColor: "#231f20", fontSize: "12px" }}
+                        >
+                          <i className="fa fa-plus-circle me-2" aria-hidden="true"></i>
+                          Add Program
+                        </button>
+                      </Link>
+                    </li>
+                  </ol>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+
+          <div className="container-fluid mt-3">
+            <div className="row g-4">
+              {/* Total Number of Programs Card */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
+                  <div className="card-body text-start">
+                    <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;No of Programs: {details?.totalProgram || 0}</h6>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="card-text mb-1">Active: {details?.activeProgram || 0}</p>
+                      <p className="card-text mb-1">InActive: {details?.inactiveProgram || 0}</p> <br></br>
+
+                    </div>
+                  </div>
+                </div>
+                </Link>
+              </div>
+
+              {/* Popular Categories Card1 */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">
+                  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#ff5722', color: '#fff' }}>
+
+                    <div className="card-body text-start">
+                      <h6>
+                        <i className="fas fa-star"></i> &nbsp;&nbsp;Total Country: {details?.totalUniqueCountries || 0}
+                      </h6>
+                      <p className="text-center">CountryWise Program Count</p>
+
+                      {/* Loop through countrywise array */}
+                      {details?.countrywise?.length > 0 ? (
+                        details.countrywise.map((countryDetail, index) => (
+                          <div key={index}>
+                            <p className="card-text">
+                              {countryDetail.country || "N/A"} : {countryDetail.programCount || 0}
+                            </p>
+
+                          </div>
+                        ))
+                      ) : (
+                        <p>No country details available</p>
+                      )}
                     </div>
 
-                    <div>
-                    
-                       
+
+                  </div>
+                </Link>
+              </div>
+
+              {/* Popular Categories Card2 */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">     <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: "#0288D1" }}>
+                  <div className="card-body text-center">
+
+                    <h6> <i className="fas fa-star "></i> &nbsp;&nbsp;No of University: {details?.universityName || 0}</h6>
+                    {/* <p className="card-text">Count:{details?.universityName || 0}</p> */}
+                  </div>
+                </div>
+                </Link>
+              </div>
+              {/* Number of Applications Card */}
+              <div className="col-md-3">
+                <Link to='#' className="text-decoration-none">    <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#3f51b5', color: '#fff' }}>
+                  <div className="card-body text-center">
+
+                    <h6>   <i className="fas fa-chart-bar "></i>&nbsp;&nbsp;No of Applications: {detail?.totalApplication}</h6>
+                    {/* <p className="card-text">{detail?.totalApplication}</p> */}
+                  </div>
+                </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-xl-12">
+                <div className="card rounded-1 shadow-sm border-0 ">
+                  <div className="card-header bg-white mb-0 mt-1 pb-0">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex  mb-0">
+                        <p className="me-auto">
+                          Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                            onChange={handleActionChange}
+                          >
+                            <option value="">Select Action</option>
+                            <option value="Activate">Activate</option>
+                            <option value="DeActivate">DeActivate</option>
+                            <option value="Delete">Delete</option>
+                          </select>
+                        </p>
+
+                      </div>
+
+                      <div>
+
+
                         <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
                           <li>
                             {" "}
                             <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
-            >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                              className="nav-link active "
+                              id="home-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-home"
+                              role="tab"
+                              aria-controls="tab-home"
+                              aria-selected="true"
+                            >
+                              <i class="fa fa-list" aria-hidden="true"></i>    List View
                             </a>
                           </li>
                           <li>
-                            
-                              <a
+
+                            <a
                               className="nav-link "
                               id="profile-tab"
                               data-bs-toggle="tab"
                               href="#tab-profile"
-                              role="tab"
+                              role="tabpanel"
                               aria-controls="tab-profile"
                               aria-selected="false"
                             >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+
+                              <i class="fa fa-th" aria-hidden="true"></i>  Grid View
                             </a>
                           </li>
                         </ul>
-                      
-                     
+
+
+                      </div>
                     </div>
                   </div>
-                </div>
-        <div className="card-body">
+                  <div className="card-body">
 
-        <div className="tab-content ">
-                    {/* List View */}
-                    <div
-                      className="tab-pane fade show active"
-                      id="tab-home"
-                      role="tabpanel"
-                      aria-labelledby="home-tab"
-                    >
+                    <div className="tab-content ">
+                      {/* List View */}
+                      <div
+                        className="tab-pane fade show active"
+                        id="tab-home"
+                        role="tabpanel"
+                        aria-labelledby="home-tab"
+                      >
 
-<div className="table-responsive">
-          <table
-            className="table card-table table-hover dataTable text-center"
-            style={{ color: "#9265cc", fontSize: "12px" }}
-            // ref={tableRef}
-          >
-            <thead className="table-light">
-              <tr
-                style={{
-                  fontFamily: "Plus Jakarta Sans",
-                  fontSize: "12px",
-                }}
-              >
-                <th className=" text-start">
-                <input
+                        <div className="table-responsive">
+                          <table
+                            className="table card-table table-hover dataTable text-center"
+                            style={{ color: "#9265cc", fontSize: "12px" }}
+                          // ref={tableRef}
+                          >
+                            <thead className="table-light">
+                              <tr
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <th className=" text-start">
+                                  <input
                                     type="checkbox"
                                     onChange={handleSelectAll}
                                     checked={
                                       selectedIds.length === program.length
                                     }
                                   />
-                            </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  S No
-                </th>
-                
-                <th className="text-capitalize text-start sortable-handle">
-                  Code  <i className="fa fa-filter" aria-hidden="true"></i>
-                </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  Title   <i className="fa fa-filter" aria-hidden="true"></i>
-                </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  University Name   <i className="fa fa-filter" aria-hidden="true"></i>
-                </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  Application Fees  <i className="fa fa-filter" aria-hidden="true"></i>
-                </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  Course Fees 
-       
-        <i className="fa fa-filter" aria-hidden="true"></i>
-     
-                </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  Status
-       
-        <i className="fa fa-filter" aria-hidden="true"></i>
-     
-                </th>
-                <th className="text-capitalize text-start sortable-handle">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody   style={{
-                  fontFamily: "Plus Jakarta Sans",
-                  fontSize: "11px",
-                }}>
-              {program?.map((data, index) => {
-                const isExpanded = !!expandedRows[index];
-                return (
-                  <tr
-                    key={index}
-                    style={{
-                      backgroundColor: "#fff",
-                      fontFamily: "Plus Jakarta Sans",
-                      fontSize: "11px",
-                    }}
-                  >
-                    <td className=" text-start">
-                    <input
-                                      type="checkbox"
-                                      checked={selectedIds.includes(data._id)}
-                                      onChange={() => handleCheckboxChange(data._id)}
-                                    />
-                              </td>
-                    <td className="text-capitalize text-start text-truncate" >
-                      {pagination.from + index + 1}
-                    </td>
-                   
-                    <td className="text-capitalize text-start text-truncate">
-                      {data?.programCode  || "Not Available"}
-                    </td>
-                    <td className="text-capitalize text-start text-truncate">
-                      <Link
-                        className="dropdown-item"
-                        to={{
-                          pathname: "/view_program",
-                          search: `?id=${data?._id}`,
-                        }}
-                      >
-                        {getDisplayText(data?.programTitle, isExpanded)  || "Not Available"}
-                      </Link>
-                    </td>
-                    <td
-                      className="text-capitalize text-start text-truncate"
-                      title={data?.universityName  || "Not Available"}
-                    >
-                      {getDisplayText(data?.universityName, isExpanded)}
-                    </td>
-                    <td className="text-capitalize text-start text-truncate">
-                      {data?.applicationFee  || "Not Available"}
-                    </td>
-                    <td className="text-capitalize text-start text-truncate">
-                      {data?.campuses?.length > 0
-                        ? data?.campuses[0]?.courseFees
-                        : "Not Available"}
-                    </td>
-                    <td className="text-capitalize text-start ">
-           {data?.isActive || "Not Available"}
-          </td>
-                    <td className="text-capitalize text-start text-truncate">
-                      <div className="d-flex">
-                        <Link
-                          className="dropdown-item"
-                          to={{
-                            pathname: "/view_program",
-                            search: `?id=${data?._id}`,
-                          }}
-                        >
-                          <i className="far fa-eye text-primary me-1"></i>
-                        </Link>
-                        <Link
-                          className="dropdown-item"
-                          to={{
-                            pathname: "/edit_program",
-                            search: `?id=${data?._id}`,
-                          }}
-                        >
-                          <i className="far fa-edit text-warning me-1"></i>
-                        </Link>
-                        <Link
-                          className="dropdown-item"
-                          onClick={() => {
-                            openPopup(data?._id);
-                          }}
-                        >
-                          <i className="far fa-trash-alt text-danger me-1"></i>
-                        </Link>
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  S No
+                                </th>
+
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Code  <i className="fa fa-filter" aria-hidden="true"></i>
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Title   <i className="fa fa-filter" aria-hidden="true"></i>
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  University Name   <i className="fa fa-filter" aria-hidden="true"></i>
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Application Fees  <i className="fa fa-filter" aria-hidden="true"></i>
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Course Fees
+
+                                  <i className="fa fa-filter" aria-hidden="true"></i>
+
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Status
+
+                                  <i className="fa fa-filter" aria-hidden="true"></i>
+
+                                </th>
+                                <th className="text-capitalize text-start sortable-handle">
+                                  Action
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "11px",
+                            }}>
+                              {program?.map((data, index) => {
+                                const isExpanded = !!expandedRows[index];
+                                return (
+                                  <tr
+                                    key={index}
+                                    style={{
+                                      backgroundColor: "#fff",
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "11px",
+                                    }}
+                                  >
+                                    <td className=" text-start">
+                                      <input
+                                        type="checkbox"
+                                        checked={selectedIds.includes(data._id)}
+                                        onChange={() => handleCheckboxChange(data._id)}
+                                      />
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate" >
+                                      {pagination.from + index + 1}
+                                    </td>
+
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.programCode || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      <Link
+                                        className="dropdown-item"
+                                        to={{
+                                          pathname: "/view_program",
+                                          search: `?id=${data?._id}`,
+                                        }}
+                                      >
+                                        {getDisplayText(data?.programTitle, isExpanded) || "Not Available"}
+                                      </Link>
+                                    </td>
+                                    <td
+                                      className="text-capitalize text-start text-truncate"
+                                      title={data?.universityName || "Not Available"}
+                                    >
+                                      {getDisplayText(data?.universityName, isExpanded)}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.applicationFee || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.campuses?.length > 0
+                                        ? data?.campuses[0]?.courseFees
+                                        : "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start ">
+                                      {data?.isActive || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      <div className="d-flex">
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/view_program",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          to={{
+                                            pathname: "/edit_program",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="dropdown-item"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </Link>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          </div>   
-</div>
-<div
-                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
-                    >      
-          <div className="container">
-  <div className="row">
-  {program?.map((data, index) => {
-      <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100">
-          <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0">{data?.programTitle}</h6>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>S.No</strong>
+                      <div
+                        class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                      >
+                        <div className="container">
+                          <div className="row">
+                            {program?.map((data, index) => {
+                              const isExpanded = !!expandedRows[index];
+                                return (
+                              <div className="col-md-4 mb-4" key={index}>
+                                <div className="card shadow-sm  rounded-1 text-bg-light h-100">
+                                  <div className="card-header   d-flex justify-content-between align-items-center">
+                                    <h6 className="mb-0">{data?.programTitle}</h6>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="row">
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>S.No</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {pagination.from + index + 1}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Program ID</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.programCode || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>University Name</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.universityName || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Application Fee</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.applicationFee || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Course Fee</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.campuses?.length > 0
+                                              ? data?.campuses[0]?.courseFees
+                                              : "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Status</strong>
+                                          </div>
+                                          <div className="col-md-7 ">
+                                            {data?.isActive || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="card-footer bg-light d-flex justify-content-between">
+      <Link
+                                  className="btn btn-outline-primary btn-sm"
+                                  to={{
+                                    pathname: "/view_program",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="View"
+                                >
+                                  <i className="far fa-eye text-primary "></i>View
+                                </Link>
+        
+       
+        <Link
+                                  className="btn btn-outline-warning btn-sm"
+                                  to={{
+                                    pathname: "/edit_program",
+                                    search: `?id=${data?._id}`,
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="Edit"
+                                >
+                                  <i className="far fa-edit text-warning "></i>Edit
+                                </Link>
+        <button className="btn btn-outline-danger btn-sm" onClick={() => {
+                                    openPopup(data?._id);
+                                  }}
+                                  data-bs-toggle="tooltip"
+                                  title="Delete">
+          <i className="bi bi-trash"></i> Delete
+        </button>
+      </div>
+                                </div>
+                              </div>
+                                );
+                            })}
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col-md-7">
-                  {pagination.from + index + 1}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Program ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.programCode  || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>University Name</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.universityName  || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Application Fee</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.applicationFee  || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Course Fee</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.campuses?.length > 0
-                        ? data?.campuses[0]?.courseFees
-                        : "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Status</strong>
-                  </div>
-                  <div className="col-md-7 ">      
-                  {data?.isActive || "Not Available"}
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                    <p className="me-auto">
+                      Show
+                      <select
+                        className="form-select form-select-sm rounded-1 d-inline mx-2"
+                        aria-label="Default select example1"
+                        style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                        value={pageSize}
+                        onChange={handlePageSizeChange} // Handle page size change
+                      >
+                        <option value="5">5</option>
+                        <option value="15">15</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                      </select>{" "}
+                      Entries out of {pagination.count}
+                    </p>
+                    <Pagination
+                      count={Math.ceil(pagination.count / pageSize)}
+                      onChange={handlePageChange}
+                      variant="outlined"
+                      shape="rounded"
+                      color="primary"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-          <Link
-                          className="btn btn-sm btn-outline-primary"
-                          to={{
-                            pathname: "/view_program",
-                            search: `?id=${data?._id}`,
-                          }}
-                        >
-                          <i className="far fa-eye text-primary me-1"></i>
-                        </Link>
-                        <Link
-                          className="dropdown-item"
-                          to={{
-                            pathname: "/edit_program",
-                            search: `?id=${data?._id}`,
-                          }}
-                        >
-                          <i className="btn btn-sm btn-outline-warning"></i>
-                        </Link>
-                        <button
-                          className="dropdown-item"
-                          onClick={() => {
-                            openPopup(data?._id);
-                          }}
-                        >
-                          <i className="btn btn-sm btn-outline-danger"></i>
-                   </button>
-          </div>
-        </div>
-      </div>
-})}
-  </div>
-</div>
-                    </div>
-                </div>  
-        </div>
-        <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto">
-          Show
-          <select
-            className="form-select form-select-sm rounded-1 d-inline mx-2"
-            aria-label="Default select example1"
-            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-            value={pageSize}
-            onChange={handlePageSizeChange} // Handle page size change
-          >
-            <option value="5">5</option>
-            <option value="15">15</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>{" "}
-          Entries out of {pagination.count}
-        </p>
-          <Pagination
-            count={Math.ceil(pagination.count / pageSize)}
-            onChange={handlePageChange}
-            variant="outlined"
-            shape="rounded"
-            color="primary"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>         
         </div>
         <Dialog open={open}>
           <DialogContent>
@@ -1170,32 +1139,32 @@ const getallProgramCount = ()=>{
           </DialogContent>
         </Dialog>
         <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
-        <DialogContent>
-                  <div className="text-center m-4">
-                    <h5 className="mb-4"
+          <DialogContent>
+            <div className="text-center m-4">
+              <h5 className="mb-4"
                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                  Are you sure you want to delete?</h5>
-                    <button
-                     type="button"
-                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
-                     onClick={deleteSelectedProgram}
-                     
-                    >
-                      Yes
-                    </button>
-                    <button
-                     type="button"
-                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    
-                      onClick={() => setOpenDelete(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                  </DialogContent>
-                </Dialog>
+                Are you sure you want to delete?</h5>
+              <button
+                type="button"
+                className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+                onClick={deleteSelectedProgram}
+
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+
+                onClick={() => setOpenDelete(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </DialogContent>
+        </Dialog>
         <Dialog open={openFilter} fullWidth maxWidth="sm">
           <DialogTitle>
             Filter University

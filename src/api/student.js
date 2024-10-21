@@ -18,7 +18,9 @@ export const activeClient = (data) => {
 export const deactivateClient = (data) => {
   return API.post(`${Student}/deActiveStudent`,data);
 };
-
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Student}/assign`,data);
+};
 export const getSingleStudent = (data) => {
     return API.get(`${Student}/getSingleStudent`, { params: { _id: data } })
 }
@@ -35,6 +37,11 @@ export const saveContact = (data) => {
 export const getallStudentLog = () => {
   return API.get(`${Student}/logs`)
 }
+
+export const getallStudentCard = () => {
+  return API.get(`${Student}/card`)
+}
+
 export const getFilterStudent = (data) => {
   return API.put(`${Student}/getFilterStudentBySuperAdmin`, data);
 };

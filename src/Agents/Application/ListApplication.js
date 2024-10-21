@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallApplication, deleteApplication } from "../../api/applicatin";
+import { getallApplication, deleteApplication,getFilterApplican } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -76,17 +76,26 @@ export default function Masterproductlist() {
     // return null; // or a loading spinner
   }
   
-  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'program');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'application');
   
   if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
 
   const getApplicationList = () => {
-    getallApplication()
+    const data = {
+      limit: 10,
+      page: pagination.from,
+      agentId: getAgentId(),
+    };
+    getFilterApplican(data)
       .then((res) => {
-        const value = res?.data?.result;
-        setApplication(value);
+        console.log("yuvi", res);
+        setApplication(res?.data?.result?.applicantList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.applicantCount,
+        });
       })
       .catch((err) => {
         console.log(err);

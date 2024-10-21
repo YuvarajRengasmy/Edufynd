@@ -8,6 +8,19 @@ export const saveFlightEnquiry = (data) => {
 export const updateFlightEnquiry= (data) => {
     return API.put(`${Flight}`, data)
 }
+export const statusApplication = (data) => {
+  return API.put(`${Flight}/status`, data);
+};
+export const activeClient = (data) => {
+  return API.post(`${Flight}/active`,data);
+};
+
+export const deactivateClient = (data) => {
+  return API.post(`${Flight}/deActive`,data);
+};
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Flight}/assign`,data);
+};
 
 export const getSingleFlightEnquiry = (data) => {
     return API.get(`${Flight}/getSingleFlightEnquiry`,{params: {_id:data}})

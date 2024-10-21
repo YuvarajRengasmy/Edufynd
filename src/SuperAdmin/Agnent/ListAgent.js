@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallAgent, deleteAgent,deactivateClient,activeClient, getFilterAgent } from "../../api/agent";
+import { getallAgent, deleteAgent, deactivateClient, activeClient, assignStaffToEnquiries, getFilterAgent, getAllAgentCard} from "../../api/agent";
 import { Link, useLocation } from "react-router-dom";
 import { getSuperAdminForSearch } from "../../api/superAdmin";
 import { getallStaff } from "../../api/staff";
@@ -36,6 +36,8 @@ export default function Masterproductlist() {
   const [openAssign, setOpenAssign] = useState(false);
   const [staff, setStaff] = useState([]);
   const [file, setFile] = useState(null);
+  const [selectedStaffId, setSelectedStaffId] = useState('');
+  const [selectedStaffName, setSelectedStaffName] = useState(''); // To store the staff name
   const location = useLocation();
   var searchValue = location.state;
   const [link, setLink] = useState("");
@@ -46,7 +48,7 @@ export default function Masterproductlist() {
   const [openImport, setOpenImport] = useState(false);
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [pageSize, setPageSize] = useState(10); 
+  const [pageSize, setPageSize] = useState(10);
   const search = useRef(null);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -55,6 +57,7 @@ export default function Masterproductlist() {
   });
 
   const [agent, setAgent] = useState([]);
+  const [details, setDetails] = useState();
 
   useEffect(() => {
     if (search.current) {
@@ -71,8 +74,17 @@ export default function Masterproductlist() {
   useEffect(() => {
     getAllAgentDetails();
     getStaffList();
-  }, [pagination.from, pagination.to,pageSize]);
+  }, [pagination.from, pagination.to, pageSize]);
 
+
+  useEffect(() => {
+    getAllAgentCount()
+
+  })
+
+  const getAllAgentCount = () => {
+    getAllAgentCard().then((res) => setDetails(res?.data.result))
+  }
 
 
   const getStaffList = () => {
@@ -125,7 +137,7 @@ export default function Masterproductlist() {
     event?.preventDefault();
     getSuperAdminForSearch(data)
       .then((res) => {
-        const universityList = res?.data?.result?.agentList;
+        const universityList = res?.data?.result?.agentListed;
         setAgent(universityList);
         const result = universityList.length ? "Agent" : "";
         setLink(result);
@@ -175,16 +187,16 @@ export default function Masterproductlist() {
       page: pagination.from,
     };
     getFilterAgent(data)
-    .then((res) => {
-      setAgent(res?.data?.result?.agentList);
-      setPagination({
-        ...pagination,
-        count: res?.data?.result?.agentCount,
+      .then((res) => {
+        setAgent(res?.data?.result?.agentList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.agentCount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
   };
 
   const resetFilter = () => {
@@ -193,7 +205,7 @@ export default function Masterproductlist() {
     getAllAgentDetails();
   };
 
- 
+
   const openImportPopup = () => {
     setOpenImport(true);
   };
@@ -301,7 +313,7 @@ export default function Masterproductlist() {
             },
 
             {
-              text: element?.agentCode?? "-",
+              text: element?.agentCode ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -421,19 +433,19 @@ export default function Masterproductlist() {
       // deleteSelectedagent();
     } else if (action === "Activate") {
       activateSelectedAgent();
-    }else if (action === "DeActivate") {
+    } else if (action === "DeActivate") {
       deactivateSelectedAgent();
-    }else if (action === "Assign") {
+    } else if (action === "Assign") {
       // activateSelectedAgent();
       setOpenAssign(true);
     }
   };
- 
 
-  
+
+
   const deleteSelectedagent = () => {
     if (selectedIds.length > 0) {
-      Promise.all(selectedIds.map((id) =>deleteAgent(id)))
+      Promise.all(selectedIds.map((id) => deleteAgent(id)))
         .then((responses) => {
           toast.success("agent deleted successfully!");
           setSelectedIds([]);
@@ -449,7 +461,7 @@ export default function Masterproductlist() {
     }
   };
 
-  
+
 
   const activateSelectedAgent = () => {
     if (selectedIds.length > 0) {
@@ -469,8 +481,8 @@ export default function Masterproductlist() {
       toast.warning("No selected Agent.");
     }
   };
-  
-  const deactivateSelectedAgent= () => {
+
+  const deactivateSelectedAgent = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to deactivate the clients
       deactivateClient({ agentIds: selectedIds })
@@ -489,6 +501,32 @@ export default function Masterproductlist() {
     }
   };
 
+  const handleStaffSelect = (event) => {
+    const selectedIndex = event.target.selectedIndex;
+    const selectedStaffId = event.target.value;
+    const selectedStaffName = event.target.options[selectedIndex].text;
+
+    setSelectedStaffId(selectedStaffId);
+    setSelectedStaffName(selectedStaffName);   // Store staff ID
+
+  }
+  const handleSubmitStaffAssign = () => {
+    if (selectedIds.length > 0 && selectedStaffId) {
+      assignStaffToEnquiries({ Ids: selectedIds, staffId: selectedStaffId, staffName: selectedStaffName })
+        .then(() => {
+          toast.success('accmmodation assigned successfully!');
+          setSelectedIds([]); // Clear selected enquiries
+          getAllAgentDetails(); // Refresh student enquiries
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Failed to assign genreal.');
+        });
+    } else {
+      toast.warning('Please select enquiries and genreal.');
+    }
+  };
+
   return (
     <>
       <Mastersidebar />
@@ -502,35 +540,35 @@ export default function Masterproductlist() {
             <div className="row ">
               <div className="col-xl-12">
                 <ol className="breadcrumb d-flex justify-content-end align-items-center w-100">
-                <li className="flex-grow-1">
-            <form onSubmit={handleSearch}>
-              <div className="input-group" style={{ maxWidth: "600px" }}>
-                <input
-                  type="search"
-                  placeholder="Search....."
-                  ref={search}
-                  onChange={handleInputsearch}
-                  aria-describedby="button-addon3"
-                  className="form-control border-1 border-dark rounded-4"
-                  style={{ fontSize: '12px' }}
-                />
-                <button
-                  className="input-group-text bg-transparent border-0"
-                  id="button-addon3"
-                  type="submit"
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                  }}
-                >
-                  <i className="fas fa-search" style={{ color: "black" }}></i>
-                </button>
-              </div>
-            </form>
-          </li>
+                  <li className="flex-grow-1">
+                    <form onSubmit={handleSearch}>
+                      <div className="input-group" style={{ maxWidth: "600px" }}>
+                        <input
+                          type="search"
+                          placeholder="Search....."
+                          ref={search}
+                          onChange={handleInputsearch}
+                          aria-describedby="button-addon3"
+                          className="form-control border-1 border-dark rounded-4"
+                          style={{ fontSize: '12px' }}
+                        />
+                        <button
+                          className="input-group-text bg-transparent border-0"
+                          id="button-addon3"
+                          type="submit"
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <i className="fas fa-search" style={{ color: "black" }}></i>
+                        </button>
+                      </div>
+                    </form>
+                  </li>
                   <li class="m-1">
                     <div>
                       <button
@@ -575,7 +613,7 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               />
-                               <label className="form-label">Agent Name</label>
+                              <label className="form-label">Agent Name</label>
                               <br />
                               <input
                                 type="text"
@@ -616,7 +654,7 @@ export default function Masterproductlist() {
                                   fontSize: "11px",
                                 }}
                               />
-                             
+
                             </div>
                             <div>
                               <button
@@ -718,93 +756,87 @@ export default function Masterproductlist() {
 
 
         <div className="container-fluid mt-3 overflow-x-auto">
-      <div className="row">
-        {/* Card 1: Total Agents */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#388E3C" }} // Green
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-user-friends" style={{ color: '#ffffff' }}></i> Total Agents
-                </h6>
-                <p className="card-text">Total: 200</p>
-              </div>
-            </div>
-          </Link>
-        </div>
+          <div className="row">
+            {/* Card 1: Total Agents */}
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
+                <div className="card-body text-start">
+                  <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;No of Agents: {details?.totalAgent || 0}</h6>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <p className="card-text mb-1">Active: {details?.activeData || 0}</p>
+                    <p className="card-text mb-1">InActive: {details?.inactiveData || 0}</p> <br></br>
 
-        {/* Card 2: Status - Active */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#1E88E5" }} // Blue
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-user-check" style={{ color: '#ffffff' }}></i> Status - Active
-                </h6>
-                <p className="card-text">Total: 150</p>
+                  </div>
+                </div>
               </div>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Card 3: Status - Inactive */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#D32F2F" }} // Red
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-user-times" style={{ color: '#ffffff' }}></i> Status - Inactive
-                </h6>
-                <p className="card-text">Total: 30</p>
-              </div>
-            </div>
-          </Link>
-        </div>
+         {/* Card 2: Total Staff - Active Overall */}
+         <div className="col-md-3">
+                  <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
+                    <div className="card-body text-start">
+                      <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;BranchWise Agent: {details?.totalStaff || 0}</h6>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <p className="card-text mb-1">Processing...</p>
+                        <p className="card-text mb-1">Processing...</p> <br></br>
 
-        {/* Card 4: Pending Invoices */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#FBC02D" }} // Yellow
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-file-invoice" style={{ color: '#ffffff' }}></i> Pending Invoices
-                </h6>
-                <p className="card-text">Total: 50</p>
-              </div>
-            </div>
-          </Link>
-        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </Link>
+                </div>
 
-        {/* Card 5: Paid Invoices */}
-        <div className="col-md-3 col-sm-6 mb-3">
-          <Link to="#" className="text-decoration-none">
-            <div
-              className="card rounded-1 border-0 text-white shadow-sm"
-              style={{ backgroundColor: "#4CAF50" }} // Light Green
-            >
-              <div className="card-body">
-                <h6 className="">
-                  <i className="fas fa-money-check-alt" style={{ color: '#ffffff' }}></i> Paid Invoices
-                </h6>
-                <p className="card-text">Total: 120</p>
-              </div>
+
+                {/* Card 5: Total Staff - */}
+                <div className="col-md-3">
+                  <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
+                    <div className="card-body text-start">
+                      <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Highest No of Application:</h6>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <p className="card-text mb-1">Processing...</p>
+                        <p className="card-text mb-1">Processing...</p> <br></br>
+
+                      </div>
+                    </div>
+                  </div>
+                  </Link>
+                </div>
+
+            {/* Card 4: Pending Invoices */}
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link to="#" className="text-decoration-none">
+                <div
+                  className="card rounded-1 border-0 text-white shadow-sm"
+                  style={{ backgroundColor: "#FBC02D" }} // Yellow
+                >
+                  <div className="card-body">
+                    <h6 className="">
+                      <i className="fas fa-file-invoice" style={{ color: '#ffffff' }}></i> Pending Invoices
+                    </h6>
+                    <p className="card-text">Total: 50</p>
+                  </div>
+                </div>
+              </Link>
             </div>
-          </Link>
+
+            {/* Card 5: Paid Invoices */}
+
+            <div className="col-md-3">
+              <Link to='#' className="text-decoration-none">  <div className="card rounded-1 border-0 shadow-sm" style={{ backgroundColor: '#00695c', color: '#fff' }}>
+                <div className="card-body text-start">
+                  <h6> <i className="fas fa-list-ul "></i>&nbsp;&nbsp;Invoice Count: Processing...</h6>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <p className="card-text mb-1">Paid Amt: Processing...</p>
+                    <p className="card-text mb-1">Pending Amt: Processing...</p> <br></br>
+
+                  </div>
+                </div>
+              </div>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
 
 
@@ -813,52 +845,52 @@ export default function Masterproductlist() {
             <div className="row">
               <div className="col-xl-12">
                 <div className="card rounded-1 shadow-sm mt-2 border-0 ">
-                <div className="card-header bg-white mb-0 mt-1 pb-0">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex  mb-0">
-                    <p className="me-auto">
-                            Change
-                            <select
-                              className="form-select form-select-sm rounded-1 d-inline mx-2"
-                              aria-label="Default select example1"
-                              style={{
-                                width: "auto",
-                                display: "inline-block",
-                                fontSize: "12px",
-                              }}
-                              onChange={handleActionChange}
-                            >
-                              <option value="">Select Action</option>
-                              <option value="Activate">Activate</option>
-                              <option value="DeActivate">DeActivate</option>
-                              <option value="Assign">Assign</option>
-                              <option value="Delete">Delete</option>
-                            </select>
-                          </p>  
-                    </div>
+                  <div className="card-header bg-white mb-0 mt-1 pb-0">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex  mb-0">
+                        <p className="me-auto">
+                          Change
+                          <select
+                            className="form-select form-select-sm rounded-1 d-inline mx-2"
+                            aria-label="Default select example1"
+                            style={{
+                              width: "auto",
+                              display: "inline-block",
+                              fontSize: "12px",
+                            }}
+                            onChange={handleActionChange}
+                          >
+                            <option value="">Select Action</option>
+                            <option value="Activate">Activate</option>
+                            <option value="DeActivate">DeActivate</option>
+                            <option value="Assign">Assign</option>
+                            <option value="Delete">Delete</option>
+                          </select>
+                        </p>
+                      </div>
 
 
-                    <div>
-                    
-                       
+                      <div>
+
+
                         <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
                           <li>
                             {" "}
                             <a
-              className="nav-link active "
-              id="home-tab"
-              data-bs-toggle="tab"
-              href="#tab-home"
-              role="tab"
-              aria-controls="tab-home"
-              aria-selected="true"
-            >
-                          <i class="fa fa-list" aria-hidden="true"></i>    List View
+                              className="nav-link active "
+                              id="home-tab"
+                              data-bs-toggle="tab"
+                              href="#tab-home"
+                              role="tab"
+                              aria-controls="tab-home"
+                              aria-selected="true"
+                            >
+                              <i class="fa fa-list" aria-hidden="true"></i>    List View
                             </a>
                           </li>
                           <li>
-                            
-                              <a
+
+                            <a
                               className="nav-link "
                               id="profile-tab"
                               data-bs-toggle="tab"
@@ -867,251 +899,251 @@ export default function Masterproductlist() {
                               aria-controls="tab-profile"
                               aria-selected="false"
                             >
-                            
-                            <i class="fa fa-th" aria-hidden="true"></i>  Grid View
+
+                              <i class="fa fa-th" aria-hidden="true"></i>  Grid View
                             </a>
                           </li>
                         </ul>
-                      
-                     
-                    </div>
-                  </div>
-                </div>
-                  <div className="card-body">
-                  <div className="tab-content ">
-                    {/* List View */}
-                    <div
-                      className="tab-pane fade show active"
-                      id="tab-home"
-                      role="tabpanel"
-                      aria-labelledby="home-tab"
-                    >
 
 
-<div className="card-table">
-                      <div className="table-responsive">
-                        <table
-                          className=" table table-hover card-table dataTable table-responsive-sm text-center"
-                          style={{ color: "#9265cc", fontSize: "13px" }}
-                          ref={tableRef}
-                        >
-                          <thead className="table-light">
-                            <tr
-                              style={{
-                                fontFamily: "Plus Jakarta Sans",
-                                fontSize: "12px",
-                              }}
-                            >
-                               <th className=" text-start">
-                               <input
-                                    type="checkbox"
-                                    onChange={handleSelectAll}
-                                    checked={
-                                      selectedIds.length === agent.length
-                                    }
-                                  />
-                            </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                S No
-                              </th>
-
-                             
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Code
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                {" "}
-                                Name
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Email
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Mobile Number
-                              </th>
-                            
-                              <th className="text-capitalize text-start sortable-handle">
-                                Created At
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Status
-                              </th>
-                              <th className="text-capitalize text-start sortable-handle">
-                                Action
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {agent?.map((data, index) => (
-                              <tr
-                                key={index}
-                                style={{
-                                  fontFamily: "Plus Jakarta Sans",
-                                  fontSize: "11px",
-                                }}
-                              >
-                                <td className=" text-start">
-                                <input
-                                      type="checkbox"
-                                      checked={selectedIds.includes(data._id)}
-                                      onChange={() => handleCheckboxChange(data._id)}
-                                    />
-                              </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {pagination.from + index + 1}
-                                </td>
-
-                                
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.agentCode || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.agentName || "Not Available"}
-                                </td>
-
-                                <td className=" text-start text-truncate">{data?.email}</td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  {data?.mobileNumber || "Not Available"}
-                                </td>
-                               
-                                <td className="text-capitalize text-start text-truncate">
-                                  {formatDate(
-                                    data?.modifiedOn
-                                      ? data?.modifiedOn
-                                      : data?.createdOn
-                                      ? data?.createdOn
-                                      : null
-                                      || "Not Available" )}
-                                </td>
-                                <td className="text-capitalize text-start ">
-                                  {data?.isActive || "Not Available"}
-                                </td>
-                                <td className="text-capitalize text-start text-truncate">
-                                  <div className="d-flex">
-                                    <Link
-                                      className="btn btn-sm btn-btn-outline-danger"
-                                      to={{
-                                        pathname: "/view_agent",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-eye text-primary me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="btn btn-sm btn-btn-outline-danger"
-                                      to={{
-                                        pathname: "/edit_agent",
-                                        search: `?id=${data?._id}`,
-                                      }}
-                                    >
-                                      <i className="far fa-edit text-warning me-1"></i>
-                                    </Link>
-                                    <Link
-                                      className="btn btn-sm btn-btn-outline-danger"
-                                      onClick={() => {
-                                        openPopup(data?._id);
-                                      }}
-                                    >
-                                      <i className="far fa-trash-alt text-danger me-1"></i>
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
                       </div>
                     </div>
-</div>
+                  </div>
+                  <div className="card-body">
+                    <div className="tab-content ">
+                      {/* List View */}
+                      <div
+                        className="tab-pane fade show active"
+                        id="tab-home"
+                        role="tabpanel"
+                        aria-labelledby="home-tab"
+                      >
+
+
+                        <div className="card-table">
+                          <div className="table-responsive">
+                            <table
+                              className=" table table-hover card-table dataTable table-responsive-sm text-center"
+                              style={{ color: "#9265cc", fontSize: "13px" }}
+                              ref={tableRef}
+                            >
+                              <thead className="table-light">
+                                <tr
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  <th className=" text-start">
+                                    <input
+                                      type="checkbox"
+                                      onChange={handleSelectAll}
+                                      checked={
+                                        selectedIds.length === agent.length
+                                      }
+                                    />
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    S No
+                                  </th>
+
+
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Code
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    {" "}
+                                    Name
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Email
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Mobile Number
+                                  </th>
+
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Created At
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Status
+                                  </th>
+                                  <th className="text-capitalize text-start sortable-handle">
+                                    Action
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {agent?.map((data, index) => (
+                                  <tr
+                                    key={index}
+                                    style={{
+                                      fontFamily: "Plus Jakarta Sans",
+                                      fontSize: "11px",
+                                    }}
+                                  >
+                                    <td className=" text-start">
+                                      <input
+                                        type="checkbox"
+                                        checked={selectedIds.includes(data._id)}
+                                        onChange={() => handleCheckboxChange(data._id)}
+                                      />
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {pagination.from + index + 1}
+                                    </td>
+
+
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.agentCode || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.agentName || "Not Available"}
+                                    </td>
+
+                                    <td className=" text-start text-truncate">{data?.email}</td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {data?.mobileNumber || "Not Available"}
+                                    </td>
+
+                                    <td className="text-capitalize text-start text-truncate">
+                                      {formatDate(
+                                        data?.modifiedOn
+                                          ? data?.modifiedOn
+                                          : data?.createdOn
+                                            ? data?.createdOn
+                                            : null
+                                            || "Not Available")}
+                                    </td>
+                                    <td className="text-capitalize text-start ">
+                                      {data?.isActive || "Not Available"}
+                                    </td>
+                                    <td className="text-capitalize text-start text-truncate">
+                                      <div className="d-flex">
+                                        <Link
+                                          className="btn btn-sm btn-btn-outline-danger"
+                                          to={{
+                                            pathname: "/view_agent",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-eye text-primary me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="btn btn-sm btn-btn-outline-danger"
+                                          to={{
+                                            pathname: "/edit_agent",
+                                            search: `?id=${data?._id}`,
+                                          }}
+                                        >
+                                          <i className="far fa-edit text-warning me-1"></i>
+                                        </Link>
+                                        <Link
+                                          className="btn btn-sm btn-btn-outline-danger"
+                                          onClick={() => {
+                                            openPopup(data?._id);
+                                          }}
+                                        >
+                                          <i className="far fa-trash-alt text-danger me-1"></i>
+                                        </Link>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
 
 
 
-<div
-                     class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
-                    >
-          
-          <div className="container">
-  <div className="row">
-  {agent?.map((data, index) => (
-      <div className="col-md-4 mb-4" key={index}>
-        <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{fontSize:'10px'}}>
-          <div className="card-header   d-flex justify-content-between align-items-center">
-            <h6 className="mb-0"> {data?.agentName || "Not Available"}</h6>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>S.No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {pagination.from + index + 1}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Agent ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.agentCode || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Email ID</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.email}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Primary No</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {data?.mobileNumber || "Not Available"}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Created At</strong>
-                  </div>
-                  <div className="col-md-7">
-                  {formatDate(
-                                    data?.modifiedOn
-                                      ? data?.modifiedOn
-                                      : data?.createdOn
-                                      ? data?.createdOn
-                                      : null
-                                      || "Not Available" )}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 mb-2">
-                <div className="row">
-                  <div className="col-md-5">
-                    <strong>Status</strong>
-                  </div>
-                  <div className="col-md-7 ">
-                  
-          {data?.isActive ||"Not Availble"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
-          <Link
+                      <div
+                        class="tab-pane fade " id="tab-profile" role="tabpanel" aria-labelledby="profile-tab"
+                      >
+
+                        <div className="container">
+                          <div className="row">
+                            {agent?.map((data, index) => (
+                              <div className="col-md-4 mb-4" key={index}>
+                                <div className="card shadow-sm  rounded-1 text-bg-light h-100" style={{ fontSize: '10px' }}>
+                                  <div className="card-header   d-flex justify-content-between align-items-center">
+                                    <h6 className="mb-0"> {data?.agentName || "Not Available"}</h6>
+                                  </div>
+                                  <div className="card-body">
+                                    <div className="row">
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>S.No</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {pagination.from + index + 1}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Agent ID</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.agentCode || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Email ID</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.email}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Primary No</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {data?.mobileNumber || "Not Available"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Created At</strong>
+                                          </div>
+                                          <div className="col-md-7">
+                                            {formatDate(
+                                              data?.modifiedOn
+                                                ? data?.modifiedOn
+                                                : data?.createdOn
+                                                  ? data?.createdOn
+                                                  : null
+                                                  || "Not Available")}
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-12 mb-2">
+                                        <div className="row">
+                                          <div className="col-md-5">
+                                            <strong>Status</strong>
+                                          </div>
+                                          <div className="col-md-7 ">
+
+                                            {data?.isActive || "Not Availble"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="card-footer bg-light d-flex justify-content-between align-items-center border-top-0">
+                                    <Link
                                       className="btn btn-sm btn-outline-primary"
                                       to={{
                                         pathname: "/view_agent",
@@ -1137,12 +1169,12 @@ export default function Masterproductlist() {
                                     >
                                       <i className="far fa-trash-alt  me-1"></i>Delete
                                     </Link>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
 
 
 
@@ -1150,38 +1182,38 @@ export default function Masterproductlist() {
 
 
 
+                      </div>
                     </div>
-                </div>
 
 
 
-                  
-                <div className="d-flex justify-content-between align-items-center p-3">
-        <p className="me-auto">
-          Show
-          <select
-            className="form-select form-select-sm rounded-1 d-inline mx-2"
-            aria-label="Default select example1"
-            style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
-            value={pageSize}
-            onChange={handlePageSizeChange} // Handle page size change
-          >
-            <option value="5">5</option>
-            <option value="15">15</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>{" "}
-          Entries out of {pagination.count}
-        </p>
-          <Pagination
-            count={Math.ceil(pagination.count / pageSize)}
-            onChange={handlePageChange}
-            variant="outlined"
-            shape="rounded"
-            color="primary"
-          />
-        </div> 
+
+                    <div className="d-flex justify-content-between align-items-center p-3">
+                      <p className="me-auto">
+                        Show
+                        <select
+                          className="form-select form-select-sm rounded-1 d-inline mx-2"
+                          aria-label="Default select example1"
+                          style={{ width: "auto", display: "inline-block", fontSize: "12px" }}
+                          value={pageSize}
+                          onChange={handlePageSizeChange} // Handle page size change
+                        >
+                          <option value="5">5</option>
+                          <option value="15">15</option>
+                          <option value="25">25</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                        </select>{" "}
+                        Entries out of {pagination.count}
+                      </p>
+                      <Pagination
+                        count={Math.ceil(pagination.count / pageSize)}
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        shape="rounded"
+                        color="primary"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1217,77 +1249,35 @@ export default function Masterproductlist() {
 
       <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
         <DialogContent>
-                  <div className="text-center m-4">
-                    <h5 className="mb-4"
-                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-                  Are you sure you want to delete?</h5>
-                    <button
-                     type="button"
-                     className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}     
-                     onClick={deleteSelectedagent}
-                     
-                    >
-                      Yes
-                    </button>
-                    <button
-                     type="button"
-                     className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
-                     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                    
-                      onClick={() => setOpenDelete(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                  </DialogContent>
-                </Dialog>
-
-                {/* <Dialog open={openAssign} onClose={() => setOpenAssign(false)}>
-        <DialogContent>
           <div className="text-center m-4">
-            <h5 className="mb-4" style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
-              Assign to Staff
-            </h5>
+            <h5 className="mb-4"
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "14px" }}>
+              Are you sure you want to delete?</h5>
+            <button
+              type="button"
+              className="btn btn-success px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
+              onClick={deleteSelectedagent}
 
-            <form>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Staff List
-                </label>
-                <select className="form-select-sm rounded-1" name="staffName">
-                  <option value="">Select a Staff</option>
-                  {staff && staff.map((staffMember, index) => (
-                    <option key={index} value={staffMember.empName}>
-                      {staffMember.empName}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
+              style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
 
-              <button
-                type="button"
-                className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
-                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={deactivateSelectedAgent}
-              >
-                Yes
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
-                style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={() => setOpenAssign(false)} 
-              >
-                Cancel
-              </button>
-            </form>
+              onClick={() => setOpenDelete(false)}
+            >
+              Cancel
+            </button>
           </div>
         </DialogContent>
-      </Dialog> */}
-       <Dialog 
-        open={openAssign} 
+      </Dialog>
+
+
+      <Dialog
+        open={openAssign}
         onClose={() => setOpenAssign(false)}
         PaperProps={{
           style: {
@@ -1305,15 +1295,17 @@ export default function Masterproductlist() {
 
             <form>
               <div className="from-group mb-3">
-                <label  className="form-label">
+                <label className="form-label">
                   Staff List
                 </label>
-                <select className="form-select rounded-1" name="staffName">
-                  <option value="">Select a Staff</option>
-                  {staff && staff.map((staffMember, index) => (
-                    <option key={index} value={staffMember.empName}>
-                      {staffMember.empName}
-                    </option>
+                <select
+                  className="form-select rounded-1"
+                  name="staffName"
+                  onChange={handleStaffSelect}  // Capture selected staffId
+                >
+                  <option value="1">Select a Staff</option>
+                  {staff.map((staff, index) => (
+                    <option key={index} value={staff._id}>{staff.empName}</option>  // Use staff._id as value
                   ))}
                 </select>
               </div>
@@ -1322,7 +1314,7 @@ export default function Masterproductlist() {
                 type="button"
                 className="btn btn-success mt-4 px-3 py-1 rounded-pill text-uppercase fw-semibold text-white mx-3"
                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={deactivateSelectedAgent}
+                onClick={handleSubmitStaffAssign}
               >
                 Yes
               </button>
@@ -1331,7 +1323,7 @@ export default function Masterproductlist() {
                 type="button"
                 className="btn btn-danger mt-4 px-3 py-1 rounded-pill text-uppercase text-white fw-semibold"
                 style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
-                onClick={() => setOpenAssign(false)}  
+                onClick={() => setOpenAssign(false)}
               >
                 Cancel
               </button>

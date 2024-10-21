@@ -17,6 +17,8 @@ import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 import Downshift from "downshift";
+import { Chart, registerables } from 'chart.js';
+
 export default function Masterproductlist() {
   const initialState = {
     typeOfClient: "",
@@ -45,7 +47,8 @@ export default function Masterproductlist() {
   const search = useRef(null);
 
   const [pageSize, setPageSize] = useState(10); // Default page size
-  const [details, setDetails] = useState();
+  const [details, setDetails] = useState(null);
+  const [loadin, setLoadin] = useState(true); // Add a loading state
 
   const [pagination, setPagination] = useState({
     count: 0,
@@ -75,14 +78,17 @@ export default function Masterproductlist() {
 useEffect(() => {
   getallClientCount();
   filterUniversityList();
- 
+
 }, []);
 
-const getallClientCount = ()=>{
-  getAllClientCard().then((res)=>setDetails(res?.data.result))
-}
 
-  const handleInputsearch = (event) => {
+const getallClientCount = async ()=>{
+  await getAllClientCard().then((res)=>
+  setDetails(res?.data.result))
+ }
+
+
+const handleInputsearch = (event) => {
     if (event.key === "Enter") {
       search.current.blur();
       handleSearch();
@@ -196,16 +202,18 @@ const getallClientCount = ()=>{
   const handleActionChange = (event) => {
     const action = event.target.value;
     if (action === "Delete") {
-      deleteSelectedNotifications();
+      deleteSelectedUsers();
     } else if (action === "Activate") {
-      activateSelectedNotifications();
+      activateSelectedUsers();
+      getallClientCount();
     } else if (action === "Deactivate") {
-      deactivateSelectedNotifications(); 
+      deactivateSelectedUsers();
+      getallClientCount(); 
     }
   };
 
  
-  const deleteSelectedNotifications = () => {
+  const deleteSelectedUsers = () => {
     if (selectedIds.length > 0) {
       Promise.all(selectedIds.map((id) => deleteClient(id)))
         .then((responses) => {
@@ -222,8 +230,8 @@ const getallClientCount = ()=>{
     }
   };
 
- 
-  const activateSelectedNotifications = () => {
+
+  const activateSelectedUsers = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to activate the clients
       activeClient({ clientIds: selectedIds })
@@ -235,14 +243,14 @@ const getallClientCount = ()=>{
         })
         .catch((err) => {
           console.error(err);
-          toast.error("Failed to activate client.");
+          toast.error("Already clients were Activated");
         });
     } else {
       toast.warning("No selected Client.");
     }
   };
   
-  const deactivateSelectedNotifications = () => {
+  const deactivateSelectedUsers = () => {
     if (selectedIds.length > 0) {
       // Send the selected IDs to the backend to deactivate the clients
       deactivateClient({ clientIds: selectedIds })
@@ -388,7 +396,7 @@ const getallClientCount = ()=>{
               margin: [5, 3],
             },
             {
-              text: element?.clientStatus ?? "-",
+              text: element?.isActive ?? "-",
               fontSize: 10,
               alignment: "left",
               margin: [5, 3],
@@ -415,7 +423,7 @@ const getallClientCount = ()=>{
             businessName: res?.businessName ?? "-",
             businessMailID: res?.businessMailID ?? "-",
             businessContactNo: res?.businessContactNo ?? "-",
-            status: res?.clientStatus ?? "-",
+            isActive: res?.isActive ?? "-",
           });
         });
         let header1 = [
@@ -423,7 +431,7 @@ const getallClientCount = ()=>{
           "businessName",
           "businessMailID",
           "businessContactNo",
-          "clientStatus",
+          "isActive",
         ];
         let header2 = [
           "Client Id",
@@ -475,7 +483,142 @@ const getallClientCount = ()=>{
 
 
 
+
+  const chartRefer = useRef(null);
+  const chartInstance = useRef(null);
+
+  useEffect(() => {
+    const ctx = chartRefer.current.getContext('2d');
+
+    // Destroy previous chart if it exists
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    // Create the new chart
+    chartInstance.current = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+      
+        datasets: [{
+          data: [
+            details?.accommodation || 0,
+            details?.flight || 0,
+            details?.loan || 0,
+            details?.forex || 0,
+            details?.education || 0,
+            details?.finance || 0,
+
+          ], // Use default 0 if no data available
+          backgroundColor: [
+            '#fdc21d', // Green for "Active" (chat bubble color)
+            '#207cbb',
+            "#097969",
+            "#00d4ff",
+            "#ba1b1b",
+            "#94bbe9" // Blue for "Inactive" (chat bubble color)
+          ],
+          borderColor: [
+           '#fdc21d', // Green for "Active" (chat bubble color)
+            '#207cbb',
+            "#097969",
+            "#00d4ff",
+            "#ba1b1b",
+            "#94bbe9" // Blue for "Inactive" (chat bubble color)
+          ],
+          borderWidth: 5,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return tooltipItem.label + ': ' + tooltipItem.raw;
+              }
+            }
+          }
+            },
+          },
+        
+        
+        
+      
+    });
+
+    // Clean up on component unmount
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [details]);
   // filter
+
+
+ 
+  const chartRef = useRef(null);
+  const chartInstanc = useRef(null);
+useEffect(() => {
+  const ctx = chartRef.current.getContext('2d');
+
+  // Destroy previous chart if it exists
+  if (chartInstanc.current) {
+    chartInstanc.current.destroy();
+  }
+
+  // Create the new chart
+  chartInstanc.current = new Chart(ctx, {
+    type: 'pie', // Change type to 'pie'
+    data: {
+      datasets: [{
+        data: [
+          details?.activeClient || 0,
+          details?.inactiveClient || 0,
+         
+        ], // Use default 0 if no data available
+        backgroundColor: [
+          '#fdc21d', // Yellow
+          '#207cbb', // Blue
+         // Light Blue
+        ],
+        borderColor: [
+          '#fdc21d', 
+          '#207cbb',
+         
+        ],
+        borderWidth: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top', // Position the legend at the top
+        },
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              return tooltipItem.label + ': ' + tooltipItem.raw;
+            }
+          }
+        }
+      }
+    },
+  });
+
+  // Clean up on component unmount
+  return () => {
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+  };
+}, [details]);
+
   const [showFilter, setShowFilter] = useState({
     typeOfClient: false,
     name: false,
@@ -790,78 +933,120 @@ const getallClientCount = ()=>{
 
 
         <div className="container-fluid mt-3">
-          <div className="row">
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#00796B" }} // Tropical Teal
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-check"></i> No of Clients</h6>
-                    <p className="card-text">Total Client: {details?.totalClient || 0}</p>
-                    {/* <p className="card-text">
-                      <i className="fas fa-users"></i> Actively Engaged
-                    </p> */}
-                  </div>
-                </div>
-              </Link>
+  <div className="row">
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-dark shadow-sm"
+          style={{ backgroundColor: "#fff" }} // Tropical Teal
+        >
+          <div className="card-body">
+            <h6 className="">
+              <i className="fas fa-user-check"></i> No of Clients:{" "}
+              {details?.totalClient || 0}
+            </h6>
+            <div className="col-auto">
+              <div
+                className="chart-container"
+                style={{
+                  position: "relative",
+                  width: "12rem",
+                  height: "10rem",
+                }}
+              >
+                <canvas
+                  ref={chartRefer}
+                  style={{ width: "6rem", height: "7rem" }}
+                />
+              </div>
             </div>
 
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#C62828" }} // Crimson Red
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-user-times"></i> Active Clients</h6>
-                    <p className="card-text">
-                    <i className="fas fa-users"></i> Currently Active: {details?.activeClient || 0}    
-                    </p>
-                    <p className="card-text">
-                      <i className="fas fa-user-slash"></i> Currently Inactive: {details?.inactiveClient || 0}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#0288D1" }} // Steel Blue
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-file-invoice"></i> Invoices Raised</h6>
-                    <p className="card-text">Total: 350</p>
-                    <p className="card-text">
-                      <i className="fas fa-file-invoice"></i> Pending Payments
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            <div className="col-md-3 col-sm-6 mb-3">
-              <Link to="#" className="text-decoration-none">
-                <div
-                  className="card rounded-1 border-0 text-white shadow-sm"
-                  style={{ backgroundColor: "#1A237E" }} // Navy Blue
-                >
-                  <div className="card-body">
-                    <h6 className=""><i className="fas fa-money-check-alt"></i> Invoices Paid</h6>
-                    <p className="card-text">Total: 290</p>
-                    <p className="card-text">
-                      <i className="fas fa-money-bill-wave"></i> Payments Received
-                    </p>
-                  </div>
-                </div>
-              </Link>
+            {/* Display values in a single row */}
+            <div className="d-flex flex-wrap align-items-center justify-content-between mt-3">
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#fdc21d'}}>Acc: {details?.accommodation || 0}</p>
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#00d4ff'}}>For: {details?.forex || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#94bbe9'}}>Fin: {details?.finance || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#ba1b1b'}}>Edu: {details?.education || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#207cbb'}}>Flight: {details?.flight || 0}</p>
+              <p className="card-text mb-1 text-white"style={{backgroundColor: '#207cbb'}}>Loan: {details?.loan || 0}</p>
             </div>
           </div>
         </div>
+      </Link>
+    </div>
+   
+
+    {/* Other cards remain unchanged */}
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-dark shadow-sm"
+          style={{ backgroundColor: "#fff" }} // Crimson Red
+        >
+          <div className="card-body" >
+          <h6 className="">
+            <i className="fas fa-user-times"></i>Clients Status
+            </h6>
+            <div
+                className="chart-container"
+                style={{
+                  position: "relative",
+                  width: "12rem",
+                  height: "10rem",
+                }}
+              >
+            <canvas ref={chartRef} style={{ width: "6rem", height: "7rem" }} />
+</div>
+            <div className="d-flex flex-wrap align-items-center justify-content-between mt-3">
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#fdc21d'}}>Active: {details?.activeClient || 0}</p>
+              <p className="card-text mb-1 text-white" style={{backgroundColor: '#207cbb'}}>InActive:{details?.activeClient || 0}</p>
+             
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#0288D1" }} // Steel Blue
+        >
+          <div className="card-body">
+            <h6 className="">
+              <i className="fas fa-file-invoice"></i> Invoices Raised
+            </h6>
+            <p className="card-text">Total: Processing...</p>
+            <p className="card-text">
+              <i className="fas fa-file-invoice"></i> Processing...
+            </p>
+          </div>
+        </div>
+      </Link>
+    </div>
+
+    <div className="col-md-3 col-sm-6 mb-3">
+      <Link to="#" className="text-decoration-none">
+        <div
+          className="card rounded-1 border-0 text-white shadow-sm"
+          style={{ backgroundColor: "#1A237E" }} // Navy Blue
+        >
+          <div className="card-body">
+            <h6 className="">
+              <i className="fas fa-money-check-alt"></i> Invoices Paid
+            </h6>
+            <p className="card-text">Total: Processing...</p>
+            <p className="card-text">
+              <i className="fas fa-money-bill-wave"></i> Processing...
+            </p>
+          </div>
+        </div>
+      </Link>
+    </div>
+  </div>
+</div>
+
 
 
         <div className="container-fluid mt-3">
@@ -901,75 +1086,13 @@ const getallClientCount = ()=>{
     >
       <option value="">Select Action</option>
       <option value="Activate">Activate</option>
-      <option value="Delete">Delete</option>
       <option value="Deactivate">Deactivate</option>
+      <option value="Delete">Delete</option>
+      
       
     </select>
   </p>
-  <button
-        type="button"
-        className="btn btn-outline-dark btn-sm px-4 py-2 text-uppercase fw-semibold"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <i className="fa fa-plus-circle" aria-hidden="true"></i> Assign to
-      </button>
-    
-
-    {/* Modal */}
-    <div
-      className="modal fade"
-      id="exampleModal"
-      tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
-              Assign to
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <form>
-              <div className="mb-3">
-                <label htmlFor="exampleFormControlInput1" className="form-label">
-                  Staff List
-                </label>
-                <input
-                  type="text"
-                  className="form-control rounded-1 text-capitalize"
-                  id="exampleFormControlInput1"
-                  placeholder="Example JohnDoe"
-                />
-              </div>
-            </form>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-danger px-4 py-2 text-uppercase fw-semibold"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              className="btn btn-success px-4 py-2 text-uppercase fw-semibold"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  
 </div>
 
 

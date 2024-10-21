@@ -5,7 +5,6 @@ import {
   isValidWebsite,
   isValidEmail,
   isValidName,
- 
   isValidPAN,
   isValidBankAccountNumber,
   isValidNumberLessThanOrEqualTo99,

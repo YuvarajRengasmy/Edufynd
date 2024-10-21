@@ -19,6 +19,7 @@ import CountryRegion from "countryregionjs";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 // import 'flag-icon-css/css/flag-icon.min.css';
+import { getallCountryList } from "../../api/country";
 
 function AddAgent() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function AddAgent() {
     emailID: "",
     whatsAppNumber: "",
   };
+  
   const initialStateErrors = {
     typeOfClient: { required: false },
     businessName: { required: false },
@@ -67,13 +69,13 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState([]);
-
-  const [state, setState] = useState("");
-  const [states, setStates] = useState([]);
-  const [country, setCountry] = useState("");
-  const [countries, setCountries] = useState([]);
-  const [lga, setLGA] = useState("");
-  const [lgas, setLGAs] = useState([]);
+  const [countriesData, setCountriesData] = useState([]); // Holds country data
+  const [states, setStates] = useState([]); // Holds state data
+  const [cities, setCities] = useState([]); // Holds city data
+  const [selectedCountry, setSelectedCountry] = useState(""); // Selected country
+  const [selectedState, setSelectedState] = useState(""); // Selected state
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCountryName, setSelectedCountryName] = useState('');
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dial, setDial] = useState([]);
   const [dail1, setDail1] = useState(null);
@@ -84,9 +86,18 @@ function AddAgent() {
      getAllClientDetails();
     getSingleDetails();
     getallCodeList();
+    getAllCountryDetails();
   }, []);
 
-
+  const getAllCountryDetails = () => {
+    getallCountryList()
+      .then((res) => {
+        setCountriesData(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getallCodeList = () => {
     getallCode()
       .then((res) => {
@@ -202,45 +213,39 @@ function AddAgent() {
     }
   };
 
-  const getCountryRegionInstance = () => {
-    return new CountryRegion();
+  const handleCountryChange = (e) => {
+    const countryId = e.target.value;
+    setSelectedCountry(countryId);
+
+    // Find the selected country in the countriesData
+    const selectedCountryData = countriesData.find(country => country._id === countryId);
+    
+    if (selectedCountryData) {
+      setStates(selectedCountryData.state); // Set the states for selected country
+      setCities([]); // Clear city data if country changes
+      setSelectedState('');
+      setSelectedCountryName(selectedCountryData.name); // Reset selected state
+    }
   };
 
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const countries = await getCountryRegionInstance().getCountries();
-        setCountries(
-          countries.map((country) => ({
-            value: country.id,
-            label: country.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCountries();
-  }, []);
+  // Handle state selection
+  const handleStateChange = (e) => {
+    const stateName = e.target.value;
+    setSelectedState(stateName);
 
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const states = await getCountryRegionInstance().getStates(country);
-        setStates(
-          states.map((userState) => ({
-            value: userState?.id,
-            label: userState?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (country) {
-      getStates();
+    // Find the selected state in the states data
+    const selectedStateData = states.find(state => state.name === stateName);
+    
+    if (selectedStateData) {
+      setCities(selectedStateData.cities); 
+      setSelectedCity(''); // Set cities for selected state
     }
-  }, [country]);
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+    
+  };
 
   const handleCheckboxChange = (e) => {
     const isChecked = e.target.checked;
@@ -258,42 +263,7 @@ function AddAgent() {
     }
   };
 
-  useEffect(() => {
-    const getLGAs = async () => {
-      try {
-        const lgas = await getCountryRegionInstance().getLGAs(country, state);
-        setLGAs(
-          lgas?.map((lga) => ({
-            value: lga?.id,
-            label: lga?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (state) {
-      getLGAs();
-    }
-  }, [country, state]);
-
-  const handleCountryChange = (selectedOption) => {
-    setCountry(selectedOption.value);
-
-    setState("");
-    setStates([]);
-    setLGA("");
-    setLGAs([]);
-  };
-  const handleStateChange = (selectedOptions) => {
-    setState(selectedOptions.value);
-    // setSelectedLGAs([]);
-    setLGA("");
-    setLGAs([]);
-  };
-  const handleLGAChange = (selectedOptions) => {
-    setLGA(selectedOptions.value);
-  };
+ 
 
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -325,9 +295,9 @@ function AddAgent() {
       dial1:dail1?.value,
       dial2:dail2?.value,
       dial3:dail3?.value,
-      country: countries.find((option) => option.value === country)?.label,
-      state: states.find((option) => option.value === state)?.label,
-      lga: lgas.find((option) => option.value === lga)?.label,
+      country: selectedCountryName,
+      state: selectedState,
+      lga: selectedCity,
     };
 
     if (handleErrors(newError)) {
@@ -579,7 +549,7 @@ function AddAgent() {
 
 
     
-    <div className="form-check ms-3 ">
+    {/* <div className="form-check ms-3 ">
       <input
         className="form-check-input"
         type="checkbox"
@@ -588,7 +558,7 @@ function AddAgent() {
         onChange={handleCheckboxChange}
       />
      
-    </div>
+    </div> */}
   </div>
   {errors.businessContactNo.required && (
     <span className="text-danger form-text profile_error">
@@ -598,10 +568,22 @@ function AddAgent() {
 </div>
 
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
+  {/* <label style={{ color: "#231F20" }}>
     Business WhatsApp Number
     <span className="text-danger">*</span>
-  </label>
+  </label> */}
+     <label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary No for Business WhatsApp No <span className="text-danger">*</span>
+                        </label>
+                      </label>
   <div className="input-group mb-3">
   <Select
                               value={dail2}
@@ -826,61 +808,70 @@ function AddAgent() {
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
+                            {" "}
                             Country<span className="text-danger">*</span>
                           </label>
-                          <Select
-                            placeholder={client?.country}
+                          <select
+                             style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1`}
+                            value={selectedCountry}
+                       
                             onChange={handleCountryChange}
-                            options={countries}
-                            name="country"
-                            styles={customStyles}
-                            value={countries.find(
-                              (option) => option.value === country
-                            )}
-                            className="submain-one-form-body-subsection-select"
-                          />
-                          {errors.country && errors.country.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
+                          >
+                            <option value="">{client?.country}</option>
+                            {countriesData.map((country) => (
+                              <option key={country._id} value={country._id}>
+                                {country.name}
+                              </option>
+                            ))}
+                          </select>
                         </div>
-
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             State<span className="text-danger">*</span>
                           </label>
-                          <Select
-                            placeholder={client?.state}
-                            onChange={handleStateChange}
-                            options={states}
-                            name="state"
-                            styles={customStyles}
-                            value={states.find(
-                              (option) => option.value === state
-                            )}
-                            className="submain-one-form-body-subsection-select"
-                          />
-                          {errors.state && errors.state.required && (
-                            <div className="text-danger form-text">
-                              This field is required.
-                            </div>
-                          )}
-                        </div>
+                          <select
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1`}
+                             value={selectedState}
 
+                            onChange={handleStateChange}
+                            disabled={!selectedCountry}
+                          >
+                            <option value="">{client?.state}</option>
+                            {states.map((state) => (
+                              <option key={state.name} value={state.name}>
+                                {state.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             City<span className="text-danger">*</span>
                           </label>
-                          <Select
-                            placeholder={client?.lga}
-                            onChange={handleLGAChange}
-                            options={lgas}
-                            name="lga"
-                            styles={customStyles}
-                            value={lgas.find((option) => option.value === lga)}
-                            className="submain-one-form-body-subsection-select"
-                          />
+
+                          <select
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1`}
+                          value={selectedCity} onChange={handleCityChange}   disabled={!selectedState} 
+                          >
+                            <option value="">{client?.lga}</option>
+                            {cities.map((city, index) => (
+                              <option key={index} value={city}>
+                                {city}
+                              </option>
+                            ))}
+                          </select>
                         </div>
 
                         <div className="add-customer-btns mb-40 d-flex justify-content-end  ml-auto">

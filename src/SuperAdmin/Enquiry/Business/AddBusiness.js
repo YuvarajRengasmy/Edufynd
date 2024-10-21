@@ -3,8 +3,9 @@ import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveBusinessEnquiry } from "../../../api/Enquiry/business";
-
 import Mastersidebar from "../../../compoents/sidebar";
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/student";
+
 
 export const AddBusiness = () => {
   const initialState = {
@@ -40,6 +41,7 @@ export const AddBusiness = () => {
     assignedTo: { required: false },
   };
   const [student, setStudent] = useState(initialState);
+  const [status, setStatus] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
@@ -123,16 +125,34 @@ export const AddBusiness = () => {
     }
     return true;
   };
-
+  useEffect(() => {
+    getAllApplicationsModuleDetails();
+  }, []);
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-    if (valid) {
-      saveBusinessEnquiry(student)
+    const data ={
+      ...student,
+    status:status}
+    if (handleErrors(newError)) {
+      saveBusinessEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_business_enquiry");

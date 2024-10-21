@@ -110,7 +110,7 @@ function EditAgent() {
     const updatedData = {
       ...inputs,
         role: "admin",
-        dial1:dail1.dial1,
+        dial1:dail1.value,
         superAdminId: getSuperAdminId(),
     }
     if (handleErrors(newError)) {

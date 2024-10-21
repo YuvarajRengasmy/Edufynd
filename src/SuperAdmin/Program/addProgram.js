@@ -9,6 +9,8 @@ import {
   isValidDuration,
 } from "../../Utils/Validation";
 import { saveProgram } from "../../api/Program";
+import { getFilterCommission} from "../../api/commission";
+
 import { getallUniversity } from "../../api/university";
 import { getallModule } from "../../api/allmodule";
 import { getallIntake } from "../../api/intake";
@@ -23,6 +25,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 function Profile() {
   const initialState = {
     universityName: "",
+    clientName: "",
     universityId: "",
     programTitle: "",
     country: "",
@@ -44,6 +47,7 @@ function Profile() {
 
   const initialStateErrors = {
     universityName: { required: false },
+    clientName:{ required: false },
     universityId: { required: false },
     country: { required: false },
     programTitle: { required: false },
@@ -83,11 +87,13 @@ function Profile() {
 
   const [type, setType] = useState([]);
   const [intake, setIntake] = useState([]);
+  const [commission, setCommission] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllUniversityList();
     getAllCurrencyDetails();
+    getCommissionList();
   }, []);
 
   const getAllUniversityList = () => {
@@ -116,12 +122,25 @@ function Profile() {
       error.universityName.required = true;
     }
 
+    if (data.clientName === "") {
+      error.clientName.required = true;
+    }
     if (data.country === "") {
       error.country.required = true;
     }
-
+    
+    if (data.greGmatRequirement === "") {
+      error.greGmatRequirement.required = true;
+    }
     if (data.programTitle === "") {
       error.programTitle.required = true;
+    }
+    if (data.popularCategories === "") {
+      error.popularCategories.required = true;
+    }
+    
+    if (data.courseType === "") {
+      error.courseType.required = true;
     }
 
     if (data.applicationFee === "") {
@@ -131,8 +150,10 @@ function Profile() {
     if (data.universityInterview === "") {
       error.universityInterview.required = true;
     }
-   
-
+    
+    if (data.englishlanguageTest === "") {
+      error.englishlanguageTest.required = true;
+    }
     if (!isValidNumber(data.applicationFee)) {
       error.applicationFee.valid = true;
     }
@@ -209,40 +230,59 @@ function Profile() {
   };
   const handleInputs = (event) => {
     const { name, value } = event.target;
-
+  
     setProgram((prevProgram) => {
       const updatedProgram = { ...prevProgram, [name]: value };
+  
       if (name === "universityName") {
-        const selectedUniversity = university.find(
-          (u) => u.universityName === value
-        );
+        const selectedUniversity = university.find((u) => u.universityName === value);
         if (selectedUniversity) {
+          // Extract the states and LGAs
           const states = selectedUniversity.campuses.map((campus) => campus.state);
           const lgas = selectedUniversity.campuses.flatMap((campus) => campus.lga);
   
+          // Return updated program details based on selected university
           return {
             ...updatedProgram,
             universityId: selectedUniversity._id,
+            clientName: selectedUniversity.businessName,
             universityLogo: selectedUniversity.universityLogo,
             state: states,
             lga: lgas,
             courseType: selectedUniversity.courseType,
             country: selectedUniversity.country,
             inTake: selectedUniversity.inTake,
-            popularCategories:selectedUniversity.popularCategories
+            popularCategories: selectedUniversity.popularCategories,
           };
         }
       }
-
+  
+    
+  
       return updatedProgram;
     });
-
+  
+    // Handle form validation on inputs
     if (submitted) {
       const newError = handleValidation({ ...program, [name]: value });
       setErrors(newError);
     }
   };
+  
 
+  const getCommissionList = () => {
+    
+    getFilterCommission()
+      .then((res) => {
+        console.log("yuvaraj",res)
+        const value = res?.data?.result?.dropDownList;
+        setCommission(value);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleSelectCourseChange = (selectedOptions) => {
     setSelectedCourseType(selectedOptions);
   };
@@ -424,7 +464,48 @@ function Profile() {
                               </span>
                             ) : null}
                           </div>
-
+                          <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden ">
+                            <label style={{ color: "#231F20" }}>
+                              {" "}
+                              client Name
+                              <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              onChange={handleInputs}
+                              value={program.clientName}
+                              style={{
+                                fontFamily: "Plus Jakarta Sans",
+                                fontSize: "12px",
+                              }}
+                              className="form-select rounded-2 p-2 "
+                              name="clientName"
+                            >
+                              <option
+                                value={""}
+                                disabled
+                                hidden
+                                style={{
+                                  fontFamily: "Plus Jakarta Sans",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                Select businessName
+                              </option>
+                              {university.map((data, index) => (
+                                <option
+                                  key={index}
+                                  value={data?.businessName}
+                                  style={{
+                                    fontFamily: "Plus Jakarta Sans",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  {" "}
+                                  {data?.businessName}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 visually-hidden">
                             <label style={{ color: "#231F20" }}>
                               {" "}
@@ -515,6 +596,8 @@ function Profile() {
                             </label>
                             <Select
                               value={selectedPopularType}
+                              classNamePrefix="react-select" 
+                              className={`react-select-container ${errors.popularCategories.required ? 'is-invalid' : ''}`}
                               options={CategoriesOptions}
                               placeholder="Select Popular Categories"
                               name="popularCategories"
@@ -527,7 +610,14 @@ function Profile() {
                                 }),
                               }}
                             />
+                             {errors.popularCategories.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                           </div>
+
+
 
                           <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <label style={{ color: "#231F20" }}>
@@ -535,6 +625,8 @@ function Profile() {
                             </label>
                             <Select
                               value={selectedCourseType}
+                              classNamePrefix="react-select" 
+                              className={`react-select-container ${errors.courseType.required ? 'is-invalid' : ''}`}
                               options={courseTypeOptions}
                               placeholder="Select courseType"
                               name="courseType"
@@ -792,6 +884,17 @@ function Profile() {
                                   </div>
                                 </div>
                                 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+  <label className="form-label">Commission</label>
+  <input 
+    type="text" 
+    value={program.commissionValue || "No commission available"} 
+    className="form-control" 
+    readOnly 
+    style={{ fontFamily: 'Plus Jakarta Sans', fontSize: '12px' }} 
+  />
+</div>
+
+                                <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                   <div>
                                     <label>Duration</label>
                                     <input
@@ -855,7 +958,8 @@ function Profile() {
                               English language Test (ELT) Requirement
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-2"
+                          
+                              className={`form-select form-select-lg rounded-2 ${errors.englishlanguageTest.required ? 'is-invalid':''}`}
                               name="englishlanguageTest"
                               onChange={handleInputs}
                               style={{
@@ -869,6 +973,11 @@ function Profile() {
                               <option value="englishlanguageTest">Yes</option>
                               <option value="no">No</option>
                             </select>
+                            {errors.englishlanguageTest.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                             <br />
                             <br />
                             {program.englishlanguageTest ===
@@ -904,7 +1013,8 @@ function Profile() {
                               GRE/GMAT Requirement
                             </label>
                             <select
-                              className="form-select form-select-lg rounded-2"
+                           
+                              className={`form-select form-select-lg rounded-2 ${errors.greGmatRequirement.required ? 'is-invalid':''}`}
                               name="greGmatRequirement"
                               style={{
                                 backgroundColor: "#fff",
@@ -917,6 +1027,12 @@ function Profile() {
                               <option value="categories">Yes</option>
                               <option value="no">No</option>
                             </select>
+
+                            {errors.greGmatRequirement.required && (
+                              <div className="text-danger form-text">
+                                This field is required.
+                              </div>
+                            )}
                             <br />
                             <br />
                             {program.greGmatRequirement === "categories" && (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getSingleProgram, getallProgram } from "../../api/Program";
 import {saveApplication} from "../../api/applicatin";
-import { getallStudent } from "../../api/student";
+import { getallStudent, getSingleStudent } from "../../api/student";
 import { Link, useLocation,useNavigate } from "react-router-dom";
 import "./Course.css";
 import { RiSchoolLine, RiFileTextLine, RiCoinsFill } from "react-icons/ri";
@@ -11,35 +11,27 @@ import { Pagination } from "@mui/material";
 import { toast } from 'react-toastify';
 import { University } from "../../api/endpoints";
 import { RichTextEditor } from "@mantine/rte";
+import { getStudentId } from "../../Utils/storage";
 import BackButton from "../../compoents/backButton";
 export const Course = () => {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get("id");
 
   const initialState = {
-    name: "",
-    primaryNumber: "",
-    country:"",
-    studentCode: "",
-    studentId:"",
+   
     applicationFee: "",
     campus: "",
     inTake: "",
     courseFees:"",
-    email:"",
+
 };
 
 const initialStateErrors = {
-    name: { required: false },
-    primaryNumber: { required: false },
-    country: { required: false },
-    studentCode: { required: false },
-    applicationFee: { required: false },
-    studentId: { required: false },
+   
     campus: { required: false },
     inTake: { required: false },
     courseFees: { required: false },
-    email:{required:false},
+   
 };
 
   
@@ -87,9 +79,10 @@ const initialStateErrors = {
   };
 
   const getAllStudentDetails = () => {
-    
-    getallStudent()
+    const data = getStudentId();
+    getSingleStudent(data)
       .then((res) => {
+        console.log("yuvistud", res);
         setStudent(res?.data?.result);
         
       })
@@ -115,13 +108,6 @@ const initialStateErrors = {
 
   const handleValidation = (data) => {
     let error = { ...initialStateErrors };
-
-    if (!data.name) error.name.required = true;
-    if (!data.studentId) error.studentId.required = true;
-    if (!data.primaryNumber) error.primaryNumber.required = true;
-    if (!data.country) error.country.required = true;
-    if (!data.applicationFee) error.applicationFee.required = true;
-    if (!data.studentCode) error.studentCode.required = true;
     if (!data.campus) error.campus.required = true;
     if (!data.inTake) error.inTake.required = true;
     if (!data.courseFees) error.courseFees.required = true;
@@ -134,20 +120,6 @@ const handleInputs = (event) => {
 
   setInputs((prevProgram) => {
     const updatedProgram = { ...prevProgram, [name]: value };
-
-    if (name === "name") {
-      const selectedStudent = student.find((u) => u.name === value);
-      if (selectedStudent) {
-        return {
-          ...updatedProgram,
-          studentId: selectedStudent._id,
-          primaryNumber: selectedStudent.primaryNumber,
-          country: selectedStudent.citizenship,
-          studentCode: selectedStudent.studentCode,
-          email: selectedStudent.email,
-        };
-      }
-    }
 
     if (name === "campus") {
       const selectedCampus = program.campuses.find((u) => u.campus === value);
@@ -190,17 +162,21 @@ const handleSubmit = (event) => {
   if (handleErrors(newError)) {
     const data = {
       ...inputs,
+      name: student.name,
+      studentId: student._id,
+          primaryNumber: student.primaryNumber,
+          country: student.citizenship,
+          studentCode: student.studentCode,
+          email: student.email,
       course:program.programTitle,
       universityName:program.universityName,
-    
-      // programId:program._id
-
+      applicationFee:program.applicationFee,
     };
     saveApplication(data)
       .then((res) => {
         console.log(res);
         toast.success(res?.data?.message);
-        navigate("/Programs");
+        navigate("/program_list");
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
@@ -1185,114 +1161,9 @@ const handleSubmit = (event) => {
               <div class="modal-body">
                 <form onSubmit={handleSubmit}>
                   <div className="row gy-3 gx-4 mb-3">
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">Student Name</label>
-                     <select
-                        class="form-select rounded-1"
-                        aria-label="Default select example"
-                        style={{ fontSize: "12px" }}
-                        onChange={handleInputs}
-                        name="name"
-                      >
-                        <option selected>Open this select menu</option>
-                       {student?.map((data, index) => (
-                          <option id={index} value={data.name}>{data.name}</option>
-                        ))}
-                      </select>
-                      {errors.name.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                    </div>
+                 
 
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">Country</label>
-                      <input
-                        type="text"
-                        name="country"
-                        value={inputs.country || ''}
-                        onChange={handleInputs}
-                        class="form-control text-uppercase rounded-1"
-                        placeholder="Example John Doe"
-                        style={{ fontSize: "12px" }}
-                      />
-                      {errors.country.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
-                      <label class="form-label">Email</label>
-                      <input
-                        type="type"
-                        name="email"
-                        value={inputs.email || ''}
-                        onChange={handleInputs}
-                        class="form-control text-uppercase rounded-1"
-                        placeholder="Example John Doe"
-                        style={{ fontSize: "12px" }}
-                      />
-                      {errors.email.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none ">
-                      <label class="form-label">studnet Id</label>
-                      <input
-                        type="text"
-                        name="studentId"
-                        value={inputs?.studentId}
-                        onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example ABC123EFG"
-                        style={{ fontSize: "12px" }}
-                      />
-                       {errors.studentId.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-none">
-                      <label class="form-label">studnet Code</label>
-                      <input
-                        type="text"
-                        name="studentCode"
-                        value={inputs?.studentCode}
-                        onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example ABC123EFG"
-                        style={{ fontSize: "12px" }}
-                      />
-                       {errors.studentCode.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                      <label class="form-label">Mobile Number</label>
-                      <input
-                        type="text"
-                        name="primaryNumber"
-                        value={inputs?.primaryNumber}
-                        onChange={handleInputs}
-                        class="form-control rounded-1"
-                        placeholder="Example United Kingdom"
-                        style={{ fontSize: "12px" }}
-                      />
-                    {errors.primaryNumber.required ? (
-                                <span className="text-danger form-text profile_error">
-                                  This field is required.
-                                </span>
-                              ) : null}
-                    </div>
+                  
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                       <label class="form-label">campus</label>
                      <select 

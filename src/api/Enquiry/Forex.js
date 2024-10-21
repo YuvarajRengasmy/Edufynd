@@ -8,6 +8,18 @@ export const saveForexEnquiry = (data) => {
 export const updateForexEnquiry= (data) => {
     return API.put(`${Forex}`, data)
 }
+export const activeClient = (data) => {
+  return API.post(`${Forex}/active`,data);
+};
+export const statusApplication = (data) => {
+  return API.put(`${Forex}/status`, data);
+};
+export const deactivateClient = (data) => {
+  return API.post(`${Forex}/deActive`,data);
+};
+export const assignStaffToEnquiries = (data) => {
+  return API.post(`${Forex}/assign`,data);
+};
 export const getSingleLogUniversity = (data) => {
     return API.get(`${Forex}/SingleLog`, { params: { _id: data } });
   };
@@ -16,6 +28,10 @@ export const getSingleForexEnquiry = (data) => {
 }
 export const getallForexEnquiry = () => {
     return API.get(`${ Forex }`)
+}
+
+export const getAllForexEnquiryCard = () => {
+  return API.get(`${ Forex }/card`)
 }
 export const deleteForexEnquiry= (data) => {
     return API.delete(`${Forex}`, { params: { _id: data } });

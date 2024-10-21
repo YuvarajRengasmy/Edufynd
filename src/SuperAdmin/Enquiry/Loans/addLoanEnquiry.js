@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isValidEmail, isValidPhone } from "../../../Utils/Validation";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { saveLoanEnquiry } from "../../../api/Enquiry/Loan";
 import Mastersidebar from "../../../compoents/sidebar";
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/student";
+
 export const AddLoanEnquiry = () => {
   const initialState = {
     studentName: "",
@@ -48,6 +50,7 @@ export const AddLoanEnquiry = () => {
     willyouSubmitYourCollateral: { required: false },
   };
   const [loan, setLoan] = useState(initialState);
+  const [status, setStatus] = useState([]);
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
@@ -85,6 +88,13 @@ export const AddLoanEnquiry = () => {
     }
     if (data.age === "") {
       error.age.required = true;
+    }  
+    if (data.willyouSubmitYourCollateral === "") {
+      error.willyouSubmitYourCollateral.required = true;
+    }
+    
+    if (data.didYouApplyForLoanElsewhere === "") {
+      error.didYouApplyForLoanElsewhere.required = true;
     }
     if (data.employmentStatus === "") {
       error.employmentStatus.required = true;
@@ -132,6 +142,26 @@ export const AddLoanEnquiry = () => {
       console.log("Error: ", error);
     };
   };
+    
+
+  useEffect(() => {
+    getAllApplicationsModuleDetails();
+  }, []);
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleErrors = (obj) => {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -148,10 +178,12 @@ export const AddLoanEnquiry = () => {
     const newError = handleValidation(loan);
     setErrors(newError);
     setSubmitted(true);
-    const allInputsValid = Object.values(newError);
-    const valid = allInputsValid.every((x) => x.required === false);
-    if (valid) {
-      saveLoanEnquiry(loan)
+    const data ={
+      ...loan,
+      status:status
+    }
+    if (handleErrors(newError)){
+      saveLoanEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_loan_enquiry");
@@ -567,7 +599,10 @@ export const AddLoanEnquiry = () => {
                         fontFamily: "Plus Jakarta Sans",
                         fontSize: "14px",
                       }}
-                      className="form-select form-select-lg rounded-1 text-capitalize"
+                      // className="form-select form-select-lg rounded-1 text-capitalize"
+                      className={`form-select form-select-lg rounded-1 text-capitalize ${
+                        errors.didYouApplyForLoanElsewhere.required ? "is-invalid" : ""
+                      }`}
                       name="didYouApplyForLoanElsewhere"
                       onChange={handleInputs}
                     >
@@ -782,7 +817,10 @@ export const AddLoanEnquiry = () => {
                       Will You Submit Your Collateral If Required
                     </label>
                     <select
-                      className="form-select form-select-lg rounded-1 text-capitalize"
+                      // className="form-select form-select-lg rounded-1 text-capitalize"
+                      className={`form-select form-select-lg rounded-1 text-capitalize ${
+                        errors.willyouSubmitYourCollateral.required ? "is-invalid" : ""
+                      }`}
                       name=" willyouSubmitYourCollateral"
                       onChange={handleInputs}
                       style={{

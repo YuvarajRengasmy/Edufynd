@@ -326,7 +326,7 @@ const getallCodeList = () => {
     if (handleErrors(newError)) {
         StudentSuperEdit(studentData)
         .then((res) => {
-          toast.success(res?.data?.message);
+          toast.success('Create_Student_Profile_Successfully');
           navigate("/staff_list_student");
         })
         .catch((err) => {

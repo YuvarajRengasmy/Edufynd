@@ -5,12 +5,17 @@ import { getSuperAdminForSearch } from "../../api/superAdmin";
 import BackButton from "../../compoents/backButton";
 import { Pagination} from "@mui/material";
 import { getSingleUniversityCommission } from "../../api/commission";
+import { getSingleAgentCommission } from "../../api/agent";
+import { getAgentId } from "../../Utils/storage";
 import { getFilterProgram, getProgramUniversity, } from "../../api/Program";
-import Sidebar from "../../compoents/sidebar";
+
+import Sidebar from "../../compoents/AgentSidebar";
 import { RichTextEditor } from "@mantine/rte";
 
 const UserProfile = () => {
  
+
+
 
   const location = useLocation();
   const universityId = new URLSearchParams(location.search).get("id");
@@ -20,6 +25,7 @@ const UserProfile = () => {
   const [data, setData] = useState(false);
   const [university, setUniversity] = useState();
   const [commission, setCommission] = useState([]);
+  const [agent, setAgent] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [logs, setLogs] = useState([]);
   const [program, setProgram] = useState([]);
@@ -35,6 +41,7 @@ const UserProfile = () => {
   useEffect(() => {
     getUniversityDetails();
     getUniversityLogs();
+    getAgentDetails();
     getUniversityCommissionDetails();
     // filter ? filterProgramList() : getAllProgram();
   }, [universityId, pagination.from, pagination.to]);
@@ -56,6 +63,17 @@ const UserProfile = () => {
     getSingleUniversityCommission(universityId)
       .then((res) => {
         setCommission(res?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getAgentDetails = () => {
+
+    const id = getAgentId();
+    getSingleAgentCommission(id)
+      .then((res) => {
+        setAgent(res?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -135,6 +153,15 @@ const UserProfile = () => {
       });
   };
 
+  function customRound(value) {
+    if (value < 0.25) {
+      return 0.00;
+    } else if (value >= 0.25 && value <= 0.75) {
+      return 0.50;
+    } else {
+      return 0.00;
+    }
+  }
   const closeFilterPopup = () => {
     setOpenFilter(false);
   };
@@ -613,6 +640,22 @@ const UserProfile = () => {
                                              
                                             </div>
                                             ):null}
+
+                                             
+
+
+<div className="col-sm-6">
+  <div className="text-lead text-capitalize">
+    Commission - <b>{commission?.years?.map((year, yearIndex) => (
+  <div key={yearIndex}>
+    {year?.courseTypes?.length > 0 && year?.courseTypes[0]?.inTake?.length > 0
+      ? `${((year?.courseTypes[0]?.inTake[0]?.value * agent?.agentsCommission) / 100).toFixed(customRound())}%`
+      : "Not Available"}
+    {", "}
+  </div>
+))}</b>
+  </div>
+</div>
                                           </div>
                                         </div>
                                       </div>

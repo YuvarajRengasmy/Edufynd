@@ -22,6 +22,7 @@ export const Tax ="tax";
 export const Currency ="currency";
 export const TypeOfClient ="typeOfClient";
 export const Staff ="staff";
+
 export const BusinessEnquiry ="businessEnquiry";
 // settings
 export const Year ="year";
@@ -30,6 +31,7 @@ export const DepartmentHead="departmentHead";
 export const Demo = "demo";
 export const ApplicationStatus= "applicationStatus";
 export const Source ="source";
+export const CommissionType ="commissionType";
 export const DialCode ="dialCode";
 // enquiry
 export const StudnetEnquiry ="studentEnquiry";
@@ -38,6 +40,16 @@ export const Forex ="forex";
 export const Accommodation ="accommodation";
 export const Flight ="flight";
 export const GeneralEnquiry ="generalEnquiry";
+
+// status
+export const StudentStatus="studentStatus";
+export const LoanStatus="loanStatus";
+export const GeneralStatus="generalStatus";
+export const AccommodationStatus="accommodationStatus";
+export const BusinessStatus="businessStatus";
+export const ForexStatus="forexStatus";
+export const FlightStatus="flightStatus";
+
 
 // Invoice
 export const SenderInvoice ="senderInvoice";
@@ -51,3 +63,9 @@ export const Event ="event"
 export const Training ="training"
 export const Testimonial ="testimonial"
 export const Blog ="blog"
+
+
+// income
+export const Income ="incomeReport";
+export const Expense ="expenseReport";
+export const Receiver ="receiverInvoice";

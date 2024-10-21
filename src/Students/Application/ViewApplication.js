@@ -6,14 +6,10 @@ import {loadStripe} from '@stripe/stripe-js';
 import { getFilterStatus } from "../../api/status";
 import {getFilterApplicationStatus} from "../../api/universityModule/ApplicationStatus";
 import { toast } from "react-toastify";
-import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { RichTextEditor } from "@mantine/rte";
-import { duration } from "@mui/material";
 import { formatDate } from "../../Utils/DateFormat";
 import BackButton from "../../compoents/backButton";
-import {savePaymentGetWay } from "../../api/invoice/payment";
-import { Program } from "../../api/endpoints";
 
 export const ViewApplication = () => {
   const location = useLocation();
@@ -640,173 +636,7 @@ export const ViewApplication = () => {
       </div>              
     
 
-<div className="container-fluid">
-  <div className="row">
-    <div className="col">
-    <div className="card card-body mb-3">
-                  <h6 className="text-start">Notes</h6>
-                  <div className="text-end">
-                    <button className="btn btn-outline-dark text-uppercase fw-semibold px-3 py-1 text-center rounded-1"   data-bs-toggle="modal"
-                              data-bs-target="#StatusModal"
-                             
-                              style={{fontSize:'12px'}}>Add Status</button>
-                  </div>
 
-                  <div
-                            className="modal fade"
-                            id="StatusModal"
-                            tabIndex="-1"
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h1
-                                    className="modal-title fs-5"
-                                    id="staticBackdropLabel"
-                                  >
-                                    Application Status
-                                  </h1>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                   
-                                  ></button>
-                                </div>
-                                <div className="modal-body">
-                                <form onSubmit={handleTrackSubmit}>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <select
-                                        name="newStatus"
-                                        value={track.newStatus}
-                                        onChange={handleTrack}
-                                        className="form-select"
-                                        style={{ fontSize: "12px" }}
-                                      >
-                                        <option value="">Select Status</option>
-                                        {
-                                          application.map((status) => (
-                                            <option
-                                              key={status._id}
-                                              value={status.statusName}
-                                            >
-                                              {status.statusName}
-                                            </option>
-                                          ))}
-                                      </select>
-                                      {submitted &&
-                                        trackErrors.newStatus.required && (
-                                          <p className="text-danger">
-                                            Status is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3 visually-hidden">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-tasks nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="text"
-                                        name="duration"
-                                        value="0"
-                                        onChange={handleTrack}
-                                        className="form-control"
-                                        placeholder="Enter Status...."
-                                        aria-label="Status"
-                                        aria-describedby="basic-addon1"
-                                        style={{ fontSize: "12px" }}
-                                      />
-                                    
-                                    </div>
-                                    <div className="input-group mb-3">
-                                     
-                                      <RichTextEditor
-                                        placeholder="Start writing your content here..."
-                                        name="commentBox"
-                                        onChange={handleRichTextChange}
-                                        value={track.commentBox}
-                                        type="text"
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                         
-                                          zIndex: "0",
-                                        }}
-                                      />
-                                      {submitted &&
-                                        trackErrors.commentBox.required && (
-                                          <p className="text-danger">
-                                            Comment is required
-                                          </p>
-                                        )}
-                                    </div>
-                                    <div className="input-group mb-3">
-                                      <span
-                                        className="input-group-text"
-                                        id="basic-addon1"
-                                      >
-                                        <i className="fa fa-file nav-icon text-dark"></i>
-                                      </span>
-                                      <input
-                                        type="file"
-                                        className="form-control "
-                                        style={{
-                                          fontFamily: "Plus Jakarta Sans",
-                                          fontSize: "12px",
-                                        }}
-                                        placeholder="Enter  Image upload"
-                                        name="document"
-                                        onChange={handleTrack}
-                                      />
-                                    </div>
-                                    <div className="modal-footer">
-                                      <button
-                                        type="button"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        data-bs-dismiss="modal"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#231f20",
-                                          color: "#fff",
-                                        }}
-                                      >
-                                        Close
-                                      </button>
-                                      <button
-                                        type="submit"
-                                        data-bs-dismiss="modal"
-                                        className="btn px-4 py-2 text-uppercase fw-semibold"
-                                        style={{
-                                          fontSize: "12px",
-                                          backgroundColor: "#fe5722",
-                                          color: "#fff",
-                                        }}
-                                        // data-bs-bs-dismiss="modal"
-                                      >
-                                        Submit
-                                      </button>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                </div>
-    </div>
-  </div>
-</div>
 
 <div className="container-fluid-fluid my-2">
   <div className="row flex-nowrap">

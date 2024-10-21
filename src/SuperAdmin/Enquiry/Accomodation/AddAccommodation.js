@@ -9,7 +9,8 @@ import {getFilterSource} from "../../../api/settings/source";
 import{getallStudent} from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import CountryRegion from "countryregionjs";
-
+import { getallCountryList } from "../../../api/country";
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/accomdation";
 import Select from "react-select";
 import Flags from "react-world-flags";
 import { saveAccommodationEnquiry } from "../../../api/Enquiry/accommodation";
@@ -27,7 +28,6 @@ export const AddAccommodation = () => {
     universityName: "",
     courseType: "",
     accommodationType: "",
-    
     country:"",
     state:"",
     lga:"",
@@ -87,12 +87,14 @@ export const AddAccommodation = () => {
 
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
-  const [state, setState] = useState("");
-  const [states, setStates] = useState([]);
-  const [country, setCountry] = useState("");
-  const [countries, setCountries] = useState([]);
-  const [lga, setLGA] = useState("");
-  const [lgas, setLGAs] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [countriesData, setCountriesData] = useState([]); // Holds country data
+  const [states, setStates] = useState([]); // Holds state data
+  const [cities, setCities] = useState([]); // Holds city data
+  const [selectedCountry, setSelectedCountry] = useState(""); // Selected country
+  const [selectedState, setSelectedState] = useState(""); // Selected state
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCountryName, setSelectedCountryName] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -101,12 +103,24 @@ export const AddAccommodation = () => {
 
   useEffect(() => {
     getAllCountryDetails();
+    getAllCountryDetail();
+    getAllApplicationsModuleDetails();
     getAllSourceDetails();
     getStudentList();
     getAgentList();
     getallCodeList();
   }, [pagination.from, pagination.to]);
 
+
+  const getAllCountryDetail = () => {
+    getallCountryList()
+      .then((res) => {
+        setCountriesData(res?.data?.result || []);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const getAllCountryDetails = () => {
     const data = {
       limit: 10,
@@ -215,10 +229,9 @@ export const AddAccommodation = () => {
     if (!data.name) {
       error.name.required = true;
     }
-    
    
     if (!data.passportNumber) {
-      error.passportNo.required = true;
+      error.passportNumber.required = true;
     }
     if (!data.expiryDate) {
       error.expiryDate.required = true;
@@ -292,80 +305,38 @@ export const AddAccommodation = () => {
     }
   };
  
-  const getCountryRegionInstance = () => {
-    return new CountryRegion();
-  };
+  const handleCountryChange = (e) => {
+    const countryId = e.target.value;
+    setSelectedCountry(countryId);
 
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const countries = await getCountryRegionInstance().getCountries();
-        setCountries(
-          countries.map((country) => ({
-            value: country.id,
-            label: country.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCountries();
-  }, []);
-  useEffect(() => {
-    const getStates = async () => {
-      try {
-        const states = await getCountryRegionInstance().getStates(country);
-        setStates(
-          states.map((userState) => ({
-            value: userState?.id,
-            label: userState?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (country) {
-      getStates();
+    // Find the selected country in the countriesData
+    const selectedCountryData = countriesData.find(country => country._id === countryId);
+    
+    if (selectedCountryData) {
+      setStates(selectedCountryData.state); // Set the states for selected country
+      setCities([]); // Clear city data if country changes
+      setSelectedState('');
+      setSelectedCountryName(selectedCountryData.name); // Reset selected state
     }
-  }, [country]);
+  };
 
-  useEffect(() => {
-    const getLGAs = async () => {
-      try {
-        const lgas = await getCountryRegionInstance().getLGAs(country, state);
-        setLGAs(
-          lgas?.map((lga) => ({
-            value: lga?.id,
-            label: lga?.name,
-          }))
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (state) {
-      getLGAs();
+  // Handle state selection
+  const handleStateChange = (e) => {
+    const stateName = e.target.value;
+    setSelectedState(stateName);
+
+    // Find the selected state in the states data
+    const selectedStateData = states.find(state => state.name === stateName);
+    
+    if (selectedStateData) {
+      setCities(selectedStateData.cities); 
+      setSelectedCity(''); // Set cities for selected state
     }
-  }, [country, state]);
-
-  const handleCountryChange = (selectedOption) => {
-    setCountry(selectedOption.value);
-    setState("");
-    setStates([]);
-    setLGA("");
-    setLGAs([]);
   };
 
-  const handleStateChange = (selectedOptions) => {
-    setState(selectedOptions.value);
-    setLGA("");
-    setLGAs([]);
-  };
-
-  const handleLGAChange = (selectedOptions) => {
-    setLGA(selectedOptions.value);
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+    
   };
 
   const handleErrors = (obj) => {
@@ -380,6 +351,22 @@ export const AddAccommodation = () => {
     return true;
   };
 
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10,
+    
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => {
+       
+        setStatus(res?.data?.result?.statusList || []);
+       
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newError = handleValidation(forex);
@@ -387,9 +374,10 @@ export const AddAccommodation = () => {
     setSubmitted(true);
     const data = {
       ...forex,
-      country: countries.find((option) => option.value === country)?.label,
-      state: states.find((option) => option.value === state)?.label,
-      lga: lgas.find((option) => option.value === lga)?.label,
+      status: status,
+      country: selectedCountryName,
+      state: selectedState,
+      lga: selectedCity,
     }
     if (handleErrors(newError)){
       saveAccommodationEnquiry(data)
@@ -1010,54 +998,65 @@ export const AddAccommodation = () => {
                             {" "}
                             Country<span className="text-danger">*</span>
                           </label>
-
-                          <Select
-                            placeholder="Select  Country"
+                          <select
+                             style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1`}
+                            value={selectedCountry}
                             onChange={handleCountryChange}
-                            options={countries}
-                            name="country"
-                            styles={customStyles}
-                            value={countries.find(
-                              (option) => option.value === country
-                            )}
-                            className="submain-one-form-body-subsection-select "
-                          />
-                        
+                          >
+                            <option value="">Select a country</option>
+                            {countriesData.map((country) => (
+                              <option key={country._id} value={country._id}>
+                                {country.name}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             State<span className="text-danger">*</span>
                           </label>
-
-                          <Select
-                            placeholder="Select  State"
+                          <select
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1`}
+                            value={selectedState}
                             onChange={handleStateChange}
-                            options={states}
-                            name="state"
-                            styles={customStyles}
-                            value={states.find(
-                              (option) => option.value === state
-                            )}
-                            className="submain-one-form-body-subsection-select"
-                          />
-
-                          
+                            disabled={!selectedCountry}
+                          >
+                            <option value="">Select a state</option>
+                            {states.map((state) => (
+                              <option key={state.name} value={state.name}>
+                                {state.name}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label style={{ color: "#231F20" }}>
                             City<span className="text-danger">*</span>
                           </label>
 
-                          <Select
-                            placeholder="Select  City"
-                            value={lgas.find((option) => option.value === lga)}
-                            onChange={handleLGAChange}
-                            options={lgas}
-                            name="lga"
-                            styles={customStyles}
-                            className="submain-one-form-body-subsection-select"
-                          />
-                          
+                          <select
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            className={`form-select form-select-lg rounded-1`}
+                          value={selectedCity} onChange={handleCityChange}   disabled={!selectedState} 
+                          >
+                            <option value="">Select a city</option>
+                            {cities.map((city, index) => (
+                              <option key={index} value={city}>
+                                {city}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                           <label className="form-label" for="inputuniversity">

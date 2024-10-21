@@ -8,7 +8,7 @@ import { getallStudent } from "../../../api/student";
 import { getallAgent } from "../../../api/agent";
 import { getallCode } from "../../../api/settings/dailcode";
 import Flags from "react-world-flags";
-
+import {getFilterApplicationStatus} from "../../../api/StatusEnquiry/student";
 import Mastersidebar from "../../../compoents/sidebar";
 
 export const AddGeneralEnquiry = () => {
@@ -68,6 +68,7 @@ export const AddGeneralEnquiry = () => {
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
   const [source, setSource] = useState([]);
+  const [status, setStatus] = useState([]);
   const [agent, setAgent] = useState([]);
   const [students, setStudents] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
@@ -76,9 +77,24 @@ export const AddGeneralEnquiry = () => {
   useEffect(() => {
     getAllSourceDetails();
     getStudentList();
+    getAllApplicationsModuleDetails();
     getAgentList();
     getallCodeList();
   }, []);
+
+  const getAllApplicationsModuleDetails = () => {
+    const data = {
+      limit: 10, 
+    };
+    getFilterApplicationStatus(data)
+      .then((res) => { 
+        setStatus(res?.data?.result?.statusList || []);     
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
 
   const getAgentList = () => {
     getallAgent()
@@ -233,8 +249,11 @@ export const AddGeneralEnquiry = () => {
     const newError = handleValidation(student);
     setErrors(newError);
     setSubmitted(true);
+    const data = { ...student,
+      status: status,
+    };
     if (handleErrors(newError)) {
-      saveGeneralEnquiry(student)
+      saveGeneralEnquiry(data)
         .then((res) => {
           toast.success(res?.data?.message);
           navigate("/list_general_enquiry");

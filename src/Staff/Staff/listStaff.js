@@ -72,6 +72,10 @@ const [student, setStudent] = useState(null);
     // return null; // or handle the case where there's no 'Student' module privilege
   }
   
+  // const checkPrivilege = (moduleName) => {
+  //   const privilege = privileges.find(p => p.module === moduleName);
+  //   return privilege && privilege.view;
+  // };
   useEffect(() => {
     if (search.current) {
       search.current.focus();

@@ -19,6 +19,8 @@ import { FaTrash } from "react-icons/fa";
 import Select from "react-select";
 import { InputBase } from "@mui/material";
 import BackButton from "../../compoents/backButton";
+import {getAgentId } from "../../Utils/storage";
+
 export const AddStaff = () => {
   const initialState = {
     photo: "",

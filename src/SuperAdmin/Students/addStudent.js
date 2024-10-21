@@ -15,6 +15,7 @@ import Select from "react-select";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
+import { getallAgent } from "../../api/agent";
 
 
 function AddAgent() {
@@ -23,6 +24,8 @@ function AddAgent() {
 
     
   const initialState = {
+    agentName:"",
+    agentId:"",
     source: "",
     name: "",
     photo: "",
@@ -67,6 +70,8 @@ function AddAgent() {
     countryNameVisa:""
   };
   const initialStateErrors = {
+    agentName:{required: false},
+    agentId:{required: false},
     source: { required: false },
     name: { required: false },
     photo: { required: false },
@@ -114,6 +119,7 @@ function AddAgent() {
   const [errors, setErrors] = useState(initialStateErrors);
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [agent, setAgent] = useState([]);
   const [dial, setDial] = useState([]);
   const [copyToWhatsApp, setCopyToWhatsApp] = useState(false); // Added state for checkbox
   const [dail1, setDail1] = useState(null);
@@ -125,19 +131,27 @@ function AddAgent() {
   useEffect(() => {
     getStudentDetails();
     getallCodeList();
+    getAgentList();
 }, []);
 
 const getStudentDetails = () => {
   getallStudent(id)
         .then((res) => {
-          console.log("balan", res)
             setStudent(res?.data?.result);
         })
         .catch((err) => {
             console.log(err);
         });
 };
-
+const getAgentList = () => {
+  getallAgent()
+    .then((res) => {
+      setAgent(res?.data?.result || []);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const getallCodeList = () => {
   getallCode()
     .then((res) => {
@@ -297,13 +311,28 @@ const handleValidation = (data) => {
     } else {
       setStudent((prevStudent) => {
         const updatedStudent = { ...prevStudent, [name]: value };
+        if (name === "agentName") {
+          const selectedAgent = agent.find(
+            (u) => u.agentName === value
+          );
+          if (selectedAgent) {
+            return {
+              ...updatedStudent,
+              agentId: selectedAgent._id, 
+            };
+          }
+        }
         return updatedStudent;
       });
     }
+  
     if (submitted) {
       const newError = handleValidation({ ...student, [name]: value });
+      // const newError = handleValidation(updatedStudent);
       setErrors(newError);
     }
+
+
   };
   const handleErrors = (obj) => {
     for (const key in obj) {
@@ -350,6 +379,9 @@ const handleValidation = (data) => {
     value: data.dialCode,
     label: `${data.dialCode} - ${data.name}`,
   }));
+
+  
+
   return (
     <>
     
@@ -421,13 +453,16 @@ const handleValidation = (data) => {
                               />
                             </div>
                             <div className="row">
+
+
                               <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                                 <label style={{ color: "#231F20" }}>
                                   {" "}
                                   Source<span className="text-danger">*</span>
                                 </label>
                                 <select
-                                  class={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid' : ''}`}
+                               
+                                  className={`form-select form-select-lg rounded-1 ${errors.source.required ? 'is-invalid':''}`}
                                   value={student?.source}
                                   aria-label="Default select example"
                                   style={{
@@ -450,6 +485,65 @@ const handleValidation = (data) => {
                                   </div>
                                 ) }
                               </div>
+                              {student.source === "agent" ? (
+                                <div className="row gx-4 gy-2">
+  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+    <label style={{ color: "#231F20" }}>
+      Agent List<span className="text-danger">*</span>
+    </label>
+    <select
+      className={`form-select form-select-lg rounded-1 ${
+        errors.agentName.required ? "is-invalid" : ""
+      }`}
+      value={student?.agentName || ""}
+      aria-label="Default select example"
+      style={{
+        fontFamily: "Plus Jakarta Sans",
+        fontSize: "12px",
+      }}
+      name="agentName"
+      onChange={handleInputs}
+    >
+      <option value="">Select Agent</option>
+      {agent?.map((data, index) => (
+        <option key={index} value={data?.agentName}>
+          {data?.agentName}
+        </option>
+      ))}
+    </select>
+    
+  </div>
+   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+   <label style={{ color: "#231F20" }}>
+     Agent Id<span className="text-danger">*</span>
+   </label>
+   <select
+     className={`form-select form-select-lg rounded-1 ${
+       errors.agentId.required ? "is-invalid" : ""
+     }`}
+     value={student?.agentId || ""}
+     aria-label="Default select example"
+     style={{
+       fontFamily: "Plus Jakarta Sans",
+       fontSize: "12px",
+     }}
+     name="agentId"
+     onChange={handleInputs}
+   
+   >
+     <option value="">Select Agent</option>
+     {agent?.map((data, index) => (
+       <option key={index} value={data?._id}>
+         {data?._id}
+       </option>
+     ))}
+   </select>
+   
+ </div>
+ </div>
+) : null}
+
+
                             </div>
 
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -460,6 +554,7 @@ const handleValidation = (data) => {
                               <div className="">
                                 <input
                                   type="text"
+                              
                                   value={student?.name}
                                   style={{
                                     fontFamily: "Plus Jakarta Sans",
@@ -468,7 +563,7 @@ const handleValidation = (data) => {
                                   name="name"
                                   onChange={handleInputs}
                                   className={`form-control text-capitalize rounded-1 ${errors.name.required ? 'is-invalid' : '' }`}
-                                  placeholder="Example John Doe"
+                                  placeholder="Ex. John Doe"
                                   onKeyDown={(e) => {
                                     // Prevent non-letter characters
                                     if (/[^a-zA-Z\s]/.test(e.key)) {
@@ -487,6 +582,8 @@ const handleValidation = (data) => {
                                 ) : null}
                               </div>
                             </div>
+
+                            
                             <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                               <label style={{ color: "#231F20" }}>
                                 Citizenship
@@ -500,7 +597,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example Indian"
+                                placeholder="Ex. Indian"
                                 name="citizenship"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -523,7 +620,7 @@ const handleValidation = (data) => {
                               <input
                                 type="date"
                                 className={`form-control text-uppercase rounded-1 ${errors.dob.required ? 'is-invalid' :  '' }`}
-                                placeholder="Enter Name"
+                                placeholder="Enter your DOB"
                                 value={student?.dob}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
@@ -547,7 +644,7 @@ const handleValidation = (data) => {
                                 type="text"
                                 className={`form-control rounded-1 text-uppercase ${errors.passportNo.required ? 'is-invalid' :  '' }`}
                                 value={student?.passportNo}
-                                placeholder="Example  M12345678"
+                                placeholder="Ex. M12345678"
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
@@ -629,12 +726,13 @@ const handleValidation = (data) => {
                               <input
                                 type="text"
                                 value={student?.email}
-                                className={`form-control text-lowercase rounded-1 ${errors.email.required ? 'is-invalid' : '' }`}
+                                className={`form-control rounded-1 text-capitalize ${errors.email.required ? "is-invalid" : errors.email.valid 
+                                }`}
                                 style={{
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example johndoe123@gmail.com"
+                                placeholder="Ex. johndoe123@gmail.com"
                                 name="email"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -668,7 +766,7 @@ const handleValidation = (data) => {
   <Select
                               value={dail1}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
                               name="dial1"
                               onChange={handleDail1}
                               styles={{
@@ -686,7 +784,7 @@ const handleValidation = (data) => {
       className={`form-control  ${
         errors.primaryNumber.required ? 'is-invalid' :  ''
       }`}
-      placeholder="Example 123-456-7890"
+      placeholder="Ex. 123-456-7890"
       style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
       name="primaryNumber"
       value={student.primaryNumber}
@@ -702,7 +800,7 @@ const handleValidation = (data) => {
 
 
     
-    <div className="form-check ms-3 ">
+    {/* <div className="form-check ms-3 ">
       <input
         className="form-check-input"
         type="checkbox"
@@ -711,7 +809,7 @@ const handleValidation = (data) => {
         onChange={handleCheckboxChange}
       />
      
-    </div>
+    </div> */}
   </div>
   {errors.primaryNumber.required ? (
                                 <span className="text-danger form-text profile_error">
@@ -725,15 +823,27 @@ const handleValidation = (data) => {
 </div>
 
 <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-  <label style={{ color: "#231F20" }}>
+  {/* <label style={{ color: "#231F20" }}>
     Business WhatsApp Number
     <span className="text-danger">*</span>
-  </label>
+  </label> */}
+   <label htmlFor="whatsAppNumber" style={{ color: "#231F20" }}>
+                        <input
+                          className="form-check-input me-2"
+                          type="checkbox"
+                          id="copyToWhatsApp"
+                          checked={copyToWhatsApp}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="copyToWhatsApp" className="mb-0" style={{ color: "#231F20" }}>
+                          Same as Primary No for Business WhatsApp No <span className="text-danger">*</span>
+                        </label>
+                      </label>
   <div className="input-group mb-3">
   <Select
                               value={dail2}
                               options={dialOptions}
-                              placeholder="code"
+                              placeholder="+91 -"
                               name="dial2"
                               onChange={handleDail2}
                               styles={{
@@ -751,7 +861,7 @@ const handleValidation = (data) => {
     className={`form-control  ${
       errors.whatsAppNumber.required ? 'is-invalid' :  ''
     }`}
-    placeholder="Example 123-456-7890"
+    placeholder="Ex. 123-456-7890"
     style={{ fontFamily: "Plus Jakarta Sans", fontSize: "12px" }}
     name="whatsAppNumber"
     value={student.whatsAppNumber}
@@ -786,7 +896,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example B.A. in English"
+                                placeholder="Ex. M.Sc"
                                 name="highestQualification"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -819,7 +929,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example  B.Sc. IT"
+                                placeholder="Ex. B.Sc. IT"
                                 name="degreeName"
                                 onChange={handleInputs}
                                 onKeyDown={(e) => {
@@ -851,7 +961,7 @@ const handleValidation = (data) => {
                                   fontFamily: "Plus Jakarta Sans",
                                   fontSize: "12px",
                                 }}
-                                placeholder="Example 85"
+                                placeholder="Ex.85"
                                 name="percentage"
                                 onChange={handleInputs}
                               />
@@ -1536,7 +1646,7 @@ const handleValidation = (data) => {
                                   type="submit"
                                   className="btn btn-save border-0 fw-semibold text-uppercase text-white px-4 py-2  m-2"
                                 >
-                                save
+                                Submit
                                 </button>
                               </div>
                             </div>
