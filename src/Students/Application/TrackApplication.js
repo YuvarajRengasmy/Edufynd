@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Sortable from "sortablejs";
-import { getallApplication, deleteApplication } from "../../api/applicatin";
+import { getallApplication, deleteApplication,getFilterApplican } from "../../api/applicatin";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -11,15 +11,14 @@ import {
   radioClasses,
 } from "@mui/material";
 import Masterheader from "../../compoents/header";
-import { getStudentId } from "../../Utils/storage";
 import { getMonthYear } from "../../Utils/DateFormat";
-import Mastersidebar from '../../compoents/StudentSidebar';
 
+import Sidebar from "../../compoents/StudentSidebar";
 import { ExportCsvService } from "../../Utils/Excel";
 import { templatePdf } from "../../Utils/PdfMake";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
-
+import {getStudentId } from "../../Utils/storage";
 import {  getSingleStudent } from "../../api/student";
 export default function Masterproductlist() {
   const initialState = {
@@ -39,7 +38,7 @@ export default function Masterproductlist() {
   };
 
   const [application, setApplication] = useState([]);
-
+  const [agent, setAgent] = useState(null);
   const [submitted, setSubmitted] = useState(false);
 
   const [file, setFile] = useState(null);
@@ -50,8 +49,6 @@ export default function Masterproductlist() {
   const [filter, setFilter] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const pageSize = 10;
-  const [student, setStudent] = useState(null);
-
   const [pagination, setPagination] = useState({
     count: 0,
     from: 0,
@@ -59,41 +56,46 @@ export default function Masterproductlist() {
   });
 
   useEffect(() => {
-    getStudentDetails();
     getApplicationList();
+    getAgentDetails();
   }, []);
 
-
-  const getStudentDetails = () => {
+  const getAgentDetails = () => {
     const id = getStudentId();
     getSingleStudent(id)
       .then((res) => {
         console.log("yuvi", res);
-        setStudent(res?.data?.result); // Assuming the staff data is inside res.data.result
+        setAgent(res?.data?.result); // Assuming the staff data is inside res.data.result
       })
       .catch((err) => {
         console.log(err);
       });
   };
   
-  if (!student || !student.privileges) {
+  if (!agent || !agent.privileges) {
     // return null; // or a loading spinner
   }
   
-  const studentPrivileges = student?.privileges?.find(privilege => privilege.module === 'application');
+  const agentPrivileges = agent?.privileges?.find(privilege => privilege.module === 'application');
   
-  if (!studentPrivileges) {
+  if (!agentPrivileges) {
     // return null; // or handle the case where there's no 'Student' module privilege
   }
 
   const getApplicationList = () => {
-    const data ={
-      studentId:getStudentId()
-    }
-    getallApplication(data)
+    const data = {
+      limit: 10,
+      page: pagination.from,
+      studentId: getStudentId(),
+    };
+    getFilterApplican(data)
       .then((res) => {
-        const value = res?.data?.result;
-        setApplication(value);
+        console.log("yuvi", res);
+        setApplication(res?.data?.result?.applicantList);
+        setPagination({
+          ...pagination,
+          count: res?.data?.result?.applicantCount,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -318,9 +320,22 @@ export default function Masterproductlist() {
     };
   }, []);
 
+
+  const [statuses, setStatuses] = useState(
+    (application && Array.isArray(application)) ? application.reduce((acc, _, index) => ({ ...acc, [index]: false }), {}) : {}
+  );
+  
+  // Toggle checkbox status
+  const handleCheckboxChange = (index) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [index]: !prevStatuses[index],
+    }));
+  };
+
   return (
     <>
-      <Mastersidebar />
+      <Sidebar />
 
       <div
         className="content-wrapper  "
@@ -479,8 +494,8 @@ export default function Masterproductlist() {
             </Link>
           </li>
           <li className="m-1">
-          {studentPrivileges?.add && (
-            <Link to="/student_add_application">
+          {agentPrivileges?.add && (
+            <Link to="/agent_add_application">
               <button
                 className="btn btn-outline rounded-1 fw-semibold border-0 text-white"
                 style={{
@@ -603,7 +618,7 @@ export default function Masterproductlist() {
                       >
                         <option value="5">Active</option>
                         <option value="10">InActive</option>
-                        {studentPrivileges?.delete && (      <option value="20">Delete</option> )}
+                        {agentPrivileges?.delete && (     <option value="20">Delete</option> )}
                       </select>{" "}
 
                     </p>
@@ -688,22 +703,54 @@ export default function Masterproductlist() {
                                 <td className="text-capitalize text-start text-truncate">
                                   {data?.course || data?.programTitle ||"Not Available"}
                                 </td>
-                                <td className="text-capitalize text-start text-truncate"></td>
+                                <td className="text-capitalize text-start ">
+            {statuses[index] ? 'Active' : 'Inactive'}
+            <span className="form-check form-switch d-inline ms-2" >
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id={`flexSwitchCheckDefault${index}`}
+                checked={statuses[index] || false}
+                onChange={() => handleCheckboxChange(index)}
+              />
+            </span>
+          </td>
 
                                 <td className="text-capitalize text-start text-truncate">
                                   <div className="d-flex">
-                                  {studentPrivileges?.view && (
+                                  {agentPrivileges?.view && (
                                     <Link
                                       className="dropdown-item"
                                       to={{
-                                        pathname: "/student_view_application",
+                                        pathname: "/agent_view_application",
                                         search: `?id=${data?._id}`,
                                       }}
                                     >
                                       <i className="far fa-eye text-primary me-1"></i>
                                     </Link>
                                   )}
-                                  
+                                  {agentPrivileges?.edit && (
+                                    <Link
+                                      className="dropdown-item"
+                                      to={{
+                                        pathname: "/agent_edit_application",
+                                        search: `?id=${data?._id}`,
+                                      }}
+                                    >
+                                      <i className="far fa-edit text-warning me-1"></i>
+                                    </Link>
+                                  )}
+                                  {agentPrivileges?.delete && (
+                                    <button
+                                      className="dropdown-item"
+                                      onClick={() => {
+                                        openPopup(data?._id);
+                                      }}
+                                    >
+                                      <i className="far fa-trash-alt text-danger me-1"></i>
+                                    </button>
+                                  )}
                                   </div>
                                 </td>
                               </tr>
@@ -798,7 +845,7 @@ export default function Masterproductlist() {
             </div>
             <div>
               <Link
-                to="/ListUniversity"
+                to="#"
                 className="btn btn-cancel border-0  fw-semibold   text-white float-right bg"
                 style={{ backgroundColor: "#0f2239", fontSize: "12px" }}
               >
