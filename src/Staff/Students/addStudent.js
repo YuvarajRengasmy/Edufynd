@@ -15,7 +15,8 @@ import Select from "react-select";
 import { getallCode } from "../../api/settings/dailcode";
 import { MdCameraAlt } from "react-icons/md";
 import BackButton from "../../compoents/backButton";
-
+import { getSingleSource } from "../../api/settings/dailcode";
+import { getStaffId } from "../../Utils/storage";
 
 function AddAgent() {
     const location = useLocation();
@@ -120,6 +121,7 @@ function AddAgent() {
   const [dail2, setDail2] = useState(null);
   const [dail3, setDail3] = useState(null);
   const [dail4, setDail4] = useState(null);
+  const [staff,setStaff] = useState
 
 
   useEffect(() => {
