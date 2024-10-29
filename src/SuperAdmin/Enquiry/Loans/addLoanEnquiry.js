@@ -89,9 +89,9 @@ export const AddLoanEnquiry = () => {
     if (data.age === "") {
       error.age.required = true;
     }  
-    if (data.willyouSubmitYourCollateral === "") {
-      error.willyouSubmitYourCollateral.required = true;
-    }
+    // if (data.willyouSubmitYourCollateral === "") {
+    //   error.willyouSubmitYourCollateral.required = true;
+    // }
     
     if (data.didYouApplyForLoanElsewhere === "") {
       error.didYouApplyForLoanElsewhere.required = true;
@@ -817,10 +817,10 @@ export const AddLoanEnquiry = () => {
                       Will You Submit Your Collateral If Required
                     </label>
                     <select
-                      // className="form-select form-select-lg rounded-1 text-capitalize"
-                      className={`form-select form-select-lg rounded-1 text-capitalize ${
-                        errors.willyouSubmitYourCollateral.required ? "is-invalid" : ""
-                      }`}
+                      className="form-select form-select-lg rounded-1 text-capitalize"
+                      // className={`form-select form-select-lg rounded-1 text-capitalize ${
+                      //   errors.willyouSubmitYourCollateral.required ? "is-invalid" : ""
+                      // }`}
                       name=" willyouSubmitYourCollateral"
                       onChange={handleInputs}
                       style={{

@@ -408,7 +408,8 @@ export const AddGeneralEnquiry = () => {
                           }}
                         />
                       </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+
+                      {/* <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label style={{ color: "#231F20" }}>
                           Agent Primary Number
                           <span className="text-danger">*</span>
@@ -456,8 +457,7 @@ export const AddGeneralEnquiry = () => {
                                 fontFamily: "Plus Jakarta Sans",
                                 fontSize: "12px",
                               }}
-                              name="
-agentPrimaryNumber"
+                              name="agentPrimaryNumber"
                               value={student.agentPrimaryNumber}
                               onChange={handleInputs}
                               onKeyDown={(e) => {
@@ -486,6 +486,89 @@ agentPrimaryNumber"
                             />
                           </div>
                         </div>
+                        {errors.agentPrimaryNumber.required && (
+                          <span className="text-danger form-text profile_error">
+                            This field is required.
+                          </span>
+                        )}
+                      </div> */}
+
+
+
+                      <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <label style={{ color: "#231F20" }}>
+                        Agent Primary Number
+                          <span className="text-danger">*</span>
+                        </label>
+                        <div className="input-group mb-3">
+                          <select
+                            className="form-select form-select-sm"
+                            name="dial4"
+                            style={{
+                              maxWidth: "75px",
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            value={student?.dial4}
+                            onChange={handleInputs}
+                          >
+                            <option value="+91">+91-India-in</option>
+                            {dial?.map((item) => (
+                              <option
+                                value={item?.dialCode}
+                                key={item?.dialCode}
+                              >
+                                {item?.dialCode} - {item?.name} -
+                                {item?.flag && (
+                                  <Flags
+                                    code={item?.flag}
+                                    className="me-2"
+                                    style={{ width: "40px", height: "30px" }}
+                                  />
+                                )}
+                              </option>
+                            ))}
+                          </select>
+
+                          <input
+                            type="text"
+                            className={`form-control  ${
+                              errors.agentPrimaryNumber.required
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            placeholder="Example 123-456-7890"
+                            style={{
+                              fontFamily: "Plus Jakarta Sans",
+                              fontSize: "12px",
+                            }}
+                            name="agentPrimaryNumber"
+                            value={student.agentPrimaryNumber}
+                            onChange={handleInputs}
+                            onKeyDown={(e) => {
+                              if (
+                                !/^[0-9]$/i.test(e.key) &&
+                                ![
+                                  "Backspace",
+                                  "Delete",
+                                  "ArrowLeft",
+                                  "ArrowRight",
+                                ].includes(e.key)
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </div>
+                        <div className="form-check ms-3 ">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="copyToWhatsApp"
+                              checked={copyToWhatsApp}
+                              onChange={handleCheckboxChanges}
+                            />
+                          </div>
                         {errors.agentPrimaryNumber.required && (
                           <span className="text-danger form-text profile_error">
                             This field is required.
@@ -564,6 +647,8 @@ agentPrimaryNumber"
                           </span>
                         )}
                       </div>
+
+
                       <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <label className="form-label" for="inputEmail">
                           Agent Email ID
