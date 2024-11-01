@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
-import  NotFound from "../../src/Pages/Login/404FoundError";
+
 import Home from "../Students/Home/Program";
 import Profile from "../Students/Profile/Profile";
 import Contact from "../Students/Profile/Contact";
@@ -12,7 +12,8 @@ import ViewApplication from "../Students/Application/ViewApplication";
 import Faq from "../Students/Profile/Faq";
 import ViewUniversity from "../Students/University/ViewUniversity";
 import ViewProgram from "../Students/Program/viewProgram";
-import StudentDashBoard from "../Students/DashBoard/StudentDashBoard";
+import StudentDashBoard from "../Students/DashBoard/StudentDashBoard.jsx";
+
 
 
 

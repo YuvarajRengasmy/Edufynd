@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Just from "../SuperAdmin/University/just";
 import PrivateRoute from '../../src/Pages/Login/PrivateRoute';
-import  NotFound from "../../src/Pages/Login/404FoundError";
+
 import Country from "../SuperAdmin/University/Country";
 import AddUniversity from "../SuperAdmin/University/addUniversity";
 import ListUniversity from "../SuperAdmin/University/ListUniversity";
@@ -199,8 +199,9 @@ import AddPeformanceReport from "../SuperAdmin/HRMS/Performance Report/AddPerfor
 import EditPeformanceReport from "../SuperAdmin/HRMS/Performance Report/EditPerformanceReports";
 import ViewPeformanceReport from "../SuperAdmin/HRMS/Performance Report/ViewPerformanceReports";
 
+
 import ListPolicies from "../SuperAdmin/HRMS/Policies/ListPolicies";
-import Add from "../SuperAdmin/HRMS/Policies/AddPolicies";
+// import Add from "../SuperAdmin/HRMS/Policies/AddPolicies.jsx";
 import EditPolicies from "../SuperAdmin/HRMS/Policies/EditPolicies";
 import ViewPolicies from "../SuperAdmin/HRMS/Policies/ViewPolicies";
 
@@ -467,7 +468,7 @@ function SuperAdmin() {
 
         {/* Policies */}
         <Route path="/list_policies" element={<PrivateRoute><ListPolicies /></PrivateRoute>} />
-        <Route path="/add_policies" element={<PrivateRoute><Add /></PrivateRoute>} />
+        {/* <Route path="/add_policies" element={<PrivateRoute><Add /></PrivateRoute>} /> */}
         <Route path="/edit_policies" element={<PrivateRoute><EditPolicies /></PrivateRoute>} />
         <Route path="/view_policies" element={<PrivateRoute><ViewPolicies /></PrivateRoute>} />
 
